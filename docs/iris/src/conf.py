@@ -103,6 +103,13 @@ rst_epilog = """
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+
+# exclude the spelling extensions if running on travis as is does not work
+# (cannot find enchant c library)
+extensions = []
+if os.getenv("TRAVIS") != "true":
+    extensions.add("sphinxcontrib.spelling")
+
 extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.duration",
@@ -115,9 +122,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
-    "sphinx_panels",
-    # TODO: Spelling extension disabled until the dependencies can be included
-    # "sphinxcontrib.spelling",
+    "sphinxcontrib.spelling",
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",

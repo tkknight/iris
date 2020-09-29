@@ -50,4 +50,5 @@ dependencies:
   - pip:
     - sphinxcontrib-napoleon
     - sphinx-panels
-
+    - sphinxcontrib-spelling
+    - pyenchant
