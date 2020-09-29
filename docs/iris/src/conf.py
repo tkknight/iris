@@ -107,8 +107,9 @@ rst_epilog = """
 # exclude the spelling extensions if running on travis as is does not work
 # (cannot find enchant c library)
 extensions = []
+# See https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
 if os.getenv("TRAVIS") != "true":
-    extensions.add("sphinxcontrib.spelling")
+    extensions.append("sphinxcontrib.spelling")
 
 extensions = [
     "sphinx.ext.todo",
@@ -122,7 +123,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
-    "sphinxcontrib.spelling",
+    "sphinx_panels",
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
@@ -157,7 +158,7 @@ spelling_lang = "en_GB"
 # The lines in this file must only use line feeds (no carriage returns).
 spelling_word_list_filename = ["spelling_allow.txt"]
 spelling_show_suggestions = False
-spelling_show_whole_line = False
+spelling_show_whole_line = True
 spelling_ignore_importable_modules = True
 spelling_ignore_python_builtins = True
 
