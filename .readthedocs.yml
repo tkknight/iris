@@ -7,11 +7,11 @@ conda:
     environment: requirements/ci/readthedocs.yml
 
 sphinx:
-    configuration: docs/iris/src/conf.py
+    configuration: docs/src/conf.py
     fail_on_warning: false
 
 python:
-    install: 
+    install:
         - method: setuptools
           path: .
 

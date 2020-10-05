@@ -81,7 +81,7 @@ install:
     SITE_CFG="lib/iris/etc/site.cfg";
     echo "[Resources]" > ${SITE_CFG};
     echo "test_data_dir = $(pwd)/iris-test-data/test_data" >> ${SITE_CFG};
-    echo "doc_dir = $(pwd)/docs/iris" >> ${SITE_CFG};
+    echo "doc_dir = $(pwd)/docs/" >> ${SITE_CFG};
     echo "[System]" >> ${SITE_CFG};
     echo "udunits2_path = ${PREFIX}/lib/libudunits2.so" >> ${SITE_CFG};
 
@@ -117,7 +117,7 @@ script:
       mkdir -p ${MPL_RC_DIR};
       echo 'backend : agg' > ${MPL_RC_DIR}/matplotlibrc;
       echo 'image.cmap : viridis' >> ${MPL_RC_DIR}/matplotlibrc;
-      cd ${INSTALL_DIR}/docs/iris;
+      cd ${INSTALL_DIR}/docs;
       make clean html && make doctest;
     fi
 
@@ -128,7 +128,7 @@ script:
       mkdir -p ${MPL_RC_DIR};
       echo 'backend : agg' > ${MPL_RC_DIR}/matplotlibrc;
       echo 'image.cmap : viridis' >> ${MPL_RC_DIR}/matplotlibrc;
-      cd ${INSTALL_DIR}/docs/iris;
+      cd ${INSTALL_DIR}/docs;
       make clean && make linkcheck;
     fi
 
@@ -142,7 +142,7 @@ script:
   #     mkdir -p ${MPL_RC_DIR};
   #     echo 'backend : agg' > ${MPL_RC_DIR}/matplotlibrc;
   #     echo 'image.cmap : viridis' >> ${MPL_RC_DIR}/matplotlibrc;
-  #     cd ${INSTALL_DIR}/docs/iris;
+  #     cd ${INSTALL_DIR}/docs;
   #     make clean && make spelling;
   #   fi
 
@@ -162,7 +162,7 @@ script:
       cd ${INSTALL_DIR};
       conda install --quiet -n ${ENV_NAME} pip;
       pip install doctr;
-      doctr deploy --deploy-repo SciTools-docs/iris --built-docs docs/iris/src/_build/html
+      doctr deploy --deploy-repo SciTools-docs/iris --built-docs docs/src/_build/html
         --key-path .github/deploy_key.scitools-docs.enc
         --no-require-master
         ${TRAVIS_BRANCH:-${TRAVIS_TAG}};
