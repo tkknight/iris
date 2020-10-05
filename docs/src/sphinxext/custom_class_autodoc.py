@@ -5,7 +5,6 @@
 # licensing details.
 
 from sphinx.ext import autodoc
-from sphinx.ext.autodoc import *
 from sphinx.util import force_decode
 from sphinx.util.docstrings import prepare_docstring
 import inspect
