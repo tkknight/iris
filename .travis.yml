@@ -28,7 +28,7 @@ git:
 # Need to to install enchant as it is used by the pip packatge pyenchant.
 # pyenchant is used by sphinxcontrib-spelling (docs spell checker)
 before_install:
-  - sudo apt-get -y install enchant-dev
+  - sudo apt-get -y install enchant
 
 install:
   - >
