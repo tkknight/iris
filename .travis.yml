@@ -126,16 +126,15 @@ script:
   # check the links and spelling in the docs
   # make clean && make linkcheck && make spelling;
   - >
+    export PYENCHANT_VERBOSE_FIND=1;
+    python -c 'import enchant';
+
     if [[ "${TEST_TARGET}" == 'checkdocs' ]]; then
       MPL_RC_DIR="${HOME}/.config/matplotlib";
       mkdir -p ${MPL_RC_DIR};
       echo 'backend : agg' > ${MPL_RC_DIR}/matplotlibrc;
       echo 'image.cmap : viridis' >> ${MPL_RC_DIR}/matplotlibrc;
       cd ${INSTALL_DIR}/docs/iris;
-      echo "--------------------------------------------------";
-      PYENCHANT_VERBOSE_FIND=1;
-      python -c 'import enchant';
-      echo "--------------------------------------------------";
       make spelling;
     fi
 
