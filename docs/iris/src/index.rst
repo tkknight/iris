@@ -1,7 +1,7 @@
+.. _iris_docs:
+
 Iris Documentation
 ==================
-
-.. todolist::
 
 **A powerful, format-agnostic, community-driven Python package for analysing
 and visualising Earth science data.**
@@ -121,6 +121,17 @@ For **Iris 2.4** and earlier documentation please see the
 
 
 .. _developers_guide:
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Further Topics
+   :hidden:
+
+   further_topics/index
+   further_topics/metadata
+   further_topics/lenient_metadata
+   further_topics/lenient_maths
+
 
 .. toctree::
    :maxdepth: 1
