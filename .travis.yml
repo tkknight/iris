@@ -26,7 +26,7 @@ git:
   depth: 10000
 
 before_install:
-  - sudo apt-get -y install libenchant
+  - sudo apt-get -y install enchant
 
 install:
   - >
