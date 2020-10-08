@@ -20,13 +20,13 @@ env:
     - PYTHON_VERSION='37' TEST_TARGET='gallery'
     - PYTHON_VERSION='37' TEST_TARGET='doctest' PUSH_BUILT_DOCS=true
     - PYTHON_VERSION='37' TEST_TARGET='checkdocs'
-    # TODO: Dependencies for sphinxcontrib-spelling to be in place before this
-    #       spelling code block is enabled
-    #- PYTHON_VERSION='37' TEST_TARGET='spelling'
 
 git:
   # We need a deep clone so that we can compute the age of the files using their git history.
   depth: 10000
+
+before_install:
+  - sudo apt-get -y install libenchant
 
 install:
   - >
@@ -123,8 +123,8 @@ script:
 
   # check the links and spelling in the docs
   - >
-    #export PYENCHANT_VERBOSE_FIND=1;
-    #python -c 'import enchant';
+    export PYENCHANT_VERBOSE_FIND=1;
+    python -c 'import enchant';
 
     if [[ "${TEST_TARGET}" == 'checkdocs' ]]; then
       MPL_RC_DIR="${HOME}/.config/matplotlib";
@@ -132,8 +132,7 @@ script:
       echo 'backend : agg' > ${MPL_RC_DIR}/matplotlibrc;
       echo 'image.cmap : viridis' >> ${MPL_RC_DIR}/matplotlibrc;
       cd ${INSTALL_DIR}/docs/iris;
-      make clean && make linkcheck;
-      # make spelling;
+      make clean && make linkcheck && make spelling;
     fi
 
   # Split the organisation out of the slug. See https://stackoverflow.com/a/5257398/741316 for description.
