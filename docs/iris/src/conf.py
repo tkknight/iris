@@ -148,7 +148,7 @@ napoleon_custom_sections = None
 
 # -- spellingextension --------------------------------------------------------
 # See https://sphinxcontrib-spelling.readthedocs.io/en/latest/customize.html
-spelling_lang = "en_GB"
+# spelling_lang = "en_GB"
 # The lines in this file must only use line feeds (no carriage returns).
 spelling_word_list_filename = ["spelling_allow.txt"]
 spelling_show_suggestions = False
