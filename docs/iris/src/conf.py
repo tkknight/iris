@@ -104,13 +104,6 @@ rst_epilog = """
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 
-# exclude the spelling extensions if running on travis as is does not work
-# (cannot find enchant c library)
-extensions = []
-# See https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
-if os.getenv("TRAVIS") != "true":
-    extensions.append("sphinxcontrib.spelling")
-
 extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.duration",
@@ -121,6 +114,7 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
+    "sphinxcontrib.spelling",
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
     "sphinx_panels",
