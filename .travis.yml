@@ -132,12 +132,13 @@ script:
       echo 'image.cmap : viridis' >> ${MPL_RC_DIR}/matplotlibrc;
       cd ${INSTALL_DIR}/docs/iris;
       #make clean && make linkcheck && make spelling;
-
-      PYENCHANT_VERBOSE_FIND=1;
-      python -c 'import enchant';
-      echo "--------------------------------------------------";
-      make spelling;
     fi
+
+  echo "--------------------------------------------------";
+  PYENCHANT_VERBOSE_FIND=1;
+  python -c 'import enchant';
+  echo "--------------------------------------------------";
+  make spelling;
 
   # Split the organisation out of the slug. See https://stackoverflow.com/a/5257398/741316 for description.
   # NOTE: a *separate* "export" command appears to be necessary here : A command of the

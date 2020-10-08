@@ -128,7 +128,7 @@ extensions = [
 ]
 
 # -- panels extension ---------------------------------------------------------
-# See https://sphinx-panels.readthedocs.io/en/latest/
+# See https://sphinx-panels.readthedocs.io/en/latest/#sphinx-configuration
 
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
@@ -160,7 +160,7 @@ spelling_ignore_python_builtins = True
 # See https://sphinx-copybutton.readthedocs.io/en/latest/
 copybutton_prompt_text = ">>> "
 
-# sphinx.ext.todo configuration
+# -- sphinx.ext.todo extensions -----------------------------------------------
 # See https://www.sphinx-doc.org/en/master/usage/extensions/todo.html
 todo_include_todos = True
 
@@ -272,7 +272,7 @@ linkcheck_ignore = [
 # list of sources to exclude from the build.
 exclude_patterns = []
 
-# -- sphinx-gallery config ----------------------------------------------------
+# -- sphinx-gallery extension--------------------------------------------------
 # See https://sphinx-gallery.github.io/stable/configuration.html
 
 sphinx_gallery_conf = {
