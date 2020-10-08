@@ -12,19 +12,21 @@ env:
     # The decryption key for the encrypted .github/deploy_key.scitools-docs.enc.
     - secure: "N9/qBUT5CqfC7KQBDy5mIWZcGNuUJk3e/qmKJpotWYV+zwOI4GghJsRce6nFnlRiwl65l5oBEcvf3+sBvUfbZqh7U0MdHpw2tHhr2FSCmMB3bkvARZblh9M37f4da9G9VmRkqnyBM5G5TImXtoq4dusvNWKvLW0qETciaipq7ws="
   matrix:
-    #- PYTHON_VERSION='36' TEST_TARGET='default' TEST_MINIMAL=true
-    #- PYTHON_VERSION='36' TEST_TARGET='default' TEST_BLACK=true
-    #- PYTHON_VERSION='36' TEST_TARGET='gallery'
-    #- PYTHON_VERSION='37' TEST_TARGET='default' TEST_MINIMAL=true
-    #- PYTHON_VERSION='37' TEST_TARGET='default' TEST_BLACK=true
-    #- PYTHON_VERSION='37' TEST_TARGET='gallery'
-    #- PYTHON_VERSION='37' TEST_TARGET='doctest' PUSH_BUILT_DOCS=true
+    - PYTHON_VERSION='36' TEST_TARGET='default' TEST_MINIMAL=true
+    - PYTHON_VERSION='36' TEST_TARGET='default' TEST_BLACK=true
+    - PYTHON_VERSION='36' TEST_TARGET='gallery'
+    - PYTHON_VERSION='37' TEST_TARGET='default' TEST_MINIMAL=true
+    - PYTHON_VERSION='37' TEST_TARGET='default' TEST_BLACK=true
+    - PYTHON_VERSION='37' TEST_TARGET='gallery'
+    - PYTHON_VERSION='37' TEST_TARGET='doctest' PUSH_BUILT_DOCS=true
     - PYTHON_VERSION='37' TEST_TARGET='checkdocs'
 
 git:
   # We need a deep clone so that we can compute the age of the files using their git history.
   depth: 10000
 
+# Need to to install enchant as it is used by the pip packatge pyenchant.
+# pyenchant is used by sphinxcontrib-spelling (docs spell checker)
 before_install:
   - sudo apt-get -y install enchant
 
@@ -123,9 +125,6 @@ script:
 
   # check the links and spelling in the docs
   - >
-    export PYENCHANT_VERBOSE_FIND=1;
-    python -c 'import enchant';
-
     if [[ "${TEST_TARGET}" == 'checkdocs' ]]; then
       MPL_RC_DIR="${HOME}/.config/matplotlib";
       mkdir -p ${MPL_RC_DIR};
