@@ -18,8 +18,15 @@ exclude_modules = [
 
 
 # print to stdout, including the name of the python file
-def autolog(message):
-    print("[{}] {}".format(ntpath.basename(__file__), message))
+def autolog(message, sameline=False, newline=False):
+    if sameline:
+        print("\r[{}] {}".format(ntpath.basename(__file__), message), end="")
+    else:
+        if newline:
+            print("\n[{}] {}".format(ntpath.basename(__file__), message))
+        else:
+            print("[{}] {}".format(ntpath.basename(__file__), message))
+
 
 
 document_dict = {
@@ -244,6 +251,8 @@ def do_package(package_name):
     package_folder = []
     module_folders = {}
 
+    print("")
+
     for root, subFolders, files in os.walk(rootdir):
         for fname in files:
             name, ext = os.path.splitext(fname)
@@ -277,6 +286,7 @@ def do_package(package_name):
                 import_name = mod_folder + "." + name
                 mf_list = module_folders.setdefault(mod_folder, [])
                 mf_list.append((import_name, rel_path))
+
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
@@ -318,7 +328,7 @@ def do_package(package_name):
         for exclude_module in exclude_modules:
             if exclude_module[0] in paths:
                 autolog(
-                    "Excluding module in package: {}".format(exclude_module[0])
+                    "Excluding module in package: {:80}".format(exclude_module[0]), newline=True
                 )
                 paths.remove(exclude_module[0])
 
@@ -330,14 +340,14 @@ def do_package(package_name):
 
         out_path = package_dir + ".rst"
         if not os.path.exists(out_path):
-            autolog("Creating {} ...".format(out_path))
+            autolog("Creating {:80}".format(out_path), sameline=True)
             with open(out_path, "w") as fh:
                 fh.write(doc)
         else:
             with open(out_path, "r") as fh:
                 existing_content = "".join(fh.readlines())
             if doc != existing_content:
-                autolog("Creating {} ...".format(out_path))
+                autolog("Creating {:80}".format(out_path), sameline=True)
                 with open(out_path, "w") as fh:
                     fh.write(doc)
 
@@ -346,7 +356,7 @@ def do_package(package_name):
             for exclude_module in exclude_modules:
                 if import_name == exclude_module[1]:
                     autolog(
-                        "Excluding module file: {}".format(exclude_module[1])
+                        "Excluding module file: {:80}".format(exclude_module[1]), newline=True
                     )
                 else:
                     doc = auto_doc_module(
@@ -358,17 +368,17 @@ def do_package(package_name):
                         + ".rst"
                     )
                     if not os.path.exists(out_path):
-                        autolog("Creating {} ...".format(out_path))
-                        with open(out_path, "w") as fh:
+                        autolog("Creating {:80}".format(out_path), sameline=True)
+                        with open(out_path, "w") as fh:                          
                             fh.write(doc)
                     else:
                         with open(out_path, "r") as fh:
                             existing_content = "".join(fh.readlines())
                         if doc != existing_content:
-                            autolog("Creating {} ...".format(out_path))
+                            autolog("Creating {:80}".format(out_path), sameline=True)
                             with open(out_path, "w") as fh:
                                 fh.write(doc)
-
+    print("\n")
 
 def setup(app):
     app.connect("builder-inited", auto_package_build)
