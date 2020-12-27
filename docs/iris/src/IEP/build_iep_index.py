@@ -1,3 +1,9 @@
+# Copyright Iris contributors
+#
+# This file is part of Iris and is released under the LGPL license.
+# See COPYING and COPYING.LESSER in the root of the repository for full
+# licensing details.
+
 """
 Scan the directory of iep files and extract their metadata.  The
 metadata is passed to Jinja for filling out `index.rst.tmpl`.
