@@ -145,6 +145,7 @@ For **Iris 2.4** and earlier documentation please see the
    developers_guide/contributing_codebase_index
    developers_guide/contributing_changes
    developers_guide/release
+   IEP/index
 
 
 .. toctree::
