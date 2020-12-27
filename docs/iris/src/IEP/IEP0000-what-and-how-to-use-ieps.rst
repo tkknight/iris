@@ -37,7 +37,6 @@ directory ``docs/iris/src/IEP``.
 These IEPs have been inspired by the Python `PEPs`_ and various other Open
 Source projects.
 
-.. todo:: check for any remnants of NEP
 
 
 Types
