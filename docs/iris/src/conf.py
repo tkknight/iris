@@ -125,6 +125,8 @@ extensions = [
     "custom_class_autodoc",
     "custom_data_autodoc",
     "generate_package_rst",
+    # iep index creation
+    "build_iep_index",
 ]
 
 # -- panels extension ---------------------------------------------------------

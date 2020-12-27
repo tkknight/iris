@@ -12,6 +12,8 @@ metadata is passed to Jinja for filling out `index.rst.tmpl`.
 import glob
 import jinja2
 import logging
+import os
+import ntpath
 import re
 
 # set logging level (NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL)
@@ -36,8 +38,7 @@ def autolog_info(message):
     message: Message to log
     """
 
-    # Dump the message + the name of this function to the log.
-    logging.info(" --> {}".format(message))
+    print("[{}] {}".format(ntpath.basename(__file__), message))
 
 
 def iep_collect_details():
@@ -93,7 +94,10 @@ def iep_collect_details():
     return {"ieps": ieps}
 
 
-if __name__ == "__main__":
+
+def build_iep(app, env, docnames):
+    os.chdir("IEP")
+
     iep_dict = iep_collect_details()
 
     autolog_info("Generating index...")
@@ -131,3 +135,9 @@ if __name__ == "__main__":
         f.write(index)
 
     autolog_info("Done.")
+
+
+
+def setup(app):
+    # docs explaining each hook: https://www.sphinx-doc.org/en/master/extdev/appapi.html#events
+    app.connect("env-before-read-docs", build_iep)

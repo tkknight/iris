@@ -1,8 +1,6 @@
 # Makefile for Sphinx documentation
 #
 
-SUBDIRS = "IEP"
-
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
@@ -42,13 +40,9 @@ help:
 clean:
 	-rm -rf $(BUILDDIR)
 	-rm -rf $(SRCDIR)/generated
-	@for i in $(SUBDIRS); do \
-        echo "make clean in $$i..."; \
-        (cd $$i; $(MAKE) $(MFLAGS) $(MYMAKEFLAGS) clean); done
+	-rm -rf IEP/index.rst
+
 html:
-	@for i in $(SUBDIRS); do \
-        echo "make html in $$i..."; \
-        (cd $$i; $(MAKE) $(MFLAGS) $(MYMAKEFLAGS) html); done
 	$(SPHINXBUILD) $(WARNING_TO_ERROR) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html"
