@@ -95,7 +95,8 @@ def iep_collect_details():
 
 
 
-def build_iep(app, env, docnames):
+def build_iep(app):
+    currentDirectory = os.getcwd()
     os.chdir("IEP")
 
     iep_dict = iep_collect_details()
@@ -134,10 +135,12 @@ def build_iep(app, env, docnames):
     with open(out_file, "w") as f:
         f.write(index)
 
+    os.chdir(currentDirectory)
     autolog_info("Done.")
+
 
 
 
 def setup(app):
     # docs explaining each hook: https://www.sphinx-doc.org/en/master/extdev/appapi.html#events
-    app.connect("env-before-read-docs", build_iep)
+    app.connect("builder-inited", build_iep)

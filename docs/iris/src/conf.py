@@ -121,12 +121,12 @@ extensions = [
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
+    # iep index creation
+    "build_iep_index",
     # better api documentation (custom)
     "custom_class_autodoc",
     "custom_data_autodoc",
     "generate_package_rst",
-    # iep index creation
-    "build_iep_index",
 ]
 
 # -- panels extension ---------------------------------------------------------
