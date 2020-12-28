@@ -1,16 +1,21 @@
-.. _IEP_template:
+.. _IEPXXXX_template:
 
-======================
-IEP0000 - IEP Template
-======================
+==================
+IEPXXXX - Template
+==================
 
 :Author: <github user, or real name and email address>
 :Status: Draft
 :Type: Standard | Informational | Process
 :Created: DD/MM/YYYY
 
+.. only:: comment
 
-Branches & pull requests
+   Rename the top line reference to include the IEP number and also
+   add the IEP number to the title, instead of XXXX.  Then remove this comment.
+
+
+Branches & Pull Requests
 ------------------------
 
 *All development branches and pull requests related to this IEP should be
@@ -36,7 +41,7 @@ Implementation
 *Provide any notable stages of implementation needed to deliver this IEP.*
 
 
-Backward compatibility
+Backward Compatibility
 ----------------------
 
 *Provide any information regarding backward compatability.  Will it work,

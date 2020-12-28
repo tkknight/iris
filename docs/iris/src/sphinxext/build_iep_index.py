@@ -29,6 +29,8 @@ IEP_STATUS_LIST = [
     "Final",
 ]
 
+TEMPLATE_FILE = "index.rst.tmpl"
+OUT_FILE = "index.rst"
 
 def autolog_info(message):
     """Automatically log the current function details.
@@ -123,22 +125,17 @@ def build_iep(app):
     iep_dict["iep_status_count"] = iep_status_count_dict
 
     # render the rst and write to file
-    template_file = "index.rst.tmpl"
-    out_file = "index.rst"
-
     index = (
         jinja2.Environment(loader=jinja2.FileSystemLoader("./"))
-        .get_template(template_file)
+        .get_template(TEMPLATE_FILE)
         .render(iep_dict)
     )
 
-    with open(out_file, "w") as f:
+    with open(OUT_FILE, "w") as f:
         f.write(index)
 
     os.chdir(currentDirectory)
     autolog_info("Done.")
-
-
 
 
 def setup(app):

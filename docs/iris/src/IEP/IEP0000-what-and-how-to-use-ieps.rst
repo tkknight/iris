@@ -11,7 +11,7 @@ IEP0000 - What and how to use IEP's
 
 
 Branches & Pull Requests
---------------------------
+------------------------
 
 TBC
 
@@ -73,8 +73,8 @@ if the topic is not concise, break it into multiple ones.
   ``IEP9999-optional-title.rst``.  Note that the ``9999`` should be replaced
   with the next available number in sequence and an optional title may be
   included in the filename, for example ``IEP0001-support-xyz.rst``.  The
-  :ref:`IEP_template` may be used when creating a new draft, it is recommended
-  to copy and edit this file.
+  :ref:`IEPXXXX_template` may be used when creating a new draft, it is
+  recommended to copy and edit this file.
 
 * If the IEP requires images, please create a suitable sub directory with
   appropriate name, for example
@@ -150,7 +150,7 @@ Header Format
 
 In order for the indexing of the IEPs to function correctly and to make
 easier to digest, each IEP must have a standard header.  This is shown
-in the :ref:`IEP_template`.
+in the :ref:`IEPXXXX_template`.
 
 
 
@@ -163,7 +163,7 @@ Iris Documentation.  As this is the first IEP this script will be part of the
 pull request.
 
 
-Backward compatibility
+Backward Compatibility
 ----------------------
 
 N/A
