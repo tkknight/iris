@@ -43,7 +43,7 @@ Below is a list of all IEPs grouped by the status.
    * - Created
      - IEP
      - Title
-{% for iep, tags in ieps.items() if tags['Status'] in current_status %}
+{%- for iep, tags in ieps.items() if tags['Status'] in current_status %}
    * - {{ tags['Created'] }}
      - :ref:`{{ tags['IEP'] }} <{{ tags['IEP'] }}>`
      - {{ tags['Title'] }}
