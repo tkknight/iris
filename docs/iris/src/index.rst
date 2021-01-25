@@ -1,7 +1,16 @@
 .. _iris_docs:
 
+.. ifconfig:: on_rtd
+
+   .. note::
+      Please note the documentation version selected at the bottom of the sidebar.
+      **latest** is *master* and **stable** is the *most recently tagged release*.
+
+
 Iris Documentation
 ==================
+
+
 
 **A powerful, format-agnostic, community-driven Python package for analysing
 and visualising Earth science data.**
@@ -46,7 +55,7 @@ For **Iris 2.4** and earlier documentation please see the
     :container: container-lg pb-3
     :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2
 
-    Install Iris to use or for development.
+    Install Iris as a user or developer.
     +++
     .. link-button:: installing_iris
         :type: ref
@@ -91,7 +100,7 @@ For **Iris 2.4** and earlier documentation please see the
 
 .. toctree::
    :maxdepth: 1
-   :caption: Getting started
+   :caption: Getting Started
    :hidden:
 
    installing

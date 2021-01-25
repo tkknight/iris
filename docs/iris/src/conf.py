@@ -116,6 +116,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
     "sphinx_panels",
+    "sphinx.ext.ifconfig",
     # TODO: Spelling extension disabled until the dependencies can be included
     # "sphinxcontrib.spelling",
     "sphinx_gallery.gen_gallery",
@@ -309,3 +310,13 @@ numfig_format = {
     "section": "Section %s",
     "table": "Table %s",
 }
+
+
+# -- --------------------------------------------------------------------------
+
+
+def setup(app):
+    # need to register the variable that we have
+    # defined earlier in order to use is in the RestructuredText.  More info:
+    # https://www.sphinx-doc.org/en/master/usage/extensions/ifconfig.html?highlight=only#module-sphinx.ext.ifconfig
+    app.add_config_value("on_rtd", False, "env")
