@@ -1,6 +1,6 @@
 .. _iris_whatsnew:
 
-What's new in Iris
+What's New in Iris
 ******************
 
 These "What's new" pages describe the important changes between major
@@ -11,6 +11,7 @@ Iris versions.
    :maxdepth: 1
 
    latest.rst
+   3.0.1.rst
    3.0.rst
    2.4.rst
    2.3.rst

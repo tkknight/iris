@@ -1,7 +1,7 @@
 .. _whats_new_contributions:
 
 =================================
-Contributing a "What's New" entry
+Contributing a "What's New" Entry
 =================================
 
 Iris uses a file named ``latest.rst`` to keep a draft of upcoming changes
@@ -38,7 +38,7 @@ situation is thought likely (large PR, high repo activity etc.):
 * PR author: create the "What's New" pull request
 
 * PR reviewer: once the "What's New" PR is created, **merge the main PR**.
-  (this will fix any `travis-ci`_ linkcheck errors where the links in the
+  (this will fix any `cirrus-ci`_ linkcheck errors where the links in the
   "What's New" PR reference new features introduced in the main PR)
 
 * PR reviewer: review the "What's New" PR, merge once acceptable
@@ -48,7 +48,7 @@ for the minimum time, minimising conflicts and minimising the need to rebase or
 merge from trunk.
 
 
-Writing a contribution
+Writing a Contribution
 ======================
 
 As introduced above, a contribution is the description of a change to Iris
@@ -59,16 +59,15 @@ what's new document.
 The appropriate contribution for a pull request might in fact be an addition or
 change to an existing "What's New" entry.
 
-Each contribution will ideally be written as a single concise bullet point
-in a reStructuredText format. Where possible do not exceed **column 80** and
-ensure that any subsequent lines of the same bullet point are aligned with the
-first. The content should target an Iris user as the audience. The required
-content, in order, is as follows:
+Each contribution will ideally be written as a single concise entry using a
+reStructuredText auto-enumerated list ``#.`` directive. Where possible do not
+exceed **column 80** and ensure that any subsequent lines of the same entry are
+aligned with the first. The content should target an Iris user as the audience.
+The required content, in order, is as follows:
 
 * Names of those who contributed the change. These should be their GitHub
   user name. Link the name to their GitHub profile. E.g.
-  ```@bjlittle <https://github.com/bjlittle>`_ and
-  `@tkknight <https://github.com/tkknight>`_ changed...``
+  ```@tkknight <https://github.com/tkknight>`_ changed...``
 
 * The new/changed behaviour
 
@@ -79,15 +78,14 @@ content, in order, is as follows:
 * Pull request references, bracketed, following the final period. E.g.
   ``(:pull:`1111`, :pull:`9999`)``
 
-* A trailing blank line (standard reStructuredText bullet format)
+* A trailing blank line (standard reStructuredText list format)
 
 For example::
 
-  * `@bjlittle <https://github.com/bjlittle>`_ and
-    `@tkknight <https://github.com/tkknight>`_ changed changed argument ``x``
-    to be optional in :class:`~iris.module.class` and
-    :meth:`iris.module.method`. This allows greater flexibility as requested in
-    :issue:`9999`. (:pull:`1111`, :pull:`9999`)
+  #. `@tkknight <https://github.com/tkknight>`_ changed changed argument ``x``
+     to be optional in :class:`~iris.module.class` and
+     :meth:`iris.module.method`. This allows greater flexibility as requested in
+     :issue:`9999`. (:pull:`1111`, :pull:`9999`)
 
 
 The above example also demonstrates some of the possible syntax for including
@@ -96,14 +94,14 @@ examine past what's :ref:`iris_whatsnew` entries.
 
 .. note:: The reStructuredText syntax will be checked as part of building
           the documentation.  Any warnings should be corrected.
-          `travis-ci`_ will automatically build the documentation when
+          `cirrus-ci`_ will automatically build the documentation when
           creating a pull request, however you can also manually
           :ref:`build <contributing.documentation.building>` the documentation.
 
-.. _travis-ci: https://travis-ci.org/github/SciTools/iris
+.. _cirrus-ci: https://cirrus-ci.com/github/SciTools/iris
 
 
-Contribution categories
+Contribution Categories
 =======================
 
 The structure of the what's new release note should be easy to read by
