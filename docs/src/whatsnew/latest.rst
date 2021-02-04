@@ -25,14 +25,15 @@ This document explains the changes made to Iris for this release
 📢 Announcements
 ================
 
-#. N/A
+#. Congratulations to `@jamesp`_ who recently became an Iris core developer
+   after joining the Iris development team at the `Met Office`_. 🎉
 
 
 ✨ Features
 ===========
 
-#. `@pelson`_ and `@trexfeathers`_ enhanced :meth:iris.plot.plot and
-   :meth:iris.quickplot.plot to automatically place the cube on the x axis if
+#. `@pelson`_ and `@trexfeathers`_ enhanced :meth:`iris.plot.plot` and
+   :meth:`iris.quickplot.plot` to automatically place the cube on the x axis if
    the primary coordinate being plotted against is a vertical coordinate. E.g.
    ``iris.plot.plot(z_cube)`` will produce a z-vs-phenomenon plot, where before
    it would have produced a phenomenon-vs-z plot. (:pull:`3906`)
@@ -69,18 +70,26 @@ This document explains the changes made to Iris for this release
 📚 Documentation
 ================
 
-#. `@rcomer`_ updated the "Seasonal ensemble model plots" Gallery example. (:pull:`3933`)
+#. `@rcomer`_ updated the "Seasonal ensemble model plots" Gallery example.
+   (:pull:`3933`)
 
-#. `@MHBalsmeier`_ described non-conda installation on Debian-based distros. (:pull:`3958`)
+#. `@MHBalsmeier`_ described non-conda installation on Debian-based distros.
+   (:pull:`3958`)
 
-#. `@bjlittle`_ clarified in the doc-string that :class:`~iris.coords.Coord` is now an `abstract base class`_ of
-   coordinates since ``v3.0.0``, and it is **not** possible to create an instance of it. (:pull:`3971`)
+#. `@bjlittle`_ clarified in the doc-string that :class:`~iris.coords.Coord`
+   is now an `abstract base class`_ of coordinates since Iris ``3.0.0``, and
+   it is **not** possible to create an instance of it. (:pull:`3971`)
 
 
 💼 Internal
 ===========
 
 #. `@rcomer`_ removed an old unused test file. (:pull:`3913`)
+
+#. `@tkknight`_ moved the ``docs/iris`` directory to be in the parent
+   directory ``docs``.  (:pull:`3975`)
+
+#. `@jamesp`_ updated a test to the latest numpy version (:pull:`3977`)
 
 
 .. comment
@@ -96,3 +105,4 @@ This document explains the changes made to Iris for this release
 
 .. _abstract base class: https://docs.python.org/3/library/abc.html
 .. _GitHub: https://github.com/SciTools/iris/issues/new/choose
+.. _Met Office: https://www.metoffice.gov.uk/
