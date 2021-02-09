@@ -274,3 +274,9 @@ def linkcheck(session):
         "linkcheck",
         external=True,
     )
+
+    session.run(
+        "make",
+        "spelling",
+        external=True,
+    )
