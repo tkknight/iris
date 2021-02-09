@@ -226,7 +226,7 @@ link_task:
     - echo "image.cmap : viridis" >> ${MPL_RC_FILE}
     - apt list --installed
     - apt-cache search enchant
-    - apt-get -y install pyenchant
+    # FAILS: - apt-get -y install pyenchant
     - apt-get -y install python-enchant
     - yum install enchant 
     - nox --session linkcheck -- --verbose
