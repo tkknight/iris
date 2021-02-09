@@ -225,5 +225,6 @@ link_task:
     - echo "backend : agg" > ${MPL_RC_FILE}
     - echo "image.cmap : viridis" >> ${MPL_RC_FILE}
     - apt list --installed
+    - apt-cache search enchant
     - apt-get install pyenchant
     - nox --session linkcheck -- --verbose
