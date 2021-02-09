@@ -224,4 +224,5 @@ link_task:
     - mkdir -p ${MPL_RC_DIR}
     - echo "backend : agg" > ${MPL_RC_FILE}
     - echo "image.cmap : viridis" >> ${MPL_RC_FILE}
+    - apt-get install enchant
     - nox --session linkcheck -- --verbose
