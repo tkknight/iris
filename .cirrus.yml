@@ -54,39 +54,39 @@ env:
 #     - nox --session black
 
 
-# #
-# # YAML alias for common linux test infra-structure.
-# #
-# linux_task_template: &LINUX_TASK_TEMPLATE
-#   auto_cancellation: true
-#   env:
-#     IRIS_REPO_DIR: ${CIRRUS_WORKING_DIR}
-#     PATH: ${HOME}/miniconda/bin:${PATH}
-#     SITE_CFG: ${CIRRUS_WORKING_DIR}/lib/iris/etc/site.cfg
-#   conda_cache:
-#     folder: ${HOME}/miniconda
-#     fingerprint_script:
-#       - wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-#       - echo "${CIRRUS_OS} $(sha256sum miniconda.sh)"
-#       - echo "$(date +%Y).$(($(date +%U) / ${CACHE_PERIOD})):${CONDA_CACHE_BUILD}"
-#     populate_script:
-#       - bash miniconda.sh -b -p ${HOME}/miniconda
-#       - conda config --set always_yes yes --set changeps1 no
-#       - conda config --set show_channel_urls True
-#       - conda config --add channels conda-forge
-#       - conda update --quiet --name base conda
-#       - conda install --quiet --name base nox pip
-#   cartopy_cache:
-#     folder: ${HOME}/.local/share/cartopy
-#     fingerprint_script:
-#       - echo "${CIRRUS_OS}"
-#       - echo "$(date +%Y).$(($(date +%U) / ${CACHE_PERIOD})):${CARTOPY_CACHE_BUILD}"
-#   nox_cache:
-#     folder: ${CIRRUS_WORKING_DIR}/.nox
-#     fingerprint_script:
-#       - echo "${CIRRUS_TASK_NAME}"
-#       - echo "$(date +%Y).$(($(date +%U) / ${CACHE_PERIOD})):${NOX_CACHE_BUILD}"
-#       - sha256sum ${CIRRUS_WORKING_DIR}/requirements/ci/py$(echo ${PY_VER} | tr -d ".").yml
+#
+# YAML alias for common linux test infra-structure.
+#
+linux_task_template: &LINUX_TASK_TEMPLATE
+  auto_cancellation: true
+  env:
+    IRIS_REPO_DIR: ${CIRRUS_WORKING_DIR}
+    PATH: ${HOME}/miniconda/bin:${PATH}
+    SITE_CFG: ${CIRRUS_WORKING_DIR}/lib/iris/etc/site.cfg
+  conda_cache:
+    folder: ${HOME}/miniconda
+    fingerprint_script:
+      - wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+      - echo "${CIRRUS_OS} $(sha256sum miniconda.sh)"
+      - echo "$(date +%Y).$(($(date +%U) / ${CACHE_PERIOD})):${CONDA_CACHE_BUILD}"
+    populate_script:
+      - bash miniconda.sh -b -p ${HOME}/miniconda
+      - conda config --set always_yes yes --set changeps1 no
+      - conda config --set show_channel_urls True
+      - conda config --add channels conda-forge
+      - conda update --quiet --name base conda
+      - conda install --quiet --name base nox pip
+  cartopy_cache:
+    folder: ${HOME}/.local/share/cartopy
+    fingerprint_script:
+      - echo "${CIRRUS_OS}"
+      - echo "$(date +%Y).$(($(date +%U) / ${CACHE_PERIOD})):${CARTOPY_CACHE_BUILD}"
+  nox_cache:
+    folder: ${CIRRUS_WORKING_DIR}/.nox
+    fingerprint_script:
+      - echo "${CIRRUS_TASK_NAME}"
+      - echo "$(date +%Y).$(($(date +%U) / ${CACHE_PERIOD})):${NOX_CACHE_BUILD}"
+      - sha256sum ${CIRRUS_WORKING_DIR}/requirements/ci/py$(echo ${PY_VER} | tr -d ".").yml
 
 
 # #
