@@ -45,6 +45,7 @@ dependencies:
 # Documentation dependencies.
   - sphinx
   - sphinxcontrib-napoleon
+  - sphinxcontrib-spelling==4.2.1
   - sphinx-copybutton
   - sphinx-gallery
   - sphinx-panels
@@ -52,4 +53,5 @@ dependencies:
   - pip
   - pip:
 #    - sphinxcontrib-spelling
-    - pyenchant
+    - pyenchant==2.0.0
+
