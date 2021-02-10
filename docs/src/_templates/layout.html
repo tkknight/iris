@@ -1,5 +1,83 @@
 {% extends "!layout.html" %}
 
+{# This uses blocks.  See: 
+     https://www.sphinx-doc.org/en/master/templating.html
+
+#}
+
+{# this block is a copy of the sphinx_rtd_theme with customisation to 
+   show the version if it is stable.  See:
+       https://github.com/readthedocs/sphinx_rtd_theme/blob/master/sphinx_rtd_theme/layout.html
+#}
+
+{%- block sidebartitle  %}
+    DEBUG: version is <b>{{ version }}</b>
+
+    {% if logo and theme_logo_only %}
+        <a href="{{ pathto(master_doc) }}">
+    {% else %}
+        <a href="{{ pathto(master_doc) }}" class="icon icon-home"> {{ project }}
+    {% endif %}
+
+    {% if logo %}
+        {# Not strictly valid HTML, but it's the only way to display/scale
+           it properly, without weird scripting or heaps of work
+        #}
+        <img src="{{ pathto('_static/' + logo, 1) }}" class="logo" alt="{{ _('Logo') }}"/>
+    {% endif %}
+    </a>
+
+    {%- set nav_version = version %}
+    {% if READTHEDOCS and current_version %}
+        {%- set nav_version = current_version %}
+    {% endif %}
+    {% if nav_version %}
+        {% if nav_version == "stable" %}
+            <div class="version">
+                {{ nav_version }} ({{ version }})
+            </div>
+        {% else %}
+            <div class="version">
+                {{ nav_version }}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% include "searchbox.html" %}
+
+{%- endblock %}
+
+
+{%- block document %}
+
+    DEBUG: version is <b>{{ version }}</b>
+
+    {%- if "dev" in version %}
+    <div id="slim-red-box-message">
+        You a viewing the <b>latest</b> unreleased documentation.
+        Please see the 
+        <a href="https://scitools-iris.readthedocs.io/en/stable/">stable</a>
+        version.
+    </div>
+    <p></p>
+
+    <div class="admonition warning">
+        <p class="admonition-title">Warning</p>
+            You a viewing the <b>latest</b> unreleased documentation.
+            Please see the 
+            <a href="https://scitools-iris.readthedocs.io/en/stable/">stable</a>
+            version.
+        <p>
+    </div>
+    {%- endif %}
+
+    {{ super() }}
+
+
+{%- endblock %}
+
+
+
 {% block menu %}
     {{ super() }}
 
