@@ -269,11 +269,11 @@ def linkcheck(session):
         "html",
         external=True,
     )
-    session.run(
-        "make",
-        "linkcheck",
-        external=True,
-    )
+    # session.run(
+    #     "make",
+    #     "linkcheck",
+    #     external=True,
+    # )
 
     session.run(
         "make",
