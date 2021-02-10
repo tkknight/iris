@@ -229,4 +229,5 @@ link_task:
     # FAILS: - apt-get -y install pyenchant
     # FAILS: - apt-get -y install python-enchant
     # FAILS, no yum available: - yum install enchant 
+    - uname -a
     - nox --session linkcheck -- --verbose

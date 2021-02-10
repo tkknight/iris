@@ -53,5 +53,5 @@ dependencies:
   - pip
   - pip:
 #    - sphinxcontrib-spelling
-    - pyenchant==2.0.0
+    - pyenchant
 
