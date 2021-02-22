@@ -1,7 +1,7 @@
 .. _iris_docs:
 
-Iris |iris_version|
-=================================
+Iris Documentation
+==================
 
 **A powerful, format-agnostic, community-driven Python package for analysing
 and visualising Earth science data.**
