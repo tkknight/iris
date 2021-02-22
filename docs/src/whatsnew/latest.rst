@@ -42,6 +42,12 @@ This document explains the changes made to Iris for this release
    ``iris.plot.plot(z_cube)`` will produce a z-vs-phenomenon plot, where before
    it would have produced a phenomenon-vs-z plot. (:pull:`3906`)
 
+#. `@bjlittle`_ introduced :func:`iris.common.metadata.hexdigest` to the
+   public API. Previously it was a private function introduced in ``v3.0.0``.
+   Given any object, :func:`~iris.common.metadata.hexdigest` returns a string
+   representation of the 64-bit non-cryptographic hash of the object using the
+   extremely fast `xxhash`_ hashing algorithm. (:pull:`4020`)
+
 
 🐛 Bugs Fixed
 =============
@@ -124,6 +130,10 @@ This document explains the changes made to Iris for this release
 #. `@akuhnregnier`_ replaced `deprecated numpy 1.20 aliases for builtin types`_.
    (:pull:`3997`)
 
+#. `@bjlittle`_ added conditional task execution to `.cirrus.yml`_ to allow
+   developers to easily disable `cirrus-ci`_ tasks. See
+   :ref:`skipping Cirrus-CI tasks`. (:pull:`4019`)
+
 
 .. comment
     Whatsnew author names (@github name) in alphabetical order. Note that,
@@ -146,3 +156,4 @@ This document explains the changes made to Iris for this release
 .. _PyPI: https://pypi.org/project/scitools-iris/
 .. _Python 3.8: https://www.python.org/downloads/release/python-380/
 .. _README.md: https://github.com/SciTools/iris#-----
+.. _xxhash: http://cyan4973.github.io/xxHash/
