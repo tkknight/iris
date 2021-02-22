@@ -46,6 +46,9 @@ if on_rtd:
 # This is the rtd reference to the version, such as: latest, stable, v3.0.1 etc
 # For local testing purposes this could be explicitly set latest or stable.
 rtd_version = os.environ.get("READTHEDOCS_VERSION")
+
+# TREMTEST: Used to test the stable logic when building on read the docs.
+#           Must remove this line and comment....
 rtd_version = "stable"
 
 # -- Path setup --------------------------------------------------------------
