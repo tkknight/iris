@@ -223,6 +223,13 @@ html_logo = "_static/iris-logo-title.png"
 html_favicon = "_static/favicon.ico"
 html_theme = "sphinx_rtd_theme"
 
+# TREMTEST
+# import pydata_sphinx_theme
+
+# TREMTEST
+html_theme = "pydata_sphinx_theme"
+
+
 html_theme_options = {
     "display_version": True,
     "style_external_links": True,
