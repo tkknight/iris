@@ -4,7 +4,7 @@ channels:
   - conda-forge
 
 dependencies:
-  - python=3.7
+  - python=3.8
 
 # Setup dependencies.
   - setuptools>=40.8.0
@@ -46,13 +46,7 @@ dependencies:
 # Documentation dependencies.
   - sphinx
   - sphinxcontrib-napoleon
-  - sphinxcontrib-spelling==4.2.1
   - sphinx-copybutton
   - sphinx-gallery
   - sphinx-panels
   - sphinx_rtd_theme
-  - pip
-  - pip:
-#    - sphinxcontrib-spelling
-    - pyenchant
-

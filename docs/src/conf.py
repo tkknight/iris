@@ -43,6 +43,9 @@ if on_rtd:
     for item, value in os.environ.items():
         autolog("[READTHEDOCS] {} = {}".format(item, value))
 
+# This is the rtd reference to the version, such as: latest, stable, v3.0.1 etc
+# For local testing purposes this could be explicitly set latest or stable.
+rtd_version = os.environ.get("READTHEDOCS_VERSION")
 
 # -- Path setup --------------------------------------------------------------
 
@@ -131,7 +134,6 @@ extensions = [
     "custom_data_autodoc",
     "generate_package_rst",
 ]
-
 # -- panels extension ---------------------------------------------------------
 # See https://sphinx-panels.readthedocs.io/en/latest/#sphinx-configuration
 
@@ -166,7 +168,7 @@ spelling_ignore_python_builtins = True
 # See https://sphinx-copybutton.readthedocs.io/en/latest/
 copybutton_prompt_text = ">>> "
 
-# -- sphinx.ext.todo extensions -----------------------------------------------
+# sphinx.ext.todo configuration -----------------------------------------------
 # See https://www.sphinx-doc.org/en/master/usage/extensions/todo.html
 todo_include_todos = True
 
@@ -185,18 +187,18 @@ templates_path = ["_templates"]
 # -- intersphinx extension ----------------------------------------------------
 # See https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
 intersphinx_mapping = {
-    "cartopy": ("http://scitools.org.uk/cartopy/docs/latest/", None),
-    "matplotlib": ("http://matplotlib.org/", None),
-    "numpy": ("http://docs.scipy.org/doc/numpy/", None),
-    "python": ("http://docs.python.org/2.7", None),
-    "scipy": ("http://docs.scipy.org/doc/scipy/reference/", None),
+    "cartopy": ("https://scitools.org.uk/cartopy/docs/latest/", None),
+    "matplotlib": ("https://matplotlib.org/stable/", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "python": ("https://docs.python.org/3/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/reference/", None),
 }
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
 
 # -- plot_directive extension -------------------------------------------------
-# See https://matplotlib.org/3.1.3/devel/plot_directive.html#options
+# See https://matplotlib.org/stable/api/sphinxext_plot_directive_api.html#options
 plot_formats = [
     ("png", 100),
 ]
@@ -229,6 +231,8 @@ html_theme_options = {
 }
 
 html_context = {
+    "rtd_version": rtd_version,
+    "version": version,
     "copyright_years": copyright_years,
     "python_version": build_python_version,
     # menu_links and menu_links_name are used in _templates/layout.html
@@ -297,7 +301,6 @@ sphinx_gallery_conf = {
     "ignore_pattern": r"__init__\.py",
 }
 
-
 # -----------------------------------------------------------------------------
 # Remove matplotlib agg warnings from generated doc when using plt.show
 warnings.filterwarnings(
@@ -306,7 +309,6 @@ warnings.filterwarnings(
     message="Matplotlib is currently using agg, which is a"
     " non-GUI backend, so cannot show the figure.",
 )
-
 
 # -- numfig options (built-in) ------------------------------------------------
 # Enable numfig.
