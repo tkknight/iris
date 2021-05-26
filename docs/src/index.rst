@@ -43,6 +43,27 @@ For **Iris 2.4** and earlier documentation please see the
 
 
 .. panels::
+    :card: + intro-card text-center
+    :column: col-lg-6 col-md-6 col-sm-6 col-xs-12 d-flex
+
+    ---
+    :img-top: _static/index_getting_started.svg
+
+    Getting started
+    ^^^^^^^^^^^^^^^
+
+    New to *pandas*? Check out the getting started guides. They contain an
+    introduction to *pandas'* main concepts and links to additional tutorials.
+
+    +++
+
+    .. link-button:: getting_started
+                   :type: ref
+            :text: To the getting started guides
+            :classes: btn-block btn-secondary stretched-link
+
+
+.. panels::
     :container: container-lg pb-3
     :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2
 
@@ -105,19 +126,7 @@ For **Iris 2.4** and earlier documentation please see the
    :hidden:
 
    userguide/index
-   userguide/iris_cubes
-   userguide/loading_iris_cubes
-   userguide/saving_iris_cubes
-   userguide/navigating_a_cube
-   userguide/subsetting_a_cube
-   userguide/real_and_lazy_data
-   userguide/plotting_a_cube
-   userguide/interpolation_and_regridding
-   userguide/merge_and_concat
-   userguide/cube_statistics
-   userguide/cube_maths
-   userguide/citation
-   userguide/code_maintenance
+
 
 
 .. _developers_guide:
@@ -128,9 +137,6 @@ For **Iris 2.4** and earlier documentation please see the
    :hidden:
 
    further_topics/index
-   further_topics/metadata
-   further_topics/lenient_metadata
-   further_topics/lenient_maths
 
 
 .. toctree::
@@ -140,11 +146,6 @@ For **Iris 2.4** and earlier documentation please see the
    :hidden:
 
    developers_guide/contributing_getting_involved
-   developers_guide/gitwash/index
-   developers_guide/contributing_documentation
-   developers_guide/contributing_codebase_index
-   developers_guide/contributing_changes
-   developers_guide/release
 
 
 .. toctree::
@@ -153,6 +154,4 @@ For **Iris 2.4** and earlier documentation please see the
    :hidden:
 
    generated/api/iris
-   whatsnew/index
-   techpapers/index
-   copyright
+
