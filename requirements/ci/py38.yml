@@ -49,4 +49,4 @@ dependencies:
   - sphinx-copybutton
   - sphinx-gallery
   - sphinx-panels
-  - sphinx_rtd_theme
+  - sphinx_pydata_theme

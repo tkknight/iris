@@ -42,30 +42,13 @@ For **Iris 2.4** and earlier documentation please see the
 :link-badge:`https://scitools.org.uk/iris/docs/v2.4.0/,"legacy documentation",cls=badge-info text-white`.
 
 
-.. panels::
-    :card: + intro-card text-center
-    :column: col-lg-6 col-md-6 col-sm-6 col-xs-12 d-flex
-
-    ---
-    :img-top: _static/index_getting_started.svg
-
-    Getting started
-    ^^^^^^^^^^^^^^^
-
-    New to *pandas*? Check out the getting started guides. They contain an
-    introduction to *pandas'* main concepts and links to additional tutorials.
-
-    +++
-
-    .. link-button:: getting_started
-                   :type: ref
-            :text: To the getting started guides
-            :classes: btn-block btn-secondary stretched-link
-
 
 .. panels::
     :container: container-lg pb-3
     :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2
+
+    ---
+    :img-top: _static/icon-user.png
 
     Install Iris as a user or developer.
     +++
@@ -110,48 +93,40 @@ For **Iris 2.4** and earlier documentation please see the
         :classes: btn-outline-primary btn-block
 
 
+
+
+
 .. toctree::
    :maxdepth: 1
    :caption: Getting Started
    :hidden:
 
    installing
-   generated/gallery/index
+   generated/gallery/index        
 
 
 .. toctree::
-   :maxdepth: 1
    :caption: User Guide
+   :maxdepth: 1
    :name: userguide_index
-   :hidden:
+   :hidden:   
 
    userguide/index
 
 
-
-.. _developers_guide:
-
 .. toctree::
-   :maxdepth: 1
-   :caption: Further Topics
-   :hidden:
-
-   further_topics/index
-
-
-.. toctree::
-   :maxdepth: 1
    :caption: Developers Guide
-   :name: development_index
-   :hidden:
+   :maxdepth: 1
+   :name: developers_index
+   :hidden:   
 
    developers_guide/contributing_getting_involved
 
 
 .. toctree::
+   :caption: Whats New
    :maxdepth: 1
-   :caption: Reference
-   :hidden:
+   :name: whatsnew_index
+   :hidden:   
 
-   generated/api/iris
-
+   developers_guide/whatsnew/index

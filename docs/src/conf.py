@@ -33,6 +33,9 @@ def autolog(message):
 
 on_rtd = os.environ.get("READTHEDOCS") == "True"
 
+# TREMTEST
+on_rtd = True
+
 if on_rtd:
     autolog("Build running on READTHEDOCS server")
 
@@ -130,9 +133,9 @@ extensions = [
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
     # better api documentation (custom)
-    "custom_class_autodoc",
-    "custom_data_autodoc",
-    "generate_package_rst",
+    # "custom_class_autodoc",
+    # "custom_data_autodoc",
+    # "generate_package_rst",
 ]
 # -- panels extension ---------------------------------------------------------
 # See https://sphinx-panels.readthedocs.io/en/latest/
@@ -221,33 +224,32 @@ doctest_global_setup = "import iris"
 #
 html_logo = "_static/iris-logo-title.png"
 html_favicon = "_static/favicon.ico"
-html_theme = "sphinx_rtd_theme"
-
-# TREMTEST
 html_theme = "pydata_sphinx_theme"
 
-# html_theme_options = {
-# "display_version": True,
-# "style_external_links": True,
-# "logo_only": "True",
-# }
-
-# TREMTEST
+# See https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html
 html_theme_options = {
+    "collapse_navigation": True,
+    "show_prev_next": True,
+    "navbar_align": "content",
     "external_links": [
         {
-            "url": "https://pandas.pydata.org/pandas-docs/stable/",
-            "name": "Pandas Docs",
+            "url": "https://scitools.or.uk",
+            "name": "SciTools",
         }
     ],
-    "github_url": "https://github.com/pydata/pydata-sphinx-theme",
-    "twitter_url": "https://twitter.com/pandas_dev",
+    "github_url": "https://github.com/SciTools/iris",
+    "twitter_url": "https://twitter.com/scitools_iris",
     "icon_links": [
         {
             "name": "PyPI",
-            "url": "https://pypi.org/project/pydata-sphinx-theme",
+            "url": "https://pypi.org/project/scitools-iris/",
             "icon": "fas fa-box",
-        }
+        },
+        {
+            "name": "Conda",
+            "url": "https://anaconda.org/conda-forge/iris",
+            "icon": "fas fa-boxes",
+        },
     ],
     "use_edit_page_button": True,
     "show_toc_level": 1,
@@ -260,25 +262,22 @@ html_theme_options = {
 }
 
 html_context = {
-    # TREMTEST
-    "github_user": "pandas-dev",
-    "github_repo": "pydata-sphinx-theme",
+    # pydata_theme
+    "github_repo": "iris",
+    "github_user": "scitools",
     "github_version": "master",
-    "doc_path": "docs",
-    # TREMTEST END
+    "doc_path": "docs/src",
+    # custom
     "rtd_version": rtd_version,
     "version": version,
     "copyright_years": copyright_years,
     "python_version": build_python_version,
     # menu_links and menu_links_name are used in _templates/layout.html
-    # to include some nice icons.  See http://fontawesome.io for a list of
+    # to include some nice icons.  Seec for a list of
     # icons (used in the sphinx_rtd_theme)
     "menu_links_name": "Support",
+    # TODO: change this for pydata_theme
     "menu_links": [
-        (
-            '<i class="fa fa-github fa-fw"></i> Source Code',
-            "https://github.com/SciTools/iris",
-        ),
         (
             '<i class="fa fa-comments fa-fw"></i> Users Google Group',
             "https://groups.google.com/forum/#!forum/scitools-iris",
@@ -303,12 +302,7 @@ html_context = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-# html_style = "theme_override.css"
-
-# TREMTEST
-# html_css_files = [
-#     "css/pandas.css",
-# ]
+html_style = "theme_override.css"
 
 # url link checker.  Some links work but report as broken, lets ignore them.
 # See https://www.sphinx-doc.org/en/1.2/config.html#options-for-the-linkcheck-builder
