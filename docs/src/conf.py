@@ -32,9 +32,7 @@ def autolog(message):
 # -- Are we running on the readthedocs server, if so do some setup -----------
 
 on_rtd = os.environ.get("READTHEDOCS") == "True"
-
-# TREMTEST
-on_rtd = True
+# on_rtd = True  # TREMTEST
 
 if on_rtd:
     autolog("Build running on READTHEDOCS server")
@@ -48,7 +46,9 @@ if on_rtd:
 
 # This is the rtd reference to the version, such as: latest, stable, v3.0.1 etc
 # For local testing purposes this could be explicitly set latest or stable.
+
 rtd_version = os.environ.get("READTHEDOCS_VERSION")
+# rtd_version = 'latest'  # TREMTEST
 
 # -- Path setup --------------------------------------------------------------
 
@@ -133,12 +133,14 @@ extensions = [
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
     # better api documentation (custom)
-    # "custom_class_autodoc",
-    # "custom_data_autodoc",
-    # "generate_package_rst",
+    "custom_class_autodoc",
+    "custom_data_autodoc",
+    "generate_package_rst",
 ]
+
 # -- panels extension ---------------------------------------------------------
 # See https://sphinx-panels.readthedocs.io/en/latest/
+panels_add_bootstrap_css = False
 
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
@@ -225,9 +227,15 @@ doctest_global_setup = "import iris"
 html_logo = "_static/iris-logo-title.png"
 html_favicon = "_static/favicon.ico"
 html_theme = "pydata_sphinx_theme"
+html_sidebars = {
+    "contributing": ["search-field", "custom-template"],
+    "changelog": [],
+}
 
 # See https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html
 html_theme_options = {
+    # "navbar_center": ["navbar-nav", "layout"],
+    "footer_items": ["copyright", "sphinx-version", "custom_footer"],
     "collapse_navigation": True,
     "show_prev_next": True,
     "navbar_align": "content",
@@ -258,7 +266,6 @@ html_theme_options = {
     # "navbar_start": ["navbar-logo", "navbar-version"],
     # "navbar_center": ["navbar-nav", "navbar-version"],  # Just for testing
     # "navbar_end": ["navbar-icon-links", "navbar-version"]  # Just for testing
-    # "footer_items": ["copyright", "sphinx-version", ""]
 }
 
 html_context = {
@@ -268,6 +275,7 @@ html_context = {
     "github_version": "master",
     "doc_path": "docs/src",
     # custom
+    "on_rtd": on_rtd,
     "rtd_version": rtd_version,
     "version": version,
     "copyright_years": copyright_years,
@@ -302,7 +310,10 @@ html_context = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-html_style = "theme_override.css"
+html_css_files = [
+    "theme_override.css",
+]
+# html_style = "theme_override.css"
 
 # url link checker.  Some links work but report as broken, lets ignore them.
 # See https://www.sphinx-doc.org/en/1.2/config.html#options-for-the-linkcheck-builder

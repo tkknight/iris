@@ -48,7 +48,7 @@ For **Iris 2.4** and earlier documentation please see the
     :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2
 
     ---
-    :img-top: _static/icon-user.png
+    :img-top: _static/icon-user.pnggggggggg
 
     Install Iris as a user or developer.
     +++
@@ -91,8 +91,6 @@ For **Iris 2.4** and earlier documentation please see the
         :type: ref
         :text: Getting Involved
         :classes: btn-outline-primary btn-block
-
-
 
 
 
