@@ -233,7 +233,7 @@ html_theme_options = {
     "navbar_align": "content",
     "external_links": [
         {
-            "url": "https://scitools.or.uk",
+            "url": "https://scitools.org.uk",
             "name": "SciTools",
         }
     ],
