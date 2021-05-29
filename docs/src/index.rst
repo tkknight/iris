@@ -11,96 +11,87 @@ giving you a powerful, format-agnostic interface for working with your data.
 It excels when working with multi-dimensional Earth Science data, where tabular
 representations become unwieldy and inefficient.
 
-`CF Standard names <http://cfconventions.org/standard-names.html>`_,
-`units <https://github.com/SciTools/cf_units>`_, and coordinate metadata
-are built into Iris, giving you a rich and expressive interface for maintaining
-an accurate representation of your data. Its treatment of data and
-associated metadata as first-class objects includes:
-
-* visualisation interface based on `matplotlib <https://matplotlib.org/>`_ and
-  `cartopy <https://scitools.org.uk/cartopy/docs/latest/>`_,
-* unit conversion,
-* subsetting and extraction,
-* merge and concatenate,
-* aggregations and reductions (including min, max, mean and weighted averages),
-* interpolation and regridding (including nearest-neighbor, linear and
-  area-weighted), and
-* operator overloads (``+``, ``-``, ``*``, ``/``, etc.).
-
-A number of file formats are recognised by Iris, including CF-compliant NetCDF,
-GRIB, and PP, and it has a plugin architecture to allow other formats to be
-added seamlessly.
-
-Building upon `NumPy <http://www.numpy.org/>`_ and
-`dask <https://dask.pydata.org/en/latest/>`_, Iris scales from efficient
-single-machine workflows right through to multi-core clusters and HPC.
-Interoperability with packages from the wider scientific Python ecosystem comes
-from Iris' use of standard NumPy/dask arrays as its underlying data storage.
-
-Iris is part of SciTools, for more information see https://scitools.org.uk/.
-For **Iris 2.4** and earlier documentation please see the
-:link-badge:`https://scitools.org.uk/iris/docs/v2.4.0/,"legacy documentation",cls=badge-info text-white`.
-
+For more information see :ref:`why_iris`.
 
 
 .. panels::
     :container: container-lg pb-3
-    :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2
+    :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2 
+    :img-top-cls: pl-5 pr-5 pt-3
 
     ---
-    :img-top: _static/icon-user.pnggggggggg
+    :img-top: _static/icon_shuttle2.svg
 
-    Install Iris as a user or developer.
+    Information on Iris, how to install and a look at the gallery.
     +++
-    .. link-button:: installing_iris
+    .. link-button:: getting_started_index
         :type: ref
-        :text: Installing Iris
-        :classes: btn-outline-primary btn-block
+        :text: Getting Started
+        :classes: btn-outline-info btn-block
+
     ---
-    Example code to create a variety of plots.
-    +++
-    .. link-button:: sphx_glr_generated_gallery
-        :type: ref
-        :text: Gallery
-        :classes: btn-outline-primary btn-block
-    ---
-    Find out what has recently changed in Iris.
-    +++
-    .. link-button:: iris_whatsnew
-        :type: ref
-        :text: What's New
-        :classes: btn-outline-primary btn-block
-    ---
-    Learn how to use Iris.
+    :img-top: _static/icon_instructions2.svg
+
+    Learn how to use Iris, including loading, navigating, saving,
+    plotting and more.
     +++
     .. link-button:: user_guide_index
         :type: ref
         :text: User Guide
-        :classes: btn-outline-primary btn-block
+        :classes: btn-outline-info btn-block
+
     ---
+    :img-top: _static/icon_development2.svg
+
+    As a developer you can contribute to Iris.  
+    +++
+    .. link-button:: development_where_to_start
+        :type: ref
+        :text: Developers Guide
+        :classes: btn-outline-info btn-block
+
+    ---
+    :img-top: _static/icon_api2.svg
+
     Browse full Iris functionality by module.
     +++
     .. link-button:: Iris
         :type: ref
         :text: Iris API
-        :classes: btn-outline-primary btn-block
-    ---
-    As a developer you can contribute to Iris.
-    +++
-    .. link-button:: development_where_to_start
-        :type: ref
-        :text: Getting Involved
-        :classes: btn-outline-primary btn-block
+        :classes: btn-outline-info btn-block
 
+    ---
+    :img-top: _static/icon_new_product2.svg
+
+    Find out what has recently changed in Iris.
+    +++
+    .. link-button:: iris_whatsnew
+        :type: ref
+        :text: What's New
+        :classes: btn-outline-info btn-block
+
+Icons made by `FreePik <https://www.freepik.com>`_ from 
+`Flaticon <https://www.flaticon.com/>`_
+
+
+Support
+~~~~~~~
+
+.. todo:: find aplace for these support links...
+
+* `Source Code <https://github.com/SciTools/iris>`_
+* `Users Google Group <https://groups.google.com/forum/#!forum/scitools-iris>`_
+* `Developers Google Group <https://groups.google.com/forum/#!forum/scitools-iris-dev>`_
+* `StackOverflow for "How Do I? <https://stackoverflow.com/questions/tagged/python-iris>`_
+* `Legacy Documentation <https://scitools.org.uk/iris/docs/v2.4.0/index.html>`_
 
 
 .. toctree::
-   :maxdepth: 1
    :caption: Getting Started
+   :maxdepth: 1
    :hidden:
 
-   installing
-   generated/gallery/index        
+   getting_started
 
 
 .. toctree::
@@ -122,9 +113,19 @@ For **Iris 2.4** and earlier documentation please see the
 
 
 .. toctree::
-   :caption: Whats New
+   :caption: Iris API
    :maxdepth: 1
-   :name: whatsnew_index
    :hidden:   
 
-   developers_guide/whatsnew/index
+   generated/api/iris
+
+
+.. toctree::
+   :caption: Developers Guide
+   :maxdepth: 1
+   :name: whats_new_index
+   :hidden:   
+
+   whatsnew/index
+
+

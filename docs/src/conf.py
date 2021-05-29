@@ -32,7 +32,11 @@ def autolog(message):
 # -- Are we running on the readthedocs server, if so do some setup -----------
 
 on_rtd = os.environ.get("READTHEDOCS") == "True"
-# on_rtd = True  # TREMTEST
+# This is the rtd reference to the version, such as: latest, stable, v3.0.1 etc
+# For local testing purposes this could be explicitly set latest or stable.
+rtd_version = os.environ.get("READTHEDOCS_VERSION")
+# on_rtd = True           # useful for testing
+# rtd_version = 'latest'  # useful for testing
 
 if on_rtd:
     autolog("Build running on READTHEDOCS server")
@@ -43,12 +47,6 @@ if on_rtd:
 
     for item, value in os.environ.items():
         autolog("[READTHEDOCS] {} = {}".format(item, value))
-
-# This is the rtd reference to the version, such as: latest, stable, v3.0.1 etc
-# For local testing purposes this could be explicitly set latest or stable.
-
-rtd_version = os.environ.get("READTHEDOCS_VERSION")
-# rtd_version = 'latest'  # TREMTEST
 
 # -- Path setup --------------------------------------------------------------
 
@@ -227,15 +225,15 @@ doctest_global_setup = "import iris"
 html_logo = "_static/iris-logo-title.png"
 html_favicon = "_static/favicon.ico"
 html_theme = "pydata_sphinx_theme"
-html_sidebars = {
-    "contributing": ["search-field", "custom-template"],
-    "changelog": [],
-}
+# html_sidebars = {
+# "**": ["custom_sidebar_version","search-field", "sidebar-nav-bs", "sidebar-ethical-ads"]
+# }
 
 # See https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html
 html_theme_options = {
     # "navbar_center": ["navbar-nav", "layout"],
     "footer_items": ["copyright", "sphinx-version", "custom_footer"],
+    "navbar_start": ["navbar-logo", "custom_sidebar_version"],
     "collapse_navigation": True,
     "show_prev_next": True,
     "navbar_align": "content",
@@ -313,7 +311,6 @@ html_static_path = ["_static"]
 html_css_files = [
     "theme_override.css",
 ]
-# html_style = "theme_override.css"
 
 # url link checker.  Some links work but report as broken, lets ignore them.
 # See https://www.sphinx-doc.org/en/1.2/config.html#options-for-the-linkcheck-builder

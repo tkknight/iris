@@ -48,8 +48,6 @@ If you are new to using GitHub we recommend reading the
    contributing_codebase_index
    contributing_changes
    release   
-   ../techpapers/index
-   ../copyright
 
 
 .. toctree::
