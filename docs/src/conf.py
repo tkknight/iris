@@ -35,8 +35,8 @@ on_rtd = os.environ.get("READTHEDOCS") == "True"
 # This is the rtd reference to the version, such as: latest, stable, v3.0.1 etc
 # For local testing purposes this could be explicitly set latest or stable.
 rtd_version = os.environ.get("READTHEDOCS_VERSION")
-# on_rtd = True           # useful for testing
-# rtd_version = 'latest'  # useful for testing
+on_rtd = True  # useful for testing
+rtd_version = "stable"  # useful for testing
 
 if on_rtd:
     autolog("Build running on READTHEDOCS server")
@@ -127,13 +127,13 @@ extensions = [
     "sphinx_panels",
     # TODO: Spelling extension disabled until the dependencies can be included
     # "sphinxcontrib.spelling",
-    "sphinx_gallery.gen_gallery",
+    #   "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
     # better api documentation (custom)
-    "custom_class_autodoc",
-    "custom_data_autodoc",
-    "generate_package_rst",
+    #    "custom_class_autodoc",
+    #    "custom_data_autodoc",
+    #    "generate_package_rst",
 ]
 
 # -- panels extension ---------------------------------------------------------
@@ -225,9 +225,14 @@ doctest_global_setup = "import iris"
 html_logo = "_static/iris-logo-title.png"
 html_favicon = "_static/favicon.ico"
 html_theme = "pydata_sphinx_theme"
-# html_sidebars = {
-# "**": ["custom_sidebar_version","search-field", "sidebar-nav-bs", "sidebar-ethical-ads"]
-# }
+html_sidebars = {
+    "**": [
+        "custom_sidebar_version",
+        "search-field",
+        "sidebar-nav-bs",
+        "sidebar-ethical-ads",
+    ]
+}
 
 # See https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html
 html_theme_options = {

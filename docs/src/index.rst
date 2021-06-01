@@ -1,7 +1,17 @@
 .. _iris_docs:
 
-Iris |version|
-========================
+Iris 
+====
+
+**Version:** |version|
+
+.. admonition:: Useful Resources
+   :class: tip
+
+   * Issues, Pull requests
+   * Discussions
+   * Support??
+ 
 
 **A powerful, format-agnostic, community-driven Python package for analysing
 and visualising Earth science data.**
@@ -13,6 +23,9 @@ representations become unwieldy and inefficient.
 
 For more information see :ref:`why_iris`.
 
+
+.. todo:: Add the :ref:`code_of_conduct` to the appropriate section, link 
+          off this homepage too?
 
 .. panels::
     :container: container-lg pb-3
@@ -129,3 +142,11 @@ Support
    whatsnew/index
 
 
+Other pydata themed sites:
+
+* https://docs.bokeh.org/en/latest/index.html#
+* https://mybinder.readthedocs.io/en/latest/index.html#
+* https://fairlearn.org/v0.6.2/quickstart.html
+* https://numpy.org/devdocs/user/index.html
+* https://jupyterhub-team-compass.readthedocs.io/en/latest/
+* https://beta.jupyterbook.org/intro.html

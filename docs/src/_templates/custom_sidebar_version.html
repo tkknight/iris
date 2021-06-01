@@ -1,1 +1,9 @@
-<b>{{version}} (TODO: latest)</b>
+{% if on_rtd %}
+    {% if rtd_version == 'latest' %}
+        <b>{{version}} (latest)</b>
+    {% elif rtd_version == 'stable' %}
+        <b>{{version}} (stable)</b>
+    {% else %}
+        <b>{{version}}</b>
+    {%- endif %}
+{%- endif %}    

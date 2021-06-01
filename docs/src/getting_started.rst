@@ -3,10 +3,11 @@
 Getting Started
 ===============
 
+.. todo:: Write something here...
+
 .. toctree::
   :maxdepth: 1
   :caption: Getting Started
-  :hidden:
 
   why_iris
   installing
