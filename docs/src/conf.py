@@ -35,8 +35,8 @@ on_rtd = os.environ.get("READTHEDOCS") == "True"
 # This is the rtd reference to the version, such as: latest, stable, v3.0.1 etc
 # For local testing purposes this could be explicitly set latest or stable.
 rtd_version = os.environ.get("READTHEDOCS_VERSION")
-on_rtd = True  # useful for testing
-rtd_version = "stable"  # useful for testing
+# on_rtd = True           # useful for testing
+# rtd_version = "latest"  # useful for testing
 
 if on_rtd:
     autolog("Build running on READTHEDOCS server")
@@ -127,13 +127,13 @@ extensions = [
     "sphinx_panels",
     # TODO: Spelling extension disabled until the dependencies can be included
     # "sphinxcontrib.spelling",
-    #   "sphinx_gallery.gen_gallery",
+    "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
     # better api documentation (custom)
-    #    "custom_class_autodoc",
-    #    "custom_data_autodoc",
-    #    "generate_package_rst",
+    "custom_class_autodoc",
+    "custom_data_autodoc",
+    "generate_package_rst",
 ]
 
 # -- panels extension ---------------------------------------------------------
@@ -238,19 +238,25 @@ html_sidebars = {
 html_theme_options = {
     # "navbar_center": ["navbar-nav", "layout"],
     "footer_items": ["copyright", "sphinx-version", "custom_footer"],
-    "navbar_start": ["navbar-logo", "custom_sidebar_version"],
+    # "navbar_start": ["navbar-logo", "custom_sidebar_version"],
+    # "navbar_center" : ["navbar-nav", "custom_navbar_nav"],
     "collapse_navigation": True,
     "show_prev_next": True,
     "navbar_align": "content",
-    "external_links": [
-        {
-            "url": "https://scitools.org.uk",
-            "name": "SciTools",
-        }
-    ],
+    #    "external_links": [
+    #        {
+    #            "url": "https://scitools.org.uk",
+    #            "name": "SciTools",
+    #        }
+    #   ],
     "github_url": "https://github.com/SciTools/iris",
     "twitter_url": "https://twitter.com/scitools_iris",
     "icon_links": [
+        {
+            "name": "GitHub Discussions",
+            "url": "https://github.com/SciTools/iris/discussions",
+            "icon": "far fa-comments",
+        },
         {
             "name": "PyPI",
             "url": "https://pypi.org/project/scitools-iris/",
@@ -264,11 +270,6 @@ html_theme_options = {
     ],
     "use_edit_page_button": True,
     "show_toc_level": 1,
-    # "search_bar_position": "navbar",  # TODO: Deprecated - remove in future version
-    # "navbar_align": "left",  # [left, content, right] For testing that the navbar items align properly
-    # "navbar_start": ["navbar-logo", "navbar-version"],
-    # "navbar_center": ["navbar-nav", "navbar-version"],  # Just for testing
-    # "navbar_end": ["navbar-icon-links", "navbar-version"]  # Just for testing
 }
 
 html_context = {
@@ -283,29 +284,6 @@ html_context = {
     "version": version,
     "copyright_years": copyright_years,
     "python_version": build_python_version,
-    # menu_links and menu_links_name are used in _templates/layout.html
-    # to include some nice icons.  Seec for a list of
-    # icons (used in the sphinx_rtd_theme)
-    "menu_links_name": "Support",
-    # TODO: change this for pydata_theme
-    "menu_links": [
-        (
-            '<i class="fa fa-comments fa-fw"></i> Users Google Group',
-            "https://groups.google.com/forum/#!forum/scitools-iris",
-        ),
-        (
-            '<i class="fa fa-comments fa-fw"></i> Developers Google Group',
-            "https://groups.google.com/forum/#!forum/scitools-iris-dev",
-        ),
-        (
-            '<i class="fa fa-question fa-fw"></i> StackOverflow for "How Do I?"',
-            "https://stackoverflow.com/questions/tagged/python-iris",
-        ),
-        (
-            '<i class="fa fa-book fa-fw"></i> Legacy Documentation',
-            "https://scitools.org.uk/iris/docs/v2.4.0/index.html",
-        ),
-    ],
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

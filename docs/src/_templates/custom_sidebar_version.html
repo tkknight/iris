@@ -1,9 +1,20 @@
 {% if on_rtd %}
     {% if rtd_version == 'latest' %}
-        <b>{{version}} (latest)</b>
+        <div id="slim-orange-box-messageeeeeeeeeeee">    
+            <b>{{version}} (latest)</b>
+        </div>
+        <br>
+        <div id="slim-red-box-messageeeeee">
+            <i>You are viewing the <b>latest</b> unreleased documentation
+            You may prefer a 
+            <a href="https://scitools-iris.readthedocs.io/en/stable/">stable</a>
+            version.</i>
+        </div>    
     {% elif rtd_version == 'stable' %}
         <b>{{version}} (stable)</b>
     {% else %}
         <b>{{version}}</b>
     {%- endif %}
 {%- endif %}    
+
+

@@ -1,17 +1,9 @@
 .. _iris_docs:
 
-Iris 
-====
+.. image:: _static/iris-logo-title.svg
+    :align: center
+    :width: 70%
 
-**Version:** |version|
-
-.. admonition:: Useful Resources
-   :class: tip
-
-   * Issues, Pull requests
-   * Discussions
-   * Support??
- 
 
 **A powerful, format-agnostic, community-driven Python package for analysing
 and visualising Earth science data.**
@@ -150,3 +142,12 @@ Other pydata themed sites:
 * https://numpy.org/devdocs/user/index.html
 * https://jupyterhub-team-compass.readthedocs.io/en/latest/
 * https://beta.jupyterbook.org/intro.html
+* https://cf-xarray.readthedocs.io/en/latest/index.html
+
+.. admonition:: Useful Resources
+   :class: tip
+
+   * Issues, Pull requests
+   * Discussions
+   * Support??
+ 
