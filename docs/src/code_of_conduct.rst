@@ -3,8 +3,6 @@
 Iris Code of Conduct
 ====================
 
-.. todo:: Review, update template with emails etc.  
-
 .. todo:: add a CODE_OF_CONDUCT.md to the root of the project.  Its contents 
           can be the url to the Iris docs pages?
 
@@ -71,9 +69,18 @@ representative at an online or offline event.
 Enforcement
 -----------
 
+.. todo:: 
+  **INSERT CONTACT METHOD**. 
+
+  * scitools_iris@gmail.com (forward onto the community leads?)
+  * individually (bullet point list of contacts).
+  * @SciTools/admins.  Can this become an email instead of just a mention?
+  * **Community Leaders**???, lets use the same wording on the governance page
+    too, publish both in same PR....
+
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-[INSERT CONTACT METHOD].
+**[INSERT CONTACT METHOD]**.
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

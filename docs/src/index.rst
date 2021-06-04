@@ -15,7 +15,6 @@ representations become unwieldy and inefficient.
 
 For more information see :ref:`why_iris`.
 
-
 .. todo:: Add the :ref:`code_of_conduct` to the appropriate section, link 
           off this homepage too?
 
@@ -151,3 +150,6 @@ Other pydata themed sites:
    * Discussions
    * Support??
  
+.. todolist:: 
+
+.. todo:: finalise what icons and links to use in th top right corner.

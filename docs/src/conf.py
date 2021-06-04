@@ -125,15 +125,17 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
     "sphinx_panels",
+    "sphinx_search.extension",
     # TODO: Spelling extension disabled until the dependencies can be included
     # "sphinxcontrib.spelling",
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
     # better api documentation (custom)
-    "custom_class_autodoc",
-    "custom_data_autodoc",
-    "generate_package_rst",
+    # "custom_class_autodoc",
+    # "custom_data_autodoc",
+    # "generate_package_rst",
+    # "jupyter_sphinx", #TREMTEST
 ]
 
 # -- panels extension ---------------------------------------------------------
@@ -223,6 +225,7 @@ doctest_global_setup = "import iris"
 # a list of builtin themes.
 #
 html_logo = "_static/iris-logo-title.png"
+# TODO: update: https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html?highlight=twitter#adding-favicons
 html_favicon = "_static/favicon.ico"
 html_theme = "pydata_sphinx_theme"
 html_sidebars = {
