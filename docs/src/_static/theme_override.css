@@ -15,14 +15,33 @@
 #slim-red-box-message a {
   color: #ffffff;
   font-weight: normal;  
-  text-decoration:underline;
+  text-decoration: underline;
 }
 
 /* TREMTEST */
 #slim-orange-box-message {
-  background: #ff9100;
+  background: #ff0000;
   box-sizing: border-box;
   color: #ffffff;
   font-weight: normal;
-  padding: 0.2em;
+  padding-top: 2px;
+  padding-bottom: 2px;  
+  padding-left: 2px;
+  padding-right: 2px;  
+  outline-style: solid;
+  outline-color: #ff0000;
+  text-align: left;
+}
+
+#slim-orange-box-message a {
+  color: #ffffff;
+  font-weight: normal;  
+  text-decoration: underline;
+}
+
+#slim-version-box {
+  /*background: #8d1565; */
+  font-weight: normal;
+  float: right;
+  padding-top: 20px;
 }

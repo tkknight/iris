@@ -21,7 +21,7 @@ For more information see :ref:`why_iris`.
 .. panels::
     :container: container-lg pb-3
     :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2 
-    :img-top-cls: pl-5 pr-5 pt-3
+    :img-top-cls: px-5 py-2
 
     ---
     :img-top: _static/icon_shuttle2.svg

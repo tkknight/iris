@@ -125,7 +125,6 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
     "sphinx_panels",
-    "sphinx_search.extension",
     # TODO: Spelling extension disabled until the dependencies can be included
     # "sphinxcontrib.spelling",
     "sphinx_gallery.gen_gallery",
@@ -241,7 +240,7 @@ html_sidebars = {
 html_theme_options = {
     # "navbar_center": ["navbar-nav", "layout"],
     "footer_items": ["copyright", "sphinx-version", "custom_footer"],
-    # "navbar_start": ["navbar-logo", "custom_sidebar_version"],
+    "navbar_start": ["navbar-logo", "custom_sidebar_logo_version"],
     # "navbar_center" : ["navbar-nav", "custom_navbar_nav"],
     "collapse_navigation": True,
     "show_prev_next": True,
