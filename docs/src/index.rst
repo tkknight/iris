@@ -2,7 +2,7 @@
 
 .. image:: _static/iris-logo-title.svg
     :align: center
-    :width: 70%
+    :width: 50%
 
 
 **A powerful, format-agnostic, community-driven Python package for analysing
@@ -135,13 +135,13 @@ Support
 
 Other pydata themed sites:
 
-* https://docs.bokeh.org/en/latest/index.html#
-* https://mybinder.readthedocs.io/en/latest/index.html#
+* https://docs.bokeh.org/en/latest
+* https://mybinder.readthedocs.io/en/latest
 * https://fairlearn.org/v0.6.2/quickstart.html
-* https://numpy.org/devdocs/user/index.html
+* https://numpy.org/devdocs/user
 * https://jupyterhub-team-compass.readthedocs.io/en/latest/
 * https://beta.jupyterbook.org/intro.html
-* https://cf-xarray.readthedocs.io/en/latest/index.html
+* https://cf-xarray.readthedocs.io/en/latest
 
 .. admonition:: Useful Resources
    :class: tip
