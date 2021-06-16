@@ -131,9 +131,9 @@ extensions = [
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
     # better api documentation (custom)
-    # "custom_class_autodoc",
-    # "custom_data_autodoc",
-    # "generate_package_rst",
+    "custom_class_autodoc",
+    "custom_data_autodoc",
+    "generate_package_rst",
     # "jupyter_sphinx", #TREMTEST
 ]
 
@@ -238,6 +238,7 @@ html_sidebars = {
 
 # See https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html
 html_theme_options = {
+    "search_bar_text": f"Search the Iris v{version} docs",
     # "navbar_center": ["navbar-nav", "layout"],
     "footer_items": ["copyright", "sphinx-version", "custom_footer"],
     "navbar_start": ["navbar-logo", "custom_sidebar_logo_version"],
