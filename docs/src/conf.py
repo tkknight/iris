@@ -131,9 +131,9 @@ extensions = [
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
     # better api documentation (custom)
-    "custom_class_autodoc",
-    "custom_data_autodoc",
-    "generate_package_rst",
+    # "custom_class_autodoc",
+    # "custom_data_autodoc",
+    # "generate_package_rst",
     # "jupyter_sphinx", #TREMTEST
 ]
 
@@ -244,6 +244,7 @@ html_theme_options = {
     "navbar_start": ["navbar-logo", "custom_sidebar_logo_version"],
     # "navbar_center" : ["navbar-nav", "custom_navbar_nav"],
     "collapse_navigation": True,
+    "navigation_depth": 3,
     "show_prev_next": True,
     "navbar_align": "content",
     #    "external_links": [
