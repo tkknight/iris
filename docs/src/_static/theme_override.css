@@ -20,12 +20,6 @@
   font-weight: bold;
 }
 
-/* Ensures tables do now have width scroll bars */
-table.docutils td {
-    white-space: unset;
-    word-wrap: break-word;
-}
-
 /* Used for very strong warning */
 #slim-red-box-message {
   background: #ff0000;
@@ -37,6 +31,18 @@ table.docutils td {
 
 #slim-red-box-message a {
   color: #ffffff;
-  font-weight: normal;  
+  font-weight: normal;
   text-decoration:underline;
+}
+
+/* override table width restrictions */
+/*    https://github.com/readthedocs/sphinx_rtd_theme/issues/117 */
+.wy-table-responsive table td, .wy-table-responsive table th {
+  white-space: normal;
+}
+
+.wy-table-responsive {
+  margin-bottom: 24px;
+  max-width: 100%;
+  overflow: visible;
 }
