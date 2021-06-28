@@ -1,9 +1,7 @@
 .. _iris_docs:
 
-.. image:: _static/iris-logo-title.svg
-    :align: center
-    :width: 50%
-
+Iris |version|
+========================
 
 **A powerful, format-agnostic, community-driven Python package for analysing
 and visualising Earth science data.**
@@ -15,13 +13,11 @@ representations become unwieldy and inefficient.
 
 For more information see :ref:`why_iris`.
 
-.. todo:: Add the :ref:`code_of_conduct` to the appropriate section, link 
-          off this homepage too?
 
 .. panels::
     :container: container-lg pb-3
-    :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2 
-    :img-top-cls: px-5 py-2
+    :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2 text-center
+    :img-top-cls: w-50 m-auto px-1 py-2
 
     ---
     :img-top: _static/icon_shuttle2.svg
