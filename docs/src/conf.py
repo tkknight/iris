@@ -232,7 +232,7 @@ html_sidebars = {
         "custom_sidebar_version",
         "search-field",
         "sidebar-nav-bs",
-        "sidebar-ethical-ads",
+        #"sidebar-ethical-ads",
     ]
 }
 
