@@ -45,3 +45,12 @@
   float: right;
   padding-top: 20px;
 }
+
+/* bullet point list with green ticks */
+ul.squarelist {
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type */
+  list-style-type: "\2705";
+  margin-left: 0;
+  text-indent: 1em;
+  padding-left: 5em;
+}

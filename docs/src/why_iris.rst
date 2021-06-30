@@ -19,6 +19,8 @@ are built into Iris, giving you a rich and expressive interface for maintaining
 an accurate representation of your data. Its treatment of data and
 associated metadata as first-class objects includes:
 
+.. rst-class:: squarelist
+
 * visualisation interface based on `matplotlib <https://matplotlib.org/>`_ and
   `cartopy <https://scitools.org.uk/cartopy/docs/latest/>`_,
 * unit conversion,
