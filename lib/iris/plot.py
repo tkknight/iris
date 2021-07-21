@@ -15,23 +15,23 @@ import collections
 import datetime
 
 import cartopy.crs as ccrs
-import cartopy.mpl.geoaxes
 from cartopy.geodesic import Geodesic
+import cartopy.mpl.geoaxes
 import cftime
 import matplotlib.axes
 import matplotlib.collections as mpl_collections
 import matplotlib.dates as mpl_dates
-import matplotlib.pyplot as plt
 from matplotlib.offsetbox import AnchoredText
+import matplotlib.pyplot as plt
 import matplotlib.ticker as mpl_ticker
 import matplotlib.transforms as mpl_transforms
 import numpy as np
 import numpy.ma as ma
 
-import iris.cube
 import iris.analysis.cartography as cartography
-import iris.coords
 import iris.coord_systems
+import iris.coords
+import iris.cube
 from iris.exceptions import IrisError
 
 # Importing iris.palette to register the brewer palettes.
@@ -1082,7 +1082,7 @@ def contourf(cube, *args, **kwargs):
             colors = colors[:-1]
         else:
             colors = colors[:-1]
-        if len(levels) > 0:
+        if len(levels) > 0 and cube.data.max() > levels[0]:
             # Draw the lines just *below* the polygons to ensure we minimise
             # any boundary shift.
             zorder = result.collections[0].zorder - 0.1
