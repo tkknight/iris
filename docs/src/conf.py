@@ -254,9 +254,10 @@ html_logo = "_static/iris-logo-title.png"
 # TODO: update: https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html?highlight=twitter#adding-favicons
 html_favicon = "_static/favicon.ico"
 html_theme = "pydata_sphinx_theme"
+# TREMTEST: Including this will mess up the scrolling when the left toc is long.....
 html_sidebars = {
     "**": [
-        "custom_sidebar_version",
+        # "custom_sidebar_version",
         "search-field",
         "sidebar-nav-bs",
         # "sidebar-ethical-ads",
