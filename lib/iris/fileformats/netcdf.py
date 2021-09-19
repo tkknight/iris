@@ -6,7 +6,7 @@
 """
 Module to support the loading of a NetCDF file into an Iris cube.
 
-See also: `netCDF4 python <http://code.google.com/p/netcdf4-python/>`_.
+See also: `netCDF4 python <https://github.com/Unidata/netcdf4-python>`_
 
 Also refer to document 'NetCDF Climate and Forecast (CF) Metadata Conventions'.
 
@@ -28,6 +28,7 @@ import numpy.ma as ma
 
 from iris._lazy_data import as_lazy_data
 from iris.aux_factory import (
+    AtmosphereSigmaFactory,
     HybridHeightFactory,
     HybridPressureFactory,
     OceanSFactory,
@@ -46,6 +47,9 @@ import iris.util
 
 # Show actions activation statistics.
 DEBUG = False
+
+# Configure the logger.
+logger = iris.config.get_logger(__name__)
 
 # Standard CML spatio-temporal axis names.
 SPATIO_TEMPORAL_AXES = ["t", "z", "y", "x"]
@@ -111,6 +115,12 @@ _FactoryDefn = collections.namedtuple(
     "_FactoryDefn", ("primary", "std_name", "formula_terms_format")
 )
 _FACTORY_DEFNS = {
+    AtmosphereSigmaFactory: _FactoryDefn(
+        primary="sigma",
+        std_name="atmosphere_sigma_coordinate",
+        formula_terms_format="ptop: {pressure_at_top} sigma: {sigma} "
+        "ps: {surface_air_pressure}",
+    ),
     HybridHeightFactory: _FactoryDefn(
         primary="delta",
         std_name="atmosphere_hybrid_height_coordinate",
@@ -515,6 +525,22 @@ def _set_attributes(attributes, key, value):
         attributes[str(key)] = value
 
 
+def _add_unused_attributes(iris_object, cf_var):
+    """
+    Populate the attributes of a cf element with the "unused" attributes
+    from the associated CF-netCDF variable. That is, all those that aren't CF
+    reserved terms.
+
+    """
+
+    def attribute_predicate(item):
+        return item[0] not in _CF_ATTRS
+
+    tmpvar = filter(attribute_predicate, cf_var.cf_attrs_unused())
+    for attr_name, attr_value in tmpvar:
+        _set_attributes(iris_object.attributes, attr_name, attr_value)
+
+
 def _get_actual_dtype(cf_var):
     # Figure out what the eventual data type will be after any scale/offset
     # transforms.
@@ -593,22 +619,12 @@ def _load_cube(engine, cf, cf_var, filename):
     # It also records various other info on the engine, to be processed later.
     engine.activate()
 
-    # Having run the rules, now populate the attributes of all the cf elements with the
-    # "unused" attributes from the associated CF-netCDF variable.
-    # That is, all those that aren't CF reserved terms.
-    def attribute_predicate(item):
-        return item[0] not in _CF_ATTRS
-
-    def add_unused_attributes(iris_object, cf_var):
-        tmpvar = filter(attribute_predicate, cf_var.cf_attrs_unused())
-        for attr_name, attr_value in tmpvar:
-            _set_attributes(iris_object.attributes, attr_name, attr_value)
-
+    # Having run the rules, now add the "unused" attributes to each cf element.
     def fix_attributes_all_elements(role_name):
         elements_and_names = engine.cube_parts.get(role_name, [])
 
         for iris_object, cf_var_name in elements_and_names:
-            add_unused_attributes(iris_object, cf.cf_group[cf_var_name])
+            _add_unused_attributes(iris_object, cf.cf_group[cf_var_name])
 
     # Populate the attributes of all coordinates, cell-measures and ancillary-vars.
     fix_attributes_all_elements("coordinates")
@@ -616,7 +632,7 @@ def _load_cube(engine, cf, cf_var, filename):
     fix_attributes_all_elements("cell_measures")
 
     # Also populate attributes of the top-level cube itself.
-    add_unused_attributes(cube, cf_var)
+    _add_unused_attributes(cube, cf_var)
 
     # Work out reference names for all the coords.
     names = {
@@ -652,6 +668,7 @@ def _load_aux_factory(engine, cube):
     """
     formula_type = engine.requires.get("formula_type")
     if formula_type in [
+        "atmosphere_sigma_coordinate",
         "atmosphere_hybrid_height_coordinate",
         "atmosphere_hybrid_sigma_pressure_coordinate",
         "ocean_sigma_z_coordinate",
@@ -673,7 +690,14 @@ def _load_aux_factory(engine, cube):
                     "{!r}".format(name)
                 )
 
-        if formula_type == "atmosphere_hybrid_height_coordinate":
+        if formula_type == "atmosphere_sigma_coordinate":
+            pressure_at_top = coord_from_term("ptop")
+            sigma = coord_from_term("sigma")
+            surface_air_pressure = coord_from_term("ps")
+            factory = AtmosphereSigmaFactory(
+                pressure_at_top, sigma, surface_air_pressure
+            )
+        elif formula_type == "atmosphere_hybrid_height_coordinate":
             delta = coord_from_term("a")
             sigma = coord_from_term("b")
             orography = coord_from_term("orog")
@@ -759,7 +783,51 @@ def _load_aux_factory(engine, cube):
         cube.add_aux_factory(factory)
 
 
-def load_cubes(filenames, callback=None):
+def _translate_constraints_to_var_callback(constraints):
+    """
+    Translate load constraints into a simple data-var filter function, if possible.
+
+    Returns:
+         * function(cf_var:CFDataVariable): --> bool,
+            or None.
+
+    For now, ONLY handles a single NameConstraint with no 'STASH' component.
+
+    """
+    import iris._constraints
+
+    constraints = iris._constraints.list_of_constraints(constraints)
+    result = None
+    if len(constraints) == 1:
+        (constraint,) = constraints
+        if (
+            isinstance(constraint, iris._constraints.NameConstraint)
+            and constraint.STASH == "none"
+        ):
+            # As long as it doesn't use a STASH match, then we can treat it as
+            # a testing against name properties of cf_var.
+            # That's just like testing against name properties of a cube, except that they may not all exist.
+            def inner(cf_datavar):
+                match = True
+                for name in constraint._names:
+                    expected = getattr(constraint, name)
+                    if name != "STASH" and expected != "none":
+                        attr_name = "cf_name" if name == "var_name" else name
+                        # Fetch property : N.B. CFVariable caches the property values
+                        # The use of a default here is the only difference from the code in NameConstraint.
+                        if not hasattr(cf_datavar, attr_name):
+                            continue
+                        actual = getattr(cf_datavar, attr_name, "")
+                        if actual != expected:
+                            match = False
+                            break
+                return match
+
+            result = inner
+    return result
+
+
+def load_cubes(filenames, callback=None, constraints=None):
     """
     Loads cubes from a list of NetCDF filenames/URLs.
 
@@ -774,10 +842,22 @@ def load_cubes(filenames, callback=None):
         Function which can be passed on to :func:`iris.io.run_callback`.
 
     Returns:
-        Generator of loaded NetCDF :class:`iris.cubes.Cube`.
+        Generator of loaded NetCDF :class:`iris.cube.Cube`.
 
     """
+    # TODO: rationalise UGRID/mesh handling once experimental.ugrid is folded
+    #  into standard behaviour.
+    # Deferred import to avoid circular imports.
+    from iris.experimental.ugrid import (
+        PARSE_UGRID_ON_LOAD,
+        CFUGridReader,
+        _build_mesh_coords,
+        _meshes_from_cf,
+    )
     from iris.io import run_callback
+
+    # Create a low-level data-var filter from the original load constraints, if they are suitable.
+    var_callback = _translate_constraints_to_var_callback(constraints)
 
     # Create an actions engine.
     engine = _actions_engine()
@@ -787,14 +867,48 @@ def load_cubes(filenames, callback=None):
 
     for filename in filenames:
         # Ingest the netCDF file.
-        cf = iris.fileformats.cf.CFReader(filename)
+        meshes = {}
+        if PARSE_UGRID_ON_LOAD:
+            cf = CFUGridReader(filename)
+            meshes = _meshes_from_cf(cf)
+        else:
+            cf = iris.fileformats.cf.CFReader(filename)
 
         # Process each CF data variable.
         data_variables = list(cf.cf_group.data_variables.values()) + list(
             cf.cf_group.promoted.values()
         )
         for cf_var in data_variables:
+            if var_callback and not var_callback(cf_var):
+                # Deliver only selected results.
+                continue
+
+            # cf_var-specific mesh handling, if a mesh is present.
+            # Build the mesh_coords *before* loading the cube - avoids
+            # mesh-related attributes being picked up by
+            # _add_unused_attributes().
+            mesh_name = None
+            mesh = None
+            mesh_coords, mesh_dim = [], None
+            if PARSE_UGRID_ON_LOAD:
+                mesh_name = getattr(cf_var, "mesh", None)
+            if mesh_name is not None:
+                try:
+                    mesh = meshes[mesh_name]
+                except KeyError:
+                    message = (
+                        f"File does not contain mesh: '{mesh_name}' - "
+                        f"referenced by variable: '{cf_var.cf_name}' ."
+                    )
+                    logger.debug(message)
+            if mesh is not None:
+                mesh_coords, mesh_dim = _build_mesh_coords(mesh, cf_var)
+
             cube = _load_cube(engine, cf, cf_var, filename)
+
+            # Attach the mesh (if present) to the cube.
+            for mesh_coord in mesh_coords:
+                cube.add_aux_coord(mesh_coord, mesh_dim)
 
             # Process any associated formula terms and attach
             # the corresponding AuxCoordFactory.
@@ -1033,7 +1147,7 @@ class Saver:
             dtype(i.e. 'i2', 'short', 'u4') or a dict of packing parameters as
             described below. This provides support for netCDF data packing as
             described in
-            http://www.unidata.ucar.edu/software/netcdf/documentation/NUG/best_practices.html#bp_Packed-Data-Values
+            https://www.unidata.ucar.edu/software/netcdf/documentation/NUG/best_practices.html#bp_Packed-Data-Values
             If this argument is a type (or type string), appropriate values of
             scale_factor and add_offset will be automatically calculated based
             on `cube.data` and possible masking. For more control, pass a dict
@@ -1425,11 +1539,11 @@ class Saver:
                         or cf_var.standard_name != std_name
                     ):
                         # TODO: We need to resolve this corner-case where
-                        # the dimensionless vertical coordinate containing the
-                        # formula_terms is a dimension coordinate of the
-                        # associated cube and a new alternatively named
-                        # dimensionless vertical coordinate is required with
-                        # new formula_terms and a renamed dimension.
+                        #  the dimensionless vertical coordinate containing
+                        #  the formula_terms is a dimension coordinate of
+                        #  the associated cube and a new alternatively named
+                        #  dimensionless vertical coordinate is required
+                        #  with new formula_terms and a renamed dimension.
                         if cf_name in dimension_names:
                             msg = (
                                 "Unable to create dimensonless vertical "
@@ -2579,7 +2693,7 @@ def save(
         (i.e. 'i2', 'short', 'u4') or a dict of packing parameters as described
         below or an iterable of such types, strings, or dicts.
         This provides support for netCDF data packing as described in
-        http://www.unidata.ucar.edu/software/netcdf/documentation/NUG/best_practices.html#bp_Packed-Data-Values
+        https://www.unidata.ucar.edu/software/netcdf/documentation/NUG/best_practices.html#bp_Packed-Data-Values
         If this argument is a type (or type string), appropriate values of
         scale_factor and add_offset will be automatically calculated based
         on `cube.data` and possible masking. For more control, pass a dict with

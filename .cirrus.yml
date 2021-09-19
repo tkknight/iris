@@ -26,7 +26,7 @@ env:
   # Maximum cache period (in weeks) before forcing a new cache upload.
   CACHE_PERIOD: "2"
   # Increment the build number to force new cartopy cache upload.
-  CARTOPY_CACHE_BUILD: "0"
+  CARTOPY_CACHE_BUILD: "3"
   # Increment the build number to force new conda cache upload.
   CONDA_CACHE_BUILD: "0"
   # Increment the build number to force new nox cache upload.
@@ -38,7 +38,7 @@ env:
   # Conda packages to be installed.
   CONDA_CACHE_PACKAGES: "nox pip"
   # Git commit hash for iris test data.
-  IRIS_TEST_DATA_VERSION: "2.0.0"
+  IRIS_TEST_DATA_VERSION: "2.4"
   # Base directory for the iris-test-data.
   IRIS_TEST_DATA_DIR: ${HOME}/iris-test-data
 
@@ -72,6 +72,14 @@ linux_task_template: &LINUX_TASK_TEMPLATE
     fingerprint_script:
       - echo "${CIRRUS_OS}"
       - echo "$(date +%Y).$(expr $(date +%U) / ${CACHE_PERIOD}):${CARTOPY_CACHE_BUILD}"
+    populate_script:
+      - conda create --quiet --name cartopy-cache cartopy
+      - source ${HOME}/miniconda/etc/profile.d/conda.sh >/dev/null 2>&1
+      - conda activate cartopy-cache >/dev/null 2>&1
+      - cd $(mktemp -d)
+      - wget --quiet https://raw.githubusercontent.com/SciTools/cartopy/master/tools/cartopy_feature_download.py
+      - python cartopy_feature_download.py physical --output ${HOME}/.local/share/cartopy --no-warn
+      - conda deactivate >/dev/null 2>&1
   nox_cache:
     folder: ${CIRRUS_WORKING_DIR}/.nox
     reupload_on_changes: true
@@ -105,7 +113,7 @@ iris_test_data_template: &IRIS_TEST_DATA_TEMPLATE
 #
 # Linting
 #
-precommit_task:
+task:
   only_if: ${SKIP_LINT_TASK} == ""
   << : *CREDITS_TEMPLATE
   auto_cancellation: true
@@ -129,7 +137,7 @@ precommit_task:
 #
 # Testing (Linux)
 #
-test_task:
+task:
   only_if: ${SKIP_TEST_TASK} == ""
   << : *CREDITS_TEMPLATE
   matrix:
@@ -155,7 +163,7 @@ test_task:
 #
 # Documentation Testing and Gallery (Linux)
 #
-doctest_task:
+task:
   only_if: ${SKIP_DOCTEST_TASK} == "" && ${SKIP_ALL_DOC_TASKS} == ""
   << : *CREDITS_TEMPLATE
   env:
@@ -179,7 +187,7 @@ doctest_task:
 #
 # Documentation Link Check (Linux)
 #
-linkcheck_task:
+task:
   only_if: ${SKIP_LINKCHECK_TASK} == "" && ${SKIP_ALL_DOC_TASKS} == ""
   << : *CREDITS_TEMPLATE
   env:

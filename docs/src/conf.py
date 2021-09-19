@@ -221,7 +221,7 @@ intersphinx_mapping = {
     "matplotlib": ("https://matplotlib.org/stable/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "python": ("https://docs.python.org/3/", None),
-    "scipy": ("https://docs.scipy.org/doc/scipy/reference/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
 }
 
 # The name of the Pygments (syntax highlighting) style to use.
@@ -340,6 +340,7 @@ linkcheck_ignore = [
     "http://www.wmo.int/pages/prog/www/DPFS/documents/485_Vol_I_en_colour.pdf",
     "https://software.ac.uk/how-cite-software",
     "http://www.esrl.noaa.gov/psd/data/gridded/conventions/cdc_netcdf_standard.shtml",
+    "http://www.nationalarchives.gov.uk/doc/open-government-licence",
 ]
 
 # list of sources to exclude from the build.
