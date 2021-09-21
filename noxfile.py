@@ -15,8 +15,15 @@ from nox.logger import logger
 #: Default to reusing any pre-existing nox environments.
 nox.options.reuse_existing_virtualenvs = True
 
+#: Python versions we can run sessions under
+_PY_VERSIONS_ALL = ["3.7", "3.8"]
+_PY_VERSION_LATEST = _PY_VERSIONS_ALL[-1]
+
+#: One specific python version for docs builds
+_PY_VERSION_DOCSBUILD = _PY_VERSION_LATEST
+
 #: Cirrus-CI environment variable hook.
-PY_VER = os.environ.get("PY_VER", ["3.7", "3.8"])
+PY_VER = os.environ.get("PY_VER", _PY_VERSIONS_ALL)
 
 #: Default cartopy cache directory.
 CARTOPY_CACHE_DIR = os.environ.get("HOME") / Path(".local/share/cartopy")
@@ -156,9 +163,9 @@ def prepare_venv(session: nox.sessions.Session) -> None:
 
 
 @nox.session
-def lint(session: nox.sessions.Session):
+def precommit(session: nox.sessions.Session):
     """
-    Perform pre-commit linting of iris codebase.
+    Perform pre-commit hooks of iris codebase.
 
     Parameters
     ----------
@@ -166,13 +173,28 @@ def lint(session: nox.sessions.Session):
         A `nox.sessions.Session` object.
 
     """
+    import yaml
+
     # Pip install the session requirements.
     session.install("pre-commit")
-    # Execute the pre-commit linting tasks.
-    cmd = ["pre-commit", "run", "--all-files"]
-    hooks = ["black", "blacken-docs", "flake8", "isort"]
-    for hook in hooks:
-        session.run(*cmd, hook)
+
+    # Load the pre-commit configuration YAML file.
+    with open(".pre-commit-config.yaml", "r") as fi:
+        config = yaml.load(fi, Loader=yaml.FullLoader)
+
+    # List of pre-commit hook ids that we don't want to run.
+    excluded = ["no-commit-to-branch"]
+
+    # Enumerate the ids of pre-commit hooks we do want to run.
+    ids = [
+        hook["id"]
+        for entry in config["repos"]
+        for hook in entry["hooks"]
+        if hook["id"] not in excluded
+    ]
+
+    # Execute the pre-commit hooks.
+    [session.run("pre-commit", "run", "--all-files", id) for id in ids]
 
 
 @nox.session(python=PY_VER, venv_backend="conda")
@@ -197,31 +219,10 @@ def tests(session: nox.sessions.Session):
     )
 
 
-@nox.session(python=PY_VER, venv_backend="conda")
-def gallery(session: nox.sessions.Session):
-    """
-    Perform iris gallery doc-tests.
-
-    Parameters
-    ----------
-    session: object
-        A `nox.sessions.Session` object.
-
-    """
-    prepare_venv(session)
-    session.install("--no-deps", "--editable", ".")
-    session.run(
-        "python",
-        "-m",
-        "iris.tests.runner",
-        "--gallery-tests",
-    )
-
-
-@nox.session(python=PY_VER, venv_backend="conda")
+@nox.session(python=_PY_VERSION_DOCSBUILD, venv_backend="conda")
 def doctest(session: nox.sessions.Session):
     """
-    Perform iris doc-tests.
+    Perform iris doctests and gallery.
 
     Parameters
     ----------
@@ -243,9 +244,16 @@ def doctest(session: nox.sessions.Session):
         "doctest",
         external=True,
     )
+    session.cd("..")
+    session.run(
+        "python",
+        "-m",
+        "iris.tests.runner",
+        "--gallery-tests",
+    )
 
 
-@nox.session(python=PY_VER, venv_backend="conda")
+@nox.session(python=_PY_VERSION_DOCSBUILD, venv_backend="conda")
 def linkcheck(session: nox.sessions.Session):
     """
     Perform iris doc link check.
