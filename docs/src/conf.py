@@ -158,9 +158,9 @@ extensions = [
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
     # better api documentation (custom)
-    # "custom_class_autodoc",
-    # "custom_data_autodoc",
-    # "generate_package_rst",
+    "custom_class_autodoc",
+    "custom_data_autodoc",
+    "generate_package_rst",
     # "jupyter_sphinx", #TREMTEST
 ]
 
