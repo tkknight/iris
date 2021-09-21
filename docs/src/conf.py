@@ -158,10 +158,6 @@ extensions = [
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
-    # better api documentation (custom)
-    #"custom_class_autodoc",
-    #"custom_data_autodoc",
-    #"generate_package_rst",
 ]
 
 if skip_api == "1":
@@ -246,6 +242,8 @@ plot_formats = [
 extlinks = {
     "issue": ("https://github.com/SciTools/iris/issues/%s", "Issue #"),
     "pull": ("https://github.com/SciTools/iris/pull/%s", "PR #"),
+    "issue_only": ("https://github.com/SciTools/iris/issues/%s", ""),
+    "author": ("https://github.com/%s", "@"),
 }
 
 # -- Doctest ("make doctest")--------------------------------------------------
@@ -304,11 +302,11 @@ html_style = "theme_override.css"
 
 # this allows for using datatables: https://datatables.net/
 html_css_files = [
-    'https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css',
+    "https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css",
 ]
 
 html_js_files = [
-    'https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js',
+    "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js",
 ]
 
 # url link checker.  Some links work but report as broken, lets ignore them.

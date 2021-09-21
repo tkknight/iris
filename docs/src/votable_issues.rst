@@ -4,7 +4,9 @@ Votable Issues
 ==============
 
 You can help us to prioritise development of new features by leaving a 👍
-reaction on the first comment of any `enhancement` issue.
+reaction on the first comment of any
+:link-badge:`https://github.com/SciTools/iris/issues?q=is%3Aopen+is%3Aissue+label%3A%22Feature%3A+Voteable%22+sort%3Areactions-%2B1-desc,"Feature: Voteable",cls=badge-info text-white`.
+issue.
 
 Below is a list of all current enhancement issues from our github
 project ordered by the amount of 👍.
@@ -16,6 +18,7 @@ project ordered by the amount of 👍.
    :file: issues.csv
    :class: datatable
    :quote: "
+   :widths: 5 5 10 70
    :header-rows: 1
 
 .. raw:: html
@@ -27,7 +30,7 @@ project ordered by the amount of 👍.
     <script type="text/javascript">
       $(document).ready( function () {
          $('table.datatable').DataTable( {
-            "order": [1, "desc" ],
+            "order": [0, "Likessssss" ],
          } );
       } );
     </script>

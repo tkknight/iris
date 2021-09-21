@@ -1,14 +1,17 @@
-import json
 import csv
-from github import Github
-import os
 import logging
+import os
 from pathlib import Path
+
+from github import Github
 
 # set logging level (NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL)
 logging.basicConfig(level=logging.INFO)
 
 TOKEN_FILE = "github-token.txt"
+ISSUE_RST = ":issue_only:`{number}`"
+AUTHOR_RST = ":author:`{author}`"
+
 
 def autolog_info(message):
     # Dump the message + the name of this function to the log.
@@ -32,7 +35,7 @@ full_path_token = os.path.join(os.getenv("HOME"), ".api_keys", TOKEN_FILE)
 autolog_info(f"Loading GitHub API token from: {full_path_token}")
 token = get_token(full_path_token)
 
- # https://pygithub.readthedocs.io/en/latest/github.html?highlight=page
+# https://pygithub.readthedocs.io/en/latest/github.html?highlight=page
 g = Github(token, per_page=100)
 
 
@@ -50,20 +53,30 @@ autolog_info(
 
 # setup csv output file
 csv_file = csv.writer(open("issues.csv", "w"))
-CSV_HEADER = ["Likes", "number", "author", "title"]
+CSV_HEADER = ["👍", "Issue", "Author", "Title"]
 csv_file.writerow(CSV_HEADER)
 
+
 for i, issue in enumerate(issues):
-    # do not use issue.pull_request as this fires another API call to GitHub (slow)
-    #if issue._pull_request is github.GithubObject.NotSet:
-    plus_one_count=0
-    foo=issue.get_reactions()
+    plus_one_count = 0
+    foo = issue.get_reactions()
 
     for r in issue.get_reactions():
-        #print(r)
-        #print(r.content)
-        if r.content == "+1":
-            plus_one_count=plus_one_count+1
 
-    autolog_info(f"Number = {issue.number} --- +1 = {plus_one_count} --- Author = {issue.author}--- Title = {issue.title}")
-    csv_file.writerow([plus_one_count, issue.number, issue.title])
+        if r.content == "+1":
+            plus_one_count = plus_one_count + 1
+
+    autolog_info(
+        f"Number = {issue.number :>5}  "
+        f"Likes = {plus_one_count :>4}  "
+        f"Author = {issue.user.login :<20}  "
+        f"Title = {issue.title}"
+    )
+    csv_file.writerow(
+        [
+            plus_one_count,
+            ISSUE_RST.format(number=issue.number),
+            AUTHOR_RST.format(author=issue.user.login),
+            issue.title,
+        ]
+    )
