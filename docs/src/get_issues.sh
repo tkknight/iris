@@ -3,6 +3,7 @@
 rm -f issues.json
 
 # https://docs.github.com/en/rest/reference/issues
-curl https://api.github.com/repos/scitools/iris/issues?state=open > issues.json
+
+#curl https://api.github.com/repos/scitools/iris/issues?state=open > issues.json
 
 python create_issue_csv.py
