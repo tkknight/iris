@@ -26,15 +26,27 @@ project ordered by the amount of 👍.
 
 .. raw:: html
 
-    <!-- JS to enable the datatable features: sortable, paging, search etc
-            https://datatables.net/reference/option/
-            https://datatables.net/  -->
+   <table id="example" class="display" style="width:100%">
+      <thead>
+         <tr>
+            <th>👍</th>
+            <th>Issue</th>
+            <th>Author</th>
+            <th>Title</th>
+         </tr>
+      </thead>
+   </table>
 
-    <script type="text/javascript">
-      $(document).ready( function () {
-         $('table.datatable').DataTable( {
-            "order": [0, "Likessssss" ],
-         } );
-      } );
-    </script>
+   <!-- JS to enable the datatable features: sortable, paging, search etc
+           https://datatables.net/reference/option/
+           https://datatables.net/  -->
+
+   <script type="text/javascript">
+        $(document).ready(function() {
+           $('#example').DataTable( {
+              "ajax": 'votable-issues.json',
+              "order": [[ 0, "desc" ]]
+           } );
+        } );
+   </script>
 

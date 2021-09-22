@@ -1,4 +1,5 @@
 import csv
+import json
 import logging
 import os
 from pathlib import Path
@@ -11,6 +12,11 @@ logging.basicConfig(level=logging.INFO)
 TOKEN_FILE = "github-token.txt"
 ISSUE_RST = ":issue_only:`{number}`"
 AUTHOR_RST = ":author:`{author}`"
+
+ISSUE_HREF = (
+    "<a href='https://github.com/SciTools/iris/issues/{number}'>#{number}</a>"
+)
+AUTHOR_HREF = "<a href='https://github.com/{author}'>@{author}</a>"
 
 
 def autolog_info(message):
@@ -56,10 +62,11 @@ csv_file = csv.writer(open("votable-issues.csv", "w"))
 CSV_HEADER = ["👍", "Issue", "Author", "Title"]
 csv_file.writerow(CSV_HEADER)
 
+votable_json = {}
+votable_list = []
 
 for i, issue in enumerate(issues):
     plus_one_count = 0
-    foo = issue.get_reactions()
 
     for r in issue.get_reactions():
 
@@ -80,3 +87,17 @@ for i, issue in enumerate(issues):
             issue.title,
         ]
     )
+    votable_list.append(
+        [
+            plus_one_count,
+            ISSUE_HREF.format(number=issue.number),
+            AUTHOR_HREF.format(author=issue.user.login),
+            issue.title,
+        ]
+    )
+
+print(votable_list)
+votable_json["data"] = votable_list
+
+with open("votable-issues.json", "w") as f:
+    json.dump(votable_json, f)
