@@ -100,4 +100,4 @@ print(votable_list)
 votable_json["data"] = votable_list
 
 with open("votable-issues.json", "w") as f:
-    json.dump(votable_json, f)
+    json.dump(votable_json, f, indent=4)
