@@ -1,21 +1,24 @@
+.. include:: common_links.inc
+
 .. _votable_issues:
 
 Votable Issues
 ==============
 
 You can help us to prioritise development of new features by leaving a 👍
-reaction on the first comment of any
+reaction on the first comment of any issue that has a label of
 :link-badge:`https://github.com/SciTools/iris/issues?q=is%3Aopen+is%3Aissue+label%3A%22Feature%3A+Voteable%22+sort%3Areactions-%2B1-desc,"Feature: Voteable",cls=badge-info text-white`.
-issue.
+
 
 Below is a list of all current enhancement issues from our github
 project ordered by the amount of 👍.
 
-.. note:: The data in this table is updated daily.
+.. note:: The data in this table is updated daily.  For the latest data
+          please see the `votable issues on GitHub`_
 
 
 .. csv-table::  Votable Issues (sortable)
-   :file: issues.csv
+   :file: votable-issues.csv
    :class: datatable
    :quote: "
    :widths: 5 5 10 70

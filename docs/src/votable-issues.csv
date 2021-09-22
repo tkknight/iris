@@ -1,0 +1,15 @@
+👍,Issue,Author,Title
+3,:issue_only:`3344`,:author:`bjlittle`,Automatic concatenation on loading
+3,:issue_only:`3343`,:author:`bjlittle`,Promotion of dimension coordinates when loading
+3,:issue_only:`3333`,:author:`TomekTrzeciak`,More control over lazy data creation (chunking)
+0,:issue_only:`3331`,:author:`bjlittle`,Efficient cube multiple statistic calculations 
+0,:issue_only:`3330`,:author:`bjlittle`,Support iris.plot.hist and iris.quickplot.hist
+6,:issue_only:`3307`,:author:`pp-mo`,Provide a user-updown feature voting page on the repo
+0,:issue_only:`3294`,:author:`rcomer`,Rationalise percentile methods
+2,:issue_only:`3234`,:author:`kaedonkers`,Unify merge and concatenate
+0,:issue_only:`2793`,:author:`samizdis`,Time units of 'months' or 'years' cause print() to ValueError
+0,:issue_only:`2766`,:author:`djkirkham`,Merge Strategy
+1,:issue_only:`2587`,:author:`PAGWatson`,Concatenate in load_cube?
+0,:issue_only:`1759`,:author:`duncanwp`,Interpolation over derived coordinates
+0,:issue_only:`1526`,:author:`pp-mo`,Load and merge may be highly inefficient with lots of small files
+0,:issue_only:`891`,:author:`shoyer`,Proposal: move iris.cube.Cube to iris.Cube

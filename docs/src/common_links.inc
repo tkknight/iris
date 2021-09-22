@@ -37,6 +37,7 @@
 .. _test-iris-imagehash: https://github.com/SciTools/test-iris-imagehash
 .. _using git: https://docs.github.com/en/github/using-git
 .. _requirements/ci/: https://github.com/SciTools/iris/tree/main/requirements/ci
+.. _voteable issues on GitHub: https://github.com/SciTools/iris/issues?q=is%3Aopen+is%3Aissue+label%3A%22Feature%3A+Voteable%22+sort%3Areactions-%2B1-desc
 
 
 .. comment

@@ -52,7 +52,7 @@ autolog_info(
 )
 
 # setup csv output file
-csv_file = csv.writer(open("issues.csv", "w"))
+csv_file = csv.writer(open("votable-issues.csv", "w"))
 CSV_HEADER = ["👍", "Issue", "Author", "Title"]
 csv_file.writerow(CSV_HEADER)
 
