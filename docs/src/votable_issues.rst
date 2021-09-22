@@ -44,7 +44,8 @@ project ordered by the amount of 👍.
    <script type="text/javascript">
         $(document).ready(function() {
            $('#example').DataTable( {
-              "ajax": 'votable-issues.json',
+              <!-- "ajax": 'votable-issues.json', -->
+              "ajax": 'https://raw.githubusercontent.com/tkknight/iris/votable_issues/docs/src/votable-issues.json',
               "order": [[ 0, "desc" ]]
            } );
         } );
