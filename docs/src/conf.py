@@ -165,6 +165,7 @@ extensions = [
     "generate_package_rst",
 ]
 
+
 if skip_api == "1":
     autolog("Skipping the API docs generation (SKIP_API=1)")
 else:
