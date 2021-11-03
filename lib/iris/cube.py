@@ -555,7 +555,9 @@ class CubeList(list):
         else:
             msgs = []
             msgs.append(
-                "Cube names differ: {} != {}".format(names[0], names[1])
+                "Cube names differ: {} != {}".format(
+                    unique_names[0], unique_names[1]
+                )
             )
             raise iris.exceptions.ConcatenateError(msgs)
 
@@ -1976,7 +1978,7 @@ class Cube(CFVariableMixin):
 
         Returns:
 
-        * mesh (:class:`iris.experimental.ugrid.Mesh` or None):
+        * mesh (:class:`iris.experimental.ugrid.mesh.Mesh` or None):
             The mesh of the cube
             :class:`~iris.experimental.ugrid.MeshCoord`\\s,
             or ``None``.
@@ -2934,7 +2936,7 @@ class Cube(CFVariableMixin):
             if split_cell_indices.size:
                 indices = inside_indices[split_cell_indices]
                 cells = bounds[indices]
-                if maximum % modulus not in cells:
+                if maximum - modulus not in cells:
                     # Recalculate the extended minimum only if the output bounds
                     # do not span the requested (minimum, maximum) range.  If
                     # they do span that range, this adjustment would give unexpected

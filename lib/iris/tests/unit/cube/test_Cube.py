@@ -1795,6 +1795,16 @@ class Test_intersection__ModulusBounds(tests.IrisTest):
         self.assertEqual(result.data[0, 0, 0], 180)
         self.assertEqual(result.data[0, 0, -1], 179)
 
+    def test_negative_aligned_bounds_at_modulus(self):
+        cube = create_cube(0.5, 360.5, bounds=True)
+        result = cube.intersection(longitude=(-180, 180))
+        self.assertArrayEqual(
+            result.coord("longitude").bounds[0], [-180, -179]
+        )
+        self.assertArrayEqual(result.coord("longitude").bounds[-1], [179, 180])
+        self.assertEqual(result.data[0, 0, 0], 180)
+        self.assertEqual(result.data[0, 0, -1], 179)
+
     def test_negative_misaligned_points_inside(self):
         cube = create_cube(0, 360, bounds=True)
         result = cube.intersection(longitude=(-10.25, 10.25))
@@ -2052,8 +2062,9 @@ def _add_test_meshcube(self, nomesh=False, n_z=2, **meshcoord_kwargs):
     its components as properties of the 'self' TestCase.
 
     """
+    nomesh_faces = 5 if nomesh else None
     cube, parts = sample_mesh_cube(
-        nomesh=nomesh, n_z=n_z, with_parts=True, **meshcoord_kwargs
+        nomesh_faces=nomesh_faces, n_z=n_z, with_parts=True, **meshcoord_kwargs
     )
     mesh, zco, mesh_dimco, auxco_x, meshx, meshy = parts
     self.mesh = mesh
