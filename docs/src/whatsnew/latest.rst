@@ -26,8 +26,9 @@ This document explains the changes made to Iris for this release
 📢 Announcements
 ================
 
-#. Welcome to `@wjbenfold`_, `@tinyendian`_ and `@larsbarring`_ who made their
-   first contributions to Iris.  The first of many we hope!
+#. Welcome to `@wjbenfold`_, `@tinyendian`_, `@larsbarring`_, `@akuhnregnier`_
+   and `@bsherratt`_ who made their first contributions to Iris.  The first of many we hope!
+#. Congratulations to `@wjbenfold`_ who has become a core developer for Iris! 🎉
 
 
 ✨ Features
@@ -81,14 +82,23 @@ This document explains the changes made to Iris for this release
    :attr:`~iris.experimental.ugrid.mesh.Connectivity.indices` under the
    `UGRID`_ model. (:pull:`4375`)
 
+#. `@bsherratt`_ added a `threshold` parameter to
+   :meth:`~iris.cube.Cube.intersection` (:pull:`4363`)
+
+#. `@wjbenfold`_ added test data to ci benchmarks so that it is accessible to
+   benchmark scripts. Also added a regridding benchmark that uses this data
+   (:pull:`4402`)
+
 
 🐛 Bugs Fixed
 =============
 
-
 #. `@rcomer`_ fixed :meth:`~iris.cube.Cube.intersection` for special cases where
    one cell's bounds align with the requested maximum and negative minimum, fixing
    :issue:`4221`. (:pull:`4278`)
+
+#. `@bsherratt`_ fixed further edge cases in
+   :meth:`~iris.cube.Cube.intersection`, including :issue:`3698` (:pull:`4363`)
 
 #. `@tinyendian`_ fixed the error message produced by :meth:`~iris.cube.CubeList.concatenate_cube`
    when a cube list contains cubes with different names, which will no longer report
@@ -97,6 +107,25 @@ This document explains the changes made to Iris for this release
 
 #. `@larsbarring`_ fixed :class:`~iris.coord_systems.GeoCS` to handle spherical ellipsoid
    parameter inverse_flattening = 0 (:issue: `4146`, :pull:`4348`)
+
+#. `@pdearnshaw`_ fixed an error in the call to :class:`cftime.datetime` in
+   :mod:`~iris.fileformats.pp_save_rules` that prevented the saving to PP of climate
+   means for DJF (:pull:`4391`)
+
+#. `@wjbenfold`_ improved the error message for failure of :meth:`~iris.cube.CubeList.concatenate`
+   to indicate that the value of a scalar coordinate may be mismatched, rather than the metadata
+   (:issue:`4096`, :pull:`4387`)
+
+#. `@bsherratt`_ fixed a regression to the NAME file loader introduced in 3.0.4,
+   as well as some long-standing bugs with vertical coordinates and number
+   formats. (:pull:`4411`)
+
+#. `@rcomer`_ fixed :meth:`~iris.cube.Cube.subset` to alway return ``None`` if
+   no value match is found.  (:pull:`4417`)
+
+#. `@wjbenfold`_ resolved an issue that previously caused regridding with lazy
+   data to take significantly longer than with real data. Relevant benchmark
+   shows a time decrease from >10s to 625ms. (:issue:`4280`, :pull:`4400`)
 
 
 💣 Incompatible Changes
@@ -149,6 +178,12 @@ This document explains the changes made to Iris for this release
 #. `@trexfeathers`_ added more detail on making `iris-test-data`_ available
    during :ref:`developer_running_tests`. (:pull:`4359`)
 
+#. `@lbdreyer`_ added a section to the release documentation outlining the role
+   of the :ref:`release_manager`. (:pull:`4413`)
+
+#. `@trexfeathers`_ encouraged contributors to include type hinting in code
+   they are working on - :ref:`code_formatting`. (:pull:`4390`)
+
 
 💼 Internal
 ===========
@@ -183,11 +218,21 @@ This document explains the changes made to Iris for this release
 #. `@rcomer`_ modified a NetCDF saver test to prevent it triggering a numpy
    deprecation warning.  (:issue:`4374`, :pull:`4376`)
 
+#. `@akuhnregnier`_ removed addition of period from
+   :func:`~iris.analysis.cartography.wrap_lons` and updated affected tests
+   using assertArrayAllClose following :issue:`3993`.
+   (:pull:`4421`)
+
+#. `@rcomer`_ applied minor fixes to some regridding tests. (:pull:`4432`)
+
 .. comment
     Whatsnew author names (@github name) in alphabetical order. Note that,
     core dev names are automatically included by the common_links.inc:
 
+.. _@akuhnregnier: https://github.com/akuhnregnier
+.. _@bsherratt: https://github.com/bsherratt
 .. _@larsbarring: https://github.com/larsbarring
+.. _@pdearnshaw: https://github.com/pdearnshaw
 .. _@tinyendian: https://github.com/tinyendian
 
 .. comment
