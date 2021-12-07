@@ -54,3 +54,8 @@ ul.squarelist {
   text-indent: 1em;
   padding-left: 5em;
 }
+
+/* color of the background for the top navbar */
+.navbar {
+  background-color: rgb(231, 231, 231)!important;
+}
