@@ -26,19 +26,20 @@ This document explains the changes made to Iris for this release
 📢 Announcements
 ================
 
-#. Welcome to `@wjbenfold`_, `@tinyendian`_, `@larsbarring`_, `@akuhnregnier`_
-   and `@bsherratt`_ who made their first contributions to Iris.  The first of many we hope!
+#. Welcome to `@wjbenfold`_, `@tinyendian`_, `@larsbarring`_, `@akuhnregnier`_,
+   `@bsherratt`_ and `@aaronspring`_ who made their first contributions to Iris.
+   The first of many we hope!
 #. Congratulations to `@wjbenfold`_ who has become a core developer for Iris! 🎉
 
 
 ✨ Features
 ===========
 
-#. `@bjlittle`_, `@pp-mo`_ and `@trexfeathers`_ added support for unstructured
-   meshes, as described by `UGRID`_. This involved adding a data model (:pull:`3968`,
-   :pull:`4014`, :pull:`4027`, :pull:`4036`, :pull:`4053`) and API (:pull:`4063`,
-   :pull:`4064`), and supporting representation (:pull:`4033`, :pull:`4054`) of
-   data on meshes.
+#. `@bjlittle`_, `@pp-mo`_, `@trexfeathers`_ and `@stephenworsley`_ added
+   support for unstructured meshes, as described by `UGRID`_. This involved
+   adding a data model (:pull:`3968`, :pull:`4014`, :pull:`4027`, :pull:`4036`,
+   :pull:`4053`, :pull:`4439`) and API (:pull:`4063`, :pull:`4064`), and
+   supporting representation (:pull:`4033`, :pull:`4054`) of data on meshes.
    Most of this new API can be found in :mod:`iris.experimental.ugrid`. The key
    objects introduced are :class:`iris.experimental.ugrid.mesh.Mesh`,
    :class:`iris.experimental.ugrid.mesh.MeshCoord` and
@@ -126,6 +127,14 @@ This document explains the changes made to Iris for this release
 #. `@wjbenfold`_ resolved an issue that previously caused regridding with lazy
    data to take significantly longer than with real data. Relevant benchmark
    shows a time decrease from >10s to 625ms. (:issue:`4280`, :pull:`4400`)
+
+#. `@wjbenfold`_ changed :meth:`iris.util.points_step` to stop it from warning
+   when applied to a single point (:issue:`4250`, :pull:`4367`)
+
+#. `@trexfeathers`_ changed :class:`~iris.coords._DimensionalMetadata` and
+   :class:`~iris.experimental.ugrid.Connectivity` equality methods to preserve
+   array laziness, allowing efficient comparisons even with larger-than-memory
+   objects. (:pull:`4439`)
 
 
 💣 Incompatible Changes
@@ -222,13 +231,28 @@ This document explains the changes made to Iris for this release
    :func:`~iris.analysis.cartography.wrap_lons` and updated affected tests
    using assertArrayAllClose following :issue:`3993`.
    (:pull:`4421`)
+   
+#. `@rcomer`_ updated some tests to work with Matplotlib v3.5. (:pull:`4428`)
 
 #. `@rcomer`_ applied minor fixes to some regridding tests. (:pull:`4432`)
+
+#. `@lbdreyer`_ corrected the license PyPI classifier. (:pull:`4435`)
+
+#. `@aaronspring <https://github.com/aaronspring>`_ exchanged `dask` with
+   `dask-core` in testing environments reducing the number of dependencies
+   installed for testing. (:pull:`4434`)
+
+#. `@wjbenfold`_ prevented github action runs in forks (:issue:`4441`,
+   :pull:`4444`)
+
+#. `@wjbenfold`_ fixed tests for hybrid formulae that weren't being found by
+   nose (:issue:`4431`, :pull:`4450`)
 
 .. comment
     Whatsnew author names (@github name) in alphabetical order. Note that,
     core dev names are automatically included by the common_links.inc:
 
+.. _@aaronspring: https://github.com/aaronspring
 .. _@akuhnregnier: https://github.com/akuhnregnier
 .. _@bsherratt: https://github.com/bsherratt
 .. _@larsbarring: https://github.com/larsbarring
