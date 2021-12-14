@@ -757,7 +757,29 @@ class Test_aggregated_by(tests.IrisTest):
         res_cube = self.cube.aggregated_by("label", self.mock_agg)
         val_coord = AuxCoord(
             np.array([1.0, 0.5, 1.0]),
-            bounds=np.array([[0, 2], [0, 1], [2, 0]]),
+            bounds=np.array([[0, 2], [0, 1], [0, 2]]),
+            long_name="val",
+        )
+        label_coord = AuxCoord(
+            np.array(["alpha", "beta", "gamma"]),
+            long_name="label",
+            units="no_unit",
+        )
+        self.assertEqual(res_cube.coord("val"), val_coord)
+        self.assertEqual(res_cube.coord("label"), label_coord)
+
+    def test_agg_by_label_bounded(self):
+        # Aggregate a cube on a string coordinate label where label
+        # and val entries are not in step; the resulting cube has a val
+        # coord of bounded cells and a label coord of single string entries.
+        val_points = self.cube.coord("val").points
+        self.cube.coord("val").bounds = np.array(
+            [val_points - 0.5, val_points + 0.5]
+        ).T
+        res_cube = self.cube.aggregated_by("label", self.mock_agg)
+        val_coord = AuxCoord(
+            np.array([1.0, 0.5, 1.0]),
+            bounds=np.array([[-0.5, 2.5], [-0.5, 1.5], [-0.5, 2.5]]),
             long_name="val",
         )
         label_coord = AuxCoord(
@@ -890,7 +912,7 @@ class Test_aggregated_by__lazy(tests.IrisTest):
         res_cube = self.cube.aggregated_by("label", MEAN)
         val_coord = AuxCoord(
             np.array([1.0, 0.5, 1.0]),
-            bounds=np.array([[0, 2], [0, 1], [2, 0]]),
+            bounds=np.array([[0, 2], [0, 1], [0, 2]]),
             long_name="val",
         )
         label_coord = AuxCoord(
@@ -1662,11 +1684,8 @@ class Test_intersection__GlobalSrcModulus(tests.IrisTest):
         cube = create_cube(0, 360)
         cube.coord("longitude").convert_units("radians")
         result = cube.intersection(longitude=(-1, 0.5))
-        self.assertEqual(
-            result.coord("longitude").points[0], -0.99483767363676634
-        )
-        self.assertEqual(
-            result.coord("longitude").points[-1], 0.48869219055841207
+        self.assertArrayAllClose(
+            result.coord("longitude").points, np.arange(-57, 29) * np.pi / 180
         )
         self.assertEqual(result.data[0, 0, 0], 303)
         self.assertEqual(result.data[0, 0, -1], 28)
@@ -1795,6 +1814,16 @@ class Test_intersection__ModulusBounds(tests.IrisTest):
         self.assertEqual(result.data[0, 0, 0], 180)
         self.assertEqual(result.data[0, 0, -1], 179)
 
+    def test_negative_aligned_bounds_at_modulus(self):
+        cube = create_cube(0.5, 360.5, bounds=True)
+        result = cube.intersection(longitude=(-180, 180))
+        self.assertArrayEqual(
+            result.coord("longitude").bounds[0], [-180, -179]
+        )
+        self.assertArrayEqual(result.coord("longitude").bounds[-1], [179, 180])
+        self.assertEqual(result.data[0, 0, 0], 180)
+        self.assertEqual(result.data[0, 0, -1], 179)
+
     def test_negative_misaligned_points_inside(self):
         cube = create_cube(0, 360, bounds=True)
         result = cube.intersection(longitude=(-10.25, 10.25))
@@ -1899,6 +1928,71 @@ class Test_intersection__ModulusBounds(tests.IrisTest):
         np.testing.assert_array_almost_equal(
             result_lons.bounds[-1], np.array([60.0, 60.1], dtype=dtype)
         )
+
+    def test_ignore_bounds_wrapped(self):
+        # Test `ignore_bounds` fully ignores bounds when wrapping
+        cube = create_cube(0, 360, bounds=True)
+        result = cube.intersection(
+            longitude=(10.25, 370.25), ignore_bounds=True
+        )
+        # Expect points 11..370 not bounds [9.5, 10.5] .. [368.5, 369.5]
+        self.assertArrayEqual(
+            result.coord("longitude").bounds[0], [10.5, 11.5]
+        )
+        self.assertArrayEqual(
+            result.coord("longitude").bounds[-1], [369.5, 370.5]
+        )
+        self.assertEqual(result.data[0, 0, 0], 11)
+        self.assertEqual(result.data[0, 0, -1], 10)
+
+    def test_within_cell(self):
+        # Test cell is included when it entirely contains the requested range
+        cube = create_cube(0, 10, bounds=True)
+        result = cube.intersection(longitude=(0.7, 0.8))
+        self.assertArrayEqual(result.coord("longitude").bounds[0], [0.5, 1.5])
+        self.assertArrayEqual(result.coord("longitude").bounds[-1], [0.5, 1.5])
+        self.assertEqual(result.data[0, 0, 0], 1)
+        self.assertEqual(result.data[0, 0, -1], 1)
+
+    def test_threshold_half(self):
+        cube = create_cube(0, 10, bounds=True)
+        result = cube.intersection(longitude=(1, 6.999), threshold=0.5)
+        self.assertArrayEqual(result.coord("longitude").bounds[0], [0.5, 1.5])
+        self.assertArrayEqual(result.coord("longitude").bounds[-1], [5.5, 6.5])
+        self.assertEqual(result.data[0, 0, 0], 1)
+        self.assertEqual(result.data[0, 0, -1], 6)
+
+    def test_threshold_full(self):
+        cube = create_cube(0, 10, bounds=True)
+        result = cube.intersection(longitude=(0.5, 7.499), threshold=1)
+        self.assertArrayEqual(result.coord("longitude").bounds[0], [0.5, 1.5])
+        self.assertArrayEqual(result.coord("longitude").bounds[-1], [5.5, 6.5])
+        self.assertEqual(result.data[0, 0, 0], 1)
+        self.assertEqual(result.data[0, 0, -1], 6)
+
+    def test_threshold_wrapped(self):
+        # Test that a cell is wrapped to `maximum` if required to exceed
+        # the threshold
+        cube = create_cube(-180, 180, bounds=True)
+        result = cube.intersection(longitude=(0.4, 360.4), threshold=0.2)
+        self.assertArrayEqual(result.coord("longitude").bounds[0], [0.5, 1.5])
+        self.assertArrayEqual(
+            result.coord("longitude").bounds[-1], [359.5, 360.5]
+        )
+        self.assertEqual(result.data[0, 0, 0], 181)
+        self.assertEqual(result.data[0, 0, -1], 180)
+
+    def test_threshold_wrapped_gap(self):
+        # Test that a cell is wrapped to `maximum` if required to exceed
+        # the threshold (even with a gap in the range)
+        cube = create_cube(-180, 180, bounds=True)
+        result = cube.intersection(longitude=(0.4, 360.35), threshold=0.2)
+        self.assertArrayEqual(result.coord("longitude").bounds[0], [0.5, 1.5])
+        self.assertArrayEqual(
+            result.coord("longitude").bounds[-1], [359.5, 360.5]
+        )
+        self.assertEqual(result.data[0, 0, 0], 181)
+        self.assertEqual(result.data[0, 0, -1], 180)
 
 
 def unrolled_cube():
@@ -2052,8 +2146,9 @@ def _add_test_meshcube(self, nomesh=False, n_z=2, **meshcoord_kwargs):
     its components as properties of the 'self' TestCase.
 
     """
+    nomesh_faces = 5 if nomesh else None
     cube, parts = sample_mesh_cube(
-        nomesh=nomesh, n_z=n_z, with_parts=True, **meshcoord_kwargs
+        nomesh_faces=nomesh_faces, n_z=n_z, with_parts=True, **meshcoord_kwargs
     )
     mesh, zco, mesh_dimco, auxco_x, meshx, meshy = parts
     self.mesh = mesh
@@ -2278,13 +2373,19 @@ class Test__init__mesh(tests.IrisTest):
                 aux_coords_and_dims=[(meshco_1, 0), (meshco_2, 0)],
             )
 
+    def test_meshcoords_equal_meshes(self):
+        meshco_x = sample_meshcoord(axis="x")
+        meshco_y = sample_meshcoord(axis="y")
+        n_faces = meshco_x.shape[0]
+        Cube(
+            np.zeros(n_faces),
+            aux_coords_and_dims=[(meshco_x, 0), (meshco_y, 0)],
+        )
+
     def test_fail_meshcoords_different_meshes(self):
-        # Same as successful 'multi_mesh', but not sharing the same mesh.
-        # This one *is* an error.
-        # But that could relax in future, if we allow mesh equality testing
-        # (i.e. "mesh_a == mesh_b" when not "mesh_a is mesh_b")
         meshco_x = sample_meshcoord(axis="x")
         meshco_y = sample_meshcoord(axis="y")  # Own (different) mesh
+        meshco_y.mesh.long_name = "new_name"
         n_faces = meshco_x.shape[0]
         with self.assertRaisesRegex(ValueError, "Mesh.* does not match"):
             Cube(
@@ -2339,11 +2440,20 @@ class Test__add_aux_coord__mesh(tests.IrisTest):
         cube.add_aux_coord(new_meshco_y, 1)
         self.assertEqual(len(cube.coords(mesh_coords=True)), 3)
 
+    def test_add_equal_mesh(self):
+        # Make a duplicate y-meshco, and rename so it can add into the cube.
+        cube = self.cube
+        # Create 'meshco_y' duplicate, but a new mesh
+        meshco_y = sample_meshcoord(axis="y")
+        cube.add_aux_coord(meshco_y, 1)
+        self.assertIn(meshco_y, cube.coords(mesh_coords=True))
+
     def test_fail_different_mesh(self):
         # Make a duplicate y-meshco, and rename so it can add into the cube.
         cube = self.cube
         # Create 'meshco_y' duplicate, but a new mesh
         meshco_y = sample_meshcoord(axis="y")
+        meshco_y.mesh.long_name = "new_name"
         msg = "does not match existing cube mesh"
         with self.assertRaisesRegex(ValueError, msg):
             cube.add_aux_coord(meshco_y, 1)
@@ -2408,17 +2518,18 @@ class Test__eq__mesh(tests.IrisTest):
         cube2 = cube.copy()
         self.assertEqual(cube, cube2)
 
-    def test_same_mesh_match(self):
+    def test_equal_mesh_match(self):
         cube1 = self.cube
         # re-create an identical cube, using the same mesh.
-        _add_test_meshcube(self, mesh=self.mesh)
+        _add_test_meshcube(self)
         cube2 = self.cube
         self.assertEqual(cube1, cube2)
 
     def test_new_mesh_different(self):
         cube1 = self.cube
-        # re-create an identical cube, using the same mesh.
+        # re-create an identical cube, using a different mesh.
         _add_test_meshcube(self)
+        self.cube.mesh.long_name = "new_name"
         cube2 = self.cube
         self.assertNotEqual(cube1, cube2)
 
@@ -2505,6 +2616,15 @@ class TestSubset(tests.IrisTest):
     def test_different_coordinate(self):
         cube = Cube(0, long_name="raspberry", units="1")
         cube.add_aux_coord(DimCoord([0], long_name="loganberry", units="1"))
+        different_coord = DimCoord([2], long_name="loganberry", units="1")
+        result = cube.subset(different_coord)
+        self.assertEqual(result, None)
+
+    def test_different_coordinate_vector(self):
+        cube = Cube([0, 1], long_name="raspberry", units="1")
+        cube.add_dim_coord(
+            DimCoord([0, 1], long_name="loganberry", units="1"), 0
+        )
         different_coord = DimCoord([2], long_name="loganberry", units="1")
         result = cube.subset(different_coord)
         self.assertEqual(result, None)
