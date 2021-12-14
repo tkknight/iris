@@ -13,11 +13,14 @@ reaction on the first comment of any issue that has a label of
 Below is a list of all current enhancement issues from our github
 project ordered by the amount of 👍.
 
+Please note that there is more development activity than what it on the below
+table, this is focusing only on the voteable issues.
+
 .. note:: The data in this table is updated daily.  For the latest data
           please see the `votable issues on GitHub`_
 
 
-.. csv-table::  Votable Issues (sortable)
+.. foo-csv-table::  Votable Issues (sortable)
    :file: votable-issues.csv
    :class: datatable
    :quote: "
@@ -46,6 +49,7 @@ project ordered by the amount of 👍.
            $('#example').DataTable( {
               <!-- "ajax": 'votable-issues.json', -->
               "ajax": 'https://raw.githubusercontent.com/tkknight/iris/votable_issues/docs/src/votable-issues.json',
+              "pageLength": 20,
               "order": [[ 0, "desc" ]]
            } );
         } );
