@@ -16,8 +16,12 @@ project ordered by the amount of 👍.
 Please note that there is more development activity than what it on the below
 table, this is focusing only on the voteable issues.
 
-.. note:: The data in this table is updated daily.  For the latest data
-          please see the `votable issues on GitHub`_
+.. todo:: add link to the repo holding the json file
+
+.. todo:: spell check "votable vs voteable" and update all occurences.
+
+.. note:: The data in this table is updated daily and is source from HERE.
+          For the latest data please see the `voteable issues on GitHub`_
 
 
 .. foo-csv-table::  Votable Issues (sortable)
