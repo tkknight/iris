@@ -1,6 +1,6 @@
+.. include:: common_links.inc
 .. _iris_docs:
 
-.. include:: common_links.inc
 
 Iris
 ====
