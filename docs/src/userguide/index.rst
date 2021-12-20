@@ -17,8 +17,7 @@ links in order to understand the guide but they may serve as a useful reference 
 
 
 .. toctree::
-   :maxdepth: 1
-   :caption: User Guide
+   :maxdepth: 2
 
    iris_cubes
    loading_iris_cubes
@@ -33,12 +32,4 @@ links in order to understand the guide but they may serve as a useful reference 
    cube_maths
    citation
    code_maintenance
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Further Topics
-
    ../further_topics/index
-   ../further_topics/metadata
-   ../further_topics/lenient_metadata
-   ../further_topics/lenient_maths

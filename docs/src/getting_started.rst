@@ -3,12 +3,13 @@
 Getting Started
 ===============
 
-.. todo:: Write something here...
+To get started with Iris we recommend reading :ref:`why_iris` was created and to
+explore the examples in the :ref:`gallery_index` after :ref:`installing_iris`
+Iris.
 
 .. toctree::
   :maxdepth: 1
-  :caption: Getting Started
 
   why_iris
   installing
-  generated/gallery/index  
+  generated/gallery/index

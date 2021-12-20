@@ -1,9 +1,7 @@
 .. _why_iris:
 
-Why Iris?
-=========
-
-.. todo:: this is the standard blurb from the old index pages
+Why Iris
+========
 
 **A powerful, format-agnostic, community-driven Python package for analysing
 and visualising Earth science data.**

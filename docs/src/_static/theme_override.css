@@ -1,7 +1,7 @@
 /* import the standard theme css */
 @import url("css/theme.css"); 
 
-/* now we can add custom any css */
+/* now we can add custom css.... */
 
 /* Used for very strong warning */
 #slim-red-box-message {
@@ -26,3 +26,26 @@ ul.squarelist {
   text-indent: 1em;
   padding-left: 5em;
 }
+
+
+/* -------------------------------------------------------------------------*/
+/* TREMTEST - NONE of this works.... */
+/* add extra spacing around numfig numbering */
+
+span.caption-number {
+  /* color: #green; !important */
+  /*padding-bottom: 100px; !important */
+  /*line-height: 0.5; !important*/
+   background: #ff0000; !important
+}
+
+span.caption-text::before{
+  content: "\a";
+  white-space: pre;
+}
+
+/*
+span.caption-text {
+  padding-top: 100px; !important
+  line-height: 0.5; !important
+}*/
