@@ -40,11 +40,13 @@ skip_api = os.environ.get("SKIP_API")
 
 # -- Are we running on the readthedocs server, if so do some setup -----------
 on_rtd = os.environ.get("READTHEDOCS") == "True"
+
 # This is the rtd reference to the version, such as: latest, stable, v3.0.1 etc
-# For local testing purposes this could be explicitly set latest or stable.
 rtd_version = os.environ.get("READTHEDOCS_VERSION")
-on_rtd = True  # useful for testing
-rtd_version = "latest"  # useful for testing
+
+# For local testing purposes we can force bneing on RTD and the version
+# on_rtd = True           # useful for testing
+# rtd_version = "latest"  # useful for testing
 
 if on_rtd:
     autolog("Build running on READTHEDOCS server")
@@ -161,7 +163,6 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
 ]
 
-# TREMTEST - REMOVE ME....
 if skip_api == "1":
     autolog("Skipping the API docs generation (SKIP_API=1)")
 else:
@@ -257,38 +258,21 @@ doctest_global_setup = "import iris"
 # a list of builtin themes.
 #
 html_logo = "_static/iris-logo-title.png"
-# TODO: update: https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html?highlight=twitter#adding-favicons
 html_favicon = "_static/favicon.ico"
 html_theme = "pydata_sphinx_theme"
-# TREMTEST: Including this will mess up the scrolling when the left toc is long.....
-html_sidebars = {
-    "**": [
-        # "custom_sidebar_version",
-        "search-field",
-        "sidebar-nav-bs",
-        # "sidebar-ethical-ads",
-    ]
-}
+
 
 # See https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html
 html_theme_options = {
-    "search_bar_text": f"Search the Iris v{version} docs",
-    # "navbar_center": ["navbar-nav", "layout"],
     "footer_items": ["copyright", "sphinx-version", "custom_footer"],
     "navbar_start": ["navbar-logo", "custom_sidebar_logo_version"],
-    # "navbar_center" : ["navbar-nav", "custom_navbar_nav"],
     "collapse_navigation": True,
     "navigation_depth": 3,
     "show_prev_next": True,
     "navbar_align": "content",
-    #    "external_links": [
-    #        {
-    #            "url": "https://scitools.org.uk",
-    #            "name": "SciTools",
-    #        }
-    #   ],
     "github_url": "https://github.com/SciTools/iris",
     "twitter_url": "https://twitter.com/scitools_iris",
+    # icons available: https://fontawesome.com/v5.15/icons?d=gallery&m=free
     "icon_links": [
         {
             "name": "GitHub Discussions",
@@ -362,7 +346,7 @@ sphinx_gallery_conf = {
     "gallery_dirs": ["generated/gallery"],
     # filename pattern for the files in the gallery
     "filename_pattern": "/plot_",
-    # filename patternt to ignore in the gallery
+    # filename pattern to ignore in the gallery
     "ignore_pattern": r"__init__\.py",
 }
 

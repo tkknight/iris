@@ -43,7 +43,7 @@ For more information see :ref:`why_iris`.
     ---
     :img-top: _static/icon_development2.svg
 
-    As a developer you can contribute to Iris.  
+    As a developer you can contribute to Iris.
     +++
     .. link-button:: development_where_to_start
         :type: ref
@@ -70,7 +70,7 @@ For more information see :ref:`why_iris`.
         :text: What's New
         :classes: btn-outline-info btn-block
 
-Icons made by `FreePik <https://www.freepik.com>`_ from 
+Icons made by `FreePik <https://www.freepik.com>`_ from
 `Flaticon <https://www.flaticon.com/>`_
 
 
@@ -98,7 +98,7 @@ Support
    :caption: User Guide
    :maxdepth: 1
    :name: userguide_index
-   :hidden:   
+   :hidden:
 
    userguide/index
 
@@ -107,7 +107,7 @@ Support
    :caption: Developers Guide
    :maxdepth: 1
    :name: developers_index
-   :hidden:   
+   :hidden:
 
    developers_guide/contributing_getting_involved
 
@@ -115,7 +115,7 @@ Support
 .. toctree::
    :caption: Iris API
    :maxdepth: 1
-   :hidden:   
+   :hidden:
 
    generated/api/iris
 
@@ -124,7 +124,7 @@ Support
    :caption: Developers Guide
    :maxdepth: 1
    :name: whats_new_index
-   :hidden:   
+   :hidden:
 
    whatsnew/index
 
@@ -145,7 +145,6 @@ Other pydata themed sites:
    * Issues, Pull requests
    * Discussions
    * Support??
- 
-.. todolist:: 
 
-.. todo:: finalise what icons and links to use in th top right corner.
+.. todolist::
+

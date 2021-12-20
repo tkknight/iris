@@ -18,34 +18,6 @@
   text-decoration: underline;
 }
 
-/* TREMTEST */
-#slim-orange-box-message {
-  background: #ff0000;
-  box-sizing: border-box;
-  color: #ffffff;
-  font-weight: normal;
-  padding-top: 2px;
-  padding-bottom: 2px;  
-  padding-left: 2px;
-  padding-right: 2px;  
-  outline-style: solid;
-  outline-color: #ff0000;
-  text-align: left;
-}
-
-#slim-orange-box-message a {
-  color: #ffffff;
-  font-weight: normal;  
-  text-decoration: underline;
-}
-
-#slim-version-box {
-  /*background: #8d1565; */
-  font-weight: normal;
-  float: right;
-  padding-top: 20px;
-}
-
 /* bullet point list with green ticks */
 ul.squarelist {
   /* https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type */
@@ -53,9 +25,4 @@ ul.squarelist {
   margin-left: 0;
   text-indent: 1em;
   padding-left: 5em;
-}
-
-/* color of the background for the top navbar */
-.navbar {
-  background-color: rgb(231, 231, 231)!important;
 }
