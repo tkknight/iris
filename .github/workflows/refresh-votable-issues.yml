@@ -4,6 +4,13 @@
 name: votable-issues-update
 
 on:
+  workflow_dispatch:
+    inputs:
+      clobber:
+        description: |
+          Force the workflow to run, potentially clobbering any commits already made to the branch. 
+          Enter "yes" or "true" to run.
+        default: "no"
   schedule:
     # * is a special character in YAML so you have to quote this string
     # run once daily at 02:30am
@@ -22,6 +29,7 @@ jobs:
 
       - uses: actions/script@v4
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             docs/src/query_gh_votable_issues.py ${{ secrets.GITHUB_TOKEN }}
             cat votable-issues.json
