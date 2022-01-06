@@ -21,7 +21,7 @@ jobs:
           git checkout HEAD
 
       - uses: actions/script@v4
-      - name: Query GH
+        with:
           script: |
-            docs/src/query_gh_votable_issues.py ${{ secrets.GH_TOKEN }}
+            docs/src/query_gh_votable_issues.py ${{ secrets.GITHUB_TOKEN }}
             cat votable-issues.json
