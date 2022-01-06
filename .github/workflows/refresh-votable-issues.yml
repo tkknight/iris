@@ -1,0 +1,27 @@
+# Uses Github API to get a list of issues that have votes on and then
+# update a gist with the results in json
+
+name: votable-issues-update
+
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # run once daily at 02:30am
+    - cron:  '30 02 * * *'
+
+jobs:
+  votable_main:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Fetch main
+        run: |
+          git checkout HEAD
+
+      - uses: actions/script@v4
+      - name: Query GH
+          script: |
+            docs/src/query_gh_votable_issues.py ${{ secrets.GH_TOKEN }}
+            cat votable-issues.json

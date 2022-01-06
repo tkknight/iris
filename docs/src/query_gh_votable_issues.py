@@ -37,12 +37,15 @@ def get_token(filename):
     return token
 
 
-full_path_token = os.path.join(os.getenv("HOME"), ".api_keys", TOKEN_FILE)
-autolog_info(f"Loading GitHub API token from: {full_path_token}")
-token = get_token(full_path_token)
+# full_path_token = os.path.join(os.getenv("HOME"), ".api_keys", TOKEN_FILE)
+# autolog_info(f"Loading GitHub API token from: {full_path_token}")
+# gh_token = get_token(full_path_token)
+
+gh_token = os.getenv("GH_TOKEN")
+# print(f"gh_token = {gh_token}")
 
 # https://pygithub.readthedocs.io/en/latest/github.html?highlight=page
-g = Github(token, per_page=100)
+g = Github(gh_token, per_page=100)
 
 
 # -- get issues --------------------------------------------------------------
@@ -96,7 +99,7 @@ for i, issue in enumerate(issues):
         ]
     )
 
-print(votable_list)
+# print(votable_list)
 votable_json["data"] = votable_list
 
 with open("votable-issues.json", "w") as f:
