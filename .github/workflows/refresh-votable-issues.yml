@@ -7,11 +7,13 @@ jobs:
   votable_main:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it 
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          path: main
+        run: echo "Hello World!"
+
+#        uses: actions/checkout@v2
+#        with:
+#          path: main
 
 #      - uses: actions/script@v4
 #        with:
