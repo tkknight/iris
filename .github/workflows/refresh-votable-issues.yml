@@ -22,9 +22,10 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it 
-      - uses: actions/checkout@v2
-        run: |
-          git checkout HEAD
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: main
 
       - uses: actions/script@v4
         with:
