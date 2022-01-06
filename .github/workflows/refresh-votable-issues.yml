@@ -1,7 +1,7 @@
 # Uses Github API to get a list of issues that have votes on and then
 # update a gist with the results in json
 
-name: refresh-votable-issues
+name: refresh-votable-issues2
 
 on:
   workflow_dispatch:
