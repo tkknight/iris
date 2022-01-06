@@ -3,13 +3,12 @@
 
 name: refresh-votable-issues2
 
+# https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/
 on:
   workflow_dispatch:
     inputs:
       clobber:
-        description: |
-          Force the workflow to run, potentially clobbering any commits already made to the branch. 
-          Enter "yes" or "true" to run.
+        description: "Force the workflow to run"
         default: "no"
   schedule:
     # * is a special character in YAML so you have to quote this string
@@ -22,7 +21,7 @@ jobs:
   votable_main:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it 
       - name: Checkout
         uses: actions/checkout@v2
         with:
