@@ -2,7 +2,9 @@
 # update a gist with the results in json
 
 name: Refresh Votable Issues
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    branches: [ votable_issues ]
 jobs:
   votable_main:
     runs-on: ubuntu-latest
