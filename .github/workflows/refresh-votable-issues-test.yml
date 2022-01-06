@@ -16,10 +16,11 @@ on:
     # run once daily at 02:30am
     - cron:  '30 02 * * *'
 
+
 jobs:
+
   votable_main:
     runs-on: ubuntu-latest
-
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
