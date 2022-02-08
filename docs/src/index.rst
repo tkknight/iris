@@ -13,6 +13,8 @@ giving you a powerful, format-agnostic interface for working with your data.
 It excels when working with multi-dimensional Earth Science data, where tabular
 representations become unwieldy and inefficient.
 
+.. image:: https://img.shields.io/badge/License-LGPL_v3-blue.svg
+
 For more information see :ref:`why_iris`.
 
 
