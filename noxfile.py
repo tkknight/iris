@@ -16,7 +16,7 @@ from nox.logger import logger
 nox.options.reuse_existing_virtualenvs = True
 
 #: Python versions we can run sessions under
-_PY_VERSIONS_ALL = ["3.7", "3.8"]
+_PY_VERSIONS_ALL = ["3.8"]
 _PY_VERSION_LATEST = _PY_VERSIONS_ALL[-1]
 
 #: One specific python version for docs builds
@@ -27,6 +27,13 @@ PY_VER = os.environ.get("PY_VER", _PY_VERSIONS_ALL)
 
 #: Default cartopy cache directory.
 CARTOPY_CACHE_DIR = os.environ.get("HOME") / Path(".local/share/cartopy")
+
+# https://github.com/numpy/numpy/pull/19478
+# https://github.com/matplotlib/matplotlib/pull/22099
+#: Common session environment variables.
+ENV = dict(
+    NPY_DISABLE_CPU_FEATURES="AVX512F,AVX512CD,AVX512VL,AVX512BW,AVX512DQ,AVX512_SKX"
+)
 
 
 def session_lockfile(session: nox.sessions.Session) -> Path:
@@ -210,6 +217,7 @@ def tests(session: nox.sessions.Session):
     """
     prepare_venv(session)
     session.install("--no-deps", "--editable", ".")
+    session.env.update(ENV)
     session.run(
         "python",
         "-m",
@@ -232,6 +240,7 @@ def doctest(session: nox.sessions.Session):
     """
     prepare_venv(session)
     session.install("--no-deps", "--editable", ".")
+    session.env.update(ENV)
     session.cd("docs")
     session.run(
         "make",
@@ -280,7 +289,7 @@ def linkcheck(session: nox.sessions.Session):
     )
 
 
-@nox.session(python=PY_VER[-1], venv_backend="conda")
+@nox.session(python=PY_VER, venv_backend="conda")
 @nox.parametrize(
     ["ci_mode"],
     [True, False],
@@ -288,7 +297,7 @@ def linkcheck(session: nox.sessions.Session):
 )
 def benchmarks(session: nox.sessions.Session, ci_mode: bool):
     """
-    Perform esmf-regrid performance benchmarks (using Airspeed Velocity).
+    Perform Iris performance benchmarks (using Airspeed Velocity).
 
     Parameters
     ----------
@@ -306,6 +315,47 @@ def benchmarks(session: nox.sessions.Session, ci_mode: bool):
 
     """
     session.install("asv", "nox")
+
+    data_gen_var = "DATA_GEN_PYTHON"
+    if data_gen_var in os.environ:
+        print("Using existing data generation environment.")
+    else:
+        print("Setting up the data generation environment...")
+        # Get Nox to build an environment for the `tests` session, but don't
+        #  run the session. Will re-use a cached environment if appropriate.
+        session.run_always(
+            "nox",
+            "--session=tests",
+            "--install-only",
+            f"--python={session.python}",
+        )
+        # Find the environment built above, set it to be the data generation
+        #  environment.
+        data_gen_python = next(
+            Path(".nox").rglob(f"tests*/bin/python{session.python}")
+        ).resolve()
+        session.env[data_gen_var] = data_gen_python
+
+        mule_dir = data_gen_python.parents[1] / "resources" / "mule"
+        if not mule_dir.is_dir():
+            print("Installing Mule into data generation environment...")
+            session.run_always(
+                "git",
+                "clone",
+                "https://github.com/metomi/mule.git",
+                str(mule_dir),
+                external=True,
+            )
+        session.run_always(
+            str(data_gen_python),
+            "-m",
+            "pip",
+            "install",
+            str(mule_dir / "mule"),
+            external=True,
+        )
+
+    print("Running ASV...")
     session.cd("benchmarks")
     # Skip over setup questions for a new machine.
     session.run("asv", "machine", "--yes")
@@ -319,7 +369,14 @@ def benchmarks(session: nox.sessions.Session, ci_mode: bool):
         #  Else: compare to previous commit.
         previous_commit = os.environ.get("PR_BASE_SHA", "HEAD^1")
         try:
-            asv_exec("continuous", "--factor=1.2", previous_commit, "HEAD")
+            asv_exec(
+                "continuous",
+                "--factor=1.2",
+                previous_commit,
+                "HEAD",
+                "--attribute",
+                "rounds=4",
+            )
         finally:
             asv_exec("compare", previous_commit, "HEAD")
     else:

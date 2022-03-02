@@ -13,7 +13,7 @@ that may be of interest to the more advanced or curious user.
 .. hint::
 
    If you wish further documentation on any specific topics or areas of Iris
-   that are missing, then please let us know by raising a `GitHub Documentation Issue`_
+   that are missing, then please let us know by raising a :issue:`GitHub Documentation Issue<new/choose>`
    on `SciTools/Iris`_.
 
 
@@ -23,6 +23,6 @@ that may be of interest to the more advanced or curious user.
    ../further_topics/metadata
    ../further_topics/lenient_metadata
    ../further_topics/lenient_maths
+   ../further_topics/ugrid/index
 
-.. _GitHub Documentation Issue: https://github.com/SciTools/iris/issues/new?assignees=&labels=New%3A+Documentation%2C+Type%3A+Documentation&template=documentation.md&title=
 .. _SciTools/iris: https://github.com/SciTools/iris
