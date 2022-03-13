@@ -41,6 +41,9 @@ This document explains the changes made to Iris for this release
 #. `@rcomer`_ reverted part of the change from :pull:`3906` so that
    :func:`iris.plot.plot` no longer defaults to placing a "Y" coordinate (e.g.
    latitude) on the y-axis of the plot. (:issue:`4493`, :pull:`4601`)
+   
+#. `@rcomer`_ enabled passing of scalar objects to :func:`~iris.plot.plot` and 
+   :func:`~iris.plot.scatter`. (:pull:`4616`)
 
 
 💣 Incompatible Changes
@@ -72,13 +75,17 @@ This document explains the changes made to Iris for this release
 📚 Documentation
 ================
 
-#. N/A
+#. `@tkknight`_ added a page to show the issues that have been voted for.  See
+   :ref:`voted_issues`. (:issue:`3307`, :pull:`4617`)
 
 
 💼 Internal
 ===========
 
-#. N/A
+#. `@trexfeathers`_ and `@pp-mo`_ finished implementing a mature benchmarking
+   infrastructure (see :ref:`contributing.benchmarks`), building on 2 hard
+   years of lessons learned 🎉. (:pull:`4477`, :pull:`4562`, :pull:`4571`,
+   :pull:`4583`, :pull:`4621`)
 
 
 .. comment
