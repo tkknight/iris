@@ -15,6 +15,7 @@ representations become unwieldy and inefficient.
 
 For more information see :ref:`why_iris`.
 
+.. todo:: panels and top navigaiton link to page top not the header (else it will be scrolled down a bit)
 
 .. panels::
     :container: container-lg pb-3
@@ -27,7 +28,7 @@ For more information see :ref:`why_iris`.
     Information on Iris, how to install and a selection of examples that
     create plots.
     +++
-    .. link-button:: getting_started_index
+    .. link-button:: getting_started
         :type: ref
         :text: Getting Started
         :classes: btn-outline-info btn-block
@@ -77,9 +78,9 @@ For more information see :ref:`why_iris`.
     ---
     :img-top: _static/icon_thumb.png
 
-    Vote for issues to raise the profile.
+    Raise the profile of issues by voting on them.
     +++
-    .. link-button:: voted_issues
+    .. link-button:: voted_issues_top
         :type: ref
         :text: Voted Issues
         :classes: btn-outline-info btn-block
@@ -88,12 +89,11 @@ For more information see :ref:`why_iris`.
 Icons made by `FreePik <https://www.freepik.com>`_ from
 `Flaticon <https://www.flaticon.com/>`_
 
-.. todo:: update all icons to include citation or find free ones.
-
-.. todo:: align the thumbs up icon better (should be same aspect ratio as the others)
 
 Support
 ~~~~~~~
+
+.. todo:: stack overflowe still recommeneded?
 
 We have adopted GitHub `discussions`_ to capture any discussions or
 Support questions related to Iris.

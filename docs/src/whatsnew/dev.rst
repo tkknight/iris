@@ -76,7 +76,7 @@ This document explains the changes made to Iris for this release
 ================
 
 #. `@tkknight`_ added a page to show the issues that have been voted for.  See
-   :ref:`voted_issues`. (:issue:`3307`, :pull:`4617`)
+   :ref:`voted_issues_top`. (:issue:`3307`, :pull:`4617`)
 
 
 💼 Internal

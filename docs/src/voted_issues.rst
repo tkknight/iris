@@ -1,6 +1,6 @@
-.. include:: common_links.inc
+.. _voted_issues_top:
 
-.. _voted_issues:
+.. include:: common_links.inc
 
 Voted Issues
 ============
