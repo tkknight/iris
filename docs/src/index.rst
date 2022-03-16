@@ -107,6 +107,8 @@ The legacy support resources:
 .. todo:: Post messages on legacy support channels driving traffic to
           Github discussions instead.
 
+.. todo:: Add add a link/panel to the voted issues? :ref:`voted_issues`
+
 .. toctree::
    :caption: Getting Started
    :maxdepth: 1
@@ -148,3 +150,5 @@ The legacy support resources:
    :hidden:
 
    whatsnew/index
+
+.. todolist::

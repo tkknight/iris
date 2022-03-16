@@ -63,5 +63,3 @@ If you are new to using GitHub we recommend reading the
    ../techpapers/index
    ../copyright
    ../voted_issues
-
-

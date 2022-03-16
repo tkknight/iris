@@ -45,7 +45,8 @@ on_rtd = os.environ.get("READTHEDOCS") == "True"
 rtd_version = os.environ.get("READTHEDOCS_VERSION")
 
 # For local testing purposes we can force being on RTD and the version
-# on_rtd = True           # useful for testing
+on_rtd = True  # useful for testing
+rtd_version = "latest"  # useful for testing
 # rtd_version = "stable"  # useful for testing
 
 if on_rtd:
@@ -265,11 +266,20 @@ html_logo = "_static/iris-logo-title.png"
 html_favicon = "_static/favicon.ico"
 html_theme = "pydata_sphinx_theme"
 
+# TREMTEST
+html_sidebars = {
+    "**": [
+        "custom_sidebar_logo_version",
+        "search-field",
+        "sidebar-nav-bs",
+        "sidebar-ethical-ads",
+    ]
+}
 
 # See https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html
 html_theme_options = {
     "footer_items": ["copyright", "sphinx-version", "custom_footer"],
-    "navbar_start": ["navbar-logo", "custom_sidebar_logo_version"],
+    # "navbar_start": ["navbar-logo", "custom_sidebar_logo_version"],
     "collapse_navigation": True,
     "navigation_depth": 3,
     "show_prev_next": True,
