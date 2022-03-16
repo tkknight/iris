@@ -321,6 +321,15 @@ html_css_files = [
     "theme_override.css",
 ]
 
+# this allows for using datatables: https://datatables.net/
+html_css_files = [
+    "https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css",
+]
+
+html_js_files = [
+    "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js",
+]
+
 # url link checker.  Some links work but report as broken, lets ignore them.
 # See https://www.sphinx-doc.org/en/1.2/config.html#options-for-the-linkcheck-builder
 linkcheck_ignore = [
@@ -335,6 +344,7 @@ linkcheck_ignore = [
     "https://software.ac.uk/how-cite-software",
     "http://www.esrl.noaa.gov/psd/data/gridded/conventions/cdc_netcdf_standard.shtml",
     "http://www.nationalarchives.gov.uk/doc/open-government-licence",
+    "https://www.metoffice.gov.uk/",
 ]
 
 # list of sources to exclude from the build.

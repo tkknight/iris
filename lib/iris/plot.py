@@ -591,7 +591,7 @@ def _fixup_dates(coord, values):
             r = [datetime.datetime(*date) for date in dates]
         else:
             try:
-                import nc_time_axis
+                import nc_time_axis  # noqa: F401
             except ImportError:
                 msg = (
                     "Cannot plot against time in a non-gregorian "
@@ -603,12 +603,10 @@ def _fixup_dates(coord, values):
                 raise IrisError(msg)
 
             r = [
-                nc_time_axis.CalendarDateTime(
-                    cftime.datetime(*date, calendar=coord.units.calendar),
-                    coord.units.calendar,
-                )
+                cftime.datetime(*date, calendar=coord.units.calendar)
                 for date in dates
             ]
+
         values = np.empty(len(r), dtype=object)
         values[:] = r
     return values
@@ -654,13 +652,13 @@ def _get_plot_objects(args):
         u_object, v_object = args[:2]
         u, v = _uv_from_u_object_v_object(u_object, v_object)
         args = args[2:]
-        if len(u) != len(v):
+        if u.size != v.size:
             msg = (
                 "The x and y-axis objects are not compatible. They should "
                 "have equal sizes but got ({}: {}) and ({}: {})."
             )
             raise ValueError(
-                msg.format(u_object.name(), len(u), v_object.name(), len(v))
+                msg.format(u_object.name(), u.size, v_object.name(), v.size)
             )
     else:
         # single argument
@@ -675,7 +673,7 @@ def _get_plot_objects(args):
         if (
             isinstance(v_object, iris.cube.Cube)
             and isinstance(u_object, iris.coords.Coord)
-            and iris.util.guess_coord_axis(u_object) in ["Y", "Z"]
+            and iris.util.guess_coord_axis(u_object) == "Z"
         ):
             u_object, v_object = v_object, u_object
             u, v = v, u

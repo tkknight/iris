@@ -37,7 +37,7 @@ If you are new to using GitHub we recommend reading the
           `Governance <https://scitools.org.uk/organisation.html#governance>`_
           section of the `SciTools`_ ogranization web site.
 
-.. _GitHub getting started: https://docs.github.com/en/github/getting-started-with-github          
+.. _GitHub getting started: https://docs.github.com/en/github/getting-started-with-github
 
 
 .. toctree::
@@ -50,7 +50,7 @@ If you are new to using GitHub we recommend reading the
    contributing_documentation
    contributing_codebase_index
    contributing_changes
-   release   
+   release
 
 
 .. toctree::
@@ -62,5 +62,6 @@ If you are new to using GitHub we recommend reading the
    ../whatsnew/index
    ../techpapers/index
    ../copyright
+   ../voted_issues
 
 

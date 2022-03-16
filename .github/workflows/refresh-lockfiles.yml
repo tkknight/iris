@@ -2,7 +2,7 @@
 # available packages and dependencies.
 #
 # Environment specifications are given as conda environment.yml files found in
-# `requirements/ci/py**.yml`.  These state the pacakges required, the conda channels
+# `requirements/ci/py**.yml`.  These state the packages required, the conda channels
 # that the packages will be pulled from, and any versions of packages that need to be
 # pinned at specific versions.
 #
@@ -14,50 +14,14 @@ name: Refresh Lockfiles
 
 on:
   workflow_dispatch:
-    inputs:
-      clobber:
-        description: |
-          Force the workflow to run, potentially clobbering any commits already made to the branch. 
-          Enter "yes" or "true" to run.
-        default: "no"
   schedule:
     # Run once a week on a Saturday night 
-    - cron: 1 0 * * 6
+    # N.B. "should" be quoted, according to
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onschedule
+    - cron: "1 0 * * 6"
 
 
 jobs:
-  
-  no_clobber:
-    if: "github.repository == 'SciTools/iris'"
-    runs-on: ubuntu-latest
-    steps:
-      # check if the auto-update-lockfiles branch exists.  If it does, and someone other than
-      # the lockfile bot has made the head commit, abort the workflow.
-      # This job can be manually overridden by running directly from the github actions panel
-      # (known as a "workflow_dispatch") and setting the `clobber` input to "yes".
-      - uses: actions/script@v5.1.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            if (context.eventName == "workflow_dispatch") {
-              const clobber = context.payload.inputs.clobber || "no";
-              if (["yes", "true", "y"].includes(clobber.trim().toLowerCase())) {
-                core.info("Manual override, continuing workflow, potentially overwriting previous commits to auto-update-lockfiles");
-                return
-              }
-            }
-            github.repos.getBranch({...context.repo, branch: "auto-update-lockfiles"}).then(res => {
-              const committer = res.data.commit.commit.committer;
-              if (committer && committer.name === "Lockfile bot") {
-                core.info("Lockfile bot was the last to push to auto-update-lockfiles. Continue.");
-              } else {
-                core.setFailed("New commits to auto-update-lockfiles since bot last ran. Abort!");
-              }
-            }).catch(err => {
-              if (err.status === 404) {
-                  core.info("auto-update-lockfiles branch not found, continue");
-              }
-            })
 
   gen_lockfiles:
     # this is a matrix job: it splits to create new lockfiles for each
@@ -67,14 +31,13 @@ jobs:
     #       ref: https://tomasvotruba.com/blog/2020/11/16/how-to-make-dynamic-matrix-in-github-actions/
     if: "github.repository == 'SciTools/iris'"
     runs-on: ubuntu-latest
-    needs: no_clobber
     
     strategy:
       matrix:
         python: ['38']
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: install conda-lock
         run: |
           source $CONDA/bin/activate base
@@ -96,7 +59,7 @@ jobs:
     needs: gen_lockfiles
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: get artifacts
         uses: actions/download-artifact@v2
         with:
@@ -109,7 +72,7 @@ jobs:
         
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@f22a7da129c901513876a2380e2dae9f8e145330
+        uses: peter-evans/create-pull-request@18f7dc018cc2cd597073088f7c7591b9d1c02672
         with:
           commit-message: Updated environment lockfiles
           committer: "Lockfile bot <noreply@github.com>"
@@ -119,6 +82,8 @@ jobs:
           title: "[iris.ci] environment lockfiles auto-update"
           body: |
             Lockfiles updated to the latest resolvable environment.
+
+            If the CI test suite fails, create a new branch based of this pull request and add the required fixes to that branch.
           labels: |
             New: Pull Request
             Bot

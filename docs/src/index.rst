@@ -150,7 +150,3 @@ The legacy support resources:
    :hidden:
 
    whatsnew/index
-
-
-.. todolist::
-
