@@ -75,39 +75,36 @@ For more information see :ref:`why_iris`.
         :classes: btn-outline-info btn-block
 
     ---
-    :img-top: _static/icon_support.png
+    :img-top: _static/icon_thumb.png
 
-    Get help from the community.
+    Vote for issues to raise the profile.
     +++
-    .. link-button:: https://github.com/SciTools/iris/discussions
-        :text: Support
+    .. link-button:: voted_issues
+        :type: ref
+        :text: Voted Issues
         :classes: btn-outline-info btn-block
 
 
 Icons made by `FreePik <https://www.freepik.com>`_ from
 `Flaticon <https://www.flaticon.com/>`_
 
+.. todo:: update all icons to include citation or find free ones.
+
+.. todo:: align the thumbs up icon better (should be same aspect ratio as the others)
 
 Support
 ~~~~~~~
 
-We have adopted Github Discussions to capture any discussions or Support
-questions related to Iris.
-
-* `Iris`_ source on Github
-* `Iris GitHub Discussions`_
+We have adopted GitHub `discussions`_ to capture any discussions or
+Support questions related to Iris.
 
 The legacy support resources:
 
 * `Users Google Group <https://groups.google.com/forum/#!forum/scitools-iris>`_
 * `Developers Google Group <https://groups.google.com/forum/#!forum/scitools-iris-dev>`_
 * `StackOverflow for "How Do I? <https://stackoverflow.com/questions/tagged/python-iris>`_
-* `Legacy Documentation`_ (version 2.4 or earlier)
+* `Legacy Documentation`_ (Iris 2.4 or earlier)
 
-.. todo:: Post messages on legacy support channels driving traffic to
-          Github discussions instead.
-
-.. todo:: Add add a link/panel to the voted issues? :ref:`voted_issues`
 
 .. toctree::
    :caption: Getting Started
