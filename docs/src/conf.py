@@ -326,10 +326,7 @@ html_context = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
-
-html_css_files = [
-    "theme_override.css",
-]
+html_style = "theme_override.css"
 
 # this allows for using datatables: https://datatables.net/
 html_css_files = [

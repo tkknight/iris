@@ -4,7 +4,7 @@
 /* now we can add custom css.... */
 
 /* Used for very strong warning */
-#slim-red-box-message {
+#slim-red-box-banner {
   background: #ff0000;
   box-sizing: border-box;
   color: #ffffff;
@@ -12,7 +12,7 @@
   padding: 0.5em;
 }
 
-#slim-red-box-message a {
+#slim-red-box-banner a {
   color: #ffffff;
   font-weight: normal;  
   text-decoration: underline;
@@ -26,26 +26,3 @@ ul.squarelist {
   text-indent: 1em;
   padding-left: 5em;
 }
-
-
-/* -------------------------------------------------------------------------*/
-/* TREMTEST - NONE of this works.... */
-/* add extra spacing around numfig numbering */
-
-span.caption-number {
-  /* color: #green; !important */
-  /*padding-bottom: 100px; !important */
-  /*line-height: 0.5; !important*/
-   background: #ff0000; !important
-}
-
-span.caption-text::before{
-  content: "\a";
-  white-space: pre;
-}
-
-/*
-span.caption-text {
-  padding-top: 100px; !important
-  line-height: 0.5; !important
-}*/
