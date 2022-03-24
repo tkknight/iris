@@ -35,4 +35,13 @@ they may serve as a useful reference for future exploration.
    cube_maths
    citation
    code_maintenance
-   ../further_topics/index
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Further Topics
+
+   ../further_topics/metadata
+   ../further_topics/lenient_metadata
+   ../further_topics/lenient_maths
+   ../further_topics/ugrid/index

@@ -15,8 +15,6 @@ representations become unwieldy and inefficient.
 
 For more information see :ref:`why_iris`.
 
-.. todo:: panels and top navigaiton link to page top not the header (else it will be scrolled down a bit)
-
 .. panels::
     :container: container-lg pb-3
     :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2 text-center
