@@ -25,7 +25,7 @@ For more information see :ref:`why_iris`.
     ---
     :img-top: _static/icon_shuttle.svg
 
-    Information on Iris, how to install and a selection of examples that
+    Information on Iris, how to install and a gallery of examples that
     create plots.
     +++
     .. link-button:: getting_started
