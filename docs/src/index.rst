@@ -91,16 +91,16 @@ Icons made by `FreePik <https://www.freepik.com>`_ from
 Support
 ~~~~~~~
 
-.. todo:: stack overflowe still recommeneded?
+We, the Iris developers have adopted GitHub `discussions`_ to capture any
+discussions or support questions related to Iris.
 
-We have adopted GitHub `discussions`_ to capture any discussions or
-Support questions related to Iris.
+See also `StackOverflow for "How Do I? <https://stackoverflow.com/questions/tagged/python-iris>`_
+that may be useful but we do not actively monitor this.
 
 The legacy support resources:
 
 * `Users Google Group <https://groups.google.com/forum/#!forum/scitools-iris>`_
 * `Developers Google Group <https://groups.google.com/forum/#!forum/scitools-iris-dev>`_
-* `StackOverflow for "How Do I? <https://stackoverflow.com/questions/tagged/python-iris>`_
 * `Legacy Documentation`_ (Iris 2.4 or earlier)
 
 
