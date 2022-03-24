@@ -45,6 +45,10 @@ This document explains the changes made to Iris for this release
 #. `@rcomer`_ enabled passing of scalar objects to :func:`~iris.plot.plot` and
    :func:`~iris.plot.scatter`. (:pull:`4616`)
 
+#. `@rcomer`_ fixed :meth:`~iris.cube.Cube.aggregated_by` with `mdtol` for 1D
+   cubes where an aggregated section is entirely masked, reported at
+   :issue:`3190`.  (:pull:`4246`)
+
 
 💣 Incompatible Changes
 =======================
@@ -86,6 +90,8 @@ This document explains the changes made to Iris for this release
    infrastructure (see :ref:`contributing.benchmarks`), building on 2 hard
    years of lessons learned 🎉. (:pull:`4477`, :pull:`4562`, :pull:`4571`,
    :pull:`4583`, :pull:`4621`)
+#. `@wjbenfold`_ made :func:`iris.tests.stock.simple_1d` respect the
+   ``with_bounds`` argument. (:pull:`4658`)
 
 
 .. comment
