@@ -139,7 +139,7 @@ The legacy support resources:
 
 
 .. toctree::
-   :caption: Developers Guide
+   :caption: What's New in Iris
    :maxdepth: 1
    :name: whats_new_index
    :hidden:

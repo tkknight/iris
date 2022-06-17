@@ -76,6 +76,10 @@ This document explains the changes made to Iris for this release
    preserving the time of year. (:issue:`1422`, :issue:`4098`, :issue:`4665`,
    :pull:`4723`)
 
+#. `@wjbenfold`_ and `@pp-mo`_ (reviewer) implemented the
+   :class:`~iris.coord_systems.PolarStereographic` CRS. (:issue:`4770`,
+   :pull:`4773`)
+
 
 🐛 Bugs Fixed
 =============
@@ -120,6 +124,14 @@ This document explains the changes made to Iris for this release
 #. `@wjbenfold`_ fixed plotting of circular coordinates to extend kwarg arrays
    as well as the data. (:issue:`466`, :pull:`4649`)
 
+#. `@wjbenfold`_ and `@rcomer`_ (reviewer) corrected the axis on which masking
+   is applied when an aggregator adds a trailing dimension. (:pull:`4755`)
+
+*  `@rcomer`_ and  `@pp-mo`_  ensured that all methods to create or modify a
+   :class:`iris.cube.CubeList` check that it only contains cubes.  According to
+   code comments, this was supposedly already the case, but there were several bugs
+   and loopholes.
+
 
 💣 Incompatible Changes
 =======================
@@ -133,12 +145,20 @@ This document explains the changes made to Iris for this release
 #. `@wjbenfold`_ added caching to the calculation of the points array in a
    :class:`~iris.coords.DimCoord` created using
    :meth:`~iris.coords.DimCoord.from_regular`. (:pull:`4698`)
+
 #. `@wjbenfold`_ introduced caching in :func:`_lazy_data._optimum_chunksize` and
    :func:`iris.fileformats.pp_load_rules._epoch_date_hours` to reduce time spent
    repeating calculations. (:pull:`4716`)
 
 #. `@pp-mo`_ made :meth:`~iris.cube.Cube.add_aux_factory` faster.
    (:pull:`4718`)
+
+#. `@wjbenfold`_ and `@rcomer`_ (reviewer) permitted the fast percentile
+   aggregation method to be used on masked data when the missing data tolerance
+   is set to 0. (:issue:`4735`, :pull:`4755`)
+
+#. `@wjbenfold`_ improved the speed of linear interpolation using 
+   :meth:`iris.analysis.trajectory.interpolate` (:pull:`4366`)
 
 
 
@@ -182,6 +202,10 @@ This document explains the changes made to Iris for this release
 #. `@rcomer`_ updated the "Load a Time Series of Data From the NEMO Model"
    gallery example. (:pull:`4741`)
 
+#. `@wjbenfold`_ added developer documentation to highlight some of the
+   utilities offered by :class:`iris.IrisTest` and how to update CML and other
+   output files. (:issue:`4544`, :pull:`4600`)
+
 
 💼 Internal
 ===========
@@ -197,6 +221,9 @@ This document explains the changes made to Iris for this release
 
 #. `@wjbenfold`_ made :func:`iris.tests.stock.simple_1d` respect the
    ``with_bounds`` argument. (:pull:`4658`)
+
+#. `@bjlittle`_ migrated to GitHub Actions for Continuous-Integration.
+   (:pull:`4503`)
 
 
 .. comment
