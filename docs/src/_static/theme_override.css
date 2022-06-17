@@ -26,3 +26,23 @@ ul.squarelist {
   text-indent: 1em;
   padding-left: 5em;
 }
+
+
+
+/* TREMTEST - DELETE THIS SECTION IF IT DOES NOT WORK */
+html[data-theme="dark"] {
+  button.toggle-button {
+    color: red;
+    background: pink;
+  }
+
+  .toggle-button summary {
+    color: red;
+    background-color: green;
+    background: pink;
+  }
+}
+
+html[data-theme="dark"] {
+  --pst-color-primary: white;
+}

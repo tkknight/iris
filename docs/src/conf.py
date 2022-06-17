@@ -157,6 +157,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
     "sphinx_panels",
+    "sphinx_togglebutton",
     # TODO: Spelling extension disabled until the dependencies can be included
     # "sphinxcontrib.spelling",
     "sphinx_gallery.gen_gallery",
@@ -172,6 +173,11 @@ else:
     extensions.extend(
         ["custom_class_autodoc", "custom_data_autodoc", "generate_package_rst"]
     )
+
+# -- togglebutton extension ---------------------------------------------------
+# See https://sphinx-togglebutton.readthedocs.io/en/latest/use.html#dropdown-admonitions
+togglebutton_hint = ""
+togglebutton_hint_hide = ""
 
 # -- panels extension ---------------------------------------------------------
 # See https://sphinx-panels.readthedocs.io/en/latest/
@@ -266,7 +272,6 @@ doctest_global_setup = "import iris"
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_logo = "_static/iris-logo-title.png"
 html_favicon = "_static/favicon.ico"
 html_theme = "pydata_sphinx_theme"
 
@@ -309,6 +314,10 @@ html_theme_options = {
     ],
     "use_edit_page_button": True,
     "show_toc_level": 1,
+    "logo": {
+        "image_light": "iris-logo-title.png",
+        "image_dark": "iris-logo-title-dark.png",
+    },
 }
 
 html_context = {
@@ -323,6 +332,7 @@ html_context = {
     "version": version,
     "copyright_years": copyright_years,
     "python_version": build_python_version,
+    "default_mode": "auto",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
