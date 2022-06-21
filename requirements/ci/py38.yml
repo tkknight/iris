@@ -47,4 +47,6 @@ dependencies:
   - sphinx-copybutton
   - sphinx-gallery
   - sphinx-panels
-  - pydata-sphinx-theme = 0.8.1
+  - pydata-sphinx-theme
+  - sphinx-togglebutton
+

@@ -27,7 +27,8 @@ To represent the Voronoi Polygons as faces, the corner coordinates will be used
 as the **nodes** when creating the Iris
 :class:`~iris.experimental.ugrid.mesh.Mesh`.
 
-.. dropdown:: :opticon:`code`
+.. admonition:: Click to show/hide code
+    :class: toggle
 
     .. code-block:: python
 
@@ -115,7 +116,8 @@ as the **nodes** when creating the Iris
 :class:`~iris.experimental.ugrid.mesh.Mesh`.
 
 
-.. dropdown:: :opticon:`code`
+.. admonition:: Click to show/hide code
+    :class: toggle
 
     .. code-block:: python
 

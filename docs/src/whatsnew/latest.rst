@@ -7,7 +7,7 @@ This document explains the changes made to Iris for this release
 (:doc:`View all changes <index>`.)
 
 .. todo:: new expandable info box vs old panel pulldown that does not
-          adapt to the dakr mode theme.
+          adapt to the dark mode theme.
 
 .. admonition:: |iris_version| Release Highlights
    :class: toggle
