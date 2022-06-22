@@ -272,7 +272,7 @@ doctest_global_setup = "import iris"
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_logo = "_static/iris-logo-title.svg"
+# html_logo = "_static/iris-logo-title.svg"
 html_favicon = "_static/iris-logo.svg"
 html_theme = "pydata_sphinx_theme"
 
@@ -315,10 +315,10 @@ html_theme_options = {
     ],
     "use_edit_page_button": True,
     "show_toc_level": 1,
-    # "logo": {
-    #    "image_light": "iris-logo-title.png",
-    #    "image_dark": "iris-logo-title-dark.png",
-    # },
+    "logo": {
+        "image_light": "iris-logo-title.svg",
+        "image_dark": "iris-logo-title-dark.svg",
+    },
 }
 
 html_context = {

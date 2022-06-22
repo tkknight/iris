@@ -378,7 +378,8 @@ All the existing loading functionality still operates on UGRID-compliant
 data - :class:`~iris.Constraint`\s, callbacks, :func:`~iris.load_cube`
 etcetera:
 
-.. dropdown:: :opticon:`code`
+.. admonition:: Click to show/hide code
+    :class: toggle
 
     .. doctest:: ugrid_operations
 

@@ -134,7 +134,7 @@ The Iris cube to represent this data would consist of:
 Pictorially the cube has taken on more information than a simple array:
 
 
-.. image:: multi_array_to_cube.png
+.. image:: multi_array_to_cube.svg
 
 
 Additionally further information may be optionally attached to the cube.

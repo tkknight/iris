@@ -6,25 +6,7 @@
 This document explains the changes made to Iris for this release
 (:doc:`View all changes <index>`.)
 
-.. todo:: new expandable info box vs old panel pulldown that does not
-          adapt to the dark mode theme.
-
 .. admonition:: |iris_version| Release Highlights
-   :class: toggle
-
-   The highlights for this minor release of Iris include:
-
-   * N/A
-
-   And finally, get in touch with us on :issue:`GitHub<new/choose>` if you have
-   any issues or feature requests for improving Iris. Enjoy!
-
-
-.. dropdown:: :opticon:`report` |iris_version| Release Highlights
-   :container: + shadow
-   :title: text-primary text-center font-weight-bold
-   :animate: fade-in
-   :open:
 
    The highlights for this minor release of Iris include:
 

@@ -42,7 +42,7 @@ the below table.
               "ajax": 'https://raw.githubusercontent.com/scitools/voted_issues/main/voted-issues.json',
               "lengthMenu": [10, 25, 50, 100],
               "pageLength": 10,
-              "order": [[ 0, "desc" ]]
+              "order": [[ 0, "desc" ]],
            } );
         } );
    </script>
