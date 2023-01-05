@@ -767,6 +767,18 @@ def _data_bytes_to_shaped_array(
 
     else:
         # Reform in row-column order
+        actual_length = np.prod(data.shape)
+        if (expected_length := np.prod(data_shape)) != actual_length:
+            if (expected_length < actual_length) and (data.ndim == 1):
+                # known use case where mule adds padding to data payload
+                # for a collapsed field.
+                data = data[:expected_length]
+            else:
+                emsg = (
+                    f"PP field data containing {actual_length} words does not "
+                    f"match expected length of {expected_length} words."
+                )
+                raise ValueError(emsg)
         data.shape = data_shape
 
     # Mask the array
@@ -1066,7 +1078,7 @@ class PPField(metaclass=ABCMeta):
     def calendar(self):
         """Return the calendar of the field."""
         # TODO #577 What calendar to return when ibtim.ic in [0, 3]
-        calendar = cf_units.CALENDAR_GREGORIAN
+        calendar = cf_units.CALENDAR_STANDARD
         if self.lbtim.ic == 2:
             calendar = cf_units.CALENDAR_360_DAY
         elif self.lbtim.ic == 4:

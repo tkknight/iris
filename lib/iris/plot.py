@@ -13,11 +13,13 @@ See also: :ref:`matplotlib <matplotlib:users-guide-index>`.
 
 import collections
 import datetime
+import warnings
 
 import cartopy.crs as ccrs
 from cartopy.geodesic import Geodesic
 import cartopy.mpl.geoaxes
 import cftime
+import matplotlib.animation as animation
 import matplotlib.axes
 import matplotlib.collections as mpl_collections
 import matplotlib.dates as mpl_dates
@@ -587,14 +589,14 @@ def _fixup_dates(coord, values):
         # Convert coordinate values into tuples of
         # (year, month, day, hour, min, sec)
         dates = [coord.units.num2date(val).timetuple()[0:6] for val in values]
-        if coord.units.calendar == "gregorian":
+        if coord.units.calendar == "standard":
             r = [datetime.datetime(*date) for date in dates]
         else:
             try:
                 import nc_time_axis  # noqa: F401
             except ImportError:
                 msg = (
-                    "Cannot plot against time in a non-gregorian "
+                    "Cannot plot against time in a non-standard "
                     'calendar, because "nc_time_axis" is not available :  '
                     "Install the package from "
                     "https://github.com/SciTools/nc-time-axis to enable "
@@ -645,7 +647,30 @@ def _u_object_from_v_object(v_object):
 
 
 def _get_plot_objects(args):
-    if len(args) > 1 and isinstance(
+    if len(args) > 2 and isinstance(
+        args[2], (iris.cube.Cube, iris.coords.Coord)
+    ):
+        # three arguments
+        u_object, v_object1, v_object2 = args[:3]
+        u1, v1 = _uv_from_u_object_v_object(u_object, v_object1)
+        _, v2 = _uv_from_u_object_v_object(u_object, v_object2)
+        args = args[3:]
+        if u1.size != v1.size or u1.size != v2.size:
+            msg = "The x and y-axis objects are not all compatible. They should have equal sizes but got ({}: {}), ({}: {}) and ({}: {})"
+            raise ValueError(
+                msg.format(
+                    u_object.name(),
+                    u1.size,
+                    v_object1.name(),
+                    v1.size,
+                    v_object2.name(),
+                    v2.size,
+                )
+            )
+        u = u1
+        v = (v1, v2)
+        v_object = (v_object1, v_object2)
+    elif len(args) > 1 and isinstance(
         args[1], (iris.cube.Cube, iris.coords.Coord)
     ):
         # two arguments
@@ -819,6 +844,52 @@ def _draw_1d_from_points(draw_method_name, arg_func, *args, **kwargs):
 
     # Invert y-axis if necessary.
     _invert_yaxis(v_object, axes)
+
+    return result
+
+
+def _draw_two_1d_from_points(draw_method_name, arg_func, *args, **kwargs):
+    """
+    This function is equivalend to _draw_two_1d_from_points but expects two
+    y-axis variables rather than one (such as is required for .fill_between). It
+    can't be used where the y-axis variables are string coordinates. The y-axis
+    variable provided first has precedence where the two differ on whether the
+    axis should be inverted or whether a map should be drawn.
+    """
+    # NB. In the interests of clarity we use "u" to refer to the horizontal
+    # axes on the matplotlib plot and "v" for the vertical axes.
+
+    # retrieve the objects that are plotted on the horizontal and vertical
+    # axes (cubes or coordinates) and their respective values, along with the
+    # argument tuple with these objects removed
+    u_object, v_objects, u, vs, args = _get_plot_objects(args)
+
+    v_object1, _ = v_objects
+    v1, v2 = vs
+
+    # if both u_object and v_object are coordinates then check if a map
+    # should be drawn
+    if (
+        isinstance(u_object, iris.coords.Coord)
+        and isinstance(v_object1, iris.coords.Coord)
+        and _can_draw_map([v_object1, u_object])
+    ):
+        # Replace non-cartopy subplot/axes with a cartopy alternative and set
+        # the transform keyword.
+        kwargs = _ensure_cartopy_axes_and_determine_kwargs(
+            u_object, v_object1, kwargs
+        )
+
+    axes = kwargs.pop("axes", None)
+    draw_method = getattr(axes if axes else plt, draw_method_name)
+    if arg_func is not None:
+        args, kwargs = arg_func(u, v1, v2, *args, **kwargs)
+        result = draw_method(*args, **kwargs)
+    else:
+        result = draw_method(u, v1, v2, *args, **kwargs)
+
+    # Invert y-axis if necessary.
+    _invert_yaxis(v_object1, axes)
 
     return result
 
@@ -1275,11 +1346,6 @@ def outline(cube, coords=None, color="k", linewidth=None, axes=None):
         axes=axes,
     )
 
-    # set the _is_stroked property to get a single color grid.
-    # See https://github.com/matplotlib/matplotlib/issues/1302
-    result._is_stroked = False
-    if hasattr(result, "_wrapped_collection_fix"):
-        result._wrapped_collection_fix._is_stroked = False
     return result
 
 
@@ -1599,6 +1665,45 @@ def scatter(x, y, *args, **kwargs):
     return _draw_1d_from_points("scatter", _plot_args, *args, **kwargs)
 
 
+def fill_between(x, y1, y2, *args, **kwargs):
+    """
+    Plots y1 and y2 against x, and fills the space between them.
+
+    Args:
+
+    * x: :class:`~iris.cube.Cube` or :class:`~iris.coords.Coord`
+        A cube or a coordinate to plot on the x-axis.
+
+    * y1: :class:`~iris.cube.Cube` or :class:`~iris.coords.Coord`
+        First cube or a coordinate to plot on the y-axis.
+
+    * y2: :class:`~iris.cube.Cube` or :class:`~iris.coords.Coord`
+        Second cube or a coordinate to plot on the y-axis.
+
+    Kwargs:
+
+    * axes: :class:`matplotlib.axes.Axes`
+        The axes to use for drawing.  Defaults to the current axes if none
+        provided.
+
+    See :func:`matplotlib.pyplot.fill_between` for details of additional valid
+    keyword arguments.
+
+    """
+    # here we are more specific about argument types than generic 1d plotting
+    if not isinstance(x, (iris.cube.Cube, iris.coords.Coord)):
+        raise TypeError("x must be a cube or a coordinate.")
+    if not isinstance(y1, (iris.cube.Cube, iris.coords.Coord)):
+        raise TypeError("y1 must be a cube or a coordinate.")
+    if not isinstance(y1, (iris.cube.Cube, iris.coords.Coord)):
+        raise TypeError("y2 must be a cube or a coordinate.")
+    args = (x, y1, y2) + args
+    _plot_args = None
+    return _draw_two_1d_from_points(
+        "fill_between", _plot_args, *args, **kwargs
+    )
+
+
 # Provide convenience show method from pyplot
 show = plt.show
 
@@ -1700,3 +1805,114 @@ def citation(text, figure=None, axes=None):
         anchor.patch.set_boxstyle("round, pad=0, rounding_size=0.2")
         axes = axes if axes else figure.gca()
         axes.add_artist(anchor)
+
+
+def animate(cube_iterator, plot_func, fig=None, **kwargs):
+    """
+    Animates the given cube iterator.
+
+    Parameters
+    ----------
+    cube_iterator : iterable of :class:`iris.cube.Cube` objects
+        Each animation frame corresponds to each :class:`iris.cube.Cube`
+        object. See :meth:`iris.cube.Cube.slices`.
+    plot_func : :mod:`iris.plot` or :mod:`iris.quickplot` plotting function
+        Plotting function used to animate. Must accept the signature
+        ``plot_func(cube, vmin=vmin, vmax=vmax, coords=coords)``.
+        :func:`~iris.plot.contourf`, :func:`~iris.plot.contour`,
+        :func:`~iris.plot.pcolor` and :func:`~iris.plot.pcolormesh`
+        all conform to this signature.
+    fig : :class:`matplotlib.figure.Figure` instance, optional
+        By default, the current figure will be used or a new figure instance
+        created if no figure is available. See :func:`matplotlib.pyplot.gcf`.
+    **kwargs : dict, optional
+        Valid keyword arguments:
+
+        coords: list of :class:`~iris.coords.Coord` objects or coordinate names
+            Use the given coordinates as the axes for the plot. The order of the
+            given coordinates indicates which axis to use for each, where the first
+            element is the horizontal axis of the plot and the second element is
+            the vertical axis of the plot.
+        interval: int, float or long
+            Defines the time interval in milliseconds between successive frames.
+            A default interval of 100ms is set.
+        vmin, vmax: int, float or long
+            Color scaling values, see :class:`matplotlib.colors.Normalize` for
+            further details. Default values are determined by the min-max across
+            the data set over the entire sequence.
+
+        See :class:`matplotlib.animation.FuncAnimation` for details of other
+        valid keyword arguments.
+
+    Returns
+    -------
+    :class:`~matplotlib.animation.FuncAnimation` object suitable for
+    saving and or plotting.
+
+    Examples
+    --------
+    >>> import iris
+    >>> from iris import plot as iplt
+    >>> from iris import quickplot as qplt
+    >>> my_cube = iris.load_cube(iris.sample_data_path("A1B_north_america.nc"))
+
+    To animate along a set of :class:`~iris.cube.Cube` slices :
+
+    >>> cube_iter = my_cube.slices(("longitude", "latitude"))
+    >>> ani = iplt.animate(cube_iter, qplt.contourf)
+    >>> iplt.show()
+
+    """
+    kwargs.setdefault("interval", 100)
+    coords = kwargs.pop("coords", None)
+
+    if fig is None:
+        fig = plt.gcf()
+
+    def update_animation_iris(i, cubes, vmin, vmax, coords):
+        # Clearing the figure is currently necessary for compatibility with
+        # the iris quickploting module - due to the colorbar.
+        plt.gcf().clf()
+        plot_func(cubes[i], vmin=vmin, vmax=vmax, coords=coords)
+
+    # Turn cube iterator into a list to determine plot ranges.
+    # NOTE: we check that we are not providing a cube as this has a deprecated
+    # iter special method.
+    if hasattr(cube_iterator, "__iter__") and not isinstance(
+        cube_iterator, iris.cube.Cube
+    ):
+        cubes = iris.cube.CubeList(cube_iterator)
+    else:
+        msg = "iterable type object required for animation, {} given".format(
+            type(cube_iterator)
+        )
+        raise TypeError(msg)
+
+    supported = ["iris.plot", "iris.quickplot"]
+    if plot_func.__module__ not in supported:
+        msg = (
+            'Given plotting module "{}" may not be supported, intended '
+            "use: {}."
+        )
+        msg = msg.format(plot_func.__module__, supported)
+        warnings.warn(msg, UserWarning)
+
+    supported = ["contour", "contourf", "pcolor", "pcolormesh"]
+    if plot_func.__name__ not in supported:
+        msg = (
+            'Given plotting function "{}" may not be supported, intended '
+            "use: {}."
+        )
+        msg = msg.format(plot_func.__name__, supported)
+        warnings.warn(msg, UserWarning)
+
+    # Determine plot range.
+    vmin = kwargs.pop("vmin", min([cc.data.min() for cc in cubes]))
+    vmax = kwargs.pop("vmax", max([cc.data.max() for cc in cubes]))
+
+    update = update_animation_iris
+    frames = range(len(cubes))
+
+    return animation.FuncAnimation(
+        fig, update, frames=frames, fargs=(cubes, vmin, vmax, coords), **kwargs
+    )

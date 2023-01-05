@@ -24,9 +24,10 @@ Custom assertions
 =================
 
 :class:`iris.tests.IrisTest` supports a variety of custom unittest-style
-assertions, such as :meth:`~iris.tests.IrisTest_nometa.assertStringEqual`,
-:meth:`~iris.tests.IrisTest_nometa.assertArrayEqual`,
+assertions, such as :meth:`~iris.tests.IrisTest_nometa.assertArrayEqual`,
 :meth:`~iris.tests.IrisTest_nometa.assertArrayAlmostEqual`.
+
+.. _create-missing:
 
 Saving results
 --------------

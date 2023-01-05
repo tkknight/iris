@@ -3,7 +3,6 @@
 
 .. _black: https://black.readthedocs.io/en/stable/
 .. _cartopy: https://github.com/SciTools/cartopy
-.. _.cirrus.yml: https://github.com/SciTools/iris/blob/main/.cirrus.yml
 .. _flake8: https://flake8.pycqa.org/en/stable/
 .. _.flake8.yml: https://github.com/SciTools/iris/blob/main/.flake8
 .. _cirrus-ci: https://cirrus-ci.com/github/SciTools/iris
@@ -11,16 +10,18 @@
 .. _contributor: https://github.com/SciTools/scitools.org.uk/blob/master/contributors.json
 .. _core developers: https://github.com/SciTools/scitools.org.uk/blob/master/contributors.json
 .. _generating sss keys for GitHub: https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account
+.. _GitHub Actions: https://docs.github.com/en/actions
 .. _GitHub Help Documentation: https://docs.github.com/en/github
 .. _GitHub Discussions: https://github.com/SciTools/iris/discussions
 .. _Iris: https://github.com/SciTools/iris
 .. _Iris GitHub: https://github.com/SciTools/iris
+.. _Iris GitHub Actions: https://github.com/SciTools/iris/actions
 .. _iris-sample-data: https://github.com/SciTools/iris-sample-data
 .. _iris-test-data: https://github.com/SciTools/iris-test-data
 .. _isort: https://pycqa.github.io/isort/
 .. _issue: https://github.com/SciTools/iris/issues
 .. _issues: https://github.com/SciTools/iris/issues
-.. _legacy documentation: https://scitools.org.uk/iris/docs/v2.4.0/
+.. _legacy documentation: https://github.com/SciTools/scitools.org.uk/tree/master/iris/docs/archive
 .. _matplotlib: https://matplotlib.org/stable/
 .. _napolean: https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
 .. _nox: https://nox.thea.codes/en/stable/
@@ -38,6 +39,7 @@
 .. _requirements/ci/: https://github.com/SciTools/iris/tree/main/requirements/ci
 .. _CF-UGRID: https://ugrid-conventions.github.io/ugrid-conventions/
 .. _issues on GitHub: https://github.com/SciTools/iris/issues?q=is%3Aopen+is%3Aissue+sort%3Areactions-%2B1-desc
+.. _python-stratify: https://github.com/SciTools/python-stratify
 
 
 .. comment
@@ -52,6 +54,7 @@
 .. _@cpelley: https://github.com/cpelley
 .. _@djkirkham: https://github.com/djkirkham
 .. _@DPeterK: https://github.com/DPeterK
+.. _@ESadek-MO: https://github.com/ESadek-MO
 .. _@esc24: https://github.com/esc24
 .. _@jamesp: https://github.com/jamesp
 .. _@jonseddon: https://github.com/jonseddon

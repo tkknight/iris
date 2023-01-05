@@ -1309,10 +1309,13 @@ def _calc_percentile(data, percent, fast_percentile_method=False, **kwargs):
                 "ignore",
                 "Warning: 'partition' will ignore the 'mask' of the MaskedArray.",
             )
-            result = np.percentile(data, percent, axis=-1)
+            result = np.percentile(data, percent, axis=-1, **kwargs)
+
         result = result.T
     else:
         quantiles = percent / 100.0
+        for key in ["alphap", "betap"]:
+            kwargs.setdefault(key, 1)
         result = scipy.stats.mstats.mquantiles(
             data, quantiles, axis=-1, **kwargs
         )
@@ -1344,9 +1347,9 @@ def _percentile(data, percent, fast_percentile_method=False, **kwargs):
         alternative to the scipy.mstats.mquantiles method. Does not handle
         masked arrays.
 
-    **kwargs
+    **kwargs : dict, optional
         passed to scipy.stats.mstats.mquantiles if fast_percentile_method is
-        False
+        False.  Otherwise passed to numpy.percentile.
 
     """
     if not isinstance(percent, Iterable):
@@ -1496,18 +1499,21 @@ def _weighted_percentile(
         return result
 
 
-@_build_dask_mdtol_function
-def _lazy_count(array, **kwargs):
-    array = iris._lazy_data.as_lazy_data(array)
+def _count(array, **kwargs):
+    """
+    Counts the number of points along the axis that satisfy the condition
+    specified by ``function``.  Uses Dask's support for NEP13/18 to work as
+    either a lazy or a real function.
+
+    """
     func = kwargs.pop("function", None)
     if not callable(func):
         emsg = "function must be a callable. Got {}."
         raise TypeError(emsg.format(type(func)))
-    return da.sum(func(array), **kwargs)
+    return np.sum(func(array), **kwargs)
 
 
 def _proportion(array, function, axis, **kwargs):
-    count = iris._lazy_data.non_lazy(_lazy_count)
     # if the incoming array is masked use that to count the total number of
     # values
     if ma.isMaskedArray(array):
@@ -1518,7 +1524,7 @@ def _proportion(array, function, axis, **kwargs):
             # case pass the array shape instead of the mask:
             total_non_masked = array.shape[axis]
         else:
-            total_non_masked = count(
+            total_non_masked = _count(
                 array.mask, axis=axis, function=np.logical_not, **kwargs
             )
             total_non_masked = ma.masked_equal(total_non_masked, 0)
@@ -1531,7 +1537,7 @@ def _proportion(array, function, axis, **kwargs):
     # a dtype for its data that is different to the dtype of the fill-value,
     # which can cause issues outside this function.
     # Reference - tests/unit/analyis/test_PROPORTION.py Test_masked.test_ma
-    numerator = count(array, axis=axis, function=function, **kwargs)
+    numerator = _count(array, axis=axis, function=function, **kwargs)
     result = ma.asarray(numerator / total_non_masked)
 
     return result
@@ -1601,23 +1607,33 @@ def _lazy_rms(array, axis, **kwargs):
     return da.sqrt(da.mean(array**2, axis=axis, **kwargs))
 
 
-@_build_dask_mdtol_function
-def _lazy_sum(array, **kwargs):
-    array = iris._lazy_data.as_lazy_data(array)
-    # weighted or scaled sum
+def _sum(array, **kwargs):
+    """
+    Weighted or scaled sum.  Uses Dask's support for NEP13/18 to work as either
+    a lazy or a real function.
+
+    """
     axis_in = kwargs.get("axis", None)
     weights_in = kwargs.pop("weights", None)
     returned_in = kwargs.pop("returned", False)
     if weights_in is not None:
-        wsum = da.sum(weights_in * array, **kwargs)
+        wsum = np.sum(weights_in * array, **kwargs)
     else:
-        wsum = da.sum(array, **kwargs)
+        wsum = np.sum(array, **kwargs)
     if returned_in:
+        al = da if iris._lazy_data.is_lazy_data(array) else np
         if weights_in is None:
-            weights = iris._lazy_data.as_lazy_data(np.ones_like(array))
+            weights = al.ones_like(array)
+            if al is da:
+                # Dask version of ones_like does not preserve masks. See dask#9301.
+                weights = da.ma.masked_array(
+                    weights, da.ma.getmaskarray(array)
+                )
         else:
-            weights = weights_in
-        rvalue = (wsum, da.sum(weights, axis=axis_in))
+            weights = al.ma.masked_array(
+                weights_in, mask=al.ma.getmaskarray(array)
+            )
+        rvalue = (wsum, np.sum(weights, axis=axis_in))
     else:
         rvalue = wsum
     return rvalue
@@ -1737,9 +1753,9 @@ def _peak(array, **kwargs):
 #
 COUNT = Aggregator(
     "count",
-    iris._lazy_data.non_lazy(_lazy_count),
+    _count,
     units_func=lambda units: 1,
-    lazy_func=_lazy_count,
+    lazy_func=_build_dask_mdtol_function(_count),
 )
 """
 An :class:`~iris.analysis.Aggregator` instance that counts the number
@@ -1762,7 +1778,7 @@ To compute the number of *ensemble members* with precipitation exceeding 10
 
 .. seealso:: The :func:`~iris.analysis.PROPORTION` aggregator.
 
-This aggregator handles masked data.
+This aggregator handles masked data and lazy data.
 
 """
 
@@ -1792,7 +1808,7 @@ each grid location could be calculated with::
     result = precip_cube.collapsed('time', iris.analysis.MAX_RUN,
                                    function=lambda values: values > 10)
 
-This aggregator handles masked data, which it treats as interrupting a run.
+This aggregator handles masked data, which it treats as interrupting a run, and lazy data.
 
 """
 MAX_RUN.name = lambda: "max_run"
@@ -1810,7 +1826,7 @@ To compute zonal geometric means over the *longitude* axis of a cube::
 
     result = cube.collapsed('longitude', iris.analysis.GMEAN)
 
-This aggregator handles masked data.
+This aggregator handles masked data, but NOT lazy data.
 
 """
 
@@ -1832,7 +1848,7 @@ To compute zonal harmonic mean over the *longitude* axis of a cube::
     The harmonic mean is only valid if all data values are greater
     than zero.
 
-This aggregator handles masked data.
+This aggregator handles masked data, but NOT lazy data.
 
 """
 
@@ -1898,7 +1914,7 @@ To compute zonal medians over the *longitude* axis of a cube::
 
     result = cube.collapsed('longitude', iris.analysis.MEDIAN)
 
-This aggregator handles masked data.
+This aggregator handles masked data, but NOT lazy data.
 
 """
 
@@ -1917,7 +1933,7 @@ To compute zonal minimums over the *longitude* axis of a cube::
 
     result = cube.collapsed('longitude', iris.analysis.MIN)
 
-This aggregator handles masked data.
+This aggregator handles masked data and lazy data.
 
 """
 
@@ -1936,7 +1952,7 @@ To compute zonal maximums over the *longitude* axis of a cube::
 
     result = cube.collapsed('longitude', iris.analysis.MAX)
 
-This aggregator handles masked data.
+This aggregator handles masked data and lazy data.
 
 """
 
@@ -1962,39 +1978,39 @@ To compute the peak over the *time* axis of a cube::
 
     result = cube.collapsed('time', iris.analysis.PEAK)
 
-This aggregator handles masked data.
+This aggregator handles masked data but NOT lazy data.
 
 """
 
 
-PERCENTILE = PercentileAggregator(alphap=1, betap=1)
+PERCENTILE = PercentileAggregator()
 """
 A :class:`~iris.analysis.PercentileAggregator` instance that calculates the
 percentile over a :class:`~iris.cube.Cube`, as computed by
 :func:`scipy.stats.mstats.mquantiles` (default) or :func:`numpy.percentile` (if
-fast_percentile_method is True).
+``fast_percentile_method`` is True).
 
-**Required** kwargs associated with the use of this aggregator:
+Parameters
+----------
 
-* percent (float or sequence of floats):
+percent : float or sequence of floats
     Percentile rank/s at which to extract value/s.
 
-Additional kwargs associated with the use of this aggregator:
-
-* alphap (float):
+alphap : float, default=1
     Plotting positions parameter, see :func:`scipy.stats.mstats.mquantiles`.
-    Defaults to 1.
-* betap (float):
+betap : float, default=1
     Plotting positions parameter, see :func:`scipy.stats.mstats.mquantiles`.
-    Defaults to 1.
-* fast_percentile_method (boolean):
+fast_percentile_method : bool, default=False
     When set to True, uses :func:`numpy.percentile` method as a faster
-    alternative to the :func:`scipy.stats.mstats.mquantiles` method.  alphap and
-    betap are ignored. An exception is raised if the data are masked and the
-    missing data tolerance is not 0.
-    Defaults to False.
+    alternative to the :func:`scipy.stats.mstats.mquantiles` method.  An
+    exception is raised if the data are masked and the missing data tolerance
+    is not 0.
 
-**For example**:
+**kwargs : dict, optional
+    Passed to :func:`scipy.stats.mstats.mquantiles` or :func:`numpy.percentile`.
+
+Example
+-------
 
 To compute the 10th and 90th percentile over *time*::
 
@@ -2042,7 +2058,7 @@ Similarly, the proportion of *time* precipitation exceeded 10
 
 .. seealso:: The :func:`~iris.analysis.COUNT` aggregator.
 
-This aggregator handles masked data.
+This aggregator handles masked data, but NOT lazy data.
 
 """
 
@@ -2068,7 +2084,7 @@ To compute the zonal root mean square over the *longitude* axis of a cube::
 
     result = cube.collapsed('longitude', iris.analysis.RMS)
 
-This aggregator handles masked data.
+This aggregator handles masked data and lazy data.
 
 """
 
@@ -2102,7 +2118,7 @@ To obtain the biased standard deviation::
 
 .. note::
 
-    Lazy operation is supported, via :func:`dask.array.nanstd`.
+    Lazy operation is supported, via :func:`dask.array.std`.
 
 This aggregator handles masked data.
 
@@ -2111,8 +2127,8 @@ This aggregator handles masked data.
 
 SUM = WeightedAggregator(
     "sum",
-    iris._lazy_data.non_lazy(_lazy_sum),
-    lazy_func=_build_dask_mdtol_function(_lazy_sum),
+    _sum,
+    lazy_func=_build_dask_mdtol_function(_sum),
 )
 """
 An :class:`~iris.analysis.Aggregator` instance that calculates
@@ -2141,7 +2157,7 @@ To compute a weighted rolling sum e.g. to apply a digital filter::
     result = cube.rolling_window('time', iris.analysis.SUM,
                                  len(weights), weights=weights)
 
-This aggregator handles masked data.
+This aggregator handles masked data and lazy data.
 
 """
 
@@ -2176,9 +2192,9 @@ To obtain the biased variance::
 
 .. note::
 
-    Lazy operation is supported, via :func:`dask.array.nanvar`.
+    Lazy operation is supported, via :func:`dask.array.var`.
 
-This aggregator handles masked data.
+This aggregator handles masked data and lazy data.
 
 """
 
@@ -2209,6 +2225,11 @@ Additional kwargs associated with the use of this aggregator:
     Specifies the kind of interpolation used, see
     :func:`scipy.interpolate.interp1d` Defaults to "linear", which is
     equivalent to alphap=0.5, betap=0.5 in `iris.analysis.PERCENTILE`
+
+Notes
+------
+This function does not maintain laziness when called; it realises data.
+See more at :doc:`/userguide/real_and_lazy_data`.
 
 """
 
@@ -2603,6 +2624,11 @@ def clear_phenomenon_identity(cube):
     Helper function to clear the standard_name, attributes, and
     cell_methods of a cube.
 
+
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
     """
     cube.rename(None)
     cube.attributes.clear()

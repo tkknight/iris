@@ -71,7 +71,7 @@ def _label(cube, mode, result=None, ndims=2, coords=None, axes=None):
     if result is not None:
         draw_edges = mode == iris.coords.POINT_MODE
         bar = plt.colorbar(
-            result, orientation="horizontal", drawedges=draw_edges
+            result, ax=axes, orientation="horizontal", drawedges=draw_edges
         )
         has_known_units = not (
             cube.units.is_unknown() or cube.units.is_no_unit()
@@ -308,6 +308,20 @@ def scatter(x, y, *args, **kwargs):
     axes = kwargs.get("axes")
     result = iplt.scatter(x, y, *args, **kwargs)
     _label_1d_plot(x, y, axes=axes)
+    return result
+
+
+def fill_between(x, y1, y2, *args, **kwargs):
+    """
+    Draws a labelled fill_between plot based on the given cubes or coordinates.
+
+    See :func:`iris.plot.fill_between` for details of valid arguments and
+    keyword arguments.
+
+    """
+    axes = kwargs.get("axes")
+    result = iplt.fill_between(x, y1, y2, *args, **kwargs)
+    _label_1d_plot(x, y1, axes=axes)
     return result
 
 

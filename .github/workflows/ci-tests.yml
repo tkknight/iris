@@ -3,7 +3,7 @@
 #   - https://github.com/actions/checkout
 #   - https://github.com/marketplace/actions/setup-miniconda
 
-name: ci-tests 
+name: ci-tests
 
 on:
   push:
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   tests:
-    name: "tests ${{ matrix.os }} ${{ matrix.python-version }}"
+    name: "${{ matrix.session }} (py${{ matrix.python-version }} ${{ matrix.os }})"
 
     runs-on: ${{ matrix.os }}
 
@@ -35,10 +35,18 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.8"]
+        python-version: ["3.10"]
+        session: ["tests", "doctest", "gallery", "linkcheck"]
+        include:
+          - os: "ubuntu-latest"
+            python-version: "3.9"
+            session: "tests"
+          - os: "ubuntu-latest"
+            python-version: "3.8"
+            session: "tests"
 
     env:
-      IRIS_TEST_DATA_VERSION: "2.9"
+      IRIS_TEST_DATA_VERSION: "2.18"
       ENV_NAME: "ci-tests"
 
     steps:
@@ -107,6 +115,7 @@ jobs:
       - name: "iris configure"
         env:
           SITE_CFG: lib/iris/etc/site.cfg
+          MPL_RC: ${HOME}/.config/matplotlib/matplotlibrc
         run: |
           mkdir -p $(dirname ${SITE_CFG})
           echo ${SITE_CFG}
@@ -114,9 +123,14 @@ jobs:
           echo "test_data_dir = ${HOME}/iris-test-data/test_data" >> ${SITE_CFG}
           echo "doc_dir = ${GITHUB_WORKSPACE}/docs" >> ${SITE_CFG}
           cat ${SITE_CFG}
+          mkdir -p $(dirname ${MPL_RC})
+          echo ${MPL_RC}
+          echo "backend : agg" >> ${MPL_RC}
+          echo "image.cmap : viridis" >> ${MPL_RC}
+          cat ${MPL_RC}
 
-      - name: "iris tests"
+      - name: "iris ${{ matrix.session }}"
         env:
           PY_VER: ${{ matrix.python-version }}
         run: |
-          nox --session tests -- --verbose
+          nox --session ${{ matrix.session }} -- --verbose

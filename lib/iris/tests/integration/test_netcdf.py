@@ -14,7 +14,6 @@ from itertools import repeat
 import os.path
 from os.path import join as path_join
 import shutil
-from subprocess import check_call
 import tempfile
 from unittest import mock
 import warnings
@@ -22,17 +21,20 @@ import warnings
 import netCDF4 as nc
 import numpy as np
 import numpy.ma as ma
+import pytest
 
 import iris
 import iris.coord_systems
 from iris.coords import CellMethod, DimCoord
 from iris.cube import Cube, CubeList
+import iris.exceptions
 from iris.fileformats.netcdf import (
     CF_CONVENTIONS_VERSION,
     Saver,
     UnknownCellMethodWarning,
 )
 import iris.tests.stock as stock
+from iris.tests.stock.netcdf import ncgen_from_cdl
 import iris.tests.unit.fileformats.netcdf.test_load_cubes as tlc
 
 
@@ -599,15 +601,15 @@ data:
             cube = iris.load_cube(nc_path)
         test_crs = cube.coord("projection_y_coordinate").coord_system
         actual = str(test_crs.as_cartopy_crs().datum)
-        self.assertStringEqual(expected, actual)
+        self.assertMultiLineEqual(expected, actual)
 
     def test_no_load_datum_wkt(self):
         nc_path = tlc.cdl_to_nc(self.datum_wkt_cdl)
-        with self.assertWarnsRegexp("iris.FUTURE.datum_support"):
+        with self.assertWarnsRegex(FutureWarning, "iris.FUTURE.datum_support"):
             cube = iris.load_cube(nc_path)
         test_crs = cube.coord("projection_y_coordinate").coord_system
         actual = str(test_crs.as_cartopy_crs().datum)
-        self.assertStringEqual(actual, "unknown")
+        self.assertMultiLineEqual(actual, "unknown")
 
     def test_load_datum_cf_var(self):
         expected = "OSGB 1936"
@@ -616,15 +618,15 @@ data:
             cube = iris.load_cube(nc_path)
         test_crs = cube.coord("projection_y_coordinate").coord_system
         actual = str(test_crs.as_cartopy_crs().datum)
-        self.assertStringEqual(expected, actual)
+        self.assertMultiLineEqual(expected, actual)
 
     def test_no_load_datum_cf_var(self):
         nc_path = tlc.cdl_to_nc(self.datum_cf_var_cdl)
-        with self.assertWarnsRegexp("iris.FUTURE.datum_support"):
+        with self.assertWarnsRegex(FutureWarning, "iris.FUTURE.datum_support"):
             cube = iris.load_cube(nc_path)
         test_crs = cube.coord("projection_y_coordinate").coord_system
         actual = str(test_crs.as_cartopy_crs().datum)
-        self.assertStringEqual(actual, "unknown")
+        self.assertMultiLineEqual(actual, "unknown")
 
     def test_save_datum(self):
         expected = "OSGB 1936"
@@ -663,7 +665,7 @@ data:
 
         test_crs = cube.coord("projection_y_coordinate").coord_system
         actual = str(test_crs.as_cartopy_crs().datum)
-        self.assertStringEqual(expected, actual)
+        self.assertMultiLineEqual(expected, actual)
 
 
 def _get_scale_factor_add_offset(cube, datatype):
@@ -864,12 +866,12 @@ data:
         cls.temp_dir = tempfile.mkdtemp()
         cls.path_test_cdl = path_join(cls.temp_dir, "geos_problem.cdl")
         cls.path_test_nc = path_join(cls.temp_dir, "geos_problem.nc")
-        # Create a reference file from the CDL text.
-        with open(cls.path_test_cdl, "w") as f_out:
-            f_out.write(cls._geostationary_problem_cdl)
-        # Call 'ncgen' to make an actual netCDF file from the CDL.
-        command = "ncgen -o {} {}".format(cls.path_test_nc, cls.path_test_cdl)
-        check_call(command, shell=True)
+        # Create reference CDL and netcdf files from the CDL text.
+        ncgen_from_cdl(
+            cdl_str=cls._geostationary_problem_cdl,
+            cdl_path=cls.path_test_cdl,
+            nc_path=cls.path_test_nc,
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -901,6 +903,55 @@ class TestConstrainedLoad(tests.IrisTest):
     def test_netcdf_with_no_constraint(self):
         cubes = iris.load(self.filename)
         self.assertEqual(len(cubes), 3)
+
+
+class TestSkippedCoord:
+    # If a coord/cell measure/etcetera cannot be added to the loaded Cube, a
+    #  Warning is raised and the coord is skipped.
+    # This 'catching' is generic to all CannotAddErrors, but currently the only
+    #  such problem that can exist in a NetCDF file is a mismatch of dimensions
+    #  between phenomenon and coord.
+
+    cdl_core = """
+dimensions:
+    length_scale = 1 ;
+    lat = 3 ;
+variables:
+    float lat(lat) ;
+        lat:standard_name = "latitude" ;
+        lat:units = "degrees_north" ;
+    short lst_unc_sys(length_scale) ;
+        lst_unc_sys:long_name = "uncertainty from large-scale systematic
+        errors" ;
+        lst_unc_sys:units = "kelvin" ;
+        lst_unc_sys:coordinates = "lat" ;
+
+data:
+    lat = 0, 1, 2;
+    """
+
+    @pytest.fixture(autouse=True)
+    def create_nc_file(self, tmp_path):
+        file_name = "dim_mismatch"
+        cdl = f"netcdf {file_name}" + "{\n" + self.cdl_core + "\n}"
+        self.nc_path = (tmp_path / file_name).with_suffix(".nc")
+        ncgen_from_cdl(
+            cdl_str=cdl,
+            cdl_path=None,
+            nc_path=str(self.nc_path),
+        )
+        yield
+        self.nc_path.unlink()
+
+    def test_lat_not_loaded(self):
+        # iris#5068 includes discussion of possible retention of the skipped
+        #  coords in the future.
+        with pytest.warns(
+            match="Missing data dimensions for multi-valued DimCoord"
+        ):
+            cube = iris.load_cube(self.nc_path)
+        with pytest.raises(iris.exceptions.CoordinateNotFoundError):
+            _ = cube.coord("lat")
 
 
 if __name__ == "__main__":

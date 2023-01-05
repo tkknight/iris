@@ -115,6 +115,11 @@ def abs(cube, in_place=False):
     Returns:
         An instance of :class:`iris.cube.Cube`.
 
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
+
     """
     _assert_is_cube(cube)
     new_dtype = _output_dtype(np.abs, cube.dtype, in_place=in_place)
@@ -159,6 +164,11 @@ def intersection_of_cubes(cube, other_cube):
           coords = ["latitude", "longitude"]    # Replace with relevant coords
           intersections = cubes.extract_overlapping(coords)
           cube1, cube2 = (intersections[0], intersections[1])
+
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
 
     """
     wmsg = (
@@ -243,6 +253,11 @@ def add(cube, other, dim=None, in_place=False):
     Returns:
         An instance of :class:`iris.cube.Cube`.
 
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
+
     """
     _assert_is_cube(cube)
     new_dtype = _output_dtype(
@@ -291,6 +306,11 @@ def subtract(cube, other, dim=None, in_place=False):
 
     Returns:
         An instance of :class:`iris.cube.Cube`.
+
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
 
     """
     _assert_is_cube(cube)
@@ -383,6 +403,10 @@ def multiply(cube, other, dim=None, in_place=False):
     Returns:
         An instance of :class:`iris.cube.Cube`.
 
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
     """
     _assert_is_cube(cube)
 
@@ -456,6 +480,10 @@ def divide(cube, other, dim=None, in_place=False):
     Returns:
         An instance of :class:`iris.cube.Cube`.
 
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
     """
     _assert_is_cube(cube)
 
@@ -519,6 +547,10 @@ def exponentiate(cube, exponent, in_place=False):
     Returns:
         An instance of :class:`iris.cube.Cube`.
 
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
     """
     _assert_is_cube(cube)
     new_dtype = _output_dtype(
@@ -567,6 +599,11 @@ def exp(cube, in_place=False):
     Returns:
         An instance of :class:`iris.cube.Cube`.
 
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
+
     """
     _assert_is_cube(cube)
     new_dtype = _output_dtype(np.exp, cube.dtype, in_place=in_place)
@@ -592,6 +629,11 @@ def log(cube, in_place=False):
 
     Returns:
         An instance of :class:`iris.cube.Cube`.
+
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
 
     """
     _assert_is_cube(cube)
@@ -623,6 +665,11 @@ def log2(cube, in_place=False):
     Returns:
         An instance of :class:`iris.cube.Cube`.
 
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
+
     """
     _assert_is_cube(cube)
     new_dtype = _output_dtype(np.log2, cube.dtype, in_place=in_place)
@@ -648,6 +695,11 @@ def log10(cube, in_place=False):
 
     Returns:
         An instance of :class:`iris.cube.Cube`.
+
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
 
     """
     _assert_is_cube(cube)
@@ -702,6 +754,12 @@ def apply_ufunc(
     Example::
 
         cube = apply_ufunc(numpy.sin, cube, in_place=True)
+
+    .. note::
+
+        This function maintains laziness when called; it does not realise data. This is dependent on `ufunc` argument
+        being a numpy operation that is compatible with lazy operation.
+        See more at :doc:`/userguide/real_and_lazy_data`.
 
     """
 
@@ -774,6 +832,7 @@ def _binary_op_common(
     new_dtype=None,
     dim=None,
     in_place=False,
+    sanitise_metadata=True,
 ):
     """
     Function which shares common code between binary operations.
@@ -792,6 +851,8 @@ def _binary_op_common(
                            coordinate that is not found in `cube`
     in_place             - whether or not to apply the operation in place to
                            `cube` and `cube.data`
+    sanitise_metadata    - whether or not to remove metadata using
+                           _sanitise_metadata function
     """
     from iris.cube import Cube
 
@@ -837,6 +898,20 @@ def _binary_op_common(
             raise TypeError(emsg)
         return data
 
+    if in_place and not cube.has_lazy_data():
+        # In-place arithmetic doesn't work if array type of LHS is less complex
+        # than RHS.
+        if iris._lazy_data.is_lazy_data(rhs):
+            cube.data = cube.lazy_data()
+        elif ma.is_masked(rhs) and not isinstance(cube.data, ma.MaskedArray):
+            cube.data = ma.array(cube.data)
+
+    elif isinstance(
+        cube.core_data(), ma.MaskedArray
+    ) and iris._lazy_data.is_lazy_data(rhs):
+        # Workaround for #2987.  numpy#15200 discusses the general problem.
+        cube = cube.copy(cube.lazy_data())
+
     result = _math_op_common(
         cube,
         unary_func,
@@ -844,13 +919,15 @@ def _binary_op_common(
         new_dtype=new_dtype,
         in_place=in_place,
         skeleton_cube=skeleton_cube,
+        sanitise_metadata=sanitise_metadata,
     )
 
     if isinstance(other, Cube):
         # Insert the resultant data from the maths operation
         # within the resolved cube.
         result = resolver.cube(result.core_data(), in_place=in_place)
-        _sanitise_metadata(result, new_unit)
+        if sanitise_metadata:
+            _sanitise_metadata(result, new_unit)
 
     return result
 
@@ -932,6 +1009,7 @@ def _math_op_common(
     new_dtype=None,
     in_place=False,
     skeleton_cube=False,
+    sanitise_metadata=True,
 ):
     from iris.cube import Cube
 
@@ -965,7 +1043,8 @@ def _math_op_common(
     ):
         new_cube.data = ma.masked_array(0, 1, dtype=new_dtype)
 
-    _sanitise_metadata(new_cube, new_unit)
+    if sanitise_metadata:
+        _sanitise_metadata(new_cube, new_unit)
 
     return new_cube
 

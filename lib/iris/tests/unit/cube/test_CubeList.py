@@ -48,7 +48,7 @@ class Test_append(tests.IrisTest):
 class Test_concatenate_cube(tests.IrisTest):
     def setUp(self):
         self.units = Unit(
-            "days since 1970-01-01 00:00:00", calendar="gregorian"
+            "days since 1970-01-01 00:00:00", calendar="standard"
         )
         self.cube1 = Cube([1, 2, 3], "air_temperature", units="K")
         self.cube1.add_dim_coord(
@@ -64,7 +64,7 @@ class Test_concatenate_cube(tests.IrisTest):
         self.assertIsInstance(result, Cube)
 
     def test_fail(self):
-        units = Unit("days since 1970-01-02 00:00:00", calendar="gregorian")
+        units = Unit("days since 1970-01-02 00:00:00", calendar="standard")
         cube2 = Cube([1, 2, 3], "air_temperature", units="K")
         cube2.add_dim_coord(DimCoord([0, 1, 2], "time", units=units), 0)
         with self.assertRaises(iris.exceptions.ConcatenateError):
@@ -733,6 +733,37 @@ class Test_CubeList_copy(tests.IrisTest):
 
     def test_copy(self):
         self.assertIsInstance(self.copied_cube_list, iris.cube.CubeList)
+
+
+class TestHtmlRepr:
+    """
+    Confirm that Cubelist._repr_html_() creates a fresh
+    :class:`iris.experimental.representation.CubeListRepresentation` object, and uses
+    it in the expected way.
+
+    Notes
+    -----
+    This only tests code connectivity.  The functionality is tested elsewhere, at
+    `iris.tests.unit.experimental.representation.test_CubeListRepresentation`
+    """
+
+    @staticmethod
+    def test__repr_html_():
+        test_cubelist = CubeList([])
+
+        target = "iris.experimental.representation.CubeListRepresentation"
+        with mock.patch(target) as class_mock:
+            # Exercise the function-under-test.
+            test_cubelist._repr_html_()
+
+        assert class_mock.call_args_list == [
+            # "CubeListRepresentation()" was called exactly once, with the cubelist as arg
+            mock.call(test_cubelist)
+        ]
+        assert class_mock.return_value.repr_html.call_args_list == [
+            # "CubeListRepresentation(cubelist).repr_html()" was called exactly once, with no args
+            mock.call()
+        ]
 
 
 if __name__ == "__main__":

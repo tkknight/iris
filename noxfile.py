@@ -35,9 +35,7 @@ CARTOPY_CACHE_DIR = os.environ.get("HOME") / Path(".local/share/cartopy")
 # https://github.com/numpy/numpy/pull/19478
 # https://github.com/matplotlib/matplotlib/pull/22099
 #: Common session environment variables.
-ENV = dict(
-    NPY_DISABLE_CPU_FEATURES="AVX512F,AVX512CD,AVX512VL,AVX512BW,AVX512DQ,AVX512_SKX"
-)
+ENV = dict(NPY_DISABLE_CPU_FEATURES="AVX512F,AVX512CD,AVX512_SKX")
 
 
 def session_lockfile(session: nox.sessions.Session) -> Path:
@@ -222,7 +220,22 @@ def doctest(session: nox.sessions.Session):
         "doctest",
         external=True,
     )
-    session.cd("..")
+
+
+@nox.session(python=_PY_VERSION_DOCSBUILD, venv_backend="conda")
+def gallery(session: nox.sessions.Session):
+    """
+    Perform iris gallery doc-tests.
+
+    Parameters
+    ----------
+    session: object
+        A `nox.sessions.Session` object.
+
+    """
+    prepare_venv(session)
+    session.install("--no-deps", "--editable", ".")
+    session.env.update(ENV)
     session.run(
         "python",
         "-m",
@@ -254,6 +267,36 @@ def linkcheck(session: nox.sessions.Session):
     session.run(
         "make",
         "linkcheck",
+        external=True,
+    )
+
+
+@nox.session(python=PY_VER, venv_backend="conda")
+def wheel(session: nox.sessions.Session):
+    """
+    Perform iris local wheel install and import test.
+
+    Parameters
+    ----------
+    session: object
+        A `nox.sessions.Session` object.
+
+    """
+    prepare_venv(session)
+    session.cd("dist")
+    fname = list(Path(".").glob("scitools_iris-*.whl"))
+    if len(fname) == 0:
+        raise ValueError("Cannot find wheel to install.")
+    if len(fname) > 1:
+        emsg = (
+            f"Expected to find 1 wheel to install, found {len(fname)} instead."
+        )
+        raise ValueError(emsg)
+    session.install(fname[0].name)
+    session.run(
+        "python",
+        "-c",
+        "import iris; print(f'{iris.__version__=}')",
         external=True,
     )
 
