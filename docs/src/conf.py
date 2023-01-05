@@ -331,6 +331,7 @@ html_context = {
     "github_user": "scitools",
     "github_version": "main",
     "doc_path": "docs/src",
+    "default_mode": "auto",
     # custom
     "on_rtd": on_rtd,
     "rtd_version": rtd_version,
@@ -338,7 +339,6 @@ html_context = {
     "version": version,
     "copyright_years": copyright_years,
     "python_version": build_python_version,
-    "default_mode": "auto",
     "commit_sha": commit_sha,
 }
 
