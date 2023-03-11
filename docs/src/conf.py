@@ -158,9 +158,6 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
     "sphinx_panels",
-    "sphinx_togglebutton",
-    # TODO: Spelling extension disabled until the dependencies can be included
-    # "sphinxcontrib.spelling",
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
@@ -199,16 +196,6 @@ napoleon_use_rtype = True
 napoleon_use_keyword = True
 napoleon_custom_sections = None
 
-# -- spellingextension --------------------------------------------------------
-# See https://sphinxcontrib-spelling.readthedocs.io/en/latest/customize.html
-spelling_lang = "en_GB"
-# The lines in this file must only use line feeds (no carriage returns).
-spelling_word_list_filename = ["spelling_allow.txt"]
-spelling_show_suggestions = False
-spelling_show_whole_line = False
-spelling_ignore_importable_modules = True
-spelling_ignore_python_builtins = True
-
 # -- copybutton extension -----------------------------------------------------
 # See https://sphinx-copybutton.readthedocs.io/en/latest/
 copybutton_prompt_text = r">>> |\.\.\. "
@@ -241,6 +228,7 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
+    "dask": ("https://docs.dask.org/en/stable/", None),
 }
 
 # The name of the Pygments (syntax highlighting) style to use.
@@ -289,7 +277,8 @@ html_sidebars = {
 
 # See https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/configuring.html
 html_theme_options = {
-    "footer_items": ["copyright", "sphinx-version", "custom_footer"],
+    "footer_start": ["copyright", "sphinx-version"],
+    "footer_end": ["custom_footer"],
     "collapse_navigation": True,
     "navigation_depth": 3,
     "show_prev_next": True,
@@ -381,8 +370,6 @@ linkcheck_ignore = [
     "http://www.esrl.noaa.gov/psd/data/gridded/conventions/cdc_netcdf_standard.shtml",
     "http://www.nationalarchives.gov.uk/doc/open-government-licence",
     "https://www.metoffice.gov.uk/",
-    # TODO: try removing this again in future - was raising an SSLError.
-    "http://www.ecmwf.int/",
 ]
 
 # list of sources to exclude from the build.
