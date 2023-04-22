@@ -542,6 +542,7 @@ class CubeList(list):
         check_aux_coords=True,
         check_cell_measures=True,
         check_ancils=True,
+        check_derived_coords=True,
     ):
         """
         Return the concatenated contents of the :class:`CubeList` as a single
@@ -554,19 +555,29 @@ class CubeList(list):
         Kwargs:
 
         * check_aux_coords
-            Checks the auxiliary coordinates of the cubes match. This check
-            is not applied to auxiliary coordinates that span the dimension
-            the concatenation is occurring along. Defaults to True.
+            Checks if the points and bounds of auxiliary coordinates of the
+            cubes match. This check is not applied to auxiliary coordinates
+            that span the dimension the concatenation is occurring along.
+            Defaults to True.
 
         * check_cell_measures
-            Checks the cell measures of the cubes match. This check
-            is not applied to cell measures that span the dimension
-            the concatenation is occurring along. Defaults to True.
+            Checks if the data of cell measures of the cubes match. This check
+            is not applied to cell measures that span the dimension the
+            concatenation is occurring along. Defaults to True.
 
         * check_ancils
-            Checks the ancillary variables of the cubes match. This check
-            is not applied to ancillary variables that span the dimension
+            Checks if the data of ancillary variables of the cubes match. This
+            check is not applied to ancillary variables that span the dimension
             the concatenation is occurring along. Defaults to True.
+
+        * check_derived_coords
+            Checks if the points and bounds of derived coordinates of the cubes
+            match. This check is not applied to derived coordinates that span
+            the dimension the concatenation is occurring along. Note that
+            differences in scalar coordinates and dimensional coordinates used
+            to derive the coordinate are still checked. Checks for auxiliary
+            coordinates used to derive the coordinates can be ignored with
+            `check_aux_coords`. Defaults to True.
 
         .. note::
 
@@ -587,6 +598,7 @@ class CubeList(list):
                 check_aux_coords=check_aux_coords,
                 check_cell_measures=check_cell_measures,
                 check_ancils=check_ancils,
+                check_derived_coords=check_derived_coords,
             )
             n_res_cubes = len(res)
             if n_res_cubes == 1:
@@ -613,6 +625,7 @@ class CubeList(list):
         check_aux_coords=True,
         check_cell_measures=True,
         check_ancils=True,
+        check_derived_coords=True,
     ):
         """
         Concatenate the cubes over their common dimensions.
@@ -620,19 +633,29 @@ class CubeList(list):
         Kwargs:
 
         * check_aux_coords
-            Checks the auxiliary coordinates of the cubes match. This check
-            is not applied to auxiliary coordinates that span the dimension
-            the concatenation is occurring along. Defaults to True.
+            Checks if the points and bounds of auxiliary coordinates of the
+            cubes match. This check is not applied to auxiliary coordinates
+            that span the dimension the concatenation is occurring along.
+            Defaults to True.
 
         * check_cell_measures
-            Checks the cell measures of the cubes match. This check
-            is not applied to cell measures that span the dimension
-            the concatenation is occurring along. Defaults to True.
+            Checks if the data of cell measures of the cubes match. This check
+            is not applied to cell measures that span the dimension the
+            concatenation is occurring along. Defaults to True.
 
         * check_ancils
-            Checks the ancillary variables of the cubes match. This check
-            is not applied to ancillary variables that span the dimension
+            Checks if the data of ancillary variables of the cubes match. This
+            check is not applied to ancillary variables that span the dimension
             the concatenation is occurring along. Defaults to True.
+
+        * check_derived_coords
+            Checks if the points and bounds of derived coordinates of the cubes
+            match. This check is not applied to derived coordinates that span
+            the dimension the concatenation is occurring along. Note that
+            differences in scalar coordinates and dimensional coordinates used
+            to derive the coordinate are still checked. Checks for auxiliary
+            coordinates used to derive the coordinates can be ignored with
+            `check_aux_coords`. Defaults to True.
 
         Returns:
             A new :class:`iris.cube.CubeList` of concatenated
@@ -718,6 +741,7 @@ class CubeList(list):
             check_aux_coords=check_aux_coords,
             check_cell_measures=check_cell_measures,
             check_ancils=check_ancils,
+            check_derived_coords=check_derived_coords,
         )
 
     def realise_data(self):
@@ -788,8 +812,8 @@ class Cube(CFVariableMixin):
                 time                        \
 1998-12-01 00:00:00, bound=(1994-12-01 00:00:00, 1998-12-01 00:00:00)
             Cell methods:
-                mean within years           time
-                mean over years             time
+                0                           time: mean within years
+                1                           time: mean over years
             Attributes:
                 STASH                       m01s16i203
                 source                      'Data from Met Office Unified Model'
@@ -3775,8 +3799,8 @@ class Cube(CFVariableMixin):
                     longitude                   \
 180.0 degrees, bound=(0.0, 360.0) degrees
                 Cell methods:
-                    mean                        month, year
-                    mean                        longitude
+                    0                           month: year: mean
+                    1                           longitude: mean
                 Attributes:
                     Conventions                 'CF-1.5'
                     STASH                       m01s00i024
@@ -4040,8 +4064,8 @@ x            -              -
                 Scalar coordinates:
                     forecast_period             0 hours
                 Cell methods:
-                    mean                        month, year
-                    mean                        year
+                    0                           month: year: mean
+                    1                           year: mean
                 Attributes:
                     Conventions                 'CF-1.5'
                     STASH                       m01s00i024
@@ -4349,7 +4373,7 @@ x            -               -
                     forecast_reference_time     2011-07-23 00:00:00
                     realization                 10
                 Cell methods:
-                    mean                        time (1 hour)
+                    0                           time: mean (interval: 1 hour)
                 Attributes:
                     STASH                       m01s00i024
                     source                      \
@@ -4374,8 +4398,8 @@ x            -               -
                     forecast_reference_time     2011-07-23 00:00:00
                     realization                 10
                 Cell methods:
-                    mean                        time (1 hour)
-                    mean                        time
+                    0                           time: mean (interval: 1 hour)
+                    1                           time: mean
                 Attributes:
                     STASH                       m01s00i024
                     source                      \
