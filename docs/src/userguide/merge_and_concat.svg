@@ -156,10 +156,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3"
-     inkscape:cx="169.06139"
+     inkscape:cx="128.72806"
      inkscape:cy="106.66667"
      inkscape:document-units="px"
-     inkscape:current-layer="g923"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1718"
      inkscape:window-height="1368"
@@ -182,15 +182,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="back"
-     transform="translate(4.3570225,5.6156321)">
-    <rect
-       style="opacity:1;fill:#e5e5e5;fill-opacity:1"
-       id="rect955"
-       width="458.2052"
-       height="257.85828"
-       x="-2.3570225"
-       y="-3.6156321" />
-  </g>
+     transform="translate(4.3570225,5.6156321)" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"

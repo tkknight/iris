@@ -40,7 +40,7 @@
      id="namedview414"
      showgrid="false"
      inkscape:zoom="0.26223453"
-     inkscape:cx="1110.8243"
+     inkscape:cx="649.40528"
      inkscape:cy="445.20499"
      inkscape:window-x="3633"
      inkscape:window-y="0"
@@ -93,15 +93,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="back">
-    <rect
-       style="opacity:1;fill:#e5e5e5;fill-opacity:1"
-       id="rect1225"
-       width="2234.6409"
-       height="1208.8416"
-       x="-26.693661"
-       y="-43.774708" />
-  </g>
+     inkscape:label="back" />
   <g
      inkscape:groupmode="layer"
      id="layer1"
@@ -1203,6 +1195,7 @@
    x="-589.873"
    y="829"
    id="tspan380">12 </tspan>
+
 ×<tspan
    font-size="46"
    x="-463.831"
@@ -1261,6 +1254,7 @@
    x="195.054"
    y="-119"
    id="tspan400">nod</tspan>
+
 e<tspan
    font-size="46"
    x="295.887"

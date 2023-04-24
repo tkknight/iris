@@ -41,7 +41,7 @@
      id="namedview402"
      showgrid="false"
      inkscape:zoom="0.22633793"
-     inkscape:cx="1825.8891"
+     inkscape:cx="1291.2902"
      inkscape:cy="1262.2172"
      inkscape:window-x="3633"
      inkscape:window-y="0"
@@ -147,15 +147,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer1"
-     inkscape:label="back">
-    <rect
-       style="opacity:1;fill:#e5e5e5;fill-opacity:1;stroke-width:0.8740074"
-       id="rect1013"
-       width="3644.9922"
-       height="1926.3231"
-       x="-53.018017"
-       y="-109.88706" />
-  </g>
+     inkscape:label="back" />
   <g
      inkscape:groupmode="layer"
      id="layer2"
@@ -642,11 +634,13 @@
 
 
 
+
 5<tspan
    font-size="46"
    x="319.472"
    y="86"
    id="tspan180">-</tspan>
+
 
 
 
@@ -660,11 +654,13 @@
 
 
 
+
 20<tspan
    font-size="46"
    x="319.472"
    y="267"
    id="tspan184">-</tspan>
+
 
 
 

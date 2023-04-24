@@ -40,7 +40,7 @@
      id="namedview668"
      showgrid="false"
      inkscape:zoom="0.21149903"
-     inkscape:cx="2019.4536"
+     inkscape:cx="1447.347"
      inkscape:cy="1753.0157"
      inkscape:window-x="3633"
      inkscape:window-y="0"
@@ -313,15 +313,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="back">
-    <rect
-       style="opacity:1;fill:#e5e5e5;fill-opacity:1"
-       id="rect1477"
-       width="3900.7273"
-       height="2222.2324"
-       x="-56.73785"
-       y="-53.67907" />
-  </g>
+     inkscape:label="back" />
   <g
      inkscape:groupmode="layer"
      id="layer1"

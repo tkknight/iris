@@ -31,8 +31,10 @@ ul.squarelist {
 
 /* TREMTEST - DELETE THIS SECTION IF IT DOES NOT WORK */
 /* pydata guide: https://pydata-sphinx-theme.readthedocs.io/en/latest/user_guide/customizing.html?highlight=dark#customize-the-css-of-light-and-dark-themes */
+/*
 html[data-theme="dark"] {
   --pst-color-primary: green;
+  */
 /*
   table.dataTable tbody tr {
     background-color: #ff00ea  !important;
@@ -41,7 +43,7 @@ html[data-theme="dark"] {
   background: #0000ff !important;
   background-colour: #0000ff !important;
   */
-}
+/*}*/
 
 /* this works */
 
