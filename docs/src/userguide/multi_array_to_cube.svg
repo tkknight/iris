@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="621.80005"
-   height="417"
+   width="588.37256"
+   height="379.43076"
    id="svg2"
    version="1.1"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
@@ -990,11 +990,11 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="1"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="290.71527"
-     inkscape:cy="373.65287"
+     inkscape:zoom="1.534"
+     inkscape:cx="235.31655"
+     inkscape:cy="286.45523"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
@@ -1003,29 +1003,19 @@
      inkscape:snap-global="true"
      inkscape:window-width="1718"
      inkscape:window-height="1368"
-     inkscape:window-x="1913"
+     inkscape:window-x="3633"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      width="1052.36px"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:snap-grids="true"
-     inkscape:snap-to-guides="false"
-     fit-margin-top="2"
-     fit-margin-left="2"
-     fit-margin-right="2"
-     fit-margin-bottom="2">
-    <inkscape:grid
-       type="xygrid"
-       id="grid1164"
-       enabled="true"
-       visible="true"
-       snapvisiblegridlinesonly="true"
-       spacingx="0.01"
-       spacingy="0.01"
-       originx="3.700013"
-       originy="3.7000058" />
-  </sodipodi:namedview>
+     borderlayer="false"
+     inkscape:pagecheckerboard="true"
+     showborder="true"
+     fit-margin-top="10"
+     fit-margin-left="10"
+     fit-margin-bottom="10"
+     fit-margin-right="10" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -1055,7 +1045,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-18.575304,-193.13968)">
+     transform="translate(-24.340681,-213.92624)">
     <path
        style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:none"
        d="M 279.33268,257.02949 H 512.2481"
@@ -1450,30 +1440,5 @@
          x="555.79572"
          y="304.57159"
          style="font-size:16px;line-height:1.25">25</tspan></text>
-    <path
-       inkscape:connector-curvature="0"
-       style="fill:none;stroke:#999999;stroke-width:3.37500763;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:none"
-       d="m 277.33294,298.08686 0.0144,185.25197"
-       id="path3940-5-7-9" />
-    <path
-       inkscape:connector-curvature="0"
-       style="fill:none;stroke:#999999;stroke-width:3.37500763;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:none"
-       d="m 335.96282,298.08968 0.0144,185.25197"
-       id="path3940-5-7-9-0" />
-    <path
-       inkscape:connector-curvature="0"
-       style="fill:none;stroke:#999999;stroke-width:3.37500763;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:none"
-       d="m 398.27532,298.03968 0.0144,185.25197"
-       id="path3940-5-7-9-0-1" />
-    <path
-       inkscape:connector-curvature="0"
-       style="fill:none;stroke:#999999;stroke-width:2.72315264;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:none"
-       d="m 454.28109,357.44405 -230.60988,0.008"
-       id="path3940-5-7-9-0-1-9" />
-    <path
-       inkscape:connector-curvature="0"
-       style="fill:none;stroke:#999999;stroke-width:2.72315264;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-mid:none"
-       d="m 454.47532,423.83968 -230.60989,0.008"
-       id="path3940-5-7-9-0-1-9-8" />
   </g>
 </svg>

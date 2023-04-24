@@ -231,6 +231,7 @@ as the **nodes** when creating the Iris
 ..  figure:: images/orca_grid.png
     :width: 300
     :alt: Plot of ORCA-gridded data from NEMO.
+    :class: dark-light
 
 NEMO can use various grids, but is frequently used with ORCA type grids.
 ORCA grids store global data in 2-dimensional ny * nx arrays.  All cells are

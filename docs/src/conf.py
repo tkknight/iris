@@ -298,6 +298,9 @@ html_theme_options = {
         "image_light": "iris-logo-title.svg",
         "image_dark": "iris-logo-title-dark.svg",
     },
+    # Omitted `theme-switcher` below to disable it
+    # Info: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/light-dark.html#configure-default-theme-mode
+    # "navbar_end": ["navbar-icon-links"],
 }
 
 rev_parse = run(["git", "rev-parse", "--short", "HEAD"], capture_output=True)
@@ -309,6 +312,8 @@ html_context = {
     "github_user": "scitools",
     "github_version": "main",
     "doc_path": "docs/src",
+    # default theme.  Also disabled the button in the html_theme_options.
+    # Info: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/light-dark.html#configure-default-theme-mode
     "default_mode": "auto",
     # custom
     "on_rtd": on_rtd,
@@ -326,13 +331,14 @@ html_context = {
 html_static_path = ["_static"]
 html_style = "theme_override.css"
 
-# this allows for using datatables: https://datatables.net/
+# this allows for using datatables: https://datatables.net/.
+# the version can be manually upgraded by changing the urls below.
 html_css_files = [
-    "https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css",
+    "https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css",
 ]
 
 html_js_files = [
-    "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js",
+    "https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js",
 ]
 
 # TREMTEST START
