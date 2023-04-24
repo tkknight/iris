@@ -169,15 +169,6 @@ else:
     # better api documentation (custom)
     extensions.extend(["custom_data_autodoc", "generate_package_rst"])
 
-# -- togglebutton extension ---------------------------------------------------
-# See https://sphinx-togglebutton.readthedocs.io/en/latest/use.html#dropdown-admonitions
-togglebutton_hint = ""
-togglebutton_hint_hide = ""
-
-# -- panels extension ---------------------------------------------------------
-# See https://sphinx-panels.readthedocs.io/en/latest/
-panels_add_bootstrap_css = False
-
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
 napoleon_google_docstring = True
