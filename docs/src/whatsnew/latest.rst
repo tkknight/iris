@@ -69,6 +69,9 @@ This document explains the changes made to Iris for this release
 #. `@rcomer`_ dropped support for python 3.8, in accordance with the NEP29_
    recommendations (:pull:`5226`)
 
+#. `@trexfeathers`_ introduced the ``libnetcdf !=4.9.1`` and ``numpy !=1.24.3``
+   pins (:pull:`5274`)
+
 
 📚 Documentation
 ================
@@ -82,6 +85,10 @@ This document explains the changes made to Iris for this release
 
 #. `@tkknight`_ updated the :ref:`installing_from_source` instructions to use
    ``pip``.  (:pull:`5273`)
+
+#. `@tkknight`_ removed the legacy custom sphinx extensions that generate the
+   API documentation.  Instead use a less complex approach via
+   `sphinx-apidoc`_. (:pull:`5264`)
 
 
 💼 Internal
