@@ -159,13 +159,14 @@ extensions = [
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
+    "autoapi.extension",
 ]
 
 if skip_api == "1":
     autolog("Skipping the API docs generation (SKIP_API=1)")
-else:
-    extensions.extend(["sphinxcontrib.apidoc"])
-    extensions.extend(["api_rst_formatting"])
+#else:
+    #extensions.extend(["sphinxcontrib.apidoc"])
+    #extensions.extend(["api_rst_formatting"])
 
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
@@ -225,6 +226,28 @@ apidoc_extra_args = []
 autolog(f"[sphinx-apidoc] source_code_root = {source_code_root}")
 autolog(f"[sphinx-apidoc] apidoc_excluded_paths = {apidoc_excluded_paths}")
 autolog(f"[sphinx-apidoc] apidoc_output_dir = {apidoc_output_dir}")
+
+
+# TREMTEST +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+autoapi_dirs = ['../../lib/iris']
+autoapi_root = "generated/api"
+autoapi_ignore = [
+    str(module_dir / "iris/tests/*"),
+    str(module_dir / "iris/experimental/raster.*"),  # gdal conflicts
+]
+
+suppress_warnings = ["WARNING: Cannot resolve cyclic import:"]
+
+autoapi_member_order = "alphabetical"
+autoapi_options = [ 'members', 'undoc-members',
+                   'show-inheritance', 'show-module-summary',
+                   'special-members', 'imported-members', ]
+
+autolog(f"[autoapi] autoapi_ignore = {apidoc_excluded_paths}")
+autolog(f"[autoapi] autoapi_root = {autoapi_root}")
+
+# TREMTEST +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -290,6 +313,7 @@ html_theme_options = {
     "footer_start": ["copyright", "sphinx-version"],
     "footer_end": ["custom_footer"],
     "collapse_navigation": True,
+    #"show_nav_level": 3,
     "navigation_depth": 3,
     "show_prev_next": True,
     "navbar_align": "content",
@@ -318,7 +342,7 @@ html_theme_options = {
         },
     ],
     "use_edit_page_button": True,
-    "show_toc_level": 1,
+    "show_toc_level": 3,
     # Omit `theme-switcher` from navbar_end below to disable it
     # Info: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/light-dark.html#configure-default-theme-mode
     # "navbar_end": ["navbar-icon-links"],
