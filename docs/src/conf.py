@@ -323,7 +323,7 @@ html_theme_options = {
         },
     ],
     "use_edit_page_button": True,
-    "show_toc_level": 3,
+    "show_toc_level": 5,
     # Omit `theme-switcher` from navbar_end below to disable it
     # Info: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/light-dark.html#configure-default-theme-mode
     # "navbar_end": ["navbar-icon-links"],
