@@ -159,13 +159,12 @@ extensions = [
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
     "matplotlib.sphinxext.plot_directive",
-    "autoapi.extension",
 ]
 
 if skip_api == "1":
     autolog("Skipping the API docs generation (SKIP_API=1)")
-#else:
-    #extensions.extend(["sphinxcontrib.apidoc"])
+else:
+    extensions.extend(["autoapi.extension"])
     #extensions.extend(["api_rst_formatting"])
 
 # -- Napoleon extension -------------------------------------------------------
@@ -194,10 +193,6 @@ copybutton_line_continuation_character = "\\"
 # See https://www.sphinx-doc.org/en/master/usage/extensions/todo.html
 todo_include_todos = True
 
-# api generation configuration
-autodoc_member_order = "alphabetical"
-autodoc_default_flags = ["show-inheritance"]
-
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_typehints
 autodoc_typehints = "none"
 autosummary_generate = True
@@ -206,47 +201,33 @@ autopackage_name = ["iris"]
 autoclass_content = "both"
 modindex_common_prefix = ["iris"]
 
-# -- apidoc extension ---------------------------------------------------------
-# See https://github.com/sphinx-contrib/apidoc
+# TREMTEST START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# -- autoapi extensions -------------------------------------------------------
+# See https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html
+#     https://github.com/readthedocs/sphinx-autoapi
+# Guide: https://bylr.info/articles/2022/05/10/api-doc-with-sphinx-autoapi/
 source_code_root = (Path(__file__).parents[2]).absolute()
 module_dir = source_code_root / "lib"
-apidoc_module_dir = str(module_dir)
-apidoc_output_dir = str(Path(__file__).parent / "generated/api")
-apidoc_toc_file = False
 
-apidoc_excluded_paths = [
-    str(module_dir / "iris/tests"),
-    str(module_dir / "iris/experimental/raster.*"),  # gdal conflicts
-]
-
-apidoc_module_first = True
-apidoc_separate_modules = True
-apidoc_extra_args = []
-
-autolog(f"[sphinx-apidoc] source_code_root = {source_code_root}")
-autolog(f"[sphinx-apidoc] apidoc_excluded_paths = {apidoc_excluded_paths}")
-autolog(f"[sphinx-apidoc] apidoc_output_dir = {apidoc_output_dir}")
-
-
-# TREMTEST +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-autoapi_dirs = ['../../lib/iris']
+autoapi_dirs = ["../../lib/iris"]
 autoapi_root = "generated/api"
 autoapi_ignore = [
     str(module_dir / "iris/tests/*"),
     str(module_dir / "iris/experimental/raster.*"),  # gdal conflicts
 ]
 
-suppress_warnings = ["WARNING: Cannot resolve cyclic import:"]
-
 autoapi_member_order = "alphabetical"
-autoapi_options = [ 'members', 'undoc-members',
-                   'show-inheritance', 'show-module-summary',
-                   'special-members', 'imported-members', ]
+autoapi_options = [ "members", "undoc-members",
+                   "show-inheritance", "show-module-summary" ]
+autoapi_keep_files = True
 
-autolog(f"[autoapi] autoapi_ignore = {apidoc_excluded_paths}")
+autoapi_include_summaries = False   # TREMTEST
+#suppress_warnings = ["autoapi"]
+#suppress_warnings = ["autoapi.python_import_resolution", "autoapi.not_readable"]
+
+autolog(f"[autoapi] autoapi_ignore = {autoapi_ignore}")
 autolog(f"[autoapi] autoapi_root = {autoapi_root}")
-
-# TREMTEST +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# TREMTEST END +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # Add any paths that contain templates here, relative to this directory.
