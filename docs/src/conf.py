@@ -217,10 +217,16 @@ autoapi_ignore = [
 ]
 
 autoapi_member_order = "alphabetical"
-autoapi_options = [ "members", "undoc-members",
-                   "show-inheritance", "show-module-summary" ]
-autoapi_keep_files = True
+autoapi_options = [ 'members', 
+                   'undoc-members', 
+                   #'private-members', 
+                   'show-inheritance', 
+                   'show-module-summary', 
+                   #'special-members', 
+                   'imported-members' ]
 
+autoapi_python_class_content = "both"
+autoapi_keep_files = True
 autoapi_include_summaries = False   # TREMTEST
 #suppress_warnings = ["autoapi"]
 #suppress_warnings = ["autoapi.python_import_resolution", "autoapi.not_readable"]
