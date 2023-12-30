@@ -209,25 +209,23 @@ modindex_common_prefix = ["iris"]
 source_code_root = (Path(__file__).parents[2]).absolute()
 module_dir = source_code_root / "lib"
 
-autoapi_dirs = ["../../lib/iris"]
+autoapi_dirs = [module_dir]
 autoapi_root = "generated/api"
 autoapi_ignore = [
     str(module_dir / "iris/tests/*"),
     str(module_dir / "iris/experimental/raster.*"),  # gdal conflicts
 ]
-
 autoapi_member_order = "alphabetical"
-autoapi_options = [ 'members', 
-                   'undoc-members', 
+autoapi_options = [ "members", 
+                   "undoc-members", 
                    #'private-members', 
-                   'show-inheritance', 
-                   'show-module-summary', 
+                   "show-inheritance", 
+                   "show-module-summary", 
                    #'special-members', 
-                   'imported-members' ]
+                   "imported-members" ]
 
 autoapi_python_class_content = "both"
 autoapi_keep_files = True
-autoapi_include_summaries = False   # TREMTEST
 #suppress_warnings = ["autoapi"]
 #suppress_warnings = ["autoapi.python_import_resolution", "autoapi.not_readable"]
 
