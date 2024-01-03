@@ -29,9 +29,9 @@ from urllib.parse import quote
 import warnings
 
 
-# function to write  useful output to stdout, prefixing the source.
-def autolog(message):
-    print("[{}] {}".format(ntpath.basename(__file__), message))
+def autolog(message: str) -> None:
+    """Write useful output to stdout, prefixing the source."""
+    print(f"[{ntpath.basename(__file__)}] {message}")  # noqa: T201
 
 
 # -- Check for dev make options to build quicker
@@ -148,10 +148,8 @@ extensions = [
     "sphinx.ext.duration",
     "sphinx.ext.coverage",
     "sphinx.ext.viewcode",
-    "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
     "sphinx.ext.extlinks",
-    "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
     "sphinx_copybutton",
     "sphinx.ext.napoleon",
@@ -165,7 +163,7 @@ if skip_api == "1":
     autolog("Skipping the API docs generation (SKIP_API=1)")
 else:
     extensions.extend(["autoapi.extension"])
-    #extensions.extend(["api_rst_formatting"])
+    # extensions.extend(["api_rst_formatting"])  # TREMTEST
 
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
@@ -201,11 +199,9 @@ autopackage_name = ["iris"]
 autoclass_content = "both"
 modindex_common_prefix = ["iris"]
 
-# TREMTEST START ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # -- autoapi extensions -------------------------------------------------------
 # See https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html
 #     https://github.com/readthedocs/sphinx-autoapi
-# Guide: https://bylr.info/articles/2022/05/10/api-doc-with-sphinx-autoapi/
 source_code_root = (Path(__file__).parents[2]).absolute()
 module_dir = source_code_root / "lib"
 
@@ -216,23 +212,28 @@ autoapi_ignore = [
     str(module_dir / "iris/experimental/raster.*"),  # gdal conflicts
 ]
 autoapi_member_order = "alphabetical"
-autoapi_options = [ "members", 
-                   "undoc-members", 
-                   #'private-members', 
-                   "show-inheritance", 
-                   "show-module-summary", 
-                   #'special-members', 
-                   "imported-members" ]
+autoapi_options = [
+    "members",
+    # "inherited-members",
+    "undoc-members",
+    # 'private-members',
+    # "special-members",
+    "show-inheritance",
+    # "show-inheritance-diagram",
+    "show-module-summary",
+    # 'special-members',
+    "imported-members",
+]
 
 autoapi_python_class_content = "both"
 autoapi_keep_files = True
-#suppress_warnings = ["autoapi"]
-#suppress_warnings = ["autoapi.python_import_resolution", "autoapi.not_readable"]
+# suppress_warnings = ["autoapi"]
+# suppress_warnings = ["autoapi.python_import_resolution", "autoapi.not_readable"]
 
-autolog(f"[autoapi] autoapi_ignore = {autoapi_ignore}")
-autolog(f"[autoapi] autoapi_root = {autoapi_root}")
-# TREMTEST END +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+autolog(f"[autoapi] {source_code_root = }")
+autolog(f"[autoapi] {autoapi_dirs     = }")
+autolog(f"[autoapi] {autoapi_ignore   = }")
+autolog(f"[autoapi] {autoapi_root     = }")
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -298,8 +299,8 @@ html_theme_options = {
     "footer_start": ["copyright", "sphinx-version"],
     "footer_end": ["custom_footer"],
     "collapse_navigation": True,
-    #"show_nav_level": 3,
     "navigation_depth": 3,
+    "show_toc_level": 3,
     "show_prev_next": True,
     "navbar_align": "content",
     # removes the search box from the top bar
@@ -327,7 +328,6 @@ html_theme_options = {
         },
     ],
     "use_edit_page_button": True,
-    "show_toc_level": 5,
     # Omit `theme-switcher` from navbar_end below to disable it
     # Info: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/light-dark.html#configure-default-theme-mode
     # "navbar_end": ["navbar-icon-links"],
