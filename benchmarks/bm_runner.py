@@ -68,7 +68,6 @@ def _check_requirements(package: str) -> None:
 
 def _prep_data_gen_env() -> None:
     """Create/access a separate, unchanging environment for generating test data."""
-
     python_version = "3.11"
     data_gen_var = "DATA_GEN_PYTHON"
     if data_gen_var in environ:
@@ -257,8 +256,8 @@ def _gh_create_reports(commit_sha: str, results_full: str, results_shifts: str) 
                 * commit {commit_sha} ({pr_tag}).
 
                 <p>
-                Please review the report below and 
-                take corrective/congratulatory action as appropriate 
+                Please review the report below and
+                take corrective/congratulatory action as appropriate
                 :slightly_smiling_face:
                 </p>
                 """

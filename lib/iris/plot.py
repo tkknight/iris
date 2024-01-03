@@ -234,7 +234,6 @@ def _broadcast_2d(u, v):
 
 def _string_coord_axis_tick_labels(string_axes, axes=None):
     """Apply tick labels for string coordinates."""
-
     ax = axes if axes else plt.gca()
     for axis, ticks in string_axes.items():
         # Define a tick formatter. This will assign a label to all ticks
@@ -810,7 +809,9 @@ def _draw_1d_from_points(draw_method_name, arg_func, *args, **kwargs):
 
 
 def _draw_two_1d_from_points(draw_method_name, arg_func, *args, **kwargs):
-    """This function is equivalend to _draw_two_1d_from_points but expects two
+    """Draw two 1d frompoints (expects two y-axis variables rather than one).
+
+    This function is equivalend to _draw_two_1d_from_points but expects two
     y-axis variables rather than one (such as is required for .fill_between). It
     can't be used where the y-axis variables are string coordinates. The y-axis
     variable provided first has precedence where the two differ on whether the
@@ -858,7 +859,6 @@ def _replace_axes_with_cartopy_axes(cartopy_proj):
     instance of :class:`cartopy.mpl.geoaxes.GeoAxes` then no action is taken.
 
     """
-
     ax = plt.gca()
     if not isinstance(ax, cartopy.mpl.geoaxes.GeoAxes):
         fig = ax.get_figure()
@@ -1227,7 +1227,6 @@ def orography_at_bounds(cube, facecolor="#888888", coords=None, axes=None):
     This function does not maintain laziness when called; it realises data.
     See more at :doc:`/userguide/real_and_lazy_data`.
     """
-
     # XXX Needs contiguous orography corners to work.
     raise NotImplementedError(
         "This operation is temporarily not provided "
@@ -1266,7 +1265,6 @@ def orography_at_points(cube, facecolor="#888888", coords=None, axes=None):
     This function does not maintain laziness when called; it realises data.
     See more at :doc:`/userguide/real_and_lazy_data`.
     """
-
     style_args = {"facecolor": facecolor}
 
     def vert_plot(u_coord, orography, style_args):
@@ -1841,7 +1839,6 @@ def citation(text, figure=None, axes=None):
         provided.
 
     """
-
     if text is not None and len(text):
         if figure is None and not axes:
             figure = plt.gcf()
