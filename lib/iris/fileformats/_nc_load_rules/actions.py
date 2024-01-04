@@ -7,6 +7,7 @@
 For now, we are still emulating various aspects of how our original Pyke-based
 code used the Pyke 'engine' to hold translation data, both Pyke-specific and
 not :
+
 1) basic details from the iris.fileformats.cf analysis of the file are
    recorded before translating each output cube, using
    "engine.assert_case_specific_fact(name, args)".
@@ -15,8 +16,8 @@ not :
    used to be done with a "facts_cf.provides" statement in rule actions.
 
 3) Iris-specific info is (still) stored in additional properties created on
-   the engine object :
-       engine.cf_var, .cube, .cube_parts, .requires, .rules_triggered, .filename
+   the engine object : engine.cf_var, .cube, .cube_parts, .requires, .rules_triggered,
+   .filename
 
 Our "rules" are just action routines.
 The top-level 'run_actions' routine decides which actions to call, based on the

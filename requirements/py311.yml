@@ -48,7 +48,7 @@ dependencies:
 
 # Documentation dependencies.
   - sphinx <=5.3
-  - sphinxcontrib-apidoc
+  #- sphinx-autoapi # needs to be >= v3.0.0
   - sphinx-copybutton
   - sphinx-gallery >=0.11.0
   - sphinx-design

@@ -191,13 +191,13 @@ copybutton_line_continuation_character = "\\"
 # See https://www.sphinx-doc.org/en/master/usage/extensions/todo.html
 todo_include_todos = True
 
-# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_typehints
-autodoc_typehints = "none"
-autosummary_generate = True
-autosummary_imported_members = True
-autopackage_name = ["iris"]
-autoclass_content = "both"
-modindex_common_prefix = ["iris"]
+# # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_typehints
+# autodoc_typehints = "none"
+# autosummary_generate = True
+# autosummary_imported_members = True
+# autopackage_name = ["iris"]
+# autoclass_content = "both"
+# modindex_common_prefix = ["iris"]
 
 # -- autoapi extensions -------------------------------------------------------
 # See https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html
@@ -300,7 +300,7 @@ html_theme_options = {
     "footer_end": ["custom_footer"],
     "collapse_navigation": True,
     "navigation_depth": 3,
-    "show_toc_level": 3,
+    "show_toc_level": 4,
     "show_prev_next": True,
     "navbar_align": "content",
     # removes the search box from the top bar
@@ -407,7 +407,7 @@ linkcheck_ignore = [
 ]
 
 # list of sources to exclude from the build.
-exclude_patterns = []
+exclude_patterns = ["generated/api/index.rst"]
 
 # -- sphinx-gallery config ----------------------------------------------------
 # See https://sphinx-gallery.github.io/stable/configuration.html
