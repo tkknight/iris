@@ -165,7 +165,7 @@ if skip_api == "1":
     autolog("Skipping the API docs generation (SKIP_API=1)")
 else:
     extensions.extend(["autoapi.extension"])
-    # extensions.extend(["api_rst_formatting"])  # TREMTEST
+    # extensions.extend(["api_rst_formatting"])  # TREMTEST - this can be removed!
 
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
@@ -223,12 +223,12 @@ autoapi_options = [
     "show-inheritance",
     # "show-inheritance-diagram",
     "show-module-summary",
-    # 'special-members',
     "imported-members",
 ]
 
 autoapi_python_class_content = "both"
 autoapi_keep_files = True
+autoapi_add_toctree_entry = False
 # suppress_warnings = ["autoapi"]
 # suppress_warnings = ["autoapi.python_import_resolution", "autoapi.not_readable"]
 
@@ -408,7 +408,7 @@ linkcheck_ignore = [
 ]
 
 # list of sources to exclude from the build.
-exclude_patterns = ["generated/api/index.rst"]
+exclude_patterns = []
 
 # -- sphinx-gallery config ----------------------------------------------------
 # See https://sphinx-gallery.github.io/stable/configuration.html
