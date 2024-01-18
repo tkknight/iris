@@ -153,7 +153,7 @@ def _set_test_data_dir():
     return test_data_dir
 
 
-# Figure out the full path to the "iris" package.
+#: The full path to the "iris" package.
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 #: The full path to the configuration directory of the active Iris instance.
