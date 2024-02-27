@@ -17,7 +17,7 @@
 # serve to show the default.
 # ----------------------------------------------------------------------------
 
-"""sphinx config."""
+"""Config for sphinx."""
 
 import datetime
 from importlib.metadata import version as get_version
@@ -189,7 +189,7 @@ else:
 # -- numpydoc options --------------------------------------------------------
 # See https://numpydoc.readthedocs.io/en/latest/index.html
 numpydoc_attributes_as_param_list = True
-numpydoc_class_members_toctree = True  # GV is False
+numpydoc_class_members_toctree = False  # GV is False
 numpydoc_show_class_members = True  # GV is False
 numpydoc_use_plots = True
 numpydoc_xref_aliases = {
