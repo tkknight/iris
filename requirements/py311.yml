@@ -47,6 +47,7 @@ dependencies:
   - requests
 
 # Documentation dependencies.
+  - numpydoc
   - sphinx <=5.3
   - sphinxcontrib-apidoc
   - sphinx-copybutton

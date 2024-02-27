@@ -191,7 +191,7 @@ def describe_diff(cube_a, cube_b, output_file=None):
 
     See Also
     --------
-    :meth:`iris.cube.Cube.is_compatible()`
+    iris.cube.Cube.is_compatible
 
     """
     if output_file is None:
@@ -2119,7 +2119,7 @@ def mask_cube_from_shapefile(cube, shape, minimum_weight=0.0, in_place=False):
 
     See Also
     --------
-    :func:`~iris.util.mask_cube`
+    iris.util.mask_cube
 
     Notes
     -----

@@ -146,6 +146,7 @@ rst_epilog = f"""
 # extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
+    "numpydoc",
     "sphinx.ext.todo",
     "sphinx.ext.duration",
     "sphinx.ext.coverage",
@@ -156,7 +157,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
     "sphinx_copybutton",
-    "sphinx.ext.napoleon",
+    # "sphinx.ext.napoleon",
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.mathmpl",
@@ -171,19 +172,31 @@ else:
 
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
-napoleon_google_docstring = True
-napoleon_numpy_docstring = True
-napoleon_include_init_with_doc = False
-napoleon_include_private_with_doc = False
-napoleon_include_special_with_doc = True  # includes dunders in api doc
-napoleon_use_admonition_for_examples = False
-napoleon_use_admonition_for_notes = False
-napoleon_use_admonition_for_references = False
-napoleon_use_ivar = False
-napoleon_use_param = True
-napoleon_use_rtype = True
-napoleon_use_keyword = True
-napoleon_custom_sections = None
+# napoleon_google_docstring = True
+# napoleon_numpy_docstring = True
+# napoleon_include_init_with_doc = False
+# napoleon_include_private_with_doc = False
+# napoleon_include_special_with_doc = True  # includes dunders in api doc
+# napoleon_use_admonition_for_examples = False
+# napoleon_use_admonition_for_notes = False
+# napoleon_use_admonition_for_references = False
+# napoleon_use_ivar = False
+# napoleon_use_param = True
+# napoleon_use_rtype = True
+# napoleon_use_keyword = True
+# napoleon_custom_sections = None
+
+# -- numpydoc options --------------------------------------------------------
+# See https://numpydoc.readthedocs.io/en/latest/index.html
+numpydoc_attributes_as_param_list = True
+numpydoc_class_members_toctree = True  # GV is False
+numpydoc_show_class_members = True  # GV is False
+numpydoc_use_plots = True
+numpydoc_xref_aliases = {
+    "ArrayLike": "numpy.typing.ArrayLike",
+}
+numpydoc_xref_ignore = {"optional", "default", "of"}
+numpydoc_xref_param_type = True
 
 # -- copybutton extension -----------------------------------------------------
 # See https://sphinx-copybutton.readthedocs.io/en/latest/

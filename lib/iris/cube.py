@@ -1219,8 +1219,8 @@ class Cube(CFVariableMixin):
         aux_coords_and_dims : optional
             A list of coordinates with dimension mappings,
             e.g ``[(lat_coord, 0), (lon_coord, (0, 1))]``.
-            See also :meth:`Cube.add_dim_coord()<iris.cube.Cube.add_dim_coord>`
-            and :meth:`Cube.add_aux_coord()<iris.cube.Cube.add_aux_coord>`.
+            See also :meth:`iris.cube.Cube.add_dim_coord`
+            and :meth:`iris.cube.Cube.add_aux_coord`.
         aux_factories : optional
             A list of auxiliary coordinate factories. See
             :mod:`iris.aux_factory`.
@@ -1485,7 +1485,7 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.remove_coord()<iris.cube.Cube.remove_coord>`.
+        iris.cube.Cube.remove_coord
 
         """
         if self.coords(coord):  # TODO: just fail on duplicate object
@@ -1626,7 +1626,7 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.remove_cell_measure()<iris.cube.Cube.remove_cell_measure>`.
+        iris.cube.Cube.remove_cell_measure
 
         """
         if self.cell_measures(cell_measure):
@@ -1687,7 +1687,7 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.remove_coord()<iris.cube.Cube.remove_coord>`.
+        iris.cube.Cube.remove_coord
 
         """
         if self.coords(dim_coord):
@@ -1767,8 +1767,8 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.add_dim_coord()<iris.cube.Cube.add_dim_coord>`
-        :meth:`Cube.add_aux_coord()<iris.cube.Cube.add_aux_coord>`
+        iris.cube.Cube.add_dim_coord
+        iris.cube.Cube.add_aux_coord
 
         """
         coord = self.coord(coord)
@@ -1803,7 +1803,7 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.add_cell_measure()<iris.cube.Cube.add_cell_measure>`
+        iris.cube.Cube.add_cell_measure
 
         """
         cell_measure = self.cell_measure(cell_measure)
@@ -2092,8 +2092,8 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.coord` for matching exactly one coordinate.
-
+        Cube.coord
+            Matching exactly one coordinate.
 
         """
         coords_and_factories = []
@@ -2255,7 +2255,9 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.coords` for matching zero or more coordinates.
+        Cube.coords
+            Matching zero or more coordinates.
+
         """
         coords = self.coords(
             name_or_coord=name_or_coord,
@@ -2435,7 +2437,7 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.cell_measure()<iris.cube.Cube.cell_measure>`.
+        iris.cube.Cube.cell_measure
 
         """
         name = None
@@ -2469,7 +2471,7 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.cell_measures()<iris.cube.Cube.cell_measures>`
+        iris.cube.Cube.cell_measures
             For full keyword documentation.
 
         """
@@ -2522,7 +2524,7 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.ancillary_variable()<iris.cube.Cube.ancillary_variable>`.
+        iris.cube.Cube.ancillary_variable
 
         """
         name = None
@@ -2556,7 +2558,7 @@ class Cube(CFVariableMixin):
 
         See Also
         --------
-        :meth:`Cube.ancillary_variables()<iris.cube.Cube.ancillary_variables>`
+        iris.cube.Cube.ancillary_variables
             For full keyword documentation.
 
         """
