@@ -48,7 +48,12 @@ This document explains the changes made to Iris for this release
 🚀 Performance Enhancements
 ===========================
 
-#. N/A
+#. `@bouweandela`_ made :func:`iris.util.rolling_window` work with lazy arrays.
+   (:pull:`5775`)
+
+#. `@stephenworsley`_ fixed a potential memory leak for Iris uses of
+   :func:`dask.array.map_blocks`; known specifically to be a problem in the
+   :class:`iris.analysis.AreaWeighted` regridder. (:pull:`5767`)
 
 
 🔥 Deprecations
@@ -77,6 +82,12 @@ This document explains the changes made to Iris for this release
    requests are also labelled using the `Pull Request Labeler Github action`_
    to increase visibility. (:pull:`5763`, :pull:`5776`)
 
+#. `@tkknight`_ updated codebase to comply with a new enforced rule `NPY002`_ for
+   `ruff`_.  (:pull:`5786`)
+
+#. `@tkknight`_ enabled `numpydoc validation`_ via the pre-commit hook.  The docstrings
+   have been updated to comply and some rules have been ignored for now.
+   (:pull:`5762`)
 
 .. comment
     Whatsnew author names (@github name) in alphabetical order. Note that,
@@ -89,3 +100,5 @@ This document explains the changes made to Iris for this release
     Whatsnew resources in alphabetical order:
 
 .. _Pull Request Labeler GitHub action: https://github.com/actions/labeler
+.. _NPY002: https://docs.astral.sh/ruff/rules/numpy-legacy-random/
+.. _numpydoc validation: https://numpydoc.readthedocs.io/en/latest/validation.html#
