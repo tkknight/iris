@@ -1755,7 +1755,7 @@ def find_discontiguities(cube, rel_tol=1e-5, abs_tol=1e-8):
 
     Parameters
     ----------
-    cube : `iris.cube.Cube`
+    cube : Cube
         The cube to be checked for discontinuities in its 'x' and 'y'
         coordinates. These coordinates must be 2D.
     rel_tol : float, default=1e-5
