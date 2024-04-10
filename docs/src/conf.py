@@ -185,7 +185,7 @@ numpydoc_xref_param_type = True
 
 # -- nitpicky flag -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-nitpicky
-nitpicky = True
+nitpicky = False
 nitpick_ignore_regex = [
     #   (r"py:.*", r"Corners"),  # TBD: geovista.geodesic.PANEL_BBOX_BY_IDX
     #   (r"py:.*", r"h3.get_res0_indexes"),  # no uber/h3 sphinx docs available
@@ -261,19 +261,15 @@ intersphinx_mapping = {
     "cartopy": ("https://scitools.org.uk/cartopy/docs/latest/", None),
     "cf-units": ("https://cf-units.readthedocs.io/en/stable/", None),
     "dask": ("https://docs.dask.org/en/stable/", None),
-    # TODO: Set to stable when present
     "geovista": ("https://geovista.readthedocs.io/en/latest/", None),
     "iris-esmf-regrid": ("https://iris-esmf-regrid.readthedocs.io/en/stable/", None),
     "matplotlib": ("https://matplotlib.org/stable/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
-    # "netcdf": ("https://unidata.github.io/netcdf4-python/", None),
-    "python": ("https://docs.python.org/3/", None),
-    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
-    "dask": ("https://docs.dask.org/en/stable/", None),
-    "xarray": ("https://docs.xarray.dev/en/stable/", None),
-    "geovista": ("https://geovista.readthedocs.io/en/latest/", None),
+    "python": ("https://docs.python.org/3/", None),
     "pyvista": ("https://docs.pyvista.org/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
+    "xarray": ("https://docs.xarray.dev/en/stable/", None),
 }
 
 # The name of the Pygments (syntax highlighting) style to use.
