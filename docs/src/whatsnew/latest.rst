@@ -42,18 +42,22 @@ This document explains the changes made to Iris for this release
 💣 Incompatible Changes
 =======================
 
-#. N/A
+#. `@rcomer`_ removed the *target* parameter from
+   :func:`~iris.fileformats.pp.as_fields` and
+   :func:`~iris.fileformats.pp.save_pairs_from_cube` because it had no effect.
+   (:pull:`5783`)
 
 
 🚀 Performance Enhancements
 ===========================
 
-#. `@bouweandela`_ made :func:`iris.util.rolling_window` work with lazy arrays.
-   (:pull:`5775`)
+#. N/A
 
-#. `@stephenworsley`_ fixed a potential memory leak for Iris uses of
-   :func:`dask.array.map_blocks`; known specifically to be a problem in the
-   :class:`iris.analysis.AreaWeighted` regridder. (:pull:`5767`)
+#. `@bouweandela`_ added the option to specify the Dask chunks of the target
+   array in :func:`iris.util.broadcast_to_shape`. (:pull:`5620`)
+
+#. `@schlunma`_ allowed :func:`iris.analysis.cartography.area_weights` to
+   return dask arrays with arbitrary chunks. (:pull:`5658`)
 
 
 🔥 Deprecations
@@ -65,7 +69,9 @@ This document explains the changes made to Iris for this release
 🔗 Dependencies
 ===============
 
-#. N/A
+#. `@tkknight`_ removed the pin for ``sphinx <=5.3``, so the latest should 
+   now be used, currently being v7.2.6.
+   (:pull:`5901`)
 
 
 📚 Documentation
@@ -77,17 +83,8 @@ This document explains the changes made to Iris for this release
 💼 Internal
 ===========
 
-#. `@trexfeathers`_ setup automatic benchmarking on pull requests that modify
-   files likely to affect performance or performance testing. Such pull
-   requests are also labelled using the `Pull Request Labeler Github action`_
-   to increase visibility. (:pull:`5763`, :pull:`5776`)
+#. N/A
 
-#. `@tkknight`_ updated codebase to comply with a new enforced rule `NPY002`_ for
-   `ruff`_.  (:pull:`5786`)
-
-#. `@tkknight`_ enabled `numpydoc validation`_ via the pre-commit hook.  The docstrings
-   have been updated to comply and some rules have been ignored for now.
-   (:pull:`5762`)
 
 .. comment
     Whatsnew author names (@github name) in alphabetical order. Note that,
@@ -98,7 +95,3 @@ This document explains the changes made to Iris for this release
 
 .. comment
     Whatsnew resources in alphabetical order:
-
-.. _Pull Request Labeler GitHub action: https://github.com/actions/labeler
-.. _NPY002: https://docs.astral.sh/ruff/rules/numpy-legacy-random/
-.. _numpydoc validation: https://numpydoc.readthedocs.io/en/latest/validation.html#
