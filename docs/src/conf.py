@@ -183,16 +183,17 @@ numpydoc_xref_aliases = {
 numpydoc_xref_ignore = {"optional", "default", "of"}
 numpydoc_xref_param_type = True
 
-# -- nitpicky flag -------------------------------------------------
+# -- nitpicky ----------------------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-nitpicky
-nitpicky = True
+#
+# Use "make html-nitpicky" to enable.
 nitpick_ignore_regex = [
     (r"py:class", r"iris.tests.*"),  # iris.tests not included in the API docs
     (r"py:meth", r"iris.tests.*"),  # iris.tests not included in the API docs
     (r"py:.*", r"iris.tests.*"),  # iris.tests not included in the API docs
 ]
 
-# -- copybutton extension -----------------------------------------------------
+# -- copybutton extension ----------------------------------------------------
 # See https://sphinx-copybutton.readthedocs.io/en/latest/
 copybutton_prompt_text = r">>> |\.\.\. "
 copybutton_prompt_is_regexp = True
