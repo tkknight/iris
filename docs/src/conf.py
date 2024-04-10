@@ -185,19 +185,11 @@ numpydoc_xref_param_type = True
 
 # -- nitpicky flag -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-nitpicky
-nitpicky = False
+nitpicky = True
 nitpick_ignore_regex = [
-    #   (r"py:.*", r"Corners"),  # TBD: geovista.geodesic.PANEL_BBOX_BY_IDX
-    #   (r"py:.*", r"h3.get_res0_indexes"),  # no uber/h3 sphinx docs available
-    #   (r"py:.*", r"scooby.Report"),  # no scooby sphinx docs available
-    #   (r"py:.*", r"pv"),  # TBD: geovista.geoplotter, geovista.gridlines (lazy import)
-    #   (r"py:class", r"numpy.typing.ArrayLike"),  # TBD: geovista.pantry.data (lazy import)
-    #   (r"py:mod", r"pyvista"),  # see https://github.com/pyvista/pyvista/issues/5663
-    #   (r"py:mod", r"pyvistaqt"),  # no :mod:`pyvistaqt` inventory entry available
-    #   (r"py:mod", r"vtk"),  # no :mod:`vtk` inventory entry available
-    (r"py:class", r"iris.tests"),  # iris.tests not included in the API docs
-    (r"py:meth", r"iris.tests"),  # iris.tests not included in the API docs
-    (r"py:.*", r"iris.tests"),  # iris.tests not included in the API docs
+    (r"py:class", r"iris.tests.*"),  # iris.tests not included in the API docs
+    (r"py:meth", r"iris.tests.*"),  # iris.tests not included in the API docs
+    (r"py:.*", r"iris.tests.*"),  # iris.tests not included in the API docs
 ]
 
 # -- copybutton extension -----------------------------------------------------

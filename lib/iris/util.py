@@ -2123,7 +2123,7 @@ def mask_cube_from_shapefile(cube, shape, minimum_weight=0.0, in_place=False):
 
     Parameters
     ----------
-    cube : :class:`~iris.cube.Cube` object
+    cube : Cube object
         The `Cube` object to masked. Must be singular, rather than a `CubeList`.
     shape : Shapely.Geometry object
         A single `shape` of the area to remain unmasked on the `cube`.
@@ -2138,7 +2138,7 @@ def mask_cube_from_shapefile(cube, shape, minimum_weight=0.0, in_place=False):
 
     Returns
     -------
-    :class:`~iris.cube.Cube`
+    Cube
         A masked version of the input cube, if in_place is False.
 
     See Also
