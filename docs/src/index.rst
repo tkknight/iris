@@ -189,15 +189,6 @@ The legacy support resources:
 
 
 .. toctree::
-   :caption: What's New in Iris
-   :maxdepth: 1
-   :name: whats_new_index
-   :hidden:
-
-   whatsnew/index
-
-
-.. toctree::
    :caption: Iris API
    :maxdepth: 1
    :hidden:
