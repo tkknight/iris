@@ -15,6 +15,7 @@ any of the common-metadata operations.
 So, we simply treat "global" and "local" attributes of the same name as entirely
 independent. Which happily is also the easiest to code, and to explain.
 """
+
 from collections.abc import Mapping, Sequence
 from functools import wraps
 
@@ -66,7 +67,9 @@ def _convert_pairedkeys_dict_to_splitattrs(dic):
 
 
 def adjust_for_split_attribute_dictionaries(operation):
-    """Decorator to make a function of attribute-dictionaries work with split attributes.
+    """Generate attribute-dictionaries to work with split attributes.
+
+    Decorator to make a function of attribute-dictionaries work with split attributes.
 
     The wrapped function of attribute-dictionaries is currently always one of "equals",
     "combine" or "difference", with signatures like :
@@ -93,6 +96,7 @@ def adjust_for_split_attribute_dictionaries(operation):
     "Split" dictionaries  are all of class :class:`~iris.cube.CubeAttrsDict`, since
     the only usage of 'split' attribute dictionaries is in Cubes (i.e. they are not
     used for cube components).
+
     """
 
     @wraps(operation)

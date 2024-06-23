@@ -28,7 +28,7 @@ _LENIENT_PROTECTED = ("active", "enable")
 
 
 def _lenient_client(*dargs, services=None):
-    """Decorator implementing the lenient client protocol.
+    """Allow a client function/method to declare at runtime.
 
     Decorator that allows a client function/method to declare at runtime that
     it is executing and requires lenient behaviour from a prior registered
@@ -60,7 +60,7 @@ def _lenient_client(*dargs, services=None):
         wrapped by the decorator. This is automatically populated by Python
         through the decorator interface. No argument requires to be manually
         provided.
-    services : callable or str or iterable of callable/str, optional, default=None
+    services : callable or str or iterable of callable/str, optional
         Zero or more function/methods, or equivalent fully qualified string names, of
         lenient service function/methods.
 
@@ -129,7 +129,7 @@ def _lenient_client(*dargs, services=None):
 
 
 def _lenient_service(*dargs):
-    """Decorator implementing the lenient service protocol.
+    """Implement the lenient service protocol.
 
     Decorator that allows a function/method to declare that it supports lenient
     behaviour as a service.
@@ -223,11 +223,11 @@ def _qualname(func):
 
 class Lenient(threading.local):
     def __init__(self, **kwargs):
-        """A container for managing the run-time lenient features and options.
+        """Container for managing the run-time lenient features and options.
 
         Parameters
         ----------
-        **kwargs : dict
+        **kwargs : dict, optional
             Mapping of lenient key/value options to enable/disable. Note that,
             only the lenient "maths" options is available, which controls
             lenient/strict cube arithmetic.
@@ -298,7 +298,6 @@ class Lenient(threading.local):
         applied. On exit from the context manager, the previous lenient
         option state is restored.
 
-
         For example::
 
             with iris.common.Lenient.context(maths=False):
@@ -330,7 +329,7 @@ class Lenient(threading.local):
 
 class _Lenient(threading.local):
     def __init__(self, *args, **kwargs):
-        """A container for managing the run-time lenient services and client options.
+        """Container for managing the run-time lenient services and client options.
 
         A container for managing the run-time lenient services and client
         options for pre-defined functions/methods.
@@ -555,7 +554,7 @@ class _Lenient(threading.local):
         services : callable or str or iterable of callable/str
             One or more service function/methods or fully qualified string names
             of the required service function/method.
-        append : bool, optional
+        append : bool, default=False
             If True, append the lenient services to any pre-registered lenient
             services for the provided lenient client. Default is False.
 

@@ -66,8 +66,8 @@ def _check_requirements(package: str) -> None:
 
 
 def _prep_data_gen_env() -> None:
-    """Create/access a separate, unchanging environment for generating test data."""
-    python_version = "3.11"
+    """Create or access a separate, unchanging environment for generating test data."""
+    python_version = "3.12"
     data_gen_var = "DATA_GEN_PYTHON"
     if data_gen_var in environ:
         echo("Using existing data generation environment.")
@@ -91,17 +91,16 @@ def _prep_data_gen_env() -> None:
         ).resolve()
         environ[data_gen_var] = str(data_gen_python)
 
+        def clone_resource(name: str, clone_source: str) -> Path:
+            resource_dir = data_gen_python.parents[1] / "resources"
+            resource_dir.mkdir(exist_ok=True)
+            clone_dir = resource_dir / name
+            if not clone_dir.is_dir():
+                _subprocess_runner(["git", "clone", clone_source, str(clone_dir)])
+            return clone_dir
+
         echo("Installing Mule into data generation environment ...")
-        mule_dir = data_gen_python.parents[1] / "resources" / "mule"
-        if not mule_dir.is_dir():
-            _subprocess_runner(
-                [
-                    "git",
-                    "clone",
-                    "https://github.com/metomi/mule.git",
-                    str(mule_dir),
-                ]
-            )
+        mule_dir = clone_resource("mule", "https://github.com/metomi/mule.git")
         _subprocess_runner(
             [
                 str(data_gen_python),
@@ -111,6 +110,14 @@ def _prep_data_gen_env() -> None:
                 str(mule_dir / "mule"),
             ]
         )
+
+        test_data_var = "OVERRIDE_TEST_DATA_REPOSITORY"
+        if test_data_var not in environ:
+            echo("Installing iris-test-data into data generation environment ...")
+            test_data_dir = clone_resource(
+                "iris-test-data", "https://github.com/SciTools/iris-test-data.git"
+            )
+            environ[test_data_var] = str(test_data_dir / "test_data")
 
         echo("Data generation environment ready.")
 
@@ -171,7 +178,7 @@ def _gh_create_reports(commit_sha: str, results_full: str, results_shifts: str) 
     performance_report = dedent(
         (
             """
-            ### Performance Benchmark Report: {commit_sha}
+            # :stopwatch: Performance Benchmark Report: {commit_sha}
 
             <details>
             <summary>Performance shifts</summary>
@@ -332,7 +339,7 @@ class _SubParserGenerator(ABC):
     @staticmethod
     @abstractmethod
     def func(args: argparse.Namespace):
-        """The function to return when the subparser is parsed.
+        """Return when the subparser is parsed.
 
         `func` is then called, performing the user's selected sub-command.
 
@@ -537,6 +544,63 @@ class Custom(_SubParserGenerator):
         _subprocess_runner([args.asv_sub_command, *args.asv_args], asv=True)
 
 
+class TrialRun(_SubParserGenerator):
+    name = "trialrun"
+    description = (
+        "Fast trial-run a given benchmark, to check it works : "
+        "in a provided or latest-lockfile environment, "
+        "with no repeats for accuracy of measurement."
+    )
+    epilog = (
+        "e.g. python bm_runner.py trialrun "
+        "MyBenchmarks.time_calc ${DATA_GEN_PYTHON}"
+        "\n\nNOTE: 'runpath' also replaces $DATA_GEN_PYTHON during the run."
+    )
+
+    def add_arguments(self) -> None:
+        self.subparser.add_argument(
+            "benchmark",
+            type=str,
+            help=(
+                "A benchmark name, possibly including wildcards, "
+                "as supported by the ASV '--bench' argument."
+            ),
+        )
+        self.subparser.add_argument(
+            "runpath",
+            type=str,
+            help=(
+                "A path to an existing python executable, "
+                "to completely bypass environment building."
+            ),
+        )
+
+    @staticmethod
+    def func(args: argparse.Namespace) -> None:
+        if args.runpath:
+            # Shortcut creation of a data-gen environment
+            # - which is also the trial-run env.
+            python_path = Path(args.runpath).resolve()
+            environ["DATA_GEN_PYTHON"] = str(python_path)
+        _setup_common()
+        # get path of data-gen environment, setup by previous call
+        python_path = environ["DATA_GEN_PYTHON"]
+        # allow 'on-demand' benchmarks
+        environ["ON_DEMAND_BENCHMARKS"] = "1"
+        asv_command = [
+            "run",
+            "--bench",
+            args.benchmark,
+            # no repeats for timing accuracy
+            "--quick",
+            "--show-stderr",
+            # do not build a unique env : run test in data-gen environment
+            "--environment",
+            f"existing:{python_path}",
+        ] + args.asv_args
+        _subprocess_runner(asv_command, asv=True)
+
+
 class GhPost(_SubParserGenerator):
     name = "_gh_post"
     description = (
@@ -562,11 +626,24 @@ class GhPost(_SubParserGenerator):
 def main():
     parser = ArgumentParser(
         description="Run the Iris performance benchmarks (using Airspeed Velocity).",
-        epilog="More help is available within each sub-command.",
+        epilog=(
+            "More help is available within each sub-command."
+            "\n\nNOTE(1): a separate python environment is created to "
+            "construct test files.\n   Set $DATA_GEN_PYTHON to avoid the cost "
+            "of this."
+            "\nNOTE(2): iris-test-data is downloaded and cached within the "
+            "data generation environment.\n   Set "
+            "$OVERRIDE_TEST_DATA_REPOSITORY to avoid the cost of this."
+            "\nNOTE(3): test data is cached within the "
+            "benchmarks code directory, and uses a lot of disk space "
+            "of disk space (Gb).\n   Set $BENCHMARK_DATA to specify where this "
+            "space can be safely allocated."
+        ),
+        formatter_class=argparse.RawTextHelpFormatter,
     )
     subparsers = parser.add_subparsers(required=True)
 
-    for gen in (Overnight, Branch, CPerf, SPerf, Custom, GhPost):
+    for gen in (Overnight, Branch, CPerf, SPerf, Custom, TrialRun, GhPost):
         _ = gen(subparsers).subparser
 
     parsed = parser.parse_args()

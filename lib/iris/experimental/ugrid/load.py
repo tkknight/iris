@@ -3,14 +3,15 @@
 # This file is part of Iris and is released under the BSD license.
 # See LICENSE in the root of the repository for full licensing details.
 
-r"""Allow the construction of :class:`~iris.experimental.ugrid.mesh.Mesh`\\ es.
+r"""Allow the construction of :class:`~iris.experimental.ugrid.mesh.Mesh`.
 
 Extensions to Iris' NetCDF loading to allow the construction of
-:class:`~iris.experimental.ugrid.mesh.Mesh`\\ es from UGRID data in the file.
+:class:`~iris.experimental.ugrid.mesh.Mesh` from UGRID data in the file.
 
 Eventual destination: :mod:`iris.fileformats.netcdf`.
 
 """
+
 from contextlib import contextmanager
 from itertools import groupby
 from pathlib import Path
@@ -19,11 +20,11 @@ import warnings
 
 from ...config import get_logger
 from ...coords import AuxCoord
-from ...exceptions import IrisCfWarning, IrisDefaultingWarning, IrisIgnoringWarning
 from ...fileformats._nc_load_rules.helpers import get_attr_units, get_names
 from ...fileformats.netcdf import loader as nc_loader
 from ...io import decode_uri, expand_filespecs
 from ...util import guess_coord_axis
+from ...warnings import IrisCfWarning, IrisDefaultingWarning, IrisIgnoringWarning
 from .cf import (
     CFUGridAuxiliaryCoordinateVariable,
     CFUGridConnectivityVariable,
@@ -101,7 +102,7 @@ PARSE_UGRID_ON_LOAD = ParseUGridOnLoad()
 
 
 def _meshes_from_cf(cf_reader):
-    """Common behaviour for extracting meshes from a CFReader.
+    """Mesh from cf, common behaviour for extracting meshes from a CFReader.
 
     Simple now, but expected to increase in complexity as Mesh sharing develops.
 
@@ -127,10 +128,10 @@ def load_mesh(uris, var_name=None):
     ----------
     uris : str or iterable of str
         One or more filenames/URI's. Filenames can include wildcards. Any URI's
-         must support OpenDAP.
+        must support OpenDAP.
     var_name : str, optional
         Only return a :class:`~iris.experimental.ugrid.mesh.Mesh` if its
-         var_name matches this value.
+        var_name matches this value.
 
     Returns
     -------
@@ -153,17 +154,17 @@ def load_meshes(uris, var_name=None):
     ----------
     uris : str or iterable of str
         One or more filenames/URI's. Filenames can include wildcards. Any URI's
-         must support OpenDAP.
+        must support OpenDAP.
     var_name : str, optional
-        Only return :class:`~iris.experimental.ugrid.mesh.Mesh`\\ es that have
-         var_names matching this value.
+        Only return :class:`~iris.experimental.ugrid.mesh.Mesh` that have
+        var_names matching this value.
 
     Returns
     -------
     dict
         A dictionary mapping each mesh-containing file path/URL in the input
-         ``uris`` to a list of the
-         :class:`~iris.experimental.ugrid.mesh.Mesh`\\ es returned from each.
+        ``uris`` to a list of the
+        :class:`~iris.experimental.ugrid.mesh.Mesh` returned from each.
 
     """
     # TODO: rationalise UGRID/mesh handling once experimental.ugrid is folded
@@ -484,9 +485,27 @@ def _build_mesh_coords(mesh, cf_var):
         "edge": mesh.edge_dimension,
         "face": mesh.face_dimension,
     }
-    mesh_dim_name = element_dimensions[cf_var.location]
-    # (Only expecting 1 mesh dimension per cf_var).
-    mesh_dim = cf_var.dimensions.index(mesh_dim_name)
+    location = getattr(cf_var, "location", "<empty>")
+    if location is None or location not in element_dimensions:
+        # We should probably issue warnings and recover, but that is too much
+        # work.  Raising a more intelligible error is easy to do though.
+        msg = (
+            f"mesh data variable {cf_var.name!r} has an invalid "
+            f"location={location!r}."
+        )
+        raise ValueError(msg)
+    mesh_dim_name = element_dimensions.get(location)
+    if mesh_dim_name is None:
+        msg = f"mesh {mesh.name!r} has no {location} dimension."
+        raise ValueError(msg)
+    if mesh_dim_name in cf_var.dimensions:
+        mesh_dim = cf_var.dimensions.index(mesh_dim_name)
+    else:
+        msg = (
+            f"mesh data variable {cf_var.name!r} does not have the "
+            f"{location} mesh dimension {mesh_dim_name!r}, in its dimensions."
+        )
+        raise ValueError(msg)
 
     mesh_coords = mesh.to_MeshCoords(location=cf_var.location)
     return mesh_coords, mesh_dim

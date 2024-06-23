@@ -4,7 +4,6 @@
 # See LICENSE in the root of the repository for full licensing details.
 """Provides the infrastructure to support the common metadata API."""
 
-
 from abc import ABCMeta
 from collections import namedtuple
 from collections.abc import Iterable, Mapping
@@ -241,7 +240,7 @@ class BaseMetadata(metaclass=_NamedTupleMeta):
         return f"{type(self).__name__}({', '.join(field_strings)})"
 
     def _api_common(self, other, func_service, func_operation, action, lenient=None):
-        """Common entry-point for lenient metadata API methods.
+        """Perform common entry-point for lenient metadata API methods.
 
         Parameters
         ----------
@@ -583,7 +582,7 @@ class BaseMetadata(metaclass=_NamedTupleMeta):
         ----------
         other : metadata
             A metadata instance of the same type.
-        lenient : bool
+        lenient : bool, optional
             Enable/disable lenient combination. The default is to automatically
             detect whether this lenient operation is enabled.
 
@@ -683,7 +682,7 @@ class BaseMetadata(metaclass=_NamedTupleMeta):
         return result
 
     def name(self, default=None, token=False):
-        """Returns a string name representing the identity of the metadata.
+        """Return a string name representing the identity of the metadata.
 
         First it tries standard name, then it tries the long name, then
         the NetCDF variable name, before falling-back to a default value,
@@ -694,7 +693,7 @@ class BaseMetadata(metaclass=_NamedTupleMeta):
         default : optional
             The fall-back string representing the default name. Defaults to
             the string 'unknown'.
-        token : bool, optional
+        token : bool, default=False
             If True, ensures that the name returned satisfies the criteria for
             the characters required by a valid NetCDF name. If it is not
             possible to return a valid name, then a ValueError exception is
@@ -734,7 +733,7 @@ class BaseMetadata(metaclass=_NamedTupleMeta):
         Parameters
         ----------
         name : str
-            The string name to verify
+            The string name to verify.
 
         Returns
         -------
@@ -1561,7 +1560,7 @@ def _factory_cache(cls):
 
 
 def metadata_manager_factory(cls, **kwargs):
-    """Factory function for manufacturing metadata instances.
+    """Manufacturing metadata instances.
 
     A class instance factory function responsible for manufacturing
     metadata instances dynamically at runtime.
@@ -1574,7 +1573,7 @@ def metadata_manager_factory(cls, **kwargs):
     cls :
         A subclass of :class:`~iris.common.metadata.BaseMetadata`, defining
         the metadata to be managed.
-    **kwargs :
+    **kwargs : dict, optional
         Initial values for the manufactured metadata instance. Unspecified
         fields will default to a value of 'None'.
 

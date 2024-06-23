@@ -44,10 +44,27 @@ class Test(tests.IrisTest):
         self.assertTrue(array_equal(array_a, array_b))
         self.assertFalse(array_equal(array_a, array_c))
 
-    def test_masked_is_ignored(self):
+    def test_masked_is_not_ignored(self):
         array_a = ma.masked_array([1, 2, 3], mask=[1, 0, 1])
         array_b = ma.masked_array([2, 2, 2], mask=[1, 0, 1])
+        self.assertTrue(array_equal(array_a, array_b))
+
+    def test_masked_is_different(self):
+        array_a = ma.masked_array([1, 2, 3], mask=[1, 0, 1])
+        array_b = ma.masked_array([1, 2, 3], mask=[0, 0, 1])
         self.assertFalse(array_equal(array_a, array_b))
+
+    def test_masked_isnt_unmasked(self):
+        array_a = np.array([1, 2, 2])
+        array_b = ma.masked_array([1, 2, 2], mask=[0, 0, 1])
+        self.assertFalse(array_equal(array_a, array_b))
+
+    def test_masked_unmasked_equivelance(self):
+        array_a = np.array([1, 2, 2])
+        array_b = ma.masked_array([1, 2, 2])
+        array_c = ma.masked_array([1, 2, 2], mask=[0, 0, 0])
+        self.assertTrue(array_equal(array_a, array_b))
+        self.assertTrue(array_equal(array_a, array_c))
 
     def test_fully_masked_arrays(self):
         array_a = ma.masked_array(np.arange(24).reshape(2, 3, 4), mask=True)
@@ -101,12 +118,15 @@ class Test(tests.IrisTest):
         self.assertFalse(array_equal(array_a, "foobar."))
 
     def test_nan_equality_nan_ne_nan(self):
-        array = np.array([1.0, np.nan, 2.0, np.nan, 3.0])
-        self.assertFalse(array_equal(array, array))
+        array_a = np.array([1.0, np.nan, 2.0, np.nan, 3.0])
+        array_b = array_a.copy()
+        self.assertFalse(array_equal(array_a, array_a))
+        self.assertFalse(array_equal(array_a, array_b))
 
     def test_nan_equality_nan_naneq_nan(self):
         array_a = np.array([1.0, np.nan, 2.0, np.nan, 3.0])
         array_b = np.array([1.0, np.nan, 2.0, np.nan, 3.0])
+        self.assertTrue(array_equal(array_a, array_a, withnans=True))
         self.assertTrue(array_equal(array_a, array_b, withnans=True))
 
     def test_nan_equality_nan_nanne_a(self):

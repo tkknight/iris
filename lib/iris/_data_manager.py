@@ -117,7 +117,7 @@ class DataManager:
         return result
 
     def __repr__(self):
-        """Returns an string representation of the instance."""
+        """Return an string representation of the instance."""
         fmt = "{cls}({data!r})"
         result = fmt.format(data=self.core_data(), cls=type(self).__name__)
 
@@ -171,7 +171,7 @@ class DataManager:
 
     @property
     def data(self):
-        """Returns the real data. Any lazy data being managed will be realised.
+        """Return the real data. Any lazy data being managed will be realised.
 
         Returns
         -------
@@ -269,11 +269,11 @@ class DataManager:
         return self.core_data().shape
 
     def copy(self, data=None):
-        """Returns a deep copy of this :class:`~iris._data_manager.DataManager` instance.
+        """Return a deep copy of this :class:`~iris._data_manager.DataManager` instance.
 
         Parameters
         ----------
-        data :
+        data : optional
             Replace the data of the copy with this data.
 
         Returns

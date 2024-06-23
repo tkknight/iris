@@ -7,15 +7,8 @@
 Benchmarks stages of operation of the function
 :func:`iris.experimental.ugrid.utils.recombine_submeshes`.
 
-Where possible benchmarks should be parameterised for two sizes of input data:
-
-* minimal: enables detection of regressions in parts of the run-time that do
-  NOT scale with data size.
-
-* large: large enough to exclusively detect regressions in parts of the
-  run-time that scale with data size.
-
 """
+
 import os
 
 import dask.array as da
@@ -25,7 +18,7 @@ from iris import load, load_cube, save
 from iris.experimental.ugrid import PARSE_UGRID_ON_LOAD
 from iris.experimental.ugrid.utils import recombine_submeshes
 
-from ... import TrackAddedMemoryAllocation, on_demand_benchmark
+from ... import TrackAddedMemoryAllocation
 from ...generate_data.ugrid import make_cube_like_2d_cubesphere
 
 
@@ -92,7 +85,7 @@ class MixinCombineRegions:
             )
 
     def setup(self, n_cubesphere, imaginary_data=True, create_result_cube=True):
-        """The combine-tests "standard" setup operation.
+        """Combine tests "standard" setup operation.
 
         Load the source cubes (full-mesh + region) from disk.
         These are specific to the cubesize parameter.
@@ -189,8 +182,6 @@ class CombineRegionsComputeRealData(MixinCombineRegions):
     def time_compute_data(self, n_cubesphere):
         _ = self.recombined_cube.data
 
-    # Vulnerable to noise, so disabled by default.
-    @on_demand_benchmark
     @TrackAddedMemoryAllocation.decorator
     def track_addedmem_compute_data(self, n_cubesphere):
         _ = self.recombined_cube.data
@@ -210,8 +201,6 @@ class CombineRegionsSaveData(MixinCombineRegions):
         # Save to disk, which must compute data + stream it to file.
         save(self.recombined_cube, "tmp.nc")
 
-    # Vulnerable to noise, so disabled by default.
-    @on_demand_benchmark
     @TrackAddedMemoryAllocation.decorator
     def track_addedmem_save(self, n_cubesphere):
         save(self.recombined_cube, "tmp.nc")
@@ -240,8 +229,6 @@ class CombineRegionsFileStreamedCalc(MixinCombineRegions):
         # Save to disk, which must compute data + stream it to file.
         save(self.recombined_cube, "tmp.nc")
 
-    # Vulnerable to noise, so disabled by default.
-    @on_demand_benchmark
     @TrackAddedMemoryAllocation.decorator
     def track_addedmem_stream_file2file(self, n_cubesphere):
         save(self.recombined_cube, "tmp.nc")

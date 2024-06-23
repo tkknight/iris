@@ -55,7 +55,7 @@ def is_brewer(cmap):
 
 
 def _default_cmap_norm(args, kwargs):
-    """Injects default cmap and norm behaviour into the keyword arguments.
+    """Inject default cmap and norm behaviour into the keyword arguments.
 
     This function injects default cmap and norm behaviour into the keyword
     arguments, based on the cube referenced within the positional arguments.
@@ -123,7 +123,7 @@ def cmap_norm(cube):
     -------
     tuple
         Tuple of :class:`matplotlib.colors.LinearSegmentedColormap` and
-        :class:`iris.palette.SymmetricNormalize`
+        :class:`iris.palette.SymmetricNormalize`.
 
     Notes
     -----
@@ -136,7 +136,7 @@ def cmap_norm(cube):
 
 
 def auto_palette(func):
-    """Decorator wrapper function to control the default behaviour.
+    """Auto palette decorator wrapper function to control the default behaviour.
 
     Decorator wrapper function to control the default behaviour of the
     matplotlib cmap and norm keyword arguments.

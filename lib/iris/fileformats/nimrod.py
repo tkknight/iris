@@ -171,9 +171,9 @@ class NimrodField:
 
     References
     ----------
-        Met Office (2003): Met Office Rain Radar Data from the NIMROD System.
-        NCAS British Atmospheric Data Centre, date of citation.
-        https://catalogue.ceda.ac.uk/uuid/82adec1f896af6169112d09cc1174499
+    Met Office (2003): Met Office Rain Radar Data from the NIMROD System.
+    NCAS British Atmospheric Data Centre, date of citation.
+    https://catalogue.ceda.ac.uk/uuid/82adec1f896af6169112d09cc1174499
 
     """
 
@@ -290,20 +290,18 @@ class NimrodField:
 
 
 def load_cubes(filenames, callback=None):
-    """Loads cubes from a list of NIMROD filenames.
+    """Load cubes from a list of NIMROD filenames.
 
     Parameters
     ----------
     filenames :
-        List of NIMROD filenames to load
-    callback :
-        A function which can be passed on to :func:`iris.io.run_callback`
+        List of NIMROD filenames to load.
+    callback : optional
+        A function which can be passed on to :func:`iris.io.run_callback`.
 
     Notes
     -----
-    .. note::
-
-        The resultant cubes may not be in the same order as in the files.
+    The resultant cubes may not be in the same order as in the files.
 
     """
     if isinstance(filenames, str):

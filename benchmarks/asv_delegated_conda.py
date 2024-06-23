@@ -47,17 +47,15 @@ class CondaDelegated(Conda):
 
         Parameters
         ----------
-        conf : Config instance
-
+        conf : Config
+            Config instance.
         python : str
             Version of Python.  Must be of the form "MAJOR.MINOR".
-
         requirements : dict
             Dictionary mapping a PyPI package name to a version
             identifier string.
-
         tagged_env_vars : dict
-            Environment variables, tagged for build vs. non-build
+            Environment variables, tagged for build vs. non-build.
 
         """
         ignored = ["`python`"]
@@ -193,6 +191,11 @@ class CondaDelegated(Conda):
 
             # Record new environment information in properties.
             self._update_info()
+
+    def _run_conda(self, args, env=None):
+        # TODO: remove after airspeed-velocity/asv#1397 is merged and released.
+        args = ["--yes" if arg == "--force" else arg for arg in args]
+        return super()._run_conda(args, env)
 
     def checkout_project(self, repo: Repo, commit_hash: str) -> None:
         """Check out the working tree of the project at given commit hash."""

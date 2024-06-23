@@ -37,13 +37,13 @@ class Trajectory:
     """A series of given waypoints with pre-calculated sample points."""
 
     def __init__(self, waypoints, sample_count=10):
-        """Defines a trajectory using a sequence of waypoints.
+        """Define a trajectory using a sequence of waypoints.
 
         Parameters
         ----------
         waypoints :
             A sequence of dictionaries, mapping coordinate names to values.
-        sample_count : int, optional, default=10
+        sample_count : int, default=10
             The number of sample positions to use along the trajectory.
 
         Examples
@@ -128,7 +128,7 @@ class Trajectory:
         return [(k, v) for k, v in points.items()]
 
     def _src_cube_anon_dims(self, cube):
-        """A helper method to locate the index of anonymous dimensions.
+        """Locate the index of anonymous dimensions.
 
         A helper method to locate the index of anonymous dimensions on the
         interpolation target, ``cube``.
@@ -156,7 +156,7 @@ class Trajectory:
         ----------
         cube :
              The source Cube to interpolate.
-        method :
+        method : optional
             The interpolation method to use; "linear" (default) or "nearest".
             Only nearest is available when specifying multi-dimensional
             coordinates.
@@ -191,7 +191,7 @@ def interpolate(cube, sample_points, method=None):
         The source Cube.
     sample_points :
         A sequence of coordinate (name) - values pairs.
-    method : optional, default=None
+    method : optional
         Request "linear" interpolation (default) or "nearest" neighbour.
         Only nearest neighbour is available when specifying multi-dimensional
         coordinates.
@@ -490,7 +490,7 @@ def _cartesian_sample_points(sample_points, sample_point_coord_names):
         [coord][datum] list of sample_positions for each datum, formatted for
         fast use of :func:`_ll_to_cart()`.
     sample_point_coord_names :
-        [coord] list of n coord names
+        [coord] list of n coord names.
 
     Returns
     -------
@@ -544,7 +544,7 @@ def _nearest_neighbour_indices_ndcoords(cube, sample_points, cache=None):
     Because this function can be slow for multidimensional coordinates,
     a 'cache' dictionary can be provided by the calling code.
 
-    .. Note::
+    .. note::
 
         If the points are longitudes/latitudes, these are handled correctly as
         points on the sphere, but the values must be in 'degrees'.
@@ -712,7 +712,7 @@ class UnstructuredNearestNeigbourRegridder:
     # TODO: cache the necessary bits of the operation so reuse can actually
     # be more efficient.
     def __init__(self, src_cube, target_grid_cube):
-        """A nearest-neighbour regridder.
+        """Nearest-neighbour regridder.
 
         A nearest-neighbour regridder to perform regridding from the source
         grid to the target grid.
@@ -745,7 +745,7 @@ class UnstructuredNearestNeigbourRegridder:
 
         Notes
         -----
-        .. Note::
+        .. note::
 
             For latitude-longitude coordinates, the nearest-neighbour distances
             are computed on the sphere, otherwise flat Euclidean distances are

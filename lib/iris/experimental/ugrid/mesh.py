@@ -8,10 +8,13 @@
 Eventual destination: dedicated module in :mod:`iris` root.
 
 """
+
 from abc import ABC, abstractmethod
 from collections import namedtuple
 from collections.abc import Container
+from contextlib import contextmanager
 from typing import Iterable
+import warnings
 
 from cf_units import Unit
 from dask import array as da
@@ -24,6 +27,7 @@ from ...config import get_logger
 from ...coords import AuxCoord, _DimensionalMetadata
 from ...exceptions import ConnectivityNotFoundError, CoordinateNotFoundError
 from ...util import array_equal, clip_string, guess_coord_axis
+from ...warnings import IrisVagueMetadataWarning
 from .metadata import ConnectivityMetadata, MeshCoordMetadata, MeshMetadata
 
 # Configure the logger.
@@ -119,7 +123,7 @@ class Connectivity(_DimensionalMetadata):
         start_index=0,
         location_axis=0,
     ):
-        """Constructs a single connectivity.
+        """Construct a single connectivity.
 
         Parameters
         ----------
@@ -313,7 +317,7 @@ class Connectivity(_DimensionalMetadata):
 
         Parameters
         ----------
-        indices : array
+        indices : array, optional
             The array on which to operate. If ``None``, will operate on
             :attr:`indices`. Default is ``None``.
 
@@ -494,7 +498,7 @@ class Connectivity(_DimensionalMetadata):
         return super()._lazy_values()
 
     def core_indices(self):
-        """The indices array at the core of this connectivity.
+        """Return the indices array at the core of this connectivity.
 
         The indices array at the core of this connectivity, which may be a
         NumPy array or a Dask array.
@@ -693,7 +697,7 @@ class Mesh(CFVariableMixin):
 
     @classmethod
     def from_coords(cls, *coords):
-        r"""Construct a :class:`Mesh` by derivation from one or more :class:`~iris.coords.Coord`\\ s.
+        r"""Construct a :class:`Mesh` by derivation from one or more :class:`~iris.coords.Coord`.
 
         The :attr:`~Mesh.topology_dimension`, :class:`~iris.coords.Coord`
         membership and :class:`Connectivity` membership are all determined
@@ -734,9 +738,9 @@ class Mesh(CFVariableMixin):
 
         .. note::
             :class:`Mesh` currently requires ``X`` and ``Y``
-            :class:`~iris.coords.Coord`\\ s specifically.
+            :class:`~iris.coords.Coord` specifically.
             :meth:`iris.util.guess_coord_axis` is therefore attempted, else the
-            first two :class:`~iris.coords.Coord`\\ s are taken.
+            first two :class:`~iris.coords.Coord` are taken.
 
         .. testsetup::
 
@@ -862,6 +866,7 @@ class Mesh(CFVariableMixin):
 
         #####
         # TODO: remove axis assignment once Mesh supports arbitrary coords.
+        # TODO: consider filtering coords as the first action in this method.
         axes_present = [guess_coord_axis(coord) for coord in coords]
         axes_required = ("X", "Y")
         if all([req in axes_present for req in axes_required]):
@@ -933,7 +938,7 @@ class Mesh(CFVariableMixin):
 
         Returns
         -------
-        result : str
+        str
 
         """
         if shorten:
@@ -1260,17 +1265,17 @@ class Mesh(CFVariableMixin):
 
         Parameters
         ----------
-        node_x (object) : optional, default=None
+        node_x : optional
             The ``x-axis`` like ``node`` :class:`~iris.coords.AuxCoord`.
-        node_y (object): optional, default=None
+        node_y : optional
             The ``y-axis`` like ``node`` :class:`~iris.coords.AuxCoord`.
-        edge_x (object): optional, default=None
+        edge_x : optional
             The ``x-axis`` like ``edge`` :class:`~iris.coords.AuxCoord`.
-        edge_y (object): optional, default=None
+        edge_y : optional
             The ``y-axis`` like ``edge`` :class:`~iris.coords.AuxCoord`.
-        face_x (object): optional, default=None
+        face_x : optional
             The ``x-axis`` like ``face`` :class:`~iris.coords.AuxCoord`.
-        face_y (object): optional, default=None
+        face_y : optional
             The ``y-axis`` like ``face`` :class:`~iris.coords.AuxCoord`.
 
         """
@@ -1326,23 +1331,23 @@ class Mesh(CFVariableMixin):
               the desired objects e.g.,
               :class:`~iris.experimental.ugrid.mesh.Connectivity` or
               :class:`~iris.experimental.ugrid.metadata.ConnectivityMetadata`.
-        standard_name : str, optional, default=None
+        standard_name : str, optional
             The CF standard name of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``standard_name``.
-        long_name : str, optional, default=None
+        long_name : str, optional
             An unconstrained description of the
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``long_name``.
-        var_name : str, optional, default=None
+        var_name : str, optional
             The NetCDF variable name of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``var_name``.
-        attributes : dict, optional, default=None
+        attributes : dict, optional
             A dictionary of attributes desired on the
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``attributes``.
-        cf_role : str, optional, default=None
+        cf_role : str, optional
             The UGRID ``cf_role`` of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`.
         contains_node : bool, optional
@@ -1422,23 +1427,23 @@ class Mesh(CFVariableMixin):
               the desired object e.g.,
               :class:`~iris.experimental.ugrid.mesh.Connectivity` or
               :class:`~iris.experimental.ugrid.metadata.ConnectivityMetadata`.
-        standard_name : str, optional, default=None
+        standard_name : str, optional
             The CF standard name of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``standard_name``.
-        long_name : str, optional, default=None
+        long_name : str, optional
             An unconstrained description of the
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``long_name``.
-        var_name : str, optional, default=None
+        var_name : str, optional
             The NetCDF variable name of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``var_name``.
-        attributes : dict, optional, default=None
+        attributes : dict, optional
             A dictionary of attributes desired on the
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``attributes``.
-        cf_role : str, optional, default=None
+        cf_role : str, optional
             The UGRID ``cf_role`` of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`.
         contains_node : bool, optional
@@ -1505,7 +1510,7 @@ class Mesh(CFVariableMixin):
 
         Parameters
         ----------
-        item : str or object, optional, default=None
+        item : str or object, optional
             Either,
 
             * a :attr:`~iris.common.mixin.CFVariableMixin.standard_name`,
@@ -1516,19 +1521,19 @@ class Mesh(CFVariableMixin):
             * a coordinate or metadata instance equal to that of
               the desired coordinate e.g., :class:`~iris.coords.AuxCoord` or
               :class:`~iris.common.metadata.CoordMetadata`.
-        standard_name : str, optional, default=None
+        standard_name : str, optional
             The CF standard name of the desired coordinate. If ``None``, does not
             check for ``standard_name``.
-        long_name : str, optional, default=None
+        long_name : str, optional
             An unconstrained description of the coordinate. If ``None``, does not
             check for ``long_name``.
-        var_name : str, optional, default=None
+        var_name : str, optional
             The NetCDF variable name of the desired coordinate. If ``None``, does
             not check for ``var_name``.
-        attributes : dict, optional, default=None
+        attributes : dict, optional
             A dictionary of attributes desired on the coordinates. If ``None``,
             does not check for ``attributes``.
-        axis : str, optional, default=None
+        axis : str, optional
             The desired coordinate axis, see :func:`~iris.util.guess_coord_axis`.
             If ``None``, does not check for ``axis``. Accepts the values ``X``,
             ``Y``, ``Z`` and ``T`` (case-insensitive).
@@ -1585,7 +1590,7 @@ class Mesh(CFVariableMixin):
 
         Parameters
         ----------
-        item : str or object, optional, default=None
+        item : str or object, optional
             Either,
 
             * a :attr:`~iris.common.mixin.CFVariableMixin.standard_name`,
@@ -1596,19 +1601,19 @@ class Mesh(CFVariableMixin):
             * a coordinate or metadata instance equal to that of
               the desired coordinates e.g., :class:`~iris.coords.AuxCoord` or
               :class:`~iris.common.metadata.CoordMetadata`.
-        standard_name : str, optional, default=None
+        standard_name : str, optional
             The CF standard name of the desired coordinate. If ``None``, does not
             check for ``standard_name``.
-        long_name : str, optional, default=None
+        long_name : str, optional
             An unconstrained description of the coordinate. If ``None``, does not
             check for ``long_name``.
-        var_name : str, optional, default=None
+        var_name : str, optional
             The NetCDF variable name of the desired coordinate. If ``None``, does
             not check for ``var_name``.
-        attributes : dict, optional, default=None
+        attributes : dict, optional
             A dictionary of attributes desired on the coordinates. If ``None``,
             does not check for ``attributes``.
-        axis : str, optional, default=None
+        axis : str, optional
             The desired coordinate axis, see :func:`~iris.util.guess_coord_axis`.
             If ``None``, does not check for ``axis``. Accepts the values ``X``,
             ``Y``, ``Z`` and ``T`` (case-insensitive).
@@ -1661,7 +1666,7 @@ class Mesh(CFVariableMixin):
 
         Parameters
         ----------
-        item : str or object, optional, default=None
+        item : str or object, optional
             Either,
 
             * a :attr:`~iris.common.mixin.CFVariableMixin.standard_name`,
@@ -1673,23 +1678,23 @@ class Mesh(CFVariableMixin):
               the desired objects e.g.,
               :class:`~iris.experimental.ugrid.mesh.Connectivity` or
               :class:`~iris.experimental.ugrid.metadata.ConnectivityMetadata`.
-        standard_name : str, optional, default=None
+        standard_name : str, optional
             The CF standard name of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``standard_name``.
-        long_name : str, optional, default=None
+        long_name : str, optional
             An unconstrained description of the
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``long_name``.
-        var_name : str, optional, default=None
+        var_name : str, optional
             The NetCDF variable name of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``var_name``.
-        attributes : dict, optional, default=None
+        attributes : dict, optional
             A dictionary of attributes desired on the
             :class:`~iris.experimental.ugrid.mesh.Connectivity`. If ``None``,
             does not check for ``attributes``.
-        cf_role : str, optional, default=None
+        cf_role : str, optional
             The UGRID ``cf_role`` of the desired
             :class:`~iris.experimental.ugrid.mesh.Connectivity`.
         contains_node : bool, optional
@@ -1747,7 +1752,7 @@ class Mesh(CFVariableMixin):
 
         Parameters
         ----------
-        item : str or object, optional, default=None
+        item : str or object, optional
             Either,
 
             * a :attr:`~iris.common.mixin.CFVariableMixin.standard_name`,
@@ -1758,19 +1763,19 @@ class Mesh(CFVariableMixin):
             * a coordinate or metadata instance equal to that of
               the desired coordinates e.g., :class:`~iris.coords.AuxCoord` or
               :class:`~iris.common.metadata.CoordMetadata`.
-        standard_name : str, optional, default=None
+        standard_name : str, optional
             The CF standard name of the desired coordinate. If ``None``, does not
             check for ``standard_name``.
-        long_name : str, optional, default=None
+        long_name : str, optional
             An unconstrained description of the coordinate. If ``None``, does not
             check for ``long_name``.
-        var_name : str, optional, default=None
+        var_name : str, optional
             The NetCDF variable name of the desired coordinate. If ``None``, does
             not check for ``var_name``.
-        attributes : dict, optional, default=None
+        attributes : dict, optional
             A dictionary of attributes desired on the coordinates. If ``None``,
             does not check for ``attributes``.
-        axis : str, optional, default=None
+        axis : str, optional
             The desired coordinate axis, see :func:`~iris.util.guess_coord_axis`.
             If ``None``, does not check for ``axis``. Accepts the values ``X``,
             ``Y``, ``Z`` and ``T`` (case-insensitive).
@@ -1869,10 +1874,10 @@ class Mesh(CFVariableMixin):
         return MeshCoord(mesh=self, location=location, axis=axis)
 
     def to_MeshCoords(self, location):
-        r"""Generate a tuple of :class:`~iris.experimental.ugrid.mesh.MeshCoord`\\ s.
+        r"""Generate a tuple of :class:`~iris.experimental.ugrid.mesh.MeshCoord`.
 
         Generate a tuple of
-        :class:`~iris.experimental.ugrid.mesh.MeshCoord`\\ s, each referencing
+        :class:`~iris.experimental.ugrid.mesh.MeshCoord`, each referencing
         the current :class:`Mesh`, one for each :attr:`AXES` value, passing
         through the ``location`` argument.
 
@@ -1888,7 +1893,7 @@ class Mesh(CFVariableMixin):
         Returns
         -------
         tuple of :class:`~iris.experimental.ugrid.mesh.MeshCoord`
-            tuple of :class:`~iris.experimental.ugrid.mesh.MeshCoord`
+            Tuple of :class:`~iris.experimental.ugrid.mesh.MeshCoord`
             referencing the current :class:`Mesh`. One for each value in
             :attr:`AXES`, using the value for the ``axis`` argument.
 
@@ -1908,10 +1913,10 @@ class Mesh(CFVariableMixin):
         node : bool, optional, default=False
             Reset the name of the ``node`` dimension if ``True``. Default
             is ``False``.
-        edge : bool, optional, default=False
+        edge : bool, default=False
             Reset the name of the ``edge`` dimension if ``True``. Default
             is ``False``.
-        face : bool, optional, default=False
+        face : bool, default=False
             Reset the name of the ``face`` dimension if ``True``. Default
             is ``False``.
 
@@ -1930,13 +1935,13 @@ class Mesh(CFVariableMixin):
 
         Parameters
         ----------
-        node : str, optional, default=None
+        node : str, optional
             The name to be used for the NetCDF variable representing the
             ``node`` dimension.
-        edge : str, optional, default=None
+        edge : str, optional
             The name to be used for the NetCDF variable representing the
             ``edge`` dimension.
-        face : str, optional, default=None
+        face : str, optional
             The name to be used for the NetCDF variable representing the
             ``face`` dimension.
 
@@ -2837,12 +2842,53 @@ class MeshCoord(AuxCoord):
         # Translate "self[:,]" as "self.copy()".
         return self.copy()
 
+    def collapsed(self, dims_to_collapse=None):
+        """Return a copy of this coordinate, which has been collapsed along the specified dimensions.
+
+        Replaces the points & bounds with a simple bounded region.
+
+        The coordinate that is collapsed is a :class:`~iris.coords.AuxCoord`
+        copy of this :class:`MeshCoord`, since a :class:`MeshCoord`
+        does not have its own points/bounds - they are derived from the
+        associated :class:`Mesh`. See :meth:`iris.coords.AuxCoord.collapsed`.
+        """
+
+        @contextmanager
+        def temp_suppress_warning():
+            """Add IrisVagueMetadataWarning filter then removes it after yielding.
+
+            A workaround to mimic catch_warnings(), given python/cpython#73858.
+            """
+            warnings.filterwarnings("ignore", category=IrisVagueMetadataWarning)
+            added_warning = warnings.filters[0]
+
+            yield
+
+            # (warnings.filters is usually mutable but this is not guaranteed).
+            new_filters = list(warnings.filters)
+            new_filters.remove(added_warning)
+            warnings.filters = new_filters
+
+        aux_coord = AuxCoord.from_coord(self)
+
+        # Reuse existing AuxCoord collapse logic, but with a custom
+        #  mesh-specific warning.
+        message = (
+            "Collapsing a mesh coordinate - cannot check for contiguity."
+            f"Metadata may not be fully descriptive for '{self.name()}'."
+        )
+        warnings.warn(message, category=IrisVagueMetadataWarning)
+        with temp_suppress_warning():
+            collapsed_coord = aux_coord.collapsed(dims_to_collapse)
+
+        return collapsed_coord
+
     def copy(self, points=None, bounds=None):
         """Make a copy of the MeshCoord.
 
         Parameters
         ----------
-        points, bounds : array)
+        points, bounds : array, optional
             Provided solely for signature compatibility with other types of
             :class:`~iris.coords.Coord`.
             In this case, if either is not 'None', an error is raised.
@@ -2957,8 +3003,9 @@ class MeshCoord(AuxCoord):
 
         Returns
         -------
-        points, bounds : array or None
-            lazy arrays which calculate the correct points and bounds from the
+        array or None
+            Tuple of (points, bounds).
+            Lazy arrays which calculate the correct points and bounds from the
             Mesh data, based on the location and axis.
             The Mesh coordinates accessed are not identified on construction,
             but discovered from the Mesh at the time of calculation, so that

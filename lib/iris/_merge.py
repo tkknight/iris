@@ -68,7 +68,7 @@ class _CoordMetaData(
     bounds_dtype :
         The bounds data :class:`numpy.dtype` of an associated coordinate.
         None otherwise.
-    kwargs:
+    kwargs :
         A dictionary of key/value pairs required to create a coordinate.
 
     """
@@ -162,11 +162,11 @@ class _CoordPayload(namedtuple("CoordPayload", ["scalar", "vector", "factory_def
 
     Parameters
     ----------
-    scalar:
+    scalar :
         A :class:`_ScalarCoordPayload` instance.
-    vector:
+    vector :
         A :class:`_VectorCoordPayload` instance.
-    factory_defns:
+    factory_defns :
         A list of :class:`_FactoryDefn` instances.
 
     """
@@ -637,7 +637,7 @@ def _separable(name, indexes):
 
     Returns
     -------
-    tupl
+    tuple
         A tuple containing the set of separable and inseparable
         candidate dimensions.
 
@@ -777,7 +777,7 @@ def _is_dependent(dependent, independent, positions, function_mapping=None):
     positions :
         A list containing a dictionary of candidate dimension key to
         scalar value pairs for each source-cube.
-    function_mapping : optional, default=None
+    function_mapping : optional
         A dictionary that enumerates a valid functional relationship
         between the dependent candidate dimension and the independent
         candidate dimension/s.
@@ -877,7 +877,7 @@ def _build_separable_group(
         dependency on any other candidate dimensions within the space.
     group :
         A set of related (chained) inseparable candidate dimensions.
-    separable_consistent_groups:
+    separable_consistent_groups :
         A list of candidate dimension groups that are consistently separable.
     positions :
         A list containing a dictionary of candidate dimension key to
@@ -1047,12 +1047,12 @@ def derive_space(groups, relation_matrix, positions, function_matrix=None):
     ----------
     groups :
         A list of all related (chained) inseparable candidate dimensions.
-    relation_matrix:
+    relation_matrix :
         The relation dictionary for each candidate dimension.
     positions :
         A list containing a dictionary of candidate dimension key to
         scalar value pairs for each source-cube.
-    function_matrix : optional, default=None
+    function_matrix : optional
           The function mapping dictionary for each candidate dimension that
           participates in a functional relationship.
 
@@ -1182,11 +1182,11 @@ class ProtoCube:
         raise iris.exceptions.DuplicateDataError(msg)
 
     def merge(self, unique=True):
-        """Returns the list of cubes resulting from merging the registered source-cubes.
+        """Return the list of cubes resulting from merging the registered source-cubes.
 
         Parameters
         ----------
-        unique :
+        unique : bool, default=True
             If True, raises `iris.exceptions.DuplicateDataError` if
             duplicate cubes are detected.
 
@@ -1230,14 +1230,6 @@ class ProtoCube:
 
         # Generate group-depth merged cubes from the source-cubes.
         for level in range(group_depth):
-            # Track the largest dtype of the data to be merged.
-            # Unfortunately, da.stack() is not symmetric with regards
-            # to dtypes. So stacking float + int yields a float, but
-            # stacking an int + float yields an int! We need to ensure
-            # that the largest dtype prevails i.e. float, in order to
-            # support the masked case for dask.
-            # Reference https://github.com/dask/dask/issues/2273.
-            dtype = None
             # Stack up all the data from all of the relevant source
             # cubes in a single dask "stacked" array.
             # If it turns out that all the source cubes already had
@@ -1258,21 +1250,11 @@ class ProtoCube:
                 else:
                     data = as_lazy_data(data)
                 stack[nd_index] = data
-                # Determine the largest dtype.
-                if dtype is None:
-                    dtype = data.dtype
-                else:
-                    dtype = np.promote_types(data.dtype, dtype)
-
-            # Coerce to the largest dtype.
-            for nd_index in nd_indexes:
-                stack[nd_index] = stack[nd_index].astype(dtype)
 
             merged_data = multidim_lazy_stack(stack)
             if all_have_data:
                 # All inputs were concrete, so turn the result back into a
                 # normal array.
-                dtype = self._cube_signature.data_type
                 merged_data = as_concrete_data(merged_data)
             merged_cube = self._get_cube(merged_data)
             merged_cubes.append(merged_cube)
@@ -1294,7 +1276,7 @@ class ProtoCube:
         cube :
             Candidate :class:`iris.cube.Cube` to be associated with
             this :class:`ProtoCube`.
-        error_on_mismatch :bool,  optional, default=False
+        error_on_mismatch : bool, default=False
             If True, raise an informative
             :class:`~iris.exceptions.MergeError` if registration fails.
 
@@ -1319,7 +1301,7 @@ class ProtoCube:
         return match
 
     def _guess_axis(self, name):
-        """Returns a "best guess" axis name of the candidate dimension.
+        """Return a "best guess" axis name of the candidate dimension.
 
         Heuristic categoration of the candidate dimension
         (i.e. scalar_defn index) into either label 'T', 'Z', 'Y', 'X'
@@ -1335,7 +1317,8 @@ class ProtoCube:
 
         Returns
         -------
-        axis : {'T', 'Z', 'Y', 'X'} or None.
+        str or None
+            {'T', 'Z', 'Y', 'X'} or None.
 
         """
         axis = None
@@ -1564,7 +1547,7 @@ class ProtoCube:
         return cube
 
     def _nd_index(self, position):
-        """Returns the n-dimensional index of thr source-cube, within the merged cube."""
+        """Return the n-dimensional index of thr source-cube, within the merged cube."""
         index = []
 
         # Determine the index of the source-cube cell for each dimension.

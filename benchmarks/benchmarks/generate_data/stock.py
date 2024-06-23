@@ -7,10 +7,13 @@
 See :mod:`benchmarks.generate_data` for an explanation of this structure.
 """
 
+from contextlib import nullcontext
 from hashlib import sha256
 import json
 from pathlib import Path
 
+import iris
+from iris import cube
 from iris.experimental.ugrid import PARSE_UGRID_ON_LOAD, load_mesh
 
 from . import BENCHMARK_DATA, REUSE_DATA, load_realised, run_function_elsewhere
@@ -49,7 +52,7 @@ def _create_file__xios_common(func_name, **kwargs):
 def create_file__xios_2d_face_half_levels(
     temp_file_dir, dataset_name, n_faces=866, n_times=1
 ):
-    """Wrapper for :meth:`iris.tests.stock.netcdf.create_file__xios_2d_face_half_levels`.
+    """Create file wrapper for :meth:`iris.tests.stock.netcdf.create_file__xios_2d_face_half_levels`.
 
     Have taken control of temp_file_dir
 
@@ -67,7 +70,7 @@ def create_file__xios_2d_face_half_levels(
 def create_file__xios_3d_face_half_levels(
     temp_file_dir, dataset_name, n_faces=866, n_times=1, n_levels=38
 ):
-    """Wrapper for :meth:`iris.tests.stock.netcdf.create_file__xios_3d_face_half_levels`.
+    """Create file wrapper for :meth:`iris.tests.stock.netcdf.create_file__xios_3d_face_half_levels`.
 
     Have taken control of temp_file_dir
 
@@ -84,7 +87,7 @@ def create_file__xios_3d_face_half_levels(
 
 
 def sample_mesh(n_nodes=None, n_faces=None, n_edges=None, lazy_values=False):
-    """Wrapper for :meth:iris.tests.stock.mesh.sample_mesh`."""
+    """Sample mesh wrapper for :meth:iris.tests.stock.mesh.sample_mesh`."""
 
     def _external(*args, **kwargs):
         from iris.experimental.ugrid import save_mesh
@@ -112,7 +115,7 @@ def sample_mesh(n_nodes=None, n_faces=None, n_edges=None, lazy_values=False):
 
 
 def sample_meshcoord(sample_mesh_kwargs=None, location="face", axis="x"):
-    """Wrapper for :meth:`iris.tests.stock.mesh.sample_meshcoord`.
+    """Sample meshcoord wrapper for :meth:`iris.tests.stock.mesh.sample_meshcoord`.
 
     Parameters deviate from the original as cannot pass a
     :class:`iris.experimental.ugrid.Mesh to the separate Python instance - must
@@ -149,3 +152,35 @@ def sample_meshcoord(sample_mesh_kwargs=None, location="face", axis="x"):
             source_mesh = load_mesh(str(save_path))
     # Regenerate MeshCoord from its Mesh, which we saved.
     return source_mesh.to_MeshCoord(location=location, axis=axis)
+
+
+def realistic_4d_w_everything(w_mesh=False, lazy=False) -> iris.cube.Cube:
+    """Run :func:`iris.tests.stock.realistic_4d_w_everything` in ``DATA_GEN_PYTHON``.
+
+    Parameters
+    ----------
+    w_mesh : bool
+        See :func:`iris.tests.stock.realistic_4d_w_everything` for details.
+    lazy : bool
+        If True, the Cube will be returned with all arrays as they would
+        normally be loaded from file (i.e. most will still be lazy Dask
+        arrays). If False, all arrays will be realised NumPy arrays.
+
+    """
+
+    def _external(w_mesh_: str, save_path_: str):
+        import iris
+        from iris.tests.stock import realistic_4d_w_everything
+
+        cube = realistic_4d_w_everything(w_mesh=bool(w_mesh_))
+        iris.save(cube, save_path_)
+
+    save_path = (BENCHMARK_DATA / f"realistic_4d_w_everything_{w_mesh}").with_suffix(
+        ".nc"
+    )
+    if not REUSE_DATA or not save_path.is_file():
+        _ = run_function_elsewhere(_external, w_mesh_=w_mesh, save_path_=str(save_path))
+    with PARSE_UGRID_ON_LOAD.context():
+        context = nullcontext() if lazy else load_realised()
+        with context:
+            return iris.load_cube(save_path, "air_potential_temperature")
