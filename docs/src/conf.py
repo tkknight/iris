@@ -380,6 +380,10 @@ html_context = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 html_style = "theme_override.css"
+html_css_files = [
+    "style.css",
+    # "theme_overrides.css",
+]
 
 # url link checker.  Some links work but report as broken, lets ignore them.
 # See https://www.sphinx-doc.org/en/1.2/config.html#options-for-the-linkcheck-builder

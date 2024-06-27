@@ -151,6 +151,72 @@ The legacy support resources:
   which case we suggest you use a different unzip tool.
 
 
+
+
+---
+
+.. grid:: 1 1 2 2
+    :gutter: 2
+
+    .. grid-item-card:: 🚧 Tutorials
+        :class-title: custom-title
+        :class-body: custom-body
+        :link: gv-tutorials
+        :link-type: ref
+        :img-top: _static/images/icons/tutorials.svg
+        :class-img-top: dark-light
+        :class-card: sd-rounded-3
+
+        Topic driven themed lessons.
+
+    .. grid-item-card:: 🚧 How-To Guides
+        :class-title: custom-title
+        :class-body: custom-body
+        :link: gv-howtos
+        :link-type: ref
+        :img-top: _static/images/icons/howtos.svg
+        :class-img-top: dark-light
+        :class-card: sd-rounded-3
+
+        Treasure trove of focused guides.
+
+    .. grid-item-card:: Voted Issues
+        :class-title: custom-title
+        :class-body: custom-body
+        :link: voted_issues_top
+        :link-type: ref
+        :img-top: _static/icon_thumb.png
+        :class-img-top: dark-light
+        :class-card: sd-rounded-3
+
+        Voted Issues
+
+    .. grid-item-card:: Reference
+        :class-title: custom-title
+        :class-body: custom-body
+        :link: generated/api/iris
+        :link-type: ref
+        :img-top: _static/icon_api.svg
+        :class-img-top: dark-light
+        :class-card: sd-rounded-3
+
+        Browse full Iris functionality by module.
+
+
+.. rst-class:: center
+
+    :fa:`graduation-cap` Choose your approach to learning and ``geovista``
+    knowledge discovery (`Diátaxis`_)
+
+
+.. include:: gallery-carousel.txt
+
+
+
+---
+
+
+
 .. toctree::
    :caption: Getting Started
    :maxdepth: 1

@@ -26,3 +26,14 @@ ul.squarelist {
   text-indent: 1em;
   padding-left: 5em;
 }
+
+/* from GeoVista */
+.custom-title {
+  font-weight: bold;
+  text-align: left;
+}
+
+.custom-body {
+  text-align: left;
+  margin-left: max(45px, 15%);
+}
