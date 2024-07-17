@@ -128,17 +128,7 @@ def get_dir_option(section, option, default=None):
 
 
 def _set_test_data_dir():
-    """Return the test data directory and overriding if approproiate.
-
-    The directory defaults to the 'test_data' sub-directory of the Iris package
-    install directory. The test data directory supports the subset of Iris unit tests
-    that require data. Directory contents accessed via
-    :func:`iris.tests.get_data_path`.
-
-    The directory may be overridden if the appropriate environment variable
-    has been set.
-
-    """
+    """Return the test data directory and overriding if approproiate."""
     override = os.environ.get("OVERRIDE_TEST_DATA_REPOSITORY")
 
     if override and os.path.isdir(os.path.expanduser(override)):
