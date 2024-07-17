@@ -153,11 +153,11 @@ def _set_test_data_dir():
     return test_data_dir
 
 
-#: The full path to the "iris" package.
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
+"""The full path to the "iris" package."""
 
-#: The full path to the configuration directory of the active Iris instance.
 CONFIG_PATH = os.path.join(ROOT_PATH, "etc")
+"""The full path to the configuration directory of the active Iris instance."""
 
 # Load the optional "site.cfg" file if it exists.
 config = configparser.ConfigParser()
@@ -167,13 +167,17 @@ config.read([os.path.join(CONFIG_PATH, "site.cfg")])
 # Resource options
 _RESOURCE_SECTION = "Resources"
 
-#: str: Local directory where test data exists.
 TEST_DATA_DIR = _set_test_data_dir()
+"""Local directory where test data exists.
+   Defaults to "test_data" sub-directory of the Iris package install directory.
+   The test data directory supports the subset of Iris unit tests that require data.
+   Directory contents accessed via :func:`iris.tests.get_data_path`."""
 
-#: str: The full path to the Iris palette configuration directory.
-PALETTE_PATH = get_dir_option(
+PALETTE_PATH: str = get_dir_option(
     _RESOURCE_SECTION, "palette_path", os.path.join(CONFIG_PATH, "palette")
 )
+"""The full path to the Iris palette configuration directory."""
+
 
 # Runtime options
 
