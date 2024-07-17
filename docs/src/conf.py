@@ -22,7 +22,6 @@
 import datetime
 from importlib.metadata import version as get_version
 from inspect import getsource
-import ntpath
 import os
 from pathlib import Path
 import re
@@ -32,10 +31,32 @@ from tempfile import gettempdir
 from urllib.parse import quote
 import warnings
 
+from sphinx.util import logging
+from sphinx.util.console import colorize
 
-def autolog(message: str) -> None:
-    """Write useful output to stdout, prefixing the source."""
-    print(f"[{ntpath.basename(__file__)}] {message}")  # noqa: T201
+
+def autolog(message: str, section: str | None = None, color: str | None = None) -> None:
+    """Log the diagnostics `message` with optional `section` prefix.
+
+    Parameters
+    ----------
+    message : str
+        The diagnostics message.
+    section : str, optional
+        The prefix text for the diagnostics message.
+    color : str, optional
+        The color of the `section` prefix text.
+
+    """
+    if color is None:
+        color = "brown"
+
+    section = colorize(color, colorize("bold", f"[{section}] ")) if section else ""
+    msg = f'{colorize(color, section)}{colorize("darkblue", f"{message}")}'
+    logger.info(msg)
+
+
+logger = logging.getLogger("sphinx-iris")
 
 
 # -- Check for dev make options to build quicker
@@ -63,13 +84,16 @@ rtd_version_type = os.environ.get("READTHEDOCS_VERSION_TYPE")
 # rtd_version = "my_branch"   # useful for testing
 
 if on_rtd:
-    autolog("Build running on READTHEDOCS server")
+    autolog("Build running on READTHEDOCS server", section="ReadTheDocs")
 
     # list all the READTHEDOCS environment variables that may be of use
-    autolog("Listing all environment variables on the READTHEDOCS server...")
+    autolog(
+        "Listing all environment variables on the READTHEDOCS server...",
+        section="ReadTheDocs",
+    )
 
     for item, value in os.environ.items():
-        autolog("[READTHEDOCS] {} = {}".format(item, value))
+        autolog("{} = {}".format(item, value), section="ReadTheDocs")
 
 # -- Path setup --------------------------------------------------------------
 
@@ -101,8 +125,8 @@ author = "Iris Developers"
 # |version|, also used in various other places throughout the built documents.
 version = get_version("scitools-iris")
 release = version
-autolog(f"Iris Version = {version}")
-autolog(f"Iris Release = {release}")
+autolog(f"Iris Version = {version}", section="General", color="blue")
+autolog(f"Iris Release = {release}", section="General", color="blue")
 
 # -- General configuration ---------------------------------------------------
 
@@ -148,8 +172,8 @@ rst_epilog = f"""
 # extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
-    "sphinx.ext.autodoc",  # TREMTEST
-    "autoapi.extension",  # TREMTEST
+    "sphinx.ext.autodoc",
+    "autoapi.extension",
     "sphinx.ext.todo",
     "sphinx.ext.duration",
     "sphinx.ext.coverage",
@@ -166,10 +190,9 @@ extensions = [
 ]
 
 if skip_api == "1":
-    autolog("Skipping the API docs generation (SKIP_API=1)")
+    autolog("Skipping the API docs generation (SKIP_API=1)", section="General")
 else:
     extensions.extend(["autoapi.extension"])
-    # extensions.extend(["api_rst_formatting"])  # TREMTEST - this can be removed!
 
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
@@ -258,13 +281,13 @@ autoapi_options = [
 autoapi_python_class_content = "both"
 autoapi_keep_files = True
 autoapi_add_toctree_entry = False
-# suppress_warnings = ["autoapi"]
-# suppress_warnings = ["autoapi.python_import_resolution", "autoapi.not_readable"]
+# https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html#suppressing-warnings
+suppress_warnings = ["autoapi.python_import_resolution"]
 
-autolog(f"[autoapi] {source_code_root = }")
-autolog(f"[autoapi] {autoapi_dirs     = }")
-autolog(f"[autoapi] {autoapi_ignore   = }")
-autolog(f"[autoapi] {autoapi_root     = }")
+autolog(f"[autoapi] source_code_root = {source_code_root}", section="AutoAPI")
+autolog(f"[autoapi] autoapi_dirs     = {autoapi_dirs}", section="AutoAPI")
+autolog(f"[autoapi] autoapi_ignore   = {autoapi_ignore}", section="AutoAPI")
+autolog(f"[autoapi] autoapi_root     = {autoapi_root}", section="AutoAPI")
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -334,7 +357,7 @@ html_theme_options = {
     "footer_end": ["custom_footer"],
     "navigation_depth": 3,
     "navigation_with_keys": False,
-    "show_toc_level": 2,
+    "show_toc_level": 4,
     "show_prev_next": True,
     "navbar_align": "content",
     # removes the search box from the top bar
