@@ -357,7 +357,7 @@ html_theme_options = {
     "footer_end": ["custom_footer"],
     "navigation_depth": 3,
     "navigation_with_keys": False,
-    "show_toc_level": 4,
+    "show_toc_level": 3,  # TREMTEST.  4 will be a lot of entries
     "show_prev_next": True,
     "navbar_align": "content",
     # removes the search box from the top bar
