@@ -80,8 +80,7 @@ repos:
 -   repo: local
     hooks:
     -   id: check-attribute-comment
-        name: check for the occurence of a hash colon comment
+        name: use triple quote docstring proceding attribute
         types: [python]
-        args: [--multiline]
         entry: '#:'
         language: pygrep
