@@ -97,8 +97,9 @@ class ParseUGridOnLoad(threading.local):
             self._state = False
 
 
-#: Run-time switch for experimental UGRID-aware NetCDF loading. See :class:`~iris.experimental.ugrid.load.ParseUGridOnLoad`.
 PARSE_UGRID_ON_LOAD = ParseUGridOnLoad()
+"""Run-time switch for experimental UGRID-aware NetCDF loading.
+   See :class:`~iris.experimental.ugrid.load.ParseUGridOnLoad`."""
 
 
 def _meshes_from_cf(cf_reader):

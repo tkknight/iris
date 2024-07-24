@@ -34,8 +34,8 @@ import iris.time
 import iris.util
 import iris.warnings
 
-#: The default value for ignore_axis which controls guess_coord_axis' behaviour
 DEFAULT_IGNORE_AXIS = False
+"""The default value for ignore_axis which controls guess_coord_axis' behaviour."""
 
 
 class _DimensionalMetadata(CFVariableMixin, metaclass=ABCMeta):
@@ -98,21 +98,20 @@ class _DimensionalMetadata(CFVariableMixin, metaclass=ABCMeta):
         if not hasattr(self, "_metadata_manager"):
             self._metadata_manager = metadata_manager_factory(BaseMetadata)
 
-        #: CF standard name of the quantity that the metadata represents.
         self.standard_name = standard_name
+        """CF standard name of the quantity that the metadata represents."""
 
-        #: Descriptive name of the metadata.
         self.long_name = long_name
+        """Descriptive name of the metadata."""
 
-        #: The netCDF variable name for the metadata.
         self.var_name = var_name
+        """The netCDF variable name for the metadata."""
 
-        #: Unit of the quantity that the metadata represents.
         self.units = units
+        """Unit of the quantity that the metadata represents."""
 
-        #: Other attributes, including user specified attributes that
-        #: have no meaning to Iris.
         self.attributes = attributes
+        """Other attributes, including user specified attributes that have no meaning to Iris."""
 
         # Set up DataManager attributes and values.
         self._values_dm = None
@@ -1046,8 +1045,8 @@ class CellMeasure(AncillaryVariable):
         if measure is None:
             measure = "area"
 
-        #: String naming the measure type.
         self.measure = measure
+        """String naming the measure type."""
 
     @property
     def measure(self):
@@ -1500,8 +1499,8 @@ class Coord(_DimensionalMetadata):
             attributes=attributes,
         )
 
-        #: Relevant coordinate system (if any).
         self.coord_system = coord_system
+        """Relevant coordinate system (if any)."""
 
         # Set up bounds DataManager attributes and the bounds values.
         self._bounds_dm = None
@@ -2611,8 +2610,8 @@ class DimCoord(Coord):
             climatological=climatological,
         )
 
-        #: Whether the coordinate wraps by ``coord.units.modulus``.
         self.circular = circular
+        """Whether the coordinate wraps by ``coord.units.modulus``."""
 
     def __deepcopy__(self, memo):  # numpydoc ignore=SS02
         """coord.__deepcopy__() -> Deep copy of coordinate.
@@ -2916,18 +2915,17 @@ class CellMethod(iris.util._OrderedHashable):
     # Declare the attribute names relevant to the _OrderedHashable behaviour.
     _names = ("method", "coord_names", "intervals", "comments")
 
-    #: The name of the operation that was applied. e.g. "mean", "max", etc.
     method = None
+    """The name of the operation that was applied. e.g. "mean", "max", etc."""
 
-    #: The tuple of coordinate names over which the operation was applied.
     coord_names = None
+    """The tuple of coordinate names over which the operation was applied."""
 
-    #: A description of the original intervals over which the operation
-    #: was applied.
     intervals = None
+    """A description of the original intervals over which the operation was applied."""
 
-    #: Additional comments.
     comments = None
+    """Additional comments."""
 
     def __init__(self, method, coords=None, intervals=None, comments=None):
         """Call Method initialise.

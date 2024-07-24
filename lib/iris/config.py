@@ -127,7 +127,7 @@ def get_dir_option(section, option, default=None):
     return path
 
 
-def _set_test_data_dir():
+def _get_test_data_dir():
     """Return the test data directory and overriding if approproiate."""
     override = os.environ.get("OVERRIDE_TEST_DATA_REPOSITORY")
 
@@ -157,7 +157,7 @@ config.read([os.path.join(CONFIG_PATH, "site.cfg")])
 # Resource options
 _RESOURCE_SECTION = "Resources"
 
-TEST_DATA_DIR = _set_test_data_dir()
+TEST_DATA_DIR = _get_test_data_dir()
 """Local directory where test data exists.
    Defaults to "test_data" sub-directory of the Iris package install directory.
    The test data directory supports the subset of Iris unit tests that require data.

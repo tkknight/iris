@@ -1461,8 +1461,8 @@ def metadata_filter(
 @lru_cache(maxsize=None)
 def _factory_cache(cls):
     def __init__(self, cls, **kwargs):
-        #: The metadata class to be manufactured by this factory.
         self.cls = cls
+        """The metadata class to be manufactured by this factory."""
 
         # Proxy for self.cls._fields for later internal use, as this
         # saves on indirect property lookup via self.cls
@@ -1600,7 +1600,6 @@ def metadata_manager_factory(cls, **kwargs):
     return manager
 
 
-#: Convenience collection of lenient metadata combine services.
 # TODO: change lists back to tuples once CellMeasureMetadata is re-integrated
 # here (currently in experimental.ugrid).
 SERVICES_COMBINE = [
@@ -1611,9 +1610,8 @@ SERVICES_COMBINE = [
     CubeMetadata.combine,
     DimCoordMetadata.combine,
 ]
+"""Convenience collection of lenient metadata combine services."""
 
-
-#: Convenience collection of lenient metadata difference services.
 SERVICES_DIFFERENCE = [
     AncillaryVariableMetadata.difference,
     BaseMetadata.difference,
@@ -1622,9 +1620,8 @@ SERVICES_DIFFERENCE = [
     CubeMetadata.difference,
     DimCoordMetadata.difference,
 ]
+"""Convenience collection of lenient metadata difference services."""
 
-
-#: Convenience collection of lenient metadata equality services.
 SERVICES_EQUAL = [
     AncillaryVariableMetadata.__eq__,
     AncillaryVariableMetadata.equal,
@@ -1639,7 +1636,7 @@ SERVICES_EQUAL = [
     DimCoordMetadata.__eq__,
     DimCoordMetadata.equal,
 ]
+"""Convenience collection of lenient metadata equality services."""
 
-
-#: Convenience collection of lenient metadata services.
 SERVICES = SERVICES_COMBINE + SERVICES_DIFFERENCE + SERVICES_EQUAL
+"""Convenience collection of lenient metadata services."""

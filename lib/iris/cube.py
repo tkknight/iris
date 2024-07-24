@@ -1109,11 +1109,11 @@ class Cube(CFVariableMixin):
 
     """
 
-    #: Indicates to client code that the object supports
-    #: "orthogonal indexing", which means that slices that are 1d arrays
-    #: or lists slice along each dimension independently. This behavior
-    #: is similar to Fortran or Matlab, but different than numpy.
     __orthogonal_indexing__ = True
+    """Indicates to client code that the object supports "orthogonal indexing"
+       Which means that slices that are 1d arrays or lists slice along each
+       dimension independently. This behavior is similar to Fortran or Matlab,
+       but different than numpy."""
 
     @classmethod
     def _sort_xml_attrs(cls, doc):
@@ -1257,23 +1257,23 @@ class Cube(CFVariableMixin):
         # Initialise the cube data manager.
         self._data_manager = DataManager(data)
 
-        #: The "standard name" for the Cube's phenomenon.
         self.standard_name = standard_name
+        """The "standard name" for the Cube's phenomenon."""
 
-        #: An instance of :class:`cf_units.Unit` describing the Cube's data.
         self.units = units
+        """An instance of :class:`cf_units.Unit` describing the Cube's data."""
 
-        #: The "long name" for the Cube's phenomenon.
         self.long_name = long_name
+        """The "long name" for the Cube's phenomenon."""
 
-        #: The NetCDF variable name for the Cube.
         self.var_name = var_name
+        """The NetCDF variable name for the Cube."""
 
         self.cell_methods = cell_methods
 
-        #: A dictionary for arbitrary Cube metadata.
-        #: A few keys are restricted - see :class:`CubeAttrsDict`.
         self.attributes = attributes
+        """dict: Arbitrary Cube metadata.
+          A few keys are restricted - see :class:`CubeAttrsDict`."""
 
         # Coords
         self._dim_coords_and_dims = []
