@@ -1270,10 +1270,7 @@ class Cube(CFVariableMixin):
         """The NetCDF variable name for the Cube."""
 
         self.cell_methods = cell_methods
-
         self.attributes = attributes
-        """dict: Arbitrary Cube metadata.
-          A few keys are restricted - see :class:`CubeAttrsDict`."""
 
         # Coords
         self._dim_coords_and_dims = []
@@ -1336,6 +1333,7 @@ class Cube(CFVariableMixin):
     #
     @property
     def attributes(self) -> CubeAttrsDict:
+        """Arbitrary Cube metadata. A few keys are restricted - see :class:`CubeAttrsDict`."""
         return super().attributes
 
     @attributes.setter

@@ -1046,10 +1046,10 @@ class CellMeasure(AncillaryVariable):
             measure = "area"
 
         self.measure = measure
-        """String naming the measure type."""
 
     @property
     def measure(self):
+        """String naming the measure type."""
         return self._metadata_manager.measure
 
     @measure.setter
@@ -1500,7 +1500,6 @@ class Coord(_DimensionalMetadata):
         )
 
         self.coord_system = coord_system
-        """Relevant coordinate system (if any)."""
 
         # Set up bounds DataManager attributes and the bounds values.
         self._bounds_dm = None
@@ -2609,9 +2608,7 @@ class DimCoord(Coord):
             coord_system=coord_system,
             climatological=climatological,
         )
-
         self.circular = circular
-        """Whether the coordinate wraps by ``coord.units.modulus``."""
 
     def __deepcopy__(self, memo):  # numpydoc ignore=SS02
         """coord.__deepcopy__() -> Deep copy of coordinate.
@@ -2628,6 +2625,7 @@ class DimCoord(Coord):
 
     @property
     def circular(self):
+        """Whether the coordinate wraps by ``coord.units.modulus``."""
         return self._metadata_manager.circular
 
     @circular.setter
