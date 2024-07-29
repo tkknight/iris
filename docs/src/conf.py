@@ -173,7 +173,6 @@ rst_epilog = f"""
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
-    "autoapi.extension",
     "sphinx.ext.todo",
     "sphinx.ext.duration",
     "sphinx.ext.coverage",
@@ -192,7 +191,8 @@ extensions = [
 if skip_api == "1":
     autolog("Skipping the API docs generation (SKIP_API=1)", section="General")
 else:
-    extensions.extend(["autoapi.extension"])
+    # build will break if this is not one of the first extensions loaded.
+    extensions.insert(0, "autoapi.extension")
 
 # -- Napoleon extension -------------------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io/en/latest/sphinxcontrib.napoleon.html
@@ -256,38 +256,41 @@ modindex_common_prefix = ["iris"]
 
 # -- apidoc extension ---------------------------------------------------------
 # See https://github.com/sphinx-contrib/apidoc
-source_code_root = (Path(__file__).parents[2]).absolute()
-module_dir = source_code_root / "lib"
 
-autoapi_dirs = [module_dir]
-autoapi_root = "generated/api"
-autoapi_ignore = [
-    str(module_dir / "iris/tests/*"),
-    str(module_dir / "iris/experimental/raster.*"),  # gdal conflicts
-]
-autoapi_member_order = "alphabetical"
-autoapi_options = [
-    "members",
-    "inherited-members",
-    "undoc-members",
-    # 'private-members',
-    # "special-members",
-    "show-inheritance",
-    # "show-inheritance-diagram",
-    "show-module-summary",
-    "imported-members",
-]
+if skip_api != "1":
+    source_code_root = (Path(__file__).parents[2]).absolute()
+    module_dir = source_code_root / "lib"
 
-autoapi_python_class_content = "both"
-autoapi_keep_files = True
-autoapi_add_toctree_entry = False
-# https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html#suppressing-warnings
-suppress_warnings = ["autoapi.python_import_resolution"]
+    autoapi_dirs = [module_dir]
+    autoapi_root = "generated/api"
+    autoapi_ignore = [
+        str(module_dir / "iris/tests/*"),
+        str(module_dir / "iris/experimental/raster.*"),  # gdal conflicts
+    ]
+    autoapi_member_order = "alphabetical"
+    autoapi_options = [
+        "members",
+        "inherited-members",
+        "undoc-members",
+        # 'private-members',
+        # "special-members",
+        "show-inheritance",
+        # "show-inheritance-diagram",
+        "show-module-summary",
+        "imported-members",
+    ]
 
-autolog(f"[autoapi] source_code_root = {source_code_root}", section="AutoAPI")
-autolog(f"[autoapi] autoapi_dirs     = {autoapi_dirs}", section="AutoAPI")
-autolog(f"[autoapi] autoapi_ignore   = {autoapi_ignore}", section="AutoAPI")
-autolog(f"[autoapi] autoapi_root     = {autoapi_root}", section="AutoAPI")
+    autoapi_python_class_content = "both"
+    autoapi_keep_files = True
+    autoapi_add_toctree_entry = False
+
+    # https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html#suppressing-warnings
+    suppress_warnings = ["autoapi.python_import_resolution"]
+
+    autolog(f"[autoapi] source_code_root = {source_code_root}", section="AutoAPI")
+    autolog(f"[autoapi] autoapi_dirs     = {autoapi_dirs}", section="AutoAPI")
+    autolog(f"[autoapi] autoapi_ignore   = {autoapi_ignore}", section="AutoAPI")
+    autolog(f"[autoapi] autoapi_root     = {autoapi_root}", section="AutoAPI")
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
