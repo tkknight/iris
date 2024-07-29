@@ -96,7 +96,6 @@ _LBUSER_DTYPE_LOOKUP = {
 X_COORD_U_GRID = (11, 18, 27)
 """Codes used in STASH_GRID which indicate the x coordinate is on the edge of the cell."""
 
-
 Y_COORD_V_GRID = (11, 19, 28)
 """Codes used in STASH_GRID which indicate the y coordinate is on the edge of the cell."""
 

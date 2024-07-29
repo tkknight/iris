@@ -38,12 +38,9 @@ class AuxCoordFactory(CFVariableMixin, metaclass=ABCMeta):
             self._metadata_manager = metadata_manager_factory(CoordMetadata)
 
         self.long_name = None
-        """Descriptive name of the coordinate made by the factory."""
-
         self.var_name = None
-        """netCDF variable name for the coordinate made by the factory."""
-
         self.coord_system = None
+
         # See the climatological property getter.
         self._metadata_manager.climatological = False
 

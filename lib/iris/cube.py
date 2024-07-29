@@ -1258,17 +1258,9 @@ class Cube(CFVariableMixin):
         self._data_manager = DataManager(data)
 
         self.standard_name = standard_name
-        """The "standard name" for the Cube's phenomenon."""
-
         self.units = units
-        """An instance of :class:`cf_units.Unit` describing the Cube's data."""
-
         self.long_name = long_name
-        """The "long name" for the Cube's phenomenon."""
-
         self.var_name = var_name
-        """The NetCDF variable name for the Cube."""
-
         self.cell_methods = cell_methods
         self.attributes = attributes
 

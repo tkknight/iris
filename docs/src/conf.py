@@ -268,7 +268,7 @@ autoapi_ignore = [
 autoapi_member_order = "alphabetical"
 autoapi_options = [
     "members",
-    # "inherited-members",
+    "inherited-members",
     "undoc-members",
     # 'private-members',
     # "special-members",
