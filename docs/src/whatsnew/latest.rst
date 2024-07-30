@@ -45,6 +45,9 @@ This document explains the changes made to Iris for this release
    grid-mappping syntax -- see : :issue:`3388`.
    (:issue:`5562`, :pull:`6016`)
 
+#. `@HGWright`_ added the `monthly` and `yearly` options to the
+   :meth:`~iris.coords.guess_bounds` method. (:issue:`4864`, :pull:`6090`)
+
 
 🐛 Bugs Fixed
 =============
@@ -87,6 +90,17 @@ This document explains the changes made to Iris for this release
    :class:`~iris.experimental.ugrid.Mesh` methods
    :meth:`~iris.experimental.ugrid.Mesh.coord`, :meth:`~iris.experimental.ugrid.Mesh.coords`
    and :meth:`~iris.experimental.ugrid.Mesh.remove_coords`. (:pull:`6055`)
+
+#. `@pp-mo`_ moved all the mesh API from the :mod:`iris.experimental.ugrid` module to
+   to :mod:`iris.mesh`, making this public supported API.  Note that the
+   :class:`iris.experimental.ugrid.Mesh` class is renamed as :class:`iris.mesh.MeshXY`,
+   to allow for possible future mesh types with different properties to exist as
+   subclasses of a common generic :class:`~iris.mesh.components.Mesh` class.
+   (:issue:`6057`, :pull:`6061`, :pull:`6077`)
+
+#. `@pp-mo`_ and `@stephenworsley`_ Turned on UGRID loading by default, effectively removing
+   the need for and deprecating the :func:`~iris.ugrid.experimental.PARSE_UGRID_ON_LOAD`
+   context manager. (:pull:`6054`, :pull:`6088`)
 
 
 🚀 Performance Enhancements

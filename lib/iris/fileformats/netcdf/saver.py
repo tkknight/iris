@@ -777,7 +777,7 @@ class Saver:
 
         Parameters
         ----------
-        cube_or_mesh : :class:`iris.cube.Cube` or :class:`iris.experimental.ugrid.MeshXY`
+        cube_or_mesh : :class:`iris.cube.Cube` or :class:`iris.mesh.MeshXY`
             The Cube or Mesh being saved to the netCDF file.
 
         Returns
@@ -952,7 +952,7 @@ class Saver:
         dimension_names : list
             Names associated with the dimensions of the cube.
         """
-        from iris.experimental.ugrid.mesh import (
+        from iris.mesh.components import (
             MeshEdgeCoords,
             MeshFaceCoords,
             MeshNodeCoords,
@@ -1131,7 +1131,7 @@ class Saver:
 
         Parameters
         ----------
-        cube_or_mesh : :class:`iris.cube.Cube` or :class:`iris.experimental.ugrid.MeshXY`
+        cube_or_mesh : :class:`iris.cube.Cube` or :class:`iris.mesh.MeshXY`
             The Cube or Mesh being saved to the netCDF file.
 
         Returns
@@ -1493,7 +1493,7 @@ class Saver:
 
         Parameters
         ----------
-        cube_or_mesh : :class:`iris.cube.Cube` or  :class:`iris.experimental.ugrid.MeshXY`
+        cube_or_mesh : :class:`iris.cube.Cube` or :class:`iris.mesh.MeshXY`
             The Cube or Mesh being saved to the netCDF file.
         coord : :class:`iris.coords._DimensionalMetadata`
             An instance of a coordinate (or similar), for which a CF-netCDF
@@ -1535,7 +1535,7 @@ class Saver:
                     # element-coordinate of the mesh.
                     # Name it for it's first dim, i.e. mesh-dim of its location.
 
-                    from iris.experimental.ugrid.mesh import Connectivity
+                    from iris.mesh import Connectivity
 
                     # At present, a location-coord cannot be nameless, as the
                     # MeshXY code relies on guess_coord_axis.
@@ -1555,7 +1555,7 @@ class Saver:
 
         Parameters
         ----------
-        mesh : :class:`iris.experimental.ugrid.mesh.MeshXY`
+        mesh : :class:`iris.mesh.MeshXY`
             An instance of a Mesh for which a CF-netCDF variable name is
             required.
 
@@ -1581,7 +1581,7 @@ class Saver:
 
         Parameters
         ----------
-        mesh : :class:`iris.experimental.ugrid.mesh.MeshXY`
+        mesh : :class:`iris.mesh.MeshXY`
             The Mesh to be saved to CF-netCDF file.
 
         Returns
@@ -1671,7 +1671,7 @@ class Saver:
 
         Parameters
         ----------
-        cube_or_mesh : :class:`iris.cube.Cube` or :class:`iris.experimental.ugrid.MeshXY`
+        cube_or_mesh : :class:`iris.cube.Cube` or :class:`iris.mesh.MeshXY`
             The Cube or Mesh being saved to the netCDF file.
         cube_dim_names : list of str
             The name of each dimension of the cube.
@@ -2807,3 +2807,40 @@ def save(
         result = sman.delayed_completion()
 
     return result
+
+
+def save_mesh(mesh, filename, netcdf_format="NETCDF4"):
+    """Save mesh(es) to a netCDF file.
+
+    Parameters
+    ----------
+    mesh : :class:`iris.mesh.MeshXY` or iterable
+        Mesh(es) to save.
+    filename : str
+        Name of the netCDF file to create.
+    netcdf_format : str, default="NETCDF4"
+        Underlying netCDF file format, one of 'NETCDF4', 'NETCDF4_CLASSIC',
+        'NETCDF3_CLASSIC' or 'NETCDF3_64BIT'. Default is 'NETCDF4' format.
+
+    """
+    if isinstance(mesh, typing.Iterable):
+        meshes = mesh
+    else:
+        meshes = [mesh]
+
+    # Initialise Manager for saving
+    with Saver(filename, netcdf_format) as sman:
+        # Iterate through the list.
+        for mesh in meshes:
+            # Get suitable dimension names.
+            mesh_dimensions, _ = sman._get_dim_names(mesh)
+
+            # Create dimensions.
+            sman._create_cf_dimensions(cube=None, dimension_names=mesh_dimensions)
+
+            # Create the mesh components.
+            sman._add_mesh(mesh)
+
+        # Add a conventions attribute.
+        # TODO: add 'UGRID' to conventions, when this is agreed with CF ?
+        sman.update_global_attributes(Conventions=CF_CONVENTIONS_VERSION)
