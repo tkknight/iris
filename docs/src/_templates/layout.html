@@ -1,0 +1,64 @@
+{% extends "!layout.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+
+  {# --- Resolve version (RTD or fallback) --- #}
+  {% set doc_version = READTHEDOCS_VERSION 
+      | default(release) 
+      | default(version) 
+      | default("latest") %}
+
+  {# --- WebSite schema (global) --- #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Iris Documentation",
+    "url": "https://scitools-iris.readthedocs.io/",
+    "description": "Documentation for Iris, a Python library for analysing and visualising Earth science data."
+  }
+  </script>
+
+  {# --- Per-page TechArticle schema (version-aware) --- #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": {{ title|tojson }},
+    "description": {{ meta.description|default(title)|tojson }},
+    "url": {{ pathto('', 1)|tojson }},
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Iris Documentation",
+      "url": "https://scitools-iris.readthedocs.io/"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "SciTools"
+    },
+    "softwareVersion": {{ doc_version|tojson }}
+  }
+  </script>
+
+  {# --- Optional Breadcrumb schema --- #}
+  {% if parents %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {% for parent in parents %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "name": {{ parent.title|tojson }},
+        "item": {{ parent.link|tojson }}
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+
+{% endblock %}
