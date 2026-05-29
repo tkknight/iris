@@ -21,13 +21,16 @@
   </script>
 
   {# --- Per-page TechArticle schema (version-aware) --- #}
+  {% set page_title = title if title is defined else "Page" %}
+  {% set page_desc = (meta.description if meta is defined and meta.description is defined else page_title) %}
+  {% set page_url = pathto('', 1) if pathto is defined else "" %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": {{ title|tojson }},
-    "description": {{ meta.description|default(title)|tojson }},
-    "url": {{ pathto('', 1)|tojson }},
+    "headline": {{ page_title|tojson }},
+    "description": {{ page_desc|tojson }},
+    "url": {{ page_url|tojson }},
     "isPartOf": {
       "@type": "WebSite",
       "name": "Iris Documentation",
@@ -42,18 +45,20 @@
   </script>
 
   {# --- Optional Breadcrumb schema --- #}
-  {% if parents %}
+  {% if parents is defined and parents %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
       {% for parent in parents %}
+      {% set parent_title = parent.title if parent.title is defined else "" %}
+      {% set parent_link = parent.link if parent.link is defined else "" %}
       {
         "@type": "ListItem",
         "position": {{ loop.index }},
-        "name": {{ parent.title|tojson }},
-        "item": {{ parent.link|tojson }}
+        "name": {{ parent_title|tojson }},
+        "item": {{ parent_link|tojson }}
       }{% if not loop.last %},{% endif %}
       {% endfor %}
     ]
