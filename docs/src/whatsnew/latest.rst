@@ -83,6 +83,8 @@ This document explains the changes made to Iris for this release
 #. `@tkknight`_ added a dependency named sphinx-llm to generate summaries
    that LLMs can understand, `llms.txt` and `llms-full.txt`.  (:pull:`7105`)
 
+#. `@tkknight`_ added a dependency named sphinx-sitemap to generate sitemap.xml for
+   the documentaiton. (:pull:`7100`)
 
 📚 Documentation
 ================
@@ -104,6 +106,12 @@ This document explains the changes made to Iris for this release
 #. `@tkknight`_ updated the documentation to generate summaries
    that LLMs can understand, `llms.txt` and `llms-full.txt`. (:pull:`7105`)
 
+#. `@tkknight`_ updated the documentation to generate a sitemap.xml files for the
+   stable version. (:pull:`7100`)
+
+#. `@trexfeathers`_ and `@hdyson`_ clarified that
+   :func:`iris.analysis.cartography.area_weights` requires 1-dimensional lat and lon 
+   coordinates on the input :class:`~iris.cube.Cube`. (:pull:`7118`)
 
 💼 Internal
 ===========
@@ -129,7 +137,7 @@ This document explains the changes made to Iris for this release
     Whatsnew author names (@github name) in alphabetical order. Note that,
     core dev names are automatically included by the common_links.inc:
 
-
+.. _@hdyson: https://github.com/hdyson
 
 
 .. comment
