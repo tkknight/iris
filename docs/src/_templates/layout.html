@@ -1,5 +1,8 @@
 {% extends "!layout.html" %}
 
+{# --- Ref: https://www.sphinx-doc.org/en/master/development/html_themes/templating.html#global-variables --- #}
+{# --- Ref: https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/layout.html --- #}
+
 {% block extrahead %}
   {{ super() }}
 
@@ -9,13 +12,26 @@
       | default(version) 
       | default("latest") %}
 
+  {% set main_url = "https://scitools-iris.readthedocs.io/" %}
+
+  {# --- Organisation schema (global) --- #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SciTools",
+    "url": "https://github.com/SciTools",
+    "logo": "https://raw.githubusercontent.com/SciTools/scitools.org.uk/refs/heads/master/images/scitools/logo.800x800.png"
+  }
+  </script>
+
   {# --- WebSite schema (global) --- #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Iris Documentation",
-    "url": "https://scitools-iris.readthedocs.io/",
+    "url": {{ main_url|tojson }}
     "description": "Documentation for Iris, a Python library for analysing and visualising Earth science data."
   }
   </script>
@@ -23,8 +39,12 @@
   {# --- Per-page TechArticle schema (version-aware) --- #}
   {% set page_title = title if title is defined else "Page" %}
   {% set page_desc = (meta.description if meta is defined and meta.description is defined else page_title) %}
-  {% set page_url = pathto('', 1) if pathto is defined else "" %}
+  {% set page_url = main_url ~ language ~ "/" ~ doc_version ~ "/" ~ pagename ~ ".html" %}
+
   <script type="application/ld+json">
+  /* "TREMTEST": "{{ pagename|tojson }}"  */
+  /* "TREMTEST": "{{ version|tojson }}"  */  
+  /* "TREMTEST": "{{ language|tojson }}"  */  
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
@@ -34,7 +54,7 @@
     "isPartOf": {
       "@type": "WebSite",
       "name": "Iris Documentation",
-      "url": "https://scitools-iris.readthedocs.io/"
+      "url": {{ main_url|tojson }}
     },
     "author": {
       "@type": "Organization",
@@ -51,14 +71,32 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
+  /* "TREMTEST": "{{ parents|tojson }}"  */
+    
       {% for parent in parents %}
       {% set parent_title = parent.title if parent.title is defined else "" %}
       {% set parent_link = parent.link if parent.link is defined else "" %}
+  /* "TREMTEST1": "{{ pagename|tojson }}"  */
+  /* "TREMTEST2": "{{ version|tojson }}"  */  
+  /* "TREMTEST3": "{{ language|tojson }}"  */  
+  /* "TREMTEST4": "{{ parent_link }}"  */    
+  /* "TREMTEST5": "{{ pathto(parent_link) }}"  */
+  /* "TREMTEST6": "{{ pathto(parent_link, 1) }}"  */  
+  /* "TREMTEST7": "{{ pathto(pagename, 1) }}"  */    
+  /* "TREMTEST8": "{{ pathto(pagename) }}"  */
+  /* "TREMTEST9": "{{ html_baseurl|tojson }}"  */
+  /* "TREMTEST9": "{{ rellinks|tojson }}"  */  
+  /* "TREMTEST10": "{{ title|striptags|e }} */
+  /* "TREMTEST11": {{ html_baseurl ~ pathto(root_doc) }} */
+  /* "TREMTEST12": {{ html_baseurl ~ pathto(pagename) }} */  
+  /* "TREMTEST13": {{ html_baseurl ~ pathto(pagename, 1) }} */  
+
       {
         "@type": "ListItem",
         "position": {{ loop.index }},
         "name": {{ parent_title|tojson }},
-        "item": {{ parent_link|tojson }}
+        "item": {{ ( main_url ~ language ~ "/" ~ doc_version ~ "/" ~ parent_link ~ ".html")|tojson }},
+        "item2": {{ ( main_url ~ language ~ "/" ~ doc_version ~ "/" ~ pathto(parent_link,1) ~ ".html")|tojson }}        
       }{% if not loop.last %},{% endif %}
       {% endfor %}
     ]

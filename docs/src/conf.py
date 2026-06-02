@@ -194,6 +194,9 @@ if on_rtd:
 # -- sphinx-sitemap ----------------------------------------------------------
 # See https://sphinx-sitemap.readthedocs.io/en/latest/index.html
 
+# TREMTEST
+html_baseurl = f"https://scitools-iris.readthedocs.io/en/{rtd_version}/"
+
 if on_rtd and rtd_version in ["latest", "stable"]:
     extensions.append("sphinx_sitemap")
 
@@ -440,6 +443,7 @@ html_context = {
     "copyright_years": copyright_years,
     "python_version": build_python_version,
     "commit_sha": commit_sha,
+    "html_baseurl": html_baseurl,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
