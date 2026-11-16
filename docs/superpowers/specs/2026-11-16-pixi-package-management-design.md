@@ -21,6 +21,8 @@ Conda and PyPI packages, local tasks, CI, and lock updates.
   scheduled GitHub Actions workflow that opens a pull request when it changes.
 - Remove Nox and the obsolete environment and lock-generation machinery from
   current development and CI workflows.
+- Replace root `environment.yml` as the contributor environment definition and
+  update source-install, CI, and release guidance to use Pixi.
 - Preserve per-commit dependency environments for ASV comparisons, including
   historical commits that predate Pixi.
 - Document contributor setup, common Pixi tasks, and lock updates.
@@ -36,6 +38,8 @@ Conda and PyPI packages, local tasks, CI, and lock updates.
 - Change benchmark definitions or how ASV decides which commits to compare.
 - Add non-Linux lock targets in this migration. Existing generated locks and
   CI environment caches target `linux-64`.
+- Change the Read the Docs-specific environment in
+  `requirements/readthedocs.yml`.
 
 ## Constraints
 
@@ -143,10 +147,11 @@ flowchart TD
 ### Nox removal
 
 - Remove `noxfile.py`, `tools/update_lockfiles.py`, active
-  `requirements/py*.yml` environment definitions, generated current
-  lockfiles, and Nox-specific cache actions and configuration.
-- Update the Makefile, benchmark tools, and contributor documentation to use
-  Pixi commands.
+  `requirements/py*.yml` environment definitions, root `environment.yml`,
+  generated current lockfiles, and Nox-specific cache actions and
+  configuration.
+- Update the Makefile, benchmark tools, source-install, CI, release, and
+  contributor documentation to use Pixi commands.
 - Retain historical lockfiles in Git history for ASV checkouts, but do not
   keep them as active lock inputs on the migrated branch.
 
@@ -160,13 +165,14 @@ flowchart TD
 | 4 | Replace scheduled conda-lock refresh with a Pixi lock-update pull request workflow | 📋 not started |
 | 5 | Migrate ASV setup to Pixi for current revisions and direct Conda lock installs for historical revisions | 📋 not started |
 | 6 | Migrate benchmark CI and remove Nox-based benchmark commands | 📋 not started |
-| 7 | Remove obsolete Nox and conda-lock tools, environment files, and contributor guidance | 📋 not started |
+| 7 | Remove obsolete Nox and conda-lock tools, environment files, and update contributor, source-install, CI, and release guidance | 📋 not started |
 
 Rows 2, 3, and 4 depend on row 1. Row 5 depends on row 1, and row 6 depends
 on rows 2 and 5. Row 7 follows rows 3, 4, and 6. Change a row to `✅ landed
 (date, pull request)` in the pull request that delivers it. The root
-`AGENTS.md` also describes Nox; its meta-instruction requires proposing that
-edit separately rather than changing it as part of this migration.
+and test `AGENTS.md` files also describe Nox and Conda setup. Update those
+instructions as part of row 7 while retaining each file's change-control
+meta-instructions. The user approved these edits before implementation.
 
 ```mermaid
 flowchart TD
@@ -194,3 +200,5 @@ flowchart TD
   without Nox, preserving per-commit dependencies.
 - Contributor documentation gives working Pixi installation, task, and lock
   update commands.
+- Source-install, CI, and release documentation no longer directs developers
+  to create the obsolete root Conda environment.
