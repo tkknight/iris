@@ -29,10 +29,9 @@ Conda and PyPI packages, local tasks, CI, and lock updates.
 
 ## Non-Goals
 
-- Change Iris runtime or optional dependency declarations used to build PyPI
-  distributions. `requirements/pypi-core.txt` and the existing optional
-  requirement files remain packaging metadata unless implementation proves a
-  compatible alternative.
+- Change Iris runtime dependency declarations used to build PyPI
+  distributions. `requirements/pypi-core.txt` remains the source of published
+  runtime requirements.
 - Change supported Python versions, runtime dependency ranges, or CI test
   coverage.
 - Change benchmark definitions or how ASV decides which commits to compare.
@@ -98,8 +97,8 @@ creation. Nox remains absent from current workflows.
 
 ### Distribution metadata
 
-- Keep the existing PyPI runtime and optional dependency metadata consumed by
-  the package build as the source of published requirements.
+- Keep `requirements/pypi-core.txt`, consumed by the package build, as the
+  source of published runtime requirements.
 - Update Pixi declarations alongside package metadata when a dependency
   appears in both. Do not add a custom synchronization generator.
 - Test wheel installation from its declared metadata independently of the

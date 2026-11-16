@@ -20,8 +20,8 @@ Sphinx.
 - Support Python 3.12, 3.13, and 3.14.
 - Use conda-forge packages where suitable; use Pixi PyPI dependencies where a
   package should come from PyPI.
-- Keep `requirements/pypi-core.txt` and existing optional requirement files as
-  the source of published dependency metadata.
+- Keep `requirements/pypi-core.txt` as the source of published runtime
+  dependency metadata.
 - Do not add a custom synchronization generator for PyPI metadata and Pixi.
 - Keep supported environments and CI lock targets on `linux-64`.
 - Preserve optional packages currently used by CI tests.
@@ -59,7 +59,7 @@ Sphinx.
 - Create: `pixi.lock`
 - Read-only reference: `environment.yml`, `requirements/py312.yml`,
   `requirements/py313.yml`, `requirements/py314.yml`,
-  `requirements/pypi-core.txt`, `requirements/pypi-optional-*.txt`
+  `requirements/pypi-core.txt`
 
 **Interfaces:**
 - Produces environments for Python 3.12, 3.13, and 3.14, separated into
@@ -70,6 +70,8 @@ Sphinx.
 - Provides editable Iris installation in development environments.
 - Test environments retain the `nothing` dependency currently installed from
   `SciTools-incubator/nothing`; the benchmark environment includes ASV.
+- Preserve GeoVista in the Python 3.12 and 3.13 optional environments, and
+  leave it disabled in Python 3.14 environments as in the current files.
 
 - [ ] Map current Conda dependencies into Pixi Conda dependencies and PyPI
   dependencies into Pixi `pypi-dependencies`; preserve version constraints and
