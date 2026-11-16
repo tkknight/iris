@@ -120,26 +120,35 @@ Sphinx.
 ### Task 3: Migrate test, docs, and wheel CI
 
 **Files:**
+- Modify: `pyproject.toml`
 - Modify: `.github/workflows/ci-tests.yml`
 - Modify: `.github/workflows/ci-wheels.yml`
+- Modify: `.github/workflows/composite/cartopy-cache/action.yml`
 - Remove: `.github/workflows/composite/nox-cache/action.yml`
 
 **Interfaces:**
 - Test matrix remains Python 3.12, 3.13, and 3.14; doctests and gallery use
   Python 3.14.
 - CI installs named Pixi environments in frozen mode and invokes Pixi tasks.
+- Wheel-check environments include the test tooling but omit the editable Iris
+  installation, so pip installs the built wheel and its declared metadata.
 - Cartopy and Iris test-data caches remain available.
 
 - [ ] Replace setup-miniconda, conda environment setup, and Nox environment
   cache steps with the pinned Pixi setup action and its supported environment
-  caching configuration.
+  caching configuration. Give each matrix environment a distinct cache key.
+- [ ] Add `wheel-py312`, `wheel-py313`, and `wheel-py314` environments with
+  test tooling and no `dev` feature; retain the shared per-version solve
+  groups.
 - [ ] Run unit, integration, and system tests through the matching Python test
   environment; retain `-n auto`, coverage, and test-data configuration.
 - [ ] Run doctests and gallery tests through the Python 3.14 documentation
   environment.
-- [ ] Run wheel installation tests through Pixi after downloading the built
-  artifact; install the wheel using its declared package metadata, not the
-  editable development dependency.
+- [ ] Change the Cartopy cache action to run its downloader with the activated
+  Pixi environment rather than sourcing Conda activation scripts.
+- [ ] Run wheel installation tasks through the matching `wheel-py*`
+  environment after downloading the artifact; install the wheel using its
+  declared package metadata.
 - [ ] Run YAML/pre-commit checks for both workflows; expected: actions pass
   configuration and security checks, and existing CI matrix coverage remains.
 

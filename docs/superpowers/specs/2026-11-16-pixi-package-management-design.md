@@ -108,6 +108,8 @@ creation. Nox remains absent from current workflows.
 
 - Define Pixi tasks for existing test, documentation, wheel, and benchmark
   workflows.
+- Provide wheel-check environments that omit the editable Iris installation,
+  so wheel tests exercise published PyPI metadata.
 - Install each CI job's named environment in frozen mode and run its task
   through Pixi.
 - Replace Nox-specific CI environment setup and caching with Pixi
