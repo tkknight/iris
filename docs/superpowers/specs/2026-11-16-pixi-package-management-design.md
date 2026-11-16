@@ -130,6 +130,16 @@ creation. Nox remains absent from current workflows.
 - Keep this path Nox-free and isolate environments under ASV's environment
   directory so ASV can cache and reuse them.
 
+```mermaid
+flowchart TD
+  Checkout["ASV checks out commit"] --> Detect{"Pixi manifest and lock present?"}
+  Detect -->|Yes| Pixi["Create environment from Pixi workspace"]
+  Detect -->|No| Conda["Create environment from historical Conda lock"]
+  Conda --> Source["Install checked-out Iris source without resolving dependencies"]
+  Pixi --> Run["ASV caches and runs benchmark environment"]
+  Source --> Run
+```
+
 ### Nox removal
 
 - Remove `noxfile.py`, `tools/update_lockfiles.py`, active
@@ -157,6 +167,19 @@ on rows 2 and 5. Row 7 follows rows 3, 4, and 6. Change a row to `✅ landed
 (date, pull request)` in the pull request that delivers it. The root
 `AGENTS.md` also describes Nox; its meta-instruction requires proposing that
 edit separately rather than changing it as part of this migration.
+
+```mermaid
+flowchart TD
+  R1["1. Pixi workspace"] --> R2["2. Tasks and docs"]
+  R1 --> R3["3. Test, docs, and wheel CI"]
+  R1 --> R4["4. Lock refresh"]
+  R1 --> R5["5. ASV environment setup"]
+  R2 --> R6["6. Benchmark CI"]
+  R5 --> R6
+  R3 --> R7["7. Remove obsolete Nox tooling"]
+  R4 --> R7
+  R6 --> R7
+```
 
 ## Verification
 
