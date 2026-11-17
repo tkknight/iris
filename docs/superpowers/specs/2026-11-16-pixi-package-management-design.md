@@ -168,7 +168,7 @@ flowchart TD
 | 4 | Replace scheduled conda-lock refresh with a Pixi lock-update pull request workflow | ✅ complete in working tree (2026-11-16) |
 | 5 | Migrate ASV setup to Pixi for current revisions and direct Conda lock installs for historical revisions | ✅ complete in working tree (2026-11-16) |
 | 6 | Migrate benchmark CI and remove Nox-based benchmark commands | ✅ complete in working tree (2026-11-16) |
-| 7 | Remove obsolete Nox and conda-lock tools, environment files, and update contributor, source-install, CI, and release guidance | 🔄 in progress (2026-11-16; final Pixi test/docs/gallery verification pending) |
+| 7 | Remove obsolete Nox and conda-lock tools, environment files, and update contributor, source-install, CI, and release guidance | 🔄 in progress (2026-11-17; one test-py314 DOT-reference failure remains) |
 
 Rows 2, 3, and 4 depend on row 1. Row 5 depends on row 1, and row 6 depends
 on rows 2 and 5. Row 7 follows rows 3, 4, and 6. Update this roadmap as
@@ -179,10 +179,13 @@ and test `AGENTS.md` files also describe Nox and Conda setup. Update those
 instructions as part of row 7 while retaining each file's change-control
 meta-instructions. The user approved these edits before implementation.
 
-Task 7's final verification remains open because the existing `iris-dev`
-environment lacks `zarr` and `nothing`, and the user approved keeping only
-`dev-py314` installed locally. Do not install additional Pixi environments
-without renewed approval.
+Task 7's Pixi verification ran in the approved scratch environments. The docs
+task passed 908 doctests and the gallery task passed all 25 tests. The test
+task passed 12,998 tests with 63 skips and one `test_dot_simple_pp`
+`global_pp.dot` mismatch, also observed in `iris-dev`. Skips match the prior
+Python 3.14 environment: GeoVista was intentionally absent, and `iris_grib`
+and GDAL were not installed. Keep Task 7 in progress until the DOT mismatch is
+resolved or accepted as a known baseline issue.
 
 ```mermaid
 flowchart TD

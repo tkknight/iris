@@ -15,8 +15,9 @@ Sphinx.
 
 **Spec:** `docs/superpowers/specs/2026-11-16-pixi-package-management-design.md`
 
-**Progress (2026-11-16):** Tasks 1–6 complete in the working tree; Task 7 in
-progress. Keep this line, the checkboxes, and the spec roadmap synchronized.
+**Progress (2026-11-17):** Tasks 1–6 complete; Task 7 migration is in place.
+Final Pixi checks found one unrelated DOT-reference test failure. Keep this
+line, the checkboxes, and the spec roadmap synchronized.
 
 ## Global Constraints
 
@@ -280,7 +281,7 @@ progress. Keep this line, the checkboxes, and the spec roadmap synchronized.
 - [x] Search tracked files for active references to `noxfile.py`, Nox
   commands, `environment.yml`, `requirements/py*.yml`, and conda-lock. Expected:
   none outside historical release notes and historical ASV lock handling.
-- [ ] Run `pre-commit run --all-files`, `pixi run --environment test-py314
+- [x] Run `pre-commit run --all-files`, `pixi run --environment test-py314
   tests`, `pixi run --environment docs-py314 doctest`, and the Pixi gallery
   task; inspect skips and compare them with the current CI optional coverage.
 
@@ -288,11 +289,11 @@ progress. Keep this line, the checkboxes, and the spec roadmap synchronized.
 
 - Run Pixi commands from the repository root. Do not install Pixi into or
   alter the existing `iris-dev` environment.
-- Task 7 final Pixi task verification remains open. Checks in the existing
-  `iris-dev` passed 22 focused tests and 905 Sphinx doctests, but the full
-  suite had 12,237 passed, 35 graphics failures, 91 skips, and one collection
-  error because `nothing` is not installed. The docs HTML build also requires
-  missing `zarr`, and gallery tests had six image-comparison failures. Do not
-  mark Task 7 complete until the named Pixi test, docs, and gallery tasks run
-  without creating additional local environments.
+- Task 7 final Pixi checks ran in scratch environments. Documentation passed
+  with 908 doctests; gallery passed all 25 tests. The test task had 12,998
+  passed, 63 skipped, and one failure: `test_dot_simple_pp` reported a
+  `global_pp.dot` mismatch, also seen earlier in `iris-dev`. Skips match the
+  previous Python 3.14 environment: GeoVista was intentionally absent, while
+  `iris_grib` and GDAL were not installed there. Keep Task 7 open until the DOT
+  mismatch is resolved or accepted as a known baseline issue.
 - No task requires committing changes unless the user requests commits.
