@@ -35,12 +35,12 @@ STORES = ["unicode_coords_v2.zarr", "unicode_coords_v3.zarr"]
 
 
 @pytest.fixture(params=STORES)
-def sample(request):
+def sample(request):  # noqa: D103
     return _shared_utils.get_data_path(("Zarr", request.param))
 
 
 @_shared_utils.skip_data
-def test_the_string_coordinates_keep_their_dtype_and_values(sample):
+def test_the_string_coordinates_keep_their_dtype_and_values(sample):  # noqa: D103
     cube = iris.load_cube(sample)
     assert cube.shape == (13, 5, 2)
 

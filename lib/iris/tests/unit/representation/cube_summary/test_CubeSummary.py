@@ -15,7 +15,7 @@ from iris.cube import Cube
 from iris.tests.stock.mesh import sample_mesh_cube
 
 
-def example_cube():
+def example_cube():  # noqa: D103
     cube = Cube(
         np.arange(6).reshape([3, 2]),
         standard_name="air_temperature",

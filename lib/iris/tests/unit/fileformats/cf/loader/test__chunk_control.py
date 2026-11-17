@@ -21,7 +21,7 @@ import iris.tests.stock as istk
 
 
 @pytest.fixture
-def save_cubelist_with_sigma(tmp_filepath):
+def save_cubelist_with_sigma(tmp_filepath):  # noqa: D103
     cube = istk.simple_4d_with_hybrid_height()
     cube_varname = "my_var"
     sigma_varname = "my_sigma"
@@ -33,7 +33,7 @@ def save_cubelist_with_sigma(tmp_filepath):
 
 
 @pytest.fixture
-def save_cube_with_chunksize(tmp_filepath):
+def save_cube_with_chunksize(tmp_filepath):  # noqa: D103
     cube = istk.simple_3d()
     # adding an aux coord allows us to test that
     # iris.fileformats.cf.loader._get_cf_var_data()
@@ -49,21 +49,21 @@ def save_cube_with_chunksize(tmp_filepath):
 
 
 @pytest.fixture(scope="session")
-def tmp_filepath(tmp_path_factory):
+def tmp_filepath(tmp_path_factory):  # noqa: D103
     tmp_dir = tmp_path_factory.mktemp("data")
     tmp_path = tmp_dir / "tmp.nc"
     return str(tmp_path)
 
 
 @pytest.fixture(autouse=True)
-def remove_min_bytes():
+def remove_min_bytes():  # noqa: D103
     old_min_bytes = cf_loader._LAZYVAR_MIN_BYTES
     cf_loader._LAZYVAR_MIN_BYTES = 0
     yield
     cf_loader._LAZYVAR_MIN_BYTES = old_min_bytes
 
 
-def test_default(tmp_filepath, save_cubelist_with_sigma):
+def test_default(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     cube_varname, _ = save_cubelist_with_sigma
     cubes = CubeList(netcdf_loader.load_cubes(tmp_filepath))
     cube = cubes.extract_cube(cube_varname)
@@ -76,7 +76,7 @@ def test_default(tmp_filepath, save_cubelist_with_sigma):
     assert sigma.lazy_bounds().chunksize == (4, 2)
 
 
-def test_netcdf_v3():
+def test_netcdf_v3():  # noqa: D103
     # Just check that it does not fail when loading NetCDF v3 data
     path = iris.tests.get_data_path(
         ["NetCDF", "global", "xyt", "SMALL_total_column_co2.nc.k2"]
@@ -85,7 +85,7 @@ def test_netcdf_v3():
         iris.load(path)
 
 
-def test_control_global(tmp_filepath, save_cubelist_with_sigma):
+def test_control_global(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     cube_varname, _ = save_cubelist_with_sigma
     with CHUNK_CONTROL.set(model_level_number=2):
         cubes = CubeList(netcdf_loader.load_cubes(tmp_filepath))
@@ -99,7 +99,7 @@ def test_control_global(tmp_filepath, save_cubelist_with_sigma):
     assert sigma.lazy_bounds().chunksize == (2, 2)
 
 
-def test_control_sigma_only(tmp_filepath, save_cubelist_with_sigma):
+def test_control_sigma_only(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     cube_varname, sigma_varname = save_cubelist_with_sigma
     with CHUNK_CONTROL.set(sigma_varname, model_level_number=2):
         cubes = CubeList(netcdf_loader.load_cubes(tmp_filepath))
@@ -114,7 +114,7 @@ def test_control_sigma_only(tmp_filepath, save_cubelist_with_sigma):
     assert sigma.lazy_bounds().chunksize == (4, 2)
 
 
-def test_control_cube_var(tmp_filepath, save_cubelist_with_sigma):
+def test_control_cube_var(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     cube_varname, _ = save_cubelist_with_sigma
     with CHUNK_CONTROL.set(cube_varname, model_level_number=2):
         cubes = CubeList(netcdf_loader.load_cubes(tmp_filepath))
@@ -128,21 +128,21 @@ def test_control_cube_var(tmp_filepath, save_cubelist_with_sigma):
     assert sigma.lazy_bounds().chunksize == (2, 2)
 
 
-def test_invalid_chunksize(tmp_filepath, save_cubelist_with_sigma):
+def test_invalid_chunksize(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     msg = "'dimension_chunksizes' kwargs should be a dict of `str: int` pairs, not {'model_level_numer': '2'}."
     with pytest.raises(ValueError, match=msg):
         with CHUNK_CONTROL.set(model_level_numer="2"):
             CubeList(netcdf_loader.load_cubes(tmp_filepath))
 
 
-def test_invalid_var_name(tmp_filepath, save_cubelist_with_sigma):
+def test_invalid_var_name(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     msg = re.escape("'var_names' should be an iterable of strings, not [1, 2].")
     with pytest.raises(ValueError, match=msg):
         with CHUNK_CONTROL.set([1, 2], model_level_numer="2"):
             CubeList(netcdf_loader.load_cubes(tmp_filepath))
 
 
-def test_control_multiple(tmp_filepath, save_cubelist_with_sigma):
+def test_control_multiple(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     cube_varname, sigma_varname = save_cubelist_with_sigma
     with (
         CHUNK_CONTROL.set(cube_varname, model_level_number=2),
@@ -159,7 +159,7 @@ def test_control_multiple(tmp_filepath, save_cubelist_with_sigma):
     assert sigma.lazy_bounds().chunksize == (2, 2)
 
 
-def test_neg_one(tmp_filepath, save_cubelist_with_sigma):
+def test_neg_one(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     cube_varname, _ = save_cubelist_with_sigma
     with dask.config.set({"array.chunk-size": "50B"}):
         with CHUNK_CONTROL.set(model_level_number=-1):
@@ -175,14 +175,14 @@ def test_neg_one(tmp_filepath, save_cubelist_with_sigma):
     assert sigma.lazy_bounds().chunksize == (4, 1)
 
 
-def test_from_file(tmp_filepath, save_cube_with_chunksize):
+def test_from_file(tmp_filepath, save_cube_with_chunksize):  # noqa: D103
     with CHUNK_CONTROL.from_file():
         cube = next(netcdf_loader.load_cubes(tmp_filepath))
     assert cube.shape == (2, 3, 4)
     assert cube.lazy_data().chunksize == (1, 3, 4)
 
 
-def test_no_chunks_from_file(tmp_filepath, save_cubelist_with_sigma):
+def test_no_chunks_from_file(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     cube_varname, _ = save_cubelist_with_sigma
     with pytest.raises(KeyError):
         with CHUNK_CONTROL.from_file():
@@ -214,7 +214,7 @@ def test_as_dask(tmp_filepath, save_cubelist_with_sigma, mocker):
     )
 
 
-def test_pinned_optimisation(tmp_filepath, save_cubelist_with_sigma):
+def test_pinned_optimisation(tmp_filepath, save_cubelist_with_sigma):  # noqa: D103
     cube_varname, _ = save_cubelist_with_sigma
     with dask.config.set({"array.chunk-size": "250B"}):
         with CHUNK_CONTROL.set(model_level_number=2):
@@ -288,7 +288,7 @@ class TestChunksFromChunkControl:
         assert chunks == [2, 3, 4]
 
 
-def test_from_file_still_loads_a_small_unchunked_cube(tmp_path, mocker):
+def test_from_file_still_loads_a_small_unchunked_cube(tmp_path, mocker):  # noqa: D103
     # The KeyError sits behind the "small enough to read whole" shortcut, so a
     # small contiguous cube loads under from_file() today. Hoisting the check
     # into the CF layer, which is where the "is this the data variable" fact

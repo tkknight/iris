@@ -157,7 +157,7 @@ class TestAttributes:
         coord_system_mock.assert_called_with(*self.coord_system_args_expected)
 
 
-def test_deprecation(mocker):
+def test_deprecation(mocker):  # noqa: D103
     nc_attributes = dict(
         grid_mapping_name="rotated_mercator",
         latitude_of_projection_origin=0.0,

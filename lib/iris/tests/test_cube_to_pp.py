@@ -17,7 +17,7 @@ import iris.tests.stock as stock
 import iris.util
 
 
-def itab_callback(cube, field, filename):
+def itab_callback(cube, field, filename):  # noqa: D103
     cube.add_aux_coord(
         iris.coords.AuxCoord(
             [field.lbrel], long_name="MOUMHeaderReleaseNumber", units="no_unit"

@@ -737,7 +737,7 @@ class Test___call____bad_angular_units:
             Regridder(ok, bad, "linear", "mask")
 
 
-def uk_cube():
+def uk_cube():  # noqa: D103
     data = np.arange(12, dtype=np.float32).reshape(3, 4)
     uk = Cube(data)
     cs = OSGB()

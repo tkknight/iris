@@ -9,7 +9,7 @@ import pytest
 from iris.analysis import Linear
 
 
-def create_scheme(mode=None):
+def create_scheme(mode=None):  # noqa: D103
     kwargs = {}
     if mode is not None:
         kwargs["extrapolation_mode"] = mode

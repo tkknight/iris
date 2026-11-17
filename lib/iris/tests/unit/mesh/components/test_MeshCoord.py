@@ -30,7 +30,7 @@ from iris.warnings import IrisVagueMetadataWarning
 
 
 @pytest.fixture(params=["face", "edge"])
-def location_face_or_edge(request):
+def location_face_or_edge(request):  # noqa: D103
     # Fixture to parametrise over location = face/edge
     return request.param
 

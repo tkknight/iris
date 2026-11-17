@@ -7,7 +7,7 @@
 from iris._lazy_data import LRUCache
 
 
-def test_lrucache():
+def test_lrucache():  # noqa: D103
     cache = LRUCache(2)
 
     cache["a"] = 1

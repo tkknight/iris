@@ -9,7 +9,7 @@ from iris.experimental.geovista import cube_to_polydata
 from iris.tests import _shared_utils
 
 
-def test_integration_2d():
+def test_integration_2d():  # noqa: D103
     file_path = _shared_utils.get_data_path(
         [
             "NetCDF",
@@ -29,7 +29,7 @@ def test_integration_2d():
     )
 
 
-def test_integration_1d():
+def test_integration_1d():  # noqa: D103
     file_path = _shared_utils.get_data_path(
         [
             "NetCDF",
@@ -47,7 +47,7 @@ def test_integration_1d():
     _shared_utils.assert_array_equal(cube[0, :].data.flatten(), polydata.active_scalars)
 
 
-def test_integration_mesh():
+def test_integration_mesh():  # noqa: D103
     file_path = _shared_utils.get_data_path(
         [
             "NetCDF",

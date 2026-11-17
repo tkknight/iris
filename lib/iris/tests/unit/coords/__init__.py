@@ -50,18 +50,18 @@ def _setup_test_arrays(self, shape, masked=False):
         self.masked_bds_lazy = da.from_array(mbounds, mbounds.shape, asarray=False)
 
 
-def is_real_data(array):
+def is_real_data(array):  # noqa: D103
     # A parallel to :func:`iris._lazy_data.is_lazy_data`.
     # Not just "not lazy" : ensure it is a 'real' array (i.e. numpy).
     return isinstance(array, np.ndarray)
 
 
-def is_masked_data(array):
+def is_masked_data(array):  # noqa: D103
     # Check the array is a masked array.
     return ma.isMaskedArray(array)
 
 
-def arrays_share_data(a1, a2):
+def arrays_share_data(a1, a2):  # noqa: D103
     # Check whether 2 real arrays with the same content view the same data.
     # For an ndarray x, x.base will either be None (if x owns its data) or a
     # reference to the array which owns its data (if x is a view).
@@ -74,12 +74,12 @@ def arrays_share_data(a1, a2):
     )
 
 
-def lazyness_string(data):
+def lazyness_string(data):  # noqa: D103
     # Represent the lazyness of an array as a string.
     return "lazy" if is_lazy_data(data) else "real"
 
 
-def coords_all_dtypes_and_lazynesses(self, coord_class):
+def coords_all_dtypes_and_lazynesses(self, coord_class):  # noqa: D103
     # Generate coords with all possible types of points and bounds, and all
     # of the given dtypes.
     points_types = ["real", "lazy"]

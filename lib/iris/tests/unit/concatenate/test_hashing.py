@@ -72,7 +72,7 @@ from iris.util import array_equal
         (np.array(["a"]), np.array(["a"]).view(dtype=np.int32), False),
     ],
 )
-def test_compute_hashes(a, b, eq):
+def test_compute_hashes(a, b, eq):  # noqa: D103
     hashes = _concatenate._compute_hashes({"a": a, "b": b})
     assert eq == (hashes["a"] == hashes["b"])
 
@@ -91,7 +91,7 @@ def test_compute_hashes_vs_array_equal(a, b):
     assert array_equal(a, b, withnans=True) == (hashes["a"] == hashes["b"])
 
 
-def test_arrayhash_equal_incompatible_chunks_raises():
+def test_arrayhash_equal_incompatible_chunks_raises():  # noqa: D103
     hash1 = _concatenate._ArrayHash(1, chunks=((1, 1),))
     hash2 = _concatenate._ArrayHash(1, chunks=((2,),))
     msg = r"Unable to compare arrays with different chunks.*"
@@ -99,7 +99,7 @@ def test_arrayhash_equal_incompatible_chunks_raises():
         hash1 == hash2
 
 
-def test_arrayhash_equal_incompatible_type_raises():
+def test_arrayhash_equal_incompatible_type_raises():  # noqa: D103
     hash = _concatenate._ArrayHash(1, chunks=(1, 1))
     msg = r"Unable to compare .*"
     with pytest.raises(TypeError, match=msg):

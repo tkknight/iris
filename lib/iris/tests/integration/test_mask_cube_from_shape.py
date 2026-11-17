@@ -19,12 +19,12 @@ from iris.warnings import IrisUserWarning
 
 
 @pytest.fixture
-def wgs84_crs():
+def wgs84_crs():  # noqa: D103
     return CRS.from_epsg(4326)
 
 
 @pytest.fixture
-def shp_reader():
+def shp_reader():  # noqa: D103
     ne_countries = shpreader.natural_earth(
         resolution="10m", category="cultural", name="admin_0_countries"
     )

@@ -28,7 +28,7 @@ import iris.tests.stock as stock
         (None, 360.0),
     ],
 )
-def test_grid_and_pole__scalar_dim_longitude(unit, modulus):
+def test_grid_and_pole__scalar_dim_longitude(unit, modulus):  # noqa: D103
     cube = stock.lat_lon_cube()[:, -1:]
     assert cube.ndim == 2
     lon = cube.coord("longitude")
@@ -41,7 +41,7 @@ def test_grid_and_pole__scalar_dim_longitude(unit, modulus):
     assert field.lbnpt == lon.points.size
 
 
-def test_realization(mocker):
+def test_realization(mocker):  # noqa: D103
     cube = stock.lat_lon_cube()
     real_coord = DimCoord(42, standard_name="realization", units=1)
     cube.add_aux_coord(real_coord)
@@ -53,7 +53,7 @@ def test_realization(mocker):
     assert member_number == 42
 
 
-def test_stash_string(mocker):
+def test_stash_string(mocker):  # noqa: D103
     cube = stock.lat_lon_cube()
     cube.attributes["STASH"] = "m01s34i001"
     pp_field = mocker.patch("iris.fileformats.pp.PPField3", autospec=True)
@@ -64,7 +64,7 @@ def test_stash_string(mocker):
     assert stash_num == 34001
 
 
-def test_bad_stash_string(mocker):
+def test_bad_stash_string(mocker):  # noqa: D103
     cube = stock.lat_lon_cube()
     cube.attributes["STASH"] = "ooovarvoo"
     pp_field = mocker.patch("iris.fileformats.pp.PPField3", autospec=True)
@@ -417,7 +417,7 @@ class TestPoleLocation:
 
 
 @pytest.fixture
-def single_time_cube():
+def single_time_cube():  # noqa: D103
     # stock.realistic_3d returns a cube on a rotated pole grid
     cube = stock.realistic_3d()[0:1, :, :]
     cube.remove_coord("time")
@@ -433,7 +433,7 @@ def single_time_cube():
 
 
 @pytest.fixture
-def zonal_slice_cube():
+def zonal_slice_cube():  # noqa: D103
     x_coord = DimCoord(
         np.arange(0, 360, 10), standard_name="longitude", units="degrees", circular=True
     )
@@ -447,13 +447,13 @@ def zonal_slice_cube():
 
 
 @pytest.fixture
-def single_mean_time_cube(single_time_cube):
+def single_mean_time_cube(single_time_cube):  # noqa: D103
     single_time_cube.cell_methods = (CellMethod("mean", coords="time"),)
     return single_time_cube
 
 
 @pytest.fixture
-def global_cube():
+def global_cube():  # noqa: D103
     x_coord = DimCoord(
         np.arange(0, 360, 10), standard_name="longitude", units="degrees", circular=True
     )

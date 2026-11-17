@@ -16,7 +16,7 @@ from iris.util import array_equal, is_masked, mask_cube_from_shape
 
 
 @pytest.fixture
-def square_polygon():
+def square_polygon():  # noqa: D103
     # Create a roughly 3x3 square polygon
     return box(2.4, 2.4, 6.4, 6.4)
 
@@ -43,7 +43,7 @@ def mock_cube():
     return cube
 
 
-def test_mask_cube_from_shape_inplace(mock_cube, square_polygon):
+def test_mask_cube_from_shape_inplace(mock_cube, square_polygon):  # noqa: D103
     masked_cube = mask_cube_from_shape(
         cube=mock_cube,
         shape=square_polygon,
@@ -54,7 +54,7 @@ def test_mask_cube_from_shape_inplace(mock_cube, square_polygon):
     assert is_masked(mock_cube.data)
 
 
-def test_mask_cube_from_shape_not_inplace(mock_cube, square_polygon):
+def test_mask_cube_from_shape_not_inplace(mock_cube, square_polygon):  # noqa: D103
     masked_cube = mask_cube_from_shape(
         cube=mock_cube,
         shape=square_polygon,

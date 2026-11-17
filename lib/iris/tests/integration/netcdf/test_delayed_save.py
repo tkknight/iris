@@ -20,7 +20,7 @@ from iris.tests import _shared_utils
 from iris.tests.stock import realistic_4d
 
 
-def are_dask_collections(obj):
+def are_dask_collections(obj):  # noqa: D103
     result = dask.is_dask_collection(obj)
     if not result and hasattr(obj, "__len__"):
         result = all([dask.is_dask_collection(item) for item in obj])

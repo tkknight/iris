@@ -15,7 +15,7 @@ from iris.fileformats.cf.saver import _CF_GLOBAL_ATTRS
 
 
 @pytest.fixture
-def sample_attrs() -> CubeAttrsDict:
+def sample_attrs() -> CubeAttrsDict:  # noqa: D103
     return CubeAttrsDict(locals={"a": 1, "z": "this"}, globals={"b": 2, "z": "that"})
 
 

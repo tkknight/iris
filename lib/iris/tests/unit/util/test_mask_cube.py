@@ -21,7 +21,7 @@ import iris.util
 from iris.util import mask_cube
 
 
-def full2d_global():
+def full2d_global():  # noqa: D103
     return sample_2d_latlons(transformed=True)
 
 

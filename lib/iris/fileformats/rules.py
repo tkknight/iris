@@ -484,7 +484,7 @@ def load_pairs_from_fields(fields, converter):
     )
 
 
-def load_cubes(filenames, user_callback, loader, filter_function=None):
+def load_cubes(filenames, user_callback, loader, filter_function=None):  # noqa: D103
     if isinstance(filenames, str):
         filenames = [filenames]
 

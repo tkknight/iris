@@ -25,7 +25,7 @@ class CFVariableSub(cf.CFVariable):
         return super().identify(variables, ignore=ignore, target=target, warn=warn)
 
 
-def make_nc_var(mocker):
+def make_nc_var(mocker):  # noqa: D103
     nc_var = mocker.MagicMock()
     nc_var.attributes = {
         "coordinates": "x y",
@@ -41,19 +41,19 @@ def make_nc_var(mocker):
 
 
 @pytest.fixture
-def nc_var(mocker):
+def nc_var(mocker):  # noqa: D103
     return make_nc_var(mocker)
 
 
 @pytest.fixture
-def nc_var_without_location(nc_var):
+def nc_var_without_location(nc_var):  # noqa: D103
     del nc_var.location
 
     return nc_var
 
 
 @pytest.fixture
-def nc_vars(mocker):
+def nc_vars(mocker):  # noqa: D103
     # Three is the maximum number of independent mock variables needed in one test.
     return tuple(make_nc_var(mocker) for _ in range(3))
 

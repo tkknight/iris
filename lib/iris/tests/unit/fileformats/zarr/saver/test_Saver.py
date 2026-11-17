@@ -17,7 +17,7 @@ from iris.fileformats.zarr.saver import Saver
 
 
 @pytest.fixture
-def cube():
+def cube():  # noqa: D103
     cube = Cube(
         np.arange(6, dtype=np.float32).reshape(2, 3),
         standard_name="air_temperature",

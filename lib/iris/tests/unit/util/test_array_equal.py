@@ -181,7 +181,7 @@ TEST_CASES = [
 
 @pytest.mark.parametrize("lazy", [False, True])
 @pytest.mark.parametrize(("array_a", "array_b", "withnans", "eq"), TEST_CASES)
-def test_array_equal(array_a, array_b, withnans, eq, lazy):
+def test_array_equal(array_a, array_b, withnans, eq, lazy):  # noqa: D103
     if lazy:
         identical = array_a is array_b
         if isinstance(array_a, np.ndarray):

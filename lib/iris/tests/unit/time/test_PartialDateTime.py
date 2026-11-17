@@ -144,7 +144,7 @@ class _Test_operator:
         self._test(pdt1, pdt2, "pdt_empty")
 
 
-def negate_expectations(expectations):
+def negate_expectations(expectations):  # noqa: D103
     def negate(expected):
         if not isinstance(expected, type):
             expected = not expected

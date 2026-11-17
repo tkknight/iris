@@ -16,7 +16,7 @@ from iris.cube import Cube
 from iris.tests import _shared_utils
 
 
-def grid_cube(xx, yy, data=None):
+def grid_cube(xx, yy, data=None):  # noqa: D103
     nx, ny = len(xx), len(yy)
     if data is not None:
         data = np.array(data).reshape((ny, nx))

@@ -47,17 +47,17 @@ samples_3_ascii = np.array(
 samples_3_nonascii = np.array(["two", "", "épéé"])
 
 
-def strings_maxbytes(strings, encoding):
+def strings_maxbytes(strings, encoding):  # noqa: D103
     return max(len(string.encode(encoding)) for string in strings)
 
 
 @pytest.fixture(params=encoding_options)
-def encoding(request):
+def encoding(request):  # noqa: D103
     return request.param
 
 
 @pytest.fixture(scope="module")
-def tempdir(tmp_path_factory):
+def tempdir(tmp_path_factory):  # noqa: D103
     path = tmp_path_factory.mktemp("netcdf")
     return path
 
@@ -80,7 +80,7 @@ def make_encoded_dataset(
     return ds
 
 
-def fetch_undecoded_var(path, varname):
+def fetch_undecoded_var(path, varname):  # noqa: D103
     # Open a path as a "normal" dataset, and return a given variable.
     ds_normal = DatasetWrapper(path)
     ds_normal._contained_instance.set_auto_chartostring(False)
@@ -96,7 +96,7 @@ def check_array_matching(arr1, arr2):
     assert np.all(arr1 == arr2)
 
 
-def check_raw_content(path, varname, expected_byte_array):
+def check_raw_content(path, varname, expected_byte_array):  # noqa: D103
     v = fetch_undecoded_var(path, varname)
     bytes_result = v[:]
     check_array_matching(bytes_result, expected_byte_array)

@@ -37,7 +37,7 @@ from iris.fileformats.cf._dask_locks import (
         "DistributedScheduler",
     ]
 )
-def dask_scheduler(request):
+def dask_scheduler(request):  # noqa: D103
     # Control Dask to enable a specific scheduler type.
     sched_typename = request.param
     if sched_typename == "UnspecifiedScheduler":
@@ -70,14 +70,14 @@ def dask_scheduler(request):
         _distributed_client.close()
 
 
-def test_dask_scheduler_is_distributed(dask_scheduler):
+def test_dask_scheduler_is_distributed(dask_scheduler):  # noqa: D103
     result = dask_scheduler_is_distributed()
     # Should return 'True' only with a distributed scheduler.
     expected = dask_scheduler == "DistributedScheduler"
     assert result == expected
 
 
-def test_get_dask_array_scheduler_type(dask_scheduler):
+def test_get_dask_array_scheduler_type(dask_scheduler):  # noqa: D103
     result = get_dask_array_scheduler_type()
     expected = {
         "UnspecifiedScheduler": "threads",
@@ -89,7 +89,7 @@ def test_get_dask_array_scheduler_type(dask_scheduler):
     assert result == expected
 
 
-def test_get_worker_lock(dask_scheduler):
+def test_get_worker_lock(dask_scheduler):  # noqa: D103
     test_identity = "<dummy-filename>"
     error = None
     try:

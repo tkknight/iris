@@ -15,7 +15,7 @@ from .. import stores
 
 
 @pytest.fixture(params=[2, 3], ids=["v2", "v3"])
-def zarr_format(request):
+def zarr_format(request):  # noqa: D103
     return request.param
 
 

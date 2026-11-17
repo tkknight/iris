@@ -53,7 +53,7 @@ def _defined_public_names(module):
 
 
 @pytest.mark.parametrize("module", PRIVATE_MODULES, ids=lambda m: m.__name__)
-def test_public_names_are_re_exported(module):
+def test_public_names_are_re_exported(module):  # noqa: D103
     # A name defined in a private module and left out of __all__ vanishes from
     # the API docs without any warning, because autodoc rejects it on
     # __module__ - see Re-export packages in docs/AGENTS.md.
@@ -61,7 +61,7 @@ def test_public_names_are_re_exported(module):
 
 
 @pytest.mark.parametrize("name", cf.__all__)
-def test_re_exported_classes_keep_their_source(name):
+def test_re_exported_classes_keep_their_source(name):  # noqa: D103
     # Rewriting __module__ to the package - a tempting way to hide the split
     # from repr() - makes inspect look for the class body in __init__.py,
     # where it is not. That breaks getsource, IPython's "??", debuggers, and
@@ -73,7 +73,7 @@ def test_re_exported_classes_keep_their_source(name):
         assert inspect.getsource(value).lstrip().startswith("class ")
 
 
-def test_data_members_are_assigned_in_the_package_source():
+def test_data_members_are_assigned_in_the_package_source():  # noqa: D103
     # Sphinx autodoc documents module data only where the module's own source
     # assigns it, and drops an imported name silently. Anything in __all__
     # that is not a class therefore has to be re-stated in cf/__init__.py, or
@@ -86,14 +86,14 @@ def test_data_members_are_assigned_in_the_package_source():
 
 
 @pytest.mark.parametrize("name", cf.__all__)
-def test_all_entries_resolve(name):
+def test_all_entries_resolve(name):  # noqa: D103
     # The other direction: a name in __all__ that the package cannot supply
     # breaks "from iris.fileformats.cf import *" and the docs.
     assert hasattr(cf, name)
 
 
 @pytest.mark.parametrize("module", [_variables, _group], ids=lambda m: m.__name__)
-def test_only_the_reader_is_coupled_to_netcdf(module):
+def test_only_the_reader_is_coupled_to_netcdf(module):  # noqa: D103
     # Confining the netCDF import to _reader is the whole
     # point of the split; F401 is disabled here, so a stale import left
     # behind by the cut would otherwise go unremarked.
@@ -109,7 +109,7 @@ def test_only_the_reader_is_coupled_to_netcdf(module):
     "first_import",
     ["iris.fileformats.cf", "iris.fileformats.netcdf"],
 )
-def test_imports_in_a_fresh_interpreter(first_import):
+def test_imports_in_a_fresh_interpreter(first_import):  # noqa: D103
     # cf and netcdf import each other, and the split adds a
     # hop to that cycle. pytest has already imported iris by the time this
     # module is collected, so a new process is the only way to see it.
@@ -129,7 +129,7 @@ def test_imports_in_a_fresh_interpreter(first_import):
     "name",
     ["_CFFormulaTermsVariable", "_is_str_dtype", "_getncattr", "_CF_PARSE"],
 )
-def test_private_names_are_not_re_exported(name):
+def test_private_names_are_not_re_exported(name):  # noqa: D103
     # These were reachable on the flat module and are deliberately not
     # reachable on the package - see section 4.1 of
     # docs/superpowers/specs/2026-09-21-zarr-io-design.md.

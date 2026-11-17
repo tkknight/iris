@@ -44,14 +44,14 @@ from iris.fileformats.netcdf import _thread_safe_nc as threadsafe_nc
 
 
 @pytest.fixture(autouse=True)
-def split_attrs():
+def split_attrs():  # noqa: D103
     # Avoid the legacy-attribute deprecation warning; irrelevant here.
     with iris.FUTURE.context(save_split_attrs=True):
         yield
 
 
 @pytest.fixture
-def cube():
+def cube():  # noqa: D103
     cube = Cube(
         np.arange(6.0).reshape(2, 3),
         standard_name="air_temperature",

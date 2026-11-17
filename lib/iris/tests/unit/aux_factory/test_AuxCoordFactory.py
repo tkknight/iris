@@ -168,7 +168,7 @@ class Test_lazy_aux_coords:
         self._check_lazy(sample_cube)
 
 
-def make_dimco(name, dims):
+def make_dimco(name, dims):  # noqa: D103
     dims = tuple(dims)
     # Create simple points + bounds arrays
     pts = np.ones(dims, dtype=np.int32)

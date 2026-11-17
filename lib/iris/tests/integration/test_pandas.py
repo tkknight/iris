@@ -35,7 +35,7 @@ if pd is not None:
 
 
 @pytest.fixture
-def activate_pandas_ndim():
+def activate_pandas_ndim():  # noqa: D103
     iris.FUTURE.pandas_ndim = True
     yield None
     iris.FUTURE.pandas_ndim = False

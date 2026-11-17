@@ -15,7 +15,7 @@ import iris.io
 
 
 @pytest.fixture
-def cubes():
+def cubes():  # noqa: D103
     return CubeList(
         [Cube(np.arange(4, dtype=np.float32), var_name=name) for name in ("a", "b")]
     )

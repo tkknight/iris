@@ -74,33 +74,33 @@ def build(request, tmp_path):
     return make
 
 
-def test_identical_dimensions_span(build):
+def test_identical_dimensions_span(build):  # noqa: D103
     variables = build({"data": (("y", "x"), (3, 2)), "aux": (("y", "x"), (3, 2))})
     assert variables["aux"].spans(variables["data"]) is True
 
 
-def test_a_subset_spans(build):
+def test_a_subset_spans(build):  # noqa: D103
     variables = build({"data": (("y", "x"), (3, 2)), "aux": (("y",), (3,))})
     assert variables["aux"].spans(variables["data"]) is True
 
 
-def test_a_different_name_does_not_span(build):
+def test_a_different_name_does_not_span(build):  # noqa: D103
     variables = build({"data": (("y", "x"), (3, 2)), "aux": (("t",), (3,))})
     assert variables["aux"].spans(variables["data"]) is False
 
 
-def test_a_scalar_always_spans(build):
+def test_a_scalar_always_spans(build):  # noqa: D103
     variables = build({"data": (("y", "x"), (3, 2)), "grid": ((), ())})
     assert variables["grid"].spans(variables["data"]) is True
 
 
-def test_a_bounds_variable_ignores_its_extent_dimension(build):
+def test_a_bounds_variable_ignores_its_extent_dimension(build):  # noqa: D103
     variables = build({"data": (("y",), (3,)), "bounds": (("y", "bnds"), (3, 2))})
     bounds = CFBoundaryVariable("bounds", variables["bounds"].cf_data)
     assert bounds.spans(variables["data"]) is True
 
 
-def test_a_label_variable_ignores_its_string_length_dimension(build):
+def test_a_label_variable_ignores_its_string_length_dimension(build):  # noqa: D103
     variables = build({"data": (("y",), (3,)), "label": (("y", "strlen"), (3, 8))})
     label = CFLabelVariable("label", variables["label"].cf_data)
     assert label.spans(variables["data"]) is True
@@ -177,7 +177,7 @@ def test_an_anonymous_dimension_is_not_a_coordinate_variable(zarr, tmp_path):
     assert CFCoordinateVariable.identify(dataset.variables) == {}
 
 
-def test_a_partly_named_variable_matches_on_the_named_part(zarr, tmp_path):
+def test_a_partly_named_variable_matches_on_the_named_part(zarr, tmp_path):  # noqa: D103
     # "A variable may name some of its dimensions and not others." The named
     # part ("y") is present in the target and would be enough to span under
     # the old rule once the anonymous part is set aside - so `data` carries

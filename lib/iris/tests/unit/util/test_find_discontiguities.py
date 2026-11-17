@@ -16,7 +16,7 @@ from iris.tests.stock import (
 from iris.util import find_discontiguities
 
 
-def full2d_global():
+def full2d_global():  # noqa: D103
     return sample_2d_latlons(transformed=True)
 
 

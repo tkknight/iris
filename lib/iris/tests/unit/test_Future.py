@@ -12,7 +12,7 @@ from iris import Future
 import iris._deprecation
 
 
-def patched_future(value=False, deprecated=False, error=False):
+def patched_future(value=False, deprecated=False, error=False):  # noqa: D103
     class LocalFuture(Future):
         # Modified Future class, with controlled deprecation options.
         #

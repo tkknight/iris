@@ -20,7 +20,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 
 @pytest.fixture(scope="module")
-def load_theta():
+def load_theta():  # noqa: D103
     path = _shared_utils.get_data_path(("PP", "COLPEX", "theta_and_orog_subset.pp"))
     theta = iris.load_cube(path, "air_potential_temperature")
 

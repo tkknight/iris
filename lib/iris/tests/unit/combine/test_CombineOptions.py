@@ -42,7 +42,7 @@ class Test_settings:
             assert settings[key] == getattr(options, key)
 
 
-def options_checks(options, checks):
+def options_checks(options, checks):  # noqa: D103
     # Check (parts of) options against a dictionary of "expected" values.
     settings = options.settings()
     return all(settings[key] == value for key, value in checks.items())

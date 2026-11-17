@@ -16,7 +16,7 @@ from iris.tests import stock
 pytestmark = pytest.mark.parametrize("zarr_mode", ["nczarr", "xarray"])
 
 
-def zarr_uri(path: Path, mode: str) -> str:
+def zarr_uri(path: Path, mode: str) -> str:  # noqa: D103
     return path.as_uri() + f"#mode={mode},file"
 
 
@@ -40,7 +40,7 @@ def zarr_file(tmp_path, realistic_4d_w_everything, zarr_mode):
     return output_path
 
 
-def test_roundtrip_cube(tmp_path, realistic_4d_w_everything, zarr_mode):
+def test_roundtrip_cube(tmp_path, realistic_4d_w_everything, zarr_mode):  # noqa: D103
     output_path = tmp_path / "output.zarr"
     output_uri = zarr_uri(output_path, zarr_mode)
     with iris.FUTURE.context(save_split_attrs=True):
@@ -55,7 +55,7 @@ def test_roundtrip_cube(tmp_path, realistic_4d_w_everything, zarr_mode):
     assert loaded == realistic_4d_w_everything
 
 
-def test_roundtrip_file(tmp_path, zarr_file, zarr_mode):
+def test_roundtrip_file(tmp_path, zarr_file, zarr_mode):  # noqa: D103
     def _get_json(path: Path):
         with path.open() as file_handle:
             return sorted(json.load(file_handle))

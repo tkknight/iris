@@ -19,7 +19,7 @@ def base64_double(value):
     return base64.b64encode(struct.pack("<d", value)).decode("ascii")
 
 
-def parameters(attributes, *, dtype="i2", storage_fill_value=0, zarr_format=3):
+def parameters(attributes, *, dtype="i2", storage_fill_value=0, zarr_format=3):  # noqa: D103
     return _decode.decode_parameters(
         attributes,
         dtype=np.dtype(dtype),

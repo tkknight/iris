@@ -29,7 +29,7 @@ def _setup(tmp_path_factory):
     TMP_DIR = tmp_path_factory.mktemp("temp")
 
 
-def cdl_to_nc(cdl):
+def cdl_to_nc(cdl):  # noqa: D103
     cdl_path = TMP_DIR / "tst.cdl"
     nc_path = TMP_DIR / "tst.nc"
     ncgen_from_cdl(cdl, cdl_path, nc_path)

@@ -10,7 +10,7 @@ from iris.common.lenient import _LENIENT, _LENIENT_PROTECTED, Lenient
 
 
 @pytest.fixture
-def lenient():
+def lenient():  # noqa: D103
     # setup
     state = {key: _LENIENT.__dict__[key] for key in _LENIENT_PROTECTED}
     # call

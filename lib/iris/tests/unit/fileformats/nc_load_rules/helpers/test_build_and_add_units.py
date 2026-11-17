@@ -14,7 +14,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import real_cf_data_varia
 
 
 @pytest.fixture
-def mock_cf_data_var():
+def mock_cf_data_var():  # noqa: D103
     # A real CFDataVariable, not a CFVariableStandIn: build_and_add_units calls
     # get_attr_units with capture_invalid=True, whose first act is to assert
     # isinstance(cf_var, cf.CFDataVariable).
@@ -22,7 +22,7 @@ def mock_cf_data_var():
 
 
 @pytest.fixture
-def mock_engine(mock_cf_data_var, mocker):
+def mock_engine(mock_cf_data_var, mocker):  # noqa: D103
     return mocker.Mock(
         cube=mocker.Mock(attributes={}),
         cf_var=mock_cf_data_var,
@@ -30,13 +30,13 @@ def mock_engine(mock_cf_data_var, mocker):
     )
 
 
-def test_construction(mock_engine):
+def test_construction(mock_engine):  # noqa: D103
     expected_units = Unit("kelvin")
     helpers.build_and_add_units(mock_engine)
     assert mock_engine.cube.units == expected_units
 
 
-def test_invalid_units(mock_engine, mock_cf_data_var):
+def test_invalid_units(mock_engine, mock_cf_data_var):  # noqa: D103
     mock_cf_data_var.attributes["units"] = "not_built"
     helpers.build_and_add_units(mock_engine)
     assert mock_engine.cube.attributes["invalid_units"] == "not_built"
@@ -44,7 +44,7 @@ def test_invalid_units(mock_engine, mock_cf_data_var):
     assert load_problem.loaded == {"units": "not_built"}
 
 
-def test_not_built(monkeypatch, mock_engine):
+def test_not_built(monkeypatch, mock_engine):  # noqa: D103
     units_original = mock_engine.cube.units
 
     def mock_get_attr_units(cf_var, attributes, capture_invalid=False):
@@ -59,7 +59,7 @@ def test_not_built(monkeypatch, mock_engine):
     assert mock_engine.cube.units == units_original
 
 
-def test_not_added(monkeypatch, mock_engine, mock_cf_data_var, mocker):
+def test_not_added(monkeypatch, mock_engine, mock_cf_data_var, mocker):  # noqa: D103
     units_original = mock_engine.cube.units
 
     class NoUnits(mocker.Mock):
@@ -77,7 +77,7 @@ def test_not_added(monkeypatch, mock_engine, mock_cf_data_var, mocker):
     assert mock_engine.cube.units == units_original
 
 
-def test_unhandlable_error(monkeypatch, mock_engine):
+def test_unhandlable_error(monkeypatch, mock_engine):  # noqa: D103
     # Confirm that the code can redirect an error to LOAD_PROBLEMS even
     #  when there is no specific handling code for it.
     n_problems = len(LOAD_PROBLEMS.problems)
@@ -89,7 +89,7 @@ def test_unhandlable_error(monkeypatch, mock_engine):
     assert len(LOAD_PROBLEMS.problems) > n_problems
 
 
-def test_problem_destination(monkeypatch, mock_engine):
+def test_problem_destination(monkeypatch, mock_engine):  # noqa: D103
     # Confirm that the destination of the problem is set correctly.
     with monkeypatch.context() as m:
         m.setattr(mock_engine, "cube", "foo")

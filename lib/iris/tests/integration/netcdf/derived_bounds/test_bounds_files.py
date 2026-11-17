@@ -36,14 +36,14 @@ _DERIVED_BOUNDS_ID_MAP = {
 
 
 @pytest.fixture(params=_DERIVED_BOUNDS_VALUES, ids=_DERIVED_BOUNDS_IDS)
-def derived_bounds(request):
+def derived_bounds(request):  # noqa: D103
     db = request.param
     with FUTURE.context(derived_bounds=db):
         yield db
 
 
 @pytest.fixture
-def cf_primary_sample_path(tmp_path_factory):
+def cf_primary_sample_path(tmp_path_factory):  # noqa: D103
     cdl = """
         netcdf a_new_file {
         dimensions:
@@ -94,7 +94,7 @@ def cf_primary_sample_path(tmp_path_factory):
     return filepath
 
 
-def test_load_legacy_hh(derived_bounds):
+def test_load_legacy_hh(derived_bounds):  # noqa: D103
     cubes = iris.load(legacy_filepath)
 
     cube_names = sorted([cube.name() for cube in cubes])
@@ -129,7 +129,7 @@ def test_load_legacy_hh(derived_bounds):
         assert not level_height_coord.has_bounds()
 
 
-def test_load_primary_cf_style(derived_bounds, cf_primary_sample_path):
+def test_load_primary_cf_style(derived_bounds, cf_primary_sample_path):  # noqa: D103
     cubes = iris.load(cf_primary_sample_path)
 
     cube_names = sorted([cube.name() for cube in cubes])
@@ -195,7 +195,7 @@ def test_load_primary_cf_style(derived_bounds, cf_primary_sample_path):
 
 
 @pytest.fixture
-def tmp_ncdir(tmp_path_factory):
+def tmp_ncdir(tmp_path_factory):  # noqa: D103
     return tmp_path_factory.mktemp("_temp_netcdf_dir")
 
 

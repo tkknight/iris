@@ -37,11 +37,11 @@ def _assert_clean_load():
 
 
 @pytest.fixture
-def gfs_like(tmp_path):
+def gfs_like(tmp_path):  # noqa: D103
     return fixtures.make_gfs_like_store(tmp_path / "gfs.zarr")
 
 
-def test_the_store_loads_two_cubes(gfs_like):
+def test_the_store_loads_two_cubes(gfs_like):  # noqa: D103
     cubes = iris.load(gfs_like)
     assert sorted(cube.name() for cube in cubes) == [
         "air_temperature",
@@ -49,7 +49,7 @@ def test_the_store_loads_two_cubes(gfs_like):
     ]
 
 
-def test_dimension_coordinates_attach(gfs_like):
+def test_dimension_coordinates_attach(gfs_like):  # noqa: D103
     cube = iris.load_cube(gfs_like, "air_temperature")
     assert [coord.name() for coord in cube.coords(dim_coords=True)] == [
         "time",
@@ -60,14 +60,14 @@ def test_dimension_coordinates_attach(gfs_like):
     assert cube.shape == fixtures.SHAPE
 
 
-def test_bounds_attach_to_their_coordinate(gfs_like):
+def test_bounds_attach_to_their_coordinate(gfs_like):  # noqa: D103
     cube = iris.load_cube(gfs_like, "air_temperature")
     latitude = cube.coord("latitude")
     assert latitude.has_bounds()
     np.testing.assert_array_equal(latitude.bounds, fixtures.LATITUDE_BOUNDS)
 
 
-def test_the_auxiliary_coordinate_attaches_to_its_own_dimensions(gfs_like):
+def test_the_auxiliary_coordinate_attaches_to_its_own_dimensions(gfs_like):  # noqa: D103
     cube = iris.load_cube(gfs_like, "air_temperature")
     # `valid_time` carries `standard_name: "time"`, as the real GFS store's
     # does, so it shares its Iris name with the "time" dimension coordinate;
@@ -76,12 +76,12 @@ def test_the_auxiliary_coordinate_attaches_to_its_own_dimensions(gfs_like):
     assert cube.coord_dims(aux) == (0, 1)
 
 
-def test_the_grid_mapping_becomes_a_coordinate_system(gfs_like):
+def test_the_grid_mapping_becomes_a_coordinate_system(gfs_like):  # noqa: D103
     cube = iris.load_cube(gfs_like, "air_temperature")
     assert isinstance(cube.coord("latitude").coord_system, GeogCS)
 
 
-def test_packing_is_applied(gfs_like):
+def test_packing_is_applied(gfs_like):  # noqa: D103
     cube = iris.load_cube(gfs_like, "air_temperature")
     assert cube.dtype == np.dtype("f8")
     # The first stored value is 0, so scale_factor * 0 + add_offset.
@@ -99,7 +99,7 @@ def test_the_base64_fill_value_masks_nothing_here(gfs_like):
     assert not np.ma.is_masked(cube.data)
 
 
-def test_the_cube_is_lazy_and_chunked_to_the_store(gfs_like, mocker):
+def test_the_cube_is_lazy_and_chunked_to_the_store(gfs_like, mocker):  # noqa: D103
     # `temperature_2m` is a few hundred bytes, well under the small-array
     # cutoff (`_LAZYVAR_MIN_BYTES`) below which the CF loader reads a
     # variable whole rather than lazily. A real store is nowhere near that
@@ -117,7 +117,7 @@ def test_the_cube_is_lazy_and_chunked_to_the_store(gfs_like, mocker):
         assert all(size % store_size == 0 for size in sizes[:-1])
 
 
-def test_a_structured_attribute_survives(gfs_like):
+def test_a_structured_attribute_survives(gfs_like):  # noqa: D103
     cube = iris.load_cube(gfs_like, "air_temperature")
     aux = cube.coord(var_name="valid_time")
     assert aux.attributes["statistics_approximate"] == {

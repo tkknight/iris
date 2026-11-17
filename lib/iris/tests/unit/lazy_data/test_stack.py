@@ -10,7 +10,7 @@ import numpy as np
 from iris._lazy_data import stack
 
 
-def test_stack():
+def test_stack():  # noqa: D103
     seq = [
         da.arange(2),
         da.ma.masked_array(da.arange(2)),

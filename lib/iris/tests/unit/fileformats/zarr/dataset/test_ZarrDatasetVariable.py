@@ -26,35 +26,35 @@ def wrap(array, location="store.zarr"):
 
 
 @pytest.fixture(params=[2, 3], ids=["v2", "v3"])
-def zarr_format(request):
+def zarr_format(request):  # noqa: D103
     return request.param
 
 
 @pytest.fixture
-def group(tmp_path, zarr_format):
+def group(tmp_path, zarr_format):  # noqa: D103
     return zarr.open_group(
         store=tmp_path / "probe.zarr", mode="w", zarr_format=zarr_format
     )
 
 
-def test_named_dimensions(group, zarr_format):
+def test_named_dimensions(group, zarr_format):  # noqa: D103
     array = stores.make_array(
         group, "v", (3, 2), "f8", zarr_format, dimensions=("y", "x")
     )
     assert wrap(array).dimensions == ("y", "x")
 
 
-def test_unnamed_dimensions_are_anonymous(group, zarr_format):
+def test_unnamed_dimensions_are_anonymous(group, zarr_format):  # noqa: D103
     array = stores.make_array(group, "v", (3, 2), "f8", zarr_format)
     assert wrap(array).dimensions == (None, None)
 
 
-def test_scalar_has_no_dimensions(group, zarr_format):
+def test_scalar_has_no_dimensions(group, zarr_format):  # noqa: D103
     array = stores.make_array(group, "v", (), "i4", zarr_format)
     assert wrap(array).dimensions == ()
 
 
-def test_partially_named_dimensions_version_3(tmp_path):
+def test_partially_named_dimensions_version_3(tmp_path):  # noqa: D103
     # The version 3 core specification: "an unnamed dimension is indicated by
     # the null object". A store may name some dimensions and not others.
     group = zarr.open_group(store=tmp_path / "p.zarr", mode="w", zarr_format=3)
@@ -64,7 +64,7 @@ def test_partially_named_dimensions_version_3(tmp_path):
     assert wrap(array).dimensions == ("y", None)
 
 
-def test_repeated_name_within_one_array(tmp_path):
+def test_repeated_name_within_one_array(tmp_path):  # noqa: D103
     # "It is recommended but not required that all non-null dimension names
     # are distinct." Recommended is not required, so this must not raise.
     group = zarr.open_group(store=tmp_path / "p.zarr", mode="w", zarr_format=3)
@@ -128,7 +128,7 @@ def test_wrong_length_dimension_names_warns_and_loads_anonymous(tmp_path):
     assert dimensions == (None, None)
 
 
-def test_plain_properties(tmp_path, zarr_format):
+def test_plain_properties(tmp_path, zarr_format):  # noqa: D103
     location = stores.make_store(tmp_path / "s.zarr", zarr_format=zarr_format)
     array = zarr.open_group(store=location, mode="r")["air_temperature"]
     variable = wrap(array, location)
@@ -178,7 +178,7 @@ def test_chunking_is_the_inner_chunk_not_the_shard(tmp_path):
     assert variable.storage_settings["shards"] == (1024,)
 
 
-def test_storage_settings_reports_the_store(tmp_path, zarr_format):
+def test_storage_settings_reports_the_store(tmp_path, zarr_format):  # noqa: D103
     location = stores.make_store(tmp_path / "e.zarr", zarr_format=zarr_format)
     array = zarr.open_group(store=location, mode="r")["air_temperature"]
     storage_settings = wrap(array, location).storage_settings
@@ -250,7 +250,7 @@ def test_array_dimensions_is_not_a_cf_attribute(tmp_path):
     assert dict(variable.attributes) == {"units": "K"}
 
 
-def test_version_2_and_version_3_present_the_same_attributes(tmp_path):
+def test_version_2_and_version_3_present_the_same_attributes(tmp_path):  # noqa: D103
     v2 = stores.make_store(tmp_path / "a2.zarr", zarr_format=2)
     v3 = stores.make_store(tmp_path / "a3.zarr", zarr_format=3)
     from_2 = zarr.open_group(store=v2, mode="r")["air_temperature"]

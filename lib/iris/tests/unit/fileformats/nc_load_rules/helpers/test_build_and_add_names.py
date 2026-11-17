@@ -14,7 +14,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import CFVariableStandIn
 
 
 @pytest.fixture
-def mock_engine(mocker):
+def mock_engine(mocker):  # noqa: D103
     global_attributes = {
         "Conventions": "CF-1.5",
         "comment": "Mocked test object",

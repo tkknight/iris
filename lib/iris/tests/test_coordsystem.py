@@ -19,7 +19,7 @@ import iris.tests.stock
 from iris.warnings import IrisUserWarning
 
 
-def osgb():
+def osgb():  # noqa: D103
     return TransverseMercator(
         latitude_of_projection_origin=49,
         longitude_of_central_meridian=-2,

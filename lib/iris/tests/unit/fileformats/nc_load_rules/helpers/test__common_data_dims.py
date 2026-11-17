@@ -17,25 +17,25 @@ class Variable:
     shape: tuple
 
 
-def test_the_one_shared_dimension():
+def test_the_one_shared_dimension():  # noqa: D103
     coord = Variable(("x",), (3,))
     data = Variable(("y", "x"), (2, 3))
     assert _common_data_dims(coord, data) == [1]
 
 
-def test_several_shared_dimensions_keep_the_coordinates_order():
+def test_several_shared_dimensions_keep_the_coordinates_order():  # noqa: D103
     coord = Variable(("x", "y"), (3, 2))
     data = Variable(("y", "x"), (2, 3))
     assert _common_data_dims(coord, data) == [1, 0]
 
 
-def test_a_scalar_variable_shares_nothing():
+def test_a_scalar_variable_shares_nothing():  # noqa: D103
     # `None`, not `[]`: it is what `Cube.add_aux_coord` takes for "no
     # dimensions", and an empty list is not.
     assert _common_data_dims(Variable((), ()), Variable(("x",), (3,))) is None
 
 
-def test_a_dimension_the_data_variable_does_not_have():
+def test_a_dimension_the_data_variable_does_not_have():  # noqa: D103
     assert _common_data_dims(Variable(("t",), (4,)), Variable(("x",), (3,))) is None
 
 

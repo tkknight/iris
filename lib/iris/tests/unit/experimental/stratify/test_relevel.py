@@ -15,7 +15,7 @@ import iris.tests.stock as stock
 
 
 @pytest.fixture(autouse=True, scope="module")
-def fake_stratify():
+def fake_stratify():  # noqa: D103
     try:
         import stratify
     except:

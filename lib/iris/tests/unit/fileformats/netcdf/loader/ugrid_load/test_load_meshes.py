@@ -17,7 +17,7 @@ from iris.tests import _shared_utils
 from iris.tests.stock.netcdf import ncgen_from_cdl
 
 
-def cdl_to_nc(cdl, tmpdir: Path):
+def cdl_to_nc(cdl, tmpdir: Path):  # noqa: D103
     cdl_path = str(tmpdir / "tst.cdl")
     nc_path = str(tmpdir / f"{uuid4()}.nc")
     # Use ncgen to convert this into an actual (temporary) netCDF file.

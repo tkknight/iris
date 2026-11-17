@@ -11,12 +11,12 @@ from iris.fileformats.netcdf import _bytecoding_datasets, _dataset, _thread_safe
 
 
 @pytest.fixture
-def path(tmp_path):
+def path(tmp_path):  # noqa: D103
     return tmp_path / "written.nc"
 
 
 @pytest.fixture
-def writer(path):
+def writer(path):  # noqa: D103
     with _dataset.NetCDFDataset(path, mode="w", netcdf_format="NETCDF4") as dataset:
         yield dataset
 

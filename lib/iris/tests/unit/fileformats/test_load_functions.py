@@ -59,12 +59,12 @@ def cu(n="a", t=0, z=0):
 
 
 @pytest.fixture(params=["load", "load_cube", "load_cubes", "load_raw"])
-def loadfunc_name(request):
+def loadfunc_name(request):  # noqa: D103
     # N.B. "request" is a standard PyTest fixture
     return request.param  # Return the name of the attribute to test.
 
 
-def run_testcase(input_cubes, loadfunc_name, constraints=None):
+def run_testcase(input_cubes, loadfunc_name, constraints=None):  # noqa: D103
     loadfunc = getattr(iris.loading, loadfunc_name)
 
     def mock_generate_cubes(uris, callback, constraints):
@@ -80,7 +80,7 @@ def run_testcase(input_cubes, loadfunc_name, constraints=None):
     return result
 
 
-def debug_result(cubes):
+def debug_result(cubes):  # noqa: D103
     print()
     print(cubes)
     if isinstance(cubes, iris.cube.CubeList):
@@ -91,7 +91,7 @@ def debug_result(cubes):
             print(i_cube, cube.name(), ": h=", vh, " :: t=", vt)
 
 
-def check_result(input_cubes, loadfunc_name, result, expected_results):
+def check_result(input_cubes, loadfunc_name, result, expected_results):  # noqa: D103
     if "load_raw" not in expected_results and loadfunc_name == "load_raw":
         expected = input_cubes
     else:

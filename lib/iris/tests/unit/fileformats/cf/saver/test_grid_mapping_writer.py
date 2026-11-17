@@ -29,7 +29,7 @@ from iris.fileformats.netcdf._thread_safe_nc import DatasetWrapper
 
 
 @pytest.fixture
-def cube():
+def cube():  # noqa: D103
     cube = Cube(np.arange(6, dtype=np.float32).reshape(2, 3), var_name="air")
     cube.add_dim_coord(
         iris.coords.DimCoord(

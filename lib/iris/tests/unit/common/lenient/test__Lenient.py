@@ -17,7 +17,7 @@ from iris.common.lenient import (
 
 
 @pytest.fixture
-def lenient():
+def lenient():  # noqa: D103
     return _Lenient()
 
 

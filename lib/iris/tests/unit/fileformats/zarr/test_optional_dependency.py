@@ -20,18 +20,18 @@ def _imports_zarr(statement):
     return completed.stdout.strip() == "True"
 
 
-def test_importing_iris_does_not_import_zarr():
+def test_importing_iris_does_not_import_zarr():  # noqa: D103
     assert not _imports_zarr("import iris")
 
 
-def test_importing_the_format_registry_does_not_import_zarr():
+def test_importing_the_format_registry_does_not_import_zarr():  # noqa: D103
     # iris.fileformats imports every format module it registers a handler
     # from. If the Zarr loader joined that list, Iris would stop installing
     # without zarr-python.
     assert not _imports_zarr("import iris.fileformats")
 
 
-def test_importing_the_zarr_package_does_not_import_zarr():
+def test_importing_the_zarr_package_does_not_import_zarr():  # noqa: D103
     # The package docstring is reachable without the dependency; only the
     # modules under it need zarr itself.
     assert not _imports_zarr("import iris.fileformats.zarr")

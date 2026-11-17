@@ -1899,7 +1899,7 @@ class TestWeights:
         assert weights.units == "1"
 
 
-def test__Groupby_repr():
+def test__Groupby_repr():  # noqa: D103
     groupby_coord = iris.coords.AuxCoord([2000, 2000], var_name="year")
     shared_coord = iris.coords.DimCoord(
         [0, 1],
@@ -1931,7 +1931,7 @@ def test__Groupby_repr():
         ({"weights": [1, 2, 3], "_weights_units": "s"}, "kg m-2 s"),
     ],
 )
-def test_sum_units_func(kwargs, expected):
+def test_sum_units_func(kwargs, expected):  # noqa: D103
     units = cf_units.Unit("kg m-2")
     result = iris.analysis._sum_units_func(units, **kwargs)
     assert result == expected

@@ -19,7 +19,7 @@ from iris.exceptions import MergeError
 from iris.tests import _shared_utils
 
 
-def example_cube():
+def example_cube():  # noqa: D103
     return iris.cube.Cube(
         np.array([1, 2, 3], dtype="i4"),
         standard_name="air_temperature",

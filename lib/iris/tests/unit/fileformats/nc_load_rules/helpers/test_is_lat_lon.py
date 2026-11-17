@@ -8,7 +8,7 @@ from iris.fileformats._nc_load_rules import helpers
 from iris.tests.unit.fileformats.nc_load_rules.helpers import CFVariableStandIn
 
 
-def test_non_string_units():
+def test_non_string_units():  # noqa: D103
     cf_var = CFVariableStandIn(units=1.0)
     is_lat_lon = helpers._is_lat_lon(cf_var, [], "latitude", "grid_latitude", "y", [])
     assert is_lat_lon is False

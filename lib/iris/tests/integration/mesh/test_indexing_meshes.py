@@ -16,7 +16,7 @@ from iris.tests.stock.mesh import sample_mesh, sample_mesh_cube
 
 
 @pytest.fixture
-def cube_mesh_from_file():
+def cube_mesh_from_file():  # noqa: D103
     file_path = _shared_utils.get_data_path(
         [
             "NetCDF",
@@ -28,28 +28,28 @@ def cube_mesh_from_file():
 
 
 @pytest.fixture
-def cube_mesh_node():
+def cube_mesh_node():  # noqa: D103
     location = "node"
     mesh = sample_mesh(n_nodes=15, n_edges=3, n_faces=3)  # Cannot have a node only mesh
     return (sample_mesh_cube(location=location, mesh=mesh), location)
 
 
 @pytest.fixture
-def cube_mesh_edge():
+def cube_mesh_edge():  # noqa: D103
     location = "edge"
     mesh = sample_mesh(n_nodes=15, n_edges=3, n_faces=0)
     return (sample_mesh_cube(location=location, mesh=mesh), location)
 
 
 @pytest.fixture
-def cube_mesh_face():
+def cube_mesh_face():  # noqa: D103
     location = "face"
     mesh = sample_mesh(n_nodes=15, n_edges=0, n_faces=3)
     return (sample_mesh_cube(location=location, mesh=mesh), location)
 
 
 @pytest.fixture
-def cube_mesh_1_indexed(cube_mesh_from_file):
+def cube_mesh_1_indexed(cube_mesh_from_file):  # noqa: D103
     cube = cube_mesh_from_file[0]
     mesh = cube.mesh
     for con in mesh.all_connectivities:
@@ -59,7 +59,7 @@ def cube_mesh_1_indexed(cube_mesh_from_file):
     return (cube, "face")
 
 
-def change_and_assert_no_change_in_right(left: Coord, right: Coord, value: int):
+def change_and_assert_no_change_in_right(left: Coord, right: Coord, value: int):  # noqa: D103
     left.points[0] = value
     assert right.points[0] != value
 
@@ -68,7 +68,7 @@ def change_and_assert_no_change_in_right(left: Coord, right: Coord, value: int):
     "fixture",
     ["cube_mesh_from_file", "cube_mesh_node", "cube_mesh_edge", "cube_mesh_face"],
 )
-def test_subset_indexing_auxcoord(fixture, request):
+def test_subset_indexing_auxcoord(fixture, request):  # noqa: D103
     cube: Cube
     location: str
     (cube, location) = request.getfixturevalue(fixture)
@@ -104,7 +104,7 @@ def test_subset_indexing_auxcoord(fixture, request):
     "fixture",
     ["cube_mesh_from_file", "cube_mesh_edge", "cube_mesh_face"],
 )
-def test_subset_indexing_new_mesh(fixture, request):
+def test_subset_indexing_new_mesh(fixture, request):  # noqa: D103
     cube: Cube
     location: str
     (cube, location) = request.getfixturevalue(fixture)
@@ -138,7 +138,7 @@ def test_subset_indexing_new_mesh(fixture, request):
     "fixture",
     ["cube_mesh_from_file", "cube_mesh_node", "cube_mesh_edge", "cube_mesh_face"],
 )
-def test_subset_indexing_mesh_index_set(fixture, request):
+def test_subset_indexing_mesh_index_set(fixture, request):  # noqa: D103
     cube: Cube
     location: str
     (cube, location) = request.getfixturevalue(fixture)
@@ -205,7 +205,7 @@ def test_subset_indexing_mesh_index_set(fixture, request):
     "fixture",
     ["cube_mesh_from_file", "cube_mesh_edge", "cube_mesh_face", "cube_mesh_1_indexed"],
 )
-def test_indexing_mode_equivalency(fixture, request):
+def test_indexing_mode_equivalency(fixture, request):  # noqa: D103
     cube: Cube
     location: str
     (cube, location) = request.getfixturevalue(fixture)

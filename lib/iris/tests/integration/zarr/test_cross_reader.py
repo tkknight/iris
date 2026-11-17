@@ -28,7 +28,7 @@ from iris.coords import DimCoord
 from iris.cube import Cube
 
 
-def small_cube(dtype="f4", masked=False):
+def small_cube(dtype="f4", masked=False):  # noqa: D103
     values = np.arange(6, dtype=dtype).reshape(2, 3)
     if masked:
         values = np.ma.masked_array(values, mask=[[False, True, False]] * 2)

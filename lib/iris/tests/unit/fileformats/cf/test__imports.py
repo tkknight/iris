@@ -27,7 +27,7 @@ import subprocess
 import sys
 
 
-def test_importing_from_cold_works():
+def test_importing_from_cold_works():  # noqa: D103
     completed = subprocess.run(
         [sys.executable, "-c", "import iris.fileformats"],
         capture_output=True,

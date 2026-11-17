@@ -20,27 +20,27 @@ from iris.tests.stock.mesh import sample_mesh
 
 
 @pytest.fixture(params=[False, True], ids=["real", "lazy"], autouse=True)
-def lazy_values(request):
+def lazy_values(request):  # noqa: D103
     return request.param
 
 
 @pytest.fixture
-def mesh_2d(lazy_values):
+def mesh_2d(lazy_values):  # noqa: D103
     return sample_mesh(lazy_values=lazy_values)
 
 
 @pytest.fixture
-def mesh_1d(lazy_values):
+def mesh_1d(lazy_values):  # noqa: D103
     return sample_mesh(n_faces=0, lazy_values=lazy_values)
 
 
 @pytest.fixture(params=["mesh_1d", "mesh_2d"])
-def meshes_all(request):
+def meshes_all(request):  # noqa: D103
     return request.getfixturevalue(request.param)
 
 
 @pytest.fixture(params=["node", "edge", "face"])
-def locations_all(request):
+def locations_all(request):  # noqa: D103
     return request.param
 
 
@@ -52,13 +52,13 @@ _MESH_LOCATION_COMBINED = [
 
 
 @pytest.fixture(params=_MESH_LOCATION_COMBINED, ids=lambda x: f"{x[0]}-{x[1]}")
-def meshes_locs_all(request):
+def meshes_locs_all(request):  # noqa: D103
     mesh_name, loc = request.param
     mesh = request.getfixturevalue(mesh_name)
     return mesh, loc
 
 
-def test_dummy(meshes_all):
+def test_dummy(meshes_all):  # noqa: D103
     assert isinstance(meshes_all, MeshXY)
 
 

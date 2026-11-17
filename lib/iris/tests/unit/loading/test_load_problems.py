@@ -15,12 +15,12 @@ from iris.warnings import IrisLoadWarning
 
 
 @pytest.fixture
-def error():
+def error():  # noqa: D103
     return ValueError("Example ValueError")
 
 
 @pytest.fixture
-def stack_trace(error):
+def stack_trace(error):  # noqa: D103
     try:
         raise error
     except ValueError as raised_error:
@@ -31,7 +31,7 @@ def stack_trace(error):
     params=[dict, Cube, DimCoord, None],
     ids=["loaded_dict", "loaded_Cube", "loaded_DimCoord", "loaded_None"],
 )
-def loaded_object(request):
+def loaded_object(request):  # noqa: D103
     lookup = {
         dict: {"long_name": "foo"},
         Cube: Cube([1.0], long_name="foo"),
@@ -42,17 +42,17 @@ def loaded_object(request):
 
 
 @pytest.fixture
-def first_filename():
+def first_filename():  # noqa: D103
     return "test.nc"
 
 
 @pytest.fixture
-def destination():
+def destination():  # noqa: D103
     return LoadProblems.Problem.Destination(Cube, "foo")
 
 
 @pytest.fixture
-def problem_instance(first_filename, loaded_object, stack_trace, destination):
+def problem_instance(first_filename, loaded_object, stack_trace, destination):  # noqa: D103
     return LoadProblems.Problem(
         filename=first_filename,
         loaded=loaded_object,
@@ -62,7 +62,7 @@ def problem_instance(first_filename, loaded_object, stack_trace, destination):
 
 
 @pytest.fixture
-def load_problems_instance(problem_instance):
+def load_problems_instance(problem_instance):  # noqa: D103
     problem2 = LoadProblems.Problem(
         filename="test2.nc",
         loaded=problem_instance.loaded,
@@ -80,7 +80,7 @@ def load_problems_instance(problem_instance):
     return result
 
 
-def test_problem_str(problem_instance):
+def test_problem_str(problem_instance):  # noqa: D103
     if isinstance(problem_instance.loaded, (Cube, DimCoord)):
         expected_loaded = problem_instance.loaded.summary(shorten=True)
     else:
@@ -93,7 +93,7 @@ def test_problem_str(problem_instance):
     assert str(problem_instance) == expected
 
 
-def test_load_problems_str(load_problems_instance):
+def test_load_problems_str(load_problems_instance):  # noqa: D103
     expected_lines = [
         f"{repr(load_problems_instance)}:",
         *[f"  {problem}" for problem in load_problems_instance.problems],
@@ -102,11 +102,11 @@ def test_load_problems_str(load_problems_instance):
     assert str(load_problems_instance) == expected
 
 
-def test_problems_property(load_problems_instance):
+def test_problems_property(load_problems_instance):  # noqa: D103
     assert load_problems_instance.problems == load_problems_instance._problems
 
 
-def test_problems_by_file_property(load_problems_instance):
+def test_problems_by_file_property(load_problems_instance):  # noqa: D103
     filenames = [p.filename for p in load_problems_instance._problems]
     expected = dict.fromkeys(filenames)
     for filename in filenames:
@@ -117,7 +117,7 @@ def test_problems_by_file_property(load_problems_instance):
 
 
 @pytest.mark.parametrize("handled", [True, False], ids=["handled", "not_handled"])
-def test_record(
+def test_record(  # noqa: D103
     load_problems_instance, loaded_object, error, stack_trace, destination, handled
 ):
     def check_equality(problem: LoadProblems.Problem, expected: LoadProblems.Problem):
@@ -155,7 +155,7 @@ def test_record(
         check_equality(problem, expected_problems[ix])
 
 
-def test_warning(load_problems_instance, loaded_object, error, destination):
+def test_warning(load_problems_instance, loaded_object, error, destination):  # noqa: D103
     with pytest.warns(
         expected_warning=IrisLoadWarning,
         match="Not all file objects were parsed correctly.",
@@ -168,13 +168,13 @@ def test_warning(load_problems_instance, loaded_object, error, destination):
         )
 
 
-def test_reset(load_problems_instance):
+def test_reset(load_problems_instance):  # noqa: D103
     assert load_problems_instance._problems != []
     load_problems_instance.reset()
     assert load_problems_instance._problems == []
 
 
-def test_reset_with_filename(load_problems_instance, first_filename):
+def test_reset_with_filename(load_problems_instance, first_filename):  # noqa: D103
     original_problems = [p for p in load_problems_instance._problems]
     load_problems_instance.reset(first_filename)
 
@@ -185,7 +185,7 @@ def test_reset_with_filename(load_problems_instance, first_filename):
             assert problem in load_problems_instance._problems
 
 
-def test_global_instance():
+def test_global_instance():  # noqa: D103
     from iris.loading import LOAD_PROBLEMS
 
     assert isinstance(LOAD_PROBLEMS, LoadProblems)

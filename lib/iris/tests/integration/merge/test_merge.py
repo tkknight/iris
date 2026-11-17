@@ -28,7 +28,7 @@ _DATALESS_TEST_OPTIONS = [
 
 
 @pytest.fixture(params=_DATALESS_TEST_OPTIONS)
-def dataless_option(request):
+def dataless_option(request):  # noqa: D103
     return request.param
 
 
@@ -66,7 +66,7 @@ def mangle_cubelist(cubelist, dataless_option):
     return result
 
 
-def check_merge_against_dataless_cases(
+def check_merge_against_dataless_cases(  # noqa: D103
     function, original_input, *args, dataless_option=None
 ):
     # Compute the "normal" result.

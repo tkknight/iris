@@ -23,7 +23,7 @@ import iris.warnings
 
 
 @pytest.fixture
-def cube():
+def cube():  # noqa: D103
     # The signature is `realistic_4d_w_everything(w_mesh=False)`: there is no
     # `lazy` keyword, and the cube it returns holds real data.
     #

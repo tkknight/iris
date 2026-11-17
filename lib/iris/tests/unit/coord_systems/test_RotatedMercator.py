@@ -34,6 +34,6 @@ class TestArgs(test_ObliqueMercator.TestArgs):
         return RotatedMercator(**kwargs)
 
 
-def test_deprecated():
+def test_deprecated():  # noqa: D103
     with pytest.warns(IrisDeprecation, match="azimuth_of_central_line=90"):
         _ = RotatedMercator(0, 0)

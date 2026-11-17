@@ -13,7 +13,7 @@ from iris.util import combine_cubes
 
 
 @pytest.fixture(params=list(LoadPolicy.SETTINGS.keys()))
-def settings(request):
+def settings(request):  # noqa: D103
     # N.B. "request" is a standard PyTest fixture
     return request.param  # Return the name of the attribute to test.
 

@@ -11,14 +11,14 @@ import zarr
 from . import stores
 
 
-def test_make_store_version_3(tmp_path):
+def test_make_store_version_3(tmp_path):  # noqa: D103
     location = stores.make_store(tmp_path / "v3.zarr")
     group = zarr.open_group(store=location, mode="r")
     assert group["air_temperature"].metadata.zarr_format == 3
     assert group["air_temperature"].metadata.dimension_names == ("y", "x")
 
 
-def test_make_store_version_2(tmp_path):
+def test_make_store_version_2(tmp_path):  # noqa: D103
     location = stores.make_store(tmp_path / "v2.zarr", zarr_format=2)
     group = zarr.open_group(store=location, mode="r")
     array = group["air_temperature"]

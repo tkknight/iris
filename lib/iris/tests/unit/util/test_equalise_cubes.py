@@ -23,7 +23,7 @@ def _scramble(inputs):
 
 
 @pytest.fixture(params=["off", "on", "applyall", "scrambled"])
-def usage(request):
+def usage(request):  # noqa: D103
     # Fixture to check different usage modes for a given operation control keyword
     return request.param
 

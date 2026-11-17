@@ -34,7 +34,7 @@ def _assert_clean_load():
     assert LOAD_PROBLEMS.problems == []
 
 
-def test_the_canonical_store_loads_its_one_data_variable(tmp_path):
+def test_the_canonical_store_loads_its_one_data_variable(tmp_path):  # noqa: D103
     location = stores.make_store(tmp_path / "s.zarr")
     cubes = list(load_cubes(location))
     assert len(cubes) == 1
@@ -45,7 +45,7 @@ def test_the_canonical_store_loads_its_one_data_variable(tmp_path):
     np.testing.assert_array_equal(cube.data, stores.DATA)
 
 
-def test_one_cube_per_data_variable(tmp_path):
+def test_one_cube_per_data_variable(tmp_path):  # noqa: D103
     root = zarr.open_group(store=tmp_path / "two.zarr", mode="w", zarr_format=3)
     for name in ("first", "second", "third"):
         array = stores.make_array(
@@ -57,7 +57,7 @@ def test_one_cube_per_data_variable(tmp_path):
     assert sorted(cube.var_name for cube in cubes) == ["first", "second", "third"]
 
 
-def test_a_version_2_store_loads_the_same_cube(tmp_path):
+def test_a_version_2_store_loads_the_same_cube(tmp_path):  # noqa: D103
     v3 = list(load_cubes(stores.make_store(tmp_path / "v3.zarr")))[0]
     v2 = list(load_cubes(stores.make_store(tmp_path / "v2.zarr", zarr_format=2)))[0]
     assert v2 == v3
@@ -90,7 +90,7 @@ def test_a_name_constraint_skips_variables_before_they_are_built(tmp_path, mocke
     assert spy.call_count == 1
 
 
-def test_a_callback_can_reject_a_cube(tmp_path):
+def test_a_callback_can_reject_a_cube(tmp_path):  # noqa: D103
     from iris.exceptions import IgnoreCubeException
 
     def reject(cube, field, filename):
@@ -100,7 +100,7 @@ def test_a_callback_can_reject_a_cube(tmp_path):
     assert list(load_cubes(location, callback=reject)) == []
 
 
-def test_the_group_keyword_selects_a_group(tmp_path):
+def test_the_group_keyword_selects_a_group(tmp_path):  # noqa: D103
     root = zarr.open_group(store=tmp_path / "n.zarr", mode="w", zarr_format=3)
     sub = root.create_group("measurements")
     band = stores.make_array(
@@ -112,7 +112,7 @@ def test_the_group_keyword_selects_a_group(tmp_path):
     assert [cube.var_name for cube in cubes] == ["b02"]
 
 
-def test_several_stores_in_one_call(tmp_path):
+def test_several_stores_in_one_call(tmp_path):  # noqa: D103
     first = stores.make_store(tmp_path / "a.zarr")
     second = stores.make_store(tmp_path / "b.zarr")
     assert len(list(load_cubes([first, second]))) == 2
@@ -242,7 +242,7 @@ def test_the_suggestion_is_relative_to_the_store_not_the_selected_group(tmp_path
     assert len(list(load_cubes(str(tmp_path / "deep.zarr"), group=suggested))) == 1
 
 
-def test_the_suggested_group_loads(tmp_path):
+def test_the_suggested_group_loads(tmp_path):  # noqa: D103
     root = zarr.open_group(store=tmp_path / "deep.zarr", mode="w", zarr_format=3)
     deep = root.create_group("measurements").create_group("reflectance")
     array = stores.make_array(
@@ -264,7 +264,7 @@ def test_the_suggested_group_loads(tmp_path):
     assert cube.var_name == "b02"
 
 
-def test_the_message_says_so_when_there_are_no_groups_either(tmp_path):
+def test_the_message_says_so_when_there_are_no_groups_either(tmp_path):  # noqa: D103
     zarr.open_group(store=tmp_path / "empty.zarr", mode="w", zarr_format=3)
     with pytest.raises(TranslationError, match="no data variables"):
         list(load_cubes(str(tmp_path / "empty.zarr")))
@@ -290,7 +290,7 @@ def test_nested_groups_are_not_walked(tmp_path):
     assert [cube.var_name for cube in cubes] == ["top"]
 
 
-def test_the_cube_is_lazy(tmp_path, mocker):
+def test_the_cube_is_lazy(tmp_path, mocker):  # noqa: D103
     from iris.fileformats.cf import loader as cf_loader
 
     mocker.patch.object(cf_loader, "_LAZYVAR_MIN_BYTES", 1)
@@ -298,7 +298,7 @@ def test_the_cube_is_lazy(tmp_path, mocker):
     assert cube.has_lazy_data()
 
 
-def test_the_grid_mapping_variable_does_not_become_a_cube(tmp_path):
+def test_the_grid_mapping_variable_does_not_become_a_cube(tmp_path):  # noqa: D103
     cubes = list(load_cubes(stores.make_store(tmp_path / "s.zarr")))
     assert "grid" not in [cube.var_name for cube in cubes]
 
@@ -443,7 +443,7 @@ def test_version_2_zeros_are_masked(tmp_path):
     assert cube.data.mask.tolist() == [True, False, False]
 
 
-def test_a_cf_fill_value_beats_the_storage_one(tmp_path):
+def test_a_cf_fill_value_beats_the_storage_one(tmp_path):  # noqa: D103
     group = zarr.open_group(store=tmp_path / "z.zarr", mode="w", zarr_format=3)
     array = stores.make_array(
         group,

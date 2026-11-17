@@ -110,7 +110,7 @@ class Test__summary_content:
 
 
 @pytest.fixture
-def realistic_4d():
+def realistic_4d():  # noqa: D103
     cube = stock.realistic_4d()
     cmth = CellMethod("mean", "time", "6hr")
     cube.add_cell_method(cmth)
@@ -124,7 +124,7 @@ def realistic_4d():
 
 
 @_shared_utils.skip_data
-def test_realistic(realistic_4d):
+def test_realistic(realistic_4d):  # noqa: D103
     representer = CubeRepresentation(realistic_4d)
     result = representer._make_content()
     expected = (

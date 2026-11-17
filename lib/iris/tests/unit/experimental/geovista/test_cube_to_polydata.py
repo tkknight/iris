@@ -18,12 +18,12 @@ from iris.tests.stock.mesh import sample_mesh_cube
 
 
 @pytest.fixture
-def cube_mesh():
+def cube_mesh():  # noqa: D103
     return sample_mesh_cube()
 
 
 @pytest.fixture
-def cube_1d():
+def cube_1d():  # noqa: D103
     sample_1d_cube = lat_lon_cube()
     for coord in sample_1d_cube.dim_coords:
         coord.coord_system = None
@@ -31,12 +31,12 @@ def cube_1d():
 
 
 @pytest.fixture
-def cube_2d():
+def cube_2d():  # noqa: D103
     return sample_2d_latlons()
 
 
 @pytest.fixture
-def default_cs():
+def default_cs():  # noqa: D103
     return iris.coord_systems.GeogCS(
         iris.analysis.cartography.DEFAULT_SPHERICAL_EARTH_RADIUS
     )

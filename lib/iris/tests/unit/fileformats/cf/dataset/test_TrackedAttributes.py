@@ -14,12 +14,12 @@ IGNORED = ("_FillValue", "add_offset", "missing_value", "scale_factor")
 
 
 @pytest.fixture
-def source():
+def source():  # noqa: D103
     return {"units": "K", "standard_name": "air_temperature", "_FillValue": -999}
 
 
 @pytest.fixture
-def tracked(source):
+def tracked(source):  # noqa: D103
     return TrackedAttributes(source, ignored=IGNORED)
 
 

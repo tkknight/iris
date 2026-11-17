@@ -14,7 +14,7 @@ from iris.tests import _shared_utils
 import iris.tests.graphics as graphics
 
 
-def update_json(baseline_image_dir: Path, dry_run: bool = False):
+def update_json(baseline_image_dir: Path, dry_run: bool = False):  # noqa: D103
     repo = graphics.read_repo_json()
     suggested_repo = graphics.generate_repo_from_baselines(baseline_image_dir)
 

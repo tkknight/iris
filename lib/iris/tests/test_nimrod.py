@@ -13,7 +13,7 @@ from iris.fileformats.nimrod_load_rules import radiation_type_attr
 from iris.tests import _shared_utils
 
 
-def mock_nimrod_field():
+def mock_nimrod_field():  # noqa: D103
     field = iris.fileformats.nimrod.NimrodField()
     field.int_mdi = -32767
     field.float32_mdi = -32767.0

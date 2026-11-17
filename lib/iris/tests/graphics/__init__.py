@@ -100,13 +100,13 @@ def _output_dir() -> Path:
     return test_output_dir
 
 
-def read_repo_json() -> Dict[str, str]:
+def read_repo_json() -> Dict[str, str]:  # noqa: D103
     with open(IMAGE_REPO_PATH, "rb") as fi:
         repo: Dict[str, str] = json.load(codecs.getreader("utf-8")(fi))
     return repo
 
 
-def write_repo_json(data: Dict[str, str]) -> None:
+def write_repo_json(data: Dict[str, str]) -> None:  # noqa: D103
     string_data = {}
     for key, val in data.items():
         string_data[key] = str(val)
@@ -119,7 +119,7 @@ def write_repo_json(data: Dict[str, str]) -> None:
         )
 
 
-def repos_equal(repo1: Dict[str, str], repo2: Dict[str, str]) -> bool:
+def repos_equal(repo1: Dict[str, str], repo2: Dict[str, str]) -> bool:  # noqa: D103
     if sorted(repo1.keys()) != sorted(repo2.keys()):
         return False
     for key, val in repo1.items():
@@ -128,14 +128,14 @@ def repos_equal(repo1: Dict[str, str], repo2: Dict[str, str]) -> bool:
     return True
 
 
-def get_phash(input: Path | io.BytesIO) -> str:
+def get_phash(input: Path | io.BytesIO) -> str:  # noqa: D103
     import imagehash
     from PIL import Image
 
     return imagehash.phash(Image.open(input), hash_size=HASH_SIZE)
 
 
-def generate_repo_from_baselines(baseline_image_dir: Path) -> Dict[str, str]:
+def generate_repo_from_baselines(baseline_image_dir: Path) -> Dict[str, str]:  # noqa: D103
     repo = {}
     for path in baseline_image_dir.iterdir():
         phash = get_phash(path)
@@ -143,7 +143,7 @@ def generate_repo_from_baselines(baseline_image_dir: Path) -> Dict[str, str]:
     return repo
 
 
-def fully_qualify(test_id: str, repo: dict[str, str]) -> str:
+def fully_qualify(test_id: str, repo: dict[str, str]) -> str:  # noqa: D103
     # If the test_id isn't in the repo as it stands, look for it
     if test_id not in repo:
         test_id_candidates = [x for x in repo.keys() if x.endswith(test_id)]

@@ -18,7 +18,7 @@ from .conftest import SAMPLE_DIMENSIONS, SAMPLE_GLOBALS
 
 
 @pytest.fixture
-def reader(sample_path):
+def reader(sample_path):  # noqa: D103
     with _dataset.NetCDFDataset(sample_path) as dataset:
         yield dataset
 

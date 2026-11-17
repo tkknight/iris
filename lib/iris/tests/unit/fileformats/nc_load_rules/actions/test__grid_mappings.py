@@ -945,7 +945,7 @@ class Test__nondimcoords(Mixin__grid_mapping):
 
 
 @pytest.fixture
-def latlon_cs():
+def latlon_cs():  # noqa: D103
     return """
         int crsWGS84 ;
             crsWGS84:grid_mapping_name = "latitude_longitude" ;
@@ -962,13 +962,13 @@ def latlon_cs():
 
 
 @pytest.fixture
-def latlon_cs_missing_coord(latlon_cs):
+def latlon_cs_missing_coord(latlon_cs):  # noqa: D103
     # Trin last 3 lines of latlon_cs to remove longitude coord
     return "\n".join(latlon_cs.splitlines()[:-4])
 
 
 @pytest.fixture
-def osgb_cs():
+def osgb_cs():  # noqa: D103
     return """
         int crsOSGB ;
             crsOSGB:grid_mapping_name = "transverse_mercator" ;

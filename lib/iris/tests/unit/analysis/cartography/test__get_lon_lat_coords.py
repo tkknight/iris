@@ -12,11 +12,11 @@ from iris.tests.stock import lat_lon_cube
 
 
 @pytest.fixture
-def dim_only_cube():
+def dim_only_cube():  # noqa: D103
     return lat_lon_cube()
 
 
-def test_dim_only(dim_only_cube):
+def test_dim_only(dim_only_cube):  # noqa: D103
     t_lat, t_lon = dim_only_cube.dim_coords
 
     lon, lat = g_lon_lat(dim_only_cube)
@@ -26,7 +26,7 @@ def test_dim_only(dim_only_cube):
 
 
 @pytest.fixture
-def dim_aux_cube(dim_only_cube):
+def dim_aux_cube(dim_only_cube):  # noqa: D103
     lat_dim, lon_dim = dim_only_cube.dim_coords
 
     lat_aux = AuxCoord.from_coord(lat_dim)
@@ -41,7 +41,7 @@ def dim_aux_cube(dim_only_cube):
     return dim_aux_cube
 
 
-def test_dim_aux(dim_aux_cube):
+def test_dim_aux(dim_aux_cube):  # noqa: D103
     t_lat_dim, t_lon_dim = dim_aux_cube.dim_coords
 
     lon, lat = g_lon_lat(dim_aux_cube)
@@ -51,7 +51,7 @@ def test_dim_aux(dim_aux_cube):
 
 
 @pytest.fixture
-def aux_only_cube(dim_aux_cube):
+def aux_only_cube(dim_aux_cube):  # noqa: D103
     lon_dim, lat_dim = dim_aux_cube.dim_coords
 
     aux_only_cube = dim_aux_cube
@@ -61,7 +61,7 @@ def aux_only_cube(dim_aux_cube):
     return dim_aux_cube
 
 
-def test_aux_only(aux_only_cube):
+def test_aux_only(aux_only_cube):  # noqa: D103
     aux_lat, aux_lon = aux_only_cube.aux_coords
 
     lon, lat = g_lon_lat(aux_only_cube)
@@ -71,14 +71,14 @@ def test_aux_only(aux_only_cube):
 
 
 @pytest.fixture
-def double_dim_cube(dim_only_cube):
+def double_dim_cube(dim_only_cube):  # noqa: D103
     double_dim_cube = dim_only_cube
     double_dim_cube.coord("latitude").standard_name = "grid_longitude"
 
     return double_dim_cube
 
 
-def test_double_dim(double_dim_cube):
+def test_double_dim(double_dim_cube):  # noqa: D103
     t_error_message = "with multiple.*is currently disallowed"
 
     with pytest.raises(ValueError, match=t_error_message):
@@ -86,14 +86,14 @@ def test_double_dim(double_dim_cube):
 
 
 @pytest.fixture
-def double_aux_cube(aux_only_cube):
+def double_aux_cube(aux_only_cube):  # noqa: D103
     double_aux_cube = aux_only_cube
     double_aux_cube.coord("grid_latitude").standard_name = "longitude"
 
     return double_aux_cube
 
 
-def test_double_aux(double_aux_cube):
+def test_double_aux(double_aux_cube):  # noqa: D103
     t_error_message = "with multiple.*is currently disallowed"
 
     with pytest.raises(ValueError, match=t_error_message):
@@ -101,13 +101,13 @@ def test_double_aux(double_aux_cube):
 
 
 @pytest.fixture
-def missing_lat_cube(dim_only_cube):
+def missing_lat_cube(dim_only_cube):  # noqa: D103
     missing_lat_cube = dim_only_cube
     missing_lat_cube.remove_coord("latitude")
 
     return missing_lat_cube
 
 
-def test_missing_coord(missing_lat_cube):
+def test_missing_coord(missing_lat_cube):  # noqa: D103
     with pytest.raises(IndexError):
         g_lon_lat(missing_lat_cube)

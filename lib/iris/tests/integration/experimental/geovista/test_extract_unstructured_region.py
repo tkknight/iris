@@ -11,7 +11,7 @@ from iris.experimental.geovista import cube_to_polydata, extract_unstructured_re
 from iris.tests import _shared_utils
 
 
-def test_face_region_extraction():
+def test_face_region_extraction():  # noqa: D103
     file_path = _shared_utils.get_data_path(
         [
             "NetCDF",

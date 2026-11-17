@@ -19,7 +19,7 @@ from iris.tests.unit.fileformats.netcdf.loader import test_load_cubes as tlc
 
 
 @pytest.fixture
-def datum_cf_var_cdl():
+def datum_cf_var_cdl():  # noqa: D103
     return """
         netcdf output {
         dimensions:
@@ -67,7 +67,7 @@ def datum_cf_var_cdl():
 
 
 @pytest.fixture
-def datum_wkt_cdl():
+def datum_wkt_cdl():  # noqa: D103
     return """
 netcdf output5 {
 dimensions:
@@ -117,7 +117,7 @@ data:
 
 
 @pytest.fixture
-def multi_cs_osgb_wkt():
+def multi_cs_osgb_wkt():  # noqa: D103
     return """
 netcdf osgb {
 dimensions:
@@ -341,7 +341,7 @@ class TestCoordSystem:
 
 
 @pytest.fixture(scope="module")
-def geostationary_problem_cdl():
+def geostationary_problem_cdl():  # noqa: D103
     return """
 netcdf geostationary_problem_case {
 dimensions:

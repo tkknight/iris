@@ -40,7 +40,7 @@ from iris.warnings import IrisUserWarning, IrisVagueMetadataWarning
 
 
 @pytest.fixture(params=[True, False], ids=["dataless", "with_data"])
-def dataless(request):
+def dataless(request):  # noqa: D103
     return request.param
 
 
@@ -1421,7 +1421,7 @@ class Test_slices_over:
         assert next(res) == self.cube
 
 
-def create_cube(lon_min, lon_max, bounds=False, dataless=False):
+def create_cube(lon_min, lon_max, bounds=False, dataless=False):  # noqa: D103
     n_lons = max(lon_min, lon_max) - min(lon_max, lon_min)
     data = np.arange(4 * 3 * n_lons, dtype="f4").reshape(4, 3, -1)
     if dataless:
@@ -2353,7 +2353,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, -1] == 180
 
 
-def unrolled_cube(dataless=False):
+def unrolled_cube(dataless=False):  # noqa: D103
     if dataless:
         data = None
         shape = (5,)
@@ -3868,7 +3868,7 @@ class Test__eq__meta:
 
 
 @pytest.fixture
-def simplecube():
+def simplecube():  # noqa: D103
     return stock.simple_2d_w_cell_measure_ancil_var()
 
 

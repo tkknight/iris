@@ -43,12 +43,12 @@ BASIC_CRS_STR = """
 """
 
 
-def find_i_line(lines, match):
+def find_i_line(lines, match):  # noqa: D103
     (i_line,) = [i for i, line in enumerate(lines) if match in line]
     return i_line
 
 
-def make_file(nc_path, node_x_crs=False, node_y_crs=False):
+def make_file(nc_path, node_x_crs=False, node_y_crs=False):  # noqa: D103
     lines = TEST_CDL.split("\n")
 
     includes = ["node_x"] if node_x_crs else []
@@ -88,7 +88,7 @@ def test_default_mesh_cs(tmp_path, cs_axes):
     assert meshco_y.coord_system is None
 
 
-def test_assigned_mesh_cs(tmp_path):
+def test_assigned_mesh_cs(tmp_path):  # noqa: D103
     # Check that when a coord system is manually assigned to a location coord,
     # the corresponding meshcoord reports the same cs.
     nc_path = tmp_path / "test_temp.nc"
@@ -109,7 +109,7 @@ def test_assigned_mesh_cs(tmp_path):
     assert cube.coord_system() is assigned_cs
 
 
-def test_meshcoord_coordsys_copy(tmp_path):
+def test_meshcoord_coordsys_copy(tmp_path):  # noqa: D103
     # Check that copying a meshcoord with a coord system works properly.
     nc_path = tmp_path / "test_temp.nc"
     make_file(nc_path)

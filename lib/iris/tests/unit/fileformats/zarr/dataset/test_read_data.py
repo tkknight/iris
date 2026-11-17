@@ -19,7 +19,7 @@ from iris.fileformats.zarr._dataset import ZarrDataset
 from .. import stores
 
 
-def variable(location, name="air_temperature"):
+def variable(location, name="air_temperature"):  # noqa: D103
     return ZarrDataset(location).variables[name]
 
 
@@ -33,7 +33,7 @@ def dask_policy():
     return "auto", None
 
 
-def key_of(location, name="v"):
+def key_of(location, name="v"):  # noqa: D103
     return ZarrDataset(location).variables[name].cache_key
 
 

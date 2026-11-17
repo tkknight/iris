@@ -17,7 +17,7 @@ from iris.fileformats._structured_array_identification import (
 from iris.tests._shared_utils import assert_array_equal
 
 
-def regular_array_structures(shape, names="abcdefg"):
+def regular_array_structures(shape, names="abcdefg"):  # noqa: D103
     # Construct column major appropriate ArrayStructures for the given
     # shape.
     running_product = 1

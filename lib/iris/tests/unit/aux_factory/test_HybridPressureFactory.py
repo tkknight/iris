@@ -17,7 +17,7 @@ import iris
 from iris.aux_factory import HybridPressureFactory
 
 
-def create_default_sample_parts(self):
+def create_default_sample_parts(self):  # noqa: D103
     self.delta = Mock(units=cf_units.Unit("Pa"), nbounds=0)
     self.sigma = Mock(units=cf_units.Unit("1"), nbounds=0)
     self.surface_air_pressure = Mock(units=cf_units.Unit("Pa"), nbounds=0)

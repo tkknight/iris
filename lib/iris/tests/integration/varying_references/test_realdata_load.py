@@ -11,11 +11,11 @@ from iris import COMBINE_POLICY, sample_data_path
 
 
 @pytest.fixture(params=["default", "recommended", "legacy"])
-def load_policy(request):
+def load_policy(request):  # noqa: D103
     return request.param
 
 
-def test_load_pp_timevarying_orography(load_policy):
+def test_load_pp_timevarying_orography(load_policy):  # noqa: D103
     testdata_dirpath = sample_data_path("time_varying_hybrid_height", "*.pp")
 
     with COMBINE_POLICY.context(load_policy):

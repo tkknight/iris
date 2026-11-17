@@ -22,18 +22,18 @@ RELOCATED = ["CHUNK_CONTROL", "ChunkControl"]
 
 
 @pytest.mark.parametrize("name", RELOCATED)
-def test_the_old_name_warns(name):
+def test_the_old_name_warns(name):  # noqa: D103
     with pytest.warns(IrisDeprecation, match=f"netcdf.loader.{name}"):
         getattr(netcdf_loader, name)
 
 
 @pytest.mark.parametrize("name", RELOCATED)
-def test_the_message_names_the_new_location(name):
+def test_the_message_names_the_new_location(name):  # noqa: D103
     with pytest.warns(IrisDeprecation, match=r"iris\.fileformats\.cf\.loader"):
         getattr(netcdf_loader, name)
 
 
-def test_the_warning_points_at_the_caller():
+def test_the_warning_points_at_the_caller():  # noqa: D103
     # warn_deprecated's default stacklevel=2 would name this module's own
     # __getattr__ - an extra frame PEP 562 inserts between the caller and
     # warn_deprecated - rather than the line below. Pin the fix: the warning
@@ -44,7 +44,7 @@ def test_the_warning_points_at_the_caller():
 
 
 @pytest.mark.parametrize("name", RELOCATED)
-def test_the_alias_is_the_same_object(name):
+def test_the_alias_is_the_same_object(name):  # noqa: D103
     # Spec 4.8: "The alias is the same object, not a copy, so existing code
     # keeps working including inside a with CHUNK_CONTROL.set(...)". A copy
     # would give a with-block that silently chunked nothing.
@@ -52,7 +52,7 @@ def test_the_alias_is_the_same_object(name):
         assert getattr(netcdf_loader, name) is getattr(cf_loader, name)
 
 
-def test_importing_the_module_does_not_warn():
+def test_importing_the_module_does_not_warn():  # noqa: D103
     # Spec 4.8: "Warnings are emitted on use, not on import, so simply
     # importing iris.fileformats.netcdf stays quiet."
     #
@@ -84,7 +84,7 @@ def test_importing_the_module_does_not_warn():
         netcdf_loader.load_cubes = original_load_cubes
 
 
-def test_an_unrelated_name_raises_without_warning():
+def test_an_unrelated_name_raises_without_warning():  # noqa: D103
     # hasattr() probes land in __getattr__ too, and a probe that comes back
     # False is not a use of anything.
     with warnings.catch_warnings():
@@ -93,7 +93,7 @@ def test_an_unrelated_name_raises_without_warning():
             netcdf_loader.no_such_name
 
 
-def test_debug_is_not_relocated():
+def test_debug_is_not_relocated():  # noqa: D103
     # Spec 4.8 lists netcdf.DEBUG among the names that do not move. It is a
     # flag users assign to, and a module __getattr__ cannot intercept
     # assignment - so forwarding it would make `netcdf.loader.DEBUG = True`
@@ -105,20 +105,20 @@ def test_debug_is_not_relocated():
 
 
 @pytest.mark.parametrize("name", RELOCATED)
-def test_dir_includes_the_relocated_name(name):
+def test_dir_includes_the_relocated_name(name):  # noqa: D103
     # A module __getattr__ forwards reads but is invisible to dir(), so
     # __dir__ has to union the relocated names in by hand.
     assert name in dir(netcdf_loader)
 
 
-def test_dir_still_includes_a_name_that_genuinely_lives_here():
+def test_dir_still_includes_a_name_that_genuinely_lives_here():  # noqa: D103
     # Pin that __dir__ adds the relocated names rather than replacing the
     # real module listing.
     assert "load_cubes" in dir(netcdf_loader)
     assert "DEBUG" in dir(netcdf_loader)
 
 
-def test_mock_patch_on_the_old_path_is_a_silent_no_op():
+def test_mock_patch_on_the_old_path_is_a_silent_no_op():  # noqa: D103
     # mock.patch("iris.fileformats.netcdf.loader.CHUNK_CONTROL", ...)
     # succeeds, because patch simply sets an attribute here - the same
     # mechanism test_assignment_to_a_relocated_name_does_not_reach_the_new_home
@@ -133,7 +133,7 @@ def test_mock_patch_on_the_old_path_is_a_silent_no_op():
         assert cf_loader.CHUNK_CONTROL is original
 
 
-def test_assignment_to_a_relocated_name_does_not_reach_the_new_home():
+def test_assignment_to_a_relocated_name_does_not_reach_the_new_home():  # noqa: D103
     # The known limitation of the PEP 562 forward, written down so that it is
     # a documented edge and not a surprise. Assigning here shadows the
     # forward; it does not change iris.fileformats.cf.loader. Nothing in Iris

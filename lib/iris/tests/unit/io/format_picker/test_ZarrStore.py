@@ -11,7 +11,7 @@ from iris.io.format_picker import ZarrStore
 from iris.tests import _shared_utils
 
 
-def test_the_element_carries_the_whole_target():
+def test_the_element_carries_the_whole_target():  # noqa: D103
     # Not the basename: recognising a local store means reading a file inside
     # it, so the element needs the path, not the last component of it.
     element = ZarrStore()
@@ -65,14 +65,14 @@ def test_the_agent_ignores_a_store_sharing_a_files_name(tmp_path, monkeypatch):
     assert spec.name == "NIMROD"
 
 
-def test_a_version_3_store_is_recognised(tmp_path):
+def test_a_version_3_store_is_recognised(tmp_path):  # noqa: D103
     store = tmp_path / "v3.zarr"
     store.mkdir()
     (store / "zarr.json").write_text('{"zarr_format": 3, "node_type": "group"}')
     assert _is_zarr_store(str(store)) is True
 
 
-def test_a_version_2_store_is_recognised(tmp_path):
+def test_a_version_2_store_is_recognised(tmp_path):  # noqa: D103
     store = tmp_path / "v2.zarr"
     store.mkdir()
     (store / ".zgroup").write_text('{"zarr_format": 2}')
@@ -91,25 +91,25 @@ def test_a_directory_named_zarr_with_no_marker_is_not_a_store(tmp_path):
     assert _is_zarr_store(str(store)) is False
 
 
-def test_a_plain_file_is_not_a_store(tmp_path):
+def test_a_plain_file_is_not_a_store(tmp_path):  # noqa: D103
     path = tmp_path / "data.nc"
     path.write_bytes(b"CDF\x01")
     assert _is_zarr_store(str(path)) is False
 
 
 @pytest.mark.parametrize("scheme", ["s3", "gs", "az", "abfs"])
-def test_a_remote_store_is_recognised_by_scheme_and_suffix(scheme):
+def test_a_remote_store_is_recognised_by_scheme_and_suffix(scheme):  # noqa: D103
     assert _is_zarr_store(f"{scheme}://bucket/path/data.zarr") is True
     assert _is_zarr_store(f"{scheme}://bucket/path/data.zarr/") is True
 
 
-def test_a_remote_url_without_the_suffix_is_not_a_store():
+def test_a_remote_url_without_the_suffix_is_not_a_store():  # noqa: D103
     # Remotely the suffix is all there is to go on: reading a marker file
     # would cost a network round trip before Iris knows it wants the target.
     assert _is_zarr_store("s3://bucket/path/data") is False
 
 
-def test_an_http_url_is_not_a_store():
+def test_an_http_url_is_not_a_store():  # noqa: D103
     # OPeNDAP, which the netCDF loader already claims.
     assert _is_zarr_store("https://example.invalid/data.zarr") is False
 
@@ -127,7 +127,7 @@ def test_an_nczarr_url_is_not_a_native_store(tmp_path):
     assert _is_zarr_store(f"file://{store}#mode=nczarr,file") is False
 
 
-def test_a_non_string_target_is_not_a_store():
+def test_a_non_string_target_is_not_a_store():  # noqa: D103
     # `load_data_objects` passes open datasets, not paths.
     assert _is_zarr_store(object()) is False
 
@@ -149,7 +149,7 @@ def test_the_agent_still_picks_netcdf_for_a_netcdf_file():
     assert spec.name.startswith("NetCDF")
 
 
-def test_the_agent_picks_zarr_for_a_store(tmp_path):
+def test_the_agent_picks_zarr_for_a_store(tmp_path):  # noqa: D103
     from iris.fileformats import FORMAT_AGENT
 
     store = tmp_path / "s.zarr"
@@ -158,7 +158,7 @@ def test_the_agent_picks_zarr_for_a_store(tmp_path):
     assert FORMAT_AGENT.get_spec(str(store), None).name == "Zarr"
 
 
-def test_the_agent_still_picks_nczarr_for_an_nczarr_url(tmp_path):
+def test_the_agent_still_picks_nczarr_for_an_nczarr_url(tmp_path):  # noqa: D103
     from iris.fileformats import FORMAT_AGENT
 
     store = tmp_path / "s.zarr"

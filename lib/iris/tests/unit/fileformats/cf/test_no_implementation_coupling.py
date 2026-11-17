@@ -35,7 +35,7 @@ def cf_package_sources():
         yield path, path.read_text(encoding="utf-8")
 
 
-def test_no_module_type_tests_an_implementation_class():
+def test_no_module_type_tests_an_implementation_class():  # noqa: D103
     offenders = []
     for path, text in cf_package_sources():
         for line_number, line in enumerate(text.splitlines(), start=1):

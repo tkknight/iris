@@ -16,13 +16,13 @@ from iris.tests import _shared_utils
 import iris.util
 
 
-def callback_000003000000_16_202_000128_1860_09_01_00_00_b_pp(cube, field, filename):
+def callback_000003000000_16_202_000128_1860_09_01_00_00_b_pp(cube, field, filename):  # noqa: D103
     cube.attributes["STASH"] = STASH(1, 16, 202)
     cube.standard_name = "geopotential_height"
     cube.units = "m"
 
 
-def callback_HadCM2_ts_SAT_ann_18602100_b_pp(cube, field, filename):
+def callback_HadCM2_ts_SAT_ann_18602100_b_pp(cube, field, filename):  # noqa: D103
     def reset_pole(coord_name):
         coord = cube.coord(coord_name)
         coord.rename(coord.name().replace("grid_", ""))
@@ -40,24 +40,24 @@ def callback_HadCM2_ts_SAT_ann_18602100_b_pp(cube, field, filename):
     cube.add_aux_coord(height_coord)
 
 
-def callback_model_b_pp(cube, field, filename):
+def callback_model_b_pp(cube, field, filename):  # noqa: D103
     cube.standard_name = "air_temperature"
     cube.units = "K"
     cube.attributes["STASH"] = STASH(1, 16, 203)
 
 
-def callback_integer_b_pp(cube, field, filename):
+def callback_integer_b_pp(cube, field, filename):  # noqa: D103
     cube.standard_name = "land_binary_mask"
     cube.units = "1"
     del cube.attributes["STASH"]
 
 
-def callback_001000000000_00_000_000000_1860_01_01_00_00_f_b_pp(cube, field, filename):
+def callback_001000000000_00_000_000000_1860_01_01_00_00_f_b_pp(cube, field, filename):  # noqa: D103
     cube.standard_name = "sea_surface_height_above_geoid"
     cube.units = "m"
 
 
-def callback_aaxzc_n10r13xy_b_pp(cube, field, filename):
+def callback_aaxzc_n10r13xy_b_pp(cube, field, filename):  # noqa: D103
     height_coord = iris.coords.DimCoord(1.5, long_name="height", units="m")
     cube.add_aux_coord(height_coord)
 
@@ -187,7 +187,7 @@ def make_test_function(func_name, file_name):
     return scope[func_name]
 
 
-def attach_tests():
+def attach_tests():  # noqa: D103
     # attach a test method on TestAll for each file to test
     for file_name in TestAll.files_to_check:
         func_name = "test_{}".format(file_name.replace(".", "_"))

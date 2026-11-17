@@ -48,7 +48,7 @@ TEST_ENCODINGS = [NO_ENCODING_STR, ALIAS_UTF8_STR] + SUPPORTED_ENCODINGS
 
 # Common fixture to save with split-attrs ONLY in these tests
 @pytest.fixture(scope="module", autouse=True)
-def all_split_attrs():
+def all_split_attrs():  # noqa: D103
     with iris.FUTURE.context(save_split_attrs=True):
         yield
 
@@ -57,7 +57,7 @@ def all_split_attrs():
 # Routines to convert between byte and string arrays.
 # Independently defined here, to avoid relying on any code we are testing.
 #
-def convert_strings_to_chararray(
+def convert_strings_to_chararray(  # noqa: D103
     string_array_1d: ArrayLike, maxlen: int, encoding: str | None = None
 ) -> np.ndarray:
     # Note: this is limited to 1-D arrays of strings.
@@ -199,11 +199,11 @@ def make_testfile(
 
 
 @pytest.fixture(params=TEST_ENCODINGS)
-def encoding(request):
+def encoding(request):  # noqa: D103
     return request.param
 
 
-def load_problems_list():
+def load_problems_list():  # noqa: D103
     return [str(prob) for prob in iris.loading.LOAD_PROBLEMS.problems]
 
 
@@ -322,7 +322,7 @@ class TestReadEncodings:
 
 
 @pytest.fixture(params=["stringdata", "bytedata"])
-def as_bytes(request):
+def as_bytes(request):  # noqa: D103
     return request.param == "bytedata"
 
 
@@ -335,7 +335,7 @@ class SampleCubeDetails:
     save_path: str | Path | None = None
 
 
-def make_testcube(
+def make_testcube(  # noqa: D103
     encoding_str: str | None = None,
     byte_data: bool = False,
     lazy_data: bool = False,

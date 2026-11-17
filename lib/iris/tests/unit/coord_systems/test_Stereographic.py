@@ -11,7 +11,7 @@ from iris.coord_systems import GeogCS, Stereographic
 from iris.tests import _shared_utils
 
 
-def stereo(**kwargs):
+def stereo(**kwargs):  # noqa: D103
     return Stereographic(
         central_lat=-90,
         central_lon=-45,

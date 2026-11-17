@@ -15,7 +15,7 @@ from iris.tests import _shared_utils
 from iris.tests.stock.mesh import sample_mesh, sample_mesh_cube
 
 
-def common_test_setup(self, shape_3d=(0, 2), data_chunks=None):
+def common_test_setup(self, shape_3d=(0, 2), data_chunks=None):  # noqa: D103
     # Construct a basic testcase with all-lazy mesh_cube and submesh_cubes
     # full-mesh cube shape is 'shape_3d'
     # data_chunks sets chunking of source cube, (else all-1-chunk)

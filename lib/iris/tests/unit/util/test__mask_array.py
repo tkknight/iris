@@ -122,7 +122,7 @@ IN_PLACE_PARAMETRIZE = pytest.mark.parametrize(
 
 
 @IN_PLACE_PARAMETRIZE
-def test_trailing_mask(in_place):
+def test_trailing_mask(in_place):  # noqa: D103
     array = ma.array(array_2by3.copy())
     mask = np.array([0, 1, 0])
     expected = ma.array(array_2by3, mask=[[0, 1, 0], [0, 1, 0]])
@@ -132,7 +132,7 @@ def test_trailing_mask(in_place):
 
 
 @IN_PLACE_PARAMETRIZE
-def test_leading_mask(in_place):
+def test_leading_mask(in_place):  # noqa: D103
     arr = ma.masked_array(array_2by3.copy(), mask=[[0, 0, 0], [0, 0, 1]])
     mask = np.array([1, 0]).reshape(2, 1)
     expected = ma.array(arr.data, mask=[[1, 1, 1], [0, 0, 1]])
@@ -141,7 +141,7 @@ def test_leading_mask(in_place):
     assert result is arr if in_place else result is not arr
 
 
-def test_lazy_trailing_mask():
+def test_lazy_trailing_mask():  # noqa: D103
     arr = da.ma.masked_array(array_2by3, mask=[[0, 1, 1], [0, 0, 0]])
     mask = np.array([0, 1, 0])
     expected_computed = ma.array(array_2by3, mask=[[0, 1, 1], [0, 1, 0]])
@@ -151,7 +151,7 @@ def test_lazy_trailing_mask():
     assert result is not arr
 
 
-def test_lazy_leading_mask():
+def test_lazy_leading_mask():  # noqa: D103
     arr = da.from_array(array_2by3)
     mask = da.from_array([0, 1]).reshape(2, 1)
     expected_computed = ma.array(array_2by3, mask=[[0, 0, 0], [1, 1, 1]])

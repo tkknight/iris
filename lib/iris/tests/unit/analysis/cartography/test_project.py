@@ -21,7 +21,7 @@ ROBINSON = ccrs.Robinson()
 
 
 @pytest.fixture
-def low_res_4d():
+def low_res_4d():  # noqa: D103
     cube = iris.tests.stock.realistic_4d_no_derived()
     cube = cube[0:2, 0:3, ::10, ::10]
     cube.remove_coord("surface_altitude")

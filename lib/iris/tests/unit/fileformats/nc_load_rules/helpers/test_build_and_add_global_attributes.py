@@ -13,7 +13,7 @@ from iris.loading import LOAD_PROBLEMS
 
 
 @pytest.fixture
-def mock_engine(mocker):
+def mock_engine(mocker):  # noqa: D103
     global_attributes = {
         "Conventions": "CF-1.5",
         "comment": "Mocked test object",
@@ -32,13 +32,13 @@ def mock_engine(mocker):
     return engine
 
 
-def test_construction(mock_engine):
+def test_construction(mock_engine):  # noqa: D103
     expected = mock_engine.cf_var.cf_group.global_attributes
     build_and_add_global_attributes(mock_engine)
     assert mock_engine.cube.attributes.globals == expected
 
 
-def test_not_added(mock_engine):
+def test_not_added(mock_engine):  # noqa: D103
     attributes = mock_engine.cf_var.cf_group.global_attributes
     attributes["calendar"] = "standard"
     build_and_add_global_attributes(mock_engine)
@@ -54,7 +54,7 @@ def test_not_added(mock_engine):
     assert mock_engine.cube.attributes.globals == expected
 
 
-def test_unhandlable_error(monkeypatch, mock_engine):
+def test_unhandlable_error(monkeypatch, mock_engine):  # noqa: D103
     # Confirm that the code can redirect an error to LOAD_PROBLEMS even
     #  when there is no specific handling code for it.
     n_problems = len(LOAD_PROBLEMS.problems)
@@ -66,7 +66,7 @@ def test_unhandlable_error(monkeypatch, mock_engine):
     assert len(LOAD_PROBLEMS.problems) > n_problems
 
 
-def test_problem_destination(monkeypatch, mock_engine):
+def test_problem_destination(monkeypatch, mock_engine):  # noqa: D103
     # Confirm that the destination of the problem is set correctly.
     with monkeypatch.context() as m:
         m.setattr(mock_engine, "cube", "foo")

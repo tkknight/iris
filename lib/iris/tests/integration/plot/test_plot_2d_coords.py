@@ -20,7 +20,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 
 @_shared_utils.skip_data
-def simple_cube_w_2d_coords():
+def simple_cube_w_2d_coords():  # noqa: D103
     path = _shared_utils.get_data_path(("NetCDF", "ORCA2", "votemper.nc"))
     cube = iris.load_cube(path)
     return cube

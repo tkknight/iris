@@ -53,12 +53,12 @@ def conflicting_store(tmp_path):
     return str(location)
 
 
-def test_the_conflict_reaches_a_load(conflicting_store):
+def test_the_conflict_reaches_a_load(conflicting_store):  # noqa: D103
     with pytest.warns(IrisCfLoadWarning, match=r"more than one size, \[4, 5\]: t"):
         iris.load(conflicting_store)
 
 
-def test_the_unlinkable_dimension_is_anonymous(conflicting_store):
+def test_the_unlinkable_dimension_is_anonymous(conflicting_store):  # noqa: D103
     cubes = iris.load(conflicting_store)
 
     by_name = {cube.name(): cube for cube in cubes}

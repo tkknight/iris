@@ -14,7 +14,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import CFVariableStandIn
 
 
 @pytest.fixture
-def mock_cf_data_var(mocker):
+def mock_cf_data_var(mocker):  # noqa: D103
     stand_in = CFVariableStandIn(cell_methods="time: mean")
     stand_in.cf_name = "wibble"
     stand_in.filename = "DUMMY"
@@ -22,7 +22,7 @@ def mock_cf_data_var(mocker):
 
 
 @pytest.fixture
-def mock_engine(mock_cf_data_var, mocker):
+def mock_engine(mock_cf_data_var, mocker):  # noqa: D103
     return mocker.Mock(
         cube=mocker.Mock(),
         cf_var=mock_cf_data_var,
@@ -30,13 +30,13 @@ def mock_engine(mock_cf_data_var, mocker):
     )
 
 
-def test_construction(mock_engine):
+def test_construction(mock_engine):  # noqa: D103
     expected_method = CellMethod("mean", coords=["time"])
     helpers.build_and_add_cell_methods(mock_engine)
     assert mock_engine.cube.cell_methods == (expected_method,)
 
 
-def test_not_built(monkeypatch, mock_engine, mock_cf_data_var):
+def test_not_built(monkeypatch, mock_engine, mock_cf_data_var):  # noqa: D103
     cm_original = mock_engine.cube.cell_methods
 
     def mock_parse_cell_methods(nc_cell_methods, cf_name=None):
@@ -51,7 +51,7 @@ def test_not_built(monkeypatch, mock_engine, mock_cf_data_var):
     assert mock_engine.cube.cell_methods == cm_original
 
 
-def test_not_added(monkeypatch, mock_engine, mock_cf_data_var, mocker):
+def test_not_added(monkeypatch, mock_engine, mock_cf_data_var, mocker):  # noqa: D103
     cm_original = mock_engine.cube.cell_methods
 
     class NoCellMethods(mocker.Mock):
@@ -69,7 +69,7 @@ def test_not_added(monkeypatch, mock_engine, mock_cf_data_var, mocker):
     assert mock_engine.cube.cell_methods == cm_original
 
 
-def test_unhandlable_error(monkeypatch, mock_engine):
+def test_unhandlable_error(monkeypatch, mock_engine):  # noqa: D103
     # Confirm that the code can redirect an error to LOAD_PROBLEMS even
     #  when there is no specific handling code for it.
     n_problems = len(LOAD_PROBLEMS.problems)
@@ -81,7 +81,7 @@ def test_unhandlable_error(monkeypatch, mock_engine):
     assert len(LOAD_PROBLEMS.problems) > n_problems
 
 
-def test_problem_destination(monkeypatch, mock_engine):
+def test_problem_destination(monkeypatch, mock_engine):  # noqa: D103
     # Confirm that the destination of the problem is set correctly.
     with monkeypatch.context() as m:
         m.setattr(mock_engine, "cube", "foo")

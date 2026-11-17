@@ -59,7 +59,7 @@ _GLOBAL_TEST_ATTRS = [a for a in _GLOBAL_TEST_ATTRS if a != "conventions"]
 # Define a fixture to parametrise tests over the 'global-style' test attributes.
 # This just provides a more concise way of writing parametrised tests.
 @pytest.fixture(params=_GLOBAL_TEST_ATTRS)
-def global_attr(request):
+def global_attr(request):  # noqa: D103
     # N.B. "request" is a standard PyTest fixture
     return request.param  # Return the name of the attribute to test.
 
@@ -85,7 +85,7 @@ _LOCAL_TEST_ATTRS = [
 # Define a fixture to parametrise over the 'local-style' test attributes.
 # This just provides a more concise way of writing parametrised tests.
 @pytest.fixture(params=_LOCAL_TEST_ATTRS)
-def local_attr(request):
+def local_attr(request):  # noqa: D103
     # N.B. "request" is a standard PyTest fixture
     return request.param  # Return the name of the attribute to test.
 
@@ -537,7 +537,7 @@ _MATRIX_ATTRNAMES = [attr for attr in _MATRIX_ATTRNAMES if attr not in _SPECIAL_
 _ATTR_STYLES = ["localstyle", "globalstyle", "userstyle"]
 
 
-def deduce_attr_style(attrname: str) -> str:
+def deduce_attr_style(attrname: str) -> str:  # noqa: D103
     # Extract the attribute "style type" from an attr_param name
     if attrname in _LOCAL_TEST_ATTRS:
         style = "localstyle"
@@ -552,7 +552,7 @@ def deduce_attr_style(attrname: str) -> str:
 #
 # Decode a matrix "input spec" to codes for global + local values.
 #
-def decode_matrix_input(input_spec):
+def decode_matrix_input(input_spec):  # noqa: D103
     # Decode a matrix-test input specification, like "GaLbc", into lists of values.
     # E.G. "GaLbc" -> ["a", "b", "c"]
     # ["GaLbc", "GbLbc"] -> [["a", "b", "c"], ["b", "b", c"]]
@@ -578,7 +578,7 @@ def decode_matrix_input(input_spec):
     return result
 
 
-def encode_matrix_result(results) -> List[str]:
+def encode_matrix_result(results) -> List[str]:  # noqa: D103
     # Re-code a set of output results, [*[global-value, *local-values]] as a list of
     # strings, like ["GaL-b"] or ["GaLabc", "GbLabc"].
     # N.B. again assuming that all values are just one-character strings, or None.
@@ -609,7 +609,7 @@ _MATRIX_TESTTYPES = ("load", "save", "roundtrip")
 
 
 @pytest.fixture(autouse=True, scope="session")
-def matrix_results():
+def matrix_results():  # noqa: D103
     matrix_filepaths = {
         testtype: (Path(__file__).parent / f"attrs_matrix_results_{testtype}.json")
         for testtype in _MATRIX_TESTTYPES

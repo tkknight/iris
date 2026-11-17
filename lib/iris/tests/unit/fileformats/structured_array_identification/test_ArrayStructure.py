@@ -17,7 +17,7 @@ from iris.fileformats._structured_array_identification import (
 from iris.tests._shared_utils import assert_array_equal
 
 
-def construct_nd(sub_array, sub_dim, shape):
+def construct_nd(sub_array, sub_dim, shape):  # noqa: D103
     # Given a 1D array, a shape, and the axis/dimension that the 1D array
     # represents on the bigger array, construct a numpy array which is
     # filled appropriately.

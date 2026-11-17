@@ -929,7 +929,7 @@ def _all_other_rules(cube, pp):
     return pp
 
 
-def verify(cube, field, label_surface_fields=False):
+def verify(cube, field, label_surface_fields=False):  # noqa: D103
     # Rules functions.
     field = _basic_coord_system_rules(cube, field)
     field = _um_version_rules(cube, field)

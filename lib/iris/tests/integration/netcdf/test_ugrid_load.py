@@ -19,7 +19,7 @@ from iris.tests.unit.tests.stock.test_netcdf import XIOSFileMixin
 from iris.warnings import IrisCfWarning
 
 
-def ugrid_load(uris, constraints=None, callback=None):
+def ugrid_load(uris, constraints=None, callback=None):  # noqa: D103
     # TODO: remove constraint once files no longer have orphan connectivities.
     orphan_connectivities = (
         "Mesh2d_half_levels_edge_face_links",

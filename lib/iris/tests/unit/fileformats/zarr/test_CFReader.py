@@ -10,7 +10,7 @@ from iris.fileformats.zarr._dataset import ZarrDataset
 from . import stores
 
 
-def test_the_cf_reader_classifies_a_zarr_store(tmp_path):
+def test_the_cf_reader_classifies_a_zarr_store(tmp_path):  # noqa: D103
     location = stores.make_store(tmp_path / "s.zarr")
     with CFReader(ZarrDataset(location)) as reader:
         assert "air_temperature" in reader.cf_group.data_variables

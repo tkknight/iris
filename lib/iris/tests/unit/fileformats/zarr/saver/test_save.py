@@ -15,7 +15,7 @@ from iris.fileformats.zarr.saver import save
 
 
 @pytest.fixture
-def cubes():
+def cubes():  # noqa: D103
     def one(name):
         cube = Cube(
             np.arange(4, dtype=np.float32).reshape(2, 2),

@@ -29,7 +29,7 @@ def _2D_guess_bounds(cube, extrapolate=True, in_place=False):
     return cube
 
 
-def test_2D_guess_bounds_contiguity():
+def test_2D_guess_bounds_contiguity():  # noqa: D103
     cube = _2d_multicells_testcube()
     assert not cube.coord("latitude").is_contiguous()
     assert not cube.coord("longitude").is_contiguous()
@@ -43,7 +43,7 @@ def test_2D_guess_bounds_contiguity():
     assert result_clipped.coord("longitude").is_contiguous()
 
 
-def test_2D_guess_bounds_rotational_equivalence():
+def test_2D_guess_bounds_rotational_equivalence():  # noqa: D103
     # Check that _2D_guess_bounds is rotationally equivalent.
     cube = _2d_multicells_testcube()
 
@@ -81,7 +81,7 @@ def test_2D_guess_bounds_rotational_equivalence():
     assert np.allclose(rotated_lat_bounds, lat_bounds_from_rotated_points.flatten())
 
 
-def test_2D_guess_bounds_transpose_equivalence():
+def test_2D_guess_bounds_transpose_equivalence():  # noqa: D103
     # Check that _2D_guess_bounds is transpose equivalent.
     cube = _2d_multicells_testcube()
     cube_transposed = _2d_multicells_testcube()
@@ -118,7 +118,7 @@ def test_2D_guess_bounds_transpose_equivalence():
     assert np.allclose(untransposed_lon.bounds, cube.coord("longitude").bounds)
 
 
-def test_2D_guess_bounds_slice_equivalence():
+def test_2D_guess_bounds_slice_equivalence():  # noqa: D103
     # Extrapolation should approximate expected values from an extended regular grid when points are
     # close enough together.
     shrink_factor = 1000
@@ -136,7 +136,7 @@ def test_2D_guess_bounds_slice_equivalence():
     )
 
 
-def test_2D_guess_bounds_coord_systems():
+def test_2D_guess_bounds_coord_systems():  # noqa: D103
     rotated_cs = RotatedGeogCS(20, 30)
     mercator_cs = Mercator()
 
@@ -163,7 +163,7 @@ def test_2D_guess_bounds_coord_systems():
         _2D_guess_bounds(mercator_cube)
 
 
-def test_invalid_units():
+def test_invalid_units():  # noqa: D103
     cube = _2d_multicells_testcube()
     lon = cube.coord("longitude")
     lat = cube.coord("latitude")
@@ -177,21 +177,21 @@ def test_invalid_units():
         guess_2D_bounds(lon, lat)
 
 
-def test_invalid_coords_1D():
+def test_invalid_coords_1D():  # noqa: D103
     lat_1D = AuxCoord(np.arange(5), standard_name="latitude")
     lon_1D = AuxCoord(np.arange(5), standard_name="longitude")
     with pytest.raises(ValueError, match="Coordinates are not 2D."):
         guess_2D_bounds(lon_1D, lat_1D)
 
 
-def test_invalid_coords_shape():
+def test_invalid_coords_shape():  # noqa: D103
     lat = AuxCoord(np.ones([2, 3]), standard_name="latitude")
     lon = AuxCoord(np.ones([3, 2]), standard_name="longitude")
     with pytest.raises(ValueError, match="Coordinates do not have the same shape."):
         guess_2D_bounds(lon, lat)
 
 
-def test_invalid_coords_size():
+def test_invalid_coords_size():  # noqa: D103
     expected_msg = "Coordinates must have length at least 2 in each dimension."
 
     lat = AuxCoord(np.ones([1, 3]), standard_name="latitude")
@@ -205,7 +205,7 @@ def test_invalid_coords_size():
         guess_2D_bounds(lon, lat)
 
 
-def test_invalid_coords_name():
+def test_invalid_coords_name():  # noqa: D103
     lat_valid = AuxCoord(np.ones([2, 3]), standard_name="latitude")
     lon_valid = AuxCoord(np.ones([2, 3]), standard_name="longitude")
     lat_invalid = AuxCoord(np.ones([2, 3]), long_name="lat")
@@ -224,7 +224,7 @@ def test_invalid_coords_name():
         guess_2D_bounds(lon_valid, lat_invalid)
 
 
-def test_in_place():
+def test_in_place():  # noqa: D103
     cube = _2d_multicells_testcube()
     lon = cube.coord("longitude")
     lat = cube.coord("latitude")

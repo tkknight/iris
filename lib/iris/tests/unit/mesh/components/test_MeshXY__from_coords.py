@@ -246,7 +246,7 @@ class TestInvalidPoints:
             _ = MeshXY.from_coords(coord_1, coord_2)
 
 
-def test_type_validation():
+def test_type_validation():  # noqa: D103
     # Only AuxCoord or DimCoord supported.
     mesh_coord = sample_meshcoord()
     with pytest.raises(ValueError, match="Expected coords to be DimCoord or AuxCoord."):

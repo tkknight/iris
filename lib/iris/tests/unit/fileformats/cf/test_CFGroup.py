@@ -29,7 +29,7 @@ VariableMap: dict[type[cf.CFVariable], Callable] = {
 }
 
 
-def get_mocked_var(class_: type[cf.CFVariable], mocker) -> MagicMock:
+def get_mocked_var(class_: type[cf.CFVariable], mocker) -> MagicMock:  # noqa: D103
     cf_name = f"{class_.__name__}_var"
     mocked = mocker.MagicMock(spec=class_, cf_name=cf_name)
     return mocked
@@ -43,7 +43,7 @@ def get_mocked_var(class_: type[cf.CFVariable], mocker) -> MagicMock:
     ],
     ids=lambda value: f"{value[0].__name__}-{value[1]}",
 )
-def mock_variables(
+def mock_variables(  # noqa: D103
     request, mocker
 ) -> tuple[type[cf.CFVariable], tuple[MagicMock, ...]]:
     class_, scenario = request.param
@@ -61,7 +61,7 @@ def mock_variables(
 
 
 @pytest.fixture(params=["single", "duplicates", "multiple"])
-def mock_variables_all(request, mocker) -> tuple[MagicMock, ...]:
+def mock_variables_all(request, mocker) -> tuple[MagicMock, ...]:  # noqa: D103
     scenario = request.param
     all_variables = []
 
@@ -82,12 +82,12 @@ def mock_variables_all(request, mocker) -> tuple[MagicMock, ...]:
 
 
 @pytest.fixture
-def cf_group() -> cf.CFGroup:
+def cf_group() -> cf.CFGroup:  # noqa: D103
     return cf.CFGroup()
 
 
 @pytest.fixture
-def cf_group_populated(cf_group, mock_variables_all) -> cf.CFGroup:
+def cf_group_populated(cf_group, mock_variables_all) -> cf.CFGroup:  # noqa: D103
     for mocked in mock_variables_all:
         cf_group[mocked.cf_name] = mocked
     return cf_group

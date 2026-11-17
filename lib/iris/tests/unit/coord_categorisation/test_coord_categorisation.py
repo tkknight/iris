@@ -37,7 +37,7 @@ from iris.warnings import IrisSaveWarning
         ccat.add_season_membership,
     ),
 )
-def categorisation_func(request):
+def categorisation_func(request):  # noqa: D103
     return request.param
 
 
@@ -49,19 +49,19 @@ def categorisation_func(request):
         ccat.add_season_year,
     ),
 )
-def season_cat_func(request):
+def season_cat_func(request):  # noqa: D103
     return request.param
 
 
 @pytest.fixture(scope="module")
-def day_numbers():
+def day_numbers():  # noqa: D103
     # make a series of 'day numbers' for the time, that slide across month
     # boundaries
     return np.arange(0, 600, 27, dtype=np.int32)
 
 
 @pytest.fixture
-def time_coord(day_numbers):
+def time_coord(day_numbers):  # noqa: D103
     return iris.coords.DimCoord(
         day_numbers,
         standard_name="time",
@@ -70,7 +70,7 @@ def time_coord(day_numbers):
 
 
 @pytest.fixture
-def cube(day_numbers, time_coord):
+def cube(day_numbers, time_coord):  # noqa: D103
     _cube = iris.cube.Cube(day_numbers, long_name="test cube", units="metres")
     # use day numbers as data values also (don't actually use this for
     # anything)
@@ -79,7 +79,7 @@ def cube(day_numbers, time_coord):
     return _cube
 
 
-def test_bad_coord(cube, categorisation_func):
+def test_bad_coord(cube, categorisation_func):  # noqa: D103
     kwargs = {"name": "my_category"}
     if categorisation_func is ccat.add_season_membership:
         kwargs["season"] = "djf"
@@ -87,7 +87,7 @@ def test_bad_coord(cube, categorisation_func):
         categorisation_func(cube, "DOES NOT EXIST", **kwargs)
 
 
-def test_explicit_result_names(cube, categorisation_func):
+def test_explicit_result_names(cube, categorisation_func):  # noqa: D103
     result_name = "my_category"
     fmt = "Missing/incorrectly named result for {0!r}"
     # Specify source coordinate by name
@@ -108,7 +108,7 @@ def test_explicit_result_names(cube, categorisation_func):
     assert len(result_coords) == 1, fmt.format(categorisation_func.__name__)
 
 
-def test_basic(cube, time_coord, request):
+def test_basic(cube, time_coord, request):  # noqa: D103
     ccat.add_year(cube, time_coord, "my_year")
     ccat.add_day_of_month(cube, time_coord, "my_day_of_month")
     ccat.add_day_of_year(cube, time_coord, "my_day_of_year")
@@ -145,7 +145,7 @@ def test_basic(cube, time_coord, request):
     _shared_utils.assert_CML(request, cube, ("categorisation", "quickcheck.cml"))
 
 
-def test_add_season_nonstandard(cube, time_coord, request):
+def test_add_season_nonstandard(cube, time_coord, request):  # noqa: D103
     # season categorisations work for non-standard seasons?
     seasons = ["djfm", "amjj", "ason"]
     ccat.add_season(cube, time_coord, name="seasons", seasons=seasons)
@@ -204,7 +204,7 @@ def test_add_season_year(cube, time_coord, backwards, nonstandard):
     _shared_utils.assert_array_almost_equal(actual_years, expected_years)
 
 
-def test_add_season_membership(cube):
+def test_add_season_membership(cube):  # noqa: D103
     # season membership identifies correct seasons?
     season = "djf"
     ccat.add_season_membership(cube, "time", season, name="in_season")
@@ -216,34 +216,34 @@ def test_add_season_membership(cube):
     _shared_utils.assert_array_almost_equal(membership_locations, season_locations)
 
 
-def test_add_season_invalid_spec(cube, season_cat_func):
+def test_add_season_invalid_spec(cube, season_cat_func):  # noqa: D103
     # custom seasons with an invalid season raises an error?
     seasons = ("djf", "maj", "jja", "son")  # MAJ not a season!
     with pytest.raises(ValueError, match="unrecognised season:"):
         season_cat_func(cube, "time", name="my_category", seasons=seasons)
 
 
-def test_add_season_repeated_months(cube, season_cat_func):
+def test_add_season_repeated_months(cube, season_cat_func):  # noqa: D103
     # custom seasons with repeated months raises an error?
     seasons = ("djfm", "mam", "jja", "son")
     with pytest.raises(ValueError, match="some months appear in more than one season:"):
         season_cat_func(cube, "time", name="my_category", seasons=seasons)
 
 
-def test_add_season_missing_months(cube, season_cat_func):
+def test_add_season_missing_months(cube, season_cat_func):  # noqa: D103
     # custom seasons with missing months raises an error?
     seasons = ("djfm", "amjj")
     with pytest.raises(ValueError, match="some months do not appear in any season"):
         season_cat_func(cube, "time", name="my_category", seasons=seasons)
 
 
-def test_add_season_membership_invalid_spec(cube):
+def test_add_season_membership_invalid_spec(cube):  # noqa: D103
     season = "maj"  # not a season!
     with pytest.raises(ValueError, match=f"unrecognised season: {season}"):
         ccat.add_season_membership(cube, "time", season, name="maj_season")
 
 
-def test_season_membership_save_warning(cube):
+def test_season_membership_save_warning(cube):  # noqa: D103
     season = "djf"
     with pytest.warns(IrisSaveWarning):
         ccat.add_season_membership(cube, "time", season, name="in_season")

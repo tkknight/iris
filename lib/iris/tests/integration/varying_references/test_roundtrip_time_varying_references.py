@@ -178,7 +178,7 @@ def make_hybrid_z_testdata(
     return cubes
 
 
-def check_expected(result_cubes, file_extension, time_dependence, zcoord_type):
+def check_expected(result_cubes, file_extension, time_dependence, zcoord_type):  # noqa: D103
     assert len(result_cubes) == 2
     result_phenom = result_cubes.extract_cube("air_temperature")
 
@@ -226,26 +226,26 @@ if iris_grib:
 
 
 @pytest.fixture(params=_file_formats)
-def file_extension(request):
+def file_extension(request):  # noqa: D103
     return request.param
 
 
 @pytest.fixture(params=["static", "time_varying"])
-def time_dependence(request):
+def time_dependence(request):  # noqa: D103
     return request.param
 
 
 @pytest.fixture(params=["height", "pressure"])
-def zcoord_type(request):
+def zcoord_type(request):  # noqa: D103
     return request.param
 
 
 @pytest.fixture(params=[f"{name}_policy" for name in COMBINE_POLICY.SETTINGS])
-def load_policy(request):
+def load_policy(request):  # noqa: D103
     return request.param
 
 
-def test_roundtrip(file_extension, time_dependence, zcoord_type, load_policy, tmp_path):
+def test_roundtrip(file_extension, time_dependence, zcoord_type, load_policy, tmp_path):  # noqa: D103
     if (
         load_policy == "legacy_policy"
         and time_dependence == "time_varying"
@@ -277,7 +277,7 @@ def test_roundtrip(file_extension, time_dependence, zcoord_type, load_policy, tm
     )
 
 
-def test_split_netcdf_roundtrip(zcoord_type, load_policy, tmp_path):
+def test_split_netcdf_roundtrip(zcoord_type, load_policy, tmp_path):  # noqa: D103
     # NetCDF special test : split the data into 2D slices (like "fields"),
     # and save each to a different file.
     policy_name = load_policy.split("_")[0]

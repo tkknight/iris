@@ -29,7 +29,7 @@ def _make_array_and_cf_data(mocker, dim_lens: dict[str, int]):
     return data, cf_data
 
 
-def cf_attrs():
+def cf_attrs():  # noqa: D103
     return tuple(
         [
             # standard_name is normally forbidden as a basic attribute - expect to
@@ -41,7 +41,7 @@ def cf_attrs():
 
 
 @pytest.fixture
-def cf_variable(mocker):
+def cf_variable(mocker):  # noqa: D103
     dim_lens = {"foo": 3, "bar": 4}
     data, cf_data = _make_array_and_cf_data(mocker, dim_lens)
 
@@ -63,7 +63,7 @@ def cf_variable(mocker):
 
 
 @pytest.fixture
-def expected_cube(mocker, cf_variable):
+def expected_cube(mocker, cf_variable):  # noqa: D103
     dim_lens = {k: v for k, v in zip(cf_variable.dimensions, cf_variable.shape)}
     expected_data, _ = _make_array_and_cf_data(mocker, dim_lens)
 
@@ -74,6 +74,6 @@ def expected_cube(mocker, cf_variable):
     )
 
 
-def test(cf_variable, expected_cube):
+def test(cf_variable, expected_cube):  # noqa: D103
     result = build_raw_cube(cf_variable)
     assert result == expected_cube

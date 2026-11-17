@@ -19,7 +19,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import (
 
 
 @pytest.fixture
-def mock_engine(mocker):
+def mock_engine(mocker):  # noqa: D103
     return mocker.Mock(
         cube=mocker.Mock(),
         # A data variable has a shape as well as dimension names, because an
@@ -32,7 +32,7 @@ def mock_engine(mocker):
 
 
 @pytest.fixture
-def mock_cf_av_var(mocker, monkeypatch, mock_engine):
+def mock_cf_av_var(mocker, monkeypatch, mock_engine):  # noqa: D103
     data = np.arange(6)
     output = CFVariableStandIn(standard_name=None, long_name="wibble", units="m2")
     output.dimensions = ("foo",)
@@ -60,7 +60,7 @@ def mock_cf_av_var(mocker, monkeypatch, mock_engine):
     return output
 
 
-def test_construction(mock_engine, mock_cf_av_var):
+def test_construction(mock_engine, mock_cf_av_var):  # noqa: D103
     expected_cm = AncillaryVariable(
         mock_cf_av_var[:],
         long_name=mock_cf_av_var.long_name,
@@ -74,7 +74,7 @@ def test_construction(mock_engine, mock_cf_av_var):
     mock_engine.cube.add_ancillary_variable.assert_called_with(expected_cm, [0])
 
 
-def test_not_added(monkeypatch, mock_engine, mock_cf_av_var):
+def test_not_added(monkeypatch, mock_engine, mock_cf_av_var):  # noqa: D103
     # Confirm that the ancillary variable will be skipped if a CannotAddError is
     #  raised when attempting to add.
     def mock_add_ancillary_variable(_, __):
@@ -92,7 +92,7 @@ def test_not_added(monkeypatch, mock_engine, mock_cf_av_var):
     assert mock_engine.cube_parts["ancillary_variables"] == []
 
 
-def test_unhandlable_error(monkeypatch, mock_engine, mock_cf_av_var):
+def test_unhandlable_error(monkeypatch, mock_engine, mock_cf_av_var):  # noqa: D103
     # Confirm that the code can redirect an error to LOAD_PROBLEMS even
     #  when there is no specific handling code for it.
     with monkeypatch.context() as m:
@@ -104,7 +104,7 @@ def test_unhandlable_error(monkeypatch, mock_engine, mock_cf_av_var):
     assert mock_engine.cube_parts["ancillary_variables"] == []
 
 
-def test_problem_destination(monkeypatch, mock_engine, mock_cf_av_var):
+def test_problem_destination(monkeypatch, mock_engine, mock_cf_av_var):  # noqa: D103
     # Confirm that the destination of the problem is set correctly.
     with monkeypatch.context() as m:
         m.setattr(mock_engine, "cube", "foo")

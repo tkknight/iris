@@ -31,7 +31,7 @@ SOURCE_CHUNKS = (1, 2, 40, 40)
 
 
 @pytest.fixture
-def sample():
+def sample():  # noqa: D103
     return _shared_utils.get_data_path(("Zarr", "gfs_forecast_sample.zarr"))
 
 
@@ -51,7 +51,7 @@ def _assert_clean_load():
 
 
 @_shared_utils.skip_data
-def test_the_sample_yields_four_cubes(sample):
+def test_the_sample_yields_four_cubes(sample):  # noqa: D103
     cubes = iris.load(sample)
     assert sorted(cube.name() for cube in cubes) == [
         "air_temperature",
@@ -62,7 +62,7 @@ def test_the_sample_yields_four_cubes(sample):
 
 
 @_shared_utils.skip_data
-def test_the_sharded_variable_loads_lazily(sample):
+def test_the_sharded_variable_loads_lazily(sample):  # noqa: D103
     cube = iris.load_cube(sample, "air_temperature")
     assert cube.has_lazy_data()
     assert cube.shape == (2, 8, 120, 120)

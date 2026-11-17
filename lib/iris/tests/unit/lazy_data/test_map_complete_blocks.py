@@ -14,7 +14,7 @@ from iris._lazy_data import is_lazy_data, map_complete_blocks
 from iris.tests._shared_utils import assert_array_equal
 
 
-def create_mock_cube(array):
+def create_mock_cube(array):  # noqa: D103
     cube = Mock()
     cube_data = PropertyMock(return_value=array)
     type(cube).data = cube_data

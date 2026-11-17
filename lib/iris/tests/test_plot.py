@@ -25,7 +25,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 
 @_shared_utils.skip_data
-def simple_cube():
+def simple_cube():  # noqa: D103
     cube = iris.tests.stock.realistic_4d()
     cube = cube[:, 0, 0, :]
     cube.coord("time").guess_bounds()

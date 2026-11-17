@@ -630,7 +630,7 @@ class Test_bounds__setter(DimCoordTestMixin):
     "calendar",
     [*DATETIME_CALENDARS, "360_day"],
 )
-def test_cells__temporal_real_datetime(calendar):
+def test_cells__temporal_real_datetime(calendar):  # noqa: D103
     epoch = "hours since 1970-01-01 00:00:00"
     coord = DimCoord(
         [100],
@@ -657,7 +657,7 @@ def test_cells__temporal_real_datetime(calendar):
     "calendar",
     [*DATETIME_CALENDARS, "360_day"],
 )
-def test_cell__temporal_real_datetime(calendar):
+def test_cell__temporal_real_datetime(calendar):  # noqa: D103
     epoch = "hours since 1970-01-01 00:00:00"
     coord = DimCoord(
         [100],

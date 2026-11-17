@@ -258,7 +258,7 @@ class Test_guess_bounds__default_enabled_latitude_clipping:
         )
 
 
-def test_guess_bounds_monthly_and_yearly():
+def test_guess_bounds_monthly_and_yearly():  # noqa: D103
     units = cf_units.Unit("days since epoch", calendar="gregorian")
     points = units.date2num(
         [

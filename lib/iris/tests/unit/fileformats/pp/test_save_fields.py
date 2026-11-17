@@ -10,7 +10,7 @@ import pytest
 import iris.fileformats.pp as pp
 
 
-def asave(afilehandle):
+def asave(afilehandle):  # noqa: D103
     afilehandle.write("saved")
 
 

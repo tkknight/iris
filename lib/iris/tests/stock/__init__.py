@@ -74,7 +74,7 @@ def global_pp():
     return cube
 
 
-def simple_pp():
+def simple_pp():  # noqa: D103
     # Differs from global_pp()
     filename = tests.get_data_path(["PP", "simple_pp", "global.pp"])
     cube = iris.load_cube(filename)
@@ -347,7 +347,7 @@ def track_1d(duplicate_x=False):
     return cube
 
 
-def simple_2d_w_multidim_and_scalars():
+def simple_2d_w_multidim_and_scalars():  # noqa: D103
     data = np.arange(50, dtype=np.int32).reshape((5, 10))
     cube = iris.cube.Cube(data, long_name="test 2d dimensional cube", units="meters")
 
@@ -469,7 +469,7 @@ def hybrid_height():
     return cube
 
 
-def simple_4d_with_hybrid_height():
+def simple_4d_with_hybrid_height():  # noqa: D103
     cube = iris.cube.Cube(
         np.arange(3 * 4 * 5 * 6, dtype="i8").reshape(3, 4, 5, 6),
         "air_temperature",
@@ -671,7 +671,7 @@ def realistic_4d_no_derived():
     return cube
 
 
-def realistic_4d_w_missing_data():
+def realistic_4d_w_missing_data():  # noqa: D103
     data_path = tests.get_data_path(("stock", "stock_mdi_arrays.npz"))
     if not Path(data_path).is_file():
         raise IOError("Test data is not available at {}.".format(data_path))
@@ -1078,7 +1078,7 @@ def ocean_sigma_z():
     return cube
 
 
-def climatology_3d():
+def climatology_3d():  # noqa: D103
     def jan_offset(day, year):
         dt = datetime(year, 1, day) - datetime(1970, 1, 1)
         return dt.total_seconds() / (24.0 * 3600)

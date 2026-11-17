@@ -19,7 +19,7 @@ TESTED_PROTOCOLS = list(
 )
 
 
-def pickle_cube(cube_or_path, protocol, filename):
+def pickle_cube(cube_or_path, protocol, filename):  # noqa: D103
     # Ensure that data proxies are pickleable.
     if isinstance(cube_or_path, Cube):
         cube = cube_or_path
@@ -34,7 +34,7 @@ def pickle_cube(cube_or_path, protocol, filename):
 
 @pytest.mark.parametrize("protocol", TESTED_PROTOCOLS)
 @_shared_utils.skip_data
-def test_netcdf(protocol, tmp_path):
+def test_netcdf(protocol, tmp_path):  # noqa: D103
     path = _shared_utils.get_data_path(
         ("NetCDF", "global", "xyt", "SMALL_hires_wind_u_for_ipcc4.nc")
     )
@@ -44,7 +44,7 @@ def test_netcdf(protocol, tmp_path):
 
 @pytest.mark.parametrize("protocol", TESTED_PROTOCOLS)
 @_shared_utils.skip_data
-def test_pp(protocol, tmp_path):
+def test_pp(protocol, tmp_path):  # noqa: D103
     path = _shared_utils.get_data_path(("PP", "aPPglob1", "global.pp"))
     tmp_file = tmp_path / "pp.pkl"
     pickle_cube(path, protocol, tmp_file)
@@ -52,7 +52,7 @@ def test_pp(protocol, tmp_path):
 
 @pytest.mark.parametrize("protocol", TESTED_PROTOCOLS)
 @_shared_utils.skip_data
-def test_ff(protocol, tmp_path):
+def test_ff(protocol, tmp_path):  # noqa: D103
     path = _shared_utils.get_data_path(("FF", "n48_multi_field"))
     tmp_file = tmp_path / "ff.pkl"
     pickle_cube(path, protocol, tmp_file)

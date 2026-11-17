@@ -17,7 +17,7 @@ from iris.tests._shared_utils import assert_array_equal
 from iris.util import guess_coord_axis
 
 
-def assert_test_for_coord(
+def assert_test_for_coord(  # noqa: D103
     field, convert, coord_predicate, expected_points, expected_bounds
 ):
     (

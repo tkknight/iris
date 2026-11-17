@@ -17,7 +17,7 @@ from iris.tests import _shared_utils
 from iris.tests.unit.coords import CoordTestMixin, lazyness_string
 
 
-def data_all_dtypes_and_lazynesses(self):
+def data_all_dtypes_and_lazynesses(self):  # noqa: D103
     # Generate ancillary variables with real and lazy data, and a few different
     # dtypes.
     data_types = ["real", "lazy"]

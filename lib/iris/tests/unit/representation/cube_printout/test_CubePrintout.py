@@ -23,7 +23,7 @@ class TestCubePrintout___str__:
         assert result == printer.to_string()
 
 
-def cube_replines(cube, **kwargs):
+def cube_replines(cube, **kwargs):  # noqa: D103
     return CubePrinter(cube).to_string(**kwargs).split("\n")
 
 

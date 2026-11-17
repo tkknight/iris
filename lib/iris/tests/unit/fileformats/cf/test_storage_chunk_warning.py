@@ -32,7 +32,7 @@ SMALL_CHUNK = (4,)
 TARGET = "128B"
 
 
-def build_netcdf(path, chunks):
+def build_netcdf(path, chunks):  # noqa: D103
     dataset = NetCDFDataset(str(path), mode="w")
     dataset.create_dimension("t", SHAPE[0])
     dataset.create_variable("v", np.dtype("f8"), ("t",), chunksizes=chunks)
@@ -40,7 +40,7 @@ def build_netcdf(path, chunks):
     return NetCDFDataset(str(path))
 
 
-def build_zarr(path, chunks):
+def build_zarr(path, chunks):  # noqa: D103
     # Per test, not per module: these tests run against netCDF too.
     zarr = pytest.importorskip("zarr", minversion="3.1.0")
     from iris.fileformats.zarr._dataset import ZarrDataset
@@ -64,21 +64,21 @@ def build(request, tmp_path):
     return make
 
 
-def test_a_stored_chunk_over_the_target_warns(build):
+def test_a_stored_chunk_over_the_target_warns(build):  # noqa: D103
     cf_var = build(BIG_CHUNK)
     with dask.config.set({"array.chunk-size": TARGET}):
         with pytest.warns(IrisLoadWarning, match="CHUNK_CONTROL"):
             _chunks_from_chunk_control(cf_var)
 
 
-def test_the_warning_names_the_variable(build):
+def test_the_warning_names_the_variable(build):  # noqa: D103
     cf_var = build(BIG_CHUNK)
     with dask.config.set({"array.chunk-size": TARGET}):
         with pytest.warns(IrisLoadWarning, match="v$"):
             _chunks_from_chunk_control(cf_var)
 
 
-def test_a_stored_chunk_under_the_target_is_quiet(build):
+def test_a_stored_chunk_under_the_target_is_quiet(build):  # noqa: D103
     cf_var = build(SMALL_CHUNK)
     with dask.config.set({"array.chunk-size": TARGET}):
         with warnings.catch_warnings():

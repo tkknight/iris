@@ -20,20 +20,20 @@ from .conftest import SAMPLE_AIR, SAMPLE_LABELS
 
 
 @pytest.fixture
-def raw(sample_path):
+def raw(sample_path):  # noqa: D103
     dataset = _thread_safe_nc.DatasetWrapper(sample_path, mode="r")
     yield dataset
     dataset.close()
 
 
 @pytest.fixture
-def encoded(sample_path):
+def encoded(sample_path):  # noqa: D103
     dataset = _bytecoding_datasets.EncodedDataset(sample_path, mode="r")
     yield dataset
     dataset.close()
 
 
-def wrap(dataset, name, location, write_lock_factory=None):
+def wrap(dataset, name, location, write_lock_factory=None):  # noqa: D103
     return _dataset.NetCDFDatasetVariable(
         dataset.variables[name],
         location,
@@ -43,12 +43,12 @@ def wrap(dataset, name, location, write_lock_factory=None):
 
 
 @pytest.fixture
-def air(raw, sample_location):
+def air(raw, sample_location):  # noqa: D103
     return wrap(raw, "air_temperature", sample_location)
 
 
 @pytest.fixture
-def height(raw, sample_location):
+def height(raw, sample_location):  # noqa: D103
     return wrap(raw, "height", sample_location)
 
 

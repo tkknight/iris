@@ -14,7 +14,7 @@ from iris.analysis import MAX_RUN
 from iris.tests import _shared_utils
 
 
-def bool_func(x):
+def bool_func(x):  # noqa: D103
     return x == 1
 
 

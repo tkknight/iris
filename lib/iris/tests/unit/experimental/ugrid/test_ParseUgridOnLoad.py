@@ -14,17 +14,17 @@ from iris._deprecation import IrisDeprecation
 from iris.experimental.ugrid import PARSE_UGRID_ON_LOAD, ParseUGridOnLoad
 
 
-def test_creation():
+def test_creation():  # noqa: D103
     # I.E. "does not fail".
     _ = ParseUGridOnLoad()
 
 
-def test_context():
+def test_context():  # noqa: D103
     ugridswitch = ParseUGridOnLoad()
     with pytest.warns(IrisDeprecation, match="PARSE_UGRID_ON_LOAD has been deprecated"):
         with ugridswitch.context():
             pass
 
 
-def test_constant():
+def test_constant():  # noqa: D103
     assert isinstance(PARSE_UGRID_ON_LOAD, ParseUGridOnLoad)

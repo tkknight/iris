@@ -11,7 +11,7 @@ import iris
 
 
 @pytest.fixture
-def sample_coord():
+def sample_coord():  # noqa: D103
     sample_coord = iris.coords.DimCoord(points=(1, 2, 3, 4, 5))
     return sample_coord
 

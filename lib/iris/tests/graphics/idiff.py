@@ -49,7 +49,7 @@ def extract_test_key(result_image_name):
 _POSTFIX_DIFF = "-failed-diff.png"
 
 
-def diff_viewer(
+def diff_viewer(  # noqa: D103
     test_id,
     status,
     phash,
@@ -108,7 +108,7 @@ def diff_viewer(
     plt.show()
 
 
-def step_over_diffs(result_dir, display=True):
+def step_over_diffs(result_dir, display=True):  # noqa: D103
     processed = False
 
     if display:

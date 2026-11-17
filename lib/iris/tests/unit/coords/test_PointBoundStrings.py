@@ -13,7 +13,7 @@ from iris.coords import AuxCoord, PointBoundStrings
 from iris.tests._shared_utils import assert_array_equal
 
 
-def test_PointBoundStrings_lazy():
+def test_PointBoundStrings_lazy():  # noqa: D103
     lazy_points = da.arange(5, dtype=np.float64)
     lazy_bounds = da.arange(10, dtype=np.float64).reshape([5, 2])
 
@@ -35,7 +35,7 @@ def test_PointBoundStrings_lazy():
     assert lazy_coord.has_lazy_bounds()
 
 
-def test_PointBoundStrings_no_bounds():
+def test_PointBoundStrings_no_bounds():  # noqa: D103
     points = np.arange(5, dtype=np.float64)
 
     coord = AuxCoord(points, standard_name="latitude")
@@ -50,7 +50,7 @@ def test_PointBoundStrings_no_bounds():
     assert pbs.bounds is None
 
 
-def test_PointBoundStrings_time_coord():
+def test_PointBoundStrings_time_coord():  # noqa: D103
     time_unit = Unit("days since epoch")
     points = np.arange(5)
     bounds = np.arange(10).reshape([5, 2])

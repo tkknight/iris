@@ -44,7 +44,7 @@ def tiny_chunks():
 
 
 @pytest.fixture
-def save_common(tmp_path):
+def save_common(tmp_path):  # noqa: D103
     save_path = tmp_path / "tmp.nc"
 
     def _func(cube: Cube):
@@ -56,14 +56,14 @@ def save_common(tmp_path):
 
 
 @pytest.fixture
-def get_cubes_from_netcdf():
+def get_cubes_from_netcdf():  # noqa: D103
     load_dir_path = Path(_shared_utils.get_data_path(["NetCDF", "global", "xyt"]))
     loaded = iris.load(load_dir_path.glob("*"), "tcco2")
     smaller = CubeList([c[0] for c in loaded])
     return smaller
 
 
-def test_realise_data(tiny_chunks, get_cubes_from_netcdf):
+def test_realise_data(tiny_chunks, get_cubes_from_netcdf):  # noqa: D103
     cube = get_cubes_from_netcdf[0]
     tiny_chunks(cube)
     _ = cube.data  # Any problems are expected here.
@@ -78,13 +78,13 @@ def test_realise_data_multisource(get_cubes_from_netcdf):
     assert not final_cube.has_lazy_data()
 
 
-def test_save(tiny_chunks, save_common):
+def test_save(tiny_chunks, save_common):  # noqa: D103
     cube = Cube(da.ones(10000))
     tiny_chunks(cube)
     save_common(cube)  # Any problems are expected here.
 
 
-def test_stream(tiny_chunks, get_cubes_from_netcdf, save_common):
+def test_stream(tiny_chunks, get_cubes_from_netcdf, save_common):  # noqa: D103
     cube = get_cubes_from_netcdf[0]
     tiny_chunks(cube)
     save_common(cube)  # Any problems are expected here.

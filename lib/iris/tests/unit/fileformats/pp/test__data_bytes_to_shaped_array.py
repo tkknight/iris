@@ -20,7 +20,7 @@ from iris.tests.unit.fileformats import MockerMixin
     "expected_shape", [(2, 3), (3, 2), (1, 3), (2, 2), (3, 3), (2, 4)]
 )
 @pytest.mark.parametrize("data_type", [np.float32, np.int32, np.int16, np.int8])
-def test_data_padding__no_compression(data_shape, expected_shape, data_type):
+def test_data_padding__no_compression(data_shape, expected_shape, data_type):  # noqa: D103
     data = np.empty(data_shape, dtype=data_type)
 
     # create the field data buffer
