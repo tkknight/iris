@@ -42,7 +42,7 @@ class Test__interpret_fields__land_packed_fields:
             core_data=core_data,
         )
 
-    def test_non_deferred_fix_lbrow_lbnpt(self):
+    def test_non_deferred_fix_lbrow_lbnpt(self):  # noqa: D102
         # Checks the fix_lbrow_lbnpt is applied to fields which are not
         # deferred.
         f1, mask = self.pp_field, self.land_mask_field
@@ -54,7 +54,7 @@ class Test__interpret_fields__land_packed_fields:
         # Check the data's shape has been updated too.
         assert f1.data.shape == (3, 4)
 
-    def test_fix_lbrow_lbnpt_no_mask_available(self):
+    def test_fix_lbrow_lbnpt_no_mask_available(self):  # noqa: D102
         # Check a warning is issued when loading a land masked field
         # without a land mask.
         with pytest.warns(
@@ -64,13 +64,13 @@ class Test__interpret_fields__land_packed_fields:
             list(pp._interpret_fields([self.pp_field]))
         assert len(warn) == 1
 
-    def test_deferred_mask_field(self):
+    def test_deferred_mask_field(self):  # noqa: D102
         # Check that the order of the load is yielded last if the mask
         # hasn't yet been seen.
         result = list(pp._interpret_fields([self.pp_field, self.land_mask_field]))
         assert result == [self.land_mask_field, self.pp_field]
 
-    def test_not_deferred_mask_field(self):
+    def test_not_deferred_mask_field(self):  # noqa: D102
         # Check that the order of the load is unchanged if a land mask
         # has already been seen.
         f1, mask = self.pp_field, self.land_mask_field
@@ -78,7 +78,7 @@ class Test__interpret_fields__land_packed_fields:
         result = list(pp._interpret_fields([mask, f1, mask2]))
         assert result == [mask, f1, mask2]
 
-    def test_deferred_fix_lbrow_lbnpt(self):
+    def test_deferred_fix_lbrow_lbnpt(self):  # noqa: D102
         # Check the fix is also applied to fields which are deferred.
         f1, mask = self.pp_field, self.land_mask_field
         list(pp._interpret_fields([f1, mask]))

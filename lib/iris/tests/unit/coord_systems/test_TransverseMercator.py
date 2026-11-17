@@ -14,7 +14,7 @@ class Test_init_defaults:
     # module 'iris.tests.test_coordsystem'.
     # This class *only* tests the defaults for optional constructor args.
 
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = TransverseMercator(
             0,
@@ -34,12 +34,12 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.false_northing, 0.0)
         _shared_utils.assert_equal_and_kind(crs.scale_factor_at_central_meridian, 1.0)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = TransverseMercator(0, 50)
         self._check_crs_defaults(crs)
 
-    def test_optional_args_None(self):
+    def test_optional_args_None(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = TransverseMercator(
             0,

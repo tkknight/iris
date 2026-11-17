@@ -27,7 +27,7 @@ class Test:
         describe_diff(cube_a, cube_b, output_file=result_sio)
         return result_sio.getvalue()
 
-    def test_noncommon_array_attributes(self):
+    def test_noncommon_array_attributes(self):  # noqa: D102
         # test non-common array attribute
         self.cube_a.attributes["test_array"] = np.array([1, 2, 3])
         return_str = self._compare_result(self.cube_a, self.cube_b)
@@ -35,7 +35,7 @@ class Test:
             self.request, return_str, ["compatible_cubes.str.txt"]
         )
 
-    def test_same_array_attributes(self):
+    def test_same_array_attributes(self):  # noqa: D102
         # test matching array attribute
         self.cube_a.attributes["test_array"] = np.array([1, 2, 3])
         self.cube_b.attributes["test_array"] = np.array([1, 2, 3])
@@ -44,7 +44,7 @@ class Test:
             self.request, return_str, ["compatible_cubes.str.txt"]
         )
 
-    def test_different_array_attributes(self):
+    def test_different_array_attributes(self):  # noqa: D102
         # test non-matching array attribute
         self.cube_a.attributes["test_array"] = np.array([1, 2, 3])
         self.cube_b.attributes["test_array"] = np.array([1, 7, 3])
@@ -60,7 +60,7 @@ class Test:
             ],
         )
 
-    def test_incompatible_array_attributes(self):
+    def test_incompatible_array_attributes(self):  # noqa: D102
         # test incompatible array attribute
         self.cube_a.attributes["test_array"] = np.array([1, 2, 3])
         self.cube_b.attributes["test_array"] = np.array([1, 2])

@@ -23,25 +23,25 @@ from iris.tests.unit.analysis.maths import (
 class TestBroadcasting(CubeArithmeticBroadcastingTestMixin):
     """Test roadcasting."""
     @property
-    def data_op(self):
+    def data_op(self):  # noqa: D102
         return operator.truediv
 
     @property
-    def cube_func(self):
+    def cube_func(self):  # noqa: D102
         return divide
 
 
 class TestMasking(CubeArithmeticMaskingTestMixin):
     """Test asking."""
     @property
-    def data_op(self):
+    def data_op(self):  # noqa: D102
         return operator.truediv
 
     @property
-    def cube_func(self):
+    def cube_func(self):  # noqa: D102
         return divide
 
-    def test_unmasked_div_zero(self):
+    def test_unmasked_div_zero(self):  # noqa: D102
         # Ensure cube behaviour matches numpy operator behaviour for the
         # handling of arrays containing 0.
         dat_a = np.array([0.0, 0.0, 0.0, 0.0])
@@ -55,7 +55,7 @@ class TestMasking(CubeArithmeticMaskingTestMixin):
 
         _shared_utils.assert_array_equal(com, res)
 
-    def test_masked_div_zero(self):
+    def test_masked_div_zero(self):  # noqa: D102
         # Ensure cube behaviour matches numpy operator behaviour for the
         # handling of arrays containing 0.
         dat_a = np.ma.array([0.0, 0.0, 0.0, 0.0], mask=False)
@@ -72,13 +72,13 @@ class TestMasking(CubeArithmeticMaskingTestMixin):
 
 class TestCoordMatch(CubeArithmeticCoordsTest):
     """Test oordMatch."""
-    def test_no_match(self):
+    def test_no_match(self):  # noqa: D102
         cube1, cube2 = self.setup_non_matching()
         expected = "Insufficient matching coordinate metadata to resolve cubes"
         with pytest.raises(ValueError, match=expected):
             divide(cube1, cube2)
 
-    def test_reversed_points(self):
+    def test_reversed_points(self):  # noqa: D102
         cube1, cube2 = self.setup_reversed()
         expected = "Coordinate '.*' has different points"
         with pytest.raises(ValueError, match=expected):

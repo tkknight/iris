@@ -42,7 +42,7 @@ class TestGetNames(MockerMixin):
         cf_var.cf_group = self.mocker.Mock(global_attributes={})
         return cf_var
 
-    def check_names(self, inputs, expected):
+    def check_names(self, inputs, expected):  # noqa: D102
         # Inputs - attributes on the fake CF Variable. Note: coord_name is
         # optionally set in some pyke rules.
         standard_name, long_name, var_name, coord_name = inputs
@@ -63,85 +63,85 @@ class TestGetNames(MockerMixin):
         assert res_var_name == exp_var_name
         assert attributes == exp_attributes
 
-    def test_var_name_valid(self):
+    def test_var_name_valid(self):  # noqa: D102
         # Only var_name is set and it is set to a valid standard name.
         inp = (None, None, "grid_latitude", None)
         exp = ("grid_latitude", None, "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_var_name_valid_coord_name_set(self):
+    def test_var_name_valid_coord_name_set(self):  # noqa: D102
         # var_name is a valid standard name, coord_name is also set.
         inp = (None, None, "grid_latitude", "latitude")
         exp = ("latitude", None, "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_var_name_invalid(self):
+    def test_var_name_invalid(self):  # noqa: D102
         # Only var_name is set but it is not a valid standard name.
         inp = (None, None, "lat_var_name", None)
         exp = (None, None, "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_var_name_invalid_coord_name_set(self):
+    def test_var_name_invalid_coord_name_set(self):  # noqa: D102
         # var_name is not a valid standard name, the coord_name is also set.
         inp = (None, None, "lat_var_name", "latitude")
         exp = ("latitude", None, "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_long_name_set_var_name_valid(self):
+    def test_long_name_set_var_name_valid(self):  # noqa: D102
         # long_name is not None, var_name is set to a valid standard name.
         inp = (None, "lat_long_name", "grid_latitude", None)
         exp = ("grid_latitude", "lat_long_name", "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_long_name_set_var_name_valid_coord_name_set(self):
+    def test_long_name_set_var_name_valid_coord_name_set(self):  # noqa: D102
         # long_name is not None, var_name is set to a valid standard name, and
         # coord_name is set.
         inp = (None, "lat_long_name", "grid_latitude", "latitude")
         exp = ("latitude", "lat_long_name", "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_long_name_set_var_name_invalid(self):
+    def test_long_name_set_var_name_invalid(self):  # noqa: D102
         # long_name is not None, var_name is not set to a valid standard name.
         inp = (None, "lat_long_name", "lat_var_name", None)
         exp = (None, "lat_long_name", "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_long_name_set_var_name_invalid_coord_name_set(self):
+    def test_long_name_set_var_name_invalid_coord_name_set(self):  # noqa: D102
         # long_name is not None, var_name is not set to a valid standard name,
         # and coord_name is set.
         inp = (None, "lat_long_name", "lat_var_name", "latitude")
         exp = ("latitude", "lat_long_name", "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_std_name_valid_var_name_valid(self):
+    def test_std_name_valid_var_name_valid(self):  # noqa: D102
         # standard_name is a valid standard name, var_name is a valid standard
         # name.
         inp = ("projection_y_coordinate", None, "grid_latitude", None)
         exp = ("projection_y_coordinate", None, "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_std_name_valid_var_name_valid_coord_name_set(self):
+    def test_std_name_valid_var_name_valid_coord_name_set(self):  # noqa: D102
         # standard_name is a valid standard name, var_name is a valid standard
         # name, coord_name is set.
         inp = ("projection_y_coordinate", None, "grid_latitude", "latitude")
         exp = ("projection_y_coordinate", None, "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_std_name_valid_var_name_invalid(self):
+    def test_std_name_valid_var_name_invalid(self):  # noqa: D102
         # standard_name is a valid standard name, var_name is not a valid
         # standard name.
         inp = ("projection_y_coordinate", None, "lat_var_name", None)
         exp = ("projection_y_coordinate", None, "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_std_name_valid_var_name_invalid_coord_name_set(self):
+    def test_std_name_valid_var_name_invalid_coord_name_set(self):  # noqa: D102
         # standard_name is a valid standard name, var_name is not a valid
         # standard name, coord_name is set.
         inp = ("projection_y_coordinate", None, "lat_var_name", "latitude")
         exp = ("projection_y_coordinate", None, "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_std_name_valid_long_name_set_var_name_valid(self):
+    def test_std_name_valid_long_name_set_var_name_valid(self):  # noqa: D102
         # standard_name is a valid standard name, long_name is not None,
         # var_name is a valid standard name.
         inp = (
@@ -153,7 +153,7 @@ class TestGetNames(MockerMixin):
         exp = ("projection_y_coordinate", "lat_long_name", "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_std_name_valid_long_name_set_var_name_valid_coord_name_set(self):
+    def test_std_name_valid_long_name_set_var_name_valid_coord_name_set(self):  # noqa: D102
         # standard_name is a valid standard name, long_name is not None,
         # var_name is a valid standard name, coord_name is set.
         inp = (
@@ -165,7 +165,7 @@ class TestGetNames(MockerMixin):
         exp = ("projection_y_coordinate", "lat_long_name", "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_std_name_valid_long_name_set_var_name_invalid(self):
+    def test_std_name_valid_long_name_set_var_name_invalid(self):  # noqa: D102
         # standard_name is a valid standard name, long_name is not None,
         # var_name is not a valid standard name.
         inp = (
@@ -177,7 +177,7 @@ class TestGetNames(MockerMixin):
         exp = ("projection_y_coordinate", "lat_long_name", "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_std_name_valid_long_name_set_var_name_invalid_coord_name_set(
+    def test_std_name_valid_long_name_set_var_name_invalid_coord_name_set(  # noqa: D102
         self,
     ):
         # standard_name is a valid standard name, long_name is not None,
@@ -191,14 +191,14 @@ class TestGetNames(MockerMixin):
         exp = ("projection_y_coordinate", "lat_long_name", "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_std_name_invalid_var_name_valid(self):
+    def test_std_name_invalid_var_name_valid(self):  # noqa: D102
         # standard_name is not a valid standard name, var_name is a valid
         # standard name.
         inp = ("latitude_coord", None, "grid_latitude", None)
         exp = ("grid_latitude", None, "grid_latitude", {})
         self.check_names(inp, exp)
 
-    def test_std_name_invalid_var_name_valid_coord_name_set(self):
+    def test_std_name_invalid_var_name_valid_coord_name_set(self):  # noqa: D102
         # standard_name is not a valid standard name, var_name is a valid
         # standard name, coord_name is set.
         inp = ("latitude_coord", None, "grid_latitude", "latitude")
@@ -210,14 +210,14 @@ class TestGetNames(MockerMixin):
         )
         self.check_names(inp, exp)
 
-    def test_std_name_invalid_var_name_invalid(self):
+    def test_std_name_invalid_var_name_invalid(self):  # noqa: D102
         # standard_name is not a valid standard name, var_name is not a valid
         # standard name.
         inp = ("latitude_coord", None, "lat_var_name", None)
         exp = (None, None, "lat_var_name", {})
         self.check_names(inp, exp)
 
-    def test_std_name_invalid_var_name_invalid_coord_name_set(self):
+    def test_std_name_invalid_var_name_invalid_coord_name_set(self):  # noqa: D102
         # standard_name is not a valid standard name, var_name is not a valid
         # standard name, coord_name is set.
         inp = ("latitude_coord", None, "lat_var_name", "latitude")
@@ -229,7 +229,7 @@ class TestGetNames(MockerMixin):
         )
         self.check_names(inp, exp)
 
-    def test_std_name_invalid_long_name_set_var_name_valid(self):
+    def test_std_name_invalid_long_name_set_var_name_valid(self):  # noqa: D102
         # standard_name is not a valid standard name, long_name is not None
         # var_name is a valid standard name.
         inp = ("latitude_coord", "lat_long_name", "grid_latitude", None)
@@ -241,7 +241,7 @@ class TestGetNames(MockerMixin):
         )
         self.check_names(inp, exp)
 
-    def test_std_name_invalid_long_name_set_var_name_valid_coord_name_set(
+    def test_std_name_invalid_long_name_set_var_name_valid_coord_name_set(  # noqa: D102
         self,
     ):
         # standard_name is not a valid standard name, long_name is not None,
@@ -255,7 +255,7 @@ class TestGetNames(MockerMixin):
         )
         self.check_names(inp, exp)
 
-    def test_std_name_invalid_long_name_set_var_name_invalid(self):
+    def test_std_name_invalid_long_name_set_var_name_invalid(self):  # noqa: D102
         # standard_name is not a valid standard name, long_name is not None
         # var_name is not a valid standard name.
         inp = ("latitude_coord", "lat_long_name", "lat_var_name", None)
@@ -267,7 +267,7 @@ class TestGetNames(MockerMixin):
         )
         self.check_names(inp, exp)
 
-    def test_std_name_invalid_long_name_set_var_name_invalid_coord_name_set(
+    def test_std_name_invalid_long_name_set_var_name_invalid_coord_name_set(  # noqa: D102
         self,
     ):
         # standard_name is not a valid standard name, long_name is not None,

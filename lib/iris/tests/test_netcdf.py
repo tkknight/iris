@@ -32,7 +32,7 @@ from iris.warnings import IrisCfSaveWarning
 @_shared_utils.skip_data
 class TestNetCDFLoad:
     """Test etCDFLoad."""
-    def test_monotonic(self, request):
+    def test_monotonic(self, request):  # noqa: D102
         cubes = iris.load(
             _shared_utils.get_data_path(
                 ("NetCDF", "testing", "test_monotonic_coordinate.nc")
@@ -41,7 +41,7 @@ class TestNetCDFLoad:
         cubes = sorted(cubes, key=lambda cube: cube.var_name)
         _shared_utils.assert_CML(request, cubes, ("netcdf", "netcdf_monotonic.cml"))
 
-    def test_load_global_xyt_total(self, request):
+    def test_load_global_xyt_total(self, request):  # noqa: D102
         # Test loading single xyt CF-netCDF file.
         cube = iris.load_cube(
             _shared_utils.get_data_path(
@@ -52,7 +52,7 @@ class TestNetCDFLoad:
             request, cube, ("netcdf", "netcdf_global_xyt_total.cml")
         )
 
-    def test_load_global_xyt_hires(self, request):
+    def test_load_global_xyt_hires(self, request):  # noqa: D102
         # Test loading another single xyt CF-netCDF file.
         cube = iris.load_cube(
             _shared_utils.get_data_path(
@@ -63,7 +63,7 @@ class TestNetCDFLoad:
             request, cube, ("netcdf", "netcdf_global_xyt_hires.cml")
         )
 
-    def test_missing_time_bounds(self, tmp_path):
+    def test_missing_time_bounds(self, tmp_path):  # noqa: D102
         # Check we can cope with a missing bounds variable.
         filename = tmp_path / "tmp.nc"
         # Tweak a copy of the test data file to rename (we can't delete)
@@ -77,7 +77,7 @@ class TestNetCDFLoad:
         dataset.close()
         _ = iris.load_cube(filename, "eastward_wind")
 
-    def test_load_global_xyzt_gems(self, request):
+    def test_load_global_xyzt_gems(self, request):  # noqa: D102
         # Test loading single xyzt CF-netCDF file (multi-cube).
         cubes = iris.load(
             _shared_utils.get_data_path(
@@ -95,7 +95,7 @@ class TestNetCDFLoad:
         assert ma.isMaskedArray(lnsp.data)
         assert -32767.0 == lnsp.data.fill_value
 
-    def test_load_global_xyzt_gems_iter(self, request):
+    def test_load_global_xyzt_gems_iter(self, request):  # noqa: D102
         # Test loading stepped single xyzt CF-netCDF file (multi-cube).
         for i, cube in enumerate(
             sorted(
@@ -116,7 +116,7 @@ class TestNetCDFLoad:
     # loading EVERY coordinate system. A subset are tested below.
     # -------------------------------------------------------------------------
 
-    def test_load_rotated_xy_land(self, request):
+    def test_load_rotated_xy_land(self, request):  # noqa: D102
         # Test loading single xy rotated pole CF-netCDF file.
         cube = iris.load_cube(
             _shared_utils.get_data_path(
@@ -129,7 +129,7 @@ class TestNetCDFLoad:
             request, cube, ("netcdf", "netcdf_rotated_xy_land.cml")
         )
 
-    def test_load_rotated_xyt_precipitation(self, request):
+    def test_load_rotated_xyt_precipitation(self, request):  # noqa: D102
         # Test loading single xyt rotated pole CF-netCDF file.
         cube = iris.load_cube(
             _shared_utils.get_data_path(
@@ -140,7 +140,7 @@ class TestNetCDFLoad:
             request, cube, ("netcdf", "netcdf_rotated_xyt_precipitation.cml")
         )
 
-    def test_load_tmerc_grid_and_clim_bounds(self, request):
+    def test_load_tmerc_grid_and_clim_bounds(self, request):  # noqa: D102
         # Test loading a single CF-netCDF file with a transverse Mercator
         # grid_mapping and a time variable with climatology.
         cube = iris.load_cube(
@@ -152,7 +152,7 @@ class TestNetCDFLoad:
             request, cube, ("netcdf", "netcdf_tmerc_and_climatology.cml")
         )
 
-    def test_load_tmerc_grid_with_projection_origin(self):
+    def test_load_tmerc_grid_with_projection_origin(self):  # noqa: D102
         # Test loading a single CF-netCDF file with a transverse Mercator
         # grid_mapping that uses longitude_of_projection_origin and
         # scale_factor_at_projection_origin instead of
@@ -180,7 +180,7 @@ class TestNetCDFLoad:
         assert cube.coord("projection_x_coordinate").coord_system == expected
         assert cube.coord("projection_y_coordinate").coord_system == expected
 
-    def test_load_lcc_grid(self, request):
+    def test_load_lcc_grid(self, request):  # noqa: D102
         # Test loading a single CF-netCDF file with Lambert conformal conic
         # grid mapping.
         cube = iris.load_cube(
@@ -188,7 +188,7 @@ class TestNetCDFLoad:
         )
         _shared_utils.assert_CML(request, cube, ("netcdf", "netcdf_lcc.cml"))
 
-    def test_missing_climatology(self, tmp_path):
+    def test_missing_climatology(self, tmp_path):  # noqa: D102
         # Check we can cope with a missing climatology variable.
         filename = tmp_path / "tmp.nc"
         # Tweak a copy of the test data file to rename (we can't delete)
@@ -202,7 +202,7 @@ class TestNetCDFLoad:
         dataset.close()
         _ = iris.load_cube(filename, "Mean temperature")
 
-    def test_load_merc_grid(self, request):
+    def test_load_merc_grid(self, request):  # noqa: D102
         # Test loading a single CF-netCDF file with a Mercator grid_mapping
         cube = iris.load_cube(
             _shared_utils.get_data_path(
@@ -211,7 +211,7 @@ class TestNetCDFLoad:
         )
         _shared_utils.assert_CML(request, cube, ("netcdf", "netcdf_merc.cml"))
 
-    def test_load_complex_merc_grid(self, request):
+    def test_load_complex_merc_grid(self, request):  # noqa: D102
         # Test loading a single CF-netCDF file with a Mercator grid_mapping that
         # includes false easting and northing and a standard parallel
         cube = iris.load_cube(
@@ -221,7 +221,7 @@ class TestNetCDFLoad:
         )
         _shared_utils.assert_CML(request, cube, ("netcdf", "netcdf_merc_false.cml"))
 
-    def test_load_merc_grid_non_unit_scale_factor(self, request):
+    def test_load_merc_grid_non_unit_scale_factor(self, request):  # noqa: D102
         # Test loading a single CF-netCDF file with a Mercator grid_mapping that
         # includes a non-unit scale factor at projection origin
         cube = iris.load_cube(
@@ -233,7 +233,7 @@ class TestNetCDFLoad:
             request, cube, ("netcdf", "netcdf_merc_scale_factor.cml")
         )
 
-    def test_load_stereographic_grid(self, request):
+    def test_load_stereographic_grid(self, request):  # noqa: D102
         # Test loading a single CF-netCDF file with a stereographic
         # grid_mapping.
         cube = iris.load_cube(
@@ -243,7 +243,7 @@ class TestNetCDFLoad:
         )
         _shared_utils.assert_CML(request, cube, ("netcdf", "netcdf_stereo.cml"))
 
-    def test_load_polar_stereographic_grid(self, request):
+    def test_load_polar_stereographic_grid(self, request):  # noqa: D102
         # Test loading a single CF-netCDF file with a polar stereographic
         # grid_mapping.
         cube = iris.load_cube(
@@ -253,7 +253,7 @@ class TestNetCDFLoad:
         )
         _shared_utils.assert_CML(request, cube, ("netcdf", "netcdf_polar.cml"))
 
-    def test_cell_methods(self, request):
+    def test_cell_methods(self, request):  # noqa: D102
         # Test exercising CF-netCDF cell method parsing.
         cubes = iris.load(
             _shared_utils.get_data_path(("NetCDF", "testing", "cell_methods.nc"))
@@ -274,7 +274,7 @@ class TestNetCDFLoad:
 
         _shared_utils.assert_CML(request, cubes, ("netcdf", "netcdf_cell_methods.cml"))
 
-    def test_deferred_loading(self, request):
+    def test_deferred_loading(self, request):  # noqa: D102
         # Test exercising CF-netCDF deferred loading and deferred slicing.
         # shape (31, 161, 320)
         cube = iris.load_cube(
@@ -454,7 +454,7 @@ class TestNetCDFLoad:
         assert not hasattr(cubes[0].attributes, "STASH")
         assert cubes[0].attributes["um_stash_source"] == "10*m01s02i003"
 
-    def test_units(self, request):
+    def test_units(self, request):  # noqa: D102
         # Test exercising graceful cube and coordinate units loading.
         cube0, cube1 = sorted(
             iris.load(_shared_utils.get_data_path(("NetCDF", "testing", "units.nc"))),
@@ -471,7 +471,7 @@ class TestNetCDFCRS:
     def _setup(self):
         self.grid = CFVariableStandIn()
 
-    def test_lat_lon_major_minor(self):
+    def test_lat_lon_major_minor(self):  # noqa: D102
         major = 63781370
         minor = 63567523
         self.grid.attributes["semi_major_axis"] = major
@@ -482,7 +482,7 @@ class TestNetCDFCRS:
         crs = ncload_helpers.build_coordinate_system(engine, self.grid)
         assert crs == icoord_systems.GeogCS(major, minor)
 
-    def test_lat_lon_earth_radius(self):
+    def test_lat_lon_earth_radius(self):  # noqa: D102
         earth_radius = 63700000
         self.grid.attributes["earth_radius"] = earth_radius
         # NB 'build_coordinate_system' has an extra (unused) 'engine' arg, just
@@ -494,7 +494,7 @@ class TestNetCDFCRS:
 
 class TestSaverPermissions:
     """Test averPermissions."""
-    def test_noexist_directory(self, tmp_path):
+    def test_noexist_directory(self, tmp_path):  # noqa: D102
         # Test capture of suitable exception raised on writing to a
         # non-existent directory.
         fnme = str(tmp_path / "non_existent_dir" / "tmp.nc")
@@ -503,7 +503,7 @@ class TestSaverPermissions:
                 pass
 
     @pytest.fixture
-    def tmp_path_no_write(self, tmp_path):
+    def tmp_path_no_write(self, tmp_path):  # noqa: D102
         dir = tmp_path / "no_write_dir"
         dir.mkdir()
         original_perms = dir.stat().st_mode
@@ -511,7 +511,7 @@ class TestSaverPermissions:
         yield dir
         dir.chmod(original_perms)
 
-    def test_bad_permissions(self, tmp_path_no_write):
+    def test_bad_permissions(self, tmp_path_no_write):  # noqa: D102
         # Skip this test for the root user. This is applicable to
         # running within a Docker container and/or CIaaS hosted testing.
         if os.getuid():
@@ -527,7 +527,7 @@ class TestSaverPermissions:
 @_shared_utils.skip_data
 class TestSave:
     """Test ave."""
-    def test_hybrid(self, tmp_path, request):
+    def test_hybrid(self, tmp_path, request):  # noqa: D102
         cube = stock.realistic_4d()
 
         # Write Cube to netCDF file.
@@ -539,7 +539,7 @@ class TestSave:
             request, file_out, ("netcdf", "netcdf_save_realistic_4d.cdl")
         )
 
-    def test_no_hybrid(self, tmp_path, request):
+    def test_no_hybrid(self, tmp_path, request):  # noqa: D102
         cube = stock.realistic_4d()
         cube.remove_aux_factory(cube.aux_factories[0])
 
@@ -552,7 +552,7 @@ class TestSave:
             request, file_out, ("netcdf", "netcdf_save_realistic_4d_no_hybrid.cdl")
         )
 
-    def test_scalar_cube(self, tmp_path, request):
+    def test_scalar_cube(self, tmp_path, request):  # noqa: D102
         cube = stock.realistic_4d()[0, 0, 0, 0]
 
         filename = tmp_path / "tmp.nc"
@@ -561,7 +561,7 @@ class TestSave:
             request, filename, ("netcdf", "netcdf_save_realistic_0d.cdl")
         )
 
-    def test_no_name_cube(self, tmp_path, request):
+    def test_no_name_cube(self, tmp_path, request):  # noqa: D102
         # Cube with no names.
         cube = iris.cube.Cube(np.arange(20, dtype=np.float64).reshape((4, 5)))
         dim0 = iris.coords.DimCoord(np.arange(4, dtype=np.float64))
@@ -626,7 +626,7 @@ class TestNetCDFSave:
         )
 
     @_shared_utils.skip_data
-    def test_netcdf_save_format(self, tmp_path):
+    def test_netcdf_save_format(self, tmp_path):  # noqa: D102
         # Read netCDF input file.
         file_in = _shared_utils.get_data_path(
             ("NetCDF", "global", "xyt", "SMALL_total_column_co2.nc")
@@ -669,7 +669,7 @@ class TestNetCDFSave:
             iris.save(cube, file_out, netcdf_format="WIBBLE")
 
     @_shared_utils.skip_data
-    def test_netcdf_save_single(self, tmp_path, request):
+    def test_netcdf_save_single(self, tmp_path, request):  # noqa: D102
         # Test saving a single CF-netCDF file.
         # Read PP input file.
         file_in = _shared_utils.get_data_path(
@@ -693,7 +693,7 @@ class TestNetCDFSave:
     # TODO investigate why merge now make time an AuxCoord rather than a
     # DimCoord and why forecast_period is 'preferred'.
     @_shared_utils.skip_data
-    def test_netcdf_save_multi2multi(self, tmp_path, request):
+    def test_netcdf_save_multi2multi(self, tmp_path, request):  # noqa: D102
         # Test saving multiple CF-netCDF files.
         # Read PP input file.
         file_in = _shared_utils.get_data_path(
@@ -713,7 +713,7 @@ class TestNetCDFSave:
             )
 
     @_shared_utils.skip_data
-    def test_netcdf_save_multi2single(self, tmp_path, request):
+    def test_netcdf_save_multi2single(self, tmp_path, request):  # noqa: D102
         # Test saving multiple cubes to a single CF-netCDF file.
         # Read PP input file.
         file_in = _shared_utils.get_data_path(
@@ -731,7 +731,7 @@ class TestNetCDFSave:
             request, file_out, ("netcdf", "netcdf_save_multiple.cdl")
         )
 
-    def test_netcdf_multi_nocoord(self, tmp_path, request):
+    def test_netcdf_multi_nocoord(self, tmp_path, request):  # noqa: D102
         # Testing the saving of a cublist with no coords.
         cubes = iris.cube.CubeList([self.cube, self.cube2, self.cube3])
         file_out = tmp_path / "tmp.nc"
@@ -742,7 +742,7 @@ class TestNetCDFSave:
             request, file_out, ("netcdf", "netcdf_save_nocoord.cdl")
         )
 
-    def test_netcdf_multi_samevarnme(self, tmp_path, request):
+    def test_netcdf_multi_samevarnme(self, tmp_path, request):  # noqa: D102
         # Testing the saving of a cublist with cubes of the same var_name.
         self.cube2.var_name = self.cube.var_name
         cubes = iris.cube.CubeList([self.cube, self.cube2])
@@ -754,7 +754,7 @@ class TestNetCDFSave:
             request, file_out, ("netcdf", "netcdf_save_samevar.cdl")
         )
 
-    def test_netcdf_multi_with_coords(self, tmp_path, request):
+    def test_netcdf_multi_with_coords(self, tmp_path, request):  # noqa: D102
         # Testing the saving of a cublist with coordinates.
         lat = iris.coords.DimCoord(
             np.arange(2), long_name=None, var_name="lat", units="degree_north"
@@ -787,7 +787,7 @@ class TestNetCDFSave:
             request, file_out, ("netcdf", "netcdf_save_wcoord.cdl")
         )
 
-    def test_netcdf_multi_wtih_samedimcoord(self, tmp_path, request):
+    def test_netcdf_multi_wtih_samedimcoord(self, tmp_path, request):  # noqa: D102
         time1 = iris.coords.DimCoord(
             np.arange(10), standard_name="time", var_name="time", units="1"
         )
@@ -808,7 +808,7 @@ class TestNetCDFSave:
             request, file_out, ("netcdf", "netcdf_save_samedimcoord.cdl")
         )
 
-    def test_netcdf_multi_conflict_name_dup_coord(self, tmp_path, request):
+    def test_netcdf_multi_conflict_name_dup_coord(self, tmp_path, request):  # noqa: D102
         # Duplicate coordinates with modified variable names lookup.
         latitude1 = iris.coords.DimCoord(
             np.arange(10), standard_name="latitude", units="1"
@@ -832,7 +832,7 @@ class TestNetCDFSave:
         )
 
     @_shared_utils.skip_data
-    def test_netcdf_hybrid_height(self, tmp_path, request):
+    def test_netcdf_hybrid_height(self, tmp_path, request):  # noqa: D102
         # Test saving a CF-netCDF file which contains a hybrid height
         # (i.e. dimensionless vertical) coordinate.
         # Read PP input file.
@@ -864,7 +864,7 @@ class TestNetCDFSave:
         )
 
     @_shared_utils.skip_data
-    def test_netcdf_save_ndim_auxiliary(self, tmp_path, request):
+    def test_netcdf_save_ndim_auxiliary(self, tmp_path, request):  # noqa: D102
         # Test saving CF-netCDF with multi-dimensional auxiliary coordinates.
         # Read netCDF input file.
         file_in = _shared_utils.get_data_path(
@@ -889,7 +889,7 @@ class TestNetCDFSave:
             request, cube, ("netcdf", "netcdf_save_load_ndim_auxiliary.cml")
         )
 
-    def test_netcdf_save_conflicting_aux(self, tmp_path, request):
+    def test_netcdf_save_conflicting_aux(self, tmp_path, request):  # noqa: D102
         # Test saving CF-netCDF with multi-dimensional auxiliary coordinates,
         # with conflicts.
         self.cube4.add_aux_coord(
@@ -908,7 +908,7 @@ class TestNetCDFSave:
             request, file_out, ("netcdf", "netcdf_save_conf_aux.cdl")
         )
 
-    def test_netcdf_save_gridmapping(self, tmp_path, request):
+    def test_netcdf_save_gridmapping(self, tmp_path, request):  # noqa: D102
         # Test saving CF-netCDF from a cubelist with various grid mappings.
 
         c1 = self.cubell
@@ -991,7 +991,7 @@ class TestNetCDFSave:
             request, file_out, ("netcdf", "netcdf_save_gridmapmulti.cdl")
         )
 
-    def test_netcdf_save_conflicting_names(self, tmp_path, request):
+    def test_netcdf_save_conflicting_names(self, tmp_path, request):  # noqa: D102
         # Test saving CF-netCDF with a dimension name corresponding to
         # an existing variable name (conflict).
         self.cube4.add_dim_coord(
@@ -1009,7 +1009,7 @@ class TestNetCDFSave:
         )
 
     @_shared_utils.skip_data
-    def test_trajectory(self, tmp_path, request):
+    def test_trajectory(self, tmp_path, request):  # noqa: D102
         file_in = _shared_utils.get_data_path(("PP", "aPPglob1", "global.pp"))
         cube = iris.load_cube(file_in)
 
@@ -1028,7 +1028,7 @@ class TestNetCDFSave:
         )
         _shared_utils.assert_array_equal(traj.data, reloaded.data)
 
-    def test_attributes(self, tmp_path):
+    def test_attributes(self, tmp_path):  # noqa: D102
         # Should be global attributes.
         aglobals = {
             "history": "A long time ago...",
@@ -1080,7 +1080,7 @@ class TestNetCDFSave:
 
         assert exceptions == []
 
-    def test_conflicting_attributes(self, tmp_path, request):
+    def test_conflicting_attributes(self, tmp_path, request):  # noqa: D102
         # Should be data variable attributes.
         self.cube.attributes["foo"] = "bar"
         self.cube2.attributes["foo"] = "orange"
@@ -1090,7 +1090,7 @@ class TestNetCDFSave:
             request, filename, ("netcdf", "netcdf_save_confl_attr.cdl")
         )
 
-    def test_conflicting_global_attributes(self, tmp_path, request):
+    def test_conflicting_global_attributes(self, tmp_path, request):  # noqa: D102
         # Should be data variable attributes, but raise a warning.
         attr_name = "history"
         self.cube.attributes[attr_name] = "Team A won."
@@ -1107,7 +1107,7 @@ class TestNetCDFSave:
             request, filename, ("netcdf", "netcdf_save_confl_global_attr.cdl")
         )
 
-    def test_no_global_attributes(self, tmp_path, request):
+    def test_no_global_attributes(self, tmp_path, request):  # noqa: D102
         # Should all be data variable attributes.
         # Different keys.
         self.cube.attributes["a"] = "a"
@@ -1149,7 +1149,7 @@ class TestNetCDFSave:
 class TestNetCDFSave__ancillaries:
     """Test for saving data with ancillary variables."""
 
-    def test_fulldims(self, tmp_path, request):
+    def test_fulldims(self, tmp_path, request):  # noqa: D102
         testcube = stock.realistic_3d()
         ancil = iris.coords.AncillaryVariable(
             np.zeros(testcube.shape),
@@ -1162,7 +1162,7 @@ class TestNetCDFSave__ancillaries:
         iris.save(testcube, filename)
         _shared_utils.assert_CDL(request, filename)
 
-    def test_partialdims(self, tmp_path, request):
+    def test_partialdims(self, tmp_path, request):  # noqa: D102
         # Test saving ancillary data which maps only dims 0 and 2.
         testcube = stock.realistic_3d()
         ancil = iris.coords.AncillaryVariable(
@@ -1175,7 +1175,7 @@ class TestNetCDFSave__ancillaries:
         iris.save(testcube, filename)
         _shared_utils.assert_CDL(request, filename)
 
-    def test_multiple(self, tmp_path, request):
+    def test_multiple(self, tmp_path, request):  # noqa: D102
         # Test saving with multiple ancillary variables.
         testcube = stock.realistic_3d()
         ancil1_time_lat_lon = iris.coords.AncillaryVariable(
@@ -1198,7 +1198,7 @@ class TestNetCDFSave__ancillaries:
         iris.save(testcube, filename)
         _shared_utils.assert_CDL(request, filename)
 
-    def test_shared(self, tmp_path, request):
+    def test_shared(self, tmp_path, request):  # noqa: D102
         # Check that saving cubes with matching ancillaries maps to a shared
         # file variable.
         testcube_1 = stock.realistic_3d()
@@ -1225,7 +1225,7 @@ class TestNetCDFSave__ancillaries:
         )
         assert ds.variables["alternate_data"].ancillary_variables == "latlon_refs"
 
-    def test_aliases(self, tmp_path, request):
+    def test_aliases(self, tmp_path, request):  # noqa: D102
         # Check that saving cubes with *differing* ancillaries of the same name
         # is correctly resolved.
         testcube_1 = stock.realistic_3d()
@@ -1245,7 +1245,7 @@ class TestNetCDFSave__ancillaries:
         iris.save([testcube_1, testcube_2], filename)
         _shared_utils.assert_CDL(request, filename)
 
-    def test_flag(self, tmp_path, request):
+    def test_flag(self, tmp_path, request):  # noqa: D102
         testcube = stock.realistic_3d()
         flag = iris.coords.AncillaryVariable(
             np.ones(testcube.shape, dtype=np.int8),
@@ -1273,7 +1273,7 @@ class TestNetCDF3SaveInteger:
             units="K",
         )
 
-    def test_int64_dimension_coord_netcdf3(self, tmp_path, request):
+    def test_int64_dimension_coord_netcdf3(self, tmp_path, request):  # noqa: D102
         coord = iris.coords.DimCoord(np.array([1, 2], dtype=np.int64), long_name="x")
         self.cube.add_dim_coord(coord, 0)
         filename = tmp_path / "tmp.nc"
@@ -1286,7 +1286,7 @@ class TestNetCDF3SaveInteger:
             checksum=False,
         )
 
-    def test_int64_auxiliary_coord_netcdf3(self, tmp_path, request):
+    def test_int64_auxiliary_coord_netcdf3(self, tmp_path, request):  # noqa: D102
         coord = iris.coords.AuxCoord(np.array([1, 2], dtype=np.int64), long_name="x")
         self.cube.add_aux_coord(coord, 0)
         filename = tmp_path / "tmp.nc"
@@ -1299,7 +1299,7 @@ class TestNetCDF3SaveInteger:
             checksum=False,
         )
 
-    def test_int64_data_netcdf3(self, tmp_path, request):
+    def test_int64_data_netcdf3(self, tmp_path, request):  # noqa: D102
         self.cube.data = self.cube.data.astype(np.int64)
         filename = tmp_path / "tmp.nc"
         iris.save(self.cube, filename, netcdf_format="NETCDF3_CLASSIC")
@@ -1308,7 +1308,7 @@ class TestNetCDF3SaveInteger:
             request, reloaded, ("netcdf", "int64_data_netcdf3.cml")
         )
 
-    def test_uint32_dimension_coord_netcdf3(self, tmp_path, request):
+    def test_uint32_dimension_coord_netcdf3(self, tmp_path, request):  # noqa: D102
         coord = iris.coords.DimCoord(np.array([1, 2], dtype=np.uint32), long_name="x")
         self.cube.add_dim_coord(coord, 0)
         filename = tmp_path / "tmp.nc"
@@ -1321,7 +1321,7 @@ class TestNetCDF3SaveInteger:
             checksum=False,
         )
 
-    def test_uint32_auxiliary_coord_netcdf3(self, tmp_path, request):
+    def test_uint32_auxiliary_coord_netcdf3(self, tmp_path, request):  # noqa: D102
         coord = iris.coords.AuxCoord(np.array([1, 2], dtype=np.uint32), long_name="x")
         self.cube.add_aux_coord(coord, 0)
         filename = tmp_path / "tmp.nc"
@@ -1334,7 +1334,7 @@ class TestNetCDF3SaveInteger:
             checksum=False,
         )
 
-    def test_uint32_data_netcdf3(self, tmp_path, request):
+    def test_uint32_data_netcdf3(self, tmp_path, request):  # noqa: D102
         self.cube.data = self.cube.data.astype(np.uint32)
         filename = tmp_path / "tmp.nc"
         iris.save(self.cube, filename, netcdf_format="NETCDF3_CLASSIC")
@@ -1343,7 +1343,7 @@ class TestNetCDF3SaveInteger:
             request, reloaded, ("netcdf", "uint32_data_netcdf3.cml")
         )
 
-    def test_uint64_dimension_coord_netcdf3(self, tmp_path):
+    def test_uint64_dimension_coord_netcdf3(self, tmp_path):  # noqa: D102
         # Points that cannot be safely cast to int32.
         coord = iris.coords.DimCoord(
             np.array([0, 18446744073709551615], dtype=np.uint64), long_name="x"
@@ -1353,7 +1353,7 @@ class TestNetCDF3SaveInteger:
         with pytest.raises(ValueError, match="not supported by NETCDF3_CLASSIC"):
             iris.save(self.cube, filename, netcdf_format="NETCDF3_CLASSIC")
 
-    def test_uint64_auxiliary_coord_netcdf3(self, tmp_path):
+    def test_uint64_auxiliary_coord_netcdf3(self, tmp_path):  # noqa: D102
         # Points that cannot be safely cast to int32.
         coord = iris.coords.AuxCoord(
             np.array([0, 18446744073709551615], dtype=np.uint64), long_name="x"
@@ -1363,7 +1363,7 @@ class TestNetCDF3SaveInteger:
         with pytest.raises(ValueError, match="not supported by NETCDF3_CLASSIC"):
             iris.save(self.cube, filename, netcdf_format="NETCDF3_CLASSIC")
 
-    def test_uint64_data_netcdf3(self, tmp_path):
+    def test_uint64_data_netcdf3(self, tmp_path):  # noqa: D102
         # Data that cannot be safely cast to int32.
         self.cube.data = self.cube.data.astype(np.uint64)
         self.cube.data[0, 1] = 18446744073709551615
@@ -1374,11 +1374,11 @@ class TestNetCDF3SaveInteger:
 
 class TestCFStandardName:
     """Test FStandardName."""
-    def test_std_name_lookup_pass(self):
+    def test_std_name_lookup_pass(self):  # noqa: D102
         # Test performing a CF standard name look-up hit.
         assert "time" in iris.std_names.STD_NAMES
 
-    def test_std_name_lookup_fail(self):
+    def test_std_name_lookup_fail(self):  # noqa: D102
         # Test performing a CF standard name look-up miss.
         assert "phenomenon_time" not in iris.std_names.STD_NAMES
 
@@ -1386,7 +1386,7 @@ class TestCFStandardName:
 @_shared_utils.skip_data
 class TestNetCDFUKmoProcessFlags:
     """Test etCDFUKmoProcessFlags."""
-    def test_process_flags(self, tmp_path):
+    def test_process_flags(self, tmp_path):  # noqa: D102
         # Test single process flags
         for _, process_desc in iris.fileformats.pp.LBPROC_PAIRS[1:]:
             # Get basic cube and set process flag manually

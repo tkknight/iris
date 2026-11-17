@@ -13,7 +13,7 @@ from iris.util import column_slices_generator
 class Test_int_types:
     """Test int types."""
     @pytest.mark.parametrize("key", [0, np.int32(0), np.int64(0)])
-    def test(self, key):
+    def test(self, key):  # noqa: D102
         full_slice = (key,)
         ndims = 1
         mapping, iterable = column_slices_generator(full_slice, ndims)

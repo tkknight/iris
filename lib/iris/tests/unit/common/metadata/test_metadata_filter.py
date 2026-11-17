@@ -13,14 +13,14 @@ from iris.coords import AuxCoord
 
 class Test_standard:
     """Test standard."""
-    def test_instances_non_iterable(self, mocker):
+    def test_instances_non_iterable(self, mocker):  # noqa: D102
         item = mocker.Mock()
         item.name.return_value = "one"
         result = metadata_filter(item, item="one")
         assert len(result) == 1
         assert item in result
 
-    def test_name(self, mocker):
+    def test_name(self, mocker):  # noqa: D102
         name_one = mocker.Mock()
         name_one.name.return_value = "one"
         name_two = mocker.Mock()
@@ -30,7 +30,7 @@ class Test_standard:
         assert name_one in result
         assert name_two not in result
 
-    def test_item(self, mocker):
+    def test_item(self, mocker):  # noqa: D102
         coord = mocker.Mock(__class__=AuxCoord)
         mock = mocker.Mock()
         input_list = [coord, mock]
@@ -38,7 +38,7 @@ class Test_standard:
         assert coord in result
         assert mock not in result
 
-    def test_item_metadata(self, mocker):
+    def test_item_metadata(self, mocker):  # noqa: D102
         coord = mocker.Mock(metadata=CoordMetadata)
         dim_coord = mocker.Mock(metadata=DimCoordMetadata)
         input_list = [coord, dim_coord]
@@ -46,7 +46,7 @@ class Test_standard:
         assert coord in result
         assert dim_coord not in result
 
-    def test_standard_name(self, mocker):
+    def test_standard_name(self, mocker):  # noqa: D102
         name_one = mocker.Mock(standard_name="one")
         name_two = mocker.Mock(standard_name="two")
         input_list = [name_one, name_two]
@@ -54,7 +54,7 @@ class Test_standard:
         assert name_one in result
         assert name_two not in result
 
-    def test_long_name(self, mocker):
+    def test_long_name(self, mocker):  # noqa: D102
         name_one = mocker.Mock(long_name="one")
         name_two = mocker.Mock(long_name="two")
         input_list = [name_one, name_two]
@@ -62,7 +62,7 @@ class Test_standard:
         assert name_one in result
         assert name_two not in result
 
-    def test_var_name(self, mocker):
+    def test_var_name(self, mocker):  # noqa: D102
         name_one = mocker.Mock(var_name="one")
         name_two = mocker.Mock(var_name="two")
         input_list = [name_one, name_two]
@@ -70,7 +70,7 @@ class Test_standard:
         assert name_one in result
         assert name_two not in result
 
-    def test_attributes(self, mocker):
+    def test_attributes(self, mocker):  # noqa: D102
         # Confirm that this can handle attrib dicts including np arrays.
         attrib_one_two = mocker.Mock(
             attributes={"one": np.arange(1), "two": np.arange(2)}
@@ -83,14 +83,14 @@ class Test_standard:
         assert attrib_one_two in result
         assert attrib_three_four not in result
 
-    def test_invalid_attributes(self, mocker):
+    def test_invalid_attributes(self, mocker):  # noqa: D102
         attrib_one = mocker.Mock(attributes={"one": 1})
         input_list = [attrib_one]
         emsg = ".*expecting a dictionary.*"
         with pytest.raises(ValueError, match=emsg):
             _ = metadata_filter(input_list, attributes="one")
 
-    def test_axis__by_guess(self, mocker):
+    def test_axis__by_guess(self, mocker):  # noqa: D102
         # see https://docs.python.org/3/library/unittest.mock.html#deleting-attributes
         axis_lon = mocker.Mock(standard_name="longitude")
         del axis_lon.axis
@@ -101,7 +101,7 @@ class Test_standard:
         assert axis_lon in result
         assert axis_lat not in result
 
-    def test_axis__by_member(self, mocker):
+    def test_axis__by_member(self, mocker):  # noqa: D102
         axis_x = mocker.Mock(axis="x")
         axis_y = mocker.Mock(axis="y")
         input_list = [axis_x, axis_y]
@@ -109,7 +109,7 @@ class Test_standard:
         assert len(result) == 1
         assert axis_x in result
 
-    def test_multiple_args(self, mocker):
+    def test_multiple_args(self, mocker):  # noqa: D102
         coord_one = mocker.Mock(__class__=AuxCoord, long_name="one")
         coord_two = mocker.Mock(__class__=AuxCoord, long_name="two")
         input_list = [coord_one, coord_two]

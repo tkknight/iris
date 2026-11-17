@@ -46,7 +46,7 @@ def _debug_data(cube, test_id):
 
 class MixinCheckingCode:
     """MixinCheckingCode."""
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         src_x = [30.0, 40.0, 50.0]
         dst_x = [32.0, 42.0]
         src_y = [-10.0, 0.0, 10.0]
@@ -60,7 +60,7 @@ class MixinCheckingCode:
         _debug_data(result_cube, "basic RESULT")
         _shared_utils.assert_array_all_close(result_cube.data, expected_result)
 
-    def test_src_extrapolation(self):
+    def test_src_extrapolation(self):  # noqa: D102
         src_x = [30.0, 40.0, 50.0]
         dst_x = [0.0, 29.0, 39.0]
         src_y = [-10.0, 0.0, 10.0]
@@ -78,7 +78,7 @@ class MixinCheckingCode:
         _debug_data(result_cube, "extrapolate RESULT")
         _shared_utils.assert_array_all_close(result_cube.data, expected_result)
 
-    def test_exact_matching_points(self):
+    def test_exact_matching_points(self):  # noqa: D102
         src_x = [10.0, 20.0, 30.0]
         src_y = [10.0, 20.0, 30.0]
         dst_x = [14.9, 15.1, 20.0, 24.9, 25.1]
@@ -98,7 +98,7 @@ class MixinCheckingCode:
         _debug_data(result_cube, "matching RESULt")
         _shared_utils.assert_array_all_close(result_cube.data, expected_result)
 
-    def test_source_mask(self):
+    def test_source_mask(self):  # noqa: D102
         src_x = [40.0, 50.0, 60.0]
         src_y = [40.0, 50.0, 60.0]
         dst_x = [44.99, 45.01, 48.0, 50.0, 52.0, 54.99, 55.01]
@@ -127,7 +127,7 @@ class MixinCheckingCode:
         _debug_data(result_cube, "masked RESULT")
         _shared_utils.assert_masked_array_equal(result_cube.data, expected_result)
 
-    def test_wrapping_non_circular(self):
+    def test_wrapping_non_circular(self):  # noqa: D102
         src_x = [-10.0, 0.0, 10.0]
         dst_x = [-360.0, -170.0, -1.0, 1.0, 50.0, 170.0, 352.0, 720.0]
         src_y = [0.0, 10.0]
@@ -144,7 +144,7 @@ class MixinCheckingCode:
         _debug_data(result_cube, "noncircular RESULT")
         _shared_utils.assert_array_all_close(result_cube.data, expected_result)
 
-    def test_wrapping_circular(self):
+    def test_wrapping_circular(self):  # noqa: D102
         # When x-coord is "circular", the above distinction does not apply :
         # results are the same for both calculations.
         src_x = [-10.0, 0.0, 10.0]
@@ -164,7 +164,7 @@ class MixinCheckingCode:
         _debug_data(result_cube, "circular RESULT")
         _shared_utils.assert_array_all_close(result_cube.data, expected_result)
 
-    def test_wrapping_non_angular(self):
+    def test_wrapping_non_angular(self):  # noqa: D102
         src_x = [-10.0, 0.0, 10.0]
         dst_x = [-360.0, -170.0, -1.0, 1.0, 50.0, 170.0, 352.0, 720.0]
         src_y = [0.0, 10.0]
@@ -187,7 +187,7 @@ class MixinCheckingCode:
         _debug_data(result_cube, "non-angle-lons RESULT")
         _shared_utils.assert_array_all_close(result_cube.data, expected_result)
 
-    def test_source_nan(self):
+    def test_source_nan(self):  # noqa: D102
         src_x = [40.0, 50.0, 60.0]
         src_y = [40.0, 50.0, 60.0]
         dst_x = [44.99, 45.01, 48.0, 50.0, 52.0, 54.99, 55.01]
@@ -215,5 +215,5 @@ class TestCubeRegridNearest(MixinCheckingCode):
     """Test ubeRegridNearest."""
     scheme = Nearest(extrapolation_mode="extrapolate")
 
-    def regrid(self, src_cube, dst_cube, **kwargs):
+    def regrid(self, src_cube, dst_cube, **kwargs):  # noqa: D102
         return src_cube.regrid(dst_cube, scheme=self.scheme)

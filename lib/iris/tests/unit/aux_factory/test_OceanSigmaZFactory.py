@@ -36,7 +36,7 @@ class Test___init__:
             zlev=self.zlev,
         )
 
-    def test_insufficient_coordinates(self):
+    def test_insufficient_coordinates(self):  # noqa: D102
         msg = "Unable to determine units: no zlev coordinate available."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory()
@@ -88,67 +88,67 @@ class Test___init__:
                 zlev=self.zlev,
             )
 
-    def test_sigma_too_many_bounds(self):
+    def test_sigma_too_many_bounds(self):  # noqa: D102
         self.sigma.nbounds = 4
         msg = "Invalid sigma coordinate .*: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_zlev_too_many_bounds(self):
+    def test_zlev_too_many_bounds(self):  # noqa: D102
         self.zlev.nbounds = 4
         msg = "Invalid zlev coordinate .*: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_sigma_zlev_same_boundedness(self):
+    def test_sigma_zlev_same_boundedness(self):  # noqa: D102
         self.zlev.nbounds = 2
         msg = "The sigma coordinate .* and zlev coordinate .* must be equally bounded."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_depth_c_non_scalar(self):
+    def test_depth_c_non_scalar(self):  # noqa: D102
         self.depth_c.shape = (2,)
         msg = r"Expected scalar depth_c coordinate .*: got shape \(2,\)."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_nsigma_non_scalar(self):
+    def test_nsigma_non_scalar(self):  # noqa: D102
         self.nsigma.shape = (4,)
         msg = r"Expected scalar nsigma coordinate .*: got shape \(4,\)."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_zlev_incompatible_units(self):
+    def test_zlev_incompatible_units(self):  # noqa: D102
         self.zlev.units = Unit("Pa")
         msg = "Invalid units: zlev coordinate .* must have units of distance."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_sigma_incompatible_units(self):
+    def test_sigma_incompatible_units(self):  # noqa: D102
         self.sigma.units = Unit("km")
         msg = "Invalid units: sigma coordinate .* must be dimensionless."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_eta_incompatible_units(self):
+    def test_eta_incompatible_units(self):  # noqa: D102
         self.eta.units = Unit("km")
         msg = "Incompatible units: eta coordinate .* and zlev coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_depth_c_incompatible_units(self):
+    def test_depth_c_incompatible_units(self):  # noqa: D102
         self.depth_c.units = Unit("km")
         msg = "Incompatible units: depth_c coordinate .* and zlev coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_depth_incompatible_units(self):
+    def test_depth_incompatible_units(self):  # noqa: D102
         self.depth.units = Unit("km")
         msg = "Incompatible units: depth coordinate .* and zlev coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaZFactory(**self.kwargs)
 
-    def test_promote_sigma_units_unknown_to_dimensionless(self):
+    def test_promote_sigma_units_unknown_to_dimensionless(self):  # noqa: D102
         sigma = Mock(units=Unit("unknown"), nbounds=0)
         self.kwargs["sigma"] = sigma
         factory = OceanSigmaZFactory(**self.kwargs)
@@ -174,7 +174,7 @@ class Test_dependencies:
             zlev=self.zlev,
         )
 
-    def test_values(self):
+    def test_values(self):  # noqa: D102
         factory = OceanSigmaZFactory(**self.kwargs)
         assert factory.dependencies == self.kwargs
 
@@ -182,7 +182,7 @@ class Test_dependencies:
 class Test_make_coord:
     """Test make coord."""
     @staticmethod
-    def coord_dims(coord):
+    def coord_dims(coord):  # noqa: D102
         mapping = dict(
             sigma=(0,),
             eta=(1, 2),
@@ -194,7 +194,7 @@ class Test_make_coord:
         return mapping[coord.name()]
 
     @staticmethod
-    def derive(sigma, eta, depth, depth_c, nsigma, zlev, coord=True):
+    def derive(sigma, eta, depth, depth_c, nsigma, zlev, coord=True):  # noqa: D102
         nsigma_slice = slice(0, nsigma.squeeze())
         temp = eta + sigma * (np.minimum(depth_c, depth) + eta)
         shape = temp.shape
@@ -239,7 +239,7 @@ class Test_make_coord:
             zlev=self.zlev,
         )
 
-    def test_derived_points(self):
+    def test_derived_points(self):  # noqa: D102
         # Broadcast expected points given the known dimensional mapping.
         sigma = self.sigma.points[..., np.newaxis, np.newaxis]
         eta = self.eta.points[np.newaxis, ...]
@@ -254,7 +254,7 @@ class Test_make_coord:
         coord = factory.make_coord(self.coord_dims)
         assert coord == expected_coord
 
-    def test_derived_points_with_bounds(self):
+    def test_derived_points_with_bounds(self):  # noqa: D102
         self.sigma.guess_bounds()
         self.zlev.guess_bounds()
         # Broadcast expected points given the known dimensional mapping.
@@ -281,7 +281,7 @@ class Test_make_coord:
         coord = factory.make_coord(self.coord_dims)
         assert coord == expected_coord
 
-    def test_no_eta(self):
+    def test_no_eta(self):  # noqa: D102
         # Broadcast expected points given the known dimensional mapping.
         sigma = self.sigma.points[..., np.newaxis, np.newaxis]
         eta = 0
@@ -297,7 +297,7 @@ class Test_make_coord:
         coord = factory.make_coord(self.coord_dims)
         assert coord == expected_coord
 
-    def test_no_sigma(self):
+    def test_no_sigma(self):  # noqa: D102
         # Broadcast expected points given the known dimensional mapping.
         sigma = 0
         eta = self.eta.points[np.newaxis, ...]
@@ -313,7 +313,7 @@ class Test_make_coord:
         coord = factory.make_coord(self.coord_dims)
         assert coord == expected_coord
 
-    def test_no_depth_c(self):
+    def test_no_depth_c(self):  # noqa: D102
         # Broadcast expected points given the known dimensional mapping.
         sigma = self.sigma.points[..., np.newaxis, np.newaxis]
         eta = self.eta.points[np.newaxis, ...]
@@ -329,7 +329,7 @@ class Test_make_coord:
         coord = factory.make_coord(self.coord_dims)
         assert coord == expected_coord
 
-    def test_no_depth(self):
+    def test_no_depth(self):  # noqa: D102
         # Broadcast expected points given the known dimensional mapping.
         sigma = self.sigma.points[..., np.newaxis, np.newaxis]
         eta = self.eta.points[np.newaxis, ...]
@@ -366,107 +366,107 @@ class Test_update:
         )
         self.factory = OceanSigmaZFactory(**self.kwargs)
 
-    def test_sigma(self):
+    def test_sigma(self):  # noqa: D102
         new_sigma = Mock(units=Unit("1"), nbounds=0)
         self.factory.update(self.sigma, new_sigma)
         assert self.factory.sigma is new_sigma
 
-    def test_sigma_too_many_bounds(self):
+    def test_sigma_too_many_bounds(self):  # noqa: D102
         new_sigma = Mock(units=Unit("1"), nbounds=4)
         msg = "Invalid sigma coordinate .*: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.sigma, new_sigma)
 
-    def test_sigma_zlev_same_boundedness(self):
+    def test_sigma_zlev_same_boundedness(self):  # noqa: D102
         new_sigma = Mock(units=Unit("1"), nbounds=2)
         msg = "Failed to update dependencies. The sigma coordinate .* and zlev coordinate .* must be equally bounded."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.sigma, new_sigma)
 
-    def test_sigma_incompatible_units(self):
+    def test_sigma_incompatible_units(self):  # noqa: D102
         new_sigma = Mock(units=Unit("Pa"), nbounds=0)
         msg = "Failed to update dependencies. Invalid units: sigma coordinate .* must be dimensionless."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.sigma, new_sigma)
 
-    def test_eta(self):
+    def test_eta(self):  # noqa: D102
         new_eta = Mock(units=Unit("m"), nbounds=0)
         self.factory.update(self.eta, new_eta)
         assert self.factory.eta is new_eta
 
-    def test_eta_incompatible_units(self):
+    def test_eta_incompatible_units(self):  # noqa: D102
         new_eta = Mock(units=Unit("Pa"), nbounds=0)
         msg = "Failed to update dependencies. Incompatible units: eta coordinate .* and zlev coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.eta, new_eta)
 
-    def test_depth(self):
+    def test_depth(self):  # noqa: D102
         new_depth = Mock(units=Unit("m"), nbounds=0)
         self.factory.update(self.depth, new_depth)
         assert self.factory.depth is new_depth
 
-    def test_depth_incompatible_units(self):
+    def test_depth_incompatible_units(self):  # noqa: D102
         new_depth = Mock(units=Unit("Pa"), nbounds=0)
         msg = "Failed to update dependencies. Incompatible units: depth coordinate .* and zlev coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.depth, new_depth)
 
-    def test_depth_c(self):
+    def test_depth_c(self):  # noqa: D102
         new_depth_c = Mock(units=Unit("m"), nbounds=0, shape=(1,))
         self.factory.update(self.depth_c, new_depth_c)
         assert self.factory.depth_c is new_depth_c
 
-    def test_depth_c_non_scalar(self):
+    def test_depth_c_non_scalar(self):  # noqa: D102
         new_depth_c = Mock(units=Unit("m"), nbounds=0, shape=(10,))
         msg = r"Failed to update dependencies. Expected scalar depth_c coordinate .*: got shape \(10,\)."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.depth_c, new_depth_c)
 
-    def test_depth_c_incompatible_units(self):
+    def test_depth_c_incompatible_units(self):  # noqa: D102
         new_depth_c = Mock(units=Unit("Pa"), nbounds=0, shape=(1,))
         msg = "Failed to update dependencies. Incompatible units: depth_c coordinate .* and zlev coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.depth_c, new_depth_c)
 
-    def test_nsigma(self):
+    def test_nsigma(self):  # noqa: D102
         new_nsigma = Mock(units=Unit("1"), nbounds=0, shape=(1,))
         self.factory.update(self.nsigma, new_nsigma)
         assert self.factory.nsigma is new_nsigma
 
-    def test_nsigma_missing(self):
+    def test_nsigma_missing(self):  # noqa: D102
         msg = "Failed to update dependencies. Missing nsigma coordinate."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.nsigma, None)
 
-    def test_nsigma_non_scalar(self):
+    def test_nsigma_non_scalar(self):  # noqa: D102
         new_nsigma = Mock(units=Unit("1"), nbounds=0, shape=(10,))
         msg = r"Failed to update dependencies. Expected scalar nsigma coordinate .* got shape \(10,\)."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.nsigma, new_nsigma)
 
-    def test_zlev(self):
+    def test_zlev(self):  # noqa: D102
         new_zlev = Mock(units=Unit("m"), nbounds=0)
         self.factory.update(self.zlev, new_zlev)
         assert self.factory.zlev is new_zlev
 
-    def test_zlev_missing(self):
+    def test_zlev_missing(self):  # noqa: D102
         msg = "Failed to update dependencies. Unable to determine units: no zlev coordinate available."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.zlev, None)
 
-    def test_zlev_too_many_bounds(self):
+    def test_zlev_too_many_bounds(self):  # noqa: D102
         new_zlev = Mock(units=Unit("m"), nbounds=4)
         msg = "Invalid zlev coordinate .*: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.zlev, new_zlev)
 
-    def test_zlev_same_boundedness(self):
+    def test_zlev_same_boundedness(self):  # noqa: D102
         new_zlev = Mock(units=Unit("m"), nbounds=2)
         msg = "Failed to update dependencies. The sigma coordinate .*and zlev coordinate .* must be equally bounded."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.zlev, new_zlev)
 
-    def test_zlev_incompatible_units(self):
+    def test_zlev_incompatible_units(self):  # noqa: D102
         new_zlev = Mock(units=Unit("Pa"), nbounds=0)
         msg = "Failed to update dependencies. Invalid units: zlev coordinate .* must have units of distance."
         with pytest.raises(ValueError, match=msg):

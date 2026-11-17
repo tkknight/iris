@@ -791,17 +791,17 @@ class AncillaryVariableMetadata(BaseMetadata):
 
     @wraps(BaseMetadata.combine, assigned=("__doc__",), updated=())
     @lenient_service
-    def combine(self, other, lenient=None):
+    def combine(self, other, lenient=None):  # noqa: D102
         return super().combine(other, lenient=lenient)
 
     @wraps(BaseMetadata.difference, assigned=("__doc__",), updated=())
     @lenient_service
-    def difference(self, other, lenient=None):
+    def difference(self, other, lenient=None):  # noqa: D102
         return super().difference(other, lenient=lenient)
 
     @wraps(BaseMetadata.equal, assigned=("__doc__",), updated=())
     @lenient_service
-    def equal(self, other, lenient=None):
+    def equal(self, other, lenient=None):  # noqa: D102
         return super().equal(other, lenient=lenient)
 
 
@@ -885,17 +885,17 @@ class CellMeasureMetadata(BaseMetadata):
 
     @wraps(BaseMetadata.combine, assigned=("__doc__",), updated=())
     @lenient_service
-    def combine(self, other, lenient=None):
+    def combine(self, other, lenient=None):  # noqa: D102
         return super().combine(other, lenient=lenient)
 
     @wraps(BaseMetadata.difference, assigned=("__doc__",), updated=())
     @lenient_service
-    def difference(self, other, lenient=None):
+    def difference(self, other, lenient=None):  # noqa: D102
         return super().difference(other, lenient=lenient)
 
     @wraps(BaseMetadata.equal, assigned=("__doc__",), updated=())
     @lenient_service
-    def equal(self, other, lenient=None):
+    def equal(self, other, lenient=None):  # noqa: D102
         return super().equal(other, lenient=lenient)
 
 
@@ -1029,7 +1029,7 @@ class CoordMetadata(BaseMetadata):
 
     @wraps(BaseMetadata.combine, assigned=("__doc__",), updated=())
     @lenient_service
-    def combine(self, other, lenient=None):
+    def combine(self, other, lenient=None):  # noqa: D102
         # Convert a DimCoordMetadata instance to a CoordMetadata instance.
         if (
             self.__class__ is CoordMetadata
@@ -1041,7 +1041,7 @@ class CoordMetadata(BaseMetadata):
 
     @wraps(BaseMetadata.difference, assigned=("__doc__",), updated=())
     @lenient_service
-    def difference(self, other, lenient=None):
+    def difference(self, other, lenient=None):  # noqa: D102
         # Convert a DimCoordMetadata instance to a CoordMetadata instance.
         if (
             self.__class__ is CoordMetadata
@@ -1053,7 +1053,7 @@ class CoordMetadata(BaseMetadata):
 
     @wraps(BaseMetadata.equal, assigned=("__doc__",), updated=())
     @lenient_service
-    def equal(self, other, lenient=None):
+    def equal(self, other, lenient=None):  # noqa: D102
         # Convert a DimCoordMetadata instance to a CoordMetadata instance.
         if (
             self.__class__ is CoordMetadata
@@ -1192,21 +1192,21 @@ class CubeMetadata(BaseMetadata):
 
     @wraps(BaseMetadata.combine, assigned=("__doc__",), updated=())
     @lenient_service
-    def combine(self, other, lenient=None):
+    def combine(self, other, lenient=None):  # noqa: D102
         return super().combine(other, lenient=lenient)
 
     @wraps(BaseMetadata.difference, assigned=("__doc__",), updated=())
     @lenient_service
-    def difference(self, other, lenient=None):
+    def difference(self, other, lenient=None):  # noqa: D102
         return super().difference(other, lenient=lenient)
 
     @wraps(BaseMetadata.equal, assigned=("__doc__",), updated=())
     @lenient_service
-    def equal(self, other, lenient=None):
+    def equal(self, other, lenient=None):  # noqa: D102
         return super().equal(other, lenient=lenient)
 
     @wraps(BaseMetadata.name)
-    def name(self, default=None, token=False):
+    def name(self, default=None, token=False):  # noqa: D102
         def _check(item):
             return self.token(item) if token else item
 
@@ -1345,7 +1345,7 @@ class DimCoordMetadata(CoordMetadata):
 
     @wraps(CoordMetadata.combine, assigned=("__doc__",), updated=())
     @lenient_service
-    def combine(self, other, lenient=None):
+    def combine(self, other, lenient=None):  # noqa: D102
         # Convert a CoordMetadata instance to a DimCoordMetadata instance.
         if hasattr(other, "__class__") and other.__class__ is CoordMetadata:
             other = self.from_metadata(other)
@@ -1353,7 +1353,7 @@ class DimCoordMetadata(CoordMetadata):
 
     @wraps(CoordMetadata.difference, assigned=("__doc__",), updated=())
     @lenient_service
-    def difference(self, other, lenient=None):
+    def difference(self, other, lenient=None):  # noqa: D102
         # Convert a CoordMetadata instance to a DimCoordMetadata instance.
         if hasattr(other, "__class__") and other.__class__ is CoordMetadata:
             other = self.from_metadata(other)
@@ -1361,7 +1361,7 @@ class DimCoordMetadata(CoordMetadata):
 
     @wraps(CoordMetadata.equal, assigned=("__doc__",), updated=())
     @lenient_service
-    def equal(self, other, lenient=None):
+    def equal(self, other, lenient=None):  # noqa: D102
         # Convert a CoordMetadata instance to a DimCoordMetadata instance.
         if hasattr(other, "__class__") and other.__class__ is CoordMetadata:
             other = self.from_metadata(other)
@@ -1590,17 +1590,17 @@ class MeshMetadata(BaseMetadata):
 
     @wraps(BaseMetadata.combine, assigned=("__doc__",), updated=())
     @lenient_service
-    def combine(self, other, lenient=None):
+    def combine(self, other, lenient=None):  # noqa: D102
         return super().combine(other, lenient=lenient)
 
     @wraps(BaseMetadata.difference, assigned=("__doc__",), updated=())
     @lenient_service
-    def difference(self, other, lenient=None):
+    def difference(self, other, lenient=None):  # noqa: D102
         return super().difference(other, lenient=lenient)
 
     @wraps(BaseMetadata.equal, assigned=("__doc__",), updated=())
     @lenient_service
-    def equal(self, other, lenient=None):
+    def equal(self, other, lenient=None):  # noqa: D102
         return super().equal(other, lenient=lenient)
 
 
@@ -1816,17 +1816,17 @@ class MeshCoordMetadata(BaseMetadata):
 
     @wraps(BaseMetadata.combine, assigned=("__doc__",), updated=())
     @lenient_service
-    def combine(self, other, lenient=None):
+    def combine(self, other, lenient=None):  # noqa: D102
         return super().combine(other, lenient=lenient)
 
     @wraps(BaseMetadata.difference, assigned=("__doc__",), updated=())
     @lenient_service
-    def difference(self, other, lenient=None):
+    def difference(self, other, lenient=None):  # noqa: D102
         return super().difference(other, lenient=lenient)
 
     @wraps(BaseMetadata.equal, assigned=("__doc__",), updated=())
     @lenient_service
-    def equal(self, other, lenient=None):
+    def equal(self, other, lenient=None):  # noqa: D102
         return super().equal(other, lenient=lenient)
 
 

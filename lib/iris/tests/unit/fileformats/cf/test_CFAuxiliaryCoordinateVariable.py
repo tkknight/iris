@@ -21,7 +21,7 @@ class TestIdentify(IdentifyByAttributeMixin):
         r"Missing CF-netCDF auxiliary coordinate variable {subject!r}.*"
     )
 
-    def test_string_type_ignored(self):
+    def test_string_type_ignored(self):  # noqa: D102
         # Coordinate-variable identify should reject label/string subjects.
         subject_name = "ref_subject"
         ref_source = _NetCDFVar("ref_source")

@@ -14,13 +14,13 @@ from iris.analysis.cartography import wrap_lons
 
 class TestWrapLons:
     """Test rapLons."""
-    def test_values(self):
+    def test_values(self):  # noqa: D102
         # The documented behaviour (matches the docstring example).
         result = wrap_lons(np.array([185, 30, -200, 75]), -180, 360)
         np.testing.assert_array_equal(result, [-175.0, 30.0, 160.0, 75.0])
 
     @pytest.mark.parametrize("dtype", [np.float16, np.float32, np.float64])
-    def test_floating_dtype_preserved(self, dtype):
+    def test_floating_dtype_preserved(self, dtype):  # noqa: D102
         # A floating-point input keeps its dtype rather than being promoted to
         # float64 (see #4119).
         lons = np.array([185, 30, -200, 75], dtype=dtype)
@@ -29,7 +29,7 @@ class TestWrapLons:
         np.testing.assert_array_equal(result, [-175.0, 30.0, 160.0, 75.0])
 
     @pytest.mark.parametrize("dtype", [np.int32, np.int64])
-    def test_integer_dtype_returns_float64(self, dtype):
+    def test_integer_dtype_returns_float64(self, dtype):  # noqa: D102
         # Integer (and other non-floating) inputs are still returned as float64,
         # because wrapping a discrete range generally yields fractional results.
         lons = np.array([185, 30, -200, 75], dtype=dtype)
@@ -37,7 +37,7 @@ class TestWrapLons:
         assert result.dtype == np.float64
         np.testing.assert_array_equal(result, [-175.0, 30.0, 160.0, 75.0])
 
-    def test_masked_array_preserved(self):
+    def test_masked_array_preserved(self):  # noqa: D102
         lons = np.ma.masked_array(
             [185.0, 30.0, -200.0, 75.0], mask=[0, 1, 0, 0], dtype=np.float32
         )
@@ -46,7 +46,7 @@ class TestWrapLons:
         assert result.dtype == np.float32
         np.testing.assert_array_equal(result.mask, [False, True, False, False])
 
-    def test_lazy_input_stays_lazy(self):
+    def test_lazy_input_stays_lazy(self):  # noqa: D102
         lons = da.from_array(np.array([185, 30, -200, 75], dtype=np.float32))
         result = wrap_lons(lons, -180, 360)
         assert isinstance(result, da.Array)

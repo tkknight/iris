@@ -12,11 +12,11 @@ from iris._lazy_data import is_lazy_data
 
 class Test_is_lazy_data:
     """Test is lazy data."""
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         values = np.arange(30).reshape((2, 5, 3))
         lazy_array = da.from_array(values, chunks="auto")
         assert is_lazy_data(lazy_array)
 
-    def test_real(self):
+    def test_real(self):  # noqa: D102
         real_array = np.arange(24).reshape((2, 3, 4))
         assert not is_lazy_data(real_array)

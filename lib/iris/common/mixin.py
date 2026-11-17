@@ -225,7 +225,7 @@ class CFVariableMixin:
     _metadata_manager: Any
 
     @wraps(BaseMetadata.name)
-    def name(
+    def name(  # noqa: D102
         self,
         default: str | None = None,
         token: bool | None = None,
@@ -293,7 +293,7 @@ class CFVariableMixin:
         self._metadata_manager.units = Unit.from_unit(unit)
 
     @property
-    def attributes(self) -> LimitedAttributeDict:
+    def attributes(self) -> LimitedAttributeDict:  # noqa: D102
         return self._metadata_manager.attributes
 
     @attributes.setter
@@ -301,7 +301,7 @@ class CFVariableMixin:
         self._metadata_manager.attributes = LimitedAttributeDict(attributes or {})
 
     @property
-    def metadata(self):
+    def metadata(self):  # noqa: D102
         return self._metadata_manager.values
 
     @metadata.setter

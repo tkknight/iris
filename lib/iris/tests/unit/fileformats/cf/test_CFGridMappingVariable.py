@@ -117,7 +117,7 @@ class TestIdentify:
         with pytest.warns(iris.warnings.IrisCfMissingVarWarning, match=warn_regex):
             CFGridMappingVariable.identify(vars_all, coord_system_mappings=cs_mappings)
 
-    def test_ignore(self):
+    def test_ignore(self):  # noqa: D102
         ref_source = _NetCDFVar("ref_source")
         setattr(ref_source, CF_IDENTITY, "crs_var")
         crs_var = _NetCDFVar("crs_var")
@@ -130,14 +130,14 @@ class TestIdentify:
         )
         assert result == {}
 
-    def test_target_unknown_raises(self):
+    def test_target_unknown_raises(self):  # noqa: D102
         vars_all = {"ref_source": _NetCDFVar("ref_source")}
 
         message = "Cannot identify unknown target CF-netCDF variable 'unknown'"
         with pytest.raises(ValueError, match=message):
             CFGridMappingVariable.identify(vars_all, target="unknown")
 
-    def test_target_wrong_type_raises(self):
+    def test_target_wrong_type_raises(self):  # noqa: D102
         vars_all = {"ref_source": _NetCDFVar("ref_source")}
 
         message = "Expect a target CF-netCDF variable name"

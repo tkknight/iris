@@ -24,17 +24,17 @@ class TestExpandFilespecs:
             file_path = self.tmpdir / fname
             file_path.write_text("anything")
 
-    def test_absolute_path(self):
+    def test_absolute_path(self):  # noqa: D102
         result = iio.expand_filespecs([str(Path(self.tmpdir) / "*")])
         expected = [str(Path(self.tmpdir) / fname) for fname in self.fnames]
         assert result == expected
 
-    def test_double_slash(self):
+    def test_double_slash(self):  # noqa: D102
         product = iio.expand_filespecs([str("//" / Path(self.tmpdir) / "*")])
         predicted = [str(Path(self.tmpdir) / fname) for fname in self.fnames]
         assert product == predicted
 
-    def test_relative_path(self):
+    def test_relative_path(self):  # noqa: D102
         cwd = os.getcwd()
         try:
             os.chdir(self.tmpdir)
@@ -44,7 +44,7 @@ class TestExpandFilespecs:
         finally:
             os.chdir(cwd)
 
-    def test_return_order(self):
+    def test_return_order(self):  # noqa: D102
         # It is really quite important what order we return the
         # files. They should be in the order that was provided,
         # so that we can control the order of load (for instance,
@@ -60,12 +60,12 @@ class TestExpandFilespecs:
         result = iio.expand_filespecs(patterns[::-1])
         assert result == expected[::-1]
 
-    def test_no_files_found(self):
+    def test_no_files_found(self):  # noqa: D102
         msg = r"\/no_exist.txt\" didn\'t match any files"
         with pytest.raises(IOError, match=msg):
             iio.expand_filespecs([str(Path(self.tmpdir) / "no_exist.txt")])
 
-    def test_files_and_none(self):
+    def test_files_and_none(self):  # noqa: D102
         emsg = (
             textwrap.dedent(
                 """
@@ -85,19 +85,19 @@ class TestExpandFilespecs:
                 ]
             )
 
-    def test_false_bool_absolute(self):
+    def test_false_bool_absolute(self):  # noqa: D102
         msg = str(Path(self.tmpdir) / "no_exist.txt")
         (result,) = iio.expand_filespecs([msg], False)
         assert result == msg
 
-    def test_false_bool_home(self):
+    def test_false_bool_home(self):  # noqa: D102
         # ensure that not only does files_expected not error,
         # but that the path is still expanded from a ~
         msg = str(Path().home() / "no_exist.txt")
         (result,) = iio.expand_filespecs(["~/no_exist.txt"], False)
         assert result == msg
 
-    def test_false_bool_relative(self):
+    def test_false_bool_relative(self):  # noqa: D102
         cwd = os.getcwd()
         try:
             os.chdir(self.tmpdir)
@@ -107,13 +107,13 @@ class TestExpandFilespecs:
         finally:
             os.chdir(cwd)
 
-    def test_remote_store_uri_is_passed_through_unresolved(self):
+    def test_remote_store_uri_is_passed_through_unresolved(self):  # noqa: D102
         # `.absolute()` would otherwise turn this into
         # "/<cwd>/s3:/bucket/data.zarr", which zarr-python cannot open.
         uri = "s3://bucket/data.zarr"
         assert iio.expand_filespecs([uri]) == [uri]
 
-    def test_remote_store_uri_is_not_globbed(self):
+    def test_remote_store_uri_is_not_globbed(self):  # noqa: D102
         # A remote URI stands for itself: Iris does not list its neighbours.
         uri = "s3://bucket/data.zarr"
         assert iio.expand_filespecs([uri], False) == [uri]

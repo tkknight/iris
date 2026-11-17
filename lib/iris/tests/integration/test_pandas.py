@@ -47,14 +47,14 @@ def activate_pandas_ndim():
 class TestAsSeries:
     """Test conversion of 1D cubes to Pandas using as_series()."""
 
-    def test_no_dim_coord(self):
+    def test_no_dim_coord(self):  # noqa: D102
         cube = Cube(np.array([0, 1, 2, 3, 4]), long_name="foo")
         series = iris.pandas.as_series(cube)
         expected_index = np.array([0, 1, 2, 3, 4])
         _shared_utils.assert_array_equal(series, cube.data)
         _shared_utils.assert_array_equal(series.index, expected_index)
 
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         cube = Cube(np.array([0, 1, 2, 3, 4.4]), long_name="foo")
         dim_coord = DimCoord([5, 6, 7, 8, 9], long_name="bar")
         cube.add_dim_coord(dim_coord, 0)
@@ -63,13 +63,13 @@ class TestAsSeries:
         _shared_utils.assert_array_equal(series, cube.data)
         _shared_utils.assert_array_equal(series.index, expected_index)
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         data = np.ma.MaskedArray([0, 1, 2, 3, 4.4], mask=[0, 1, 0, 1, 0])
         cube = Cube(data, long_name="foo")
         series = iris.pandas.as_series(cube)
         _shared_utils.assert_array_equal(series, cube.data.astype("f").filled(np.nan))
 
-    def test_time_standard(self):
+    def test_time_standard(self):  # noqa: D102
         cube = Cube(np.array([0, 1, 2, 3, 4]), long_name="ts")
         time_coord = DimCoord(
             [0, 100.1, 200.2, 300.3, 400.4],
@@ -88,7 +88,7 @@ class TestAsSeries:
         _shared_utils.assert_array_equal(series, cube.data)
         assert list(series.index) == expected_index
 
-    def test_time_360(self):
+    def test_time_360(self):  # noqa: D102
         cube = Cube(np.array([0, 1, 2, 3, 4]), long_name="ts")
         time_unit = cf_units.Unit(
             "days since 2000-01-01 00:00", calendar=cf_units.CALENDAR_360_DAY
@@ -109,13 +109,13 @@ class TestAsSeries:
         _shared_utils.assert_array_equal(series, cube.data)
         _shared_utils.assert_array_equal(series.index, expected_index)
 
-    def test_copy_true(self):
+    def test_copy_true(self):  # noqa: D102
         cube = Cube(np.array([0, 1, 2, 3, 4]), long_name="foo")
         series = iris.pandas.as_series(cube)
         series[0] = 99
         assert cube.data[0] == 0
 
-    def test_copy_masked_true(self):
+    def test_copy_masked_true(self):  # noqa: D102
         data = np.ma.MaskedArray([0, 1, 2, 3, 4], mask=[0, 1, 0, 1, 0])
         cube = Cube(data, long_name="foo")
         series = iris.pandas.as_series(cube)
@@ -129,7 +129,7 @@ class TestAsSeries:
 class TestAsDataFrame:
     """Test conversion of 2D cubes to Pandas using as_data_frame()."""
 
-    def test_scalar_cube(self):
+    def test_scalar_cube(self):  # noqa: D102
         cube = Cube(1.0)
         data_frame = iris.pandas.as_data_frame(cube)
         expected_index = [0]
@@ -139,7 +139,7 @@ class TestAsDataFrame:
         _shared_utils.assert_array_equal(data_frame.columns, expected_columns)
         assert data_frame.index.name is None
 
-    def test_no_dim_coords(self):
+    def test_no_dim_coords(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         expected_index = [0, 1]
         expected_columns = [0, 1, 2, 3, 4]
@@ -148,7 +148,7 @@ class TestAsDataFrame:
         _shared_utils.assert_array_equal(data_frame.index, expected_index)
         _shared_utils.assert_array_equal(data_frame.columns, expected_columns)
 
-    def test_no_x_coord(self):
+    def test_no_x_coord(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         y_coord = DimCoord([10, 11], long_name="bar")
         cube.add_dim_coord(y_coord, 0)
@@ -159,7 +159,7 @@ class TestAsDataFrame:
         _shared_utils.assert_array_equal(data_frame.index, expected_index)
         _shared_utils.assert_array_equal(data_frame.columns, expected_columns)
 
-    def test_no_y_coord(self):
+    def test_no_y_coord(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         x_coord = DimCoord([10, 11, 12, 13, 14], long_name="bar")
         cube.add_dim_coord(x_coord, 1)
@@ -170,7 +170,7 @@ class TestAsDataFrame:
         _shared_utils.assert_array_equal(data_frame.index, expected_index)
         _shared_utils.assert_array_equal(data_frame.columns, expected_columns)
 
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         x_coord = DimCoord([10, 11, 12, 13, 14], long_name="bar")
         y_coord = DimCoord([15, 16], long_name="milk")
@@ -183,7 +183,7 @@ class TestAsDataFrame:
         _shared_utils.assert_array_equal(data_frame.index, expected_index)
         _shared_utils.assert_array_equal(data_frame.columns, expected_columns)
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         data = np.ma.MaskedArray(
             [[0, 1, 2, 3, 4.4], [5, 6, 7, 8, 9]],
             mask=[[0, 1, 0, 1, 0], [1, 0, 1, 0, 1]],
@@ -198,7 +198,7 @@ class TestAsDataFrame:
         _shared_utils.assert_array_equal(data_frame.index, expected_index)
         _shared_utils.assert_array_equal(data_frame.columns, expected_columns)
 
-    def test_time_standard(self):
+    def test_time_standard(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="ts")
         day_offsets = [0, 100.1, 200.2, 300.3, 400.4]
         time_coord = DimCoord(
@@ -217,7 +217,7 @@ class TestAsDataFrame:
         assert all(data_frame.columns == timestamps)
         assert all(data_frame.index == [0, 1])
 
-    def test_time_360(self):
+    def test_time_360(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="ts")
         time_unit = cf_units.Unit(
             "days since 2000-01-01 00:00", calendar=cf_units.CALENDAR_360_DAY
@@ -235,13 +235,13 @@ class TestAsDataFrame:
         _shared_utils.assert_array_equal(data_frame.index, expected_index)
         _shared_utils.assert_array_equal(data_frame.columns, expected_columns)
 
-    def test_copy_true(self):
+    def test_copy_true(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         data_frame = iris.pandas.as_data_frame(cube)
         data_frame.iloc[0, 0] = 99
         assert cube.data[0, 0] == 0
 
-    def test_copy_masked_true(self):
+    def test_copy_masked_true(self):  # noqa: D102
         data = np.ma.MaskedArray(
             [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]],
             mask=[[0, 1, 0, 1, 0], [1, 0, 1, 0, 1]],
@@ -259,7 +259,7 @@ class TestAsDataFrameNDim:
     def _activate_pandas_ndim(self, activate_pandas_ndim):
         pass
 
-    def test_scalar_cube(self):
+    def test_scalar_cube(self):  # noqa: D102
         cube = Cube(1.0, long_name="foo")
         data_frame = iris.pandas.as_data_frame(cube)
         expected_index = [0]
@@ -268,7 +268,7 @@ class TestAsDataFrameNDim:
         assert data_frame.index.names[0] is None
         _shared_utils.assert_array_equal(data_frame.index.levels[0], expected_index)
 
-    def test_no_dim_coords(self):
+    def test_no_dim_coords(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         expected_dim0 = np.repeat([0, 1], 5)
         expected_dim1 = np.tile([0, 1, 2, 3, 4], 2)
@@ -282,7 +282,7 @@ class TestAsDataFrameNDim:
             data_frame.index.get_level_values("dim1"), expected_dim1
         )
 
-    def test_no_x_coord(self):
+    def test_no_x_coord(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         dim0 = DimCoord([10, 11], long_name="bar")
         cube.add_dim_coord(dim0, 0)
@@ -298,7 +298,7 @@ class TestAsDataFrameNDim:
             data_frame.index.get_level_values("dim1"), expected_dim1
         )
 
-    def test_no_y_coord(self):
+    def test_no_y_coord(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         dim1 = DimCoord([10, 11, 12, 13, 14], long_name="bar")
         cube.add_dim_coord(dim1, 1)
@@ -314,7 +314,7 @@ class TestAsDataFrameNDim:
             data_frame.index.get_level_values("bar"), expected_bar
         )
 
-    def test_simple1_d(self):
+    def test_simple1_d(self):  # noqa: D102
         cube = Cube(np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]), long_name="foo")
         dim_coord = DimCoord([10, 11, 12, 13, 14, 15, 16, 17, 18, 19], long_name="bar")
         cube.add_dim_coord(dim_coord, 0)
@@ -326,7 +326,7 @@ class TestAsDataFrameNDim:
             data_frame.index.get_level_values("bar"), expected_bar
         )
 
-    def test_simple2_d(self):
+    def test_simple2_d(self):  # noqa: D102
         cube2d = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         dim0_coord = DimCoord([15, 16], long_name="milk")
         dim1_coord = DimCoord([10, 11, 12, 13, 14], long_name="bar")
@@ -344,7 +344,7 @@ class TestAsDataFrameNDim:
             data_frame.index.get_level_values("bar"), expected_bar
         )
 
-    def test_simple3_d(self):
+    def test_simple3_d(self):  # noqa: D102
         cube3d = Cube(
             np.array(
                 [
@@ -377,13 +377,13 @@ class TestAsDataFrameNDim:
             data_frame.index.get_level_values("kid"), expected_kid
         )
 
-    def test_implicit_copy_true(self):
+    def test_implicit_copy_true(self):  # noqa: D102
         cube = Cube(np.array([0, 1, 2, 3, 4]), long_name="foo")
         data_frame = iris.pandas.as_data_frame(cube)
         cube.data[2] = 99
         assert cube.data[2] != data_frame.loc[2, "foo"].values
 
-    def test_time_standard(self):
+    def test_time_standard(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="ts")
         day_offsets = [0, 100.1, 200.2, 300.3, 400.4]
         time_coord = DimCoord(
@@ -416,7 +416,7 @@ class TestAsDataFrameNDim:
             data_frame.index.get_level_values("time"), expected_time
         )
 
-    def test_time_360(self):
+    def test_time_360(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="ts")
         time_unit = cf_units.Unit(
             "days since 2000-01-01 00:00", calendar=cf_units.CALENDAR_360_DAY
@@ -445,7 +445,7 @@ class TestAsDataFrameNDim:
             data_frame.index.get_level_values("time"), expected_time
         )
 
-    def test_aux_coord(self):
+    def test_aux_coord(self):  # noqa: D102
         cube = Cube(np.array([[0, 1], [5, 6]]), long_name="foo")
         dim0_coord = DimCoord([15, 16], long_name="milk")
         dim1_coord = DimCoord([10, 11], long_name="bar")
@@ -463,7 +463,7 @@ class TestAsDataFrameNDim:
         _shared_utils.assert_array_equal(data_frame.words0, expected_words0)
         _shared_utils.assert_array_equal(data_frame.words1, expected_words1)
 
-    def test_aux_coord2(self):
+    def test_aux_coord2(self):  # noqa: D102
         cube = Cube(np.array([[0, 1], [5, 6]]), long_name="foo")
         dim0_coord = DimCoord([15, 16], long_name="milk")
         dim1_coord = DimCoord([10, 11], long_name="bar")
@@ -487,7 +487,7 @@ class TestAsDataFrameNDim:
         _shared_utils.assert_array_equal(data_frame.words1, expected_words1)
         _shared_utils.assert_array_equal(data_frame.words2, expected_words2)
 
-    def test_multidim_aux(self):
+    def test_multidim_aux(self):  # noqa: D102
         cube = Cube(
             np.arange(300, 312, 1).reshape([2, 2, 3]),
             long_name="air_temperature",
@@ -504,7 +504,7 @@ class TestAsDataFrameNDim:
         data_frame = iris.pandas.as_data_frame(cube, add_aux_coords=True)
         _shared_utils.assert_array_equal(data_frame.in_region, expected_in_region)
 
-    def test_add_scalar_coord(self):
+    def test_add_scalar_coord(self):  # noqa: D102
         cube = Cube(np.array([[0, 1], [5, 6]]), long_name="foo")
         scalar_coord = iris.coords.AuxCoord(
             1, long_name="scalar_coord", units="no_unit"
@@ -514,7 +514,7 @@ class TestAsDataFrameNDim:
         data_frame = iris.pandas.as_data_frame(cube, add_aux_coords=True)
         _shared_utils.assert_array_equal(data_frame.scalar_coord, expected_scalar_coord)
 
-    def test_add_ancillary_variable(self):
+    def test_add_ancillary_variable(self):  # noqa: D102
         cube = Cube(np.array([[0, 1], [5, 6]]), long_name="foo")
         dim0_coord = DimCoord([0, 10], long_name="bar")
         cube.add_dim_coord(dim0_coord, 0)
@@ -534,7 +534,7 @@ class TestAsDataFrameNDim:
             data_frame.ancil_bar2, expected_ancillary_variable2
         )
 
-    def test_add_cell_measures(self):
+    def test_add_cell_measures(self):  # noqa: D102
         cube = Cube(np.array([[0, 1], [5, 6]]), long_name="foo")
         dim0_coord = DimCoord([0, 10], long_name="bar")
         cube.add_dim_coord(dim0_coord, 0)
@@ -550,7 +550,7 @@ class TestAsDataFrameNDim:
             data_frame.cell_measure2, expected_cell_measure2
         )
 
-    def test_instance_error(self):
+    def test_instance_error(self):  # noqa: D102
         with pytest.raises(TypeError):
             _ = iris.pandas.as_data_frame(list())
 
@@ -560,7 +560,7 @@ class TestAsDataFrameNDim:
 )
 class TestSeriesAsCube:
     """Test eriesAsCube."""
-    def test_series_simple(self, request):
+    def test_series_simple(self, request):  # noqa: D102
         series = pd.Series([0, 1, 2, 3, 4], index=[5, 6, 7, 8, 9])
         _shared_utils.assert_CML(
             request,
@@ -568,7 +568,7 @@ class TestSeriesAsCube:
             _shared_utils.get_result_path(("pandas", "as_cube", "series_simple.cml")),
         )
 
-    def test_series_object(self, request):
+    def test_series_object(self, request):  # noqa: D102
         class Thing:
             def __repr__(self):
                 return "A Thing"
@@ -584,7 +584,7 @@ class TestSeriesAsCube:
             coord_checksum=False,  # Objects don't have reliable hash values
         )
 
-    def test_series_masked(self, request):
+    def test_series_masked(self, request):  # noqa: D102
         series = pd.Series([0, float("nan"), 2, np.nan, 4], index=[5, 6, 7, 8, 9])
         _shared_utils.assert_CML(
             request,
@@ -592,7 +592,7 @@ class TestSeriesAsCube:
             _shared_utils.get_result_path(("pandas", "as_cube", "series_masked.cml")),
         )
 
-    def test_series_datetime_standard(self, request):
+    def test_series_datetime_standard(self, request):  # noqa: D102
         series = pd.Series(
             [0, 1, 2, 3, 4],
             index=[
@@ -611,7 +611,7 @@ class TestSeriesAsCube:
             ),
         )
 
-    def test_series_cftime_360(self, request):
+    def test_series_cftime_360(self, request):  # noqa: D102
         series = pd.Series(
             [0, 1, 2, 3, 4],
             index=[
@@ -630,7 +630,7 @@ class TestSeriesAsCube:
             ),
         )
 
-    def test_implicit_copy_true(self):
+    def test_implicit_copy_true(self):  # noqa: D102
         series = pd.Series([0, 1, 2, 3, 4], index=[5, 6, 7, 8, 9])
         cube = iris.pandas.as_cube(series)
         cube.data[0] = 99
@@ -642,7 +642,7 @@ class TestSeriesAsCube:
 )
 class TestDataFrameAsCube:
     """Test ataFrameAsCube."""
-    def test_data_frame_simple(self, request):
+    def test_data_frame_simple(self, request):  # noqa: D102
         data_frame = pd.DataFrame(
             [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]],
             index=[10, 11],
@@ -656,7 +656,7 @@ class TestDataFrameAsCube:
             ),
         )
 
-    def test_data_frame_nonotonic(self, request):
+    def test_data_frame_nonotonic(self, request):  # noqa: D102
         data_frame = pd.DataFrame(
             [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]],
             index=[10, 10],
@@ -670,7 +670,7 @@ class TestDataFrameAsCube:
             ),
         )
 
-    def test_data_frame_masked(self, request):
+    def test_data_frame_masked(self, request):  # noqa: D102
         data_frame = pd.DataFrame(
             [[0, float("nan"), 2, 3, 4], [5, 6, 7, np.nan, 9]],
             index=[10, 11],
@@ -684,7 +684,7 @@ class TestDataFrameAsCube:
             ),
         )
 
-    def test_data_frame_multidim(self, request):
+    def test_data_frame_multidim(self, request):  # noqa: D102
         data_frame = pd.DataFrame(
             [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]],
             index=[0, 1],
@@ -699,7 +699,7 @@ class TestDataFrameAsCube:
             coord_checksum=False,  # column names stored as objects which don't have reliable hash values
         )
 
-    def test_data_frame_cftime_360(self, request):
+    def test_data_frame_cftime_360(self, request):  # noqa: D102
         data_frame = pd.DataFrame(
             [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]],
             index=[
@@ -716,7 +716,7 @@ class TestDataFrameAsCube:
             ),
         )
 
-    def test_data_frame_datetime_standard(self, request):
+    def test_data_frame_datetime_standard(self, request):  # noqa: D102
         data_frame = pd.DataFrame(
             [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]],
             index=[
@@ -733,7 +733,7 @@ class TestDataFrameAsCube:
             ),
         )
 
-    def test_implicit_copy_true(self):
+    def test_implicit_copy_true(self):  # noqa: D102
         data_frame = pd.DataFrame([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
         cube = iris.pandas.as_cube(data_frame)
         cube.data[0, 0] = 99
@@ -742,24 +742,24 @@ class TestDataFrameAsCube:
 
 class TestFutureAndDeprecation:
     """Test utureAndDeprecation."""
-    def test_as_cube_deprecation_warning(self):
+    def test_as_cube_deprecation_warning(self):  # noqa: D102
         data_frame = pd.DataFrame([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
         with pytest.warns(IrisDeprecation, match="as_cube has been deprecated"):
             _ = iris.pandas.as_cube(data_frame)
 
-    def test_as_series_deprecation_warning(self):
+    def test_as_series_deprecation_warning(self):  # noqa: D102
         cube = Cube(np.array([0, 1, 2, 3, 4]), long_name="foo")
         with pytest.warns(IrisDeprecation, match="as_series has been deprecated"):
             _ = iris.pandas.as_series(cube)
 
-    def test_as_dataframe_future_warning(self):
+    def test_as_dataframe_future_warning(self):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         with pytest.warns(
             FutureWarning, match="You are using legacy 2-dimensional behaviour"
         ):
             _ = iris.pandas.as_data_frame(cube)
 
-    def test_as_dataframe_no_future_warning(self, activate_pandas_ndim):
+    def test_as_dataframe_no_future_warning(self, activate_pandas_ndim):  # noqa: D102
         cube = Cube(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), long_name="foo")
         with warnings.catch_warnings():
             warnings.simplefilter("error", FutureWarning)
@@ -780,7 +780,7 @@ class TestFutureAndDeprecation:
             ),
         ],
     )
-    def test_explicit_copy_true_error(self, test_function, test_input):
+    def test_explicit_copy_true_error(self, test_function, test_input):  # noqa: D102
         with pytest.warns(
             IrisDeprecation,
             match=f"The `copy` parameter in `{test_function.__name__}` is deprecated",
@@ -802,7 +802,7 @@ class TestFutureAndDeprecation:
             ),
         ],
     )
-    def test_explicit_copy_false_error(self, test_function, test_input):
+    def test_explicit_copy_false_error(self, test_function, test_input):  # noqa: D102
         with pytest.warns(
             IrisUserWarning, match="Pandas v3 behaviour defaults to copy=True."
         ):
@@ -839,7 +839,7 @@ class TestPandasAsCubes:
 
         return class_(data, index=index)
 
-    def test_1d_no_index(self):
+    def test_1d_no_index(self):  # noqa: D102
         df = self._create_pandas()
         result = iris.pandas.as_cubes(df)
 
@@ -851,7 +851,7 @@ class TestPandasAsCubes:
         )
         assert result == [expected_cube]
 
-    def test_1d_with_index(self):
+    def test_1d_with_index(self):  # noqa: D102
         df = self._create_pandas(index_levels=1)
         result = iris.pandas.as_cubes(df)
 
@@ -859,7 +859,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.dim_coords == (expected_coord,)
 
-    def test_1d_series_no_index(self):
+    def test_1d_series_no_index(self):  # noqa: D102
         series = self._create_pandas(is_series=True)
         result = iris.pandas.as_cubes(series)
 
@@ -869,7 +869,7 @@ class TestPandasAsCubes:
         )
         assert result == [expected_cube]
 
-    def test_1d_series_with_index(self):
+    def test_1d_series_with_index(self):  # noqa: D102
         series = self._create_pandas(index_levels=1, is_series=True)
         result = iris.pandas.as_cubes(series)
 
@@ -877,7 +877,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.dim_coords == (expected_coord,)
 
-    def test_3d(self):
+    def test_3d(self):  # noqa: D102
         df = self._create_pandas(index_levels=3)
         result = iris.pandas.as_cubes(df)
 
@@ -887,7 +887,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.dim_coords == tuple(expected_coords)
 
-    def test_3d_series(self):
+    def test_3d_series(self):  # noqa: D102
         series = self._create_pandas(index_levels=3, is_series=True)
         result = iris.pandas.as_cubes(series)
 
@@ -898,7 +898,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.dim_coords == tuple(expected_coords)
 
-    def test_non_unique_index(self):
+    def test_non_unique_index(self):  # noqa: D102
         df = self._create_pandas(index_levels=1)
         new_index = df.index.values.copy()
         new_index[1] = new_index[0]
@@ -907,7 +907,7 @@ class TestPandasAsCubes:
         with pytest.raises(ValueError, match="not unique per row"):
             _ = iris.pandas.as_cubes(df)
 
-    def test_non_monotonic_index(self):
+    def test_non_monotonic_index(self):  # noqa: D102
         df = self._create_pandas(index_levels=1)
         new_index = df.index.values.copy()
         new_index[:2] = new_index[1::-1]
@@ -915,7 +915,7 @@ class TestPandasAsCubes:
         with pytest.raises(ValueError, match="not monotonic"):
             _ = iris.pandas.as_cubes(df)
 
-    def test_missing_rows(self):
+    def test_missing_rows(self):  # noqa: D102
         df = self._create_pandas(index_levels=2)
         df = df[:-1]
         with pytest.raises(
@@ -923,7 +923,7 @@ class TestPandasAsCubes:
         ):
             _ = iris.pandas.as_cubes(df)
 
-    def test_aux_coord(self):
+    def test_aux_coord(self):  # noqa: D102
         df = self._create_pandas()
         coord_name = "foo"
         df[coord_name] = df.index.values
@@ -933,7 +933,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.aux_coords == (expected_aux_coord,)
 
-    def test_cell_measure(self):
+    def test_cell_measure(self):  # noqa: D102
         df = self._create_pandas()
         coord_name = "foo"
         df[coord_name] = df.index.values
@@ -943,7 +943,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.cell_measures() == [expected_cm]
 
-    def test_ancillary_variable(self):
+    def test_ancillary_variable(self):  # noqa: D102
         df = self._create_pandas()
         coord_name = "foo"
         df[coord_name] = df.index.values
@@ -953,7 +953,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.ancillary_variables() == [expected_av]
 
-    def test_3d_with_2d_coord(self):
+    def test_3d_with_2d_coord(self):  # noqa: D102
         df = self._create_pandas(index_levels=3)
         coord_shape = df.index.levshape[:2]
         coord_values = np.arange(np.prod(coord_shape))
@@ -967,7 +967,7 @@ class TestPandasAsCubes:
         _shared_utils.assert_array_equal(result_coord.points, expected_points)
         assert result_coord.cube_dims(result_cube) == (0, 1)
 
-    def test_coord_varies_all_indices(self):
+    def test_coord_varies_all_indices(self):  # noqa: D102
         df = self._create_pandas(index_levels=3)
         coord_shape = df.index.levshape
         coord_values = np.arange(np.prod(coord_shape))
@@ -981,7 +981,7 @@ class TestPandasAsCubes:
         _shared_utils.assert_array_equal(result_coord.points, expected_points)
         assert result_coord.cube_dims(result_cube) == (0, 1, 2)
 
-    def test_category_coord(self):
+    def test_category_coord(self):  # noqa: D102
         # Something that varies on a dimension, but doesn't change with every
         #  increment.
         df = self._create_pandas(index_levels=2)
@@ -1002,7 +1002,7 @@ class TestPandasAsCubes:
         _shared_utils.assert_array_equal(result_coord.points, expected_points)
         assert result_coord.cube_dims(result_cube) == (0, 1)
 
-    def test_scalar_coord(self):
+    def test_scalar_coord(self):  # noqa: D102
         df = self._create_pandas()
         coord_values = np.ones(len(df))
         coord_name = "foo"
@@ -1015,7 +1015,7 @@ class TestPandasAsCubes:
         _shared_utils.assert_array_equal(result_coord.points, expected_points)
         assert result_coord.cube_dims(result_cube) == tuple()
 
-    def test_multi_phenom(self):
+    def test_multi_phenom(self):  # noqa: D102
         df = self._create_pandas()
         new_name = "new_phenom"
         df[new_name] = df[0]
@@ -1037,26 +1037,26 @@ class TestPandasAsCubes:
         )
         assert result == [expected_cube_0, expected_cube_1]
 
-    def test_empty_series(self):
+    def test_empty_series(self):  # noqa: D102
         series = pd.Series(dtype=object)
         result = iris.pandas.as_cubes(series)
 
         assert result == CubeList()
 
-    def test_empty_dataframe(self):
+    def test_empty_dataframe(self):  # noqa: D102
         df = pd.DataFrame()
         result = iris.pandas.as_cubes(df)
 
         assert result == CubeList()
 
-    def test_no_phenom(self):
+    def test_no_phenom(self):  # noqa: D102
         df = self._create_pandas()
         # Specify the only column as an AuxCoord.
         result = iris.pandas.as_cubes(df, aux_coord_cols=[0])
 
         assert result == CubeList()
 
-    def test_standard_name_phenom(self):
+    def test_standard_name_phenom(self):  # noqa: D102
         # long_name behaviour is tested in test_1d_no_index.
         df = self._create_pandas()
         new_name = "air_temperature"
@@ -1066,7 +1066,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.standard_name == new_name
 
-    def test_standard_name_coord(self):
+    def test_standard_name_coord(self):  # noqa: D102
         # long_name behaviour is tested in test_1d_with_index.
         df = self._create_pandas()
         new_name = "longitude"
@@ -1077,7 +1077,7 @@ class TestPandasAsCubes:
         result_coord = result_cube.coord(dim_coords=True)
         assert result_coord.standard_name == new_name
 
-    def test_dtype_preserved_phenom(self):
+    def test_dtype_preserved_phenom(self):  # noqa: D102
         df = self._create_pandas()
         df = df.astype("int32")
         result = iris.pandas.as_cubes(df)
@@ -1085,7 +1085,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         assert result_cube.dtype == np.int32
 
-    def test_preserve_dim_order(self):
+    def test_preserve_dim_order(self):  # noqa: D102
         new_order = ["index_1", "index_0", "index_2"]
 
         df = self._create_pandas(index_levels=3)
@@ -1098,7 +1098,7 @@ class TestPandasAsCubes:
         dim_order = [c.name() for c in result_cube.dim_coords]
         assert dim_order == new_order
 
-    def test_dtype_preserved_coord(self):
+    def test_dtype_preserved_coord(self):  # noqa: D102
         df = self._create_pandas()
         new_index = df.index.astype("float64")
         df.index = new_index
@@ -1108,7 +1108,7 @@ class TestPandasAsCubes:
         result_coord = result_cube.coord(dim_coords=True)
         assert result_coord.dtype == np.float64
 
-    def test_string_phenom(self):
+    def test_string_phenom(self):  # noqa: D102
         # Strings can be uniquely troublesome.
         df = self._create_pandas()
         new_values = [str(v) for v in df[0]]
@@ -1118,7 +1118,7 @@ class TestPandasAsCubes:
         (result_cube,) = result
         _shared_utils.assert_array_equal(result_cube.data, new_values)
 
-    def test_string_coord(self):
+    def test_string_coord(self):  # noqa: D102
         # Strings can be uniquely troublesome.
         # Must test using an AuxCoord since strings cannot be DimCoords.
         df = self._create_pandas()
@@ -1131,12 +1131,12 @@ class TestPandasAsCubes:
         result_coord = result_cube.coord(coord_name)
         _shared_utils.assert_array_equal(result_coord.points, new_points)
 
-    def test_series_with_col_args(self):
+    def test_series_with_col_args(self):  # noqa: D102
         series = self._create_pandas(is_series=True)
         with pytest.warns(Warning, match="is a Series; ignoring"):
             _ = iris.pandas.as_cubes(series, aux_coord_cols=["some_column"])
 
-    def test_phenom_copy(self):
+    def test_phenom_copy(self):  # noqa: D102
         df = self._create_pandas()
         result = iris.pandas.as_cubes(df)
 
@@ -1185,22 +1185,22 @@ class TestPandasAsCubes:
         assert result_coord.units == expected_units
         _shared_utils.assert_array_equal(result_coord.points, expected_points)
 
-    def test_datetime_index(self):
+    def test_datetime_index(self):  # noqa: D102
         self._test_dates_common(mode="index")
 
-    def test_datetime_index_calendar(self):
+    def test_datetime_index_calendar(self):  # noqa: D102
         self._test_dates_common(mode="index", alt_calendar=True)
 
-    def test_numpy_datetime_coord(self):
+    def test_numpy_datetime_coord(self):  # noqa: D102
         # NumPy format is what happens if a Python datetime is assigned to a
         #  Pandas column.
         self._test_dates_common(mode="numpy")
 
-    def test_numpy_datetime_coord_calendar(self):
+    def test_numpy_datetime_coord_calendar(self):  # noqa: D102
         self._test_dates_common(mode="numpy", alt_calendar=True)
 
-    def test_cftime_coord(self):
+    def test_cftime_coord(self):  # noqa: D102
         self._test_dates_common(mode="cftime")
 
-    def test_cftime_coord_calendar(self):
+    def test_cftime_coord_calendar(self):  # noqa: D102
         self._test_dates_common(mode="cftime", alt_calendar=True)

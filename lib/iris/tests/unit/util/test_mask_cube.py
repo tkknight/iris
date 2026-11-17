@@ -56,7 +56,7 @@ class TestArrayMask(MaskCubeMixin):
         self.cube_2d = full2d_global()
         make_bounds_discontiguous_at_point(self.cube_2d, 3, 3)
 
-    def test_mask_cube_2d_in_place(self):
+    def test_mask_cube_2d_in_place(self):  # noqa: D102
         # This tests the masking of a 2d data array
         cube = self.cube_2d
         discontiguity_array = ma.getmaskarray(cube.data).copy()
@@ -71,7 +71,7 @@ class TestArrayMask(MaskCubeMixin):
         self.assert_original_metadata(cube, "full2d_global")
         assert returned is None
 
-    def test_mask_cube_2d_not_in_place(self):
+    def test_mask_cube_2d_not_in_place(self):  # noqa: D102
         # This tests the masking of a 2d data array
         cube = self.cube_2d
         discontiguity_array = ma.getmaskarray(cube.data).copy()
@@ -86,7 +86,7 @@ class TestArrayMask(MaskCubeMixin):
         self.assert_original_metadata(returned, "full2d_global")
         assert not ma.is_masked(cube.data)
 
-    def test_mask_cube_lazy_in_place_broadcast(self):
+    def test_mask_cube_lazy_in_place_broadcast(self):  # noqa: D102
         cube = simple_2d()
         cube.data = cube.lazy_data()
         mask = [0, 1, 1, 0]
@@ -108,7 +108,7 @@ class TestCoordMask(MaskCubeMixin):
     def _setup(self):
         self.cube = simple_2d()
 
-    def test_mask_cube_2d_first_dim(self):
+    def test_mask_cube_2d_first_dim(self):  # noqa: D102
         mask_coord = iris.coords.AuxCoord([0, 1, 0], long_name="mask", units=1)
         self.cube.add_aux_coord(mask_coord, 0)
 
@@ -120,7 +120,7 @@ class TestCoordMask(MaskCubeMixin):
             # Mask should have been broadcast across "foo" dimension.
             _shared_utils.assert_array_equal(subcube.data.mask, mask_coord.points)
 
-    def test_mask_cube_2d_second_dim(self):
+    def test_mask_cube_2d_second_dim(self):  # noqa: D102
         mask_coord = iris.coords.AuxCoord([0, 0, 1, 1], long_name="mask", units=1)
         returned = mask_cube(self.cube, mask_coord, in_place=False, dim=1)
         self.assert_original_metadata(returned, "simple_2d")
@@ -136,7 +136,7 @@ class TestCubeMask(MaskCubeMixin):
     def _setup(self):
         self.cube = simple_2d()
 
-    def test_mask_cube_2d_first_dim_not_in_place(self):
+    def test_mask_cube_2d_first_dim_not_in_place(self):  # noqa: D102
         mask = iris.cube.Cube([0, 1, 0], long_name="mask", units=1)
         mask.add_dim_coord(self.cube.coord("bar"), 0)
 
@@ -146,7 +146,7 @@ class TestCubeMask(MaskCubeMixin):
             # Mask should have been broadcast across 'foo' dimension.
             _shared_utils.assert_array_equal(subcube.data.mask, mask.data)
 
-    def test_mask_cube_2d_first_dim_in_place(self):
+    def test_mask_cube_2d_first_dim_in_place(self):  # noqa: D102
         mask = iris.cube.Cube([0, 1, 0], long_name="mask", units=1)
         mask.add_dim_coord(self.cube.coord("bar"), 0)
 
@@ -157,7 +157,7 @@ class TestCubeMask(MaskCubeMixin):
             _shared_utils.assert_array_equal(subcube.data.mask, mask.data)
         assert returned is None
 
-    def test_mask_cube_2d_create_new_dim(self):
+    def test_mask_cube_2d_create_new_dim(self):  # noqa: D102
         mask = iris.cube.Cube([[0, 1, 0], [0, 0, 1]], long_name="mask", units=1)
 
         broadcast_coord = iris.coords.DimCoord([1, 2], long_name="baz")
@@ -179,7 +179,7 @@ class TestCubeMask(MaskCubeMixin):
             # Mask should have been broadcast across 'foo' dimension.
             _shared_utils.assert_array_equal(subcube.data.mask, mask.data)
 
-    def test_mask_cube_1d_lazy_mask_in_place(self):
+    def test_mask_cube_1d_lazy_mask_in_place(self):  # noqa: D102
         cube = simple_1d()
         mask = cube.copy(da.from_array([0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1]))
         returned = mask_cube(cube, mask, in_place=True)

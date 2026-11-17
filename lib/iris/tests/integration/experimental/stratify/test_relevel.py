@@ -30,7 +30,7 @@ class Test:
         self.coord = self.src_levels.coord("wibble")
         self.axes = (self.coord, self.coord.name(), None, 0)
 
-    def test_standard_input(self):
+    def test_standard_input(self):  # noqa: D102
         for axis in self.axes:
             result = relevel(self.cube, self.src_levels, [-1, 0, 5.5], axis=axis)
             _shared_utils.assert_array_equal(
@@ -39,7 +39,7 @@ class Test:
             expected = DimCoord([-1, 0, 5.5], units=1, long_name="thingness")
             assert expected == result.coord("thingness")
 
-    def test_non_monotonic(self):
+    def test_non_monotonic(self):  # noqa: D102
         for axis in self.axes:
             result = relevel(self.cube, self.src_levels, [2, 3, 2], axis=axis)
             _shared_utils.assert_array_equal(
@@ -48,12 +48,12 @@ class Test:
             expected = AuxCoord([2, 3, 2], units=1, long_name="thingness")
             assert result.coord("thingness") == expected
 
-    def test_static_level(self):
+    def test_static_level(self):  # noqa: D102
         for axis in self.axes:
             result = relevel(self.cube, self.src_levels, [2, 2], axis=axis)
             _shared_utils.assert_array_equal(result.data.flatten(), np.array([20, 20]))
 
-    def test_coord_input(self):
+    def test_coord_input(self):  # noqa: D102
         source = AuxCoord(self.src_levels.data)
         metadata = self.src_levels.metadata._asdict()
         metadata["coord_system"] = None
@@ -65,7 +65,7 @@ class Test:
             assert result.shape == (3, 1, 1)
             _shared_utils.assert_array_equal(result.data.flatten(), [0, 120, np.nan])
 
-    def test_custom_interpolator(self):
+    def test_custom_interpolator(self):  # noqa: D102
         interpolator = partial(stratify.interpolate, interpolation="nearest")
 
         for axis in self.axes:
@@ -80,7 +80,7 @@ class Test:
                 result.data.flatten(), np.array([np.nan, 0, 120])
             )
 
-    def test_multi_dim_target_levels(self, request):
+    def test_multi_dim_target_levels(self, request):  # noqa: D102
         interpolator = partial(
             stratify.interpolate,
             interpolation="linear",

@@ -13,7 +13,7 @@ class TestStandardNames:
 
     longMessage = True
 
-    def test_standard_names_table(self):
+    def test_standard_names_table(self):  # noqa: D102
         # Check we have a dict
         assert isinstance(STD_NAMES, dict)
 
@@ -38,7 +38,7 @@ class TestStandardNames:
             "\nInvalid standard name(s) present in STD_NAMES"
         )
 
-    def test_standard_names_version(self):
+    def test_standard_names_version(self):  # noqa: D102
         # Check we have a dict
         assert isinstance(CF_STANDARD_NAMES_TABLE_VERSION, int)
         # Check the value is roughly sensible.

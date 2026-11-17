@@ -24,7 +24,7 @@ def stereo(**kwargs):
 
 class Test_Stereographic_construction:
     """Test Stereographic construction."""
-    def test_stereo(self):
+    def test_stereo(self):  # noqa: D102
         st = stereo()
         _shared_utils.assert_XML_element(st, ("coord_systems", "Stereographic.xml"))
 
@@ -33,7 +33,7 @@ class Test_init_defaults:
     """Test init defaults."""
     # This class *only* tests the defaults for optional constructor args.
 
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = Stereographic(
             0, 0, false_easting=100, false_northing=-203.7, true_scale_lat=77
@@ -42,7 +42,7 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.false_northing, -203.7)
         _shared_utils.assert_equal_and_kind(crs.true_scale_lat, 77.0)
 
-    def test_set_optional_args_scale_factor_alternative(self):
+    def test_set_optional_args_scale_factor_alternative(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = Stereographic(
             0,
@@ -63,12 +63,12 @@ class Test_init_defaults:
         assert crs.true_scale_lat is None
         assert crs.scale_factor_at_projection_origin is None
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = Stereographic(0, 0)
         self._check_crs_defaults(crs)
 
-    def test_optional_args_none(self):
+    def test_optional_args_none(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = Stereographic(
             0,
@@ -83,7 +83,7 @@ class Test_init_defaults:
 
 class Test_Stereographic_repr:
     """Test Stereographic repr."""
-    def test_stereo(self):
+    def test_stereo(self):  # noqa: D102
         st = stereo()
         expected = (
             "Stereographic(central_lat=-90.0, central_lon=-45.0, "
@@ -92,7 +92,7 @@ class Test_Stereographic_repr:
         )
         assert expected == repr(st)
 
-    def test_stereo_scale_factor(self):
+    def test_stereo_scale_factor(self):  # noqa: D102
         st = stereo(scale_factor_at_projection_origin=0.9)
         expected = (
             "Stereographic(central_lat=-90.0, central_lon=-45.0, "
@@ -105,7 +105,7 @@ class Test_Stereographic_repr:
 
 class AsCartopyMixin:
     """AsCartopyMixin."""
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         latitude_of_projection_origin = -90.0
         longitude_of_projection_origin = -45.0
         false_easting = 100.0
@@ -134,7 +134,7 @@ class AsCartopyMixin:
         res = self.as_cartopy_method(st)
         assert res == expected
 
-    def test_true_scale_lat(self):
+    def test_true_scale_lat(self):  # noqa: D102
         latitude_of_projection_origin = -90.0
         longitude_of_projection_origin = -45.0
         false_easting = 100.0
@@ -166,7 +166,7 @@ class AsCartopyMixin:
         res = self.as_cartopy_method(st)
         assert res == expected
 
-    def test_scale_factor(self):
+    def test_scale_factor(self):  # noqa: D102
         latitude_of_projection_origin = -90.0
         longitude_of_projection_origin = -45.0
         false_easting = 100.0

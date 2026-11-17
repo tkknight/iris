@@ -16,13 +16,13 @@ class TestSaveFields:
     def _setup(self):
         self.cube = stock.realistic_3d()
 
-    def test_cube_only(self):
+    def test_cube_only(self):  # noqa: D102
         slices_and_fields = save_pairs_from_cube(self.cube)
         for aslice, field in slices_and_fields:
             assert aslice.shape == (9, 11)
             assert field.lbcode == 101
 
-    def test_field_coords(self):
+    def test_field_coords(self):  # noqa: D102
         slices_and_fields = save_pairs_from_cube(
             self.cube, field_coords=["grid_longitude", "grid_latitude"]
         )
@@ -30,7 +30,7 @@ class TestSaveFields:
             assert aslice.shape == (11, 9)
             assert field.lbcode == 101
 
-    def test_lazy_data(self):
+    def test_lazy_data(self):  # noqa: D102
         cube = self.cube.copy()
         # "Rebase" the cube onto a lazy version of its data.
         cube.data = cube.lazy_data()
@@ -39,7 +39,7 @@ class TestSaveFields:
         for aslice, _ in slices_and_fields:
             assert aslice.has_lazy_data()
 
-    def test_default_bmdi(self):
+    def test_default_bmdi(self):  # noqa: D102
         slices_and_fields = save_pairs_from_cube(self.cube)
         _, field = next(slices_and_fields)
         assert field.bmdi == -1e30

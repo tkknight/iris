@@ -33,17 +33,17 @@ class Test_append:
         self.cube1 = iris.cube.Cube(1, long_name="foo")
         self.cube2 = iris.cube.Cube(1, long_name="bar")
 
-    def test_pass(self):
+    def test_pass(self):  # noqa: D102
         self.cubelist.append(self.cube1)
         assert self.cubelist[-1] == self.cube1
         self.cubelist.append(self.cube2)
         assert self.cubelist[-1] == self.cube2
 
-    def test_fail(self):
+    def test_fail(self):  # noqa: D102
         with pytest.raises(ValueError, match=NOT_CUBE_MSG):
             self.cubelist.append(None)
 
-    def test_fail_message_names_object(self):
+    def test_fail_message_names_object(self):  # noqa: D102
         with pytest.raises(ValueError, match="Object 'not a cube' cannot be put"):
             self.cubelist.append("not a cube")
 
@@ -64,7 +64,7 @@ class Test_concatenate_cube:
     @pytest.mark.parametrize(
         "dataless_c2", [True, False], ids=["and-dataless", "and-with_data"]
     )
-    def test_pass(self, dataless_c2):
+    def test_pass(self, dataless_c2):  # noqa: D102
         if dataless_c2:
             data = None
             shape = (3,)
@@ -79,7 +79,7 @@ class Test_concatenate_cube:
     @pytest.mark.parametrize(
         "dataless_c2", [True, False], ids=["and-dataless", "and-with_data"]
     )
-    def test_fail(self, dataless_c2):
+    def test_fail(self, dataless_c2):  # noqa: D102
         units = Unit("days since 1970-01-02 00:00:00", calendar="standard")
         if dataless_c2:
             data = None
@@ -92,7 +92,7 @@ class Test_concatenate_cube:
         with pytest.raises(iris.exceptions.ConcatenateError):
             CubeList([self.cube1, cube2]).concatenate_cube()
 
-    def test_names_differ_fail(self):
+    def test_names_differ_fail(self):  # noqa: D102
         self.cube2 = Cube([1, 2, 3], "air_temperature", units="K")
         self.cube2.add_dim_coord(DimCoord([3, 4, 5], "time", units=self.units), 0)
         self.cube3 = Cube([1, 2, 3], "air_pressure", units="Pa")
@@ -101,12 +101,12 @@ class Test_concatenate_cube:
         with pytest.raises(iris.exceptions.ConcatenateError, match=exc_regexp):
             CubeList([self.cube1, self.cube2, self.cube3]).concatenate_cube()
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         exc_regexp = "can't concatenate an empty CubeList"
         with pytest.raises(ValueError, match=exc_regexp):
             CubeList([]).concatenate_cube()
 
-    def test_multidim(self):
+    def test_multidim(self):  # noqa: D102
         lat = DimCoord(np.arange(20), standard_name="latitude")
         lon = DimCoord(np.arange(20), standard_name="longitude")
 
@@ -131,14 +131,14 @@ class Test_extend:
         self.cubelist1 = iris.cube.CubeList([self.cube1])
         self.cubelist2 = iris.cube.CubeList([self.cube2])
 
-    def test_pass(self):
+    def test_pass(self):  # noqa: D102
         cubelist = copy.copy(self.cubelist1)
         cubelist.extend(self.cubelist2)
         assert cubelist == self.cubelist1 + self.cubelist2
         cubelist.extend([self.cube2])
         assert cubelist[-1] == self.cube2
 
-    def test_fail(self):
+    def test_fail(self):  # noqa: D102
         with pytest.raises(TypeError, match=NON_ITERABLE_MSG):
             self.cubelist1.extend(self.cube1)
         with pytest.raises(TypeError, match=NON_ITERABLE_MSG):
@@ -178,19 +178,19 @@ class Test_extract_overlapping:
         cube.add_dim_coord(coord, 2)
         self.cube = cube
 
-    def test_extract_one_str_dim(self):
+    def test_extract_one_str_dim(self):  # noqa: D102
         cubes = iris.cube.CubeList([self.cube[2:], self.cube[:4]])
         a, b = cubes.extract_overlapping("time")
         assert a.coord("time") == self.cube.coord("time")[2:4]
         assert b.coord("time") == self.cube.coord("time")[2:4]
 
-    def test_extract_one_list_dim(self):
+    def test_extract_one_list_dim(self):  # noqa: D102
         cubes = iris.cube.CubeList([self.cube[2:], self.cube[:4]])
         a, b = cubes.extract_overlapping(["time"])
         assert a.coord("time") == self.cube.coord("time")[2:4]
         assert b.coord("time") == self.cube.coord("time")[2:4]
 
-    def test_extract_two_dims(self):
+    def test_extract_two_dims(self):  # noqa: D102
         cubes = iris.cube.CubeList([self.cube[2:, 5:], self.cube[:4, :10]])
         a, b = cubes.extract_overlapping(["time", "latitude"])
         assert a.coord("time") == self.cube.coord("time")[2:4]
@@ -198,7 +198,7 @@ class Test_extract_overlapping:
         assert b.coord("time") == self.cube.coord("time")[2:4]
         assert b.coord("latitude") == self.cube.coord("latitude")[5:10]
 
-    def test_different_orders(self):
+    def test_different_orders(self):  # noqa: D102
         cubes = iris.cube.CubeList([self.cube[::-1][:4], self.cube[:4]])
         a, b = cubes.extract_overlapping("time")
         assert a.coord("time") == self.cube[::-1].coord("time")[2:4]
@@ -214,14 +214,14 @@ class Test_iadd:
         self.cubelist1 = iris.cube.CubeList([self.cube1])
         self.cubelist2 = iris.cube.CubeList([self.cube2])
 
-    def test_pass(self):
+    def test_pass(self):  # noqa: D102
         cubelist = copy.copy(self.cubelist1)
         cubelist += self.cubelist2
         assert cubelist == self.cubelist1 + self.cubelist2
         cubelist += [self.cube2]
         assert cubelist[-1] == self.cube2
 
-    def test_fail(self):
+    def test_fail(self):  # noqa: D102
         with pytest.raises(TypeError, match=NON_ITERABLE_MSG):
             self.cubelist1 += self.cube1
         with pytest.raises(TypeError, match=NON_ITERABLE_MSG):
@@ -238,11 +238,11 @@ class Test_insert:
         self.cube2 = iris.cube.Cube(1, long_name="bar")
         self.cubelist = iris.cube.CubeList([self.cube1] * 3)
 
-    def test_pass(self):
+    def test_pass(self):  # noqa: D102
         self.cubelist.insert(1, self.cube2)
         assert self.cubelist[1] == self.cube2
 
-    def test_fail(self):
+    def test_fail(self):  # noqa: D102
         with pytest.raises(ValueError, match=NOT_CUBE_MSG):
             self.cubelist.insert(0, None)
 
@@ -254,29 +254,29 @@ class Test_merge_cube:
         self.cube1 = Cube([1, 2, 3], "air_temperature", units="K")
         self.cube1.add_aux_coord(AuxCoord([0], "height", units="m"))
 
-    def test_pass(self):
+    def test_pass(self):  # noqa: D102
         cube2 = self.cube1.copy()
         cube2.coord("height").points = [1]
         result = CubeList([self.cube1, cube2]).merge_cube()
         assert isinstance(result, Cube)
 
-    def test_fail(self):
+    def test_fail(self):  # noqa: D102
         cube2 = self.cube1.copy()
         cube2.rename("not air temperature")
         with pytest.raises(iris.exceptions.MergeError):
             CubeList([self.cube1, cube2]).merge_cube()
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         msg = "can't merge an empty CubeList"
         with pytest.raises(ValueError, match=msg):
             CubeList([]).merge_cube()
 
-    def test_single_cube(self):
+    def test_single_cube(self):  # noqa: D102
         result = CubeList([self.cube1]).merge_cube()
         assert result == self.cube1
         assert result is not self.cube1
 
-    def test_repeated_cube(self):
+    def test_repeated_cube(self):  # noqa: D102
         with pytest.raises(iris.exceptions.MergeError):
             CubeList([self.cube1, self.cube1]).merge_cube()
 
@@ -303,7 +303,7 @@ class Test_merge__time_triple:
             )
         return cube
 
-    def test_orthogonal_with_realization(self):
+    def test_orthogonal_with_realization(self):  # noqa: D102
         # => fp: 2; rt: 2; t: 2; realization: 2
         triples = (
             (0, 10, 1),
@@ -321,7 +321,7 @@ class Test_merge__time_triple:
         (cube,) = cubes.merge()
         _shared_utils.assert_CML(self.request, cube, checksum=False)
 
-    def test_combination_with_realization(self):
+    def test_combination_with_realization(self):  # noqa: D102
         # => fp, rt, t: 8; realization: 2
         triples = (
             (0, 10, 1),
@@ -339,7 +339,7 @@ class Test_merge__time_triple:
         (cube,) = cubes.merge()
         _shared_utils.assert_CML(self.request, cube, checksum=False)
 
-    def test_combination_with_extra_realization(self):
+    def test_combination_with_extra_realization(self):  # noqa: D102
         # => fp, rt, t, realization: 17
         triples = (
             (0, 10, 1),
@@ -360,7 +360,7 @@ class Test_merge__time_triple:
         (cube,) = cubes.merge()
         _shared_utils.assert_CML(self.request, cube, checksum=False)
 
-    def test_combination_with_extra_triple(self):
+    def test_combination_with_extra_triple(self):  # noqa: D102
         # => fp, rt, t, realization: 17
         triples = (
             (0, 10, 1),
@@ -392,13 +392,13 @@ class Test_setitem:
         self.cube3 = iris.cube.Cube(1, long_name="boo")
         self.cubelist = iris.cube.CubeList([self.cube1] * 3)
 
-    def test_pass(self):
+    def test_pass(self):  # noqa: D102
         self.cubelist[1] = self.cube2
         assert self.cubelist[1] == self.cube2
         self.cubelist[:2] = (self.cube2, self.cube3)
         assert self.cubelist == iris.cube.CubeList([self.cube2, self.cube3, self.cube1])
 
-    def test_fail(self):
+    def test_fail(self):  # noqa: D102
         with pytest.raises(ValueError, match=NOT_CUBE_MSG):
             self.cubelist[0] = None
         with pytest.raises(ValueError, match=NOT_CUBE_MSG):
@@ -416,13 +416,13 @@ class Test_xml:
     def _setup(self):
         self.cubes = CubeList([Cube(np.arange(3)), Cube(np.arange(3))])
 
-    def test_byteorder_default(self):
+    def test_byteorder_default(self):  # noqa: D102
         assert "byteorder" in self.cubes.xml()
 
-    def test_byteorder_false(self):
+    def test_byteorder_false(self):  # noqa: D102
         assert "byteorder" not in self.cubes.xml(byteorder=False)
 
-    def test_byteorder_true(self):
+    def test_byteorder_true(self):  # noqa: D102
         assert "byteorder" in self.cubes.xml(byteorder=True)
 
 
@@ -435,13 +435,13 @@ class Test_extract:
             for letter in "abcd":
                 self.scalar_cubes.append(Cube(i, long_name=letter))
 
-    def test_scalar_cube_name_constraint(self):
+    def test_scalar_cube_name_constraint(self):  # noqa: D102
         # Test the name based extraction of a CubeList containing scalar cubes.
         res = self.scalar_cubes.extract("a")
         expected = CubeList([Cube(i, long_name="a") for i in range(5)])
         assert res == expected
 
-    def test_scalar_cube_data_constraint(self):
+    def test_scalar_cube_data_constraint(self):  # noqa: D102
         # Test the extraction of a CubeList containing scalar cubes
         # when using a cube_func.
         val = 2
@@ -466,7 +466,7 @@ class ExtractMixin:
         self.cons_any = Constraint(cube_func=lambda cube: True)
         self.cons_none = Constraint(cube_func=lambda cube: False)
 
-    def check_extract(self, cubes, constraints, expected):
+    def check_extract(self, cubes, constraints, expected):  # noqa: D102
         # Check that extracting a cubelist with the given arguments has the
         # expected result.
         # 'expected' and the operation results can be:
@@ -501,51 +501,51 @@ class Test_extract_cube(ExtractMixin):
     """Test extract cube."""
     method_name = "extract_cube"
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         self.check_extract([], self.cons_x, "Got 0 cubes .* expecting 1")
 
-    def test_single_cube_ok(self):
+    def test_single_cube_ok(self):  # noqa: D102
         self.check_extract([self.cube_x], self.cons_x, self.cube_x)
 
-    def test_single_cube_fail__too_few(self):
+    def test_single_cube_fail__too_few(self):  # noqa: D102
         self.check_extract([self.cube_x], self.cons_y, "Got 0 cubes .* expecting 1")
 
-    def test_single_cube_fail__too_many(self):
+    def test_single_cube_fail__too_many(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y],
             self.cons_any,
             "Got 2 cubes .* expecting 1",
         )
 
-    def test_string_as_constraint(self):
+    def test_string_as_constraint(self):  # noqa: D102
         # Check that we can use a string, that converts to a constraint
         # ( via "as_constraint" ).
         self.check_extract([self.cube_x], "x", self.cube_x)
 
-    def test_none_as_constraint(self):
+    def test_none_as_constraint(self):  # noqa: D102
         # Check that we can use a None, that converts to a constraint
         # ( via "as_constraint" ).
         self.check_extract([self.cube_x], None, self.cube_x)
 
-    def test_constraint_in_list__fail(self):
+    def test_constraint_in_list__fail(self):  # noqa: D102
         # Check that we *cannot* use [constraint]
         msg = "cannot be cast to a constraint"
         with pytest.raises(TypeError, match=msg):
             self.check_extract([], [self.cons_x], [])
 
-    def test_multi_cube_ok(self):
+    def test_multi_cube_ok(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y], self.cons_x, self.cube_x
         )  # NOTE: returns a cube
 
-    def test_multi_cube_fail__too_few(self):
+    def test_multi_cube_fail__too_few(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y],
             self.cons_none,
             "Got 0 cubes .* expecting 1",
         )
 
-    def test_multi_cube_fail__too_many(self):
+    def test_multi_cube_fail__too_many(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y],
             self.cons_any,
@@ -561,13 +561,13 @@ class ExtractCubesMixin(ExtractMixin):
 class Test_extract_cubes__noconstraint(ExtractCubesMixin):
     """Test with an empty list of constraints."""
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         self.check_extract([], [], [])
 
-    def test_single_cube(self):
+    def test_single_cube(self):  # noqa: D102
         self.check_extract([self.cube_x], [], [])
 
-    def test_multi_cubes(self):
+    def test_multi_cubes(self):  # noqa: D102
         self.check_extract([self.cube_x, self.cube_y], [], [])
 
 
@@ -581,36 +581,36 @@ class ExtractCubesSingleConstraintMixin(ExtractCubesMixin):
     # Effectively "abstract" -- inheritor must define this property :
     #   wrap_test_constraint_as_list_of_one = True / False
 
-    def check_extract(self, cubes, constraint, result):
+    def check_extract(self, cubes, constraint, result):  # noqa: D102
         # Overload standard test operation.
         if self.wrap_test_constraint_as_list_of_one:
             constraint = [constraint]
         super().check_extract(cubes, constraint, result)
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         self.check_extract([], self.cons_x, "Got 0 cubes .* expecting 1")
 
-    def test_single_cube_ok(self):
+    def test_single_cube_ok(self):  # noqa: D102
         self.check_extract(
             [self.cube_x], self.cons_x, [self.cube_x]
         )  # NOTE: always returns list NOT cube
 
-    def test_single_cube__fail_mismatch(self):
+    def test_single_cube__fail_mismatch(self):  # noqa: D102
         self.check_extract([self.cube_x], self.cons_y, "Got 0 cubes .* expecting 1")
 
-    def test_multi_cube_ok(self):
+    def test_multi_cube_ok(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y], self.cons_x, [self.cube_x]
         )  # NOTE: always returns list NOT cube
 
-    def test_multi_cube__fail_too_few(self):
+    def test_multi_cube__fail_too_few(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y],
             self.cons_none,
             "Got 0 cubes .* expecting 1",
         )
 
-    def test_multi_cube__fail_too_many(self):
+    def test_multi_cube__fail_too_many(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y],
             self.cons_any,
@@ -633,13 +633,13 @@ class Test_extract_cubes__list_single_constraint(ExtractCubesSingleConstraintMix
 class Test_extract_cubes__multi_constraints(ExtractCubesMixin):
     """Testing when the 'constraints' arg is a list of multiple constraints."""
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         # Always fails.
         self.check_extract(
             [], [self.cons_x, self.cons_any], "Got 0 cubes .* expecting 1"
         )
 
-    def test_single_cube_ok(self):
+    def test_single_cube_ok(self):  # noqa: D102
         # Possible if the one cube matches all the constraints.
         self.check_extract(
             [self.cube_x],
@@ -647,21 +647,21 @@ class Test_extract_cubes__multi_constraints(ExtractCubesMixin):
             [self.cube_x, self.cube_x],
         )
 
-    def test_single_cube__fail_too_few(self):
+    def test_single_cube__fail_too_few(self):  # noqa: D102
         self.check_extract(
             [self.cube_x],
             [self.cons_x, self.cons_y],
             "Got 0 cubes .* expecting 1",
         )
 
-    def test_multi_cube_ok(self):
+    def test_multi_cube_ok(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y],
             [self.cons_y, self.cons_x],  # N.B. reverse order !
             [self.cube_y, self.cube_x],
         )
 
-    def test_multi_cube_castable_constraint_args(self):
+    def test_multi_cube_castable_constraint_args(self):  # noqa: D102
         # Check with args that *aren't* constraints, but can be converted
         # ( via "as_constraint" ).
         self.check_extract(
@@ -673,14 +673,14 @@ class Test_extract_cubes__multi_constraints(ExtractCubesMixin):
     # NOTE: not bothering to check we can cast a 'None', as it will anyway
     # fail with multiple input cubes.
 
-    def test_multi_cube__fail_too_few(self):
+    def test_multi_cube__fail_too_few(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y],
             [self.cons_x, self.cons_y, self.cons_none],
             "Got 0 cubes .* expecting 1",
         )
 
-    def test_multi_cube__fail_too_many(self):
+    def test_multi_cube__fail_too_many(self):  # noqa: D102
         self.check_extract(
             [self.cube_x, self.cube_y],
             [self.cons_x, self.cons_y, self.cons_any],
@@ -697,10 +697,10 @@ class Test_iteration:
             for letter in "abcd":
                 self.scalar_cubes.append(Cube(i, long_name=letter))
 
-    def test_iterable(self):
+    def test_iterable(self):  # noqa: D102
         assert isinstance(self.scalar_cubes, collections.abc.Iterable)
 
-    def test_iteration(self):
+    def test_iteration(self):  # noqa: D102
         letters = "abcd" * 5
         for i, cube in enumerate(self.scalar_cubes):
             assert cube.long_name == letters[i]
@@ -712,17 +712,17 @@ class TestPrint:
     def _setup(self):
         self.cubes = CubeList([iris.tests.stock.lat_lon_cube()])
 
-    def test_summary(self):
+    def test_summary(self):  # noqa: D102
         expected = "0: unknown / (unknown)                 (latitude: 3; longitude: 4)"
         assert str(self.cubes) == expected
 
-    def test_summary_name_unit(self):
+    def test_summary_name_unit(self):  # noqa: D102
         self.cubes[0].long_name = "aname"
         self.cubes[0].units = "1"
         expected = "0: aname / (1)                         (latitude: 3; longitude: 4)"
         assert str(self.cubes) == expected
 
-    def test_summary_stash(self):
+    def test_summary_stash(self):  # noqa: D102
         self.cubes[0].attributes["STASH"] = STASH.from_msi("m01s00i004")
         expected = "0: m01s00i004 / (unknown)              (latitude: 3; longitude: 4)"
         assert str(self.cubes) == expected
@@ -730,7 +730,7 @@ class TestPrint:
 
 class TestRealiseData:
     """Test ealiseData."""
-    def test_realise_data(self, mocker):
+    def test_realise_data(self, mocker):  # noqa: D102
         # Simply check that calling CubeList.realise_data is calling
         # _lazy_data.co_realise_cubes.
         mock_cubes_list = [mock.Mock(ident=count) for count in range(3)]
@@ -748,7 +748,7 @@ class Test_CubeList_copy:
         self.cube_list = iris.cube.CubeList()
         self.copied_cube_list = self.cube_list.copy()
 
-    def test_copy(self):
+    def test_copy(self):  # noqa: D102
         assert isinstance(self.copied_cube_list, iris.cube.CubeList)
 
 
@@ -764,7 +764,7 @@ class TestHtmlRepr:
     """
 
     @staticmethod
-    def test__repr_html_(mocker):
+    def test__repr_html_(mocker):  # noqa: D102
         test_cubelist = CubeList([])
 
         target = "iris.experimental.representation.CubeListRepresentation"
@@ -785,14 +785,14 @@ class TestHtmlRepr:
 class Test_combine__apis:
     """Confirm that CubeList.combine/combine_cube just call combine_cubes."""
 
-    def mock_combine_cubes(self):
+    def mock_combine_cubes(self):  # noqa: D102
         def mock_call(cubes, options=None, **kwargs):
             self.call_params = [cubes, options, kwargs]
             return cubes  # used to test effect of different cases
 
         return mock_call
 
-    def test_combine(self):
+    def test_combine(self):  # noqa: D102
         cubelist = CubeList([])
         arg = mock.sentinel.options_arg
         kwargs = dict(

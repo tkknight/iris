@@ -31,7 +31,7 @@ def parameters(attributes, *, dtype="i2", storage_fill_value=0, zarr_format=3):
 
 class Test__decode_fill_value:
     """Test  decode fill value."""
-    def test_fill_value_from_a_json_number(self):
+    def test_fill_value_from_a_json_number(self):  # noqa: D102
         result = _decode._decode_fill_value(-999, np.dtype("i2"), "v")
         assert result == -999
         assert result.dtype == np.dtype("i2")
@@ -48,45 +48,45 @@ class Test__decode_fill_value:
         assert result.dtype == np.dtype("f4")
         assert np.isnan(result)
 
-    def test_fill_value_from_base64_finite_sentinel(self):
+    def test_fill_value_from_base64_finite_sentinel(self):  # noqa: D102
         # Not only NaN: a finite sentinel must survive the narrowing too.
         encoded = base64_double(-999.0)
         result = _decode._decode_fill_value(encoded, np.dtype("f4"), "v")
         assert result == np.float32(-999.0)
 
-    def test_fill_value_from_a_json_number_on_a_float(self):
+    def test_fill_value_from_a_json_number_on_a_float(self):  # noqa: D102
         result = _decode._decode_fill_value(-999.0, np.dtype("f4"), "v")
         assert result == np.float32(-999.0)
 
-    def test_an_undecodable_fill_value_warns_and_is_ignored(self):
+    def test_an_undecodable_fill_value_warns_and_is_ignored(self):  # noqa: D102
         with pytest.warns(IrisCfLoadWarning, match="banana"):
             result = _decode._decode_fill_value("banana", np.dtype("f4"), "v")
         assert result is None
 
-    def test_a_base64_string_of_the_wrong_width_warns(self):
+    def test_a_base64_string_of_the_wrong_width_warns(self):  # noqa: D102
         encoded = base64.b64encode(b"abc").decode("ascii")
         with pytest.warns(IrisCfLoadWarning, match="v"):
             assert _decode._decode_fill_value(encoded, np.dtype("f4"), "v") is None
 
-    def test_a_base64_string_on_an_integer_variable_warns(self):
+    def test_a_base64_string_on_an_integer_variable_warns(self):  # noqa: D102
         # The convention is for floating dtypes. An integer variable's sentinel
         # is a JSON number, and a string there is a producer error.
         with pytest.warns(IrisCfLoadWarning, match="v"):
             result = _decode._decode_fill_value(base64_double(1.0), np.dtype("i2"), "v")
         assert result is None
 
-    def test_an_out_of_range_integer_warns_and_is_ignored(self):
+    def test_an_out_of_range_integer_warns_and_is_ignored(self):  # noqa: D102
         # 70000 does not fit an int16, however a producer came to write it.
         with pytest.warns(IrisCfLoadWarning, match="v"):
             result = _decode._decode_fill_value(70000, np.dtype("i2"), "v")
         assert result is None
 
-    def test_a_negative_out_of_range_integer_warns_and_is_ignored(self):
+    def test_a_negative_out_of_range_integer_warns_and_is_ignored(self):  # noqa: D102
         with pytest.warns(IrisCfLoadWarning, match="v"):
             result = _decode._decode_fill_value(-70000, np.dtype("i2"), "v")
         assert result is None
 
-    def test_an_out_of_range_unsigned_integer_warns_and_is_ignored(self):
+    def test_an_out_of_range_unsigned_integer_warns_and_is_ignored(self):  # noqa: D102
         with pytest.warns(IrisCfLoadWarning, match="v"):
             result = _decode._decode_fill_value(300, np.dtype("u1"), "v")
         assert result is None
@@ -116,16 +116,16 @@ class Test_decode_parameters:
         assert not result.mask.any()
         assert result.tolist() == [0, 0, 1]
 
-    def test_version_2_uses_the_storage_fill_value_when_there_is_no_attribute(self):
+    def test_version_2_uses_the_storage_fill_value_when_there_is_no_attribute(self):  # noqa: D102
         with pytest.warns(IrisCfLoadWarning, match="v"):
             result = parameters({}, storage_fill_value=0, zarr_format=2)
         assert result["sentinels"] == (0,)
 
-    def test_a_cf_attribute_beats_the_storage_fill_value_on_version_2(self):
+    def test_a_cf_attribute_beats_the_storage_fill_value_on_version_2(self):  # noqa: D102
         result = parameters({"_FillValue": -999}, storage_fill_value=0, zarr_format=2)
         assert result["sentinels"] == (np.int16(-999),)
 
-    def test_both_cf_missing_value_attributes_are_sentinels(self):
+    def test_both_cf_missing_value_attributes_are_sentinels(self):  # noqa: D102
         result = parameters({"_FillValue": -999, "missing_value": -888})
         assert set(result["sentinels"]) == {np.int16(-999), np.int16(-888)}
 
@@ -138,7 +138,7 @@ class Test_decode_parameters:
         result = parameters({"missing_value": [-999, -888]})
         assert set(result["sentinels"]) == {np.int16(-999), np.int16(-888)}
 
-    def test_a_vector_missing_value_masks_every_sentinel(self):
+    def test_a_vector_missing_value_masks_every_sentinel(self):  # noqa: D102
         params = parameters({"missing_value": [-999, -888]})
         block = np.array([-999, 1, -888, 2], dtype="i2")
         result = _decode.mask_and_scale(block, **params)
@@ -192,7 +192,7 @@ class Test_decode_parameters:
         messages = [str(warning.message) for warning in warnings_raised]
         assert not [message for message in messages if "declares no" in message]
 
-    def test_an_unreadable_missing_value_vector_keeps_the_fill_value_out(self):
+    def test_an_unreadable_missing_value_vector_keeps_the_fill_value_out(self):  # noqa: D102
         with pytest.warns(IrisCfLoadWarning, match="v"):
             result = parameters(
                 {"missing_value": ["bad", "worse"]},
@@ -201,7 +201,7 @@ class Test_decode_parameters:
             )
         assert result["sentinels"] == ()
 
-    def test_one_unreadable_element_does_not_discard_the_others(self):
+    def test_one_unreadable_element_does_not_discard_the_others(self):  # noqa: D102
         with pytest.warns(IrisCfLoadWarning, match="v"):
             result = parameters({"missing_value": [-999, "nonsense"]})
         assert result["sentinels"] == (np.int16(-999),)
@@ -217,16 +217,16 @@ class Test_decode_parameters:
             result = parameters({"_FillValue": [-999, -888]})
         assert result["sentinels"] == ()
 
-    def test_valid_range_sets_both_bounds(self):
+    def test_valid_range_sets_both_bounds(self):  # noqa: D102
         result = parameters({"valid_range": [0, 10]})
         assert result["valid_min"] == 0
         assert result["valid_max"] == 10
 
-    def test_valid_min_and_valid_max_are_read_separately(self):
+    def test_valid_min_and_valid_max_are_read_separately(self):  # noqa: D102
         result = parameters({"valid_min": 1, "valid_max": 9})
         assert (result["valid_min"], result["valid_max"]) == (1, 9)
 
-    def test_packing_parameters_and_the_resulting_dtype(self):
+    def test_packing_parameters_and_the_resulting_dtype(self):  # noqa: D102
         result = parameters({"scale_factor": 0.0001, "add_offset": 1.0}, dtype="u2")
         assert result["scale_factor"] == 0.0001
         assert result["add_offset"] == 1.0
@@ -235,10 +235,10 @@ class Test_decode_parameters:
 
 class Test_decoding_required:
     """Test decoding required."""
-    def test_decoding_required_is_false_for_a_plain_array(self):
+    def test_decoding_required_is_false_for_a_plain_array(self):  # noqa: D102
         assert _decode.decoding_required(parameters({})) is False
 
-    def test_decoding_required_is_true_for_each_rule(self):
+    def test_decoding_required_is_true_for_each_rule(self):  # noqa: D102
         assert _decode.decoding_required(parameters({"_FillValue": -999})) is True
         assert _decode.decoding_required(parameters({"valid_min": 1})) is True
         assert _decode.decoding_required(parameters({"scale_factor": 2})) is True
@@ -246,7 +246,7 @@ class Test_decoding_required:
 
 class Test__mask_by_sentinels:
     """Test  mask by sentinels."""
-    def test_a_sentinel_is_masked(self):
+    def test_a_sentinel_is_masked(self):  # noqa: D102
         block = np.array([0, 1, -999], dtype="i2")
         result = _decode._mask_by_sentinels(block, (np.int16(-999),))
         assert result.tolist() == [False, False, True]
@@ -264,7 +264,7 @@ class Test__mask_by_sentinels:
 
 class Test__mask_by_valid_range:
     """Test  mask by valid range."""
-    def test_values_outside_the_range_are_masked(self):
+    def test_values_outside_the_range_are_masked(self):  # noqa: D102
         block = np.array([-1, 5, 11], dtype="i2")
         result = _decode._mask_by_valid_range(block, 0, 10)
         assert result.tolist() == [True, False, True]
@@ -272,7 +272,7 @@ class Test__mask_by_valid_range:
 
 class Test__unpack:
     """Test  unpack."""
-    def test_scale_and_offset_are_applied(self):
+    def test_scale_and_offset_are_applied(self):  # noqa: D102
         block = np.array([1, 2], dtype="u2")
         result = _decode._unpack(block, 0.5, 1.0, np.dtype("f8"))
         np.testing.assert_allclose(result, [1.5, 2.0])
@@ -301,7 +301,7 @@ class Test_mask_and_scale:
         assert result.mask.tolist() == [True, False, False]
         np.testing.assert_allclose(result.compressed(), [0.5, 1.0])
 
-    def test_mask_and_scale_always_returns_a_masked_array(self):
+    def test_mask_and_scale_always_returns_a_masked_array(self):  # noqa: D102
         # The Dask meta says masked, so every block must be, mask or no mask.
         block = np.array([1, 2], dtype="i2")
         result = _decode.mask_and_scale(

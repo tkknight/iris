@@ -34,7 +34,7 @@ class Test_CubeSummary:
     def _setup(self):
         self.cube = example_cube()
 
-    def test_header(self):
+    def test_header(self):  # noqa: D102
         rep = CubeSummary(self.cube)
         header_left = rep.header.nameunit
         header_right = rep.header.dimension_header.contents
@@ -42,7 +42,7 @@ class Test_CubeSummary:
         assert header_left == "air_temperature / (K)"
         assert header_right == ["latitude: 3", "-- : 2"]
 
-    def test_blank_cube(self):
+    def test_blank_cube(self):  # noqa: D102
         cube = Cube([1, 2])
         rep = CubeSummary(cube)
 
@@ -78,7 +78,7 @@ class Test_CubeSummary:
             assert scalar_section.contents == []
             assert scalar_section.is_empty()
 
-    def test_vector_coord(self):
+    def test_vector_coord(self):  # noqa: D102
         rep = CubeSummary(self.cube)
         dim_section = rep.vector_sections["Dimension coordinates:"]
 
@@ -95,7 +95,7 @@ class Test_CubeSummary:
         assert dim_chars == ["x", "-"]
         assert extra == ""
 
-    def test_scalar_coord(self):
+    def test_scalar_coord(self):  # noqa: D102
         cube = self.cube
         scalar_coord_no_bounds = AuxCoord([10], long_name="bar", units="K")
         scalar_coord_with_bounds = AuxCoord(
@@ -193,7 +193,7 @@ class Test_CubeSummary:
             expect_content = "<lazy> m"
         assert summary.content == expect_content
 
-    def test_cell_measure(self):
+    def test_cell_measure(self):  # noqa: D102
         cube = self.cube
         cell_measure = CellMeasure([1, 2, 3], long_name="foo")
         cube.add_cell_measure(cell_measure, 0)
@@ -206,7 +206,7 @@ class Test_CubeSummary:
         assert cm_summary.name == "foo"
         assert cm_summary.dim_chars == ["x", "-"]
 
-    def test_ancillary_variable(self):
+    def test_ancillary_variable(self):  # noqa: D102
         cube = self.cube
         cell_measure = AncillaryVariable([1, 2, 3], long_name="foo")
         cube.add_ancillary_variable(cell_measure, 0)
@@ -219,7 +219,7 @@ class Test_CubeSummary:
         assert av_summary.name == "foo"
         assert av_summary.dim_chars == ["x", "-"]
 
-    def test_attributes(self):
+    def test_attributes(self):  # noqa: D102
         cube = self.cube
         cube.attributes = {
             "a": 1,
@@ -245,7 +245,7 @@ class Test_CubeSummary:
 
         assert attribute_contents == expected_contents
 
-    def test_cell_methods(self):
+    def test_cell_methods(self):  # noqa: D102
         cube = self.cube
         x = AuxCoord(1, long_name="x")
         y = AuxCoord(1, long_name="y")
@@ -259,7 +259,7 @@ class Test_CubeSummary:
         expected_contents = ["0: x: y: mean", "1: x: mean"]
         assert cell_method_section.contents == expected_contents
 
-    def test_scalar_cube(self):
+    def test_scalar_cube(self):  # noqa: D102
         cube = self.cube
         while cube.ndim > 0:
             cube = cube[0]
@@ -277,7 +277,7 @@ class Test_CubeSummary:
         assert rep.scalar_sections["Attributes:"].is_empty()
         assert rep.scalar_sections["Cell methods:"].is_empty()
 
-    def test_coord_attributes(self):
+    def test_coord_attributes(self):  # noqa: D102
         cube = self.cube
         co1 = cube.coord("latitude")
         co1.attributes.update(dict(a=1, b=2))
@@ -291,7 +291,7 @@ class Test_CubeSummary:
         assert co1_summ.extra == "a=1"
         assert co2_summ.extra == "a=7, text='ok', text2='multi\\nline', z=77"
 
-    def test_array_attributes(self):
+    def test_array_attributes(self):  # noqa: D102
         cube = self.cube
         co1 = cube.coord("latitude")
         co1.attributes.update(dict(a=1, array=np.array([1.2, 3])))
@@ -304,7 +304,7 @@ class Test_CubeSummary:
         assert co1_summ.extra == "array=array([1.2, 3. ])"
         assert co2_summ.extra == "array=array([3.2, 1. ]), b=2"
 
-    def test_attributes_subtle_differences(self):
+    def test_attributes_subtle_differences(self):  # noqa: D102
         cube = Cube([0])
 
         # Add a pair that differ only in having a list instead of an array.
@@ -353,7 +353,7 @@ class Test_CubeSummary:
         assert co3a_summ.extra == "arr1=array([5, 6])"
         assert co3b_summ.extra == "arr1=array([[5], [6]])"
 
-    def test_unstructured_cube(self):
+    def test_unstructured_cube(self):  # noqa: D102
         cube = sample_mesh_cube()
         rep = CubeSummary(cube)
         # Just check that coordinates appear in the expected sections

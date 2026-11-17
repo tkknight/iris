@@ -23,12 +23,12 @@ class Test_init:
             self.pole_lat, self.pole_lon, self.rotation_about_new_pole
         )
 
-    def test_crs_creation(self):
+    def test_crs_creation(self):  # noqa: D102
         assert self.pole_lon == self.rp_crs.grid_north_pole_longitude
         assert self.pole_lat == self.rp_crs.grid_north_pole_latitude
         assert self.rotation_about_new_pole == self.rp_crs.north_pole_grid_longitude
 
-    def test_as_cartopy_crs(self):
+    def test_as_cartopy_crs(self):  # noqa: D102
         if cartopy.__version__ < "0.12":
             with pytest.warns() as warn:
                 _ = self.rp_crs.as_cartopy_crs()
@@ -42,7 +42,7 @@ class Test_init:
                 expected.proj4_init.split(" +")
             )
 
-    def test_as_cartopy_projection(self):
+    def test_as_cartopy_projection(self):  # noqa: D102
         if cartopy.__version__ < "0.12":
             with pytest.warns() as warn:
                 _ = self.rp_crs.as_cartopy_projection()
@@ -61,12 +61,12 @@ class Test_init:
         # NOTE: except ellipsoid, which is done elsewhere.
         _shared_utils.assert_equal_and_kind(crs.north_pole_grid_longitude, 0.0)
 
-    def test_optional_args_missing(self):
+    def test_optional_args_missing(self):  # noqa: D102
         # Check that unused 'north_pole_grid_longitude' defaults to 0.0.
         crs = RotatedGeogCS(self.pole_lon, self.pole_lat)
         self._check_crs_default(crs)
 
-    def test_optional_args_None(self):
+    def test_optional_args_None(self):  # noqa: D102
         # Check that 'north_pole_grid_longitude=None' defaults to 0.0.
         crs = RotatedGeogCS(
             self.pole_lon, self.pole_lat, north_pole_grid_longitude=None

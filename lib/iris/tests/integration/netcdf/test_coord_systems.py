@@ -179,7 +179,7 @@ def _setup(tmp_path_factory):
 @_shared_utils.skip_data
 class TestCoordSystem:
     """Test oordSystem."""
-    def test_load_laea_grid(self, request):
+    def test_load_laea_grid(self, request):  # noqa: D102
         cube = iris.load_cube(
             _shared_utils.get_data_path(
                 ("NetCDF", "lambert_azimuthal_equal_area", "euro_air_temp.nc")
@@ -187,7 +187,7 @@ class TestCoordSystem:
         )
         _shared_utils.assert_CML(request, cube, ("netcdf", "netcdf_laea.cml"))
 
-    def test_load_datum_wkt(self, datum_wkt_cdl):
+    def test_load_datum_wkt(self, datum_wkt_cdl):  # noqa: D102
         expected = "OSGB 1936"
         nc_path = tlc.cdl_to_nc(datum_wkt_cdl)
         with iris.FUTURE.context(datum_support=True):
@@ -196,7 +196,7 @@ class TestCoordSystem:
         actual = str(test_crs.as_cartopy_crs().datum)
         assert actual == expected
 
-    def test_no_load_datum_wkt(self, datum_wkt_cdl):
+    def test_no_load_datum_wkt(self, datum_wkt_cdl):  # noqa: D102
         nc_path = tlc.cdl_to_nc(datum_wkt_cdl)
         with pytest.warns(FutureWarning, match="iris.FUTURE.datum_support"):
             cube = iris.load_cube(nc_path)
@@ -204,7 +204,7 @@ class TestCoordSystem:
         actual = str(test_crs.as_cartopy_crs().datum)
         assert actual == "unknown"
 
-    def test_no_datum_no_warn(self, datum_wkt_cdl):
+    def test_no_datum_no_warn(self, datum_wkt_cdl):  # noqa: D102
         new_cdl = datum_wkt_cdl.splitlines()
         new_cdl = [line for line in new_cdl if "DATUM" not in line]
         new_cdl = "\n".join(new_cdl)
@@ -214,7 +214,7 @@ class TestCoordSystem:
             warnings.simplefilter("error", FutureWarning)
             _ = iris.load_cube(nc_path)
 
-    def test_load_datum_cf_var(self, datum_cf_var_cdl):
+    def test_load_datum_cf_var(self, datum_cf_var_cdl):  # noqa: D102
         expected = "OSGB 1936"
         nc_path = tlc.cdl_to_nc(datum_cf_var_cdl)
         with iris.FUTURE.context(datum_support=True):
@@ -223,7 +223,7 @@ class TestCoordSystem:
         actual = str(test_crs.as_cartopy_crs().datum)
         assert actual == expected
 
-    def test_no_load_datum_cf_var(self, datum_cf_var_cdl):
+    def test_no_load_datum_cf_var(self, datum_cf_var_cdl):  # noqa: D102
         nc_path = tlc.cdl_to_nc(datum_cf_var_cdl)
         with pytest.warns(FutureWarning, match="iris.FUTURE.datum_support"):
             cube = iris.load_cube(nc_path)
@@ -231,7 +231,7 @@ class TestCoordSystem:
         actual = str(test_crs.as_cartopy_crs().datum)
         assert actual == "unknown"
 
-    def test_load_multi_cs_wkt(self, multi_cs_osgb_wkt):
+    def test_load_multi_cs_wkt(self, multi_cs_osgb_wkt):  # noqa: D102
         nc_path = tlc.cdl_to_nc(multi_cs_osgb_wkt)
         with iris.FUTURE.context(datum_support=True):
             cube = iris.load_cube(nc_path)
@@ -247,7 +247,7 @@ class TestCoordSystem:
             )
         assert cube.extended_grid_mapping is True
 
-    def test_save_datum(self, tmp_path):
+    def test_save_datum(self, tmp_path):  # noqa: D102
         expected = "OSGB 1936"
         saved_crs = iris.coord_systems.Mercator(
             ellipsoid=iris.coord_systems.GeogCS.from_datum("OSGB36")
@@ -285,7 +285,7 @@ class TestCoordSystem:
         actual = str(test_crs.as_cartopy_crs().datum)
         assert actual == expected
 
-    def test_save_multi_cs_wkt(self, tmp_path):
+    def test_save_multi_cs_wkt(self, tmp_path):  # noqa: D102
         crsOSGB = iris.coord_systems.OSGB()
         crsLatLon = iris.coord_systems.GeogCS(6e6)
 
@@ -389,7 +389,7 @@ class TestLoadMinimalGeostationary:
     """
 
     @pytest.fixture(scope="class")
-    def geostationary_problem_ncfile(self, tmp_path_factory, geostationary_problem_cdl):
+    def geostationary_problem_ncfile(self, tmp_path_factory, geostationary_problem_cdl):  # noqa: D102
         tmp_path = tmp_path_factory.mktemp("geos")
         cdl_path = tmp_path / "geos_problem.cdl"
         nc_path = tmp_path / "geos_problem.nc"
@@ -400,7 +400,7 @@ class TestLoadMinimalGeostationary:
         )
         return nc_path
 
-    def test_geostationary_no_false_offsets(
+    def test_geostationary_no_false_offsets(  # noqa: D102
         self, tmp_path, geostationary_problem_ncfile
     ):
         # Check we can load the test data and coordinate system properties are correct.

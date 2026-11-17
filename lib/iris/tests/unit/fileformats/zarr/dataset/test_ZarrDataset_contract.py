@@ -25,7 +25,7 @@ class TestZarrDatasetVersion3(contract.CFDatasetReadContract):
     chunking_key = "chunks"
 
     @pytest.fixture
-    def readable(self, tmp_path):
+    def readable(self, tmp_path):  # noqa: D102
         return ZarrDataset(stores.make_store(tmp_path / "contract.zarr"))
 
 
@@ -34,7 +34,7 @@ class TestZarrDatasetVersion2(contract.CFDatasetReadContract):
     chunking_key = "chunks"
 
     @pytest.fixture
-    def readable(self, tmp_path):
+    def readable(self, tmp_path):  # noqa: D102
         location = stores.make_store(tmp_path / "contract.zarr", zarr_format=2)
         return ZarrDataset(location)
 
@@ -43,13 +43,13 @@ class TestZarrDatasetWriting(contract.CFDatasetWriteContract):
     """The Zarr side of the write contract."""
 
     @pytest.fixture
-    def writable(self, tmp_path):
+    def writable(self, tmp_path):  # noqa: D102
         dataset = ZarrDataset(tmp_path / "written.zarr", mode="w-")
         yield dataset
         dataset.close()
 
     @pytest.fixture
-    def reopen(self, tmp_path):
+    def reopen(self, tmp_path):  # noqa: D102
         def _reopen():
             return ZarrDataset(tmp_path / "written.zarr")
 

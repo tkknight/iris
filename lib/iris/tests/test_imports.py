@@ -15,7 +15,7 @@ IGNORE = ["__init__.py", "__pycache__", "pandas.py", "raster.py", "tests"]
 class TestImports:
     """Test mports."""
     @staticmethod
-    def itree(path, prefix=None, debug=False):
+    def itree(path, prefix=None, debug=False):  # noqa: D102
         if prefix is None:
             prefix = "iris"
 
@@ -49,5 +49,5 @@ class TestImports:
             except (ImportError, ModuleNotFoundError):
                 pytest.fail(emsg.format(package))
 
-    def test_imports(self):
+    def test_imports(self):  # noqa: D102
         self.itree(BASE, debug=False)

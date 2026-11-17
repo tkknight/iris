@@ -37,12 +37,12 @@ class TestFastCallbackLocationInfo(Mixin_FieldTest):
         self.test_filepath = self.save_fieldcubes(flds)
         iris.load(self.test_filepath, callback=fast_load_callback)
 
-    def test_callback_collations_filepaths(self):
+    def test_callback_collations_filepaths(self):  # noqa: D102
         assert len(self.callback_collations) == 2
         assert self.callback_collations[0].data_filepath == self.test_filepath
         assert self.callback_collations[1].data_filepath == self.test_filepath
 
-    def test_callback_collations_field_indices(self):
+    def test_callback_collations_field_indices(self):  # noqa: D102
         assert self.callback_collations[0].data_field_indices.dtype == np.int64
         _shared_utils.assert_array_equal(
             self.callback_collations[0].data_field_indices, [[1, 3], [5, 7]]

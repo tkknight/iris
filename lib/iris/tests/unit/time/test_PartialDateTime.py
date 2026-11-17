@@ -15,14 +15,14 @@ from iris.time import PartialDateTime
 
 class Test___init__:
     """Test   init  ."""
-    def test_positional(self):
+    def test_positional(self):  # noqa: D102
         # Test that we can define PartialDateTimes with positional arguments.
         pd = PartialDateTime(1066, None, 10)
         assert pd.year == 1066
         assert pd.month is None
         assert pd.day == 10
 
-    def test_keyword_args(self):
+    def test_keyword_args(self):  # noqa: D102
         # Test that we can define PartialDateTimes with keyword arguments.
         pd = PartialDateTime(microsecond=10)
         assert pd.year is None
@@ -31,7 +31,7 @@ class Test___init__:
 
 class Test___repr__:
     """Test   repr  ."""
-    def test_full(self):
+    def test_full(self):  # noqa: D102
         pd = PartialDateTime(*list(range(7)))
         result = repr(pd)
         assert (
@@ -40,12 +40,12 @@ class Test___repr__:
             " microsecond=6)"
         )
 
-    def test_partial(self):
+    def test_partial(self):  # noqa: D102
         pd = PartialDateTime(month=2, day=30)
         result = repr(pd)
         assert result == "PartialDateTime(month=2, day=30)"
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         pd = PartialDateTime()
         result = repr(pd)
         assert result == "PartialDateTime()"
@@ -53,7 +53,7 @@ class Test___repr__:
 
 class Test_timetuple:
     """Test timetuple."""
-    def test_exists(self):
+    def test_exists(self):  # noqa: D102
         # Check that the PartialDateTime class implements a timetuple (needed
         # because of https://bugs.python.org/issue8005).
         pd = PartialDateTime(*list(range(7)))
@@ -215,12 +215,12 @@ class Test___eq__(_Test_operator):
         self.op = operator.eq
         self.expected_value = EQ_EXPECTATIONS
 
-    def test_cftime_equal(self):
+    def test_cftime_equal(self):  # noqa: D102
         pdt = PartialDateTime(month=3, second=2)
         other = cftime.datetime(year=2013, month=3, day=20, second=2)
         assert pdt == other
 
-    def test_cftime_not_equal(self):
+    def test_cftime_not_equal(self):  # noqa: D102
         pdt = PartialDateTime(month=3, second=2)
         other = cftime.datetime(year=2013, month=4, day=20, second=2)
         assert not pdt == other
@@ -241,12 +241,12 @@ class Test___gt__(_Test_operator):
         self.op = operator.gt
         self.expected_value = GT_EXPECTATIONS
 
-    def test_cftime_greater(self):
+    def test_cftime_greater(self):  # noqa: D102
         pdt = PartialDateTime(month=3, microsecond=2)
         other = cftime.datetime(year=2013, month=2, day=20, second=3)
         assert pdt > other
 
-    def test_cftime_not_greater(self):
+    def test_cftime_not_greater(self):  # noqa: D102
         pdt = PartialDateTime(month=3, microsecond=2)
         other = cftime.datetime(year=2013, month=3, day=20, second=3)
         assert not pdt > other

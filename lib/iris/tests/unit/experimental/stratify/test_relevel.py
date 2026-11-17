@@ -48,7 +48,7 @@ class Test:
         )
         self.patch_interpolate.return_value = np.ones((3, 1, 1))
 
-    def test_broadcast_fail_src_levels(self):
+    def test_broadcast_fail_src_levels(self):  # noqa: D102
         from iris.experimental.stratify import relevel
 
         emsg = "Cannot broadcast the cube and src_levels"
@@ -56,7 +56,7 @@ class Test:
         with pytest.raises(ValueError, match=emsg):
             relevel(self.cube, AuxCoord(data), [1, 2, 3])
 
-    def test_broadcast_fail_tgt_levels(self):
+    def test_broadcast_fail_tgt_levels(self):  # noqa: D102
         from iris.experimental.stratify import relevel
 
         emsg = "Cannot broadcast the cube and tgt_levels"
@@ -64,7 +64,7 @@ class Test:
         with pytest.raises(ValueError, match=emsg):
             relevel(self.cube, self.coord, data)
 
-    def test_standard_input(self):
+    def test_standard_input(self):  # noqa: D102
         from iris.experimental.stratify import relevel
 
         for axis in self.axes:
@@ -73,7 +73,7 @@ class Test:
             assert expected == result.coord("thingness")
             self.patch_interpolate.assert_called()
 
-    def test_coord_input(self):
+    def test_coord_input(self):  # noqa: D102
         from iris.experimental.stratify import relevel
 
         source = AuxCoord(self.src_levels.data)
@@ -87,7 +87,7 @@ class Test:
             assert result.shape == (3, 1, 1)
         self.patch_interpolate.assert_called()
 
-    def test_custom_interpolator(self, mocker):
+    def test_custom_interpolator(self, mocker):  # noqa: D102
         from iris.experimental.stratify import relevel
 
         mock_interpolate = mocker.Mock()

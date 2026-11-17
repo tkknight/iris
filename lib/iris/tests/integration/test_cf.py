@@ -46,10 +46,10 @@ class TestCFReader:
         with self.cfr:
             yield
 
-    def test_ancillary_variables_pass_0(self):
+    def test_ancillary_variables_pass_0(self):  # noqa: D102
         assert self.cfr.cf_group.ancillary_variables == {}
 
-    def test_auxiliary_coordinates_pass_0(self):
+    def test_auxiliary_coordinates_pass_0(self):  # noqa: D102
         assert sorted(self.cfr.cf_group.auxiliary_coordinates.keys()) == ["lat", "lon"]
 
         lat = self.cfr.cf_group["lat"]
@@ -72,7 +72,7 @@ class TestCFReader:
             ("units", "degrees_east"),
         )
 
-    def test_bounds_pass_0(self):
+    def test_bounds_pass_0(self):  # noqa: D102
         assert sorted(self.cfr.cf_group.bounds.keys()) == ["time_bnds"]
 
         time_bnds = self.cfr.cf_group["time_bnds"]
@@ -81,7 +81,7 @@ class TestCFReader:
         assert time_bnds.ndim == 2
         assert time_bnds.cf_attrs() == ()
 
-    def test_coordinates_pass_0(self):
+    def test_coordinates_pass_0(self):  # noqa: D102
         assert sorted(self.cfr.cf_group.coordinates.keys()) == ["rlat", "rlon", "time"]
 
         rlat = self.cfr.cf_group["rlat"]
@@ -118,7 +118,7 @@ class TestCFReader:
         attr.append(("units", "days since 1950-01-01 00:00:00.0"))
         assert time.cf_attrs() == tuple(attr)
 
-    def test_data_pass_0(self):
+    def test_data_pass_0(self):  # noqa: D102
         assert sorted(self.cfr.cf_group.data_variables.keys()) == ["pr"]
 
         data = self.cfr.cf_group["pr"]
@@ -141,10 +141,10 @@ class TestCFReader:
         assert data.cf_attrs()[5][1] == pytest.approx(attr[5][1], abs=1.6e22)
         assert data.cf_attrs()[6:] == attr[6:]
 
-    def test_formula_terms_pass_0(self):
+    def test_formula_terms_pass_0(self):  # noqa: D102
         assert self.cfr.cf_group.formula_terms == {}
 
-    def test_grid_mapping_pass_0(self):
+    def test_grid_mapping_pass_0(self):  # noqa: D102
         assert sorted(self.cfr.cf_group.grid_mappings.keys()) == ["rotated_pole"]
 
         rotated_pole = self.cfr.cf_group["rotated_pole"]
@@ -157,10 +157,10 @@ class TestCFReader:
         attr.append(("grid_north_pole_longitude", -140.75))
         assert rotated_pole.cf_attrs() == tuple(attr)
 
-    def test_cell_measures_pass_0(self):
+    def test_cell_measures_pass_0(self):  # noqa: D102
         assert self.cfr.cf_group.cell_measures == {}
 
-    def test_global_attributes_pass_0(self):
+    def test_global_attributes_pass_0(self):  # noqa: D102
         assert sorted(self.cfr.cf_group.global_attributes.keys()) == [
             "Conventions",
             "NCO",
@@ -175,7 +175,7 @@ class TestCFReader:
         assert self.cfr.cf_group.global_attributes["institution"] == "DMI"
         assert self.cfr.cf_group.global_attributes["source"] == "HIRHAM"
 
-    def test_variable_cf_group_pass_0(self):
+    def test_variable_cf_group_pass_0(self):  # noqa: D102
         assert sorted(self.cfr.cf_group["time"].cf_group.keys()) == ["time_bnds"]
         assert sorted(self.cfr.cf_group["pr"].cf_group.keys()) == [
             "lat",
@@ -186,7 +186,7 @@ class TestCFReader:
             "time",
         ]
 
-    def test_variable_attribute_touch_pass_0(self):
+    def test_variable_attribute_touch_pass_0(self):  # noqa: D102
         lat = self.cfr.cf_group["lat"]
 
         assert lat.cf_attrs() == (
@@ -223,21 +223,21 @@ class TestCFReader:
 @_shared_utils.skip_data
 class TestLoad:
     """Test oad."""
-    def test_attributes_empty(self):
+    def test_attributes_empty(self):  # noqa: D102
         filename = _shared_utils.get_data_path(
             ("NetCDF", "global", "xyt", "SMALL_hires_wind_u_for_ipcc4.nc")
         )
         cube = iris.load_cube(filename)
         assert cube.coord("time").attributes == {}
 
-    def test_attributes_contain_positive(self):
+    def test_attributes_contain_positive(self):  # noqa: D102
         filename = _shared_utils.get_data_path(
             ("NetCDF", "global", "xyt", "SMALL_hires_wind_u_for_ipcc4.nc")
         )
         cube = iris.load_cube(filename)
         assert cube.coord("height").attributes["positive"] == "up"
 
-    def test_attributes_populated(self):
+    def test_attributes_populated(self):  # noqa: D102
         filename = _shared_utils.get_data_path(
             ("NetCDF", "label_and_climate", "small_FC_167_mon_19601101.nc")
         )
@@ -250,7 +250,7 @@ class TestLoad:
             ("valid_min", 0.0),
         ]
 
-    def test_cell_methods(self):
+    def test_cell_methods(self):  # noqa: D102
         filename = _shared_utils.get_data_path(
             ("NetCDF", "global", "xyt", "SMALL_hires_wind_u_for_ipcc4.nc")
         )
@@ -281,7 +281,7 @@ class TestClimatology:
         with self.cfr:
             yield
 
-    def test_bounds(self):
+    def test_bounds(self):  # noqa: D102
         time = self.cfr.cf_group["temp_dmax_tmean_abs"].cf_group.coordinates["time"]
         climatology = time.cf_group.climatology
         assert len(climatology) == 1
@@ -318,7 +318,7 @@ class TestLabels:
             with self.cfr_end:
                 yield
 
-    def test_label_dim_start(self):
+    def test_label_dim_start(self):  # noqa: D102
         cf_data_var = self.cfr_start.cf_group["temp_dmax_tmean_abs"]
 
         region_group = self.cfr_start.cf_group.labels["region_name"]
@@ -348,7 +348,7 @@ class TestLabels:
         sample_string = chars2string(sample_chars)
         assert sample_string == "Anglian"
 
-    def test_label_dim_end(self):
+    def test_label_dim_end(self):  # noqa: D102
         cf_data_var = self.cfr_end.cf_group["tas"]
 
         assert sorted(self.cfr_end.cf_group.labels.keys()) == [
@@ -403,13 +403,13 @@ class TestLoadingIsSilent:
     }
 
     @pytest.fixture(params=sorted(CUBES))
-    def saved_file(self, request, tmp_path):
+    def saved_file(self, request, tmp_path):  # noqa: D102
         path = tmp_path / f"{request.param}.nc"
         with iris.FUTURE.context(save_split_attrs=True):
             iris.save(self.CUBES[request.param](), path)
         return path
 
-    def test_load_emits_no_deprecation(self, saved_file):
+    def test_load_emits_no_deprecation(self, saved_file):  # noqa: D102
         # Recorded rather than promoted to an error. iris.load captures an
         # exception raised while building a cube into
         # iris.loading.LOAD_PROBLEMS, so a filter of "error" drops the
@@ -429,7 +429,7 @@ class TestLoadingIsSilent:
         assert LOAD_PROBLEMS.problems_by_file.get(str(saved_file), []) == []
         assert len(cubes) == 1
 
-    def test_a_cf_attribute_read_from_outside_iris_still_warns(self, saved_file):
+    def test_a_cf_attribute_read_from_outside_iris_still_warns(self, saved_file):  # noqa: D102
         # The other half of the deprecation: silence on a load must not mean
         # the accessor has stopped working. All three cubes carry a long_name,
         # and CFVariable declares no property of that name.
@@ -443,7 +443,7 @@ class TestLoadingIsSilent:
         ("cube_name", "coord_name"),
         [("bounded", "foo"), ("climatology", "time")],
     )
-    def test_a_cf_reserved_attribute_does_not_reach_the_coord(
+    def test_a_cf_reserved_attribute_does_not_reach_the_coord(  # noqa: D102
         self, tmp_path, cube_name, coord_name
     ):
         # A second check, not a test of attribute tracking. "bounds" and
@@ -460,7 +460,7 @@ class TestLoadingIsSilent:
 
         assert cube.coord(coord_name).attributes == {}
 
-    def test_a_cf_reserved_attribute_does_not_reach_the_connectivity(self, tmp_path):
+    def test_a_cf_reserved_attribute_does_not_reach_the_connectivity(self, tmp_path):  # noqa: D102
         # "cf_role" and "start_index" are consumed by the UGRID loader and are
         # not in cf.saver._CF_ATTRS, so attribute tracking is the only
         # thing keeping them off the connectivity. Reading them through the

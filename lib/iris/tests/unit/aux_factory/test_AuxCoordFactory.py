@@ -23,14 +23,14 @@ from iris.tests._shared_utils import assert_array_equal, get_data_path, skip_dat
 
 class Test__nd_points:
     """Test  nd points."""
-    def test_numpy_scalar_coord__zero_ndim(self):
+    def test_numpy_scalar_coord__zero_ndim(self):  # noqa: D102
         points = np.array(1)
         coord = AuxCoord(points)
         result = AuxCoordFactory._nd_points(coord, (), 0)
         expected = np.array([1])
         assert_array_equal(result, expected)
 
-    def test_numpy_scalar_coord(self):
+    def test_numpy_scalar_coord(self):  # noqa: D102
         value = 1
         points = np.array(value)
         coord = AuxCoord(points)
@@ -38,21 +38,21 @@ class Test__nd_points:
         expected = np.array(value).reshape(1, 1)
         assert_array_equal(result, expected)
 
-    def test_numpy_simple(self):
+    def test_numpy_simple(self):  # noqa: D102
         points = np.arange(12).reshape(4, 3)
         coord = AuxCoord(points)
         result = AuxCoordFactory._nd_points(coord, (0, 1), 2)
         expected = points
         assert_array_equal(result, expected)
 
-    def test_numpy_complex(self):
+    def test_numpy_complex(self):  # noqa: D102
         points = np.arange(12).reshape(4, 3)
         coord = AuxCoord(points)
         result = AuxCoordFactory._nd_points(coord, (3, 2), 5)
         expected = points.T[np.newaxis, np.newaxis, ..., np.newaxis]
         assert_array_equal(result, expected)
 
-    def test_lazy_simple(self):
+    def test_lazy_simple(self):  # noqa: D102
         raw_points = np.arange(12).reshape(4, 3)
         points = as_lazy_data(raw_points, raw_points.shape)
         coord = AuxCoord(points)
@@ -64,7 +64,7 @@ class Test__nd_points:
         expected = raw_points
         assert_array_equal(result, expected)
 
-    def test_lazy_complex(self):
+    def test_lazy_complex(self):  # noqa: D102
         raw_points = np.arange(12).reshape(4, 3)
         points = as_lazy_data(raw_points, raw_points.shape)
         coord = AuxCoord(points)
@@ -79,7 +79,7 @@ class Test__nd_points:
 
 class Test__nd_bounds:
     """Test  nd bounds."""
-    def test_numpy_scalar_coord__zero_ndim(self):
+    def test_numpy_scalar_coord__zero_ndim(self):  # noqa: D102
         points = np.array(0.5)
         bounds = np.arange(2)
         coord = AuxCoord(points, bounds=bounds)
@@ -87,7 +87,7 @@ class Test__nd_bounds:
         expected = bounds
         assert_array_equal(result, expected)
 
-    def test_numpy_scalar_coord(self):
+    def test_numpy_scalar_coord(self):  # noqa: D102
         points = np.array(0.5)
         bounds = np.arange(2).reshape(1, 2)
         coord = AuxCoord(points, bounds=bounds)
@@ -95,7 +95,7 @@ class Test__nd_bounds:
         expected = bounds[np.newaxis]
         assert_array_equal(result, expected)
 
-    def test_numpy_simple(self):
+    def test_numpy_simple(self):  # noqa: D102
         points = np.arange(12).reshape(4, 3)
         bounds = np.arange(24).reshape(4, 3, 2)
         coord = AuxCoord(points, bounds=bounds)
@@ -103,7 +103,7 @@ class Test__nd_bounds:
         expected = bounds
         assert_array_equal(result, expected)
 
-    def test_numpy_complex(self):
+    def test_numpy_complex(self):  # noqa: D102
         points = np.arange(12).reshape(4, 3)
         bounds = np.arange(24).reshape(4, 3, 2)
         coord = AuxCoord(points, bounds=bounds)
@@ -111,7 +111,7 @@ class Test__nd_bounds:
         expected = bounds.transpose((1, 0, 2)).reshape(1, 1, 3, 4, 1, 2)
         assert_array_equal(result, expected)
 
-    def test_lazy_simple(self):
+    def test_lazy_simple(self):  # noqa: D102
         raw_points = np.arange(12).reshape(4, 3)
         points = as_lazy_data(raw_points, raw_points.shape)
         raw_bounds = np.arange(24).reshape(4, 3, 2)
@@ -125,7 +125,7 @@ class Test__nd_bounds:
         expected = raw_bounds
         assert_array_equal(result, expected)
 
-    def test_lazy_complex(self):
+    def test_lazy_complex(self):  # noqa: D102
         raw_points = np.arange(12).reshape(4, 3)
         points = as_lazy_data(raw_points, raw_points.shape)
         raw_bounds = np.arange(24).reshape(4, 3, 2)
@@ -144,7 +144,7 @@ class Test__nd_bounds:
 class Test_lazy_aux_coords:
     """Test lazy aux coords."""
     @pytest.fixture
-    def sample_cube(self, mocker):
+    def sample_cube(self, mocker):  # noqa: D102
         path = get_data_path(["NetCDF", "testing", "small_theta_colpex.nc"])
         # While loading, "turn off" loading small variables as real data.
         mocker.patch("iris.fileformats.cf.loader._LAZYVAR_MIN_BYTES", 0)
@@ -158,11 +158,11 @@ class Test_lazy_aux_coords:
             if coord.has_bounds():
                 assert coord.has_lazy_bounds()
 
-    def test_lazy_coord_loading(self, sample_cube):
+    def test_lazy_coord_loading(self, sample_cube):  # noqa: D102
         # Test that points and bounds arrays stay lazy upon cube loading.
         self._check_lazy(sample_cube)
 
-    def test_lazy_coord_printing(self, sample_cube):
+    def test_lazy_coord_printing(self, sample_cube):  # noqa: D102
         # Test that points and bounds arrays stay lazy after cube printing.
         _ = str(sample_cube)
         self._check_lazy(sample_cube)
@@ -232,7 +232,7 @@ class Test_rechunk:
             self.z = make_dimco("z", (1, 1, nz))
 
         @property
-        def dependencies(self):
+        def dependencies(self):  # noqa: D102
             return {"x": self.x, "y": self.y, "z": self.z}
 
         def _calculate_array(self, *dep_arrays, **other_args):
@@ -243,7 +243,7 @@ class Test_rechunk:
                 result += arg
             return result
 
-        def make_coord(self, coord_dims_func):
+        def make_coord(self, coord_dims_func):  # noqa: D102
             # N.B. no dim re-mapping needed, as dep arrays are all pre-aligned.
             points = self._derive_array(
                 *(getattr(self, name).core_points() for name in self.dependencies)
@@ -319,7 +319,7 @@ class Test_rechunk:
             self.mm = AuxCoord(mm_data, bounds=mm_bounds, long_name="mm")
 
         @property
-        def dependencies(self):
+        def dependencies(self):  # noqa: D102
             return {name: getattr(self, name) for name in ("z", "y", "x", "mm")}
 
     # More-or-less duplicates "test_rechunk", but with a multidimensional factory.

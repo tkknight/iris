@@ -12,7 +12,7 @@ from iris.tests.stock import simple_3d, simple_4d_with_hybrid_height
 
 class Test___init__:
     """Test   init  ."""
-    def test_2_points(self):
+    def test_2_points(self):  # noqa: D102
         # basic 2-seg line along x
         waypoints = [{"lat": 0, "lon": 0}, {"lat": 1, "lon": 2}]
         trajectory = Trajectory(waypoints, sample_count=5)
@@ -27,7 +27,7 @@ class Test___init__:
             {"lat": 1.0, "lon": 2.0},
         ]
 
-    def test_3_points(self):
+    def test_3_points(self):  # noqa: D102
         # basic 2-seg line along x
         waypoints = [
             {"lat": 0, "lon": 0},
@@ -40,7 +40,7 @@ class Test___init__:
         assert trajectory.sample_count == 21
         assert trajectory.sampled_points[19] == {"lat": 0.0, "lon": 1.9000000000000001}
 
-    def test_zigzag(self):
+    def test_zigzag(self):  # noqa: D102
         # 4-seg m-shape
         waypoints = [
             {"lat": 0, "lon": 0},
@@ -61,7 +61,7 @@ class Test___init__:
 
 class Test__get_interp_points:
     """Test  get interp points."""
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         dim_names = "lat"
         waypoints = [{dim_names: 0}, {dim_names: 1}]
         sample_count = 5
@@ -74,7 +74,7 @@ class Test__get_interp_points:
         assert result[0][1] == expected_points
         assert result[0][0] == dim_names
 
-    def test_2d(self):
+    def test_2d(self):  # noqa: D102
         dim_names = ["lat", "lon"]
         waypoints = [
             {dim_names[0]: 0, dim_names[1]: 0},
@@ -90,7 +90,7 @@ class Test__get_interp_points:
         assert result[0][0] in dim_names
         assert result[1][0] in dim_names
 
-    def test_3d(self):
+    def test_3d(self):  # noqa: D102
         dim_names = ["y", "x", "z"]
         waypoints = [
             {dim_names[0]: 0, dim_names[1]: 0, dim_names[2]: 2},
@@ -118,7 +118,7 @@ class Test_interpolate:
         anon_dims = None if not len(anon_dims) else anon_dims
         return dim_names, named_dims, anon_dims
 
-    def test_cube__simple_3d(self):
+    def test_cube__simple_3d(self):  # noqa: D102
         # Test that an 'index' coord is added to the resultant cube.
         cube = simple_3d()
         waypoints = [
@@ -140,7 +140,7 @@ class Test_interpolate:
         assert anon_dims is None
         assert len(new_coord.points) == sample_count
 
-    def test_cube__anon_dim(self):
+    def test_cube__anon_dim(self):  # noqa: D102
         cube = simple_4d_with_hybrid_height()
         cube.remove_coord("model_level_number")  # Make cube dim 1 anonymous.
         waypoints = [
@@ -163,7 +163,7 @@ class Test_interpolate:
         assert anon_dims == exp_anon_dims
         assert len(new_coord.points) == sample_count
 
-    def test_call(self, mocker):
+    def test_call(self, mocker):  # noqa: D102
         # Test that :func:`iris.analysis.trajectory.interpolate` is called by
         # `Trajectory.interpolate`.
         cube = simple_3d()

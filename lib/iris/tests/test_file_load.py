@@ -21,7 +21,7 @@ class TestFileLoad:
         cubes = iris.load_raw(_shared_utils.get_data_path(src_path))
         _shared_utils.assert_CML(request, cubes, ["file_load", reference_filename])
 
-    def test_no_file(self):
+    def test_no_file(self):  # noqa: D102
         # Test an IOError is received when a filename is given which doesn't match any files
         real_file = ["PP", "globClim1", "theta.pp"]
         non_existant_file = ["PP", "globClim1", "no_such_file*"]
@@ -43,27 +43,27 @@ class TestFileLoad:
                 ]
             )
 
-    def test_single_file(self, request):
+    def test_single_file(self, request):  # noqa: D102
         src_path = ["PP", "globClim1", "theta.pp"]
         self._test_file(request, src_path, "theta_levels.cml")
 
-    def test_star_wildcard(self, request):
+    def test_star_wildcard(self, request):  # noqa: D102
         src_path = ["PP", "globClim1", "*_wind.pp"]
         self._test_file(request, src_path, "wind_levels.cml")
 
-    def test_query_wildcard(self, request):
+    def test_query_wildcard(self, request):  # noqa: D102
         src_path = ["PP", "globClim1", "?_wind.pp"]
         self._test_file(request, src_path, "wind_levels.cml")
 
-    def test_charset_wildcard(self, request):
+    def test_charset_wildcard(self, request):  # noqa: D102
         src_path = ["PP", "globClim1", "[rstu]_wind.pp"]
         self._test_file(request, src_path, "u_wind_levels.cml")
 
-    def test_negative_charset_wildcard(self, request):
+    def test_negative_charset_wildcard(self, request):  # noqa: D102
         src_path = ["PP", "globClim1", "[!rstu]_wind.pp"]
         self._test_file(request, src_path, "v_wind_levels.cml")
 
-    def test_empty_file(self, tmp_path):
+    def test_empty_file(self, tmp_path):  # noqa: D102
         temp_filename = tmp_path / "tmp.pp"
         with temp_filename.open("a"):
             with pytest.raises(iris.exceptions.TranslationError):

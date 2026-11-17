@@ -36,13 +36,13 @@ class TestGetCFBoundsVar(MockerMixin):
         assert bounds_var is self.mocker.sentinel.bounds_var
         assert climatological == test_climatological_bounds
 
-    def test_bounds_normal(self):
+    def test_bounds_normal(self):  # noqa: D102
         self._generic_test(test_climatological_bounds=False)
 
-    def test_bounds_climatological(self):
+    def test_bounds_climatological(self):  # noqa: D102
         self._generic_test(test_climatological_bounds=True)
 
-    def test_bounds_wins_over_climatology(self):
+    def test_bounds_wins_over_climatology(self):  # noqa: D102
         cf_coord_var = self.mocker.MagicMock()
         cf_coord_var.cf_group.bounds = {"B": self.mocker.sentinel.bounds_var}
         cf_coord_var.cf_group.climatology = {"C": self.mocker.sentinel.clim_var}

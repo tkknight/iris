@@ -56,13 +56,13 @@ class TestOSGBToLatLon:
         result = regridder(self.src)
         return result
 
-    def test_linear(self):
+    def test_linear(self):  # noqa: D102
         res = self._regrid("linear")
         _shared_utils.assert_array_shape_stats(
             res, (73, 96), 17799.296120, 11207.701323
         )
 
-    def test_nearest(self):
+    def test_nearest(self):  # noqa: D102
         res = self._regrid("nearest")
         _shared_utils.assert_array_shape_stats(
             res, (73, 96), 17808.068828, 11225.314310
@@ -91,11 +91,11 @@ class TestGlobalSubsample:
         result = regridder(self.src)
         return result
 
-    def test_linear(self):
+    def test_linear(self):  # noqa: D102
         res = self._regrid("linear")
         _shared_utils.assert_array_shape_stats(res, (36, 32), 280.35907, 15.997223)
 
-    def test_nearest(self):
+    def test_nearest(self):  # noqa: D102
         res = self._regrid("nearest")
         _shared_utils.assert_array_shape_stats(res, (36, 32), 280.33726, 16.064001)
 
@@ -111,7 +111,7 @@ class TestUnstructured:
         self.src = iris.load_cube(path, "Potential Temperature")
         self.grid = simple_3d()[0, :, :]
 
-    def test_nearest(self):
+    def test_nearest(self):  # noqa: D102
         res = self.src.regrid(self.grid, UnstructuredNearest())
         _shared_utils.assert_array_shape_stats(res, (1, 6, 3, 4), 315.890808, 11.000724)
 
@@ -141,7 +141,7 @@ class TestZonalMean_global:
         self.src.add_dim_coord(sy_coord, 0)
         self.src.add_dim_coord(sx_coord, 1)
 
-    def test_linear_same_crs_global(self):
+    def test_linear_same_crs_global(self):  # noqa: D102
         # Regrid the zonal mean onto an identical coordinate system target, but
         # on a different set of longitudes - which should result in no change.
         points = [-150, -90, -30, 30, 90, 150]
@@ -206,7 +206,7 @@ class TestZonalMean_regional(TestZonalMean_global):
         )
         self.grid = grid
 
-    def zonal_mean_as_multi_column(self, src_cube):
+    def zonal_mean_as_multi_column(self, src_cube):  # noqa: D102
         # Munge the source (duplicate source latitudes) so that we can
         # utilise linear regridding as a conventional problem (that is, to
         # duplicate columns so that it is no longer a zonal mean problem).
@@ -218,21 +218,21 @@ class TestZonalMean_regional(TestZonalMean_global):
         src_cubes = iris.cube.CubeList([src_cube, src_cube2])
         return src_cubes.concatenate_cube()
 
-    def test_linear_rotated_regional(self):
+    def test_linear_rotated_regional(self):  # noqa: D102
         # Ensure that zonal mean source data is linearly interpolated onto a
         # high resolution target.
         regridder = iris.analysis.Linear()
         res = self.src.regrid(self.grid, regridder)
         _shared_utils.assert_array_almost_equal(res.data, self.tar.data)
 
-    def test_linear_rotated_regional_no_extrapolation(self):
+    def test_linear_rotated_regional_no_extrapolation(self):  # noqa: D102
         # Capture the case where our source remains circular but we don't use
         # extrapolation.
         regridder = iris.analysis.Linear(extrapolation_mode="nan")
         res = self.src.regrid(self.grid, regridder)
         _shared_utils.assert_array_almost_equal(res.data, self.tar.data)
 
-    def test_linear_rotated_regional_not_circular(self):
+    def test_linear_rotated_regional_not_circular(self):  # noqa: D102
         # Capture the case where our source is not circular but we utilise
         # extrapolation.
         regridder = iris.analysis.Linear()
@@ -240,7 +240,7 @@ class TestZonalMean_regional(TestZonalMean_global):
         res = self.src.regrid(self.grid, regridder)
         _shared_utils.assert_array_almost_equal(res.data, self.tar.data)
 
-    def test_linear_rotated_regional_no_extrapolation_not_circular(self):
+    def test_linear_rotated_regional_no_extrapolation_not_circular(self):  # noqa: D102
         # Confirm how zonal mean actually works in so far as, that
         # extrapolation and circular source handling is the means by which
         # these usecases are supported.

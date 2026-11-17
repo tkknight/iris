@@ -11,7 +11,7 @@ from iris.fileformats.abf import ABFField
 
 class Test_data:
     """Test data."""
-    def test_single_read(self, mocker):
+    def test_single_read(self, mocker):  # noqa: D102
         path = "0000000000000000jan00000"
         field = ABFField(path)
 
@@ -27,7 +27,7 @@ class Test_data:
         fromfile.assert_called_once_with(path, dtype=">u1")
         assert read.call_count == 1
 
-    def test_invalid_name_length(self, mocker):
+    def test_invalid_name_length(self, mocker):  # noqa: D102
         # len == 23
         path = "0000000000000000jan0000"
 

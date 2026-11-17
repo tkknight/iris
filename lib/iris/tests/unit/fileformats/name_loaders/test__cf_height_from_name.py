@@ -29,7 +29,7 @@ def _default_coord(data):
 class TestAll_NAMEII:
     """Test ll NAMEII."""
     # NAMEII formats are defined by bounds, not points
-    def test_bounded_height_above_ground(self):
+    def test_bounded_height_above_ground(self):  # noqa: D102
         data = "From     0 -   100m agl"
         res = _cf_height_from_name(data)
         com = AuxCoord(
@@ -42,7 +42,7 @@ class TestAll_NAMEII:
         )
         assert com == res
 
-    def test_bounded_flight_level(self):
+    def test_bounded_flight_level(self):  # noqa: D102
         data = "From FL0 - FL100"
         res = _cf_height_from_name(data)
         com = AuxCoord(
@@ -55,7 +55,7 @@ class TestAll_NAMEII:
         )
         assert com == res
 
-    def test_bounded_height_above_sea_level(self):
+    def test_bounded_height_above_sea_level(self):  # noqa: D102
         data = "From     0 -   100m asl"
         res = _cf_height_from_name(data)
         com = AuxCoord(
@@ -68,7 +68,7 @@ class TestAll_NAMEII:
         )
         assert com == res
 
-    def test_malformed_height_above_ground(self):
+    def test_malformed_height_above_ground(self):  # noqa: D102
         # Parse height above ground level with additional stuff on the end of
         # the string (agl).
         data = "From     0 -   100m agl and stuff"
@@ -76,7 +76,7 @@ class TestAll_NAMEII:
         com = _default_coord(data)
         assert com == res
 
-    def test_malformed_height_above_sea_level(self):
+    def test_malformed_height_above_sea_level(self):  # noqa: D102
         # Parse height above ground level with additional stuff on the end of
         # the string (agl).
         data = "From     0 -   100m asl and stuff"
@@ -84,7 +84,7 @@ class TestAll_NAMEII:
         com = _default_coord(data)
         assert com == res
 
-    def test_malformed_flight_level(self):
+    def test_malformed_flight_level(self):  # noqa: D102
         # Parse height above ground level with additional stuff on the end of
         # the string (agl).
         data = "From FL0 - FL100 and stuff"
@@ -92,7 +92,7 @@ class TestAll_NAMEII:
         com = _default_coord(data)
         assert com == res
 
-    def test_float_bounded_height_above_ground(self):
+    def test_float_bounded_height_above_ground(self):  # noqa: D102
         # Parse height above ground level when its a float.
         data = "From     0.0 -   100.0m agl"
         res = _cf_height_from_name(data)
@@ -106,7 +106,7 @@ class TestAll_NAMEII:
         )
         assert com == res
 
-    def test_float_bounded_height_flight_level(self):
+    def test_float_bounded_height_flight_level(self):  # noqa: D102
         # Parse height above ground level, as a float (agl).
         data = "From FL0.0 - FL100.0"
         res = _cf_height_from_name(data)
@@ -120,7 +120,7 @@ class TestAll_NAMEII:
         )
         assert com == res
 
-    def test_float_bounded_height_above_sea_level(self):
+    def test_float_bounded_height_above_sea_level(self):  # noqa: D102
         # Parse height above ground level as a float (agl).
         data = "From     0.0 -   100.0m asl"
         res = _cf_height_from_name(data)
@@ -134,7 +134,7 @@ class TestAll_NAMEII:
         )
         assert com == res
 
-    def test_no_match(self):
+    def test_no_match(self):  # noqa: D102
         # Parse height information when there is no match.
         # No interpretation, just returns default values.
         data = "Vertical integral"
@@ -142,7 +142,7 @@ class TestAll_NAMEII:
         com = _default_coord(data)
         assert com == res
 
-    def test_pressure(self):
+    def test_pressure(self):  # noqa: D102
         # Parse air_pressure string.
         data = "From     0 -   100 Pa"
         res = _cf_height_from_name(data)
@@ -160,7 +160,7 @@ class TestAll_NAMEII:
 class TestAll_NAMEIII:
     """Test ll NAMEIII."""
     # NAMEIII formats are defined by points, not bounds.
-    def test_height_above_ground(self):
+    def test_height_above_ground(self):  # noqa: D102
         data = "Z = 50.00000 m agl"
         res = _cf_height_from_name(data)
         com = AuxCoord(
@@ -173,7 +173,7 @@ class TestAll_NAMEIII:
         )
         assert com == res
 
-    def test_height_flight_level(self):
+    def test_height_flight_level(self):  # noqa: D102
         data = "Z = 50.00000 FL"
         res = _cf_height_from_name(data)
         com = AuxCoord(
@@ -186,7 +186,7 @@ class TestAll_NAMEIII:
         )
         assert com == res
 
-    def test_height_above_sea_level(self):
+    def test_height_above_sea_level(self):  # noqa: D102
         data = "Z = 50.00000 m asl"
         res = _cf_height_from_name(data)
         com = AuxCoord(
@@ -199,7 +199,7 @@ class TestAll_NAMEIII:
         )
         assert com == res
 
-    def test_malformed_height_above_ground(self):
+    def test_malformed_height_above_ground(self):  # noqa: D102
         # Parse height above ground level, with additional stuff at the string
         # end (agl).
         data = "Z = 50.00000 m agl and stuff"
@@ -207,7 +207,7 @@ class TestAll_NAMEIII:
         com = _default_coord(data)
         assert com == res
 
-    def test_malformed_height_above_sea_level(self):
+    def test_malformed_height_above_sea_level(self):  # noqa: D102
         # Parse height above ground level, with additional stuff at string
         # end (agl).
         data = "Z = 50.00000 m asl and stuff"
@@ -215,7 +215,7 @@ class TestAll_NAMEIII:
         com = _default_coord(data)
         assert com == res
 
-    def test_malformed_flight_level(self):
+    def test_malformed_flight_level(self):  # noqa: D102
         # Parse height above ground level (agl), with additional stuff at
         # string end.
         data = "Z = 50.00000 FL and stuff"
@@ -223,7 +223,7 @@ class TestAll_NAMEIII:
         com = _default_coord(data)
         assert com == res
 
-    def test_integer_height_above_ground(self):
+    def test_integer_height_above_ground(self):  # noqa: D102
         # Parse height above ground level when its an integer.
         data = "Z = 50 m agl"
         res = _cf_height_from_name(data)
@@ -237,7 +237,7 @@ class TestAll_NAMEIII:
         )
         assert com == res
 
-    def test_integer_height_flight_level(self):
+    def test_integer_height_flight_level(self):  # noqa: D102
         # Parse flight level when its an integer.
         data = "Z = 50 FL"
         res = _cf_height_from_name(data)
@@ -251,7 +251,7 @@ class TestAll_NAMEIII:
         )
         assert com == res
 
-    def test_integer_height_above_sea_level(self):
+    def test_integer_height_above_sea_level(self):  # noqa: D102
         # Parse height above sea level (asl) when its an integer.
         data = "Z = 50 m asl"
         res = _cf_height_from_name(data)
@@ -265,7 +265,7 @@ class TestAll_NAMEIII:
         )
         assert com == res
 
-    def test_enotation_height_above_ground(self):
+    def test_enotation_height_above_ground(self):  # noqa: D102
         # Parse height above ground expressed in scientific notation
         data = "Z = 0.0000000E+00 m agl"
         res = _cf_height_from_name(data)
@@ -279,7 +279,7 @@ class TestAll_NAMEIII:
         )
         assert com == res
 
-    def test_enotation_height_above_sea_level(self):
+    def test_enotation_height_above_sea_level(self):  # noqa: D102
         # Parse height above sea level expressed in scientific notation
         data = "Z = 0.0000000E+00 m asl"
         res = _cf_height_from_name(data)
@@ -293,7 +293,7 @@ class TestAll_NAMEIII:
         )
         assert com == res
 
-    def test_pressure(self):
+    def test_pressure(self):  # noqa: D102
         # Parse pressure.
         data = "Z = 50.00000 Pa"
         res = _cf_height_from_name(data)

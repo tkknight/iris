@@ -17,11 +17,11 @@ from iris.tests import _shared_utils
 
 class TestFF_HEADER:
     """Test F HEADER."""
-    def test_initialisation(self):
+    def test_initialisation(self):  # noqa: D102
         assert ff.FF_HEADER[0] == ("data_set_format_version", (0,))
         assert ff.FF_HEADER[17] == ("integer_constants", (99, 100))
 
-    def test_size(self):
+    def test_size(self):  # noqa: D102
         assert len(ff.FF_HEADER) == 31
 
 
@@ -50,7 +50,7 @@ class TestFFHeader:
             "compressed_field_index3",
         )
 
-    def test_constructor(self):
+    def test_constructor(self):  # noqa: D102
         # Test FieldsFile header attribute lookup.
         assert self.ff_header.data_set_format_version == 20
         assert self.ff_header.sub_model == 1
@@ -84,16 +84,16 @@ class TestFFHeader:
         assert self.ff_header.total_prognostic_fields == 3119
         assert self.ff_header.data == (2049, 2961, -32768)
 
-    def test_str(self, request):
+    def test_str(self, request):  # noqa: D102
         _shared_utils.assert_string(
             request, str(self.ff_header), ("FF", "ffheader.txt")
         )
 
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         target = "FFHeader('" + self.filename + "')"
         assert repr(self.ff_header) == target
 
-    def test_shape(self):
+    def test_shape(self):  # noqa: D102
         assert self.ff_header.shape("data") == (2961, -32768)
 
 
@@ -104,7 +104,7 @@ class TestFF2PP2Cube:
     def _setup(self):
         self.filename = _shared_utils.get_data_path(("FF", "n48_multi_field"))
 
-    def test_unit_pass_0(self, request):
+    def test_unit_pass_0(self, request):  # noqa: D102
         # Test FieldsFile to PPFields cube load.
         cube_by_name = collections.defaultdict(int)
         cubes = iris.load(self.filename)
@@ -115,7 +115,7 @@ class TestFF2PP2Cube:
             filename = "{}_{}.cml".format(standard_name, cube_by_name[standard_name])
             _shared_utils.assert_CML(request, cube, ("FF", filename))
 
-    def test_raw_to_table_count(self):
+    def test_raw_to_table_count(self):  # noqa: D102
         filename = _shared_utils.get_data_path(("FF", "n48_multi_field_table_count"))
         cubes = iris.load_raw(filename)
         ff_header = ff.FFHeader(filename)
@@ -126,7 +126,7 @@ class TestFF2PP2Cube:
 @_shared_utils.skip_data
 class TestFFieee32:
     """Test Fieee32."""
-    def test_iris_loading(self):
+    def test_iris_loading(self):  # noqa: D102
         ff32_fname = _shared_utils.get_data_path(("FF", "n48_multi_field.ieee32"))
         ff64_fname = _shared_utils.get_data_path(("FF", "n48_multi_field"))
 
@@ -180,7 +180,7 @@ class TestFFVariableResolutionGrid:
         # this gets called in PP2FF.
         pp.make_pp_field = new_make_pp_field
 
-    def teardown_method(self):
+    def teardown_method(self):  # noqa: D102
         pp.make_pp_field = self.orig_make_pp_field
 
     def _check_stash(self, stash, x_coord, y_coord):
@@ -197,11 +197,11 @@ class TestFFVariableResolutionGrid:
             ("y_coord was incorrect for stash {}".format(stash)),
         )
 
-    def test_p(self):
+    def test_p(self):  # noqa: D102
         self._check_stash("m01s00i001", self.P_grid_x, self.P_grid_y)
 
-    def test_u(self):
+    def test_u(self):  # noqa: D102
         self._check_stash("m01s00i002", self.U_grid_x, self.P_grid_y)
 
-    def test_v(self):
+    def test_v(self):  # noqa: D102
         self._check_stash("m01s00i003", self.P_grid_x, self.V_grid_y)

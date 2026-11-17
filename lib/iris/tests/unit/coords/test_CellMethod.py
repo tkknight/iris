@@ -22,62 +22,62 @@ class TestCellMethod:
         expected = "{}: {}".format(token, self.method)
         assert str(result) == expected
 
-    def test_coord_standard_name(self):
+    def test_coord_standard_name(self):  # noqa: D102
         token = "air_temperature"
         coord = AuxCoord(1, standard_name=token)
         self._check(token, coord)
 
-    def test_coord_long_name(self):
+    def test_coord_long_name(self):  # noqa: D102
         token = "long_name"
         coord = AuxCoord(1, long_name=token)
         self._check(token, coord)
 
-    def test_coord_long_name_default(self):
+    def test_coord_long_name_default(self):  # noqa: D102
         token = "long name"  # includes space
         coord = AuxCoord(1, long_name=token)
         self._check(token, coord, default=True)
 
-    def test_coord_var_name(self):
+    def test_coord_var_name(self):  # noqa: D102
         token = "var_name"
         coord = AuxCoord(1, var_name=token)
         self._check(token, coord)
 
-    def test_coord_var_name_fail(self):
+    def test_coord_var_name_fail(self):  # noqa: D102
         token = "var name"  # includes space
         emsg = "is not a valid NetCDF variable name"
         with pytest.raises(ValueError, match=emsg):
             AuxCoord(1, var_name=token)
 
-    def test_coord_stash(self):
+    def test_coord_stash(self):  # noqa: D102
         token = "stash"
         coord = AuxCoord(1, attributes=dict(STASH=token))
         self._check(token, coord, default=True)
 
-    def test_coord_stash_default(self):
+    def test_coord_stash_default(self):  # noqa: D102
         token = "_stash"  # includes leading underscore
         coord = AuxCoord(1, attributes=dict(STASH=token))
         self._check(token, coord, default=True)
 
-    def test_string(self):
+    def test_string(self):  # noqa: D102
         token = "air_temperature"
         result = CellMethod(self.method, coords=token)
         expected = "{}: {}".format(token, self.method)
         assert str(result) == expected
 
-    def test_string_default(self):
+    def test_string_default(self):  # noqa: D102
         token = "air temperature"  # includes space
         result = CellMethod(self.method, coords=token)
         expected = "unknown: {}".format(self.method)
         assert str(result) == expected
 
-    def test_mixture(self):
+    def test_mixture(self):  # noqa: D102
         token = "air_temperature"
         coord = AuxCoord(1, standard_name=token)
         result = CellMethod(self.method, coords=[coord, token])
         expected = "{}: {}: {}".format(token, token, self.method)
         assert str(result) == expected
 
-    def test_mixture_default(self):
+    def test_mixture_default(self):  # noqa: D102
         token = "air temperature"  # includes space
         coord = AuxCoord(1, long_name=token)
         result = CellMethod(self.method, coords=[coord, token])

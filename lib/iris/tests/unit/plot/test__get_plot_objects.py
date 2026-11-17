@@ -16,20 +16,20 @@ if _shared_utils.MPL_AVAILABLE:
 @_shared_utils.skip_plot
 class Test__get_plot_objects:
     """Test  get plot objects."""
-    def test_scalar(self):
+    def test_scalar(self):  # noqa: D102
         cube1 = iris.cube.Cube(1)
         cube2 = iris.cube.Cube(1)
         expected = (cube1, cube2, 1, 1, ())
         result = _get_plot_objects((cube1, cube2))
         assert result == expected
 
-    def test_mismatched_size_first_scalar(self):
+    def test_mismatched_size_first_scalar(self):  # noqa: D102
         cube1 = iris.cube.Cube(1)
         cube2 = iris.cube.Cube([1, 42])
         with pytest.raises(ValueError, match="x and y-axis objects are not compatible"):
             _get_plot_objects((cube1, cube2))
 
-    def test_mismatched_size_second_scalar(self):
+    def test_mismatched_size_second_scalar(self):  # noqa: D102
         cube1 = iris.cube.Cube(1)
         cube2 = iris.cube.Cube([1, 42])
         with pytest.raises(ValueError, match="x and y-axis objects are not compatible"):

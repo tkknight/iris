@@ -23,7 +23,7 @@ _CS_LAMBERT = LambertConformal(
 
 class TestMakeGridcube:
     """Test akeGridcube."""
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         cube = make_gridcube()
         assert isinstance(cube, Cube)
         assert cube.standard_name is None
@@ -152,7 +152,7 @@ class TestMakeGridcube:
             "f8": "f8",
         }[typename]
 
-    def test_lims_types(self, arg_dtype):
+    def test_lims_types(self, arg_dtype):  # noqa: D102
         vals = [1, 2]
         expect_dtype = np.dtype("f8")
         if arg_dtype == "int":
@@ -204,7 +204,7 @@ class TestMakeGridcube:
         assert np.allclose(co_x.points, [0.0, 10.0, 20.0])
         assert np.allclose(co_y.points, ypts)
 
-    def test_points_types(self, arg_dtype):
+    def test_points_types(self, arg_dtype):  # noqa: D102
         # Check type handling of points array creation
         vals = [1, 2, 5, 7]
         expect_dtype = np.dtype("f8")
@@ -232,7 +232,7 @@ class TestMakeGridcube:
         "ptype",
         ["noniterable", "string", "2d", "strings", "objects"],
     )
-    def test_points_badtypes__fail(self, ptype):
+    def test_points_badtypes__fail(self, ptype):  # noqa: D102
         # Check various bad types for points array arg.
         if ptype == "noniterable":
             pts = 17
@@ -253,7 +253,7 @@ class TestMakeGridcube:
     @pytest.mark.parametrize(
         "pvals", ["rising", "falling", "0_pts", "1_pts", "2_pts", "repeat", "nonmono"]
     )
-    def test_points_values(self, pvals):
+    def test_points_values(self, pvals):  # noqa: D102
         # Check various cases where points values are valid or invalid.
         expect_ok = True
         if pvals == "rising":

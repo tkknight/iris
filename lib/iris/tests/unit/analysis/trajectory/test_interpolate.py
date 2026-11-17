@@ -18,7 +18,7 @@ import iris.tests.stock
 class TestFailCases:
     """Test ailCases."""
     @_shared_utils.skip_data
-    def test_derived_coord(self):
+    def test_derived_coord(self):  # noqa: D102
         cube = iris.tests.stock.realistic_4d()
         sample_pts = [("altitude", [0, 10, 50])]
         msg = "'altitude'.*derived coordinates are not allowed"
@@ -27,7 +27,7 @@ class TestFailCases:
 
         # Try to request unknown interpolation method.
 
-    def test_unknown_method(self):
+    def test_unknown_method(self):  # noqa: D102
         cube = iris.tests.stock.simple_2d()
         sample_point = [("x", 2.8)]
         msg = "Unhandled interpolation.*linekar"
@@ -44,7 +44,7 @@ class TestNearest:
     # exhaustively here.  Instead, we check the way it handles the source and
     # result cubes (especially coordinates).
     @pytest.fixture
-    def src_cube(self):
+    def src_cube(self):  # noqa: D102
         cube = iris.tests.stock.simple_3d()
         # Actually, this cube *isn't* terribly realistic, as the lat+lon coords
         # have integer type, which in this case produces some peculiar results.
@@ -55,7 +55,7 @@ class TestNearest:
         return cube
 
     @pytest.fixture
-    def single_point(self, src_cube):
+    def single_point(self, src_cube):  # noqa: D102
         # Define coordinates for a single-point testcase.
         y_val, x_val = 0, -90
 
@@ -73,7 +73,7 @@ class TestNearest:
         return point(single_point_ix, single_point_iy, sample_point)
 
     @pytest.fixture
-    def multi_sample_points(self):
+    def multi_sample_points(self):  # noqa: D102
         # Use latitude selection to recreate a whole row of the original cube.
         return [
             ("longitude", [-180, -90, 0, 90]),
@@ -81,7 +81,7 @@ class TestNearest:
         ]
 
     @pytest.fixture
-    def expected_multipoint_cube(self, src_cube):
+    def expected_multipoint_cube(self, src_cube):  # noqa: D102
         # The result should be identical to a single latitude section of the
         # original, but with modified coords (latitude has 4 repeated zeros).
         expected = src_cube[:, 1, :]
@@ -96,7 +96,7 @@ class TestNearest:
 
         return expected
 
-    def test_single_point_same_cube(self, src_cube, single_point):
+    def test_single_point_same_cube(self, src_cube, single_point):  # noqa: D102
         # Check exact result matching for a single point.
         result = interpolate(src_cube, single_point.sample_point, method="nearest")
         # Check that the result is a single trajectory point, exactly equal to
@@ -106,14 +106,14 @@ class TestNearest:
         expected = src_cube[:, single_point.iy, single_point.ix]
         assert result == expected
 
-    def test_multi_point_same_cube(
+    def test_multi_point_same_cube(  # noqa: D102
         self, src_cube, multi_sample_points, expected_multipoint_cube
     ):
         # Check an exact result for multiple points.
         result = interpolate(src_cube, multi_sample_points, method="nearest")
         assert result == expected_multipoint_cube
 
-    def test_mask_preserved(
+    def test_mask_preserved(  # noqa: D102
         self, src_cube, multi_sample_points, expected_multipoint_cube
     ):
         mask = np.zeros_like(src_cube.data)
@@ -130,7 +130,7 @@ class TestNearest:
             result.data.mask, expected_multipoint_cube.data.mask
         )
 
-    def test_dtype_preserved(
+    def test_dtype_preserved(  # noqa: D102
         self, src_cube, multi_sample_points, expected_multipoint_cube
     ):
         src_cube.data = src_cube.data.astype(np.int16)
@@ -140,7 +140,7 @@ class TestNearest:
         _shared_utils.assert_array_all_close(result.data, expected_multipoint_cube.data)
         assert result.data.dtype == np.int16
 
-    def test_aux_coord_noninterpolation_dim(self, src_cube, single_point):
+    def test_aux_coord_noninterpolation_dim(self, src_cube, single_point):  # noqa: D102
         # Check exact result with an aux-coord mapped to an uninterpolated dim.
         src_cube.add_aux_coord(DimCoord([17, 19], long_name="aux0"), 0)
 
@@ -151,7 +151,7 @@ class TestNearest:
         expected = src_cube[:, single_point.iy, single_point.ix]
         assert result == expected
 
-    def test_aux_coord_one_interp_dim(self, src_cube, single_point):
+    def test_aux_coord_one_interp_dim(self, src_cube, single_point):  # noqa: D102
         # Check exact result with an aux-coord over one interpolation dims.
         src_cube.add_aux_coord(AuxCoord([11, 12, 13, 14], long_name="aux_x"), 2)
 
@@ -162,7 +162,7 @@ class TestNearest:
         expected = src_cube[:, single_point.iy, single_point.ix]
         assert result == expected
 
-    def test_aux_coord_both_interp_dims(self, src_cube, single_point):
+    def test_aux_coord_both_interp_dims(self, src_cube, single_point):  # noqa: D102
         # Check exact result with an aux-coord over both interpolation dims.
         src_cube.add_aux_coord(
             AuxCoord(
@@ -179,7 +179,7 @@ class TestNearest:
         expected = src_cube[:, single_point.iy, single_point.ix]
         assert result == expected
 
-    def test_aux_coord_fail_mixed_dims(self, src_cube, single_point):
+    def test_aux_coord_fail_mixed_dims(self, src_cube, single_point):  # noqa: D102
         # Check behaviour with an aux-coord mapped over both interpolation and
         # non-interpolation dims : not supported.
         src_cube.add_aux_coord(
@@ -196,7 +196,7 @@ class TestNearest:
         with pytest.raises(ValueError, match=msg):
             interpolate(src_cube, single_point.sample_point, method="nearest")
 
-    def test_metadata(self, src_cube, single_point):
+    def test_metadata(self, src_cube, single_point):  # noqa: D102
         # Check exact result matching for a single point, with additional
         # attributes and cell-methods.
         src_cube.attributes["ODD_ATTR"] = "string-value-example"
@@ -241,7 +241,7 @@ class TestLinear:
             ]
         )[:, np.newaxis]
 
-    def test_single_point_same_cube(self):
+    def test_single_point_same_cube(self):  # noqa: D102
         # Check exact result matching for a single point.
         cube = self.test_cube
         result = interpolate(cube, self.single_sample_point, method="linear")
@@ -250,7 +250,7 @@ class TestLinear:
         assert result.shape[-1] == 1
         _shared_utils.assert_array_all_close(result.data, self.single_sample_result)
 
-    def test_multi_point_same_cube(self):
+    def test_multi_point_same_cube(self):  # noqa: D102
         # Check an exact result for multiple points.
         cube = self.test_cube
         # Use latitude selection to recreate a whole row of the original cube.
@@ -273,7 +273,7 @@ class TestLinear:
         expected.add_aux_coord(co_y, 1)
         assert result == expected
 
-    def test_aux_coord_noninterpolation_dim(self):
+    def test_aux_coord_noninterpolation_dim(self):  # noqa: D102
         # Check exact result with an aux-coord mapped to an uninterpolated dim.
         cube = self.test_cube
         cube.add_aux_coord(DimCoord([17, 19], long_name="aux0"), 0)
@@ -283,7 +283,7 @@ class TestLinear:
         assert result.shape[-1] == 1
         _shared_utils.assert_array_all_close(result.data, self.single_sample_result)
 
-    def test_aux_coord_one_interp_dim(self):
+    def test_aux_coord_one_interp_dim(self):  # noqa: D102
         # Check exact result with an aux-coord over one interpolation dims.
         cube = self.test_cube
         cube.add_aux_coord(AuxCoord([11, 12, 13, 14], long_name="aux_x"), 2)
@@ -293,7 +293,7 @@ class TestLinear:
         assert result.shape[-1] == 1
         _shared_utils.assert_array_all_close(result.data, self.single_sample_result)
 
-    def test_aux_coord_both_interp_dims(self):
+    def test_aux_coord_both_interp_dims(self):  # noqa: D102
         # Check exact result with an aux-coord over both interpolation dims.
         cube = self.test_cube
         cube.add_aux_coord(
@@ -309,7 +309,7 @@ class TestLinear:
         assert result.shape[-1] == 1
         _shared_utils.assert_array_all_close(result.data, self.single_sample_result)
 
-    def test_aux_coord_fail_mixed_dims(self):
+    def test_aux_coord_fail_mixed_dims(self):  # noqa: D102
         # Check behaviour with an aux-coord mapped over both interpolation and
         # non-interpolation dims : not supported.
         cube = self.test_cube
@@ -324,7 +324,7 @@ class TestLinear:
         with pytest.raises(ValueError, match=msg):
             interpolate(cube, self.single_sample_point, method="linear")
 
-    def test_metadata(self):
+    def test_metadata(self):  # noqa: D102
         # Check exact result matching for a single point, with additional
         # attributes and cell-methods.
         cube = self.test_cube

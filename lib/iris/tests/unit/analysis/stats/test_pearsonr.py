@@ -37,17 +37,17 @@ class Mixin:
 @_shared_utils.skip_data
 class TestLazy(Mixin):
     """Test azy."""
-    def test_perfect_corr(self, mocked_compute):
+    def test_perfect_corr(self, mocked_compute):  # noqa: D102
         r = stats.pearsonr(self.cube_a, self.cube_a, ["latitude", "longitude"])
         mocked_compute.assert_not_called()
         _shared_utils.assert_array_equal(r.data, np.array([1.0] * 6))
 
-    def test_perfect_corr_all_dims(self, mocked_compute):
+    def test_perfect_corr_all_dims(self, mocked_compute):  # noqa: D102
         r = stats.pearsonr(self.cube_a, self.cube_a)
         mocked_compute.assert_not_called()
         _shared_utils.assert_array_equal(r.data, np.array([1.0]))
 
-    def test_compatible_cubes(self, mocked_compute):
+    def test_compatible_cubes(self, mocked_compute):  # noqa: D102
         r = stats.pearsonr(self.cube_a, self.cube_b, ["latitude", "longitude"])
         mocked_compute.assert_not_called()
         _shared_utils.assert_array_almost_equal(
@@ -62,7 +62,7 @@ class TestLazy(Mixin):
             ],
         )
 
-    def test_broadcast_cubes(self, mocked_compute):
+    def test_broadcast_cubes(self, mocked_compute):  # noqa: D102
         r1 = stats.pearsonr(
             self.cube_a, self.cube_b[0, :, :], ["latitude", "longitude"]
         )
@@ -82,7 +82,7 @@ class TestLazy(Mixin):
         _shared_utils.assert_array_equal(r1.data, np.array(r_by_slice))
         _shared_utils.assert_array_equal(r2.data, np.array(r_by_slice))
 
-    def test_compatible_cubes_weighted(self, mocked_compute):
+    def test_compatible_cubes_weighted(self, mocked_compute):  # noqa: D102
         r = stats.pearsonr(
             self.cube_a, self.cube_b, ["latitude", "longitude"], self.weights
         )
@@ -100,7 +100,7 @@ class TestLazy(Mixin):
             ],
         )
 
-    def test_broadcast_cubes_weighted(self, mocked_compute):
+    def test_broadcast_cubes_weighted(self, mocked_compute):  # noqa: D102
         r = stats.pearsonr(
             self.cube_a,
             self.cube_b[0, :, :],
@@ -120,7 +120,7 @@ class TestLazy(Mixin):
         ]
         _shared_utils.assert_array_almost_equal(r.data, np.array(r_by_slice))
 
-    def test_broadcast_transpose_cubes_weighted(self, mocked_compute):
+    def test_broadcast_transpose_cubes_weighted(self, mocked_compute):  # noqa: D102
         # Reference is calculated with no transposition.
         r_ref = stats.pearsonr(
             self.cube_a,
@@ -141,7 +141,7 @@ class TestLazy(Mixin):
         # Should get the same result, but transposed.
         _shared_utils.assert_array_almost_equal(r_test.data, r_ref.data.T)
 
-    def test_weight_error(self):
+    def test_weight_error(self):  # noqa: D102
         expected = "weights array should have dimensions"
         with pytest.raises(ValueError, match=expected):
             stats.pearsonr(
@@ -151,7 +151,7 @@ class TestLazy(Mixin):
                 weights=self.weights,
             )
 
-    def test_mdtol(self, mocked_compute):
+    def test_mdtol(self, mocked_compute):  # noqa: D102
         cube_small = self.cube_a[:, 0, 0]
         cube_small_masked = iris.util.mask_cube(cube_small, [0, 0, 0, 1, 1, 1])
         r1 = stats.pearsonr(cube_small, cube_small_masked)
@@ -161,7 +161,7 @@ class TestLazy(Mixin):
         _shared_utils.assert_array_almost_equal(r1.data, np.array([0.74586593]))
         _shared_utils.assert_masked_array_equal(r2.data, ma.array([0], mask=[True]))
 
-    def test_common_mask_simple(self, mocked_compute):
+    def test_common_mask_simple(self, mocked_compute):  # noqa: D102
         cube_small = self.cube_a[:, 0, 0]
         cube_small_masked = iris.util.mask_cube(cube_small, [0, 0, 0, 1, 1, 1])
         r = stats.pearsonr(cube_small, cube_small_masked, common_mask=True)
@@ -169,7 +169,7 @@ class TestLazy(Mixin):
         mocked_compute.assert_not_called()
         _shared_utils.assert_array_almost_equal(r.data, np.array([1.0]))
 
-    def test_common_mask_broadcast(self, mocked_compute):
+    def test_common_mask_broadcast(self, mocked_compute):  # noqa: D102
         cube_small = iris.util.mask_cube(self.cube_a[:, 0, 0], [0, 0, 0, 0, 0, 1])
         mask_2d = np.zeros((6, 2), dtype=bool)
         # 2d mask varies on unshared coord:
@@ -208,21 +208,21 @@ class TestReal(TestLazy):
 
 class TestCoordHandling(Mixin):
     """Test oordHandling."""
-    def test_lenient_handling(self):
+    def test_lenient_handling(self):  # noqa: D102
         # Smoke test that mismatched var_name does not prevent operation.
         self.cube_a.coord("time").var_name = "wibble"
         stats.pearsonr(self.cube_a, self.cube_b)
 
-    def test_incompatible_cubes(self):
+    def test_incompatible_cubes(self):  # noqa: D102
         expected = "Insufficient matching coordinate metadata to resolve cubes"
         with pytest.raises(ValueError, match=expected):
             stats.pearsonr(self.cube_a[:, 0, :], self.cube_b[0, :, :], "longitude")
 
-    def test_single_coord(self):
+    def test_single_coord(self):  # noqa: D102
         # Smoke test that single coord can be passed as single string.
         stats.pearsonr(self.cube_a, self.cube_b, "latitude")
 
-    def test_non_existent_coord(self):
+    def test_non_existent_coord(self):  # noqa: D102
         expected = "Expected to find exactly 1 .* coordinate"
         with pytest.raises(CoordinateNotFoundError, match=expected):
             stats.pearsonr(self.cube_a, self.cube_b, "bad_coord")

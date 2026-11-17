@@ -25,34 +25,34 @@ class TestRealistic4d(_shared_utils.GraphicsTest):
         self.cube = iris.tests.stock.realistic_4d()
         self.altitude = self.cube.coord("altitude")
 
-    def test_metadata(self):
+    def test_metadata(self):  # noqa: D102
         assert self.altitude.units == "m"
         assert self.altitude.coord_system is None
         assert self.altitude.attributes == {"positive": "up"}
 
-    def test_points(self):
+    def test_points(self):  # noqa: D102
         assert self.altitude.points.min() == pytest.approx(np.float32(191.84892))
         assert self.altitude.points.max() == pytest.approx(np.float32(40000))
 
-    def test_transpose(self, request):
+    def test_transpose(self, request):  # noqa: D102
         _shared_utils.assert_CML(request, self.cube, ("stock", "realistic_4d.cml"))
         self.cube.transpose()
         _shared_utils.assert_CML(request, self.cube, ("derived", "transposed.cml"))
 
-    def test_indexing(self, request):
+    def test_indexing(self, request):  # noqa: D102
         cube = self.cube[:, :, 0, 0]
         # Make sure the derived 'altitude' coordinate survived the indexing.
         _ = cube.coord("altitude")
         _shared_utils.assert_CML(request, cube, ("derived", "column.cml"))
 
-    def test_removing_derived_coord(self, request):
+    def test_removing_derived_coord(self, request):  # noqa: D102
         cube = self.cube
         cube.remove_coord("altitude")
         _shared_utils.assert_CML(
             request, cube, ("derived", "removed_derived_coord.cml")
         )
 
-    def test_removing_sigma(self, request):
+    def test_removing_sigma(self, request):  # noqa: D102
         # Check the cube remains OK when sigma is removed.
         cube = self.cube
         cube.remove_coord("sigma")
@@ -66,7 +66,7 @@ class TestRealistic4d(_shared_utils.GraphicsTest):
         t = [key for key, coord in factory.dependencies.items() if coord is not None]
         assert sorted(t) == sorted(["orography", "delta"])
 
-    def test_removing_orography(self, request):
+    def test_removing_orography(self, request):  # noqa: D102
         # Check the cube remains OK when the orography is removed.
         cube = self.cube
         cube.remove_coord("surface_altitude")
@@ -80,26 +80,26 @@ class TestRealistic4d(_shared_utils.GraphicsTest):
         t = [key for key, coord in factory.dependencies.items() if coord is not None]
         assert sorted(t) == sorted(["sigma", "delta"])
 
-    def test_derived_coords(self):
+    def test_derived_coords(self):  # noqa: D102
         derived_coords = self.cube.derived_coords
         assert len(derived_coords) == 1
         altitude = derived_coords[0]
         assert altitude.standard_name == "altitude"
         assert altitude.attributes == {"positive": "up"}
 
-    def test_aux_factory(self):
+    def test_aux_factory(self):  # noqa: D102
         factory = self.cube.aux_factory(name="altitude")
         assert factory.standard_name == "altitude"
         assert factory.attributes == {"positive": "up"}
 
-    def test_aux_factory_var_name(self):
+    def test_aux_factory_var_name(self):  # noqa: D102
         factory = self.cube.aux_factory(name="altitude")
         factory.var_name = "alt"
         factory = self.cube.aux_factory(var_name="alt")
         assert factory.standard_name == "altitude"
         assert factory.attributes == {"positive": "up"}
 
-    def test_no_orography(self, request):
+    def test_no_orography(self, request):  # noqa: D102
         # Get rid of the normal hybrid-height factory.
         cube = self.cube
         factory = cube.aux_factory(name="altitude")
@@ -118,7 +118,7 @@ class TestRealistic4d(_shared_utils.GraphicsTest):
         )
         _shared_utils.assert_CML(request, cube, ("derived", "no_orog.cml"))
 
-    def test_invalid_dependencies(self):
+    def test_invalid_dependencies(self):  # noqa: D102
         # Must have either delta or orography
         with pytest.raises(ValueError, match="Unable to determine units"):
             _ = HybridHeightFactory()
@@ -131,7 +131,7 @@ class TestRealistic4d(_shared_utils.GraphicsTest):
             with contextlib.suppress(ValueError):
                 _ = HybridHeightFactory(orography=sigma)
 
-    def test_bounded_orography(self):
+    def test_bounded_orography(self):  # noqa: D102
         # Start with everything normal
         orog = self.cube.coord("surface_altitude")
         altitude = self.cube.coord("altitude")
@@ -173,12 +173,12 @@ class TestHybridPressure:
         self.cube = cube
         self.air_pressure = self.cube.coord("air_pressure")
 
-    def test_metadata(self):
+    def test_metadata(self):  # noqa: D102
         assert self.air_pressure.units == "Pa"
         assert self.air_pressure.coord_system is None
         assert self.air_pressure.attributes == {}
 
-    def test_points(self):
+    def test_points(self):  # noqa: D102
         points = self.air_pressure.points
         assert points.dtype == np.float32
         assert points.min() == pytest.approx(np.float32(191.84892))
@@ -194,7 +194,7 @@ class TestHybridPressure:
         assert points.min() == pytest.approx(191.8489257)
         assert points.max() == pytest.approx(40000)
 
-    def test_invalid_dependencies(self):
+    def test_invalid_dependencies(self):  # noqa: D102
         # Must have either delta or surface_air_pressure
         with pytest.raises(ValueError, match="insufficient source coordinates"):
             _ = HybridPressureFactory()
@@ -207,7 +207,7 @@ class TestHybridPressure:
             with contextlib.suppress(ValueError):
                 _ = HybridPressureFactory(sigma=sigma, surface_air_pressure=sigma)
 
-    def test_bounded_surface_pressure(self):
+    def test_bounded_surface_pressure(self):  # noqa: D102
         # Start with everything normal
         surface_pressure = self.cube.coord("surface_air_pressure")
         pressure = self.cube.coord("air_pressure")

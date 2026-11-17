@@ -20,7 +20,7 @@ if _shared_utils.MPL_AVAILABLE:
 @_shared_utils.skip_plot
 class Test(_shared_utils.GraphicsTest):
     """Test ."""
-    def test_360_day_calendar(self):
+    def test_360_day_calendar(self):  # noqa: D102
         n = 360
         calendar = "360_day"
         time_unit = Unit("days since 1970-01-01 00:00", calendar=calendar)

@@ -31,11 +31,11 @@ def grid(writer):
 
 class TestCreateDimension:
     """Test reateDimension."""
-    def test_appears_with_its_length(self, writer):
+    def test_appears_with_its_length(self, writer):  # noqa: D102
         writer.create_dimension("x", 5)
         assert writer.dimensions["x"] == 5
 
-    def test_none_means_unlimited(self, writer):
+    def test_none_means_unlimited(self, writer):  # noqa: D102
         # Saver._create_cf_dimensions passes None for a dimension the user
         # asked to make unlimited. It reads back as zero-length until records
         # are written.
@@ -46,7 +46,7 @@ class TestCreateDimension:
 
 class TestCreateVariable:
     """Test reateVariable."""
-    def test_returns_a_dataset_variable(self, grid):
+    def test_returns_a_dataset_variable(self, grid):  # noqa: D102
         variable = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         assert isinstance(variable, _dataset.NetCDFDatasetVariable)
         assert variable.name == "air"
@@ -54,11 +54,11 @@ class TestCreateVariable:
         assert variable.shape == (3, 2)
         assert variable.dtype == np.dtype("f4")
 
-    def test_appears_in_the_dataset(self, grid):
+    def test_appears_in_the_dataset(self, grid):  # noqa: D102
         created = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         assert grid.variables["air"].name == created.name
 
-    def test_updates_an_already_materialised_variables_cache(self, grid):
+    def test_updates_an_already_materialised_variables_cache(self, grid):  # noqa: D102
         # Pins that create_variable keeps an already-materialised .variables
         # mapping current, rather than leaving it stale. saver.py's
         # variable-naming collision loops - `while <name> in
@@ -69,32 +69,32 @@ class TestCreateVariable:
         grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         assert "air" in grid.variables
 
-    def test_dimensions_default_to_scalar(self, writer):
+    def test_dimensions_default_to_scalar(self, writer):  # noqa: D102
         # saver.py creates a grid-mapping variable with no dimensions at all,
         # passing only a name and a dtype.
         variable = writer.create_variable("grid", np.int32)
         assert variable.dimensions == ()
         assert variable.shape == ()
 
-    def test_dimensions_may_be_a_list(self, grid):
+    def test_dimensions_may_be_a_list(self, grid):  # noqa: D102
         # Saver._create_generic_cf_array_var passes element_dims, a list.
         variable = grid.create_variable("air", np.dtype("f4"), ["y", "x"])
         assert variable.dimensions == ("y", "x")
 
-    def test_fill_value_becomes_an_attribute(self, grid):
+    def test_fill_value_becomes_an_attribute(self, grid):  # noqa: D102
         variable = grid.create_variable(
             "air", np.dtype("f4"), ("y", "x"), fill_value=-1.0
         )
         assert variable.fill_value == -1.0
         assert variable.attributes["_FillValue"] == -1.0
 
-    def test_encoding_is_passed_through(self, grid):
+    def test_encoding_is_passed_through(self, grid):  # noqa: D102
         variable = grid.create_variable(
             "air", np.dtype("f4"), ("y", "x"), zlib=True, chunksizes=(1, 2)
         )
         assert variable.chunking == (1, 2)
 
-    def test_shares_the_datasets_write_lock(self, grid):
+    def test_shares_the_datasets_write_lock(self, grid):  # noqa: D102
         # Observed at write time, not at construction time: the variable is
         # handed a factory, and the lock is only made when a write handle
         # actually asks for it - see NetCDFDataset.write_lock for why a read
@@ -106,7 +106,7 @@ class TestCreateVariable:
 
 class TestWritingData:
     """Test ritingData."""
-    def test_setitem_round_trip(self, grid, path):
+    def test_setitem_round_trip(self, grid, path):  # noqa: D102
         variable = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         payload = np.arange(6, dtype="f4").reshape(3, 2)
         variable[:] = payload
@@ -115,7 +115,7 @@ class TestWritingData:
         with _dataset.NetCDFDataset(path) as reader:
             np.testing.assert_array_equal(reader.variables["air"][:], payload)
 
-    def test_write_handle_writes_after_the_dataset_is_closed(self, grid, path):
+    def test_write_handle_writes_after_the_dataset_is_closed(self, grid, path):  # noqa: D102
         # This is what a Dask worker gets as a da.store target, long after the
         # Saver's own handle on the file has gone.
         variable = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
@@ -128,7 +128,7 @@ class TestWritingData:
         with _dataset.NetCDFDataset(path) as reader:
             np.testing.assert_array_equal(reader.variables["air"][:], payload)
 
-    def test_write_handle_of_an_encoded_variable_encodes(self, grid):
+    def test_write_handle_of_an_encoded_variable_encodes(self, grid):  # noqa: D102
         # The handle always encodes, whatever the variable's own encoding.
         # This is the encoded half - the dataset was opened for writing, so
         # its variables are encoded; the test below is the unencoded half.
@@ -138,7 +138,7 @@ class TestWritingData:
             variable.write_handle(), _bytecoding_datasets.EncodedNetCDFWriteProxy
         )
 
-    def test_write_handle_of_an_unencoded_variable_still_encodes(self, path):
+    def test_write_handle_of_an_unencoded_variable_still_encodes(self, path):  # noqa: D102
         # The saver does meet unencoded variables: from_existing only wraps a
         # dataset lacking THREAD_SAFE_FLAG, so a borrowed DatasetWrapper keeps
         # plain variables like the one built here. Writes have no selectable
@@ -165,7 +165,7 @@ class TestWritingData:
 
 class TestSyncAndFinalise:
     """Test yncAndFinalise."""
-    def test_sync_flushes(self, grid, path):
+    def test_sync_flushes(self, grid, path):  # noqa: D102
         variable = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         variable[:] = np.zeros((3, 2), dtype="f4")
         grid.sync()
@@ -173,14 +173,14 @@ class TestSyncAndFinalise:
         with _dataset.NetCDFDataset(path) as reader:
             assert reader.variables["air"].shape == (3, 2)
 
-    def test_finalise_is_a_no_op(self, grid):
+    def test_finalise_is_a_no_op(self, grid):  # noqa: D102
         assert grid.finalise() is None
         assert grid.closed is False
 
 
 class TestAttributeWrites:
     """Test ttributeWrites."""
-    def test_variable_attribute_write_through(self, grid, path):
+    def test_variable_attribute_write_through(self, grid, path):  # noqa: D102
         variable = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         variable.attributes["units"] = "K"
         assert variable.attributes["units"] == "K"
@@ -189,7 +189,7 @@ class TestAttributeWrites:
         with _dataset.NetCDFDataset(path) as reader:
             assert reader.variables["air"].attributes["units"] == "K"
 
-    def test_global_attribute_write_through(self, writer, path):
+    def test_global_attribute_write_through(self, writer, path):  # noqa: D102
         writer.attributes["Conventions"] = "CF-1.7"
         assert writer.attributes["Conventions"] == "CF-1.7"
         writer.close()
@@ -197,7 +197,7 @@ class TestAttributeWrites:
         with _dataset.NetCDFDataset(path) as reader:
             assert reader.attributes["Conventions"] == "CF-1.7"
 
-    def test_attribute_deletion(self, grid, path):
+    def test_attribute_deletion(self, grid, path):  # noqa: D102
         variable = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         variable.attributes["units"] = "K"
         del variable.attributes["units"]
@@ -207,7 +207,7 @@ class TestAttributeWrites:
         with _dataset.NetCDFDataset(path) as reader:
             assert "units" not in reader.variables["air"].attributes
 
-    def test_ascii_value_is_written_as_bytes(self, grid):
+    def test_ascii_value_is_written_as_bytes(self, grid):  # noqa: D102
         # _bytes_if_ascii, moved here from saver.py. netCDF4 writes a bytes
         # value as NC_CHAR; the coercion is what makes every string attribute
         # Iris writes take that type, whatever the file format.
@@ -216,7 +216,7 @@ class TestAttributeWrites:
         assert variable.variable.getncattr("units") == "K"
         assert _dataset._bytes_if_ascii("K") == b"K"
 
-    def test_non_string_values_pass_through(self, grid):
+    def test_non_string_values_pass_through(self, grid):  # noqa: D102
         variable = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         variable.attributes["valid_min"] = np.float32(-3.5)
         assert variable.attributes["valid_min"] == np.float32(-3.5)
@@ -236,7 +236,7 @@ class TestNonAsciiAttributes:
             "m s\N{SUPERSCRIPT MINUS}\N{SUPERSCRIPT ONE}",
         ],
     )
-    def test_round_trips_unchanged(self, grid, path, value):
+    def test_round_trips_unchanged(self, grid, path, value):  # noqa: D102
         variable = grid.create_variable("air", np.dtype("f4"), ("y", "x"))
         variable.attributes["long_name"] = value
         assert variable.attributes["long_name"] == value
@@ -245,11 +245,11 @@ class TestNonAsciiAttributes:
         with _dataset.NetCDFDataset(path) as reader:
             assert reader.variables["air"].attributes["long_name"] == value
 
-    def test_is_not_coerced_to_bytes(self):
+    def test_is_not_coerced_to_bytes(self):  # noqa: D102
         value = "degC \N{DEGREE SIGN}"
         assert _dataset._bytes_if_ascii(value) is value
 
-    def test_global_non_ascii_round_trips(self, writer, path):
+    def test_global_non_ascii_round_trips(self, writer, path):  # noqa: D102
         value = (
             "Produced at M\N{LATIN SMALL LETTER E WITH ACUTE}"
             "t\N{LATIN SMALL LETTER E WITH ACUTE}o"

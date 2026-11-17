@@ -18,12 +18,12 @@ class Test:
         module_name = getmodule(self).__name__
         self.locals = f"{module_name}" + ".Test.{}.<locals>.{}"
 
-    def test_pass_thru_non_callable(self, mocker):
+    def test_pass_thru_non_callable(self, mocker):  # noqa: D102
         func = mocker.sentinel.func
         result = _qualname(func)
         assert result == func
 
-    def test_callable_function_local(self):
+    def test_callable_function_local(self):  # noqa: D102
         def myfunc():
             pass
 
@@ -31,13 +31,13 @@ class Test:
         result = _qualname(myfunc)
         assert result == qualname_func
 
-    def test_callable_function(self):
+    def test_callable_function(self):  # noqa: D102
         import iris
 
         result = _qualname(iris.load)
         assert result == "iris.loading.load"
 
-    def test_callable_method_local(self):
+    def test_callable_method_local(self):  # noqa: D102
         class MyClass:
             def mymethod(self):
                 pass
@@ -48,7 +48,7 @@ class Test:
         result = _qualname(MyClass.mymethod)
         assert result == qualname_method
 
-    def test_callable_method(self):
+    def test_callable_method(self):  # noqa: D102
         import iris
 
         result = _qualname(iris.cube.Cube.add_ancillary_variable)

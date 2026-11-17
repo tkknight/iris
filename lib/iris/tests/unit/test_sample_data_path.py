@@ -20,13 +20,13 @@ class TestIrisSampleData_path:
     def _setup(self, tmp_path):
         self.sample_dir = tmp_path
 
-    def test_path(self, mocker):
+    def test_path(self, mocker):  # noqa: D102
         mocker.patch("iris_sample_data.path", self.sample_dir)
         import iris_sample_data
 
         assert iris_sample_data.path == self.sample_dir
 
-    def test_call(self, mocker):
+    def test_call(self, mocker):  # noqa: D102
         sample_file = self.sample_dir / "sample.txt"
         sample_file.touch()
 
@@ -34,17 +34,17 @@ class TestIrisSampleData_path:
         result = sample_data_path(sample_file.name)
         assert result == str(sample_file)
 
-    def test_file_not_found(self, mocker):
+    def test_file_not_found(self, mocker):  # noqa: D102
         mocker.patch("iris_sample_data.path", self.sample_dir)
         with pytest.raises(ValueError, match="Sample data .* not found"):
             sample_data_path("foo")
 
-    def test_file_absolute(self, mocker):
+    def test_file_absolute(self, mocker):  # noqa: D102
         mocker.patch("iris_sample_data.path", self.sample_dir)
         with pytest.raises(ValueError, match="Absolute path"):
             sample_data_path(Path("foo").absolute())
 
-    def test_glob_ok(self, mocker):
+    def test_glob_ok(self, mocker):  # noqa: D102
         sample_path = self.sample_dir / "sample.txt"
         sample_path.touch()
 
@@ -53,12 +53,12 @@ class TestIrisSampleData_path:
         result = sample_data_path(sample_glob)
         assert result == str(Path(self.sample_dir) / sample_glob)
 
-    def test_glob_not_found(self, mocker):
+    def test_glob_not_found(self, mocker):  # noqa: D102
         mocker.patch("iris_sample_data.path", self.sample_dir)
         with pytest.raises(ValueError, match="Sample data .* not found"):
             sample_data_path("foo.*")
 
-    def test_glob_absolute(self, mocker):
+    def test_glob_absolute(self, mocker):  # noqa: D102
         mocker.patch("iris_sample_data.path", self.sample_dir)
         with pytest.raises(ValueError, match="Absolute path"):
             sample_data_path(Path("foo.*").absolute())
@@ -66,7 +66,7 @@ class TestIrisSampleData_path:
 
 class TestIrisSampleDataMissing:
     """Test risSampleDataMissing."""
-    def test_no_iris_sample_data(self, mocker):
+    def test_no_iris_sample_data(self, mocker):  # noqa: D102
         mocker.patch("iris.iris_sample_data", None)
         with pytest.raises(ImportError, match="Please install"):
             sample_data_path("")

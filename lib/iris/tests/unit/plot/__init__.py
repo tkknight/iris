@@ -21,7 +21,7 @@ class TestGraphicStringCoord(_shared_utils.GraphicsTest):
         self.cube.add_aux_coord(AuxCoord(list("abcd"), long_name="str_coord"), 1)
         self.lat_lon_cube = lat_lon_cube()
 
-    def tick_loc_and_label(self, axis_name, axes=None):
+    def tick_loc_and_label(self, axis_name, axes=None):  # noqa: D102
         # Intentional lazy import so that subclasses can have an opportunity
         # to change the backend.
         import matplotlib.pyplot as plt
@@ -38,7 +38,7 @@ class TestGraphicStringCoord(_shared_utils.GraphicsTest):
         labels = [tick.get_text() for tick in axis.get_ticklabels()]
         return list(zip(locations, labels))
 
-    def assert_bounds_tick_labels(self, axis, axes=None):
+    def assert_bounds_tick_labels(self, axis, axes=None):  # noqa: D102
         actual = self.tick_loc_and_label(axis, axes)
         expected = [
             (-1.0, ""),
@@ -50,7 +50,7 @@ class TestGraphicStringCoord(_shared_utils.GraphicsTest):
         ]
         assert expected == actual
 
-    def assert_points_tick_labels(self, axis, axes=None):
+    def assert_points_tick_labels(self, axis, axes=None):  # noqa: D102
         actual = self.tick_loc_and_label(axis, axes)
         expected = [(0.0, "a"), (1.0, "b"), (2.0, "c"), (3.0, "d")]
         assert expected == actual
@@ -73,42 +73,42 @@ class MixinCoords:
         _shared_utils.assert_array_equal(actual_u, u)
         _shared_utils.assert_array_equal(actual_v, v)
 
-    def test_foo_bar(self):
+    def test_foo_bar(self):  # noqa: D102
         self.draw_func(self.cube, coords=("foo", "bar"))
         u, v = broadcast(self.foo, self.bar)
         self._check(u, v, self.data)
 
-    def test_bar_foo(self):
+    def test_bar_foo(self):  # noqa: D102
         self.draw_func(self.cube, coords=("bar", "foo"))
         u, v = broadcast(self.bar, self.foo)
         self._check(u, v, self.dataT)
 
-    def test_foo_0(self):
+    def test_foo_0(self):  # noqa: D102
         self.draw_func(self.cube, coords=("foo", 0))
         u, v = broadcast(self.foo, self.bar_index)
         self._check(u, v, self.data)
 
-    def test_1_bar(self):
+    def test_1_bar(self):  # noqa: D102
         self.draw_func(self.cube, coords=(1, "bar"))
         u, v = broadcast(self.foo_index, self.bar)
         self._check(u, v, self.data)
 
-    def test_1_0(self):
+    def test_1_0(self):  # noqa: D102
         self.draw_func(self.cube, coords=(1, 0))
         u, v = broadcast(self.foo_index, self.bar_index)
         self._check(u, v, self.data)
 
-    def test_0_foo(self):
+    def test_0_foo(self):  # noqa: D102
         self.draw_func(self.cube, coords=(0, "foo"))
         u, v = broadcast(self.bar_index, self.foo)
         self._check(u, v, self.dataT)
 
-    def test_bar_1(self):
+    def test_bar_1(self):  # noqa: D102
         self.draw_func(self.cube, coords=("bar", 1))
         u, v = broadcast(self.bar, self.foo_index)
         self._check(u, v, self.dataT)
 
-    def test_0_1(self):
+    def test_0_1(self):  # noqa: D102
         self.draw_func(self.cube, coords=(0, 1))
         u, v = broadcast(self.bar_index, self.foo_index)
         self._check(u, v, self.dataT)

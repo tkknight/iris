@@ -46,28 +46,28 @@ def dataless(request):
 
 class Test___init___data:
     """Test   init   data."""
-    def test_ndarray(self):
+    def test_ndarray(self):  # noqa: D102
         # np.ndarray should be allowed through
         data = np.arange(12).reshape(3, 4)
         cube = Cube(data)
         assert type(cube.data) is np.ndarray
         _shared_utils.assert_array_equal(cube.data, data)
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         # ma.MaskedArray should be allowed through
         data = ma.masked_greater(np.arange(12).reshape(3, 4), 1)
         cube = Cube(data)
         assert type(cube.data) is ma.MaskedArray
         _shared_utils.assert_masked_array_equal(cube.data, data)
 
-    def test_masked_no_mask(self):
+    def test_masked_no_mask(self):  # noqa: D102
         # ma.MaskedArray should be allowed through even if it has no mask
         data = ma.masked_array(np.arange(12).reshape(3, 4), False)
         cube = Cube(data)
         assert type(cube.data) is ma.MaskedArray
         _shared_utils.assert_masked_array_equal(cube.data, data)
 
-    def test_matrix(self):
+    def test_matrix(self):  # noqa: D102
         # Subclasses of np.ndarray should be coerced back to np.ndarray.
         # (Except for np.ma.MaskedArray.)
         data = np.matrix([[1, 2, 3], [4, 5, 6]])
@@ -97,7 +97,7 @@ class Test_data_dtype_fillvalue:
         cube = Cube(data)
         return cube
 
-    def test_realdata_change(self):
+    def test_realdata_change(self):  # noqa: D102
         # Check re-assigning real data.
         cube = self._sample_cube()
         assert cube.dtype == np.float32
@@ -107,7 +107,7 @@ class Test_data_dtype_fillvalue:
         assert cube.core_data() is new_data
         assert cube.dtype == new_dtype
 
-    def test_realmaskdata_change(self):
+    def test_realmaskdata_change(self):  # noqa: D102
         # Check re-assigning real masked data.
         cube = self._sample_cube(masked=True, fill_value=1234)
         assert cube.dtype == np.float32
@@ -121,7 +121,7 @@ class Test_data_dtype_fillvalue:
         assert cube.dtype == new_dtype
         assert cube.data.fill_value == new_fill_value
 
-    def test_lazydata_change(self):
+    def test_lazydata_change(self):  # noqa: D102
         # Check re-assigning lazy data.
         cube = self._sample_cube(lazy=True)
         assert cube.core_data().dtype == np.float32
@@ -131,7 +131,7 @@ class Test_data_dtype_fillvalue:
         assert cube.core_data() is new_data
         assert cube.dtype == new_dtype
 
-    def test_lazymaskdata_change(self):
+    def test_lazymaskdata_change(self):  # noqa: D102
         # Check re-assigning lazy masked data.
         cube = self._sample_cube(masked=True, fill_value=1234, lazy=True)
         assert cube.core_data().dtype == np.float32
@@ -145,14 +145,14 @@ class Test_data_dtype_fillvalue:
         assert cube.dtype == new_dtype
         assert cube.data.fill_value == new_fill_value
 
-    def test_lazydata_realise(self):
+    def test_lazydata_realise(self):  # noqa: D102
         # Check touching lazy data.
         cube = self._sample_cube(lazy=True)
         data = cube.data
         assert cube.core_data() is data
         assert cube.dtype == np.float32
 
-    def test_lazymaskdata_realise(self):
+    def test_lazymaskdata_realise(self):  # noqa: D102
         # Check touching masked lazy data.
         fill_value = 27.3
         cube = self._sample_cube(masked=True, fill_value=fill_value, lazy=True)
@@ -161,7 +161,7 @@ class Test_data_dtype_fillvalue:
         assert cube.dtype == np.float32
         assert data.fill_value == np.float32(fill_value)
 
-    def test_realmaskedconstantint_realise(self):
+    def test_realmaskedconstantint_realise(self):  # noqa: D102
         masked_data = ma.masked_array([666], mask=True)
         masked_constant = masked_data[0]
         cube = Cube(masked_constant)
@@ -169,7 +169,7 @@ class Test_data_dtype_fillvalue:
         assert ma.isMaskedArray(data)
         assert not isinstance(data, ma.core.MaskedConstant)
 
-    def test_lazymaskedconstantint_realise(self):
+    def test_lazymaskedconstantint_realise(self):  # noqa: D102
         dtype = np.dtype("i2")
         masked_data = ma.masked_array([666], mask=True, dtype=dtype)
         masked_constant = masked_data[0]
@@ -179,7 +179,7 @@ class Test_data_dtype_fillvalue:
         assert ma.isMaskedArray(data)
         assert not isinstance(data, ma.core.MaskedConstant)
 
-    def test_lazydata___getitem__dtype(self):
+    def test_lazydata___getitem__dtype(self):  # noqa: D102
         fill_value = 1234
         dtype = np.dtype("int16")
         masked_array = ma.masked_array(
@@ -205,21 +205,21 @@ class Test_extract:
             cube = Cube(data=data, long_name=long_name, shape=None)
         return cube
 
-    def test_scalar_cube_exists(self, dataless):
+    def test_scalar_cube_exists(self, dataless):  # noqa: D102
         # Ensure that extract is able to extract a scalar cube.
         constraint = iris.Constraint(name="a1")
         cube = self._create_cube(dataless, data=1, shape=())
         res = cube.extract(constraint)
         assert res is cube
 
-    def test_scalar_cube_noexists(self, dataless):
+    def test_scalar_cube_noexists(self, dataless):  # noqa: D102
         # Ensure that extract does not return a non-matching scalar cube.
         constraint = iris.Constraint(name="a2")
         cube = self._create_cube(dataless, data=1, shape=())
         res = cube.extract(constraint)
         assert res is None
 
-    def test_scalar_cube_coord_match(self, dataless):
+    def test_scalar_cube_coord_match(self, dataless):  # noqa: D102
         # Ensure that extract is able to extract a scalar cube according to
         # constrained scalar coordinate.
         constraint = iris.Constraint(scalar_coord=0)
@@ -229,7 +229,7 @@ class Test_extract:
         res = cube.extract(constraint)
         assert res is cube
 
-    def test_scalar_cube_coord_nomatch(self, dataless):
+    def test_scalar_cube_coord_nomatch(self, dataless):  # noqa: D102
         # Ensure that extract is not extracting a scalar cube with scalar
         # coordinate that does not match the constraint.
         constraint = iris.Constraint(scalar_coord=1)
@@ -239,14 +239,14 @@ class Test_extract:
         res = cube.extract(constraint)
         assert res is None
 
-    def test_1d_cube_exists(self, dataless):
+    def test_1d_cube_exists(self, dataless):  # noqa: D102
         # Ensure that extract is able to extract from a 1d cube.
         constraint = iris.Constraint(name="a1")
         cube = self._create_cube(dataless, data=[1], shape=(1,))
         res = cube.extract(constraint)
         assert res is cube
 
-    def test_1d_cube_noexists(self, dataless):
+    def test_1d_cube_noexists(self, dataless):  # noqa: D102
         # Ensure that extract does not return a non-matching 1d cube.
         constraint = iris.Constraint(name="a2")
         cube = self._create_cube(dataless, data=[1], shape=(1,))
@@ -256,7 +256,7 @@ class Test_extract:
 
 class Test_xml:
     """Test xml."""
-    def test_checksum_ignores_masked_values(self, request):
+    def test_checksum_ignores_masked_values(self, request):  # noqa: D102
         # Mask out an single element.
         data = ma.arange(12).reshape(3, 4)
         data[1, 2] = ma.masked
@@ -271,19 +271,19 @@ class Test_xml:
         cube = Cube(data)
         _shared_utils.assert_CML(request, cube)
 
-    def test_byteorder_default(self):
+    def test_byteorder_default(self):  # noqa: D102
         cube = Cube(np.arange(3))
         assert "byteorder" in cube.xml()
 
-    def test_byteorder_false(self):
+    def test_byteorder_false(self):  # noqa: D102
         cube = Cube(np.arange(3))
         assert "byteorder" not in cube.xml(byteorder=False)
 
-    def test_byteorder_true(self):
+    def test_byteorder_true(self):  # noqa: D102
         cube = Cube(np.arange(3))
         assert "byteorder" in cube.xml(byteorder=True)
 
-    def test_cell_measures(self, request):
+    def test_cell_measures(self, request):  # noqa: D102
         cube = stock.simple_3d_w_multidim_coords()
         cm_a = iris.coords.CellMeasure(
             np.zeros(cube.shape[-2:]), measure="area", units="1"
@@ -298,7 +298,7 @@ class Test_xml:
         cube.add_cell_measure(cm_v, (0, 1, 2))
         _shared_utils.assert_CML(request, cube)
 
-    def test_ancils(self, request):
+    def test_ancils(self, request):  # noqa: D102
         cube = stock.simple_2d_w_multidim_coords()
         av = iris.coords.AncillaryVariable(
             np.zeros(cube.shape), long_name="xy", var_name="vxy", units="1"
@@ -306,7 +306,7 @@ class Test_xml:
         cube.add_ancillary_variable(av, (0, 1))
         _shared_utils.assert_CML(request, cube)
 
-    def test_array_stats(self, request):
+    def test_array_stats(self, request):  # noqa: D102
         cube = stock.simple_2d_w_multidim_coords()
         with iris.util.CML_SETTINGS.set(
             data_array_stats=True,
@@ -316,7 +316,7 @@ class Test_xml:
         ):
             _shared_utils.assert_CML(request, cube)
 
-    def test_alt_array_formatting(self, request):
+    def test_alt_array_formatting(self, request):  # noqa: D102
         cube = stock.simple_2d_w_multidim_coords()
         aux = iris.coords.AuxCoord(
             np.array([f"val_{i}" for i in range(cube.shape[0])]), long_name="baz"
@@ -339,43 +339,43 @@ class Test_collapsed__lazy:
             cube.add_dim_coord(coord, i_dim)
         self.cube = cube
 
-    def test_dim0_lazy(self):
+    def test_dim0_lazy(self):  # noqa: D102
         cube_collapsed = self.cube.collapsed("y", MEAN)
         assert cube_collapsed.has_lazy_data()
         _shared_utils.assert_array_almost_equal(cube_collapsed.data, [1.5, 2.5, 3.5])
         assert not cube_collapsed.has_lazy_data()
 
-    def test_dim0_lazy_weights_none(self):
+    def test_dim0_lazy_weights_none(self):  # noqa: D102
         cube_collapsed = self.cube.collapsed("y", MEAN, weights=None)
         assert cube_collapsed.has_lazy_data()
         _shared_utils.assert_array_almost_equal(cube_collapsed.data, [1.5, 2.5, 3.5])
         assert not cube_collapsed.has_lazy_data()
 
-    def test_dim1_lazy(self):
+    def test_dim1_lazy(self):  # noqa: D102
         cube_collapsed = self.cube.collapsed("x", MEAN)
         assert cube_collapsed.has_lazy_data()
         _shared_utils.assert_array_almost_equal(cube_collapsed.data, [1.0, 4.0])
         assert not cube_collapsed.has_lazy_data()
 
-    def test_dim1_lazy_weights_none(self):
+    def test_dim1_lazy_weights_none(self):  # noqa: D102
         cube_collapsed = self.cube.collapsed("x", MEAN, weights=None)
         assert cube_collapsed.has_lazy_data()
         _shared_utils.assert_array_almost_equal(cube_collapsed.data, [1.0, 4.0])
         assert not cube_collapsed.has_lazy_data()
 
-    def test_multidims(self):
+    def test_multidims(self):  # noqa: D102
         # Check that MEAN works with multiple dims.
         cube_collapsed = self.cube.collapsed(("x", "y"), MEAN)
         assert cube_collapsed.has_lazy_data()
         _shared_utils.assert_array_all_close(cube_collapsed.data, 2.5)
 
-    def test_multidims_weights_none(self):
+    def test_multidims_weights_none(self):  # noqa: D102
         # Check that MEAN works with multiple dims.
         cube_collapsed = self.cube.collapsed(("x", "y"), MEAN, weights=None)
         assert cube_collapsed.has_lazy_data()
         _shared_utils.assert_array_all_close(cube_collapsed.data, 2.5)
 
-    def test_non_lazy_aggregator(self):
+    def test_non_lazy_aggregator(self):  # noqa: D102
         # An aggregator which doesn't have a lazy function should still work.
         dummy_agg = Aggregator("custom_op", lambda x, axis=None: np.mean(x, axis=axis))
         result = self.cube.collapsed("x", dummy_agg)
@@ -410,7 +410,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         )
         self.expected_result_x = np.array([0.941176, 3.941176])
 
-    def test_weighted_fullweights_real_y(self):
+    def test_weighted_fullweights_real_y(self):  # noqa: D102
         # Supplying full-shape weights for collapsing over a single dimension.
         cube_collapsed = self.cube_real.collapsed(
             "y", MEAN, weights=self.full_weights_y
@@ -421,7 +421,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_fullweights_lazy_y(self):
+    def test_weighted_fullweights_lazy_y(self):  # noqa: D102
         # Full-shape weights, lazy data :  Check lazy result, same values as real calc.
         cube_collapsed = self.cube_lazy.collapsed(
             "y", MEAN, weights=self.full_weights_y
@@ -432,7 +432,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         )
         assert cube_collapsed.units == "kg m-2 s-1"
 
-    def test_weighted_1dweights_real_y(self):
+    def test_weighted_1dweights_real_y(self):  # noqa: D102
         # 1-D weights, real data :  Check same results as full-shape.
         cube_collapsed = self.cube_real.collapsed("y", MEAN, weights=self.y_weights)
         _shared_utils.assert_array_almost_equal(
@@ -441,7 +441,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_1dweights_lazy_y(self):
+    def test_weighted_1dweights_lazy_y(self):  # noqa: D102
         # 1-D weights, lazy data :  Check lazy result, same values as real calc.
         cube_collapsed = self.cube_lazy.collapsed("y", MEAN, weights=self.y_weights)
         assert cube_collapsed.has_lazy_data()
@@ -450,7 +450,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         )
         assert cube_collapsed.units == "kg m-2 s-1"
 
-    def test_weighted_fullweights_real_x(self):
+    def test_weighted_fullweights_real_x(self):  # noqa: D102
         # Full weights, real data, ** collapse X ** :  as for 'y' case above
         cube_collapsed = self.cube_real.collapsed(
             "x", MEAN, weights=self.full_weights_x
@@ -461,7 +461,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_fullweights_lazy_x(self):
+    def test_weighted_fullweights_lazy_x(self):  # noqa: D102
         # Full weights, lazy data, ** collapse X ** :  as for 'y' case above
         cube_collapsed = self.cube_lazy.collapsed(
             "x", MEAN, weights=self.full_weights_x
@@ -473,7 +473,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_1dweights_real_x(self):
+    def test_weighted_1dweights_real_x(self):  # noqa: D102
         # 1-D weights, real data, ** collapse X ** :  as for 'y' case above
         cube_collapsed = self.cube_real.collapsed("x", MEAN, weights=self.x_weights)
         _shared_utils.assert_array_almost_equal(
@@ -482,7 +482,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_1dweights_lazy_x(self):
+    def test_weighted_1dweights_lazy_x(self):  # noqa: D102
         # 1-D weights, lazy data, ** collapse X ** :  as for 'y' case above
         cube_collapsed = self.cube_lazy.collapsed("x", MEAN, weights=self.x_weights)
         assert cube_collapsed.has_lazy_data()
@@ -492,19 +492,19 @@ class Test_collapsed__multidim_weighted_with_arr:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_sum_fullweights_adapt_units_real_y(self):
+    def test_weighted_sum_fullweights_adapt_units_real_y(self):  # noqa: D102
         # Check that units are adapted correctly (kg m-2 s-1 * 1 = kg m-2 s-1)
         cube_collapsed = self.cube_real.collapsed("y", SUM, weights=self.full_weights_y)
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_sum_fullweights_adapt_units_lazy_y(self):
+    def test_weighted_sum_fullweights_adapt_units_lazy_y(self):  # noqa: D102
         # Check that units are adapted correctly (kg m-2 s-1 * 1 = kg m-2 s-1)
         cube_collapsed = self.cube_lazy.collapsed("y", SUM, weights=self.full_weights_y)
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_sum_1dweights_adapt_units_real_y(self):
+    def test_weighted_sum_1dweights_adapt_units_real_y(self):  # noqa: D102
         # Check that units are adapted correctly (kg m-2 s-1 * 1 = kg m-2 s-1)
         # Note: the same test with lazy data fails:
         # https://github.com/SciTools/iris/issues/5083
@@ -512,7 +512,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_sum_with_unknown_units_real_y(self):
+    def test_weighted_sum_with_unknown_units_real_y(self):  # noqa: D102
         # Check that units are adapted correctly ('unknown' * '1' = 'unknown')
         # Note: does not need to be adapted in subclasses since 'unknown'
         # multiplied by any unit is 'unknown'
@@ -524,7 +524,7 @@ class Test_collapsed__multidim_weighted_with_arr:
         )
         assert cube_collapsed.units == "unknown"
 
-    def test_weighted_sum_with_unknown_units_lazy_y(self):
+    def test_weighted_sum_with_unknown_units_lazy_y(self):  # noqa: D102
         # Check that units are adapted correctly ('unknown' * '1' = 'unknown')
         # Note: does not need to be adapted in subclasses since 'unknown'
         # multiplied by any unit is 'unknown'
@@ -563,7 +563,7 @@ class Test_collapsed__multidim_weighted_with_arr_dataless:
         )
         self.expected_result_x = (2,)
 
-    def test_weighted_fullweights_real_y(self):
+    def test_weighted_fullweights_real_y(self):  # noqa: D102
         # Supplying full-shape weights for collapsing over a single dimension.
         cube_collapsed = self.cube.collapsed("y", MEAN, weights=self.full_weights_y)
         assert cube_collapsed.shape == self.expected_result_y
@@ -572,7 +572,7 @@ class Test_collapsed__multidim_weighted_with_arr_dataless:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_1dweights_real_y(self):
+    def test_weighted_1dweights_real_y(self):  # noqa: D102
         # 1-D weights, real data :  Check same results as full-shape.
         cube_collapsed = self.cube.collapsed("y", MEAN, weights=self.y_weights)
         assert cube_collapsed.shape == self.expected_result_y
@@ -581,7 +581,7 @@ class Test_collapsed__multidim_weighted_with_arr_dataless:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_fullweights_real_x(self):
+    def test_weighted_fullweights_real_x(self):  # noqa: D102
         # Full weights, real data, ** collapse X ** :  as for 'y' case above
         cube_collapsed = self.cube.collapsed("x", MEAN, weights=self.full_weights_x)
         assert cube_collapsed.shape == self.expected_result_x
@@ -590,7 +590,7 @@ class Test_collapsed__multidim_weighted_with_arr_dataless:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_1dweights_real_x(self):
+    def test_weighted_1dweights_real_x(self):  # noqa: D102
         # 1-D weights, real data, ** collapse X ** :  as for 'y' case above
         cube_collapsed = self.cube.collapsed("x", MEAN, weights=self.x_weights)
         assert cube_collapsed.shape == self.expected_result_x
@@ -599,7 +599,7 @@ class Test_collapsed__multidim_weighted_with_arr_dataless:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_sum_fullweights_adapt_units_real_y(self):
+    def test_weighted_sum_fullweights_adapt_units_real_y(self):  # noqa: D102
         # Check that units are adapted correctly (kg m-2 s-1 * 1 = kg m-2 s-1)
         cube_collapsed = self.cube.collapsed("y", SUM, weights=self.full_weights_y)
         assert cube_collapsed.data is None
@@ -607,7 +607,7 @@ class Test_collapsed__multidim_weighted_with_arr_dataless:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_sum_1dweights_adapt_units_real_y(self):
+    def test_weighted_sum_1dweights_adapt_units_real_y(self):  # noqa: D102
         # Check that units are adapted correctly (kg m-2 s-1 * 1 = kg m-2 s-1)
         # Note: the same test with lazy data fails:
         # https://github.com/SciTools/iris/issues/5083
@@ -617,7 +617,7 @@ class Test_collapsed__multidim_weighted_with_arr_dataless:
         assert cube_collapsed.units == "kg m-2 s-1"
         assert cube_collapsed.units.origin == "kg m-2 s-1"
 
-    def test_weighted_sum_with_unknown_units_real_y(self):
+    def test_weighted_sum_with_unknown_units_real_y(self):  # noqa: D102
         # Check that units are adapted correctly ('unknown' * '1' = 'unknown')
         # Note: does not need to be adapted in subclasses since 'unknown'
         # multiplied by any unit is 'unknown'
@@ -655,17 +655,17 @@ class Test_collapsed__multidim_weighted_with_cube(
         self.x_weights = self.cube_real[0, :].copy(self.x_weights_original)
         self.full_weights_x = self.cube_real.copy(self.full_weights_x_original)
 
-    def test_weighted_sum_fullweights_adapt_units_real_y(self):
+    def test_weighted_sum_fullweights_adapt_units_real_y(self):  # noqa: D102
         # Check that units are adapted correctly (kg m-2 s-1 * m2 = kg s-1)
         cube_collapsed = self.cube_real.collapsed("y", SUM, weights=self.full_weights_y)
         assert cube_collapsed.units == "kg s-1"
 
-    def test_weighted_sum_fullweights_adapt_units_lazy_y(self):
+    def test_weighted_sum_fullweights_adapt_units_lazy_y(self):  # noqa: D102
         # Check that units are adapted correctly (kg m-2 s-1 * m2 = kg s-1)
         cube_collapsed = self.cube_lazy.collapsed("y", SUM, weights=self.full_weights_y)
         assert cube_collapsed.units == "kg s-1"
 
-    def test_weighted_sum_1dweights_adapt_units_real_y(self):
+    def test_weighted_sum_1dweights_adapt_units_real_y(self):  # noqa: D102
         # Check that units are adapted correctly (kg m-2 s-1 * m2 = kg s-1)
         # Note: the same test with lazy data fails:
         # https://github.com/SciTools/iris/issues/5083
@@ -736,13 +736,13 @@ class Test_collapsed__cellmeasure_ancils:
         cube.add_cell_measure(self.cell_measure, 0)
         self.cube = cube
 
-    def test_ancillary_variables_and_cell_measures_kept(self):
+    def test_ancillary_variables_and_cell_measures_kept(self):  # noqa: D102
         cube_collapsed = self.cube.collapsed("x", MEAN)
         assert cube_collapsed.ancillary_variables() == [self.ancillary_variable]
 
         assert cube_collapsed.cell_measures() == [self.cell_measure]
 
-    def test_ancillary_variables_and_cell_measures_removed(self):
+    def test_ancillary_variables_and_cell_measures_removed(self):  # noqa: D102
         cube_collapsed = self.cube.collapsed("y", MEAN)
         assert cube_collapsed.ancillary_variables() == []
         assert cube_collapsed.cell_measures() == []
@@ -789,7 +789,7 @@ class Test_collapsed__warning:
         for coord in coords:
             assert not mock.call(msg.format(coord)) in warn.call_args_list
 
-    def test_lat_lon_noweighted_aggregator(self, mocker):
+    def test_lat_lon_noweighted_aggregator(self, mocker):  # noqa: D102
         # Collapse latitude coordinate with unweighted aggregator.
         aggregator = mock.Mock(spec=Aggregator, lazy_func=None)
         aggregator.cell_method = None
@@ -800,7 +800,7 @@ class Test_collapsed__warning:
 
         self._assert_nowarn_collapse_without_weight(coords, warn)
 
-    def test_lat_lon_weighted_aggregator(self, mocker):
+    def test_lat_lon_weighted_aggregator(self, mocker):  # noqa: D102
         # Collapse latitude coordinate with weighted aggregator without
         # providing weights.
         aggregator = self._aggregator(False)
@@ -812,7 +812,7 @@ class Test_collapsed__warning:
         coords = [coord for coord in coords if "latitude" in coord]
         self._assert_warn_collapse_without_weight(coords, warn)
 
-    def test_lat_lon_weighted_aggregator_with_weights(self, mocker):
+    def test_lat_lon_weighted_aggregator_with_weights(self, mocker):  # noqa: D102
         # Collapse latitude coordinate with a weighted aggregators and
         # providing suitable weights.
         weights = np.array([[0.1, 0.5], [0.3, 0.2]])
@@ -824,7 +824,7 @@ class Test_collapsed__warning:
 
         self._assert_nowarn_collapse_without_weight(coords, warn)
 
-    def test_lat_lon_weighted_aggregator_alt(self, mocker):
+    def test_lat_lon_weighted_aggregator_alt(self, mocker):  # noqa: D102
         # Collapse grid_latitude coordinate with weighted aggregator without
         # providing weights.  Tests coordinate matching logic.
         aggregator = self._aggregator(False)
@@ -836,7 +836,7 @@ class Test_collapsed__warning:
         coords = [coord for coord in coords if "latitude" in coord]
         self._assert_warn_collapse_without_weight(coords, warn)
 
-    def test_no_lat_weighted_aggregator_mixed(self, mocker):
+    def test_no_lat_weighted_aggregator_mixed(self, mocker):  # noqa: D102
         # Collapse grid_latitude and an unmatched coordinate (not lat/lon)
         # with weighted aggregator without providing weights.
         # Tests coordinate matching logic.
@@ -916,18 +916,18 @@ class Test_summary:
     def _setup(self):
         self.cube = Cube(0)
 
-    def test_cell_datetime_objects(self):
+    def test_cell_datetime_objects(self):  # noqa: D102
         self.cube.add_aux_coord(AuxCoord(42, units="hours since epoch"))
         summary = self.cube.summary()
         assert "1970-01-02 18:00:00" in summary
 
-    def test_scalar_str_coord(self):
+    def test_scalar_str_coord(self):  # noqa: D102
         str_value = "foo"
         self.cube.add_aux_coord(AuxCoord(str_value))
         summary = self.cube.summary()
         assert str_value in summary
 
-    def test_ancillary_variable(self):
+    def test_ancillary_variable(self):  # noqa: D102
         cube = Cube(np.arange(6).reshape(2, 3))
         av = AncillaryVariable([1, 2], "status_flag")
         cube.add_ancillary_variable(av, 0)
@@ -938,7 +938,7 @@ class Test_summary:
         )
         assert expected_summary == cube.summary()
 
-    def test_similar_coords(self):
+    def test_similar_coords(self):  # noqa: D102
         coord1 = AuxCoord(42, long_name="foo", attributes=dict(bar=np.array([2, 5])))
         coord2 = coord1.copy()
         coord2.attributes = dict(bar="baz")
@@ -946,7 +946,7 @@ class Test_summary:
             self.cube.add_aux_coord(coord)
         assert "baz" in self.cube.summary()
 
-    def test_long_components(self):
+    def test_long_components(self):  # noqa: D102
         # Check that components with long names 'stretch' the printout correctly.
         cube = Cube(np.zeros((20, 20, 20)), units=1)
         dimco = DimCoord(np.arange(20), long_name="dimco")
@@ -999,24 +999,24 @@ class Test_is_compatible:
         self.test_cube = Cube([1.0])
         self.other_cube = self.test_cube.copy()
 
-    def test_noncommon_array_attrs_compatible(self):
+    def test_noncommon_array_attrs_compatible(self):  # noqa: D102
         # Non-common array attributes should be ok.
         self.test_cube.attributes["array_test"] = np.array([1.0, 2, 3])
         assert self.test_cube.is_compatible(self.other_cube)
 
-    def test_matching_array_attrs_compatible(self):
+    def test_matching_array_attrs_compatible(self):  # noqa: D102
         # Matching array attributes should be ok.
         self.test_cube.attributes["array_test"] = np.array([1.0, 2, 3])
         self.other_cube.attributes["array_test"] = np.array([1.0, 2, 3])
         assert self.test_cube.is_compatible(self.other_cube)
 
-    def test_different_array_attrs_incompatible(self):
+    def test_different_array_attrs_incompatible(self):  # noqa: D102
         # Differing array attributes should make the cubes incompatible.
         self.test_cube.attributes["array_test"] = np.array([1.0, 2, 3])
         self.other_cube.attributes["array_test"] = np.array([1.0, 2, 777.7])
         assert not self.test_cube.is_compatible(self.other_cube)
 
-    def test_misshaped_array_attrs_incompatible(self):
+    def test_misshaped_array_attrs_incompatible(self):  # noqa: D102
         # Comparison should avoid broadcast failures and return False.
         self.test_cube.attributes["array_test"] = np.array([1.0, 2, 3])
         self.other_cube.attributes["array_test"] = np.array([1.0, 2])
@@ -1047,7 +1047,7 @@ class Test_rolling_window:
         self.mock_agg.aggregate = mock.Mock(return_value=np.empty([4]))
         self.mock_agg.post_process = mock.Mock(side_effect=lambda x, y, z: x)
 
-    def test_string_coord(self, dataless):
+    def test_string_coord(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         # Rolling window on a cube that contains a string coordinate.
@@ -1073,7 +1073,7 @@ class Test_rolling_window:
         assert res_cube.coord("val") == val_coord
         assert res_cube.coord("month") == month_coord
 
-    def test_kwargs(self):
+    def test_kwargs(self):  # noqa: D102
         # Rolling window with missing data not tolerated
         window = 2
         self.cube.data = ma.array(
@@ -1087,7 +1087,7 @@ class Test_rolling_window:
         )
         _shared_utils.assert_masked_array_equal(expected_result, res_cube.data)
 
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         window = 2
         self.cube.data = da.ma.masked_array(
             self.cube.data, mask=([True, False, False, False, True, False])
@@ -1102,7 +1102,7 @@ class Test_rolling_window:
         )
         _shared_utils.assert_masked_array_equal(expected_result, res_cube.data)
 
-    def test_lazy_aux_coord(self):
+    def test_lazy_aux_coord(self):  # noqa: D102
         window = 2
         self.cube.add_aux_coord(AuxCoord(da.arange(6), long_name="lazy_extra"), 0)
         res_cube = self.cube.rolling_window("val", iris.analysis.MEAN, window, mdtol=0)
@@ -1116,33 +1116,33 @@ class Test_rolling_window:
         )
         assert result_coord == expected
 
-    def test_ancillary_variables_and_cell_measures_kept(self, dataless):
+    def test_ancillary_variables_and_cell_measures_kept(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         res_cube = self.multi_dim_cube.rolling_window("val", self.mock_agg, 3)
         assert res_cube.ancillary_variables() == [self.ancillary_variable]
         assert res_cube.cell_measures() == [self.cell_measure]
 
-    def test_ancillary_variables_and_cell_measures_removed(self, dataless):
+    def test_ancillary_variables_and_cell_measures_removed(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         res_cube = self.multi_dim_cube.rolling_window("extra", self.mock_agg, 3)
         assert res_cube.ancillary_variables() == []
         assert res_cube.cell_measures() == []
 
-    def test_weights_arr(self):
+    def test_weights_arr(self):  # noqa: D102
         weights = np.array([0, 0, 1, 0, 2])
         res_cube = self.cube.rolling_window("val", SUM, 5, weights=weights)
         _shared_utils.assert_array_equal(res_cube.data, [10, 13])
         assert res_cube.units == "kg"
 
-    def test_weights_cube(self):
+    def test_weights_cube(self):  # noqa: D102
         weights = Cube([0, 0, 1, 0, 2], units="m2")
         res_cube = self.cube.rolling_window("val", SUM, 5, weights=weights)
         _shared_utils.assert_array_equal(res_cube.data, [10, 13])
         assert res_cube.units == "kg m2"
 
-    def test_weights_str(self, dataless):
+    def test_weights_str(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         weights = "val"
@@ -1151,7 +1151,7 @@ class Test_rolling_window:
             _shared_utils.assert_array_equal(res_cube.data, [55])
         assert res_cube.units == "kg s"
 
-    def test_weights_dim_coord(self, dataless):
+    def test_weights_dim_coord(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         weights = self.cube.coord("val")
@@ -1160,15 +1160,15 @@ class Test_rolling_window:
             _shared_utils.assert_array_equal(res_cube.data, [55])
         assert res_cube.units == "kg s"
 
-    def test_step(self):
+    def test_step(self):  # noqa: D102
         res_cube = self.cube.rolling_window("val", SUM, 3, step=2)
         _shared_utils.assert_array_equal(res_cube.data, [3, 9])
 
-    def test_invalid_step(self):
+    def test_invalid_step(self):  # noqa: D102
         with pytest.raises(ValueError, match="`step` must be at least 1."):
             self.cube.rolling_window("val", SUM, 3, step=0)
 
-    def test_step_coord(self, dataless):
+    def test_step_coord(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         # Rolling window with a step applied to the coordinates.
@@ -1279,7 +1279,7 @@ class Test_slices_dim_order:
         expected_cube = self.expected_cube_setup(dim1, dim2, dim3)
         assert sliced_cube == expected_cube
 
-    def test_all_permutations(self):
+    def test_all_permutations(self):  # noqa: D102
         for perm in permutations(["time", "height", "latitude", "longitude"]):
             self.check_order(*perm)
 
@@ -1300,37 +1300,37 @@ class Test_slices_over:
         # (and so time-consuming) iterators.
         self.long_iterator_max = 5
 
-    def test_1d_slice_coord_given(self):
+    def test_1d_slice_coord_given(self):  # noqa: D102
         res = self.cube.slices_over(self.cube.coord("model_level_number"))
         for i, res_cube in zip(self.exp_iter_1d, res):
             expected = self.cube[:, i]
             assert res_cube == expected
 
-    def test_1d_slice_nonexistent_coord_given(self):
+    def test_1d_slice_nonexistent_coord_given(self):  # noqa: D102
         with pytest.raises(CoordinateNotFoundError):
             _ = self.cube.slices_over(self.cube.coord("wibble"))
 
-    def test_1d_slice_coord_name_given(self):
+    def test_1d_slice_coord_name_given(self):  # noqa: D102
         res = self.cube.slices_over("model_level_number")
         for i, res_cube in zip(self.exp_iter_1d, res):
             expected = self.cube[:, i]
             assert res_cube == expected
 
-    def test_1d_slice_nonexistent_coord_name_given(self):
+    def test_1d_slice_nonexistent_coord_name_given(self):  # noqa: D102
         with pytest.raises(CoordinateNotFoundError):
             _ = self.cube.slices_over("wibble")
 
-    def test_1d_slice_dimension_given(self):
+    def test_1d_slice_dimension_given(self):  # noqa: D102
         res = self.cube.slices_over(1)
         for i, res_cube in zip(self.exp_iter_1d, res):
             expected = self.cube[:, i]
             assert res_cube == expected
 
-    def test_1d_slice_nonexistent_dimension_given(self):
+    def test_1d_slice_nonexistent_dimension_given(self):  # noqa: D102
         with pytest.raises(ValueError, match="iterator over a dimension"):
             _ = self.cube.slices_over(self.cube.ndim + 1)
 
-    def test_2d_slice_coord_given(self):
+    def test_2d_slice_coord_given(self):  # noqa: D102
         # Slicing over these two dimensions returns 42 2D cubes, so only check
         # cubes up to `self.long_iterator_max` to keep test runtime sensible.
         res = self.cube.slices_over(
@@ -1343,13 +1343,13 @@ class Test_slices_over:
             expected = self.cube[tuple(indices)]
             assert next(res) == expected
 
-    def test_2d_slice_nonexistent_coord_given(self):
+    def test_2d_slice_nonexistent_coord_given(self):  # noqa: D102
         with pytest.raises(CoordinateNotFoundError):
             _ = self.cube.slices_over(
                 [self.cube.coord("time"), self.cube.coord("wibble")]
             )
 
-    def test_2d_slice_coord_name_given(self):
+    def test_2d_slice_coord_name_given(self):  # noqa: D102
         # Slicing over these two dimensions returns 42 2D cubes, so only check
         # cubes up to `self.long_iterator_max` to keep test runtime sensible.
         res = self.cube.slices_over(["time", "model_level_number"])
@@ -1360,11 +1360,11 @@ class Test_slices_over:
             expected = self.cube[tuple(indices)]
             assert next(res) == expected
 
-    def test_2d_slice_nonexistent_coord_name_given(self):
+    def test_2d_slice_nonexistent_coord_name_given(self):  # noqa: D102
         with pytest.raises(CoordinateNotFoundError):
             _ = self.cube.slices_over(["time", "wibble"])
 
-    def test_2d_slice_dimension_given(self):
+    def test_2d_slice_dimension_given(self):  # noqa: D102
         # Slicing over these two dimensions returns 42 2D cubes, so only check
         # cubes up to `self.long_iterator_max` to keep test runtime sensible.
         res = self.cube.slices_over([0, 1])
@@ -1375,7 +1375,7 @@ class Test_slices_over:
             expected = self.cube[tuple(indices)]
             assert next(res) == expected
 
-    def test_2d_slice_reversed_dimension_given(self):
+    def test_2d_slice_reversed_dimension_given(self):  # noqa: D102
         # Confirm that reversing the order of the dimensions returns the same
         # results as the above test.
         res = self.cube.slices_over([1, 0])
@@ -1386,11 +1386,11 @@ class Test_slices_over:
             expected = self.cube[tuple(indices)]
             assert next(res) == expected
 
-    def test_2d_slice_nonexistent_dimension_given(self):
+    def test_2d_slice_nonexistent_dimension_given(self):  # noqa: D102
         with pytest.raises(ValueError, match="iterator over a dimension"):
             _ = self.cube.slices_over([0, self.cube.ndim + 1])
 
-    def test_multidim_slice_coord_given(self):
+    def test_multidim_slice_coord_given(self):  # noqa: D102
         # Slicing over surface altitude returns 10x10 2D cubes, so only check
         # cubes up to `self.long_iterator_max` to keep test runtime sensible.
         res = self.cube.slices_over("surface_altitude")
@@ -1403,19 +1403,19 @@ class Test_slices_over:
             expected = self.cube[tuple(indices)]
             assert next(res) == expected
 
-    def test_duplicate_coordinate_given(self):
+    def test_duplicate_coordinate_given(self):  # noqa: D102
         res = self.cube.slices_over([1, 1])
         for i, res_cube in zip(self.exp_iter_1d, res):
             expected = self.cube[:, i]
             assert res_cube == expected
 
-    def test_non_orthogonal_coordinates_given(self):
+    def test_non_orthogonal_coordinates_given(self):  # noqa: D102
         res = self.cube.slices_over(["model_level_number", "sigma"])
         for i, res_cube in zip(self.exp_iter_1d, res):
             expected = self.cube[:, i]
             assert res_cube == expected
 
-    def test_nodimension(self):
+    def test_nodimension(self):  # noqa: D102
         # Slicing over no dimension should return the whole cube.
         res = self.cube.slices_over([])
         assert next(res) == self.cube
@@ -1492,12 +1492,12 @@ def create_cube(lon_min, lon_max, bounds=False, dataless=False):
 # Ensure all the other coordinates and factories are correctly preserved.
 class Test_intersection__Metadata:
     """Test intersection  Metadata."""
-    def test_metadata(self, request):
+    def test_metadata(self, request):  # noqa: D102
         cube = create_cube(0, 360)
         result = cube.intersection(longitude=(170, 190))
         _shared_utils.assert_CML(request, result, approx_data=True)
 
-    def test_metadata_wrapped(self, request):
+    def test_metadata_wrapped(self, request):  # noqa: D102
         cube = create_cube(-180, 180)
         result = cube.intersection(longitude=(170, 190))
         _shared_utils.assert_CML(request, result, approx_data=True)
@@ -1506,22 +1506,22 @@ class Test_intersection__Metadata:
 # Explicitly check the handling of `circular` on the result.
 class Test_intersection__Circular:
     """Test intersection  Circular."""
-    def test_regional(self, dataless):
+    def test_regional(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(170, 190))
         assert not result.coord("longitude").circular
 
-    def test_regional_wrapped(self, dataless):
+    def test_regional_wrapped(self, dataless):  # noqa: D102
         cube = create_cube(-180, 180, dataless=dataless)
         result = cube.intersection(longitude=(170, 190))
         assert not result.coord("longitude").circular
 
-    def test_global(self, dataless):
+    def test_global(self, dataless):  # noqa: D102
         cube = create_cube(-180, 180, dataless=dataless)
         result = cube.intersection(longitude=(-180, 180))
         assert result.coord("longitude").circular
 
-    def test_global_wrapped(self, dataless):
+    def test_global_wrapped(self, dataless):  # noqa: D102
         cube = create_cube(-180, 180, dataless=dataless)
         result = cube.intersection(longitude=(10, 370))
         assert result.coord("longitude").circular
@@ -1530,35 +1530,35 @@ class Test_intersection__Circular:
 # Check the various error conditions.
 class Test_intersection__Invalid:
     """Test intersection  Invalid."""
-    def test_reversed_min_max(self, dataless):
+    def test_reversed_min_max(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         msg = "minimum greater than maximum"
         with pytest.raises(ValueError, match=msg):
             cube.intersection(longitude=(30, 10))
 
-    def test_dest_too_large(self, dataless):
+    def test_dest_too_large(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         msg = "requested range greater than coordinate's unit's modulus"
         with pytest.raises(ValueError, match=msg):
             cube.intersection(longitude=(30, 500))
 
-    def test_src_too_large(self, dataless):
+    def test_src_too_large(self, dataless):  # noqa: D102
         cube = create_cube(0, 400, dataless=dataless)
         msg = "coordinate's range greater than coordinate's unit's modulus"
         with pytest.raises(ValueError, match=msg):
             cube.intersection(longitude=(10, 30))
 
-    def test_missing_coord(self, dataless):
+    def test_missing_coord(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         with pytest.raises(iris.exceptions.CoordinateNotFoundError):
             cube.intersection(parrots=(10, 30))
 
-    def test_multi_dim_coord(self, dataless):
+    def test_multi_dim_coord(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         with pytest.raises(iris.exceptions.CoordinateMultiDimError):
             cube.intersection(surface_altitude=(10, 30))
 
-    def test_null_region(self, dataless):
+    def test_null_region(self, dataless):  # noqa: D102
         # 10 <= v < 10
         cube = create_cube(0, 360, dataless=dataless)
         with pytest.raises(IndexError):
@@ -1567,7 +1567,7 @@ class Test_intersection__Invalid:
 
 class Test_intersection__Lazy:
     """Test intersection  Lazy."""
-    def test_real_data(self):
+    def test_real_data(self):  # noqa: D102
         cube = create_cube(0, 360)
         cube.data
         result = cube.intersection(longitude=(170, 190))
@@ -1578,7 +1578,7 @@ class Test_intersection__Lazy:
         assert result.data[0, 0, 0] == 170
         assert result.data[0, 0, -1] == 190
 
-    def test_real_data_wrapped(self):
+    def test_real_data_wrapped(self):  # noqa: D102
         cube = create_cube(-180, 180)
         cube.data
         result = cube.intersection(longitude=(170, 190))
@@ -1589,7 +1589,7 @@ class Test_intersection__Lazy:
         assert result.data[0, 0, 0] == 350
         assert result.data[0, 0, -1] == 10
 
-    def test_lazy_data(self):
+    def test_lazy_data(self):  # noqa: D102
         cube = create_cube(0, 360)
         result = cube.intersection(longitude=(170, 190))
         assert result.has_lazy_data()
@@ -1599,7 +1599,7 @@ class Test_intersection__Lazy:
         assert result.data[0, 0, 0] == 170
         assert result.data[0, 0, -1] == 190
 
-    def test_lazy_data_wrapped(self):
+    def test_lazy_data_wrapped(self):  # noqa: D102
         cube = create_cube(-180, 180)
         result = cube.intersection(longitude=(170, 190))
         assert result.has_lazy_data()
@@ -1612,7 +1612,7 @@ class Test_intersection__Lazy:
 
 class Test_intersection_Points:
     """Test intersection Points."""
-    def test_ignore_bounds(self, dataless):
+    def test_ignore_bounds(self, dataless):  # noqa: D102
         cube = create_cube(0, 30, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(9.5, 12.5), ignore_bounds=True)
         _shared_utils.assert_array_equal(
@@ -1630,7 +1630,7 @@ class Test_intersection_Points:
 # coordinate.
 class Test_intersection__RegionalSrcModulus:
     """Test intersection  RegionalSrcModulus."""
-    def test_request_subset(self, dataless):
+    def test_request_subset(self, dataless):  # noqa: D102
         cube = create_cube(40, 60, dataless=dataless)
         result = cube.intersection(longitude=(45, 50))
         _shared_utils.assert_array_equal(
@@ -1641,7 +1641,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.arange(5, 11))
 
-    def test_request_left(self, dataless):
+    def test_request_left(self, dataless):  # noqa: D102
         cube = create_cube(40, 60, dataless=dataless)
         result = cube.intersection(longitude=(35, 45))
         _shared_utils.assert_array_equal(
@@ -1652,7 +1652,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.arange(0, 6))
 
-    def test_request_right(self, dataless):
+    def test_request_right(self, dataless):  # noqa: D102
         cube = create_cube(40, 60, dataless=dataless)
         result = cube.intersection(longitude=(55, 65))
         _shared_utils.assert_array_equal(
@@ -1663,7 +1663,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.arange(15, 20))
 
-    def test_request_superset(self, dataless):
+    def test_request_superset(self, dataless):  # noqa: D102
         cube = create_cube(40, 60, dataless=dataless)
         result = cube.intersection(longitude=(35, 65))
         _shared_utils.assert_array_equal(
@@ -1674,7 +1674,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.arange(0, 20))
 
-    def test_request_subset_modulus(self, dataless):
+    def test_request_subset_modulus(self, dataless):  # noqa: D102
         cube = create_cube(40, 60, dataless=dataless)
         result = cube.intersection(longitude=(45 + 360, 50 + 360))
         _shared_utils.assert_array_equal(
@@ -1685,7 +1685,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.arange(5, 11))
 
-    def test_request_left_modulus(self, dataless):
+    def test_request_left_modulus(self, dataless):  # noqa: D102
         cube = create_cube(40, 60, dataless=dataless)
         result = cube.intersection(longitude=(35 + 360, 45 + 360))
         _shared_utils.assert_array_equal(
@@ -1696,7 +1696,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.arange(0, 6))
 
-    def test_request_right_modulus(self, dataless):
+    def test_request_right_modulus(self, dataless):  # noqa: D102
         cube = create_cube(40, 60, dataless=dataless)
         result = cube.intersection(longitude=(55 + 360, 65 + 360))
         _shared_utils.assert_array_equal(
@@ -1707,7 +1707,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.arange(15, 20))
 
-    def test_request_superset_modulus(self, dataless):
+    def test_request_superset_modulus(self, dataless):  # noqa: D102
         cube = create_cube(40, 60, dataless=dataless)
         result = cube.intersection(longitude=(35 + 360, 65 + 360))
         _shared_utils.assert_array_equal(
@@ -1718,7 +1718,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.arange(0, 20))
 
-    def test_tolerance_f4(self, dataless):
+    def test_tolerance_f4(self, dataless):  # noqa: D102
         cube = create_cube(0, 5, dataless=dataless)
         cube.coord("longitude").points = np.array(
             [0.0, 3.74999905, 7.49999809, 11.24999714, 14.99999619], dtype="f4"
@@ -1732,7 +1732,7 @@ class Test_intersection__RegionalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data[0, 0], np.array([0, 1]))
 
-    def test_tolerance_f8(self, dataless):
+    def test_tolerance_f8(self, dataless):  # noqa: D102
         cube = create_cube(0, 5, dataless=dataless)
         cube.coord("longitude").points = np.array(
             [0.0, 3.74999905, 7.49999809, 11.24999714, 14.99999619], dtype="f8"
@@ -1751,7 +1751,7 @@ class Test_intersection__RegionalSrcModulus:
 # coordinate.
 class Test_intersection__GlobalSrcModulus:
     """Test intersection  GlobalSrcModulus."""
-    def test_global_wrapped_extreme_increasing_base_period(self, dataless):
+    def test_global_wrapped_extreme_increasing_base_period(self, dataless):  # noqa: D102
         # Ensure that we can correctly handle points defined at (base + period)
         cube = create_cube(-180.0, 180.0, dataless=dataless)
         lons = cube.coord("longitude")
@@ -1763,7 +1763,7 @@ class Test_intersection__GlobalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data, cube.data)
 
-    def test_global_wrapped_extreme_decreasing_base_period(self, dataless):
+    def test_global_wrapped_extreme_decreasing_base_period(self, dataless):  # noqa: D102
         # Ensure that we can correctly handle points defined at (base + period)
         cube = create_cube(180.0, -180.0, dataless=dataless)
         lons = cube.coord("longitude")
@@ -1775,7 +1775,7 @@ class Test_intersection__GlobalSrcModulus:
         else:
             _shared_utils.assert_array_equal(result.data, cube.data)
 
-    def test_global(self, dataless):
+    def test_global(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(0, 360))
         assert result.coord("longitude").points[0] == 0
@@ -1786,7 +1786,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 0
             assert result.data[0, 0, -1] == 359
 
-    def test_global_wrapped(self, dataless):
+    def test_global_wrapped(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(-180, 180))
         assert result.coord("longitude").points[0] == -180
@@ -1797,7 +1797,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 180
             assert result.data[0, 0, -1] == 179
 
-    def test_aux_coord(self, dataless):
+    def test_aux_coord(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         cube.replace_coord(iris.coords.AuxCoord.from_coord(cube.coord("longitude")))
         result = cube.intersection(longitude=(0, 360))
@@ -1809,7 +1809,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 0
             assert result.data[0, 0, -1] == 359
 
-    def test_aux_coord_wrapped(self, dataless):
+    def test_aux_coord_wrapped(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         cube.replace_coord(iris.coords.AuxCoord.from_coord(cube.coord("longitude")))
         result = cube.intersection(longitude=(-180, 180))
@@ -1821,7 +1821,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 0
             assert result.data[0, 0, -1] == 359
 
-    def test_aux_coord_non_contiguous_wrapped(self, dataless):
+    def test_aux_coord_non_contiguous_wrapped(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         coord = iris.coords.AuxCoord.from_coord(cube.coord("longitude"))
         coord.points = (coord.points * 1.5) % 360
@@ -1835,7 +1835,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 0
             assert result.data[0, 0, -1] == 300
 
-    def test_decrementing(self, dataless):
+    def test_decrementing(self, dataless):  # noqa: D102
         cube = create_cube(360, 0, dataless=dataless)
         result = cube.intersection(longitude=(40, 60))
         assert result.coord("longitude").points[0] == 60
@@ -1846,7 +1846,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 300
             assert result.data[0, 0, -1] == 320
 
-    def test_decrementing_wrapped(self, dataless):
+    def test_decrementing_wrapped(self, dataless):  # noqa: D102
         cube = create_cube(360, 0, dataless=dataless)
         result = cube.intersection(longitude=(-10, 10))
         assert result.coord("longitude").points[0] == 10
@@ -1857,7 +1857,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 350
             assert result.data[0, 0, -1] == 10
 
-    def test_no_wrap_after_modulus(self, dataless):
+    def test_no_wrap_after_modulus(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(170 + 360, 190 + 360))
         assert result.coord("longitude").points[0] == 170 + 360
@@ -1868,7 +1868,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 170
             assert result.data[0, 0, -1] == 190
 
-    def test_wrap_after_modulus(self, dataless):
+    def test_wrap_after_modulus(self, dataless):  # noqa: D102
         cube = create_cube(-180, 180, dataless=dataless)
         result = cube.intersection(longitude=(170 + 360, 190 + 360))
         assert result.coord("longitude").points[0] == 170 + 360
@@ -1879,7 +1879,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 350
             assert result.data[0, 0, -1] == 10
 
-    def test_select_by_coord(self, dataless):
+    def test_select_by_coord(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         coord = iris.coords.DimCoord(0, "longitude", units="degrees")
         result = cube.intersection(iris.coords.CoordExtent(coord, 10, 30))
@@ -1891,7 +1891,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 10
             assert result.data[0, 0, -1] == 30
 
-    def test_inclusive_exclusive(self, dataless):
+    def test_inclusive_exclusive(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(170, 190, True, False))
         assert result.coord("longitude").points[0] == 170
@@ -1902,7 +1902,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 170
             assert result.data[0, 0, -1] == 189
 
-    def test_exclusive_inclusive(self, dataless):
+    def test_exclusive_inclusive(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(170, 190, False))
         assert result.coord("longitude").points[0] == 171
@@ -1913,7 +1913,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 171
             assert result.data[0, 0, -1] == 190
 
-    def test_exclusive_exclusive(self, dataless):
+    def test_exclusive_exclusive(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(170, 190, False, False))
         assert result.coord("longitude").points[0] == 171
@@ -1924,7 +1924,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 171
             assert result.data[0, 0, -1] == 189
 
-    def test_single_point(self, dataless):
+    def test_single_point(self, dataless):  # noqa: D102
         # 10 <= v <= 10
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(10, 10))
@@ -1936,7 +1936,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 10
             assert result.data[0, 0, -1] == 10
 
-    def test_two_points(self, dataless):
+    def test_two_points(self, dataless):  # noqa: D102
         # -1.5 <= v <= 0.5
         cube = create_cube(0, 360, dataless=dataless)
         result = cube.intersection(longitude=(-1.5, 0.5))
@@ -1948,7 +1948,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 359
             assert result.data[0, 0, -1] == 0
 
-    def test_wrap_radians(self, dataless):
+    def test_wrap_radians(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, dataless=dataless)
         cube.coord("longitude").convert_units("radians")
         result = cube.intersection(longitude=(-1, 0.5))
@@ -1961,7 +1961,7 @@ class Test_intersection__GlobalSrcModulus:
             assert result.data[0, 0, 0] == 303
             assert result.data[0, 0, -1] == 28
 
-    def test_tolerance_bug(self, dataless):
+    def test_tolerance_bug(self, dataless):  # noqa: D102
         # Floating point changes introduced by wrapping mean
         # the resulting coordinate values are not equal to their
         # equivalents. This led to a bug that this test checks.
@@ -1973,7 +1973,7 @@ class Test_intersection__GlobalSrcModulus:
             cube.coord("longitude").points[339:361],
         )
 
-    def test_tolerance_bug_wrapped(self, dataless):
+    def test_tolerance_bug_wrapped(self, dataless):  # noqa: D102
         cube = create_cube(0, 400, dataless=dataless)
         cube.coord("longitude").points = np.linspace(-179.55, 179.55, 400)
         result = cube.intersection(longitude=(-190, -170))
@@ -1991,7 +1991,7 @@ class Test_intersection__GlobalSrcModulus:
 # intersection coordinate.
 class Test_intersection__ModulusBounds:
     """Test intersection  ModulusBounds."""
-    def test_global_wrapped_extreme_increasing_base_period(self, dataless):
+    def test_global_wrapped_extreme_increasing_base_period(self, dataless):  # noqa: D102
         # Ensure that we can correctly handle bounds defined at (base + period)
         cube = create_cube(-180.0, 180.0, bounds=True, dataless=dataless)
         lons = cube.coord("longitude")
@@ -2001,7 +2001,7 @@ class Test_intersection__ModulusBounds:
         else:
             _shared_utils.assert_array_equal(result.data, cube.data)
 
-    def test_global_wrapped_extreme_decreasing_base_period(self, dataless):
+    def test_global_wrapped_extreme_decreasing_base_period(self, dataless):  # noqa: D102
         # Ensure that we can correctly handle bounds defined at (base + period)
         cube = create_cube(180.0, -180.0, bounds=True, dataless=dataless)
         lons = cube.coord("longitude")
@@ -2011,7 +2011,7 @@ class Test_intersection__ModulusBounds:
         else:
             _shared_utils.assert_array_equal(result.data, cube.data)
 
-    def test_misaligned_points_inside(self, dataless):
+    def test_misaligned_points_inside(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(169.75, 190.25))
         _shared_utils.assert_array_equal(
@@ -2026,7 +2026,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 170
             assert result.data[0, 0, -1] == 190
 
-    def test_misaligned_points_outside(self, dataless):
+    def test_misaligned_points_outside(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(170.25, 189.75))
         _shared_utils.assert_array_equal(
@@ -2041,7 +2041,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 170
             assert result.data[0, 0, -1] == 190
 
-    def test_misaligned_bounds(self, dataless):
+    def test_misaligned_bounds(self, dataless):  # noqa: D102
         cube = create_cube(-180, 180, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(0, 360))
         _shared_utils.assert_array_equal(
@@ -2056,7 +2056,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 180
             assert result.data[0, 0, -1] == 179
 
-    def test_misaligned_bounds_decreasing(self, dataless):
+    def test_misaligned_bounds_decreasing(self, dataless):  # noqa: D102
         cube = create_cube(180, -180, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(0, 360))
         _shared_utils.assert_array_equal(
@@ -2072,7 +2072,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 181
             assert result.data[0, 0, -1] == 180
 
-    def test_aligned_inclusive(self, dataless):
+    def test_aligned_inclusive(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(170.5, 189.5))
         _shared_utils.assert_array_equal(
@@ -2087,7 +2087,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 170
             assert result.data[0, 0, -1] == 190
 
-    def test_aligned_exclusive(self, dataless):
+    def test_aligned_exclusive(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(170.5, 189.5, False, False))
         _shared_utils.assert_array_equal(
@@ -2102,7 +2102,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 171
             assert result.data[0, 0, -1] == 189
 
-    def test_aligned_bounds_at_modulus(self, dataless):
+    def test_aligned_bounds_at_modulus(self, dataless):  # noqa: D102
         cube = create_cube(-179.5, 180.5, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(0, 360))
         _shared_utils.assert_array_equal(result.coord("longitude").bounds[0], [0, 1])
@@ -2115,7 +2115,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 180
             assert result.data[0, 0, -1] == 179
 
-    def test_negative_aligned_bounds_at_modulus(self, dataless):
+    def test_negative_aligned_bounds_at_modulus(self, dataless):  # noqa: D102
         cube = create_cube(0.5, 360.5, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(-180, 180))
         _shared_utils.assert_array_equal(
@@ -2130,7 +2130,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 180
             assert result.data[0, 0, -1] == 179
 
-    def test_negative_misaligned_points_inside(self, dataless):
+    def test_negative_misaligned_points_inside(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(-10.25, 10.25))
         _shared_utils.assert_array_equal(
@@ -2145,7 +2145,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 350
             assert result.data[0, 0, -1] == 10
 
-    def test_negative_misaligned_points_outside(self, dataless):
+    def test_negative_misaligned_points_outside(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(-9.75, 9.75))
         _shared_utils.assert_array_equal(
@@ -2160,7 +2160,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 350
             assert result.data[0, 0, -1] == 10
 
-    def test_negative_aligned_inclusive(self, dataless):
+    def test_negative_aligned_inclusive(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(-10.5, 10.5))
         _shared_utils.assert_array_equal(
@@ -2175,7 +2175,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 349
             assert result.data[0, 0, -1] == 11
 
-    def test_negative_aligned_exclusive(self, dataless):
+    def test_negative_aligned_exclusive(self, dataless):  # noqa: D102
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(-10.5, 10.5, False, False))
         _shared_utils.assert_array_equal(
@@ -2190,7 +2190,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 350
             assert result.data[0, 0, -1] == 10
 
-    def test_decrementing(self, dataless):
+    def test_decrementing(self, dataless):  # noqa: D102
         cube = create_cube(360, 0, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(40, 60))
         _shared_utils.assert_array_equal(
@@ -2205,7 +2205,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 300
             assert result.data[0, 0, -1] == 320
 
-    def test_decrementing_wrapped(self, dataless):
+    def test_decrementing_wrapped(self, dataless):  # noqa: D102
         cube = create_cube(360, 0, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(-10, 10))
         _shared_utils.assert_array_equal(
@@ -2220,7 +2220,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 350
             assert result.data[0, 0, -1] == 10
 
-    def test_numerical_tolerance(self, dataless):
+    def test_numerical_tolerance(self, dataless):  # noqa: D102
         # test the tolerance on the coordinate value is not causing a
         # modulus wrapping
         cube = create_cube(28.5, 68.5, bounds=True, dataless=dataless)
@@ -2236,7 +2236,7 @@ class Test_intersection__ModulusBounds:
             result_lons.bounds[-1], np.array([67.0, 68.0], dtype=dtype)
         )
 
-    def test_numerical_tolerance_wrapped(self, dataless):
+    def test_numerical_tolerance_wrapped(self, dataless):  # noqa: D102
         # test the tolerance on the coordinate value causes modulus wrapping
         # where appropriate
         cube = create_cube(0.5, 3600.5, bounds=True, dataless=dataless)
@@ -2255,7 +2255,7 @@ class Test_intersection__ModulusBounds:
             result_lons.bounds[-1], np.array([60.0, 60.1], dtype=dtype)
         )
 
-    def test_ignore_bounds_wrapped(self, dataless):
+    def test_ignore_bounds_wrapped(self, dataless):  # noqa: D102
         # Test `ignore_bounds` fully ignores bounds when wrapping
         cube = create_cube(0, 360, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(10.25, 370.25), ignore_bounds=True)
@@ -2272,7 +2272,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 11
             assert result.data[0, 0, -1] == 10
 
-    def test_within_cell(self, dataless):
+    def test_within_cell(self, dataless):  # noqa: D102
         # Test cell is included when it entirely contains the requested range
         cube = create_cube(0, 10, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(0.7, 0.8))
@@ -2288,7 +2288,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 1
             assert result.data[0, 0, -1] == 1
 
-    def test_threshold_half(self, dataless):
+    def test_threshold_half(self, dataless):  # noqa: D102
         cube = create_cube(0, 10, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(1, 6.999), threshold=0.5)
         _shared_utils.assert_array_equal(
@@ -2303,7 +2303,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 1
             assert result.data[0, 0, -1] == 6
 
-    def test_threshold_full(self, dataless):
+    def test_threshold_full(self, dataless):  # noqa: D102
         cube = create_cube(0, 10, bounds=True, dataless=dataless)
         result = cube.intersection(longitude=(0.5, 7.499), threshold=1)
         _shared_utils.assert_array_equal(
@@ -2318,7 +2318,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 1
             assert result.data[0, 0, -1] == 6
 
-    def test_threshold_wrapped(self, dataless):
+    def test_threshold_wrapped(self, dataless):  # noqa: D102
         # Test that a cell is wrapped to `maximum` if required to exceed
         # the threshold
         cube = create_cube(-180, 180, bounds=True, dataless=dataless)
@@ -2335,7 +2335,7 @@ class Test_intersection__ModulusBounds:
             assert result.data[0, 0, 0] == 181
             assert result.data[0, 0, -1] == 180
 
-    def test_threshold_wrapped_gap(self, dataless):
+    def test_threshold_wrapped_gap(self, dataless):  # noqa: D102
         # Test that a cell is wrapped to `maximum` if required to exceed
         # the threshold (even with a gap in the range)
         cube = create_cube(-180, 180, bounds=True, dataless=dataless)
@@ -2377,7 +2377,7 @@ def unrolled_cube(dataless=False):
 
 class Test_intersection__ScatterModulus:
     """Test intersection  ScatterModulus."""
-    def test_subset(self, dataless):
+    def test_subset(self, dataless):  # noqa: D102
         cube = unrolled_cube(dataless)
         result = cube.intersection(longitude=(5, 8))
         _shared_utils.assert_array_equal(result.coord("longitude").points, [5, 8, 5])
@@ -2386,7 +2386,7 @@ class Test_intersection__ScatterModulus:
         else:
             _shared_utils.assert_array_equal(result.data, [0, 2, 3])
 
-    def test_subset_wrapped(self, dataless):
+    def test_subset_wrapped(self, dataless):  # noqa: D102
         cube = unrolled_cube(dataless)
         result = cube.intersection(longitude=(5 + 360, 8 + 360))
         _shared_utils.assert_array_equal(
@@ -2397,7 +2397,7 @@ class Test_intersection__ScatterModulus:
         else:
             _shared_utils.assert_array_equal(result.data, [0, 2, 3])
 
-    def test_superset(self, dataless):
+    def test_superset(self, dataless):  # noqa: D102
         cube = unrolled_cube(dataless)
         result = cube.intersection(longitude=(0, 15))
         _shared_utils.assert_array_equal(
@@ -2422,7 +2422,7 @@ class Test_interpolate:
         self.scheme.interpolator.return_value = self.interpolator
         self.collapse_coord = True
 
-    def test_api(self):
+    def test_api(self):  # noqa: D102
         sample_points = (("foo", 0.5), ("bar", 0.6))
         result = self.cube.interpolate(sample_points, self.scheme, self.collapse_coord)
         self.scheme.interpolator.assert_called_once_with(self.cube, ("foo", "bar"))
@@ -2434,7 +2434,7 @@ class Test_interpolate:
 
 class Test_regrid:
     """Test regrid."""
-    def test(self):
+    def test(self):  # noqa: D102
         # Test that Cube.regrid() just defers to the regridder of the
         # given scheme.
 
@@ -2472,37 +2472,37 @@ class Test_copy:
         else:
             _shared_utils.assert_array_equal(cube_copy.data, cube.data)
 
-    def test(self):
+    def test(self):  # noqa: D102
         cube = stock.simple_3d()
         self._check_copy(cube, cube.copy())
 
-    def test_copy_ancillary_variables(self):
+    def test_copy_ancillary_variables(self):  # noqa: D102
         cube = stock.simple_3d()
         avr = AncillaryVariable([2, 3], long_name="foo")
         cube.add_ancillary_variable(avr, 0)
         self._check_copy(cube, cube.copy())
 
-    def test_copy_cell_measures(self):
+    def test_copy_cell_measures(self):  # noqa: D102
         cube = stock.simple_3d()
         cms = CellMeasure([2, 3], long_name="foo")
         cube.add_cell_measure(cms, 0)
         self._check_copy(cube, cube.copy())
 
-    def test_copy_replace_data(self):
+    def test_copy_replace_data(self):  # noqa: D102
         cube = stock.simple_3d()
         new_data = np.ones(cube.shape)
         new_cube = cube.copy(data=new_data)
         assert new_cube.metadata == new_cube.metadata
         _shared_utils.assert_array_equal(new_cube.data, new_data)
 
-    def test_copy_to_dataless(self):
+    def test_copy_to_dataless(self):  # noqa: D102
         cube = stock.simple_3d()
         new_cube = cube.copy(iris.DATALESS)
         assert new_cube.metadata == cube.metadata
         assert new_cube.data is None
         assert new_cube.shape == cube.shape
 
-    def test_copy_from_dataless(self):
+    def test_copy_from_dataless(self):  # noqa: D102
         cube = stock.simple_3d()
         cube.data = None
         new_cube = cube.copy()
@@ -2510,27 +2510,27 @@ class Test_copy:
         assert new_cube.data is cube.data
         assert new_cube.shape == cube.shape
 
-    def test__masked_emptymask(self):
+    def test__masked_emptymask(self):  # noqa: D102
         cube = Cube(ma.array([0, 1]))
         self._check_copy(cube, cube.copy())
 
-    def test__masked_arraymask(self):
+    def test__masked_arraymask(self):  # noqa: D102
         cube = Cube(ma.array([0, 1], mask=[True, False]))
         self._check_copy(cube, cube.copy())
 
-    def test__scalar(self):
+    def test__scalar(self):  # noqa: D102
         cube = Cube(0)
         self._check_copy(cube, cube.copy())
 
-    def test__masked_scalar_emptymask(self):
+    def test__masked_scalar_emptymask(self):  # noqa: D102
         cube = Cube(ma.array(0))
         self._check_copy(cube, cube.copy())
 
-    def test__masked_scalar_arraymask(self):
+    def test__masked_scalar_arraymask(self):  # noqa: D102
         cube = Cube(ma.array(0, mask=False))
         self._check_copy(cube, cube.copy())
 
-    def test__lazy(self):
+    def test__lazy(self):  # noqa: D102
         # 2022-11-02: Dask's current behaviour is that the computed array will
         #  be the same for cube and cube.copy(), even if the Dask arrays are
         #  different.
@@ -2587,35 +2587,35 @@ class Test_coords__mesh_coords:
         items_b = sorted(items_b, key=sortkey)
         assert items_a == items_b
 
-    def test_coords__all__meshcoords_default(self):
+    def test_coords__all__meshcoords_default(self):  # noqa: D102
         # coords() includes mesh-coords along with the others.
         result = self.cube.coords()
         expected = self.allcoords
         self._assert_lists_equal(expected, result)
 
-    def test_coords__all__meshcoords_only(self):
+    def test_coords__all__meshcoords_only(self):  # noqa: D102
         # Coords(mesh_coords=True) returns only mesh-coords.
         result = self.cube.coords(mesh_coords=True)
         expected = [self.meshco_x, self.meshco_y]
         self._assert_lists_equal(expected, result)
 
-    def test_coords__all__meshcoords_omitted(self):
+    def test_coords__all__meshcoords_omitted(self):  # noqa: D102
         # Coords(mesh_coords=False) omits the mesh-coords.
         result = self.cube.coords(mesh_coords=False)
         expected = set(self.allcoords) - set([self.meshco_x, self.meshco_y])
         self._assert_lists_equal(expected, result)
 
-    def test_coords__axis__meshcoords(self):
+    def test_coords__axis__meshcoords(self):  # noqa: D102
         # Coord (singular) with axis + mesh_coords=True
         result = self.cube.coord(axis="x", mesh_coords=True)
         assert result is self.meshco_x
 
-    def test_coords__dimcoords__meshcoords(self):
+    def test_coords__dimcoords__meshcoords(self):  # noqa: D102
         # dim_coords and mesh_coords should be mutually exclusive.
         result = self.cube.coords(dim_coords=True, mesh_coords=True)
         assert result == []
 
-    def test_coords__nodimcoords__meshcoords(self):
+    def test_coords__nodimcoords__meshcoords(self):  # noqa: D102
         # When mesh_coords=True, dim_coords=False should have no effect.
         result = self.cube.coords(dim_coords=False, mesh_coords=True)
         expected = [self.meshco_x, self.meshco_y]
@@ -2629,17 +2629,17 @@ class Test_mesh:
         # Create a standard test cube with a variety of types of coord.
         _add_test_meshcube(self)
 
-    def test_mesh(self):
+    def test_mesh(self):  # noqa: D102
         result = self.cube.mesh
         assert result is self.mesh
 
-    def test_no_mesh(self):
+    def test_no_mesh(self):  # noqa: D102
         # Replace standard _setup cube with a no-mesh version.
         _add_test_meshcube(self, nomesh=True)
         result = self.cube.mesh
         assert result is None
 
-    def test_mesh_scalar_index(self):
+    def test_mesh_scalar_index(self):  # noqa: D102
         # Test correct scalar indexing of a mesh dimension.
         from iris.experimental.mesh_coord_indexing import SETTING, Options
 
@@ -2663,18 +2663,18 @@ class Test_location:
         # Create a standard test cube with a variety of types of coord.
         _add_test_meshcube(self)
 
-    def test_no_mesh(self):
+    def test_no_mesh(self):  # noqa: D102
         # Replace standard _setup cube with a no-mesh version.
         _add_test_meshcube(self, nomesh=True)
         result = self.cube.location
         assert result is None
 
-    def test_mesh(self):
+    def test_mesh(self):  # noqa: D102
         cube = self.cube
         result = cube.location
         assert result == self.meshco_x.location
 
-    def test_alternate_location(self):
+    def test_alternate_location(self):  # noqa: D102
         # Replace standard _setup cube with an edge-based version.
         _add_test_meshcube(self, location="edge")
         cube = self.cube
@@ -2689,18 +2689,18 @@ class Test_mesh_dim:
         # Create a standard test cube with a variety of types of coord.
         _add_test_meshcube(self)
 
-    def test_no_mesh(self):
+    def test_no_mesh(self):  # noqa: D102
         # Replace standard _setup cube with a no-mesh version.
         _add_test_meshcube(self, nomesh=True)
         result = self.cube.mesh_dim()
         assert result is None
 
-    def test_mesh(self):
+    def test_mesh(self):  # noqa: D102
         cube = self.cube
         result = cube.mesh_dim()
         assert result == 1
 
-    def test_alternate(self):
+    def test_alternate(self):  # noqa: D102
         # Replace standard _setup cube with an edge-based version.
         _add_test_meshcube(self, location="edge")
         cube = self.cube
@@ -2726,7 +2726,7 @@ class Test__init__mesh:
         self.nz = 2
         self.n_faces = meshco.shape[0]
 
-    def test_mesh(self):
+    def test_mesh(self):  # noqa: D102
         # Create a new cube from some of the parts.
         nz, n_faces = self.nz, self.n_faces
         dimco_z = DimCoord(np.arange(nz), long_name="z")
@@ -2739,7 +2739,7 @@ class Test__init__mesh:
         )
         assert cube.mesh == meshco.mesh
 
-    def test_fail_dim_meshcoord(self):
+    def test_fail_dim_meshcoord(self):  # noqa: D102
         # As "test_mesh", but attempt to use the meshcoord as a dim-coord.
         # This should not be allowed.
         nz, n_faces = self.nz, self.n_faces
@@ -2751,7 +2751,7 @@ class Test__init__mesh:
                 dim_coords_and_dims=[(dimco_z, 0), (meshco, 1)],
             )
 
-    def test_multi_meshcoords(self):
+    def test_multi_meshcoords(self):  # noqa: D102
         meshco_x = sample_meshcoord(axis="x", mesh=self.mesh)
         meshco_y = sample_meshcoord(axis="y", mesh=self.mesh)
         n_faces = meshco_x.shape[0]
@@ -2761,7 +2761,7 @@ class Test__init__mesh:
         )
         assert cube.mesh == meshco_x.mesh
 
-    def test_fail_meshcoords_different_locations(self):
+    def test_fail_meshcoords_different_locations(self):  # noqa: D102
         # Same as successful 'multi_mesh', but different locations.
         # N.B. must have a mesh with n-faces == n-edges to test this
         mesh = sample_mesh(n_faces=7, n_edges=7)
@@ -2777,7 +2777,7 @@ class Test__init__mesh:
                 aux_coords_and_dims=[(meshco_1, 0), (meshco_2, 0)],
             )
 
-    def test_meshcoords_equal_meshes(self):
+    def test_meshcoords_equal_meshes(self):  # noqa: D102
         meshco_x = sample_meshcoord(axis="x")
         meshco_y = sample_meshcoord(axis="y")
         n_faces = meshco_x.shape[0]
@@ -2786,7 +2786,7 @@ class Test__init__mesh:
             aux_coords_and_dims=[(meshco_x, 0), (meshco_y, 0)],
         )
 
-    def test_fail_meshcoords_different_meshes(self):
+    def test_fail_meshcoords_different_meshes(self):  # noqa: D102
         meshco_x = sample_meshcoord(axis="x")
         meshco_y = sample_meshcoord(axis="y")  # Own (different) mesh
         meshco_y.mesh.long_name = "new_name"
@@ -2797,7 +2797,7 @@ class Test__init__mesh:
                 aux_coords_and_dims=[(meshco_x, 0), (meshco_y, 0)],
             )
 
-    def test_fail_meshcoords_different_dims(self):
+    def test_fail_meshcoords_different_dims(self):  # noqa: D102
         # Same as 'test_mesh', but meshcoords on different dimensions.
         # Replace standard setup with one where n_z == n_faces.
         n_z, n_faces = 4, 4
@@ -2825,14 +2825,14 @@ class Test__add_aux_coord__mesh:
         # needing to distinguish from the existing.
         self.cube.remove_coord(self.meshco_y)
 
-    def test_add_compatible(self):
+    def test_add_compatible(self):  # noqa: D102
         cube = self.cube
         meshco_y = self.meshco_y
         # Add the y-meshco back into the cube.
         cube.add_aux_coord(meshco_y, 1)
         assert meshco_y in cube.coords(mesh_coords=True)
 
-    def test_add_equal_mesh(self):
+    def test_add_equal_mesh(self):  # noqa: D102
         # Make a duplicate y-meshco, and rename so it can add into the cube.
         cube = self.cube
         # Create 'meshco_y' duplicate, but a new mesh
@@ -2840,7 +2840,7 @@ class Test__add_aux_coord__mesh:
         cube.add_aux_coord(meshco_y, 1)
         assert meshco_y in cube.coords(mesh_coords=True)
 
-    def test_fail_different_mesh(self):
+    def test_fail_different_mesh(self):  # noqa: D102
         # Make a duplicate y-meshco, and rename so it can add into the cube.
         cube = self.cube
         # Create 'meshco_y' duplicate, but a new mesh
@@ -2850,7 +2850,7 @@ class Test__add_aux_coord__mesh:
         with pytest.raises(ValueError, match=msg):
             cube.add_aux_coord(meshco_y, 1)
 
-    def test_fail_different_location(self):
+    def test_fail_different_location(self):  # noqa: D102
         # Make a new mesh with equal n_faces and n_edges
         mesh = sample_mesh(n_faces=4, n_edges=4)
         # Re-make the test objects based on that.
@@ -2863,7 +2863,7 @@ class Test__add_aux_coord__mesh:
         with pytest.raises(ValueError, match=msg):
             cube.add_aux_coord(meshco_y, 1)
 
-    def test_fail_different_dimension(self):
+    def test_fail_different_dimension(self):  # noqa: D102
         # Re-make the test objects with the non-mesh dim equal in length.
         n_faces = self.cube.shape[1]
         _add_test_meshcube(self, n_z=n_faces)
@@ -2880,7 +2880,7 @@ class Test__add_aux_coord__mesh:
 class Test__add_dim_coord__mesh:
     """Test that "Cube.add_dim_coord" cannot work with a mesh-coord."""
 
-    def test(self):
+    def test(self):  # noqa: D102
         # Create a mesh with only 2 faces, so coord *can't* be non-monotonic.
         mesh = sample_mesh(n_faces=2)
         meshco = sample_meshcoord(mesh=mesh)
@@ -2902,19 +2902,19 @@ class Test__eq__mesh:
         # Create a 'standard' test cube.
         _add_test_meshcube(self)
 
-    def test_copied_cube_match(self):
+    def test_copied_cube_match(self):  # noqa: D102
         cube = self.cube
         cube2 = cube.copy()
         assert cube == cube2
 
-    def test_equal_mesh_match(self):
+    def test_equal_mesh_match(self):  # noqa: D102
         cube1 = self.cube
         # re-create an identical cube, using the same mesh.
         _add_test_meshcube(self)
         cube2 = self.cube
         assert cube1 == cube2
 
-    def test_new_mesh_different(self):
+    def test_new_mesh_different(self):  # noqa: D102
         cube1 = self.cube
         # re-create an identical cube, using a different mesh.
         _add_test_meshcube(self)
@@ -2934,26 +2934,26 @@ class Test_dtype:
             np.dtype("float"),
         )
 
-    def test_real_data(self):
+    def test_real_data(self):  # noqa: D102
         for dtype in self.dtypes:
             data = np.array([0, 1], dtype=dtype)
             cube = Cube(data)
             assert cube.dtype == dtype
 
-    def test_real_data_masked__mask_unset(self):
+    def test_real_data_masked__mask_unset(self):  # noqa: D102
         for dtype in self.dtypes:
             data = ma.array([0, 1], dtype=dtype)
             cube = Cube(data)
             assert cube.dtype == dtype
 
-    def test_real_data_masked__mask_set(self):
+    def test_real_data_masked__mask_set(self):  # noqa: D102
         for dtype in self.dtypes:
             data = ma.array([0, 1], dtype=dtype)
             data[0] = ma.masked
             cube = Cube(data)
             assert cube.dtype == dtype
 
-    def test_lazy_data(self):
+    def test_lazy_data(self):  # noqa: D102
         for dtype in self.dtypes:
             data = np.array([0, 1], dtype=dtype)
             cube = Cube(as_lazy_data(data))
@@ -2962,7 +2962,7 @@ class Test_dtype:
             # of the data.
             assert cube.has_lazy_data()
 
-    def test_lazy_data_masked__mask_unset(self):
+    def test_lazy_data_masked__mask_unset(self):  # noqa: D102
         for dtype in self.dtypes:
             data = ma.array([0, 1], dtype=dtype)
             cube = Cube(as_lazy_data(data))
@@ -2971,7 +2971,7 @@ class Test_dtype:
             # of the data.
             assert cube.has_lazy_data()
 
-    def test_lazy_data_masked__mask_set(self):
+    def test_lazy_data_masked__mask_set(self):  # noqa: D102
         for dtype in self.dtypes:
             data = ma.array([0, 1], dtype=dtype)
             data[0] = ma.masked
@@ -2987,7 +2987,7 @@ class TestSubset:
     @pytest.mark.parametrize(
         ("data", "shape"), [(0, None), (None, ())], ids=["with_data", "dataless"]
     )
-    def test_scalar_coordinate(self, data, shape):
+    def test_scalar_coordinate(self, data, shape):  # noqa: D102
         cube = Cube(data=data, shape=shape, long_name="apricot", units="1")
         cube.add_aux_coord(DimCoord([0], long_name="banana", units="1"))
         result = cube.subset(cube.coord("banana"))
@@ -2998,7 +2998,7 @@ class TestSubset:
         [(np.zeros(4), None), (None, (4,))],
         ids=["with_data", "dataless"],
     )
-    def test_dimensional_coordinate(self, data, shape):
+    def test_dimensional_coordinate(self, data, shape):  # noqa: D102
         cube = Cube(data=data, shape=shape, long_name="tinned_peach", units="1")
         cube.add_dim_coord(
             DimCoord([0, 1, 2, 3], long_name="sixteen_ton_weight", units="1"),
@@ -3010,7 +3010,7 @@ class TestSubset:
     @pytest.mark.parametrize(
         ("data", "shape"), [(0, None), (None, ())], ids=["with_data", "dataless"]
     )
-    def test_missing_coordinate(self, data, shape):
+    def test_missing_coordinate(self, data, shape):  # noqa: D102
         cube = Cube(data=data, shape=shape, long_name="raspberry", units="1")
         cube.add_aux_coord(DimCoord([0], long_name="loganberry", units="1"))
         bad_coord = DimCoord([0], long_name="tiger", units="1")
@@ -3019,7 +3019,7 @@ class TestSubset:
     @pytest.mark.parametrize(
         ("data", "shape"), [(0, None), (None, ())], ids=["with_data", "dataless"]
     )
-    def test_different_coordinate(self, data, shape):
+    def test_different_coordinate(self, data, shape):  # noqa: D102
         cube = Cube(data=data, shape=shape, long_name="raspberry", units="1")
         cube.add_aux_coord(DimCoord([0], long_name="loganberry", units="1"))
         different_coord = DimCoord([2], long_name="loganberry", units="1")
@@ -3029,7 +3029,7 @@ class TestSubset:
     @pytest.mark.parametrize(
         ("data", "shape"), [([0, 1], None), (None, (2,))], ids=["with_data", "dataless"]
     )
-    def test_different_coordinate_vector(self, data, shape):
+    def test_different_coordinate_vector(self, data, shape):  # noqa: D102
         cube = Cube(data=data, shape=shape, long_name="raspberry", units="1")
         cube.add_dim_coord(DimCoord([0, 1], long_name="loganberry", units="1"), 0)
         different_coord = DimCoord([2], long_name="loganberry", units="1")
@@ -3039,7 +3039,7 @@ class TestSubset:
     @pytest.mark.parametrize(
         ("data", "shape"), [(0, None), (None, ())], ids=["with_data", "dataless"]
     )
-    def test_not_coordinate(self, data, shape):
+    def test_not_coordinate(self, data, shape):  # noqa: D102
         cube = Cube(data=data, shape=shape, long_name="peach", units="1")
         cube.add_aux_coord(DimCoord([0], long_name="crocodile", units="1"))
         pytest.raises(ValueError, cube.subset, "Pointed Stick")
@@ -3047,25 +3047,25 @@ class TestSubset:
 
 class Test_add_metadata:
     """Test add metadata."""
-    def test_add_dim_coord(self):
+    def test_add_dim_coord(self):  # noqa: D102
         cube = Cube(np.arange(3))
         x_coord = DimCoord(points=np.array([2, 3, 4]), long_name="x")
         cube.add_dim_coord(x_coord, 0)
         assert cube.coord("x") == x_coord
 
-    def test_add_aux_coord(self):
+    def test_add_aux_coord(self):  # noqa: D102
         cube = Cube(np.arange(6).reshape(2, 3))
         x_coord = AuxCoord(points=np.arange(6).reshape(2, 3), long_name="x")
         cube.add_aux_coord(x_coord, [0, 1])
         assert cube.coord("x") == x_coord
 
-    def test_add_cell_measure(self):
+    def test_add_cell_measure(self):  # noqa: D102
         cube = Cube(np.arange(6).reshape(2, 3))
         a_cell_measure = CellMeasure(np.arange(6).reshape(2, 3), long_name="area")
         cube.add_cell_measure(a_cell_measure, [0, 1])
         assert cube.cell_measure("area") == a_cell_measure
 
-    def test_add_ancillary_variable(self):
+    def test_add_ancillary_variable(self):  # noqa: D102
         cube = Cube(np.arange(6).reshape(2, 3))
         ancillary_variable = AncillaryVariable(
             data=np.arange(6).reshape(2, 3), long_name="detection quality"
@@ -3073,7 +3073,7 @@ class Test_add_metadata:
         cube.add_ancillary_variable(ancillary_variable, [0, 1])
         assert cube.ancillary_variable("detection quality") == ancillary_variable
 
-    def test_add_valid_aux_factory(self):
+    def test_add_valid_aux_factory(self):  # noqa: D102
         cube = Cube(np.arange(8).reshape(2, 2, 2))
         delta = AuxCoord(points=[0, 1], long_name="delta", units="m")
         sigma = AuxCoord(points=[0, 1], long_name="sigma")
@@ -3084,7 +3084,7 @@ class Test_add_metadata:
         factory = HybridHeightFactory(delta=delta, sigma=sigma, orography=orog)
         assert cube.add_aux_factory(factory) is None
 
-    def test_error_for_add_invalid_aux_factory(self):
+    def test_error_for_add_invalid_aux_factory(self):  # noqa: D102
         cube = Cube(np.arange(8).reshape(2, 2, 2), long_name="bar")
         delta = AuxCoord(points=[0, 1], long_name="delta", units="m")
         sigma = AuxCoord(points=[0, 1], long_name="sigma")
@@ -3119,37 +3119,37 @@ class Test_remove_metadata:
         cube.add_ancillary_variable(ancillary_variable, [0, 1])
         self.cube = cube
 
-    def test_remove_dim_coord(self):
+    def test_remove_dim_coord(self):  # noqa: D102
         self.cube.remove_coord(self.cube.coord("x"))
         assert self.cube.coords("x") == []
 
-    def test_remove_aux_coord(self):
+    def test_remove_aux_coord(self):  # noqa: D102
         self.cube.remove_coord(self.cube.coord("z"))
         assert self.cube.coords("z") == []
 
-    def test_remove_cell_measure(self):
+    def test_remove_cell_measure(self):  # noqa: D102
         self.cube.remove_cell_measure(self.cube.cell_measure("area"))
         assert self.cube._cell_measures_and_dims == [(self.b_cell_measure, (0, 1))]
 
-    def test_remove_cell_measure_by_name(self):
+    def test_remove_cell_measure_by_name(self):  # noqa: D102
         self.cube.remove_cell_measure("area")
         assert self.cube._cell_measures_and_dims == [(self.b_cell_measure, (0, 1))]
 
-    def test_fail_remove_cell_measure_by_name(self):
+    def test_fail_remove_cell_measure_by_name(self):  # noqa: D102
         with pytest.raises(CellMeasureNotFoundError):
             self.cube.remove_cell_measure("notarea")
 
-    def test_remove_ancilliary_variable(self):
+    def test_remove_ancilliary_variable(self):  # noqa: D102
         self.cube.remove_ancillary_variable(
             self.cube.ancillary_variable("Quality of Detection")
         )
         assert self.cube._ancillary_variables_and_dims == []
 
-    def test_remove_ancilliary_variable_by_name(self):
+    def test_remove_ancilliary_variable_by_name(self):  # noqa: D102
         self.cube.remove_ancillary_variable("Quality of Detection")
         assert self.cube._ancillary_variables_and_dims == []
 
-    def test_fail_remove_ancilliary_variable_by_name(self):
+    def test_fail_remove_ancilliary_variable_by_name(self):  # noqa: D102
         with pytest.raises(AncillaryVariableNotFoundError):
             self.cube.remove_ancillary_variable("notname")
 
@@ -3164,7 +3164,7 @@ class TestCoords:
         self.x_coord = x_coord
         self.cube = cube
 
-    def test_bad_coord(self):
+    def test_bad_coord(self):  # noqa: D102
         bad_coord = self.x_coord.copy()
         bad_coord.attributes = {"bad": "attribute"}
         re = (
@@ -3177,7 +3177,7 @@ class TestCoords:
 
 class Test_coord_division_units:
     """Test coord division units."""
-    def test(self):
+    def test(self):  # noqa: D102
         aux = AuxCoord(1, long_name="length", units="metres")
         cube = Cube(1, units="seconds")
         assert (aux / cube).units == "m.s-1"
@@ -3198,20 +3198,20 @@ class Test__getitem_DimCoord:
         cube.add_aux_coord(z_coord, [0, 1])
         self.cube = cube
 
-    def test_dim_coords_2d(self):
+    def test_dim_coords_2d(self):  # noqa: D102
         result = self.cube[0:2, 0:2]
         assert len(result.dim_coords) == 2
         for ix, size in enumerate(result.shape):
             assert result.coord(dim_coords=True, dimensions=ix).shape == (size,)
         assert result.coord("x_aux").shape == (result.shape[0],)
 
-    def test_dim_coord_1d(self):
+    def test_dim_coord_1d(self):  # noqa: D102
         result = self.cube[0, 0:2]
         assert len(result.dim_coords) == 1
         assert result.dim_coords[0].shape == result.shape
         assert result.coord("x_aux").shape == (result.shape[0],)
 
-    def test_demote(self):
+    def test_demote(self):  # noqa: D102
         result = self.cube[:, [0, 2, 1]]
         assert len(result.dim_coords) == 1
         assert result.coords(dimensions=1, dim_coords=True) == []
@@ -3232,12 +3232,12 @@ class Test__getitem_CellMeasure:
         cube.add_cell_measure(a_cell_measure, [0, 1])
         self.cube = cube
 
-    def test_cell_measure_2d(self):
+    def test_cell_measure_2d(self):  # noqa: D102
         result = self.cube[0:2, 0:2]
         assert len(result.cell_measures()) == 1
         assert result.shape == result.cell_measures()[0].data.shape
 
-    def test_cell_measure_1d(self):
+    def test_cell_measure_1d(self):  # noqa: D102
         result = self.cube[0, 0:2]
         assert len(result.cell_measures()) == 1
         assert result.shape == result.cell_measures()[0].data.shape
@@ -3260,12 +3260,12 @@ class Test__getitem_AncillaryVariables:
         cube.add_ancillary_variable(a_ancillary_variable, [0, 1])
         self.cube = cube
 
-    def test_ancillary_variables_2d(self):
+    def test_ancillary_variables_2d(self):  # noqa: D102
         result = self.cube[0:2, 0:2]
         assert len(result.ancillary_variables()) == 1
         assert result.shape == result.ancillary_variables()[0].data.shape
 
-    def test_ancillary_variables_1d(self):
+    def test_ancillary_variables_1d(self):  # noqa: D102
         result = self.cube[0, 0:2]
         assert len(result.ancillary_variables()) == 1
         assert result.shape == result.ancillary_variables()[0].data.shape
@@ -3284,45 +3284,45 @@ class TestAncillaryVariables:
         cube.add_ancillary_variable(self.ancill_var, [0, 1])
         self.cube = cube
 
-    def test_get_ancillary_variable(self):
+    def test_get_ancillary_variable(self):  # noqa: D102
         ancill_var = self.cube.ancillary_variable("number_of_observations")
         assert ancill_var == self.ancill_var
 
-    def test_get_ancillary_variables(self):
+    def test_get_ancillary_variables(self):  # noqa: D102
         ancill_vars = self.cube.ancillary_variables("number_of_observations")
         assert len(ancill_vars) == 1
         assert ancill_vars[0] == self.ancill_var
 
-    def test_get_ancillary_variable_obj(self):
+    def test_get_ancillary_variable_obj(self):  # noqa: D102
         ancill_vars = self.cube.ancillary_variables(self.ancill_var)
         assert len(ancill_vars) == 1
         assert ancill_vars[0] == self.ancill_var
 
-    def test_fail_get_ancillary_variables(self):
+    def test_fail_get_ancillary_variables(self):  # noqa: D102
         with pytest.raises(AncillaryVariableNotFoundError):
             self.cube.ancillary_variable("other_ancill_var")
 
-    def test_fail_get_ancillary_variables_obj(self):
+    def test_fail_get_ancillary_variables_obj(self):  # noqa: D102
         ancillary_variable = self.ancill_var.copy()
         ancillary_variable.long_name = "Number of observations at site"
         with pytest.raises(AncillaryVariableNotFoundError):
             self.cube.ancillary_variable(ancillary_variable)
 
-    def test_ancillary_variable_dims(self):
+    def test_ancillary_variable_dims(self):  # noqa: D102
         ancill_var_dims = self.cube.ancillary_variable_dims(self.ancill_var)
         assert ancill_var_dims == (0, 1)
 
-    def test_fail_ancill_variable_dims(self):
+    def test_fail_ancill_variable_dims(self):  # noqa: D102
         ancillary_variable = self.ancill_var.copy()
         ancillary_variable.long_name = "Number of observations at site"
         with pytest.raises(AncillaryVariableNotFoundError):
             self.cube.ancillary_variable_dims(ancillary_variable)
 
-    def test_ancillary_variable_dims_by_name(self):
+    def test_ancillary_variable_dims_by_name(self):  # noqa: D102
         ancill_var_dims = self.cube.ancillary_variable_dims("number_of_observations")
         assert ancill_var_dims == (0, 1)
 
-    def test_fail_ancillary_variable_dims_by_name(self):
+    def test_fail_ancillary_variable_dims_by_name(self):  # noqa: D102
         with pytest.raises(AncillaryVariableNotFoundError):
             self.cube.ancillary_variable_dims("notname")
 
@@ -3342,45 +3342,45 @@ class TestCellMeasures:
         cube.add_cell_measure(self.a_cell_measure, [0, 1])
         self.cube = cube
 
-    def test_get_cell_measure(self):
+    def test_get_cell_measure(self):  # noqa: D102
         cm = self.cube.cell_measure("area")
         assert cm == self.a_cell_measure
 
-    def test_get_cell_measures(self):
+    def test_get_cell_measures(self):  # noqa: D102
         cms = self.cube.cell_measures()
         assert len(cms) == 1
         assert cms[0] == self.a_cell_measure
 
-    def test_get_cell_measures_obj(self):
+    def test_get_cell_measures_obj(self):  # noqa: D102
         cms = self.cube.cell_measures(self.a_cell_measure)
         assert len(cms) == 1
         assert cms[0] == self.a_cell_measure
 
-    def test_fail_get_cell_measure(self):
+    def test_fail_get_cell_measure(self):  # noqa: D102
         with pytest.raises(CellMeasureNotFoundError):
             _ = self.cube.cell_measure("notarea")
 
-    def test_fail_get_cell_measures_obj(self):
+    def test_fail_get_cell_measures_obj(self):  # noqa: D102
         a_cell_measure = self.a_cell_measure.copy()
         a_cell_measure.units = "km2"
         with pytest.raises(CellMeasureNotFoundError):
             _ = self.cube.cell_measure(a_cell_measure)
 
-    def test_cell_measure_dims(self):
+    def test_cell_measure_dims(self):  # noqa: D102
         cm_dims = self.cube.cell_measure_dims(self.a_cell_measure)
         assert cm_dims == (0, 1)
 
-    def test_fail_cell_measure_dims(self):
+    def test_fail_cell_measure_dims(self):  # noqa: D102
         a_cell_measure = self.a_cell_measure.copy()
         a_cell_measure.units = "km2"
         with pytest.raises(CellMeasureNotFoundError):
             _ = self.cube.cell_measure_dims(a_cell_measure)
 
-    def test_cell_measure_dims_by_name(self):
+    def test_cell_measure_dims_by_name(self):  # noqa: D102
         cm_dims = self.cube.cell_measure_dims("area")
         assert cm_dims == (0, 1)
 
-    def test_fail_cell_measure_dims_by_name(self):
+    def test_fail_cell_measure_dims_by_name(self):  # noqa: D102
         with pytest.raises(CellMeasureNotFoundError):
             self.cube.cell_measure_dims("notname")
 
@@ -3432,50 +3432,50 @@ class TestComponents:
         }
 
     @pytest.fixture(params=["x", "y", "area", "number_of_observations"])
-    def component_name(self, request):
+    def component_name(self, request):  # noqa: D102
         return request.param
 
-    def test_components(self):
+    def test_components(self):  # noqa: D102
         components = self.cube.components()
         assert len(components) == len(self.components)
         for component in self.components.values():
             assert component in components
 
-    def test_get_components_by_name(self, component_name):
+    def test_get_components_by_name(self, component_name):  # noqa: D102
         components = self.cube.components(component_name)
         assert len(components) == 1
         assert components[0] == self.components[component_name]
 
-    def test_get_components_by_object(self, component_name):
+    def test_get_components_by_object(self, component_name):  # noqa: D102
         component_obj = self.components[component_name]
         components = self.cube.components(component_obj)
         assert len(components) == 1
         assert components[0] == component_obj
 
-    def test_get_component_by_name(self, component_name):
+    def test_get_component_by_name(self, component_name):  # noqa: D102
         component = self.cube.component(component_name)
         assert component == self.components[component_name]
 
-    def test_get_component_by_object(self, component_name):
+    def test_get_component_by_object(self, component_name):  # noqa: D102
         component_obj = self.components[component_name]
         component = self.cube.component(component_obj)
         assert component == component_obj
 
-    def test_get_components_by_unknown_name(self):
+    def test_get_components_by_unknown_name(self):  # noqa: D102
         assert self.cube.components("bad_name") == []
 
-    def test_get_components_by_unknown_object(self):
+    def test_get_components_by_unknown_object(self):  # noqa: D102
         bad_obj = DimCoord(points=np.array([0, 1]), long_name="bad_coord")
         assert self.cube.components(bad_obj) == []
 
-    def test_fail_get_component_by_unknown_name(self):
+    def test_fail_get_component_by_unknown_name(self):  # noqa: D102
         with pytest.raises(
             CubeComponentNotFoundError,
             match="Expected to find exactly 1 cube component",
         ):
             _ = self.cube.component("bad_name")
 
-    def test_fail_get_component_by_unknown_object(self):
+    def test_fail_get_component_by_unknown_object(self):  # noqa: D102
         bad_obj = DimCoord(points=np.array([0, 1]), long_name="bad_coord")
         with pytest.raises(
             CubeComponentNotFoundError,
@@ -3483,7 +3483,7 @@ class TestComponents:
         ):
             _ = self.cube.component(bad_obj)
 
-    def test_add_component_dim_x_coord(self):
+    def test_add_component_dim_x_coord(self):  # noqa: D102
         cube = Cube(np.arange(6).reshape(3, 2))
         component = self.components["x"]
         cube.add_component(component, 0)
@@ -3491,14 +3491,14 @@ class TestComponents:
         assert coord == component
         assert cube._dim_coords_and_dims == [(component, 0)]
 
-    def test_add_component_dim_y_coord(self):
+    def test_add_component_dim_y_coord(self):  # noqa: D102
         component = self.components["y"]
         self.bare_cube.add_component(component, 1)
         coord = self.bare_cube.coord("y")
         assert coord == component
         assert self.bare_cube._dim_coords_and_dims == [(component, 1)]
 
-    def test_add_component_dim_coord_as_aux(self):
+    def test_add_component_dim_coord_as_aux(self):  # noqa: D102
         # Try and add a dim coord to a dimension that already
         # has a dim coord. Should add as aux coord instead.
         component = self.components["x"].copy()
@@ -3508,70 +3508,70 @@ class TestComponents:
         assert coord == component
         assert coord not in self.cube.coords(dim_coords=True)
 
-    def test_add_scalar_coord(self):
+    def test_add_scalar_coord(self):  # noqa: D102
         scalar = AuxCoord(42, long_name="scalar_coord", units="1")
         self.bare_cube.add_component(scalar)
         coord = self.bare_cube.coord("scalar_coord")
         assert coord == scalar
         assert coord.cube_dims(self.bare_cube) == ()
 
-    def test_fail_add_coord_bad_dims(self):
+    def test_fail_add_coord_bad_dims(self):  # noqa: D102
         coord = self.components["x"]
         with pytest.raises(CannotAddError, match="Unequal lengths"):
             self.bare_cube.add_component(coord, 1)
 
-    def test_add_aux_coord(self):
+    def test_add_aux_coord(self):  # noqa: D102
         latitudes = AuxCoord([10, 20], long_name="latitude")
         self.cube.add_component(latitudes, 1)
         coord = self.cube.coord("latitude")
         assert coord == latitudes
         assert coord not in self.cube.coords(dim_coords=True)
 
-    def test_add_ancillary_variable(self):
+    def test_add_ancillary_variable(self):  # noqa: D102
         component = self.components["number_of_observations"]
         self.bare_cube.add_component(component, (0, 1))
         ancill_var = self.bare_cube.ancillary_variable("number_of_observations")
         assert ancill_var == component
 
-    def test_add_cell_measure(self):
+    def test_add_cell_measure(self):  # noqa: D102
         component = self.components["area"]
         self.bare_cube.add_component(component, (0, 1))
         cell_measure = self.bare_cube.cell_measure("area")
         assert cell_measure == component
 
-    def test_fail_add_component_same_name(self, component_name):
+    def test_fail_add_component_same_name(self, component_name):  # noqa: D102
         component = self.components[component_name]
         with pytest.raises(CannotAddError, match=r"Duplicate .* not permitted"):
             self.cube.add_component(component, 0)
 
-    def test_fail_add_unknown_component(self):
+    def test_fail_add_unknown_component(self):  # noqa: D102
         bad_component = int(1)
         with pytest.raises(CannotAddError, match="Cannot add component of type"):
             self.cube.add_component(bad_component)
 
-    def test_remove_component_by_name(self, component_name):
+    def test_remove_component_by_name(self, component_name):  # noqa: D102
         self.cube.remove_component(component_name)
         assert component_name not in [comp.name() for comp in self.cube.components()]
 
-    def test_remove_component_by_object(self, component_name):
+    def test_remove_component_by_object(self, component_name):  # noqa: D102
         component = self.components[component_name]
         self.cube.remove_component(component)
         assert component_name not in self.cube.components()
 
-    def test_fail_remove_component_unknown_name(self):
+    def test_fail_remove_component_unknown_name(self):  # noqa: D102
         with pytest.raises(
             CubeComponentNotFoundError,
             match="Expected to find exactly 1 cube component",
         ):
             self.cube.remove_component("bad_name")
 
-    def test_fail_remove_component_unknown_object(self):
+    def test_fail_remove_component_unknown_object(self):  # noqa: D102
         coord = self.components["x"].copy()
         coord.long_name = "bad_coord"
         with pytest.raises(CubeComponentNotFoundError):
             self.cube.remove_component(coord)
 
-    def test_get_component_dims(self, component_name):
+    def test_get_component_dims(self, component_name):  # noqa: D102
         dims = self.cube.component_dims(component_name)
         assert dims == self.expected_dims[component_name]
 
@@ -3584,33 +3584,33 @@ class Test_transpose:
         self.cube = Cube(self.data)
         self.lazy_cube = Cube(as_lazy_data(self.data))
 
-    def test_lazy_data(self):
+    def test_lazy_data(self):  # noqa: D102
         cube = self.lazy_cube
         cube.transpose()
         assert cube.has_lazy_data()
         _shared_utils.assert_array_equal(self.data.T, cube.data)
 
-    def test_real_data(self):
+    def test_real_data(self):  # noqa: D102
         self.cube.transpose()
         assert not self.cube.has_lazy_data()
         assert self.data.base is self.cube.data.base
         _shared_utils.assert_array_equal(self.data.T, self.cube.data)
 
-    def test_real_data__new_order(self):
+    def test_real_data__new_order(self):  # noqa: D102
         new_order = [2, 0, 1]
         self.cube.transpose(new_order)
         assert not self.cube.has_lazy_data()
         assert self.data.base is self.cube.data.base
         _shared_utils.assert_array_equal(self.data.transpose(new_order), self.cube.data)
 
-    def test_lazy_data__new_order(self):
+    def test_lazy_data__new_order(self):  # noqa: D102
         new_order = [2, 0, 1]
         cube = self.lazy_cube
         cube.transpose(new_order)
         assert cube.has_lazy_data()
         _shared_utils.assert_array_equal(self.data.transpose(new_order), cube.data)
 
-    def test_lazy_data__transpose_order_ndarray(self):
+    def test_lazy_data__transpose_order_ndarray(self):  # noqa: D102
         # Check that a transpose order supplied as an array does not trip up
         # a dask transpose operation.
         new_order = np.array([2, 0, 1])
@@ -3619,30 +3619,30 @@ class Test_transpose:
         assert cube.has_lazy_data()
         _shared_utils.assert_array_equal(self.data.transpose(new_order), cube.data)
 
-    def test_bad_transpose_order(self):
+    def test_bad_transpose_order(self):  # noqa: D102
         exp_emsg = "Incorrect number of dimensions"
         with pytest.raises(ValueError, match=exp_emsg):
             self.cube.transpose([1])
 
-    def test_dim_coords(self):
+    def test_dim_coords(self):  # noqa: D102
         x_coord = DimCoord(points=np.array([2, 3, 4]), long_name="x")
         self.cube.add_dim_coord(x_coord, 0)
         self.cube.transpose()
         assert self.cube._dim_coords_and_dims == [(x_coord, 2)]
 
-    def test_aux_coords(self):
+    def test_aux_coords(self):  # noqa: D102
         x_coord = AuxCoord(points=np.array([[2, 3], [8, 4], [7, 9]]), long_name="x")
         self.cube.add_aux_coord(x_coord, (0, 1))
         self.cube.transpose()
         assert self.cube._aux_coords_and_dims == [(x_coord, (2, 1))]
 
-    def test_cell_measures(self):
+    def test_cell_measures(self):  # noqa: D102
         area_cm = CellMeasure(np.arange(12).reshape(3, 4), long_name="area of cells")
         self.cube.add_cell_measure(area_cm, (0, 2))
         self.cube.transpose()
         assert self.cube._cell_measures_and_dims == [(area_cm, (2, 0))]
 
-    def test_ancillary_variables(self):
+    def test_ancillary_variables(self):  # noqa: D102
         ancill_var = AncillaryVariable(
             data=np.arange(8).reshape(2, 4), long_name="instrument error"
         )
@@ -3653,7 +3653,7 @@ class Test_transpose:
 
 class Test_convert_units:
     """Test convert units."""
-    def test_convert_unknown_units(self):
+    def test_convert_unknown_units(self):  # noqa: D102
         cube = iris.cube.Cube(1)
         emsg = (
             "Cannot convert from unknown units. "
@@ -3662,7 +3662,7 @@ class Test_convert_units:
         with pytest.raises(UnitConversionError, match=emsg):
             cube.convert_units("mm day-1")
 
-    def test_preserves_lazy(self):
+    def test_preserves_lazy(self):  # noqa: D102
         real_data = np.arange(12.0).reshape((3, 4))
         lazy_data = as_lazy_data(real_data)
         cube = iris.cube.Cube(lazy_data, units="m")
@@ -3671,14 +3671,14 @@ class Test_convert_units:
         assert cube.has_lazy_data()
         _shared_utils.assert_array_all_close(cube.data, real_data_ft)
 
-    def test_dataless_convert(self):
+    def test_dataless_convert(self):  # noqa: D102
         cube = iris.cube.Cube(shape=(3, 4), units="m")
         assert cube.units == "m"
 
         cube.convert_units("ft")
         assert cube.units == "ft"
 
-    def test_unit_multiply(self):
+    def test_unit_multiply(self):  # noqa: D102
         _client = Client()
         cube = iris.cube.Cube(da.arange(1), units="m")
         cube.units *= "s-1"
@@ -3695,7 +3695,7 @@ class Test_convert_units:
             "actual_range",
         ],
     )
-    def test_convert_attributes(self, attribute):
+    def test_convert_attributes(self, attribute):  # noqa: D102
         cube = iris.cube.Cube(1, units="degrees_C")
         value = np.array([0, 10]) if attribute.endswith("range") else 0
         cube.attributes.locals[attribute] = value
@@ -3709,21 +3709,21 @@ class Test_convert_units:
 class Test__eq__data:
     """Partial cube equality testing, for data type only."""
 
-    def test_cube_identical_to_itself(self):
+    def test_cube_identical_to_itself(self):  # noqa: D102
         cube = Cube([1.0])
         assert cube == cube
 
-    def test_data_float_eq(self):
+    def test_data_float_eq(self):  # noqa: D102
         cube1 = Cube([1.0])
         cube2 = Cube([1.0])
         assert cube1 == cube2
 
-    def test_data_float_nan_eq(self):
+    def test_data_float_nan_eq(self):  # noqa: D102
         cube1 = Cube([np.nan, 1.0])
         cube2 = Cube([np.nan, 1.0])
         assert cube1 == cube2
 
-    def test_data_float_eqtol(self):
+    def test_data_float_eqtol(self):  # noqa: D102
         val1 = np.array(1.0, dtype=np.float32)
         # NOTE: Since v2.3, Iris uses "allclose".  Prior to that we used
         # "rtol=1e-8", and this example would *fail*.
@@ -3733,40 +3733,40 @@ class Test__eq__data:
         assert val1 != val2
         assert cube1 == cube2
 
-    def test_data_float_not_eq(self):
+    def test_data_float_not_eq(self):  # noqa: D102
         val1 = 1.0
         val2 = 1.0 + 1.0e-4
         cube1 = Cube([1.0, val1])
         cube2 = Cube([1.0, val2])
         assert cube1 != cube2
 
-    def test_data_int_eq(self):
+    def test_data_int_eq(self):  # noqa: D102
         cube1 = Cube([1, 2, 3])
         cube2 = Cube([1, 2, 3])
         assert cube1 == cube2
 
-    def test_data_int_not_eq(self):
+    def test_data_int_not_eq(self):  # noqa: D102
         cube1 = Cube([1, 2, 3])
         cube2 = Cube([1, 2, 0])
         assert cube1 != cube2
 
     # NOTE: since numpy v1.18, boolean array subtract is deprecated.
-    def test_data_bool_eq(self):
+    def test_data_bool_eq(self):  # noqa: D102
         cube1 = Cube([True, False])
         cube2 = Cube([True, False])
         assert cube1 == cube2
 
-    def test_data_bool_not_eq(self):
+    def test_data_bool_not_eq(self):  # noqa: D102
         cube1 = Cube([True, False])
         cube2 = Cube([True, True])
         assert cube1 != cube2
 
-    def test_data_string_eq(self):
+    def test_data_string_eq(self):  # noqa: D102
         cube1 = Cube(["a", "b", "c"])
         cube2 = Cube(["a", "b", "c"])
         assert cube1 == cube2
 
-    def test_data_string_not_eq(self):
+    def test_data_string_not_eq(self):  # noqa: D102
         cube1 = Cube(["a", "b", "c"])
         cube2 = Cube(["a", "b", "d"])
         assert cube1 != cube2
@@ -3774,14 +3774,14 @@ class Test__eq__data:
 
 class Test__eq__meta:
     """Test  eq  meta."""
-    def test_ancillary_fail(self):
+    def test_ancillary_fail(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         avr = AncillaryVariable([2, 3], long_name="foo")
         cube2.add_ancillary_variable(avr, 0)
         assert cube1 != cube2
 
-    def test_ancillary_reorder(self):
+    def test_ancillary_reorder(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         avr1 = AncillaryVariable([2, 3], long_name="foo")
@@ -3794,7 +3794,7 @@ class Test__eq__meta:
         cube2.add_ancillary_variable(avr1, 0)
         assert cube1 == cube2
 
-    def test_ancillary_diff_data(self):
+    def test_ancillary_diff_data(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         avr1 = AncillaryVariable([2, 3], long_name="foo")
@@ -3803,14 +3803,14 @@ class Test__eq__meta:
         cube2.add_ancillary_variable(avr2, 0)
         assert cube1 != cube2
 
-    def test_cell_measure_fail(self):
+    def test_cell_measure_fail(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         cms = CellMeasure([2, 3], long_name="foo")
         cube2.add_cell_measure(cms, 0)
         assert cube1 != cube2
 
-    def test_cell_measure_reorder(self):
+    def test_cell_measure_reorder(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         cms1 = CellMeasure([2, 3], long_name="foo")
@@ -3823,7 +3823,7 @@ class Test__eq__meta:
         cube2.add_cell_measure(cms1, 0)
         assert cube1 == cube2
 
-    def test_cell_measure_diff_data(self):
+    def test_cell_measure_diff_data(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         cms1 = CellMeasure([2, 3], long_name="foo")
@@ -3832,7 +3832,7 @@ class Test__eq__meta:
         cube2.add_cell_measure(cms2, 0)
         assert cube1 != cube2
 
-    def test_cell_method_fail(self):
+    def test_cell_method_fail(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         cmth = CellMethod("mean", "time", "6hr")
@@ -3840,7 +3840,7 @@ class Test__eq__meta:
         assert cube1 != cube2
 
     # Unlike cell measures, cell methods are order sensitive.
-    def test_cell_method_reorder_fail(self):
+    def test_cell_method_reorder_fail(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         cmth1 = CellMethod("mean", "time", "6hr")
@@ -3853,7 +3853,7 @@ class Test__eq__meta:
         cube2.add_cell_method(cmth1)
         assert cube1 != cube2
 
-    def test_cell_method_correct_order(self):
+    def test_cell_method_correct_order(self):  # noqa: D102
         cube1 = Cube([0, 1])
         cube2 = Cube([0, 1])
         cmth1 = CellMethod("mean", "time", "6hr")
@@ -3878,45 +3878,45 @@ class Test__dimensional_metadata:
     NOTE: test could all be static methods, but that adds a line to each definition.
     """
 
-    def test_not_found(self, simplecube):
+    def test_not_found(self, simplecube):  # noqa: D102
         with pytest.raises(KeyError, match="was not found in"):
             simplecube._dimensional_metadata("grid_latitude")
 
-    def test_dim_coord_name_found(self, simplecube):
+    def test_dim_coord_name_found(self, simplecube):  # noqa: D102
         res = simplecube._dimensional_metadata("bar")
         assert res == simplecube.coord("bar")
 
-    def test_dim_coord_instance_found(self, simplecube):
+    def test_dim_coord_instance_found(self, simplecube):  # noqa: D102
         res = simplecube._dimensional_metadata(simplecube.coord("bar"))
         assert res == simplecube.coord("bar")
 
-    def test_aux_coord_name_found(self, simplecube):
+    def test_aux_coord_name_found(self, simplecube):  # noqa: D102
         res = simplecube._dimensional_metadata("wibble")
         assert res == simplecube.coord("wibble")
 
-    def test_aux_coord_instance_found(self, simplecube):
+    def test_aux_coord_instance_found(self, simplecube):  # noqa: D102
         res = simplecube._dimensional_metadata(simplecube.coord("wibble"))
         assert res == simplecube.coord("wibble")
 
-    def test_cell_measure_name_found(self, simplecube):
+    def test_cell_measure_name_found(self, simplecube):  # noqa: D102
         res = simplecube._dimensional_metadata("cell_area")
         assert res == simplecube.cell_measure("cell_area")
 
-    def test_cell_measure_instance_found(self, simplecube):
+    def test_cell_measure_instance_found(self, simplecube):  # noqa: D102
         res = simplecube._dimensional_metadata(simplecube.cell_measure("cell_area"))
         assert res == simplecube.cell_measure("cell_area")
 
-    def test_ancillary_var_name_found(self, simplecube):
+    def test_ancillary_var_name_found(self, simplecube):  # noqa: D102
         res = simplecube._dimensional_metadata("quality_flag")
         assert res == simplecube.ancillary_variable("quality_flag")
 
-    def test_ancillary_var_instance_found(self, simplecube):
+    def test_ancillary_var_instance_found(self, simplecube):  # noqa: D102
         res = simplecube._dimensional_metadata(
             simplecube.ancillary_variable("quality_flag")
         )
         assert res == simplecube.ancillary_variable("quality_flag")
 
-    def test_two_with_same_name(self, simplecube):
+    def test_two_with_same_name(self, simplecube):  # noqa: D102
         # If a cube has two _DimensionalMetadata objects with the same name, the
         # current behaviour results in _dimensional_metadata returning the first
         # one it finds.
@@ -3924,7 +3924,7 @@ class Test__dimensional_metadata:
         res = simplecube._dimensional_metadata("wibble")
         assert res == simplecube.coord("wibble")
 
-    def test_two_with_same_name_specify_instance(self, simplecube):
+    def test_two_with_same_name_specify_instance(self, simplecube):  # noqa: D102
         # The cube has two _DimensionalMetadata objects with the same name so
         # we specify the _DimensionalMetadata instance to ensure it returns the
         # correct one.
@@ -3946,7 +3946,7 @@ class TestReprs:
 
     # Note: logically this could be a staticmethod, but that seems to upset Pytest
     @pytest.fixture
-    def patched_cubeprinter(self, mocker):
+    def patched_cubeprinter(self, mocker):  # noqa: D102
         target = "iris._representation.cube_printout.CubePrinter"
         instance_mock = mock.MagicMock(
             to_string=mock.MagicMock(return_value="")  # NB this must return a string
@@ -3966,19 +3966,19 @@ class TestReprs:
             mock.call(oneline=oneline, name_padding=padding)
         ]
 
-    def test_str_effects(self, simplecube, patched_cubeprinter):
+    def test_str_effects(self, simplecube, patched_cubeprinter):  # noqa: D102
         str(simplecube)
         self._check_expected_effects(
             simplecube, patched_cubeprinter, oneline=False, padding=35
         )
 
-    def test_repr_effects(self, simplecube, patched_cubeprinter):
+    def test_repr_effects(self, simplecube, patched_cubeprinter):  # noqa: D102
         repr(simplecube)
         self._check_expected_effects(
             simplecube, patched_cubeprinter, oneline=True, padding=1
         )
 
-    def test_summary_effects(self, simplecube, patched_cubeprinter):
+    def test_summary_effects(self, simplecube, patched_cubeprinter):  # noqa: D102
         simplecube.summary(
             shorten=mock.sentinel.oneliner, name_padding=mock.sentinel.padding
         )
@@ -4003,7 +4003,7 @@ class TestHtmlRepr:
 
     # Note: logically this could be a staticmethod, but that seems to upset Pytest
     @pytest.fixture
-    def patched_cubehtml(self, mocker):
+    def patched_cubehtml(self, mocker):  # noqa: D102
         target = "iris.experimental.representation.CubeRepresentation"
         instance_mock = mock.MagicMock(
             repr_html=mock.MagicMock(return_value="")  # NB this must return a string
@@ -4012,7 +4012,7 @@ class TestHtmlRepr:
         return class_mock, instance_mock
 
     @staticmethod
-    def test__repr_html__effects(simplecube, patched_cubehtml):
+    def test__repr_html__effects(simplecube, patched_cubehtml):  # noqa: D102
         simplecube._repr_html_()
 
         class_mock, instance_mock = patched_cubehtml
@@ -4034,15 +4034,15 @@ class Test__cell_methods:
         self.cm = CellMethod("mean", "time", "6hr")
         self.cm2 = CellMethod("max", "latitude", "4hr")
 
-    def test_none(self):
+    def test_none(self):  # noqa: D102
         assert self.cube.cell_methods == ()
 
-    def test_one(self):
+    def test_one(self):  # noqa: D102
         cube = Cube([0], cell_methods=[self.cm])
         expected = (self.cm,)
         assert expected == cube.cell_methods
 
-    def test_empty_assigns(self):
+    def test_empty_assigns(self):  # noqa: D102
         testargs = [(), [], {}, 0, 0.0, False, None]
         results = []
         for arg in testargs:
@@ -4052,7 +4052,7 @@ class Test__cell_methods:
         expected_results = [()] * len(testargs)
         assert expected_results == results
 
-    def test_single_assigns(self):
+    def test_single_assigns(self):  # noqa: D102
         cms = (self.cm, self.cm2)
         # Any type of iterable ought to work
         # But N.B. *not* testing sets, as order is not stable
@@ -4065,27 +4065,27 @@ class Test__cell_methods:
         expected_results = [cms] * len(testargs)
         assert expected_results == results
 
-    def test_fail_assign_noniterable(self):
+    def test_fail_assign_noniterable(self):  # noqa: D102
         test_object = object()
         with pytest.raises(TypeError, match="not iterable"):
             self.cube.cell_methods = test_object
 
-    def test_fail_create_noniterable(self):
+    def test_fail_create_noniterable(self):  # noqa: D102
         test_object = object()
         with pytest.raises(TypeError, match="not iterable"):
             Cube([0], cell_methods=test_object)
 
-    def test_fail_assign_noncellmethod(self):
+    def test_fail_assign_noncellmethod(self):  # noqa: D102
         test_object = object()
         with pytest.raises(ValueError, match="not an iris.coords.CellMethod"):
             self.cube.cell_methods = (test_object,)
 
-    def test_fail_create_noncellmethod(self):
+    def test_fail_create_noncellmethod(self):  # noqa: D102
         test_object = object()
         with pytest.raises(ValueError, match="not an iris.coords.CellMethod"):
             Cube([0], cell_methods=[test_object])
 
-    def test_assign_derivedcellmethod(self):
+    def test_assign_derivedcellmethod(self):  # noqa: D102
         class DerivedCellMethod(CellMethod):
             pass
 
@@ -4094,7 +4094,7 @@ class Test__cell_methods:
         self.cube.cell_methods = (test_object,)
         assert cms == self.cube.cell_methods
 
-    def test_fail_assign_duckcellmethod(self):
+    def test_fail_assign_duckcellmethod(self):  # noqa: D102
         # Can't currently assign a "duck-typed" CellMethod replacement, since
         # implementation requires class membership (boo!)
         DuckCellMethod = namedtuple("DuckCellMethod", CellMethod._names)
@@ -4105,13 +4105,13 @@ class Test__cell_methods:
 
 class TestAttributesProperty:
     """Test ttributesProperty."""
-    def test_attrs_type(self):
+    def test_attrs_type(self):  # noqa: D102
         # Cube attributes are always of a special dictionary type.
         cube = Cube([0], attributes={"a": 1})
         assert type(cube.attributes) is CubeAttrsDict
         assert cube.attributes == {"a": 1}
 
-    def test_attrs_remove(self):
+    def test_attrs_remove(self):  # noqa: D102
         # Wiping attributes replaces the stored object
         cube = Cube([0], attributes={"a": 1})
         attrs = cube.attributes
@@ -4120,7 +4120,7 @@ class TestAttributesProperty:
         assert type(cube.attributes) is CubeAttrsDict
         assert cube.attributes == {}
 
-    def test_attrs_clear(self):
+    def test_attrs_clear(self):  # noqa: D102
         # Clearing attributes leaves the same object
         cube = Cube([0], attributes={"a": 1})
         attrs = cube.attributes
@@ -4137,11 +4137,11 @@ class Test_is_dataless:
         self.data = np.array(0)
         self.shape = (0,)
 
-    def test_with_data(self):
+    def test_with_data(self):  # noqa: D102
         cube = Cube(data=self.data)
         assert not cube.is_dataless()
 
-    def test_without_data(self):
+    def test_without_data(self):  # noqa: D102
         cube = Cube(data=None, shape=self.shape)
         assert cube.is_dataless()
 
@@ -4178,24 +4178,24 @@ class Test_coord_dims:
         self.aux_1d = aux_1d
         self.aux_2d = aux_2d
 
-    def test_dim_coord(self):
+    def test_dim_coord(self):  # noqa: D102
         # A dimension coordinate is found by object identity.
         assert self.cube.coord_dims(self.x_coord) == (0,)
 
-    def test_string_name(self):
+    def test_string_name(self):  # noqa: D102
         # A coordinate may be looked up by its string name.
         assert self.cube.coord_dims("y") == (1,)
 
-    def test_aux_coord_single_dim(self):
+    def test_aux_coord_single_dim(self):  # noqa: D102
         # An auxiliary coordinate spanning a single dimension.
         assert self.cube.coord_dims(self.aux_1d) == (0,)
 
-    def test_aux_coord_multiple_dims(self):
+    def test_aux_coord_multiple_dims(self):  # noqa: D102
         # An auxiliary coordinate spanning multiple dimensions.
         assert self.cube.coord_dims(self.aux_2d) == (0, 1)
 
     @pytest.fixture
-    def aux_factory(self):
+    def aux_factory(self):  # noqa: D102
         # Dependencies for a hybrid-height derived coordinate ("altitude").
         delta = AuxCoord(points=np.array([0, 1]), long_name="delta", units="m")
         sigma = AuxCoord(points=np.array([0, 1]), long_name="sigma")
@@ -4209,19 +4209,19 @@ class Test_coord_dims:
         self.cube.add_aux_factory(factory)
         return factory
 
-    def test_aux_factory(self, aux_factory):
+    def test_aux_factory(self, aux_factory):  # noqa: D102
         # A derived coordinate provided by an aux factory.
         derived_coord = aux_factory.make_coord(self.cube.coord_dims)
         assert self.cube.coord_dims(derived_coord) == (0, 1, 2)
 
-    def test_equivalent_coord_not_instance(self):
+    def test_equivalent_coord_not_instance(self):  # noqa: D102
         # An equivalent coordinate (same metadata, different instance) is
         # resolved via the fallback coordinate lookup.
         equivalent = self.x_coord.copy()
         assert equivalent is not self.x_coord
         assert self.cube.coord_dims(equivalent) == (0,)
 
-    def test_no_match_raises(self):
+    def test_no_match_raises(self):  # noqa: D102
         # A coordinate that is not on the cube and matches nothing raises.
         missing = DimCoord(points=np.array([0, 1]), long_name="missing")
         with pytest.raises(CoordinateNotFoundError):

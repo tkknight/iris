@@ -29,7 +29,7 @@ def create_mock_cube(array):
 
 class Test_map_complete_blocks:
     """Test map complete blocks."""
-    def setup_method(self):
+    def setup_method(self):  # noqa: D102
         self.array = np.arange(8).reshape(2, 4)
 
         def func(chunk):
@@ -46,7 +46,7 @@ class Test_map_complete_blocks:
         self.func = func
         self.func_result = self.array + 1
 
-    def test_non_lazy_input(self):
+    def test_non_lazy_input(self):  # noqa: D102
         # Check that a non-lazy input doesn't trip up the functionality.
         cube, cube_data = create_mock_cube(self.array)
         result = map_complete_blocks(
@@ -58,7 +58,7 @@ class Test_map_complete_blocks:
         cube.lazy_data.assert_not_called()
         cube_data.assert_called_once()
 
-    def test_lazy_input(self):
+    def test_lazy_input(self):  # noqa: D102
         lazy_array = da.asarray(self.array, chunks=((1, 1), (4,)))
         cube, cube_data = create_mock_cube(lazy_array)
         result = map_complete_blocks(
@@ -70,7 +70,7 @@ class Test_map_complete_blocks:
         cube.lazy_data.assert_called_once()
         cube_data.assert_not_called()
 
-    def test_dask_array_input(self):
+    def test_dask_array_input(self):  # noqa: D102
         lazy_array = da.asarray(self.array, chunks=((1, 1), (4,)))
         result = map_complete_blocks(
             lazy_array, self.func, dims=(1,), out_sizes=(4,), dtype=lazy_array.dtype
@@ -78,7 +78,7 @@ class Test_map_complete_blocks:
         assert is_lazy_data(result)
         assert_array_equal(result.compute(), self.func_result)
 
-    def test_dask_masked_array_input(self):
+    def test_dask_masked_array_input(self):  # noqa: D102
         array = da.ma.masked_array(np.arange(2), mask=np.arange(2))
         result = map_complete_blocks(
             array, self.func, dims=tuple(), out_sizes=tuple(), dtype=array.dtype
@@ -87,7 +87,7 @@ class Test_map_complete_blocks:
         assert isinstance(da.utils.meta_from_array(result), np.ma.MaskedArray)
         assert_array_equal(result.compute(), np.ma.masked_array([1, 2], mask=[0, 1]))
 
-    def test_dask_array_input_with_different_output_dtype(self):
+    def test_dask_array_input_with_different_output_dtype(self):  # noqa: D102
         lazy_array = da.ma.masked_array(self.array, chunks=((1, 1), (4,)))
         dtype = np.float32
 
@@ -104,7 +104,7 @@ class Test_map_complete_blocks:
         assert result.compute().dtype == dtype
         assert_array_equal(result.compute(), self.func_result)
 
-    def test_rechunk(self):
+    def test_rechunk(self):  # noqa: D102
         lazy_array = da.asarray(self.array, chunks=((1, 1), (2, 2)))
         cube, _ = create_mock_cube(lazy_array)
         result = map_complete_blocks(
@@ -113,7 +113,7 @@ class Test_map_complete_blocks:
         assert is_lazy_data(result)
         assert_array_equal(result.compute(), self.func_result)
 
-    def test_different_out_shape(self):
+    def test_different_out_shape(self):  # noqa: D102
         lazy_array = da.asarray(self.array, chunks=((1, 1), (4,)))
         cube, _ = create_mock_cube(lazy_array)
 
@@ -127,7 +127,7 @@ class Test_map_complete_blocks:
         assert is_lazy_data(result)
         assert_array_equal(result.compute(), func_result)
 
-    def test_multidimensional_input(self):
+    def test_multidimensional_input(self):  # noqa: D102
         array = np.arange(2 * 3 * 4).reshape(2, 3, 4)
         lazy_array = da.asarray(array, chunks=((1, 1), (1, 2), (4,)))
         cube, _ = create_mock_cube(lazy_array)
@@ -137,7 +137,7 @@ class Test_map_complete_blocks:
         assert is_lazy_data(result)
         assert_array_equal(result.compute(), array + 1)
 
-    def test_rechunking(self):
+    def test_rechunking(self):  # noqa: D102
         # Choose a dask array with an irregularly chunked dimension to be rechunked.
         lazy_array = da.ones((5, 10, 9, 10), chunks=(2, 10, 5, 5))
         cube, _ = create_mock_cube(lazy_array)

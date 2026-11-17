@@ -24,25 +24,25 @@ class TestEncodeObject:
         expected = "one two three"
         assert result == ("ukmo__process_flags", expected)
 
-    def test_single(self):
+    def test_single(self):  # noqa: D102
         test_tuple = ("one",)
         result = UPF_HANDLER.encode_object(test_tuple)
         expected = "one"
         assert result == ("ukmo__process_flags", expected)
 
-    def test_0_tuple(self):
+    def test_0_tuple(self):  # noqa: D102
         test_tuple = ()
         result = UPF_HANDLER.encode_object(test_tuple)
         expected = ""
         assert result == ("ukmo__process_flags", expected)
 
-    def test_empty_element(self):
+    def test_empty_element(self):  # noqa: D102
         test_tuple = ("one", "", "two")
         result = UPF_HANDLER.encode_object(test_tuple)
         expected = "one <EMPTY> two"
         assert result == ("ukmo__process_flags", expected)
 
-    def test_spaced_element(self):
+    def test_spaced_element(self):  # noqa: D102
         test_tuple = ("one", "two three")
         result = UPF_HANDLER.encode_object(test_tuple)
         expected = "one two_three"
@@ -69,22 +69,22 @@ class TestEncodeObject:
 class TestDecodeAttribute:
     """Test how 'ukmo__process_flags' converts from file string back to a tuple."""
 
-    def test_standard(self):
+    def test_standard(self):  # noqa: D102
         test_string = "one two"
         result = UPF_HANDLER.decode_attribute(test_string)
         assert result == ("one", "two")
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         test_string = ""
         result = UPF_HANDLER.decode_attribute(test_string)
         assert result == ()
 
-    def test_empty_element(self):
+    def test_empty_element(self):  # noqa: D102
         test_string = "<EMPTY>"
         result = UPF_HANDLER.decode_attribute(test_string)
         assert result == ("",)
 
-    def test_empty_among_elements(self):
+    def test_empty_among_elements(self):  # noqa: D102
         test_string = "a <EMPTY> b"
         result = UPF_HANDLER.decode_attribute(test_string)
         assert result == ("a", "", "b")

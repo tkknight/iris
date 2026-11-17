@@ -28,27 +28,27 @@ class TestExampleCases:
             self._radian_bounds(lons, dtype=dtype),
         )
 
-    def test_area_in_north(self):
+    def test_area_in_north(self):  # noqa: D102
         lats, lons = self._as_bounded_coords([0, 10], [0, 10])
         area = _quadrant_area(lats, lons, DEFAULT_SPHERICAL_EARTH_RADIUS)
         _shared_utils.assert_array_all_close(area, [[1228800593851.443115234375]])
 
-    def test_area_in_far_north(self):
+    def test_area_in_far_north(self):  # noqa: D102
         lats, lons = self._as_bounded_coords([70, 80], [0, 10])
         area = _quadrant_area(lats, lons, DEFAULT_SPHERICAL_EARTH_RADIUS)
         _shared_utils.assert_array_all_close(area, [[319251845980.7646484375]])
 
-    def test_area_in_far_south(self):
+    def test_area_in_far_south(self):  # noqa: D102
         lats, lons = self._as_bounded_coords([-80, -70], [0, 10])
         area = _quadrant_area(lats, lons, DEFAULT_SPHERICAL_EARTH_RADIUS)
         _shared_utils.assert_array_all_close(area, [[319251845980.763671875]])
 
-    def test_area_in_north_with_reversed_lats(self):
+    def test_area_in_north_with_reversed_lats(self):  # noqa: D102
         lats, lons = self._as_bounded_coords([10, 0], [0, 10])
         area = _quadrant_area(lats, lons, DEFAULT_SPHERICAL_EARTH_RADIUS)
         _shared_utils.assert_array_all_close(area, [[1228800593851.443115234375]])
 
-    def test_area_multiple_lats(self):
+    def test_area_multiple_lats(self):  # noqa: D102
         lats, lons = self._as_bounded_coords([[-80, -70], [0, 10], [70, 80]], [0, 10])
         area = _quadrant_area(lats, lons, DEFAULT_SPHERICAL_EARTH_RADIUS)
 
@@ -61,7 +61,7 @@ class TestExampleCases:
             ],
         )
 
-    def test_area_multiple_lats_and_lons(self):
+    def test_area_multiple_lats_and_lons(self):  # noqa: D102
         lats, lons = self._as_bounded_coords(
             [[-80, -70], [0, 10], [70, 80]], [[0, 10], [10, 30]]
         )
@@ -76,14 +76,14 @@ class TestExampleCases:
             ],
         )
 
-    def test_symmetric_64_bit(self):
+    def test_symmetric_64_bit(self):  # noqa: D102
         lats, lons = self._as_bounded_coords(
             [[-90, -89.375], [89.375, 90]], [0, 10], dtype=np.float64
         )
         area = _quadrant_area(lats, lons, DEFAULT_SPHERICAL_EARTH_RADIUS)
         _shared_utils.assert_array_all_close(area, area[::-1])
 
-    def test_symmetric_32_bit(self):
+    def test_symmetric_32_bit(self):  # noqa: D102
         lats, lons = self._as_bounded_coords(
             [[-90, -89.375], [89.375, 90]], [0, 10], dtype=np.float32
         )
@@ -93,16 +93,16 @@ class TestExampleCases:
 
 class TestErrorHandling:
     """Test rrorHandling."""
-    def test_lat_bounds_1d_error(self):
+    def test_lat_bounds_1d_error(self):  # noqa: D102
         self._assert_error_on_malformed_bounds([0, 10], [[0, 10]])
 
-    def test_lon_bounds_1d_error(self):
+    def test_lon_bounds_1d_error(self):  # noqa: D102
         self._assert_error_on_malformed_bounds([[0, 10]], [0, 10])
 
-    def test_too_many_lat_bounds_error(self):
+    def test_too_many_lat_bounds_error(self):  # noqa: D102
         self._assert_error_on_malformed_bounds([[0, 10, 20]], [[0, 10]])
 
-    def test_too_many_lon_bounds_error(self):
+    def test_too_many_lon_bounds_error(self):  # noqa: D102
         self._assert_error_on_malformed_bounds([[0, 10]], [[0, 10, 20]])
 
     def _assert_error_on_malformed_bounds(self, lat_bnds, lon_bnds):

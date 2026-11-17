@@ -67,7 +67,7 @@ class TestCoordAttributes(MockerMixin):
         )
         return cf, cf_var
 
-    def test_flag_pass_thru(self):
+    def test_flag_pass_thru(self):  # noqa: D102
         items = [
             ("masks", "flag_masks", self.flag_masks),
             ("meanings", "flag_meanings", self.flag_meanings),
@@ -84,7 +84,7 @@ class TestCoordAttributes(MockerMixin):
             assert list(coord.attributes.keys()) == [attr]
             assert list(coord.attributes.values()) == [value]
 
-    def test_flag_pass_thru_multi(self):
+    def test_flag_pass_thru_multi(self):  # noqa: D102
         names = ["masks", "meanings", "values"]
         attrs = [
             [("flag_masks", self.flag_masks), ("wibble", "wibble")],
@@ -113,7 +113,7 @@ class TestCoordAttributes(MockerMixin):
             attributes = cube.coord(name).attributes
             assert set(attributes.items()) == set(expect)
 
-    def test_load_problems(self):
+    def test_load_problems(self):  # noqa: D102
         key_and_val = (NoStr(), "wibble")
 
         cf, cf_var = self._make(["foo"], [[key_and_val]])
@@ -161,7 +161,7 @@ class TestCubeAttributes(MockerMixin):
         )
         return cf_var
 
-    def test_flag_pass_thru(self):
+    def test_flag_pass_thru(self):  # noqa: D102
         attrs = [
             ("flag_masks", self.flag_masks),
             ("flag_meanings", self.flag_meanings),
@@ -174,7 +174,7 @@ class TestCubeAttributes(MockerMixin):
             assert list(cube.attributes.keys()) == [key]
             assert list(cube.attributes.values()) == [value]
 
-    def test_flag_pass_thru_multi(self):
+    def test_flag_pass_thru_multi(self):  # noqa: D102
         attrs = [
             ("flag_masks", self.flag_masks),
             ("wibble", "wobble"),
@@ -195,7 +195,7 @@ class TestCubeAttributes(MockerMixin):
         assert len(cube.attributes) == len(expected)
         assert set(cube.attributes.items()) == expected
 
-    def test_load_problems(self):
+    def test_load_problems(self):  # noqa: D102
         key_and_val = (NoStr(), "wibble")
 
         cf_var = self._make([key_and_val])

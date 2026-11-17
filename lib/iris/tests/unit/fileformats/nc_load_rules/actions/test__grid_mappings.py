@@ -351,7 +351,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
     """Test  grid mapping."""
     # Various testcases for translation of grid-mappings
 
-    def test_basic_latlon(self):
+    def test_basic_latlon(self):  # noqa: D102
         # A basic reference example with a lat-long grid.
         #
         # Rules Triggered:
@@ -368,7 +368,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         result = self.run_testcase()
         self.check_result(result)
 
-    def test_missing_latlon_radius(self):
+    def test_missing_latlon_radius(self):  # noqa: D102
         # Lat-long with a missing earth-radius causes an error.
         # One of very few cases where activation may encounter an error.
         # N.B. doesn't really test rules-activation, but maybe worth doing.
@@ -379,7 +379,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True, load_problems_regex="No ellipsoid")
 
-    def test_bad_gridmapping_nameproperty(self):
+    def test_bad_gridmapping_nameproperty(self):  # noqa: D102
         # Fix the 'grid' var so it does not register as a grid-mapping.
         # Rules Triggered:
         #     001 : fc_default
@@ -402,7 +402,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
             load_problems_regex="no grid-mapping attr",
         )
 
-    def test_latlon_bad_gridmapping_varname(self):
+    def test_latlon_bad_gridmapping_varname(self):  # noqa: D102
         # rename the grid-mapping variable so it is effectively 'missing'
         # (I.E. the var named in "data-variable:grid_mapping" does not exist).
         # Rules Triggered:
@@ -417,7 +417,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         result = self.run_testcase(warning_regex=warning, gridmapvar_name="grid_2")
         self.check_result(result, cube_no_cs=True)
 
-    def test_latlon_bad_latlon_unit(self):
+    def test_latlon_bad_latlon_unit(self):  # noqa: D102
         # Check with bad latitude units : 'degrees' in place of 'degrees_north'.
         #
         # Rules Triggered:
@@ -441,7 +441,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         result = self.run_testcase(latitude_units="degrees")
         self.check_result(result, yco_no_cs=True)
 
-    def test_mapping_rotated(self):
+    def test_mapping_rotated(self):  # noqa: D102
         # Test with rotated-latlon grid-mapping
         # Distinct from both regular-latlon and non-latlon cases, as the
         # coordinate standard names and units are different.
@@ -481,47 +481,47 @@ class Test__grid_mapping(Mixin__grid_mapping):
     #     * grid-mapping identified : <XXX>
     #     * dim-coords identified : projection_<x,y>_coordinate
     #     * coords built : projection_<x,y>_coordinate, with coord-system
-    def test_mapping_albers(self):
+    def test_mapping_albers(self):  # noqa: D102
         result = self.run_testcase(mapping_type_name=hh.CF_GRID_MAPPING_ALBERS)
         self.check_result(result, cube_cstype=ics.AlbersEqualArea)
 
-    def test_mapping_geostationary(self):
+    def test_mapping_geostationary(self):  # noqa: D102
         result = self.run_testcase(mapping_type_name=hh.CF_GRID_MAPPING_GEOSTATIONARY)
         self.check_result(result, cube_cstype=ics.Geostationary)
 
-    def test_mapping_lambert_azimuthal(self):
+    def test_mapping_lambert_azimuthal(self):  # noqa: D102
         result = self.run_testcase(
             mapping_type_name=hh.CF_GRID_MAPPING_LAMBERT_AZIMUTHAL
         )
         self.check_result(result, cube_cstype=ics.LambertAzimuthalEqualArea)
 
-    def test_mapping_lambert_conformal(self):
+    def test_mapping_lambert_conformal(self):  # noqa: D102
         result = self.run_testcase(
             mapping_type_name=hh.CF_GRID_MAPPING_LAMBERT_CONFORMAL
         )
         self.check_result(result, cube_cstype=ics.LambertConformal)
 
-    def test_mapping_mercator(self):
+    def test_mapping_mercator(self):  # noqa: D102
         result = self.run_testcase(mapping_type_name=hh.CF_GRID_MAPPING_MERCATOR)
         self.check_result(result, cube_cstype=ics.Mercator)
 
-    def test_mapping_stereographic(self):
+    def test_mapping_stereographic(self):  # noqa: D102
         result = self.run_testcase(mapping_type_name=hh.CF_GRID_MAPPING_STEREO)
         self.check_result(result, cube_cstype=ics.Stereographic)
 
-    def test_mapping_polar_stereographic(self):
+    def test_mapping_polar_stereographic(self):  # noqa: D102
         result = self.run_testcase(mapping_type_name=hh.CF_GRID_MAPPING_POLAR)
         self.check_result(result, cube_cstype=ics.PolarStereographic)
 
-    def test_mapping_transverse_mercator(self):
+    def test_mapping_transverse_mercator(self):  # noqa: D102
         result = self.run_testcase(mapping_type_name=hh.CF_GRID_MAPPING_TRANSVERSE)
         self.check_result(result, cube_cstype=ics.TransverseMercator)
 
-    def test_mapping_vertical_perspective(self):
+    def test_mapping_vertical_perspective(self):  # noqa: D102
         result = self.run_testcase(mapping_type_name=hh.CF_GRID_MAPPING_VERTICAL)
         self.check_result(result, cube_cstype=ics.VerticalPerspective)
 
-    def test_mapping_unsupported(self):
+    def test_mapping_unsupported(self):  # noqa: D102
         # Use azimuthal, which is a real thing but we don't yet support it.
         #
         # Rules Triggered:
@@ -539,7 +539,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True, cube_no_xycoords=True)
 
-    def test_mapping_undefined(self):
+    def test_mapping_undefined(self):  # noqa: D102
         # Use a random, unknown "mapping type".
         #
         # Rules Triggered:
@@ -580,7 +580,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
     # At present, we _only_ warn when an expected grid-mapping is absent.
     #
 
-    def test_mapping__mismatch__latlon_coords_rotated_system(self):
+    def test_mapping__mismatch__latlon_coords_rotated_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_provides_grid_mapping_(rotated_latitude_longitude)
@@ -600,7 +600,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True, cube_no_xycoords=True)
 
-    def test_mapping__mismatch__latlon_coords_nonll_system(self):
+    def test_mapping__mismatch__latlon_coords_nonll_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_provides_grid_mapping_(albers_conical_equal_area)
@@ -619,7 +619,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True)
 
-    def test_mapping__mismatch__latlon_coords_missing_system(self):
+    def test_mapping__mismatch__latlon_coords_missing_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_provides_coordinate_(latitude)
@@ -639,7 +639,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True)
 
-    def test_mapping__mismatch__rotated_coords_latlon_system(self):
+    def test_mapping__mismatch__rotated_coords_latlon_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_provides_grid_mapping_(latitude_longitude)
@@ -658,7 +658,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True, cube_no_xycoords=True)
 
-    def test_mapping__mismatch__rotated_coords_nonll_system(self):
+    def test_mapping__mismatch__rotated_coords_nonll_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_provides_grid_mapping_(albers_conical_equal_area)
@@ -677,7 +677,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True)
 
-    def test_mapping__mismatch__rotated_coords_missing_system(self):
+    def test_mapping__mismatch__rotated_coords_missing_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_provides_coordinate_(rotated_latitude)
@@ -697,7 +697,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True)
 
-    def test_mapping__mismatch__nonll_coords_latlon_system(self):
+    def test_mapping__mismatch__nonll_coords_latlon_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_provides_grid_mapping_(latitude_longitude)
@@ -716,7 +716,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True, xco_stdname=False, yco_stdname=False)
 
-    def test_mapping__mismatch__nonll_coords_rotated_system(self):
+    def test_mapping__mismatch__nonll_coords_rotated_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_provides_grid_mapping_(rotated_latitude_longitude)
@@ -735,7 +735,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True, xco_stdname=False, yco_stdname=False)
 
-    def test_mapping__mismatch__nonll_coords_missing_system(self):
+    def test_mapping__mismatch__nonll_coords_missing_system(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_default_coordinate_(provide-phase)
@@ -755,7 +755,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         )
         self.check_result(result, cube_no_cs=True, xco_stdname=False, yco_stdname=False)
 
-    def test_extended_mapping_basic_latlon(self):
+    def test_extended_mapping_basic_latlon(self):  # noqa: D102
         # A basic reference example with a lat-long grid, but using extended
         # grid mapping syntax on phenomenon.
         #
@@ -773,7 +773,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
         result = self.run_testcase(phenom_grid_mapping="grid: yco xco")
         self.check_result(result)
 
-    def test_extended_mapping_basic_latlon_missing_coords(self):
+    def test_extended_mapping_basic_latlon_missing_coords(self):  # noqa: D102
         # A basic reference example with a lat-long grid, but using extended
         # grid mapping syntax on phenomenon.
         #
@@ -799,7 +799,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
     """Test  aux latlons."""
     # Testcases for translating auxiliary latitude+longitude variables
 
-    def test_aux_lon(self):
+    def test_aux_lon(self):  # noqa: D102
         # Change the name of xdim, and put xco on the coords list.
         #
         # Rules Triggered:
@@ -811,7 +811,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
         result = self.run_testcase(xco_is_dim=False)
         self.check_result(result, xco_is_aux=True, xco_no_cs=True)
 
-    def test_aux_lat(self):
+    def test_aux_lat(self):  # noqa: D102
         # As previous, but with the Y coord.
         #
         # Rules Triggered:
@@ -823,7 +823,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
         result = self.run_testcase(yco_is_dim=False)
         self.check_result(result, yco_is_aux=True, yco_no_cs=True)
 
-    def test_aux_lat_and_lon(self):
+    def test_aux_lat_and_lon(self):  # noqa: D102
         # Make *both* X and Y coords into aux-coords.
         #
         # Rules Triggered:
@@ -837,7 +837,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
         result = self.run_testcase(xco_is_dim=False, yco_is_dim=False)
         self.check_result(result, xco_is_aux=True, yco_is_aux=True, cube_no_cs=True)
 
-    def test_aux_lon_rotated(self):
+    def test_aux_lon_rotated(self):  # noqa: D102
         # Rotated-style lat + lon coords, X is an aux-coord.
         #
         # Rules Triggered:
@@ -854,7 +854,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
         )
         self.check_result(result, xco_is_aux=True, xco_no_cs=True)
 
-    def test_aux_lat_rotated(self):
+    def test_aux_lat_rotated(self):  # noqa: D102
         # Rotated-style lat + lon coords, Y is an aux-coord.
         #
         # Rules Triggered:
@@ -871,7 +871,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
         )
         self.check_result(result, yco_is_aux=True, yco_no_cs=True)
 
-    def test_extended_grid_mapping_aux_lon(self):
+    def test_extended_grid_mapping_aux_lon(self):  # noqa: D102
         # Change the name of xdim, and put xco on the coords list.
         # Uses extended grid mapping syntax.
         # In this case, the Aux coord WILL have a coordinate system
@@ -889,7 +889,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
         )
         self.check_result(result, xco_is_aux=True, xco_no_cs=False)
 
-    def test_extended_grid_mapping_aux_lat(self):
+    def test_extended_grid_mapping_aux_lat(self):  # noqa: D102
         # As previous, but with the Y coord.
         # Uses extended grid mapping syntax
         #
@@ -904,7 +904,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
         )
         self.check_result(result, yco_is_aux=True, yco_no_cs=False)
 
-    def test_extended_grid_mapping_aux_lat_and_lon(self):
+    def test_extended_grid_mapping_aux_lat_and_lon(self):  # noqa: D102
         # Make *both* X and Y coords into aux-coords.
         # Uses extended grid mapping syntax; allows coord_system
         # to be added to an AuxCoord, so cube.coord_system() returns
@@ -923,7 +923,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
 
 class Test__nondimcoords(Mixin__grid_mapping):
     """Test  nondimcoords."""
-    def test_nondim_lats(self):
+    def test_nondim_lats(self):  # noqa: D102
         # Fix a coord's values so it cannot be a dim-coord.
         #
         # Rules Triggered:

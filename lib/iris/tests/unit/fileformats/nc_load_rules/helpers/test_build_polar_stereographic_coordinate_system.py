@@ -17,7 +17,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import CFVariableStandIn
 
 class TestBuildPolarStereographicCoordinateSystem:
     """Test uildPolarStereographicCoordinateSystem."""
-    def test_valid_north(self, mocker):
+    def test_valid_north(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
             latitude_of_projection_origin=90,
@@ -40,7 +40,7 @@ class TestBuildPolarStereographicCoordinateSystem:
         )
         assert cs == expected
 
-    def test_valid_south(self, mocker):
+    def test_valid_south(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
             latitude_of_projection_origin=-90,
@@ -63,7 +63,7 @@ class TestBuildPolarStereographicCoordinateSystem:
         )
         assert cs == expected
 
-    def test_valid_with_standard_parallel(self, mocker):
+    def test_valid_with_standard_parallel(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
             latitude_of_projection_origin=90,
@@ -84,7 +84,7 @@ class TestBuildPolarStereographicCoordinateSystem:
         )
         assert cs == expected
 
-    def test_valid_with_false_easting_northing(self, mocker):
+    def test_valid_with_false_easting_northing(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
             latitude_of_projection_origin=90,
@@ -111,7 +111,7 @@ class TestBuildPolarStereographicCoordinateSystem:
         )
         assert cs == expected
 
-    def test_valid_nonzero_veritcal_lon(self, mocker):
+    def test_valid_nonzero_veritcal_lon(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=30,
             latitude_of_projection_origin=90,

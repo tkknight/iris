@@ -34,11 +34,11 @@ class Test_add_hour:
         self.cube = cube
         self.time_coord = time_coord
 
-    def test_bad_coord(self):
+    def test_bad_coord(self):  # noqa: D102
         with pytest.raises(iris.exceptions.CoordinateNotFoundError):
             ccat.add_hour(self.cube, "DOES NOT EXIST", name="my_hour")
 
-    def test_explicit_result_name_specify_coord_by_name(self):
+    def test_explicit_result_name_specify_coord_by_name(self):  # noqa: D102
         coord_name = "my_hour"
         msg = "Missing/incorrectly named result for add_hour"
 
@@ -48,7 +48,7 @@ class Test_add_hour:
         result_coords = cube.coords(coord_name)
         assert len(result_coords) == 1, msg
 
-    def test_explicit_result_name_specify_coord_by_reference(self):
+    def test_explicit_result_name_specify_coord_by_reference(self):  # noqa: D102
         coord_name = "my_hour"
         msg = "Missing/incorrectly named result for add_hour"
 
@@ -59,7 +59,7 @@ class Test_add_hour:
         result_coords = cube.coords(coord_name)
         assert len(result_coords) == 1, msg
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         coord_name = "my_hour"
         cube = self.cube
         time_coord = self.time_coord

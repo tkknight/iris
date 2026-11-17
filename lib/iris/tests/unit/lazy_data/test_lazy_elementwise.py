@@ -17,14 +17,14 @@ def _test_elementwise_op(array):
 
 class Test_lazy_elementwise:
     """Test lazy elementwise."""
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         concrete_array = np.arange(30).reshape((2, 5, 3))
         lazy_array = as_lazy_data(concrete_array)
         wrapped = lazy_elementwise(lazy_array, _test_elementwise_op)
         assert is_lazy_data(wrapped)
         assert_array_all_close(wrapped.compute(), _test_elementwise_op(concrete_array))
 
-    def test_dtype_same(self):
+    def test_dtype_same(self):  # noqa: D102
         concrete_array = np.array([3.0], dtype=np.float16)
         lazy_array = as_lazy_data(concrete_array)
         wrapped = lazy_elementwise(lazy_array, _test_elementwise_op)
@@ -32,7 +32,7 @@ class Test_lazy_elementwise:
         assert wrapped.dtype == np.float16
         assert wrapped.compute().dtype == np.float16
 
-    def test_dtype_change(self):
+    def test_dtype_change(self):  # noqa: D102
         concrete_array = np.array([True, False])
         lazy_array = as_lazy_data(concrete_array)
         wrapped = lazy_elementwise(lazy_array, _test_elementwise_op)
@@ -40,7 +40,7 @@ class Test_lazy_elementwise:
         assert wrapped.dtype == np.int_
         assert wrapped.compute().dtype == wrapped.dtype
 
-    def test_scalar_returning_op_on_0d(self):
+    def test_scalar_returning_op_on_0d(self):  # noqa: D102
         # An op that returns a Python scalar for a 0-d block (e.g.
         # cf_units.Unit.convert on a scalar array) must still yield an array,
         # so that the result can be stored by Dask (#6965).

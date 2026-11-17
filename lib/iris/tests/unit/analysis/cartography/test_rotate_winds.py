@@ -69,7 +69,7 @@ def uv_cubes_3d(ref_cube, n_realization=3):
 
 class TestPrerequisites:
     """Test rerequisites."""
-    def test_different_coord_systems(self):
+    def test_different_coord_systems(self):  # noqa: D102
         u, v = uv_cubes()
         v.coord("grid_latitude").coord_system = iris.coord_systems.GeogCS(1)
         with pytest.raises(
@@ -77,7 +77,7 @@ class TestPrerequisites:
         ):
             rotate_winds(u, v, iris.coord_systems.OSGB())
 
-    def test_different_xy_coord_systems(self):
+    def test_different_xy_coord_systems(self):  # noqa: D102
         u, v = uv_cubes()
         u.coord("grid_latitude").coord_system = iris.coord_systems.GeogCS(1)
         v.coord("grid_latitude").coord_system = iris.coord_systems.GeogCS(1)
@@ -86,7 +86,7 @@ class TestPrerequisites:
         ):
             rotate_winds(u, v, iris.coord_systems.OSGB())
 
-    def test_different_shape(self):
+    def test_different_shape(self):  # noqa: D102
         x = np.linspace(311.9, 391.1, 6)
         y = np.linspace(-23.6, 24.8, 5)
         u, _ = uv_cubes(x, y)
@@ -94,7 +94,7 @@ class TestPrerequisites:
         with pytest.raises(ValueError, match="same shape"):
             rotate_winds(u, v, iris.coord_systems.OSGB())
 
-    def test_xy_dimensionality(self):
+    def test_xy_dimensionality(self):  # noqa: D102
         u, v = uv_cubes()
         # Replace 1d lat with 2d lat.
         x = u.coord("grid_longitude").points
@@ -116,7 +116,7 @@ class TestPrerequisites:
         ):
             rotate_winds(u, v, iris.coord_systems.OSGB())
 
-    def test_dim_mapping(self):
+    def test_dim_mapping(self):  # noqa: D102
         x = np.linspace(311.9, 391.1, 3)
         y = np.linspace(-23.6, 24.8, 3)
         u, v = uv_cubes(x, y)
@@ -186,13 +186,13 @@ class TestAnalyticComparison:
         _shared_utils.assert_array_all_close(u_true.data, u_ref, **kwds)
         _shared_utils.assert_array_all_close(v_true.data, v_ref, **kwds)
 
-    def test_rotated_to_true__small(self):
+    def test_rotated_to_true__small(self):  # noqa: D102
         # Check for a small field with varying data.
         target_cs = iris.coord_systems.GeogCS(6371229)
         u_rot, v_rot = uv_cubes()
         self._check_rotated_to_true(u_rot, v_rot, target_cs, rtol=1e-5, atol=0.0005)
 
-    def test_rotated_to_true_global(self):
+    def test_rotated_to_true_global(self):  # noqa: D102
         # Check for global fields with various constant wind values
         # - constant in the rotated pole system, that is.
         # We expect less accuracy where this gets close to the true poles.
@@ -225,7 +225,7 @@ class TestRotatedToOSGB:
         y = np.linspace(self._rp_y_min, self._rp_y_max, 5)
         return uv_cubes(x=x, y=y)
 
-    def test_name(self):
+    def test_name(self):  # noqa: D102
         u, v = self._uv_cubes_limited_extent()
         u.rename("bob")
         v.rename("alice")
@@ -233,7 +233,7 @@ class TestRotatedToOSGB:
         assert ut.name() == "transformed_" + u.name()
         assert vt.name() == "transformed_" + v.name()
 
-    def test_new_coords(self):
+    def test_new_coords(self):  # noqa: D102
         u, v = self._uv_cubes_limited_extent()
         x = u.coord("grid_longitude").points
         y = u.coord("grid_latitude").points
@@ -264,7 +264,7 @@ class TestRotatedToOSGB:
         assert ut.coord("projection_y_coordinate") == expected_y
         assert vt.coord("projection_y_coordinate") == expected_y
 
-    def test_new_coords_transposed(self):
+    def test_new_coords_transposed(self):  # noqa: D102
         u, v = self._uv_cubes_limited_extent()
         # Transpose cubes so that cube is in xy order rather than the
         # typical yx order of meshgrid.
@@ -305,7 +305,7 @@ class TestRotatedToOSGB:
         assert vt.coord_dims("projection_x_coordinate") == expected_dims
         assert vt.coord_dims("projection_y_coordinate") == expected_dims
 
-    def test_orig_coords(self):
+    def test_orig_coords(self):  # noqa: D102
         u, v = self._uv_cubes_limited_extent()
         ut, vt = rotate_winds(u, v, iris.coord_systems.OSGB())
         assert u.coord("grid_latitude") == ut.coord("grid_latitude")
@@ -313,14 +313,14 @@ class TestRotatedToOSGB:
         assert u.coord("grid_longitude") == ut.coord("grid_longitude")
         assert v.coord("grid_longitude") == vt.coord("grid_longitude")
 
-    def test_magnitude_preservation(self):
+    def test_magnitude_preservation(self):  # noqa: D102
         u, v = self._uv_cubes_limited_extent()
         ut, vt = rotate_winds(u, v, iris.coord_systems.OSGB())
         orig_sq_mag = u.data**2 + v.data**2
         res_sq_mag = ut.data**2 + vt.data**2
         _shared_utils.assert_array_all_close(orig_sq_mag, res_sq_mag, rtol=5e-4)
 
-    def test_data_values(self):
+    def test_data_values(self):  # noqa: D102
         u, v = self._uv_cubes_limited_extent()
         # Slice out 4 points that lie in and outside OSGB extent.
         u = u[1:3, 3:5]
@@ -337,7 +337,7 @@ class TestRotatedToOSGB:
         _shared_utils.assert_array_all_close(ut.data, expected_ut_data, rtol=1e-5)
         _shared_utils.assert_array_all_close(vt.data, expected_vt_data, rtol=1e-5)
 
-    def test_nd_data(self):
+    def test_nd_data(self):  # noqa: D102
         u2d, y2d = self._uv_cubes_limited_extent()
         u, v = uv_cubes_3d(u2d)
         u = u[:, 1:3, 3:5]
@@ -358,7 +358,7 @@ class TestRotatedToOSGB:
         _shared_utils.assert_array_almost_equal(ut.data, expected_ut_data)
         _shared_utils.assert_array_almost_equal(vt.data, expected_vt_data)
 
-    def test_transposed(self):
+    def test_transposed(self):  # noqa: D102
         # Test case where the coordinates are not ordered yx in the cube.
         u, v = self._uv_cubes_limited_extent()
         # Slice out 4 points that lie in and outside OSGB extent.
@@ -382,7 +382,7 @@ class TestRotatedToOSGB:
 
 class TestMasking:
     """Test asking."""
-    def test_rotated_to_osgb(self):
+    def test_rotated_to_osgb(self):  # noqa: D102
         # Rotated Pole data with large extent.
         # A 'correct' answer is not known for this test; it is therefore
         #  written as a 'benchmark' style test - a change in behaviour will
@@ -423,7 +423,7 @@ class TestMasking:
         anom = 100.0 * np.abs(res_mag - expected_mag) / expected_mag
         assert anom[~ut.data.mask].max() == pytest.approx(0.3227935)
 
-    def test_rotated_to_unrotated(self):
+    def test_rotated_to_unrotated(self):  # noqa: D102
         # Sufficiently accurate so that no mask is introduced.
         u, v = uv_cubes()
         ut, vt = rotate_winds(u, v, iris.coord_systems.GeogCS(6371229))
@@ -433,7 +433,7 @@ class TestMasking:
 
 class TestRoundTrip:
     """Test oundTrip."""
-    def test_rotated_to_unrotated(self):
+    def test_rotated_to_unrotated(self):  # noqa: D102
         # Check ability to use 2d coords as input.
         u, v = uv_cubes()
         ut, vt = rotate_winds(u, v, iris.coord_systems.GeogCS(6371229))
@@ -466,7 +466,7 @@ class TestRoundTrip:
 
 class TestNonEarthPlanet:
     """Test onEarthPlanet."""
-    def test_non_earth_semimajor_axis(self):
+    def test_non_earth_semimajor_axis(self):  # noqa: D102
         u, v = uv_cubes()
         u.coord("grid_latitude").coord_system = iris.coord_systems.GeogCS(123)
         u.coord("grid_longitude").coord_system = iris.coord_systems.GeogCS(123)
@@ -529,8 +529,8 @@ class TestLazyRotateWinds:
         _shared_utils.assert_array_all_close(u.data, u_lazy.data, rtol=1e-5)
         _shared_utils.assert_array_all_close(v.data, v_lazy.data, rtol=1e-5)
 
-    def test_lazy_rotate_winds_masked(self):
+    def test_lazy_rotate_winds_masked(self):  # noqa: D102
         self._compare_lazy_rotate_winds(True)
 
-    def test_lazy_rotate_winds_notmasked(self):
+    def test_lazy_rotate_winds_notmasked(self):  # noqa: D102
         self._compare_lazy_rotate_winds(False)

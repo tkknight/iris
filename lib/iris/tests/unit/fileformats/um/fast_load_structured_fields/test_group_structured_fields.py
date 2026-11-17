@@ -62,49 +62,49 @@ class Test__grouping(MockerMixin):
             result = type(item)(self._test_fields(el) for el in item)
         return result
 
-    def test_none(self):
+    def test_none(self):  # noqa: D102
         null_iter = (x for x in [])
         result = self._group_result(null_iter)
         assert result == []
 
-    def test_one(self):
+    def test_one(self):  # noqa: D102
         fields_iter = self._dummy_fields_iter(stashes=[1])
         result = self._group_result(fields_iter)
         assert result == self._test_fields([(1001,)])
 
-    def test_allsame(self):
+    def test_allsame(self):  # noqa: D102
         fields_iter = self._dummy_fields_iter(stashes=[1, 1, 1])
         result = self._group_result(fields_iter)
         assert result == self._test_fields([(1001, 1002, 1003)])
 
-    def test_stashes_different(self):
+    def test_stashes_different(self):  # noqa: D102
         fields_iter = self._dummy_fields_iter(stashes=[1, 1, 22, 1, 22, 333])
         result = self._group_result(fields_iter)
         assert result == self._test_fields([(1001, 1002, 1004), (1003, 1005), (1006,)])
 
-    def test_models_different(self):
+    def test_models_different(self):  # noqa: D102
         fields_iter = self._dummy_fields_iter(models=[10, 21, 10])
         result = self._group_result(fields_iter)
         assert result == self._test_fields([(1001, 1003), (1002,)])
 
-    def test_lbprocs_different(self):
+    def test_lbprocs_different(self):  # noqa: D102
         fields_iter = self._dummy_fields_iter(lbprocs=[991, 995, 991])
         result = self._group_result(fields_iter)
         assert result == self._test_fields([(1001, 1003), (1002,)])
 
-    def test_2d_combines(self):
+    def test_2d_combines(self):  # noqa: D102
         fields_iter = self._dummy_fields_iter(
             stashes=[11, 11, 15, 11], lbprocs=[31, 42, 31, 42]
         )
         result = self._group_result(fields_iter)
         assert result == self._test_fields([(1001,), (1002, 1004), (1003,)])
 
-    def test_sortorder(self):
+    def test_sortorder(self):  # noqa: D102
         fields_iter = self._dummy_fields_iter(stashes=[11, 7, 12])
         result = self._group_result(fields_iter)
         assert result == self._test_fields([(1002,), (1001,), (1003,)])
 
-    def test_sortorder_2d(self):
+    def test_sortorder_2d(self):  # noqa: D102
         fields_iter = self._dummy_fields_iter(stashes=[11, 11, 12], lbprocs=[31, 9, 1])
         result = self._group_result(fields_iter)
         assert result == self._test_fields([(1002,), (1001,), (1003,)])

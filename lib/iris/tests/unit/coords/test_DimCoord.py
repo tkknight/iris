@@ -30,7 +30,7 @@ DATETIME_CALENDARS = ["standard", "gregorian", "proleptic_gregorian"]
 class DimCoordTestMixin(CoordTestMixin):
     """DimCoordTestMixin."""
     # Define a 1-D default array shape.
-    def setup_test_arrays(self, shape=(3,), masked=False):
+    def setup_test_arrays(self, shape=(3,), masked=False):  # noqa: D102
         super().setup_test_arrays(shape, masked=masked)
 
 
@@ -42,7 +42,7 @@ class Test__init__(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays(masked=True)
 
-    def test_lazyness_and_dtype_combinations(self):
+    def test_lazyness_and_dtype_combinations(self):  # noqa: D102
         for (
             coord,
             points_type_name,
@@ -73,7 +73,7 @@ class Test__init__(DimCoordTestMixin):
                 check_bds = self.bds_real.astype(coord.bounds_dtype)
                 self.assert_equal_real_arrays_and_dtypes(bds, check_bds)
 
-    def test_fail_bounds_shape_mismatch(self):
+    def test_fail_bounds_shape_mismatch(self):  # noqa: D102
         bds_shape = list(self.bds_real.shape)
         bds_shape[0] += 1
         bds_wrong = np.zeros(bds_shape)
@@ -81,12 +81,12 @@ class Test__init__(DimCoordTestMixin):
         with pytest.raises(ValueError, match=msg):
             DimCoord(self.pts_real, bounds=bds_wrong)
 
-    def test_fail_nonmonotonic(self):
+    def test_fail_nonmonotonic(self):  # noqa: D102
         msg = "must be strictly monotonic"
         with pytest.raises(MonotonicityError, match=msg):
             DimCoord([1, 2, 0, 3])
 
-    def test_no_masked_pts_real(self):
+    def test_no_masked_pts_real(self):  # noqa: D102
         data = self.no_masked_pts_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data) == 0
@@ -95,7 +95,7 @@ class Test__init__(DimCoordTestMixin):
         assert not ma.isMaskedArray(coord.points)
         assert ma.count_masked(coord.points) == 0
 
-    def test_no_masked_pts_lazy(self):
+    def test_no_masked_pts_lazy(self):  # noqa: D102
         data = self.no_masked_pts_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -105,7 +105,7 @@ class Test__init__(DimCoordTestMixin):
         assert not coord.has_lazy_points()
         assert not ma.isMaskedArray(coord.points)
 
-    def test_masked_pts_real(self):
+    def test_masked_pts_real(self):  # noqa: D102
         data = self.masked_pts_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data)
@@ -113,7 +113,7 @@ class Test__init__(DimCoordTestMixin):
         with pytest.raises(TypeError, match=emsg):
             DimCoord(data)
 
-    def test_masked_pts_lazy(self):
+    def test_masked_pts_lazy(self):  # noqa: D102
         data = self.masked_pts_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -122,7 +122,7 @@ class Test__init__(DimCoordTestMixin):
         with pytest.raises(TypeError, match=emsg):
             DimCoord(data)
 
-    def test_no_masked_bds_real(self):
+    def test_no_masked_bds_real(self):  # noqa: D102
         data = self.no_masked_bds_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data) == 0
@@ -131,7 +131,7 @@ class Test__init__(DimCoordTestMixin):
         assert not ma.isMaskedArray(coord.bounds)
         assert ma.count_masked(coord.bounds) == 0
 
-    def test_no_masked_bds_lazy(self):
+    def test_no_masked_bds_lazy(self):  # noqa: D102
         data = self.no_masked_bds_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -141,7 +141,7 @@ class Test__init__(DimCoordTestMixin):
         assert not coord.has_lazy_bounds()
         assert not ma.isMaskedArray(coord.bounds)
 
-    def test_masked_bds_real(self):
+    def test_masked_bds_real(self):  # noqa: D102
         data = self.masked_bds_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data)
@@ -149,7 +149,7 @@ class Test__init__(DimCoordTestMixin):
         with pytest.raises(TypeError, match=emsg):
             DimCoord(self.pts_real, bounds=data)
 
-    def test_masked_bds_lazy(self):
+    def test_masked_bds_lazy(self):  # noqa: D102
         data = self.masked_bds_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -166,7 +166,7 @@ class Test_core_points(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_points(self):
+    def test_real_points(self):  # noqa: D102
         data = self.pts_real
         coord = DimCoord(data)
         result = coord.core_points()
@@ -176,7 +176,7 @@ class Test_core_points(DimCoordTestMixin):
             "core_points() are the same data as the internal array.",
         )
 
-    def test_lazy_points(self):
+    def test_lazy_points(self):  # noqa: D102
         lazy_data = self.pts_lazy
         coord = DimCoord(lazy_data)
         result = coord.core_points()
@@ -190,12 +190,12 @@ class Test_core_bounds(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_no_bounds(self):
+    def test_no_bounds(self):  # noqa: D102
         coord = DimCoord(self.pts_real)
         result = coord.core_bounds()
         assert result is None
 
-    def test_real_bounds(self):
+    def test_real_bounds(self):  # noqa: D102
         coord = DimCoord(self.pts_real, bounds=self.bds_real)
         result = coord.core_bounds()
         self.assert_arrays_do_not_share_data(
@@ -204,7 +204,7 @@ class Test_core_bounds(DimCoordTestMixin):
             "core_bounds() are the same data as the internal array.",
         )
 
-    def test_lazy_bounds(self):
+    def test_lazy_bounds(self):  # noqa: D102
         coord = DimCoord(self.pts_real, bounds=self.bds_lazy)
         result = coord.core_bounds()
         self.assert_equal_real_arrays_and_dtypes(result, self.bds_real)
@@ -216,12 +216,12 @@ class Test_lazy_points(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         coord = DimCoord(self.pts_real)
         result = coord.lazy_points()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.pts_lazy)
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         coord = DimCoord(self.pts_lazy)
         result = coord.lazy_points()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.pts_lazy)
@@ -234,17 +234,17 @@ class Test_lazy_bounds(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_no_bounds(self):
+    def test_no_bounds(self):  # noqa: D102
         coord = DimCoord(self.pts_real)
         result = coord.lazy_bounds()
         assert result is None
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         coord = DimCoord(self.pts_real, bounds=self.bds_real)
         result = coord.lazy_bounds()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.bds_lazy)
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         coord = DimCoord(self.pts_real, bounds=self.bds_lazy)
         result = coord.lazy_bounds()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.bds_lazy)
@@ -257,12 +257,12 @@ class Test_has_lazy_points(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         coord = DimCoord(self.pts_real)
         result = coord.has_lazy_points()
         assert not result
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         coord = DimCoord(self.pts_lazy)
         result = coord.has_lazy_points()
         assert not result
@@ -274,12 +274,12 @@ class Test_has_lazy_bounds(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         coord = DimCoord(self.pts_real, bounds=self.bds_real)
         result = coord.has_lazy_bounds()
         assert not result
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         coord = DimCoord(self.pts_real, bounds=self.bds_lazy)
         result = coord.has_lazy_bounds()
         assert not result
@@ -287,19 +287,19 @@ class Test_has_lazy_bounds(DimCoordTestMixin):
 
 class Test_bounds_dtype:
     """Test bounds dtype."""
-    def test_i16(self):
+    def test_i16(self):  # noqa: D102
         test_dtype = np.int16
         coord = DimCoord([1], bounds=np.array([[0, 4]], dtype=test_dtype))
         result = coord.bounds_dtype
         assert result == test_dtype
 
-    def test_u16(self):
+    def test_u16(self):  # noqa: D102
         test_dtype = np.uint16
         coord = DimCoord([1], bounds=np.array([[0, 4]], dtype=test_dtype))
         result = coord.bounds_dtype
         assert result == test_dtype
 
-    def test_f16(self):
+    def test_f16(self):  # noqa: D102
         test_dtype = np.float16
         coord = DimCoord([1], bounds=np.array([[0, 4]], dtype=test_dtype))
         result = coord.bounds_dtype
@@ -313,7 +313,7 @@ class Test__getitem__(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_dtypes(self):
+    def test_dtypes(self):  # noqa: D102
         # Index coords with all combinations of real+lazy points+bounds, and
         # either an int or floating dtype.
         # Check that dtypes remain the same in all cases, taking the dtypes
@@ -352,7 +352,7 @@ class Test__getitem__(DimCoordTestMixin):
                     sub_bounds.dtype,
                 )
 
-    def test_lazyness(self):
+    def test_lazyness(self):  # noqa: D102
         # Index coords with all combinations of real+lazy points+bounds, and
         # either an int or floating dtype.
         # Check that lazy data stays lazy and real stays real, in all cases.
@@ -398,7 +398,7 @@ class Test__getitem__(DimCoordTestMixin):
                     sub_bounds_lazy,
                 )
 
-    def test_real_data_copies(self):
+    def test_real_data_copies(self):  # noqa: D102
         # Index coords with all combinations of real+lazy points+bounds.
         # In all cases, check that any real arrays are copied by the indexing.
         for (
@@ -442,7 +442,7 @@ class Test_copy(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_writable_points(self):
+    def test_writable_points(self):  # noqa: D102
         coord1 = DimCoord(np.arange(5), bounds=[[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]])
         coord2 = coord1.copy()
         msg = "destination is read-only"
@@ -459,7 +459,7 @@ class Test_copy(DimCoordTestMixin):
         with pytest.raises(ValueError, match=msg):
             coord2.bounds[:] = 0
 
-    def test_realdata_readonly(self):
+    def test_realdata_readonly(self):  # noqa: D102
         # Copy coords with all combinations of real+lazy points+bounds.
         # In all cases, check that data arrays are read-only.
         for (
@@ -486,7 +486,7 @@ class Test_points__getter(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_points(self):
+    def test_real_points(self):  # noqa: D102
         # Getting real points returns a copy
         coord = DimCoord(self.pts_real)
         result = coord.core_points()
@@ -503,7 +503,7 @@ class Test_points__setter(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_set_real(self):
+    def test_set_real(self):  # noqa: D102
         # Setting points copies the data
         coord = DimCoord(self.pts_real)
         new_pts = self.pts_real + 102.3
@@ -513,7 +513,7 @@ class Test_points__setter(DimCoordTestMixin):
             result, new_pts, "Points are the same data as the assigned array."
         )
 
-    def test_fail_bad_shape(self):
+    def test_fail_bad_shape(self):  # noqa: D102
         # Setting real points requires matching shape.
         points = [1.0, 2.0]
         coord = DimCoord(points)
@@ -522,7 +522,7 @@ class Test_points__setter(DimCoordTestMixin):
             coord.points = np.array([1.0, 2.0, 3.0])
         _shared_utils.assert_array_equal(coord.points, points)
 
-    def test_fail_not_monotonic(self):
+    def test_fail_not_monotonic(self):  # noqa: D102
         # Setting real points requires that they are monotonic.
         coord = DimCoord(self.pts_real, bounds=self.bds_real)
         msg = "strictly monotonic"
@@ -530,7 +530,7 @@ class Test_points__setter(DimCoordTestMixin):
             coord.points = np.array([3.0, 1.0, 2.0])
         _shared_utils.assert_array_equal(coord.points, self.pts_real)
 
-    def test_set_lazy(self):
+    def test_set_lazy(self):  # noqa: D102
         # Setting new lazy points realises them.
         coord = DimCoord(self.pts_real)
         new_pts = self.pts_lazy + 102.3
@@ -538,7 +538,7 @@ class Test_points__setter(DimCoordTestMixin):
         result = coord.core_points()
         self.assert_equal_real_arrays_and_dtypes(result, new_pts.compute())
 
-    def test_copy_array(self):
+    def test_copy_array(self):  # noqa: D102
         # Assigning points creates a copy
         pts = np.array([1, 2, 3])
         coord = DimCoord(pts)
@@ -552,7 +552,7 @@ class Test_bounds__getter(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_bounds(self):
+    def test_real_bounds(self):  # noqa: D102
         # Getting real bounds does not change or copy them.
         coord = DimCoord(self.pts_real, bounds=self.bds_real)
         result = coord.bounds
@@ -569,7 +569,7 @@ class Test_bounds__setter(DimCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_set_real(self):
+    def test_set_real(self):  # noqa: D102
         # Setting bounds does not copy, but makes a readonly view.
         coord = DimCoord(self.pts_real, bounds=self.bds_real)
         new_bounds = self.bds_real + 102.3
@@ -581,7 +581,7 @@ class Test_bounds__setter(DimCoordTestMixin):
             "Bounds are the same data as the assigned array.",
         )
 
-    def test_fail_bad_shape(self):
+    def test_fail_bad_shape(self):  # noqa: D102
         # Setting real points requires matching shape.
         coord = DimCoord(self.pts_real, bounds=self.bds_real)
         msg = "The shape of the 'unknown' DimCoord bounds array should be"
@@ -589,7 +589,7 @@ class Test_bounds__setter(DimCoordTestMixin):
             coord.bounds = np.array([1.0, 2.0, 3.0])
         _shared_utils.assert_array_equal(coord.bounds, self.bds_real)
 
-    def test_fail_not_monotonic(self):
+    def test_fail_not_monotonic(self):  # noqa: D102
         # Setting real bounds requires that they are monotonic.
         coord = DimCoord(self.pts_real, bounds=self.bds_real)
         msg = "strictly monotonic"
@@ -597,7 +597,7 @@ class Test_bounds__setter(DimCoordTestMixin):
             coord.bounds = np.array([[3.0, 2.0], [1.0, 0.0], [2.0, 1.0]])
         _shared_utils.assert_array_equal(coord.bounds, self.bds_real)
 
-    def test_set_lazy(self):
+    def test_set_lazy(self):  # noqa: D102
         # Setting new lazy bounds realises them.
         coord = DimCoord(self.pts_real, bounds=self.bds_lazy)
         new_bounds = self.bds_lazy + 102.3
@@ -605,7 +605,7 @@ class Test_bounds__setter(DimCoordTestMixin):
         result = coord.core_bounds()
         self.assert_equal_real_arrays_and_dtypes(result, new_bounds.compute())
 
-    def test_copy_array(self):
+    def test_copy_array(self):  # noqa: D102
         # Assigning bounds creates a copy
         pts = np.array([2, 4, 6])
         bnds = np.array([[1, 3], [3, 5], [5, 7]])
@@ -613,13 +613,13 @@ class Test_bounds__setter(DimCoordTestMixin):
         bnds[1, 1] = 10
         assert coord.bounds[1, 1] == 5
 
-    def test_flip_contiguous(self):
+    def test_flip_contiguous(self):  # noqa: D102
         pts = np.arange(4)
         bnds = np.transpose([np.arange(1, 5), np.arange(4)])
         coord = DimCoord(pts, bounds=bnds)
         _shared_utils.assert_array_equal(coord.bounds, bnds[:, ::-1])
 
-    def test_flip_contiguous_decreasing(self):
+    def test_flip_contiguous_decreasing(self):  # noqa: D102
         pts = np.arange(4, 0, -1)
         bnds = np.transpose([np.arange(4, 0, -1), np.arange(5, 1, -1)])
         coord = DimCoord(pts, bounds=bnds)

@@ -181,7 +181,7 @@ class IdentifyByAttributeMixin(ABC):
 
     # Common test methods (work for both single and multi-identity classes)
 
-    def test_one_ref(self):
+    def test_one_ref(self):  # noqa: D102
         subject_name = "ref_subject"
         ref_subject = self._make_subject(subject_name)
         ref_source = _NetCDFVar("ref_source")
@@ -196,7 +196,7 @@ class IdentifyByAttributeMixin(ABC):
         result = self.CF_CLASS.identify(vars_all)
         assert result == expected
 
-    def test_two_refs(self):
+    def test_two_refs(self):  # noqa: D102
         # Check that a single "source" var may refer to multiple "subject" vars.
         subject_names = ("ref_subject_1", "ref_subject_2")
         ref_subject_vars = {name: self._make_subject(name) for name in subject_names}
@@ -226,7 +226,7 @@ class IdentifyByAttributeMixin(ABC):
         result = self.CF_CLASS.identify(vars_all)
         assert result == expected
 
-    def test_duplicate_refs(self):
+    def test_duplicate_refs(self):  # noqa: D102
         subject_name = "ref_subject"
         ref_subject = self._make_subject(subject_name)
         ref_source_vars = {
@@ -244,7 +244,7 @@ class IdentifyByAttributeMixin(ABC):
         result = self.CF_CLASS.identify(vars_all)
         assert result == expected
 
-    def test_ignore(self):
+    def test_ignore(self):  # noqa: D102
         subject_names = ("ref_subject_1", "ref_subject_2")
         ref_subject_vars = {name: self._make_subject(name) for name in subject_names}
 
@@ -266,7 +266,7 @@ class IdentifyByAttributeMixin(ABC):
         result = self.CF_CLASS.identify(vars_all, ignore=subject_names[1])
         assert result == expected
 
-    def test_target(self):
+    def test_target(self):  # noqa: D102
         subject_names = ("ref_subject_1", "ref_subject_2")
         ref_subject_vars = {name: self._make_subject(name) for name in subject_names}
 
@@ -287,21 +287,21 @@ class IdentifyByAttributeMixin(ABC):
         result = self.CF_CLASS.identify(vars_all, target=source_names[0])
         assert result == expected
 
-    def test_target_unknown_raises(self):
+    def test_target_unknown_raises(self):  # noqa: D102
         vars_all = {"ref_source": _NetCDFVar("ref_source")}
 
         message = "Cannot identify unknown target CF-netCDF variable 'unknown'"
         with pytest.raises(ValueError, match=message):
             self.CF_CLASS.identify(vars_all, target="unknown")
 
-    def test_target_wrong_type_raises(self):
+    def test_target_wrong_type_raises(self):  # noqa: D102
         vars_all = {"ref_source": _NetCDFVar("ref_source")}
 
         message = "Expect a target CF-netCDF variable name"
         with pytest.raises(TypeError, match=message):
             self.CF_CLASS.identify(vars_all, target=object())
 
-    def test_warn(self):
+    def test_warn(self):  # noqa: D102
         subject_name = "ref_subject"
         ref_source = _NetCDFVar("ref_source")
         setattr(ref_source, self.CF_IDENTITIES[0], subject_name)

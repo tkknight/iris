@@ -24,7 +24,7 @@ from iris.tests.stock.mesh import sample_meshcoord
 
 class Test___init____abstractmethod:
     """Test   init    abstractmethod."""
-    def test(self):
+    def test(self):  # noqa: D102
         emsg = "Can't instantiate abstract class _DimensionalMetadata"
         with pytest.raises(TypeError, match=emsg):
             _ = _DimensionalMetadata(0)
@@ -103,7 +103,7 @@ class Mixin__string_representations:
 
     # Make a sample Coord, as _DimensionalMetadata is abstract and this is the
     # obvious concrete subclass to use for testing
-    def sample_coord(
+    def sample_coord(  # noqa: D102
         self,
         datatype=float,
         dates=False,
@@ -192,7 +192,7 @@ class Test__print_common(Mixin__string_representations):
 
     """
 
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         result = self.coord_representations()
         expected = [
             "<AuxCoord: x / (m)  [0., 1., 2., 3., 4.]  shape(5,)>",
@@ -204,7 +204,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_minimal(self):
+    def test_minimal(self):  # noqa: D102
         result = self.coord_representations(long_name=None, units=None, shape=(1,))
         expected = [
             "<AuxCoord: unknown / (unknown)  [0.]>",
@@ -215,7 +215,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_names(self):
+    def test_names(self):  # noqa: D102
         result = self.coord_representations(
             standard_name="height", long_name="this", var_name="x_var"
         )
@@ -231,7 +231,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_bounded(self):
+    def test_bounded(self):  # noqa: D102
         result = self.coord_representations(shape=(3,), bounded=True)
         expected = [
             "<AuxCoord: x / (m)  [0., 1., 2.]+bounds  shape(3,)>",
@@ -247,7 +247,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         result = self.coord_representations(masked=True)
         expected = [
             "<AuxCoord: x / (m)  [0.0, -- , 2.0, 3.0, -- ]  shape(5,)>",
@@ -259,7 +259,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_dtype_int(self):
+    def test_dtype_int(self):  # noqa: D102
         result = self.coord_representations(units="1", datatype=np.int16)
         expected = [
             "<AuxCoord: x / (1)  [0, 1, 2, 3, 4]  shape(5,)>",
@@ -271,7 +271,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_dtype_date(self):
+    def test_dtype_date(self):  # noqa: D102
         # Note: test with a date 'longer' than the built-in one in
         # 'sample_coord(dates=True)', because it includes a time-of-day
         full_date_unit = Unit("days since 1892-05-17 03:00:25", calendar="360_day")
@@ -289,7 +289,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_attributes(self):
+    def test_attributes(self):  # noqa: D102
         # NOTE: scheduled for future change, to put each attribute on a line
         coord = self.sample_coord(
             attributes={
@@ -330,7 +330,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_lazy_points(self):
+    def test_lazy_points(self):  # noqa: D102
         result = self.coord_representations(lazy_points=True)
         expected = [
             "<AuxCoord: x / (m)  <lazy>  shape(5,)>",
@@ -342,7 +342,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_lazy_bounds(self):
+    def test_lazy_bounds(self):  # noqa: D102
         result = self.coord_representations(lazy_bounds=True)
         expected = [
             "<AuxCoord: x / (m)  [0., 1., 2., 3., 4.]+bounds  shape(5,)>",
@@ -355,7 +355,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_lazy_points_and_bounds(self):
+    def test_lazy_points_and_bounds(self):  # noqa: D102
         result = self.coord_representations(lazy_points=True, lazy_bounds=True)
         expected = [
             "<AuxCoord: x / (m)  <lazy>+bounds  shape(5,)>",
@@ -368,7 +368,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_scalar(self):
+    def test_scalar(self):  # noqa: D102
         result = self.coord_representations(shape=(1,), bounded=True)
         expected = [
             "<AuxCoord: x / (m)  [0.]+bounds>",
@@ -381,7 +381,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_scalar_masked(self):
+    def test_scalar_masked(self):  # noqa: D102
         result = self.coord_representations(shape=(1,), bounded=True, masked=True)
         expected = [
             "<AuxCoord: x / (m)  [--]+bounds>",
@@ -394,7 +394,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_length_short(self):
+    def test_length_short(self):  # noqa: D102
         result = self.coord_representations(shape=(2,), bounded=True)
         expected = [
             "<AuxCoord: x / (m)  [0., 1.]+bounds  shape(2,)>",
@@ -409,7 +409,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_length_medium(self):
+    def test_length_medium(self):  # noqa: D102
         # Where bounds are truncated, but points not.
         result = self.coord_representations(shape=(14,), bounded=True)
         expected = [
@@ -430,7 +430,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_length_long(self):
+    def test_length_long(self):  # noqa: D102
         # Completely truncated representations
         result = self.coord_representations(shape=(150,), bounded=True)
         expected = [
@@ -449,7 +449,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_strings(self):
+    def test_strings(self):  # noqa: D102
         result = self.coord_representations(datatype=str)
         expected = [
             "<AuxCoord: x / (m)  [0 , 11 , 222 , 3333 , 44444]  shape(5,)>",
@@ -461,7 +461,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_strings_long_aligned(self):
+    def test_strings_long_aligned(self):  # noqa: D102
         result = self.coord_representations(datatype=str, shape=(15,))
         expected = [
             "<AuxCoord: x / (m)  [0 , 11 , ..., 3333 , 44444 ]  shape(15,)>",
@@ -478,7 +478,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_onepoint_toolong_placeholder(self):
+    def test_onepoint_toolong_placeholder(self):  # noqa: D102
         # When even one point won't display, get "[...]".
         # This applies to dates here, but only because we reduced linewidth
         result = self.coord_representations(shape=(2,), dates=True)
@@ -492,7 +492,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_dates_scalar(self):
+    def test_dates_scalar(self):  # noqa: D102
         # Printouts for a scalar date coord.
         # Demonstrate that a "typical" datetime coord can print with the date
         # value visible in the repr.
@@ -519,7 +519,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_dates_bounds(self):
+    def test_dates_bounds(self):  # noqa: D102
         result = self.coord_representations(dates=True, bounded=True)
         expected = [
             "<AuxCoord: x / (days since 1970-03-5)  [...]+bounds  shape(5,)>",
@@ -540,7 +540,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_dates_masked(self):
+    def test_dates_masked(self):  # noqa: D102
         result = self.coord_representations(dates=True, masked=True)
         expected = [
             "<AuxCoord: x / (days since 1970-03-5)  [...]  shape(5,)>",
@@ -555,7 +555,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_untypical_bounds(self):
+    def test_untypical_bounds(self):  # noqa: D102
         # Check printing when n-bounds > 2
         coord = self.sample_coord()
         bounds = coord.points.reshape((5, 1)) + np.array([[-3.0, -2, 2, 3]])
@@ -577,7 +577,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_multidimensional(self):
+    def test_multidimensional(self):  # noqa: D102
         # Demonstrate formatting of multdimensional arrays
         result = self.coord_representations(shape=(7, 5, 3))
         # This one is a bit unavoidably long ..
@@ -616,7 +616,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_multidimensional_small(self):
+    def test_multidimensional_small(self):  # noqa: D102
         # Demonstrate that a small-enough multidim will print in the repr.
         result = self.coord_representations(shape=(2, 2), datatype=int)
         expected = [
@@ -631,7 +631,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_integers_short(self):
+    def test_integers_short(self):  # noqa: D102
         result = self.coord_representations(datatype=np.int16)
         expected = [
             "<AuxCoord: x / (m)  [0, 1, 2, 3, 4]  shape(5,)>",
@@ -643,7 +643,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_integers_masked(self):
+    def test_integers_masked(self):  # noqa: D102
         result = self.coord_representations(datatype=int, masked=True)
         expected = [
             "<AuxCoord: x / (m)  [0 , --, 2 , 3 , --]  shape(5,)>",
@@ -655,7 +655,7 @@ class Test__print_common(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_integers_masked_long(self):
+    def test_integers_masked_long(self):  # noqa: D102
         result = self.coord_representations(shape=(20,), datatype=int, masked=True)
         expected = [
             "<AuxCoord: x / (m)  [0 , --, ..., 18, --]  shape(20,)>",
@@ -679,7 +679,7 @@ class Test__print_Coord(Mixin__string_representations):
 
     """
 
-    def test_dimcoord(self):
+    def test_dimcoord(self):  # noqa: D102
         result = self.coord_representations(dimcoord=True)
         expected = [
             "<DimCoord: x / (m)  [0., 1., 2., 3., 4.]  shape(5,)>",
@@ -691,7 +691,7 @@ class Test__print_Coord(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_coord_system(self):
+    def test_coord_system(self):  # noqa: D102
         result = self.coord_representations(coord_system=GeogCS(1000.0))
         expected = [
             "<AuxCoord: x / (m)  [0., 1., 2., 3., 4.]  shape(5,)>",
@@ -704,7 +704,7 @@ class Test__print_Coord(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_climatological(self):
+    def test_climatological(self):  # noqa: D102
         cube = cube_with_climatology()
         coord = cube.coord("time")
         coord = coord[:1]  # Just to make it a bit shorter
@@ -724,7 +724,7 @@ class Test__print_Coord(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_circular(self):
+    def test_circular(self):  # noqa: D102
         coord = self.sample_coord(shape=(2,), dimcoord=True)
         coord.circular = True
         result = self.repr_str_strings(coord)
@@ -750,7 +750,7 @@ class Test__print_noncoord(Mixin__string_representations):
 
     """
 
-    def test_ancillary(self):
+    def test_ancillary(self):  # noqa: D102
         # Check we can print an AncillaryVariable
         # Practically, ~identical to an AuxCoord, but without bounds, and the
         # array is called 'data'.
@@ -767,7 +767,7 @@ class Test__print_noncoord(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_cellmeasure(self):
+    def test_cellmeasure(self):  # noqa: D102
         # Check we can print an AncillaryVariable
         # N.B. practically, identical to an AuxCoord (without bounds)
         # Check we can print an AncillaryVariable
@@ -789,7 +789,7 @@ class Test__print_noncoord(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_connectivity(self):
+    def test_connectivity(self):  # noqa: D102
         # Check we can print a Connectivity
         # Like a Coord, but always print : cf_role, location_axis, start_index
         data = self.sample_data(shape=(3, 2), datatype=int)
@@ -813,7 +813,7 @@ class Test__print_noncoord(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_connectivity__start_index(self):
+    def test_connectivity__start_index(self):  # noqa: D102
         # Check we can print a Connectivity
         # Like a Coord, but always print : cf_role, location_axis, start_index
         data = self.sample_data(shape=(3, 2), datatype=int)
@@ -841,7 +841,7 @@ class Test__print_noncoord(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_connectivity__location_axis(self):
+    def test_connectivity__location_axis(self):  # noqa: D102
         # Check we can print a Connectivity
         # Like a Coord, but always print : cf_role, location_axis, start_index
         data = self.sample_data(shape=(3, 2), datatype=int)
@@ -868,7 +868,7 @@ class Test__print_noncoord(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_meshcoord(self):
+    def test_meshcoord(self):  # noqa: D102
         meshco = sample_meshcoord()
         meshco.mesh.long_name = "test_mesh"  # For stable printout of the Mesh
         result = self.repr_str_strings(meshco)
@@ -897,13 +897,13 @@ class Test__print_noncoord(Mixin__string_representations):
 class Test_summary(Mixin__string_representations):
     """Test the controls of the 'summary' method."""
 
-    def test_shorten(self):
+    def test_shorten(self):  # noqa: D102
         coord = self.sample_coord()
         expected = self.repr_str_strings(coord)
         result = coord.summary(shorten=True) + "\n" + coord.summary()
         assert expected == result
 
-    def test_max_values__default(self):
+    def test_max_values__default(self):  # noqa: D102
         coord = self.sample_coord()
         result = coord.summary()
         expected = [
@@ -915,7 +915,7 @@ class Test_summary(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_max_values__2(self):
+    def test_max_values__2(self):  # noqa: D102
         coord = self.sample_coord()
         result = coord.summary(max_values=2)
         expected = [
@@ -927,7 +927,7 @@ class Test_summary(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_max_values__bounded__2(self):
+    def test_max_values__bounded__2(self):  # noqa: D102
         coord = self.sample_coord(bounded=True)
         result = coord.summary(max_values=2)
         expected = [
@@ -945,7 +945,7 @@ class Test_summary(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_max_values__0(self):
+    def test_max_values__0(self):  # noqa: D102
         coord = self.sample_coord(bounded=True)
         result = coord.summary(max_values=0)
         expected = [
@@ -958,7 +958,7 @@ class Test_summary(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_linewidth__default(self):
+    def test_linewidth__default(self):  # noqa: D102
         coord = self.sample_coord()
         coord.points = coord.points + 1000.003  # Make the output numbers wider
         result = coord.summary()
@@ -986,7 +986,7 @@ class Test_summary(Mixin__string_representations):
         ]
         self.assert_lines(expected, result)
 
-    def test_linewidth__set(self):
+    def test_linewidth__set(self):  # noqa: D102
         coord = self.sample_coord()
         coord.points = coord.points + 1000.003  # Make the output numbers wider
         expected = [
@@ -1007,7 +1007,7 @@ class Test_summary(Mixin__string_representations):
             result = coord.summary(linewidth=35)
         self.assert_lines(expected, result)
 
-    def test_convert_dates(self):
+    def test_convert_dates(self):  # noqa: D102
         coord = self.sample_coord(dates=True)
         result = coord.summary()
         expected = [

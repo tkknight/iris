@@ -22,12 +22,12 @@ class TestStructuredLoadFF:
         # Merge the 2D cubes returned by `iris.fileformats.um.load_cubes`.
         return CubeList(cubes).merge_cube()
 
-    def test_simple(self, request):
+    def test_simple(self, request):  # noqa: D102
         list_of_cubes = list(load(self.fname, None))
         cube = self._merge_cubes(list_of_cubes)
         _shared_utils.assert_CML(request, cube)
 
-    def test_simple_callback(self, request):
+    def test_simple_callback(self, request):  # noqa: D102
         def callback(cube, field, filename):
             cube.attributes["processing"] = "fast-ff"
 

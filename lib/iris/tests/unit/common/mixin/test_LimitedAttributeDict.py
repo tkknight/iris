@@ -17,12 +17,12 @@ class TestLimitedAttributeDict:
         self.forbidden_keys = LimitedAttributeDict.CF_ATTRS_FORBIDDEN
         self.emsg = "{!r} is not a permitted attribute"
 
-    def test__invalid_keys(self):
+    def test__invalid_keys(self):  # noqa: D102
         for key in self.forbidden_keys:
             with pytest.raises(ValueError, match=self.emsg.format(key)):
                 _ = LimitedAttributeDict(**{key: None})
 
-    def test___eq__(self, mocker):
+    def test___eq__(self, mocker):  # noqa: D102
         values = dict(
             one=mocker.sentinel.one,
             two=mocker.sentinel.two,
@@ -33,7 +33,7 @@ class TestLimitedAttributeDict:
         assert left == right
         assert left == values
 
-    def test___eq___numpy(self):
+    def test___eq___numpy(self):  # noqa: D102
         values = dict(one=np.arange(1), two=np.arange(2), three=np.arange(3))
         left = LimitedAttributeDict(**values)
         right = LimitedAttributeDict(**values)
@@ -54,13 +54,13 @@ class TestLimitedAttributeDict:
         assert right != left
         assert right != values
 
-    def test___setitem__(self):
+    def test___setitem__(self):  # noqa: D102
         for key in self.forbidden_keys:
             item = LimitedAttributeDict()
             with pytest.raises(ValueError, match=self.emsg.format(key)):
                 item[key] = None
 
-    def test_update(self):
+    def test_update(self):  # noqa: D102
         for key in self.forbidden_keys:
             item = LimitedAttributeDict()
             other = {key: None}

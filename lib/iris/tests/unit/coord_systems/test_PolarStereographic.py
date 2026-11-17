@@ -33,24 +33,24 @@ class Test_PolarStereographic__basics:
             ellipsoid=GeogCS(6377563.396, 6356256.909),
         )
 
-    def test_construction(self):
+    def test_construction(self):  # noqa: D102
         _shared_utils.assert_XML_element(
             self.ps_blank, ("coord_systems", "PolarStereographic.xml")
         )
 
-    def test_construction_sp(self):
+    def test_construction_sp(self):  # noqa: D102
         _shared_utils.assert_XML_element(
             self.ps_standard_parallel,
             ("coord_systems", "PolarStereographicStandardParallel.xml"),
         )
 
-    def test_construction_sf(self):
+    def test_construction_sf(self):  # noqa: D102
         _shared_utils.assert_XML_element(
             self.ps_scale_factor,
             ("coord_systems", "PolarStereographicScaleFactor.xml"),
         )
 
-    def test_repr_blank(self):
+    def test_repr_blank(self):  # noqa: D102
         expected = (
             "PolarStereographic(central_lat=90.0, central_lon=0.0, "
             "false_easting=0.0, false_northing=0.0, "
@@ -60,7 +60,7 @@ class Test_PolarStereographic__basics:
         )
         assert expected == repr(self.ps_blank)
 
-    def test_repr_standard_parallel(self):
+    def test_repr_standard_parallel(self):  # noqa: D102
         expected = (
             "PolarStereographic(central_lat=90.0, central_lon=0.0, "
             "false_easting=0.0, false_northing=0.0, "
@@ -70,7 +70,7 @@ class Test_PolarStereographic__basics:
         )
         assert expected == repr(self.ps_standard_parallel)
 
-    def test_repr_scale_factor(self):
+    def test_repr_scale_factor(self):  # noqa: D102
         expected = (
             "PolarStereographic(central_lat=90.0, central_lon=0.0, "
             "false_easting=0.0, false_northing=0.0, "
@@ -83,7 +83,7 @@ class Test_PolarStereographic__basics:
 
 class Test_init_defaults:
     """Test init defaults."""
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = PolarStereographic(
             central_lat=90,
@@ -98,7 +98,7 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.false_northing, 12.0)
         _shared_utils.assert_equal_and_kind(crs.true_scale_lat, 32.0)
 
-    def test_set_optional_scale_factor_alternative(self):
+    def test_set_optional_scale_factor_alternative(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = PolarStereographic(
             central_lat=-90,
@@ -121,7 +121,7 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.true_scale_lat, None)
         _shared_utils.assert_equal_and_kind(crs.scale_factor_at_projection_origin, None)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = PolarStereographic(
             central_lat=-90,
@@ -129,7 +129,7 @@ class Test_init_defaults:
         )
         self._check_crs_defaults(crs)
 
-    def test_optional_args_none(self):
+    def test_optional_args_none(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = PolarStereographic(
             central_lat=-90,
@@ -144,7 +144,7 @@ class Test_init_defaults:
 
 class AsCartopyMixin:
     """AsCartopyMixin."""
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         # Check that a projection set up with all the defaults is correctly
         # converted to a cartopy CRS.
         central_lat = -90
@@ -161,7 +161,7 @@ class AsCartopyMixin:
         )
         assert res == expected
 
-    def test_extra_kwargs_scale_factor(self):
+    def test_extra_kwargs_scale_factor(self):  # noqa: D102
         # Check that a projection with non-default values is correctly
         # converted to a cartopy CRS.
         central_lat = -90
@@ -196,7 +196,7 @@ class AsCartopyMixin:
         res = self.as_cartopy_method(polar_cs)
         assert res == expected
 
-    def test_extra_kwargs_true_scale_lat_alternative(self):
+    def test_extra_kwargs_true_scale_lat_alternative(self):  # noqa: D102
         # Check that a projection with non-default values is correctly
         # converted to a cartopy CRS.
         central_lat = -90

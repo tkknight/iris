@@ -16,7 +16,7 @@ from iris.time import PartialDateTime
 
 class Test___common_cmp__:
     """Test   common cmp  ."""
-    def assert_raises_on_comparison(self, cell, other, exception_type, regexp):
+    def assert_raises_on_comparison(self, cell, other, exception_type, regexp):  # noqa: D102
         with pytest.raises(exception_type, match=regexp):
             cell < other
         with pytest.raises(exception_type, match=regexp):
@@ -26,7 +26,7 @@ class Test___common_cmp__:
         with pytest.raises(exception_type, match=regexp):
             cell >= other
 
-    def test_partial_date_time_bounded_cell(self):
+    def test_partial_date_time_bounded_cell(self):  # noqa: D102
         # Check bounded cell comparisons to a PartialDateTime
         dt = PartialDateTime(month=6)
         cell = Cell(
@@ -41,7 +41,7 @@ class Test___common_cmp__:
         assert cell < dt
         assert cell <= dt
 
-    def test_cftime_calender_bounded_cell(self):
+    def test_cftime_calender_bounded_cell(self):  # noqa: D102
         # Check that cell comparisons fail with different calendars
         dt = cftime.datetime(2010, 3, 1, calendar="360_day")
         cell = Cell(
@@ -53,7 +53,7 @@ class Test___common_cmp__:
         )
         self.assert_raises_on_comparison(cell, dt, TypeError, "different calendars")
 
-    def test_partial_date_time_unbounded_cell(self):
+    def test_partial_date_time_unbounded_cell(self):  # noqa: D102
         # Check that cell comparison works with PartialDateTimes.
         dt = PartialDateTime(month=6)
         cell = Cell(cftime.datetime(2010, 3, 1))
@@ -62,7 +62,7 @@ class Test___common_cmp__:
         assert cell <= dt
         assert dt >= cell
 
-    def test_datetime_unbounded_cell(self):
+    def test_datetime_unbounded_cell(self):  # noqa: D102
         # Check that cell comparison works with datetimes & cftimes.
         dt = datetime.datetime(2000, 6, 15)
         cell = Cell(cftime.datetime(2000, 1, 1))
@@ -71,7 +71,7 @@ class Test___common_cmp__:
         assert cell < dt
         assert cell <= dt
 
-    def test_0_d_numpy_array(self):
+    def test_0_d_numpy_array(self):  # noqa: D102
         # Check that cell comparison works with 0D numpy arrays
 
         cell = Cell(1.3)
@@ -81,7 +81,7 @@ class Test___common_cmp__:
         assert np.array(1.3) >= cell
         assert np.array(1.3) <= cell
 
-    def test_len_1_numpy_array(self):
+    def test_len_1_numpy_array(self):  # noqa: D102
         # Check that cell comparison works with numpy arrays of len=1
 
         cell = Cell(1.3)
@@ -94,7 +94,7 @@ class Test___common_cmp__:
 
 class Test___eq__:
     """Test   eq  ."""
-    def test_datetimelike(self):
+    def test_datetimelike(self):  # noqa: D102
         # Check that cell equality works with different datetime objects
         # using the same calendar
         point = cftime.datetime(2010, 1, 1, calendar="gregorian")
@@ -104,7 +104,7 @@ class Test___eq__:
         )
         assert cell == point
 
-    def test_datetimelike_bounded_cell(self):
+    def test_datetimelike_bounded_cell(self):  # noqa: D102
         # Check that cell equality works with bounded cells using different datetime objects
         point = cftime.datetime(2010, 1, 1, calendar="gregorian")
         cell = Cell(
@@ -116,7 +116,7 @@ class Test___eq__:
         )
         assert cell == point
 
-    def test_datetimelike_calenders_cell(self):
+    def test_datetimelike_calenders_cell(self):  # noqa: D102
         # Check that equality with a cell with a different calendar
         # raises an error. This is not supported
         point = cftime.datetime(2010, 1, 1, calendar="360_day")
@@ -130,7 +130,7 @@ class Test___eq__:
         with pytest.raises(TypeError, match="different calendars"):
             cell >= point
 
-    def test_partial_date_time_other(self):
+    def test_partial_date_time_other(self):  # noqa: D102
         cell = Cell(datetime.datetime(2010, 3, 2))
         # A few simple cases.
         assert cell == PartialDateTime(month=3)
@@ -144,7 +144,7 @@ class Test_contains_point:
     Combinations of datetime, cf.datatime, and PartialDateTime objects.
     """
 
-    def test_datetime_partial_date_time_point(self):
+    def test_datetime_partial_date_time_point(self):  # noqa: D102
         point = PartialDateTime(month=6)
         cell = Cell(
             datetime.datetime(2010, 1, 1),
@@ -155,7 +155,7 @@ class Test_contains_point:
         )
         assert not cell.contains_point(point)
 
-    def test_datetime_cftime_standard_point(self):
+    def test_datetime_cftime_standard_point(self):  # noqa: D102
         point = cftime.datetime(2010, 6, 15)
         cell = Cell(
             datetime.datetime(2010, 1, 1),
@@ -166,7 +166,7 @@ class Test_contains_point:
         )
         assert cell.contains_point(point)
 
-    def test_datetime_cftime_360day_point(self):
+    def test_datetime_cftime_360day_point(self):  # noqa: D102
         point = cftime.datetime(2010, 6, 15, calendar="360_day")
         cell = Cell(
             datetime.datetime(2010, 1, 1),
@@ -178,7 +178,7 @@ class Test_contains_point:
         with pytest.raises(TypeError, match="different calendars"):
             cell.contains_point(point)
 
-    def test_cftime_standard_partial_date_time_point(self):
+    def test_cftime_standard_partial_date_time_point(self):  # noqa: D102
         point = PartialDateTime(month=6)
         cell = Cell(
             cftime.datetime(2010, 1, 1),
@@ -189,7 +189,7 @@ class Test_contains_point:
         )
         assert not cell.contains_point(point)
 
-    def test_cftime_360day_partial_date_time_point(self):
+    def test_cftime_360day_partial_date_time_point(self):  # noqa: D102
         point = PartialDateTime(month=6)
         cell = Cell(
             cftime.datetime(2010, 1, 1, calendar="360_day"),
@@ -200,7 +200,7 @@ class Test_contains_point:
         )
         assert not cell.contains_point(point)
 
-    def test_cftime_standard_datetime_point(self):
+    def test_cftime_standard_datetime_point(self):  # noqa: D102
         point = datetime.datetime(2010, 6, 1)
         cell = Cell(
             cftime.datetime(2010, 1, 1),
@@ -211,7 +211,7 @@ class Test_contains_point:
         )
         assert cell.contains_point(point)
 
-    def test_cftime_360day_datetime_point(self):
+    def test_cftime_360day_datetime_point(self):  # noqa: D102
         point = datetime.datetime(2010, 6, 1)
         cell = Cell(
             cftime.datetime(2010, 1, 1, calendar="360_day"),
@@ -223,7 +223,7 @@ class Test_contains_point:
         with pytest.raises(TypeError, match="different calendars"):
             cell.contains_point(point)
 
-    def test_cftime_360_day_cftime_360day_point(self):
+    def test_cftime_360_day_cftime_360day_point(self):  # noqa: D102
         point = cftime.datetime(2010, 6, 15, calendar="360_day")
         cell = Cell(
             cftime.datetime(2010, 1, 1, calendar="360_day"),
@@ -240,7 +240,7 @@ class Test_numpy_comparison:
     used as truth values.
     """
 
-    def test_cell_lhs(self):
+    def test_cell_lhs(self):  # noqa: D102
         cell = Cell(point=1.5)
         n = np.float64(1.2)
 
@@ -254,7 +254,7 @@ class Test_numpy_comparison:
         except:  # noqa
             pytest.fail("Result of comparison could not be used as a truth value")
 
-    def test_cell_rhs(self):
+    def test_cell_rhs(self):  # noqa: D102
         cell = Cell(point=1.5)
         n = np.float64(1.2)
 

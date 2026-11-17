@@ -68,7 +68,7 @@ class TestLBCODE:
             and coord.attributes["positive"] == "up"
         )
 
-    def test_cross_section_height_bdy_zero(self):
+    def test_cross_section_height_bdy_zero(self):  # noqa: D102
         lbcode = SplittableInt(19902, {"iy": slice(0, 2), "ix": slice(2, 4)})
         points = np.array([10, 20, 30, 40])
         bounds = np.array([[0, 15], [15, 25], [25, 35], [35, 45]])
@@ -81,7 +81,7 @@ class TestLBCODE:
             expected_bounds=bounds,
         )
 
-    def test_cross_section_height_bdy_bmdi(self):
+    def test_cross_section_height_bdy_bmdi(self):  # noqa: D102
         lbcode = SplittableInt(19902, {"iy": slice(0, 2), "ix": slice(2, 4)})
         points = np.array([10, 20, 30, 40])
         bounds = np.array([[0, 15], [15, 25], [25, 35], [35, 45]])
@@ -139,7 +139,7 @@ class TestLBVC:
             and coord.attributes["positive"] == "down"
         )
 
-    def test_soil_levels(self):
+    def test_soil_levels(self):  # noqa: D102
         level = 1234
         field = _mock_field(lbvc=6, lblev=level, brsvd=[0, 0], brlev=0)
         assert_test_for_coord(
@@ -150,7 +150,7 @@ class TestLBVC:
             expected_bounds=None,
         )
 
-    def test_soil_depth(self):
+    def test_soil_depth(self):  # noqa: D102
         lower, point, upper = 1.2, 3.4, 5.6
         field = _mock_field(lbvc=6, blev=point, brsvd=[lower, 0], brlev=upper)
         assert_test_for_coord(
@@ -161,7 +161,7 @@ class TestLBVC:
             expected_bounds=[[lower, upper]],
         )
 
-    def test_hybrid_pressure_model_level_number(self):
+    def test_hybrid_pressure_model_level_number(self):  # noqa: D102
         level = 5678
         field = _mock_field(
             lbvc=9,
@@ -180,7 +180,7 @@ class TestLBVC:
             expected_bounds=None,
         )
 
-    def test_hybrid_pressure_delta(self):
+    def test_hybrid_pressure_delta(self):  # noqa: D102
         delta_point = 12.0
         delta_lower_bound = 11.0
         delta_upper_bound = 13.0
@@ -201,7 +201,7 @@ class TestLBVC:
             expected_bounds=[[delta_lower_bound, delta_upper_bound]],
         )
 
-    def test_hybrid_pressure_sigma(self):
+    def test_hybrid_pressure_sigma(self):  # noqa: D102
         sigma_point = 0.5
         sigma_lower_bound = 0.6
         sigma_upper_bound = 0.4
@@ -222,7 +222,7 @@ class TestLBVC:
             expected_bounds=[[sigma_lower_bound, sigma_upper_bound]],
         )
 
-    def test_potential_temperature_levels(self):
+    def test_potential_temperature_levels(self):  # noqa: D102
         potm_value = 27.32
         field = _mock_field(lbvc=19, blev=potm_value)
         assert_test_for_coord(
@@ -236,7 +236,7 @@ class TestLBVC:
 
 class TestLBTIM:
     """Test BTIM."""
-    def test_365_calendar(self):
+    def test_365_calendar(self):  # noqa: D102
         f = mock.MagicMock(
             lbtim=SplittableInt(4, {"ia": 2, "ib": 1, "ic": 0}),
             lbyr=2013,
@@ -273,7 +273,7 @@ class TestLBTIM:
         assert guess_coord_axis(coord) == "T"
         assert coord.units.calendar == "365_day"
 
-    def base_field(self):
+    def base_field(self):  # noqa: D102
         field = PPField3(header=mock.MagicMock())
         field.lbfc = 0
         field.bdx = 1
@@ -289,14 +289,14 @@ class TestLBTIM:
         return field
 
     @staticmethod
-    def is_forecast_period(coord):
+    def is_forecast_period(coord):  # noqa: D102
         return coord.standard_name == "forecast_period" and coord.units == "hours"
 
     @staticmethod
-    def is_time(coord):
+    def is_time(coord):  # noqa: D102
         return coord.standard_name == "time" and coord.units == "hours since epoch"
 
-    def test_time_mean_ib2(self):
+    def test_time_mean_ib2(self):  # noqa: D102
         field = self.base_field()
         field.lbtim = 21
         # Implicit reference time: 1970-01-02 06:00
@@ -324,7 +324,7 @@ class TestLBTIM:
             expected_bounds=[[36, 39]],
         )
 
-    def test_time_mean_ib3(self):
+    def test_time_mean_ib3(self):  # noqa: D102
         field = self.base_field()
         field.lbtim = 31
         # Implicit reference time: 1970-01-02 06:00
@@ -359,7 +359,7 @@ class TestLBRSVD:
     def _is_realization(coord):
         return coord.standard_name == "realization" and coord.units == "1"
 
-    def test_realization(self):
+    def test_realization(self):  # noqa: D102
         lbrsvd = [0] * 4
         lbrsvd[3] = 71
         points = np.array([71])
@@ -376,7 +376,7 @@ class TestLBRSVD:
 
 class TestLBSRCE:
     """Test BSRCE."""
-    def check_um_source_attrs(self, lbsrce, source_str=None, um_version_str=None):
+    def check_um_source_attrs(self, lbsrce, source_str=None, um_version_str=None):  # noqa: D102
         field = _mock_field(lbsrce=lbsrce)
         (
             factories,
@@ -398,17 +398,17 @@ class TestLBSRCE:
         else:
             assert "um_version" not in attributes
 
-    def test_none(self):
+    def test_none(self):  # noqa: D102
         self.check_um_source_attrs(lbsrce=8123, source_str=None, um_version_str=None)
 
-    def test_no_um_version(self):
+    def test_no_um_version(self):  # noqa: D102
         self.check_um_source_attrs(
             lbsrce=1111,
             source_str="Data from Met Office Unified Model",
             um_version_str=None,
         )
 
-    def test_um_version(self):
+    def test_um_version(self):  # noqa: D102
         self.check_um_source_attrs(
             lbsrce=12071111,
             source_str="Data from Met Office Unified Model",
@@ -418,7 +418,7 @@ class TestLBSRCE:
 
 class Test_STASH_CF:
     """Test STASH CF."""
-    def test_stash_cf_air_temp(self):
+    def test_stash_cf_air_temp(self):  # noqa: D102
         lbuser = [1, 0, 0, 16203, 0, 0, 1]
         lbfc = 16
         stash = STASH(lbuser[6], lbuser[3] // 1000, lbuser[3] % 1000)
@@ -437,7 +437,7 @@ class Test_STASH_CF:
         assert standard_name == "air_temperature"
         assert units == "K"
 
-    def test_no_std_name(self):
+    def test_no_std_name(self):  # noqa: D102
         lbuser = [1, 0, 0, 0, 0, 0, 0]
         lbfc = 0
         stash = STASH(lbuser[6], lbuser[3] // 1000, lbuser[3] % 1000)
@@ -459,7 +459,7 @@ class Test_STASH_CF:
 
 class Test_LBFC_CF:
     """Test LBFC CF."""
-    def test_fc_cf_air_temp(self):
+    def test_fc_cf_air_temp(self):  # noqa: D102
         lbuser = [1, 0, 0, 0, 0, 0, 0]
         lbfc = 16
         stash = STASH(lbuser[6], lbuser[3] // 1000, lbuser[3] % 1000)

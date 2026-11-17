@@ -847,7 +847,7 @@ class UnstructuredNearestNeigbourRegridder:
             (tgt_y_coord.name(), y_2d.flatten()),
         )
 
-    def __call__(self, src_cube):
+    def __call__(self, src_cube):  # noqa: D102
         # Check the source cube X and Y coords match the original.
         # Note: for now, this is sufficient to ensure a valid trajectory
         # interpolation, but if in future we save and reuse the cache context

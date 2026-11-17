@@ -30,7 +30,7 @@ class Test_as_cartopy_crs:
             ellipsoid=self.ellipsoid,
         )
 
-    def test_crs_creation(self):
+    def test_crs_creation(self):  # noqa: D102
         res = self.laea_cs.as_cartopy_crs()
         globe = ccrs.Globe(
             semimajor_axis=self.semi_major_axis,
@@ -66,7 +66,7 @@ class Test_as_cartopy_projection:
             ellipsoid=self.ellipsoid,
         )
 
-    def test_projection_creation(self):
+    def test_projection_creation(self):  # noqa: D102
         res = self.laea_cs.as_cartopy_projection()
         globe = ccrs.Globe(
             semimajor_axis=self.semi_major_axis,
@@ -85,7 +85,7 @@ class Test_as_cartopy_projection:
 
 class Test_init_defaults:
     """Test init defaults."""
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = LambertAzimuthalEqualArea(
             longitude_of_projection_origin=123,
@@ -106,12 +106,12 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.false_easting, 0.0)
         _shared_utils.assert_equal_and_kind(crs.false_northing, 0.0)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = LambertAzimuthalEqualArea()
         self._check_crs_defaults(crs)
 
-    def test_optional_args_None(self):
+    def test_optional_args_None(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = LambertAzimuthalEqualArea(
             longitude_of_projection_origin=None,

@@ -31,15 +31,15 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         self.cube = self.cube[0, :]
         self.lat_lon_cube = self.lat_lon_cube[0, :]
 
-    def test_yaxis_labels(self):
+    def test_yaxis_labels(self):  # noqa: D102
         iplt.plot(self.cube, self.cube.coord("str_coord"))
         self.assert_bounds_tick_labels("yaxis")
 
-    def test_xaxis_labels(self):
+    def test_xaxis_labels(self):  # noqa: D102
         iplt.plot(self.cube.coord("str_coord"), self.cube)
         self.assert_bounds_tick_labels("xaxis")
 
-    def test_yaxis_labels_with_axes(self):
+    def test_yaxis_labels_with_axes(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -48,7 +48,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         plt.close(fig)
         self.assert_bounds_tick_labels("yaxis", ax)
 
-    def test_xaxis_labels_with_axes(self):
+    def test_xaxis_labels_with_axes(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -57,7 +57,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         plt.close(fig)
         self.assert_bounds_tick_labels("xaxis", ax)
 
-    def test_plot_longitude(self):
+    def test_plot_longitude(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -79,7 +79,7 @@ class TestTrajectoryWrap:
         self.geog_cs = ics.GeogCS(6371229.0)
         self.plate_carree = self.geog_cs.as_cartopy_projection()
 
-    def lon_lat_coords(self, lons, lats, cs=None):
+    def lon_lat_coords(self, lons, lats, cs=None):  # noqa: D102
         if cs is None:
             cs = self.geog_cs
         return (
@@ -117,7 +117,7 @@ class TestTrajectoryWrap:
 
         self.assert_paths_equal(expected, actual)
 
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         lon, lat = self.lon_lat_coords([359, 1], [0, 0])
         expected_path = Path([[-1, 0], [1, 0]], [Path.MOVETO, Path.LINETO])
 
@@ -125,7 +125,7 @@ class TestTrajectoryWrap:
 
         self.check_paths(expected_path, self.plate_carree, lines, plt.gca())
 
-    def test_reverse(self):
+    def test_reverse(self):  # noqa: D102
         lon, lat = self.lon_lat_coords([1, 359], [0, 0])
         expected_path = Path([[1, 0], [-1, 0]], [Path.MOVETO, Path.LINETO])
 
@@ -133,7 +133,7 @@ class TestTrajectoryWrap:
 
         self.check_paths(expected_path, self.plate_carree, lines, plt.gca())
 
-    def test_multi(self):
+    def test_multi(self):  # noqa: D102
         lon, lat = self.lon_lat_coords([1, 359, 2, 358], [0, 0, 0, 0])
         expected_path = Path(
             [[1, 0], [-1, 0], [2, 0], [-2, 0]],
@@ -144,7 +144,7 @@ class TestTrajectoryWrap:
 
         self.check_paths(expected_path, self.plate_carree, lines, plt.gca())
 
-    def test_many_wraps(self):
+    def test_many_wraps(self):  # noqa: D102
         lon, lat = self.lon_lat_coords(
             [350, 10, 180, 350, 10, 180, 10, 350], [0, 0, 0, 0, 0, 0, 0, 0]
         )
@@ -175,7 +175,7 @@ class TestTrajectoryWrap:
 
         self.check_paths(expected_path, self.plate_carree, lines, plt.gca())
 
-    def test_180(self):
+    def test_180(self):  # noqa: D102
         lon, lat = self.lon_lat_coords([179, -179], [0, 0])
         expected_path = Path([[179, 0], [181, 0]], [Path.MOVETO, Path.LINETO])
 
@@ -183,7 +183,7 @@ class TestTrajectoryWrap:
 
         self.check_paths(expected_path, self.plate_carree, lines, plt.gca())
 
-    def test_shifted_projection(self):
+    def test_shifted_projection(self):  # noqa: D102
         lon, lat = self.lon_lat_coords([359, 1], [0, 0])
         expected_path = Path([[-1, 0], [1, 0]], [Path.MOVETO, Path.LINETO])
 
@@ -194,7 +194,7 @@ class TestTrajectoryWrap:
 
         self.check_paths(expected_path, self.plate_carree, lines, plt.gca())
 
-    def test_shifted_projection_180(self):
+    def test_shifted_projection_180(self):  # noqa: D102
         lon, lat = self.lon_lat_coords([179, -179], [0, 0])
         expected_path = Path([[179, 0], [181, 0]], [Path.MOVETO, Path.LINETO])
 
@@ -205,7 +205,7 @@ class TestTrajectoryWrap:
 
         self.check_paths(expected_path, self.plate_carree, lines, plt.gca())
 
-    def test_long(self):
+    def test_long(self):  # noqa: D102
         lon, lat = self.lon_lat_coords([271, 89], [0, 0])
         expected_path = Path([[-89, 0], [89, 0]], [Path.MOVETO, Path.LINETO])
 
@@ -243,13 +243,13 @@ class TestTrajectoryWrap:
         crs = cs.as_cartopy_crs()
         self.check_paths(expected_path, crs, lines, ax)
 
-    def test_rotated_90(self):
+    def test_rotated_90(self):  # noqa: D102
         self._test_rotated(north_pole_grid_longitude=90)
 
-    def test_rotated_180(self):
+    def test_rotated_180(self):  # noqa: D102
         self._test_rotated(north_pole_grid_longitude=180)
 
-    def test_rotated(self):
+    def test_rotated(self):  # noqa: D102
         self._test_rotated(
             grid_north_pole_latitude=-30,
             grid_north_pole_longitude=120,

@@ -17,19 +17,19 @@ from iris.tests import _shared_utils
 @_shared_utils.skip_data
 class TestLoad:
     """Test oad."""
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         cubes = iris.load(paths)
         assert len(cubes) == 1
 
-    def test_path_object(self):
+    def test_path_object(self):  # noqa: D102
         paths = (
             pathlib.Path(_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"])),
         )
         cubes = iris.load(paths)
         assert len(cubes) == 1
 
-    def test_nonexist(self):
+    def test_nonexist(self):  # noqa: D102
         paths = (
             _shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),
             _shared_utils.get_data_path(["PP", "_guaranteed_non_exist.pp"]),
@@ -37,7 +37,7 @@ class TestLoad:
         with pytest.raises(IOError, match="files specified did not exist"):
             _ = iris.load(paths)
 
-    def test_nonexist_wild(self):
+    def test_nonexist_wild(self):  # noqa: D102
         paths = (
             _shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),
             _shared_utils.get_data_path(["PP", "_guaranteed_non_exist_*.pp"]),
@@ -45,17 +45,17 @@ class TestLoad:
         with pytest.raises(IOError, match="files specified did not exist"):
             _ = iris.load(paths)
 
-    def test_bogus(self):
+    def test_bogus(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         cubes = iris.load(paths, "wibble")
         assert len(cubes) == 0
 
-    def test_real_and_bogus(self):
+    def test_real_and_bogus(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         cubes = iris.load(paths, ("air_temperature", "wibble"))
         assert len(cubes) == 1
 
-    def test_duplicate(self):
+    def test_duplicate(self):  # noqa: D102
         paths = (
             _shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),
             _shared_utils.get_data_path(["PP", "aPPglob1", "gl?bal.pp"]),
@@ -67,22 +67,22 @@ class TestLoad:
 @_shared_utils.skip_data
 class TestLoadCube:
     """Test oadCube."""
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         _ = iris.load_cube(paths)
 
-    def test_path_object(self):
+    def test_path_object(self):  # noqa: D102
         paths = (
             pathlib.Path(_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"])),
         )
         _ = iris.load_cube(paths)
 
-    def test_not_enough(self):
+    def test_not_enough(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         with pytest.raises(iris.exceptions.ConstraintMismatchError):
             iris.load_cube(paths, "wibble")
 
-    def test_too_many(self):
+    def test_too_many(self):  # noqa: D102
         paths = (
             _shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),
             _shared_utils.get_data_path(["PP", "aPPglob1", "gl?bal.pp"]),
@@ -94,29 +94,29 @@ class TestLoadCube:
 @_shared_utils.skip_data
 class TestLoadCubes:
     """Test oadCubes."""
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         cubes = iris.load_cubes(paths)
         assert len(cubes) == 1
 
-    def test_path_object(self):
+    def test_path_object(self):  # noqa: D102
         paths = (
             pathlib.Path(_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"])),
         )
         cubes = iris.load_cubes(paths)
         assert len(cubes) == 1
 
-    def test_not_enough(self):
+    def test_not_enough(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         with pytest.raises(iris.exceptions.ConstraintMismatchError):
             iris.load_cubes(paths, "wibble")
 
-    def test_not_enough_multi(self):
+    def test_not_enough_multi(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         with pytest.raises(iris.exceptions.ConstraintMismatchError):
             iris.load_cubes(paths, ("air_temperature", "wibble"))
 
-    def test_too_many(self):
+    def test_too_many(self):  # noqa: D102
         paths = (
             _shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),
             _shared_utils.get_data_path(["PP", "aPPglob1", "gl?bal.pp"]),
@@ -128,12 +128,12 @@ class TestLoadCubes:
 @_shared_utils.skip_data
 class TestLoadRaw:
     """Test oadRaw."""
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         cubes = iris.load_raw(paths)
         assert len(cubes) == 1
 
-    def test_path_object(self):
+    def test_path_object(self):  # noqa: D102
         paths = (
             pathlib.Path(_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"])),
         )
@@ -147,7 +147,7 @@ class TestOPeNDAP:
     def _setup(self):
         self.url = "https://geoport.whoi.edu:80/thredds/dodsC/bathy/gom15"
 
-    def test_load_http_called(self):
+    def test_load_http_called(self):  # noqa: D102
         # Check that calling iris.load_* with an http URI triggers a call to
         # ``iris.io.load_http``
 
@@ -176,7 +176,7 @@ class TestOPeNDAP:
             iris.io.load_http = orig
 
     @_shared_utils.skip_data
-    def test_net_cdf_dataset_call(self, mocker):
+    def test_net_cdf_dataset_call(self, mocker):  # noqa: D102
         # Check that load_http calls netCDF4.Dataset and supplies the expected URL.
 
         # To avoid making a request to an OPeNDAP server in a test, instead

@@ -21,7 +21,7 @@ class Test_replace_axes_with_cartopy_axes:
         yield
         plt.close(self.fig)
 
-    def test_preserve_position(self):
+    def test_preserve_position(self):  # noqa: D102
         position = [0.17, 0.65, 0.2, 0.2]
         projection = ccrs.PlateCarree()
 
@@ -36,7 +36,7 @@ class Test_replace_axes_with_cartopy_axes:
         # not appear to be implemented.  Compare the bounds (tuple) instead.
         assert expected.get_position().bounds == result.get_position().bounds
 
-    def test_ax_on_subfigure(self):
+    def test_ax_on_subfigure(self):  # noqa: D102
         subfig, _ = self.fig.subfigures(nrows=2)
         subfig.subplots()
         _replace_axes_with_cartopy_axes(ccrs.PlateCarree())

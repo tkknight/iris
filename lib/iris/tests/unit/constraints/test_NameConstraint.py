@@ -15,21 +15,21 @@ class Test___init__:
     def _setup(self):
         self.default = "none"
 
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         constraint = NameConstraint()
         assert constraint.standard_name == self.default
         assert constraint.long_name == self.default
         assert constraint.var_name == self.default
         assert constraint.STASH == self.default
 
-    def test_standard_name(self, mocker):
+    def test_standard_name(self, mocker):  # noqa: D102
         standard_name = mocker.sentinel.standard_name
         constraint = NameConstraint(standard_name=standard_name)
         assert constraint.standard_name == standard_name
         constraint = NameConstraint(standard_name=standard_name)
         assert constraint.standard_name == standard_name
 
-    def test_long_name(self, mocker):
+    def test_long_name(self, mocker):  # noqa: D102
         long_name = mocker.sentinel.long_name
         constraint = NameConstraint(long_name=long_name)
         assert constraint.standard_name == self.default
@@ -38,7 +38,7 @@ class Test___init__:
         assert constraint.standard_name is None
         assert constraint.long_name == long_name
 
-    def test_var_name(self, mocker):
+    def test_var_name(self, mocker):  # noqa: D102
         var_name = mocker.sentinel.var_name
         constraint = NameConstraint(var_name=var_name)
         assert constraint.standard_name == self.default
@@ -51,7 +51,7 @@ class Test___init__:
         assert constraint.long_name is None
         assert constraint.var_name == var_name
 
-    def test_stash(self, mocker):
+    def test_stash(self, mocker):  # noqa: D102
         STASH = mocker.sentinel.STASH
         constraint = NameConstraint(STASH=STASH)
         assert constraint.standard_name == self.default
@@ -82,7 +82,7 @@ class Test__cube_func:
             attributes=dict(STASH=self.STASH),
         )
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         # Match.
         constraint = NameConstraint(standard_name=self.standard_name)
         assert constraint._cube_func(self.cube)
@@ -96,7 +96,7 @@ class Test__cube_func:
         constraint = NameConstraint(standard_name="wibble")
         assert not constraint._cube_func(self.cube)
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         # Match.
         constraint = NameConstraint(long_name=self.long_name)
         assert constraint._cube_func(self.cube)
@@ -112,7 +112,7 @@ class Test__cube_func:
         constraint = NameConstraint(standard_name=None, long_name=self.long_name)
         assert not constraint._cube_func(self.cube)
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         # Match.
         constraint = NameConstraint(var_name=self.var_name)
         assert constraint._cube_func(self.cube)
@@ -132,7 +132,7 @@ class Test__cube_func:
         )
         assert not constraint._cube_func(self.cube)
 
-    def test_stash(self):
+    def test_stash(self):  # noqa: D102
         # Match.
         constraint = NameConstraint(STASH=self.STASH)
         assert constraint._cube_func(self.cube)
@@ -168,17 +168,17 @@ class Test___repr__:
         self.f_var_name = "var_name={!r}".format(self.var_name)
         self.f_STASH = "STASH={!r}".format(self.STASH)
 
-    def test(self):
+    def test(self):  # noqa: D102
         constraint = NameConstraint()
         expected = self.msg.format("")
         assert repr(constraint) == expected
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         constraint = NameConstraint(standard_name=self.standard_name)
         expected = self.msg.format(self.f_standard_name)
         assert repr(constraint) == expected
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         constraint = NameConstraint(long_name=self.long_name)
         expected = self.msg.format(self.f_long_name)
         assert repr(constraint) == expected
@@ -189,7 +189,7 @@ class Test___repr__:
         expected = self.msg.format(args)
         assert repr(constraint) == expected
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         constraint = NameConstraint(var_name=self.var_name)
         expected = self.msg.format(self.f_var_name)
         assert repr(constraint) == expected
@@ -204,7 +204,7 @@ class Test___repr__:
         expected = self.msg.format(args)
         assert repr(constraint) == expected
 
-    def test_stash(self):
+    def test_stash(self):  # noqa: D102
         constraint = NameConstraint(STASH=self.STASH)
         expected = self.msg.format(self.f_STASH)
         assert repr(constraint) == expected

@@ -124,25 +124,25 @@ class TestArgs:
             self.cartopy_kwargs_default, **inputs.cartopy_kwargs
         )
 
-    def make_instance(self) -> ObliqueMercator:
+    def make_instance(self) -> ObliqueMercator:  # noqa: D102
         return ObliqueMercator(**self.class_kwargs)
 
     @pytest.fixture
-    def instance(self):
+    def instance(self):  # noqa: D102
         return self.make_instance()
 
     @pytest.fixture
-    def mock_ccrs(self, mocker):
+    def mock_ccrs(self, mocker):  # noqa: D102
         return mocker.patch("cartopy.crs.ObliqueMercator", autospec=True)
 
-    def test_instantiate(self):
+    def test_instantiate(self):  # noqa: D102
         _ = self.make_instance()
 
-    def test_cartopy_crs(self, instance, mock_ccrs):
+    def test_cartopy_crs(self, instance, mock_ccrs):  # noqa: D102
         instance.as_cartopy_crs()
         mock_ccrs.assert_called_with(**self.cartopy_kwargs_expected)
 
-    def test_cartopy_projection(self, instance, mock_ccrs):
+    def test_cartopy_projection(self, instance, mock_ccrs):  # noqa: D102
         instance.as_cartopy_projection()
         mock_ccrs.assert_called_with(**self.cartopy_kwargs_expected)
 

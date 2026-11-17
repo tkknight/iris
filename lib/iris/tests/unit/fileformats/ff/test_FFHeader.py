@@ -42,13 +42,13 @@ class Test_grid(MockerMixin):
         assert grid.real is self.mocker.sentinel.real
         assert grid.horiz_grid_type is self.mocker.sentinel.horiz_grid_type
 
-    def test_new_dynamics(self):
+    def test_new_dynamics(self):  # noqa: D102
         self._test_grid_staggering(3)
 
-    def test_end_game(self):
+    def test_end_game(self):  # noqa: D102
         self._test_grid_staggering(6)
 
-    def test_unknown(self, mocker):
+    def test_unknown(self, mocker):  # noqa: D102
         header = self._header(0)
         _ = mocker.patch(
             "iris.fileformats._ff.NewDynamics",
@@ -65,7 +65,7 @@ class Test_grid(MockerMixin):
 @_shared_utils.skip_data
 class Test_integer_constants:
     """Test integer constants."""
-    def test_read_ints(self):
+    def test_read_ints(self):  # noqa: D102
         test_file_path = _shared_utils.get_data_path(("FF", "structured", "small"))
         ff_header = FFHeader(test_file_path)
         assert ff_header.integer_constants.dtype == np.dtype(">i8")

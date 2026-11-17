@@ -16,7 +16,7 @@ class Test_get_xy_grids:
     """Test get xy grids."""
     # Testing for iris.analysis.carography.get_xy_grids().
 
-    def test_1d(self, request):
+    def test_1d(self, request):  # noqa: D102
         cube = iris.cube.Cube(np.arange(12).reshape(3, 4))
         cube.add_dim_coord(iris.coords.DimCoord(np.arange(3), "latitude"), 0)
         cube.add_dim_coord(iris.coords.DimCoord(np.arange(4), "longitude"), 1)
@@ -25,7 +25,7 @@ class Test_get_xy_grids:
             request, (x, y), ("cartography", "get_xy_grids", "1d.txt")
         )
 
-    def test_2d(self, request):
+    def test_2d(self, request):  # noqa: D102
         cube = iris.cube.Cube(np.arange(12).reshape(3, 4))
         cube.add_aux_coord(
             iris.coords.AuxCoord(np.arange(12).reshape(3, 4), "latitude"),
@@ -40,7 +40,7 @@ class Test_get_xy_grids:
             request, (x, y), ("cartography", "get_xy_grids", "2d.txt")
         )
 
-    def test_3d(self):
+    def test_3d(self):  # noqa: D102
         cube = iris.cube.Cube(np.arange(60).reshape(5, 3, 4))
         cube.add_aux_coord(
             iris.coords.AuxCoord(np.arange(60).reshape(5, 3, 4), "latitude"),

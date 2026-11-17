@@ -24,17 +24,17 @@ class Test:
             kwarg1=mocker.sentinel.kwarg1, kwarg2=mocker.sentinel.kwarg2
         )
 
-    def test_args_too_many(self):
+    def test_args_too_many(self):  # noqa: D102
         emsg = "Invalid lenient client arguments, expecting 1"
         with pytest.raises(AssertionError, match=emsg):
             _ = _lenient_client(None, None)
 
-    def test_args_not_callable(self):
+    def test_args_not_callable(self):  # noqa: D102
         emsg = "Invalid lenient client argument, expecting a callable"
         with pytest.raises(AssertionError, match=emsg):
             _ = _lenient_client(None)
 
-    def test_args_and_kwargs(self):
+    def test_args_and_kwargs(self):  # noqa: D102
         def func():
             pass
 
@@ -42,7 +42,7 @@ class Test:
         with pytest.raises(AssertionError, match=emsg):
             _ = _lenient_client(func, services=func)
 
-    def test_call_naked(self):
+    def test_call_naked(self):  # noqa: D102
         @_lenient_client
         def myclient():
             return _LENIENT.__dict__.copy()
@@ -53,7 +53,7 @@ class Test:
         assert result[self.active] == qualname_client
         assert qualname_client not in result
 
-    def test_call_naked_alternative(self):
+    def test_call_naked_alternative(self):  # noqa: D102
         def myclient():
             return _LENIENT.__dict__.copy()
 
@@ -63,7 +63,7 @@ class Test:
         assert result[self.active] == qualname_client
         assert qualname_client not in result
 
-    def test_call_naked_client_args_kwargs(self):
+    def test_call_naked_client_args_kwargs(self):  # noqa: D102
         @_lenient_client
         def myclient(*args, **kwargs):
             return args, kwargs
@@ -72,14 +72,14 @@ class Test:
         assert args_out == self.args_in
         assert kwargs_out == self.kwargs_in
 
-    def test_call_naked_doc(self):
+    def test_call_naked_doc(self):  # noqa: D102
         @_lenient_client
         def myclient():
             """Myclient doc-string."""
 
         assert myclient.__doc__ == "Myclient doc-string."
 
-    def test_call_no_kwargs(self):
+    def test_call_no_kwargs(self):  # noqa: D102
         @_lenient_client()
         def myclient():
             return _LENIENT.__dict__.copy()
@@ -90,7 +90,7 @@ class Test:
         assert result[self.active] == qualname_client
         assert qualname_client not in result
 
-    def test_call_no_kwargs_alternative(self):
+    def test_call_no_kwargs_alternative(self):  # noqa: D102
         def myclient():
             return _LENIENT.__dict__.copy()
 
@@ -100,7 +100,7 @@ class Test:
         assert result[self.active] == qualname_client
         assert qualname_client not in result
 
-    def test_call_kwargs_none(self):
+    def test_call_kwargs_none(self):  # noqa: D102
         @_lenient_client(services=None)
         def myclient():
             return _LENIENT.__dict__.copy()
@@ -111,7 +111,7 @@ class Test:
         assert result[self.active] == qualname_client
         assert qualname_client not in result
 
-    def test_call_kwargs_single(self, mocker):
+    def test_call_kwargs_single(self, mocker):  # noqa: D102
         service = mocker.sentinel.service
 
         @_lenient_client(services=service)
@@ -125,7 +125,7 @@ class Test:
         assert qualname_client in result
         assert result[qualname_client] == (service,)
 
-    def test_call_kwargs_single_callable(self):
+    def test_call_kwargs_single_callable(self):  # noqa: D102
         def myservice():
             pass
 
@@ -142,7 +142,7 @@ class Test:
         qualname_services = (self.service.format(test_name),)
         assert result[qualname_client] == qualname_services
 
-    def test_call_kwargs_iterable(self, mocker):
+    def test_call_kwargs_iterable(self, mocker):  # noqa: D102
         services = (mocker.sentinel.service1, mocker.sentinel.service2)
 
         @_lenient_client(services=services)
@@ -156,7 +156,7 @@ class Test:
         assert qualname_client in result
         assert set(result[qualname_client]) == set(services)
 
-    def test_call_client_args_kwargs(self):
+    def test_call_client_args_kwargs(self):  # noqa: D102
         @_lenient_client()
         def myclient(*args, **kwargs):
             return args, kwargs
@@ -165,7 +165,7 @@ class Test:
         assert args_out == self.args_in
         assert kwargs_out == self.kwargs_in
 
-    def test_call_doc(self):
+    def test_call_doc(self):  # noqa: D102
         @_lenient_client()
         def myclient():
             """Myclient doc-string."""

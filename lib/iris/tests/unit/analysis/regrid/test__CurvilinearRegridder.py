@@ -28,11 +28,11 @@ class Test___init__:
         self.bad = np.ones((3, 4))
         self.weights = np.ones(self.src_grid.shape, self.src_grid.dtype)
 
-    def test_bad_src_type(self):
+    def test_bad_src_type(self):  # noqa: D102
         with pytest.raises(TypeError, match="'src_grid_cube'"):
             Regridder(self.bad, self.src_grid, self.weights)
 
-    def test_bad_grid_type(self):
+    def test_bad_grid_type(self):  # noqa: D102
         with pytest.raises(TypeError, match="'target_grid_cube'"):
             Regridder(self.src_grid, self.bad, self.weights)
 
@@ -81,7 +81,7 @@ class Test___call__:
         # can do a cubelist merge on it, which is too complicated to mock out.
         self.dummy_slice_result = Cube([1])
 
-    def test_same_src_as_init(self, mocker):
+    def test_same_src_as_init(self, mocker):  # noqa: D102
         # Check the regridder call calls the underlying routines as expected.
         src_grid = self.src_grid
         target_grid = self.tgt_grid
@@ -101,7 +101,7 @@ class Test___call__:
         # therefore '==' but not the same object.
         assert result == self.dummy_slice_result
 
-    def test_no_weights(self, mocker):
+    def test_no_weights(self, mocker):  # noqa: D102
         # Check we can use the regridder without weights.
         src_grid = self.src_grid
         target_grid = self.tgt_grid
@@ -115,7 +115,7 @@ class Test___call__:
 
         patch_setup.assert_called_once_with(src_grid, None, target_grid)
 
-    def test_diff_src_from_init(self, mocker):
+    def test_diff_src_from_init(self, mocker):  # noqa: D102
         # Check we can call the regridder with a different cube from the one we
         # built it with.
         src_grid = self.src_grid
@@ -136,7 +136,7 @@ class Test___call__:
             different_src_cube, mocker.sentinel.regrid_info
         )
 
-    def test_caching(self, mocker):
+    def test_caching(self, mocker):  # noqa: D102
         # Check that it calculates regrid info just once, and re-uses it in
         # subsequent calls.
         src_grid = self.src_grid
@@ -195,7 +195,7 @@ class Test__derived_coord:
         transposed_src.transpose([0, 2, 1])
         self.altitude_transposed = transposed_src.coord("altitude")
 
-    def test_no_transpose(self):
+    def test_no_transpose(self):  # noqa: D102
         rg = Regridder(self.src, self.tgt)
         res = rg(self.src)
 
@@ -205,7 +205,7 @@ class Test__derived_coord:
             res.coord("altitude").points, self.altitude.points
         )
 
-    def test_cube_transposed(self):
+    def test_cube_transposed(self):  # noqa: D102
         rg = Regridder(self.src, self.tgt)
         transposed_cube = self.src.copy()
         transposed_cube.transpose([0, 2, 1])
@@ -217,7 +217,7 @@ class Test__derived_coord:
             res.coord("altitude").points, self.altitude_transposed.points
         )
 
-    def test_coord_transposed(self):
+    def test_coord_transposed(self):  # noqa: D102
         rg = Regridder(self.src_t, self.tgt)
         res = rg(self.src_t)
 
@@ -227,7 +227,7 @@ class Test__derived_coord:
             res.coord("altitude").points, self.altitude_transposed.points
         )
 
-    def test_both_transposed(self):
+    def test_both_transposed(self):  # noqa: D102
         rg = Regridder(self.src_t, self.tgt)
         transposed_cube = self.src_t.copy()
         transposed_cube.transpose([0, 2, 1])
@@ -255,18 +255,18 @@ class Test___call____bad_src:
         weights = np.ones(self.src_grid.shape, self.src_grid.dtype)
         self.regridder = Regridder(self.src_grid, self.src_grid, weights)
 
-    def test_bad_src_type(self):
+    def test_bad_src_type(self):  # noqa: D102
         with pytest.raises(TypeError, match="must be a Cube"):
             self.regridder(np.ones((3, 4)))
 
-    def test_bad_src_shape(self):
+    def test_bad_src_shape(self):  # noqa: D102
         with pytest.raises(ValueError, match="not defined on the same source grid"):
             self.regridder(self.src_grid[::2, ::2])
 
 
 class Test__call__multidimensional:
     """Test  call  multidimensional."""
-    def test_multidim(self):
+    def test_multidim(self):  # noqa: D102
         # Testing with >2D data to demonstrate correct operation over
         # additional non-XY dimensions (including data masking), which is
         # handled by the PointInCell wrapper class.

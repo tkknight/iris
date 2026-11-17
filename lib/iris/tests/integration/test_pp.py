@@ -53,7 +53,7 @@ class TestVertical:
         field.configure_mock(**kwargs)
         return field
 
-    def test_soil_level_round_trip(self, mocker):
+    def test_soil_level_round_trip(self, mocker):  # noqa: D102
         # Use pp.load_cubes() to convert a fake PPField into a Cube.
         # NB. Use MagicMock so that SplittableInt header items, such as
         # LBCODE, support len().
@@ -83,7 +83,7 @@ class TestVertical:
         assert field.brsvd[0] == 0
         assert field.brlev == 0
 
-    def test_soil_depth_round_trip(self, mocker):
+    def test_soil_depth_round_trip(self, mocker):  # noqa: D102
         # Use pp.load_cubes() to convert a fake PPField into a Cube.
         # NB. Use MagicMock so that SplittableInt header items, such as
         # LBCODE, support len().
@@ -118,7 +118,7 @@ class TestVertical:
         assert field.brsvd[0] == lower
         assert field.brlev == upper
 
-    def test_potential_temperature_level_round_trip(self, mocker):
+    def test_potential_temperature_level_round_trip(self, mocker):  # noqa: D102
         # Check save+load for data on 'potential temperature' levels.
 
         # Use pp.load_cubes() to convert a fake PPField into a Cube.
@@ -172,7 +172,7 @@ class TestVertical:
         field.configure_mock(**kwargs)
         return field
 
-    def test_hybrid_pressure_round_trip(self, mocker):
+    def test_hybrid_pressure_round_trip(self, mocker):  # noqa: D102
         # Use pp.load_cubes() to convert fake PPFields into Cubes.
         # NB. Use MagicMock so that SplittableInt header items, such as
         # LBCODE, support len().
@@ -258,7 +258,7 @@ class TestVertical:
         assert data_field.brsvd == [sigma_upper, delta_upper]
 
     @pytest.mark.parametrize("islazy", [False, True], ids=["real", "lazy"])
-    def test_hybrid_pressure_lazy_load(self, mocker, islazy):
+    def test_hybrid_pressure_lazy_load(self, mocker, islazy):  # noqa: D102
         pressure_field = self._field_with_data(
             mocker,
             10,
@@ -299,7 +299,7 @@ class TestVertical:
         else:
             assert not lazy_data_cube.coord("surface_air_pressure").has_lazy_points()
 
-    def test_hybrid_pressure_with_duplicate_references(self, mocker):
+    def test_hybrid_pressure_with_duplicate_references(self, mocker):  # noqa: D102
         # Make a fake reference surface field.
         pressure_field = self._field_with_data(
             mocker,
@@ -332,7 +332,7 @@ class TestVertical:
         with pytest.warns(IrisUserWarning, match=re.escape(msg)):
             _, _, _ = iris.fileformats.pp.load_cubes("DUMMY")
 
-    def test_hybrid_height_with_non_standard_coords(self):
+    def test_hybrid_height_with_non_standard_coords(self):  # noqa: D102
         # Check the save rules are using the AuxFactory to find the
         # hybrid height coordinates and not relying on their names.
         ny, nx = 30, 40
@@ -377,7 +377,7 @@ class TestVertical:
         assert field.bhrlev == sigma_lower
         assert field.brsvd == [delta_upper, sigma_upper]
 
-    def test_hybrid_pressure_with_non_standard_coords(self):
+    def test_hybrid_pressure_with_non_standard_coords(self):  # noqa: D102
         # Check the save rules are using the AuxFactory to find the
         # hybrid pressure coordinates and not relying on their names.
         ny, nx = 30, 40
@@ -422,7 +422,7 @@ class TestVertical:
         assert field.brlev == sigma_lower
         assert field.brsvd == [sigma_upper, delta_upper]
 
-    def test_hybrid_height_round_trip_no_reference(self, mocker):
+    def test_hybrid_height_round_trip_no_reference(self, mocker):  # noqa: D102
         # Use pp.load_cubes() to convert fake PPFields into Cubes.
         # NB. Use MagicMock so that SplittableInt header items, such as
         # LBCODE, support len().
@@ -496,7 +496,7 @@ class TestSaveLBFT:
         ref_offset = 10 * 24
         self.args = (delta_start, delta_mid, self.delta_end, ref_offset)
 
-    def create_cube(self, fp_min, fp_mid, fp_max, ref_offset, season=None):
+    def create_cube(self, fp_min, fp_mid, fp_max, ref_offset, season=None):  # noqa: D102
         cube = Cube(np.zeros((3, 4)))
         cube.add_aux_coord(
             AuxCoord(
@@ -519,7 +519,7 @@ class TestSaveLBFT:
             cube.add_cell_method(CellMethod("DUMMY", "clim_season"))
         return cube
 
-    def convert_cube_to_field(self, cube):
+    def convert_cube_to_field(self, cube):  # noqa: D102
         # Use the save rules to convert the Cube back into a PPField.
         field = iris.fileformats.pp.PPField3()
         field.lbfc = 0
@@ -528,12 +528,12 @@ class TestSaveLBFT:
         field = verify(cube, field)
         return field
 
-    def test_time_mean_from_forecast_period(self):
+    def test_time_mean_from_forecast_period(self):  # noqa: D102
         cube = self.create_cube(24, 36, 48, 72)
         field = self.convert_cube_to_field(cube)
         assert field.lbft == 48
 
-    def test_time_mean_from_forecast_reference_time(self):
+    def test_time_mean_from_forecast_reference_time(self):  # noqa: D102
         cube = Cube(np.zeros((3, 4)))
         cube.add_aux_coord(
             AuxCoord(
@@ -553,7 +553,7 @@ class TestSaveLBFT:
         field = self.convert_cube_to_field(cube)
         assert field.lbft == 48
 
-    def test_climatological_mean_single_year(self):
+    def test_climatological_mean_single_year(self):  # noqa: D102
         cube = Cube(np.zeros((3, 4)))
         cube.add_aux_coord(
             AuxCoord(
@@ -576,22 +576,22 @@ class TestSaveLBFT:
         field = self.convert_cube_to_field(cube)
         assert field.lbft == 4 * 24
 
-    def test_climatological_mean_multi_year_djf(self):
+    def test_climatological_mean_multi_year_djf(self):  # noqa: D102
         cube = self.create_cube(*self.args, season="djf")
         field = self.convert_cube_to_field(cube)
         assert field.lbft == self.delta_end
 
-    def test_climatological_mean_multi_year_mam(self):
+    def test_climatological_mean_multi_year_mam(self):  # noqa: D102
         cube = self.create_cube(*self.args, season="mam")
         field = self.convert_cube_to_field(cube)
         assert field.lbft == self.delta_end
 
-    def test_climatological_mean_multi_year_jja(self):
+    def test_climatological_mean_multi_year_jja(self):  # noqa: D102
         cube = self.create_cube(*self.args, season="jja")
         field = self.convert_cube_to_field(cube)
         assert field.lbft == self.delta_end
 
-    def test_climatological_mean_multi_year_son(self):
+    def test_climatological_mean_multi_year_son(self):  # noqa: D102
         cube = self.create_cube(*self.args, season="son")
         field = self.convert_cube_to_field(cube)
         assert field.lbft == self.delta_end
@@ -622,7 +622,7 @@ class TestCoordinateForms:
         pp_field = next(pp_loader)
         return pp_field
 
-    def test_save_awkward_case_is_regular(self, tmp_path):
+    def test_save_awkward_case_is_regular(self, tmp_path):  # noqa: D102
         # Check that specific "awkward" values still save in a regular form.
         nx = 3
         x0 = np.float32(355.626)
@@ -640,7 +640,7 @@ class TestCoordinateForms:
         assert pp_field.bdx == dx
         assert pp_field.lbnpt == nx
 
-    def test_save_irregular(self, tmp_path):
+    def test_save_irregular(self, tmp_path):  # noqa: D102
         # Check that a non-regular coordinate saves as expected.
         nx = 3
         x_values = [0.0, 1.1, 2.0]
@@ -657,7 +657,7 @@ class TestCoordinateForms:
 @_shared_utils.skip_data
 class TestLoadLittleendian:
     """Test oadLittleendian."""
-    def test_load_sample(self):
+    def test_load_sample(self):  # noqa: D102
         file_path = _shared_utils.get_data_path(
             ("PP", "little_endian", "qrparm.orog.pp")
         )
@@ -689,7 +689,7 @@ class TestAsCubes:
         )
         self.ppfs = iris.fileformats.pp.load(dpath)
 
-    def test_pseudo_level_filter(self):
+    def test_pseudo_level_filter(self):  # noqa: D102
         chosen_ppfs = []
         for ppf in self.ppfs:
             if ppf.lbuser[4] == 3:
@@ -697,7 +697,7 @@ class TestAsCubes:
         cubes_fields = list(load_pairs_from_fields(chosen_ppfs))
         assert len(cubes_fields) == 8
 
-    def test_pseudo_level_filter_none(self):
+    def test_pseudo_level_filter_none(self):  # noqa: D102
         chosen_ppfs = []
         for ppf in self.ppfs:
             if ppf.lbuser[4] == 30:
@@ -705,7 +705,7 @@ class TestAsCubes:
         cubes = list(load_pairs_from_fields(chosen_ppfs))
         assert len(cubes) == 0
 
-    def test_as_pairs(self):
+    def test_as_pairs(self):  # noqa: D102
         cube_ppf_pairs = load_pairs_from_fields(self.ppfs)
         cubes = []
         for cube, ppf in cube_ppf_pairs:
@@ -718,7 +718,7 @@ class TestAsCubes:
 
 class TestSaveLBPROC:
     """Test aveLBPROC."""
-    def create_cube(self, longitude_coord="longitude"):
+    def create_cube(self, longitude_coord="longitude"):  # noqa: D102
         cube = Cube(np.zeros((2, 3, 4)))
         tunit = Unit("days since epoch", calendar="standard")
         tcoord = DimCoord(np.arange(2), standard_name="time", units=tunit)
@@ -729,30 +729,30 @@ class TestSaveLBPROC:
         cube.add_dim_coord(ycoord, 2)
         return cube
 
-    def convert_cube_to_field(self, cube):
+    def convert_cube_to_field(self, cube):  # noqa: D102
         field = iris.fileformats.pp.PPField3()
         field.lbvc = 0
         return verify(cube, field)
 
-    def test_time_mean_only(self):
+    def test_time_mean_only(self):  # noqa: D102
         cube = self.create_cube()
         cube.add_cell_method(CellMethod(method="mean", coords="time"))
         field = self.convert_cube_to_field(cube)
         assert int(field.lbproc) == 128
 
-    def test_longitudinal_mean_only(self):
+    def test_longitudinal_mean_only(self):  # noqa: D102
         cube = self.create_cube()
         cube.add_cell_method(CellMethod(method="mean", coords="longitude"))
         field = self.convert_cube_to_field(cube)
         assert int(field.lbproc) == 64
 
-    def test_grid_longitudinal_mean_only(self):
+    def test_grid_longitudinal_mean_only(self):  # noqa: D102
         cube = self.create_cube(longitude_coord="grid_longitude")
         cube.add_cell_method(CellMethod(method="mean", coords="grid_longitude"))
         field = self.convert_cube_to_field(cube)
         assert int(field.lbproc) == 64
 
-    def test_time_mean_and_zonal_mean(self):
+    def test_time_mean_and_zonal_mean(self):  # noqa: D102
         cube = self.create_cube()
         cube.add_cell_method(CellMethod(method="mean", coords="time"))
         cube.add_cell_method(CellMethod(method="mean", coords="longitude"))
@@ -767,7 +767,7 @@ class TestCallbackLoad:
     def _setup(self):
         self.pass_name = "air_potential_temperature"
 
-    def callback_wrapper(self):
+    def callback_wrapper(self):  # noqa: D102
         # Wrap the `iris.exceptions.IgnoreCubeException`-calling callback.
         def callback_ignore_cube_exception(cube, field, filename):
             if cube.name() != self.pass_name:
@@ -775,7 +775,7 @@ class TestCallbackLoad:
 
         return callback_ignore_cube_exception
 
-    def test_ignore_cube_callback(self):
+    def test_ignore_cube_callback(self):  # noqa: D102
         test_dataset = _shared_utils.get_data_path(["PP", "globClim1", "dec_subset.pp"])
         exception_callback = self.callback_wrapper()
         result_cubes = iris.load(test_dataset, callback=exception_callback)
@@ -788,7 +788,7 @@ class TestCallbackLoad:
 @_shared_utils.skip_data
 class TestZonalMeanBounds:
     """Test onalMeanBounds."""
-    def test_mulitple_longitude(self, tmp_path):
+    def test_mulitple_longitude(self, tmp_path):  # noqa: D102
         # test that bounds are set for a zonal mean file with many longitude
         # values
         orig_file = _shared_utils.get_data_path(("PP", "aPPglob1", "global.pp"))
@@ -806,7 +806,7 @@ class TestZonalMeanBounds:
 
         assert cube.coord("longitude").has_bounds()
 
-    def test_singular_longitude(self):
+    def test_singular_longitude(self):  # noqa: D102
         # test that bounds are set for a zonal mean file with a single
         # longitude value
 
@@ -821,7 +821,7 @@ class TestZonalMeanBounds:
 @_shared_utils.skip_data
 class TestLoadPartialMask:
     """Test oadPartialMask."""
-    def test_data(self):
+    def test_data(self):  # noqa: D102
         # Ensure that fields merge correctly where one has a mask and one
         # doesn't.
         filename = _shared_utils.get_data_path(["PP", "simple_pp", "partial_mask.pp"])

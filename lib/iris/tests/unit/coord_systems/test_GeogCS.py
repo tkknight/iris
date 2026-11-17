@@ -14,7 +14,7 @@ class Test_init_defaults:
     # 'iris.tests.test_coordsystem'.
     # This class *only* tests the defaults for optional constructor args.
 
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) argument works.
         crs = GeogCS(1.0, longitude_of_prime_meridian=-85)
         _shared_utils.assert_equal_and_kind(crs.longitude_of_prime_meridian, -85.0)
@@ -30,12 +30,12 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.inverse_flattening, 0.0)
         _shared_utils.assert_equal_and_kind(crs.longitude_of_prime_meridian, 0.0)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected properties with no optional args.
         crs = GeogCS(1.0)
         self._check_crs_defaults(crs)
 
-    def test_optional_args_None(self):
+    def test_optional_args_None(self):  # noqa: D102
         # Check expected properties with optional args=None.
         crs = GeogCS(
             1.0,
@@ -45,7 +45,7 @@ class Test_init_defaults:
         )
         self._check_crs_defaults(crs)
 
-    def test_zero_inverse_flattening_on_perfect_sphere(self):
+    def test_zero_inverse_flattening_on_perfect_sphere(self):  # noqa: D102
         # allow inverse_flattening to be 0 for a perfect sphere
         # i.e. semi-major axis defined, semi-minor is None.
         crs = GeogCS(

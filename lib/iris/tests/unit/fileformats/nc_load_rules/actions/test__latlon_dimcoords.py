@@ -118,7 +118,7 @@ netcdf test {{
 """
         return cdl_string
 
-    def check_result(
+    def check_result(  # noqa: D102
         self,
         cube,
         standard_name,
@@ -159,7 +159,7 @@ netcdf test {{
         elif crs == "rotated":
             assert isinstance(coord_crs, RotatedGeogCS), context_message
 
-    def check_load_problem(self, setup_kwargs, expected_msg):
+    def check_load_problem(self, setup_kwargs, expected_msg):  # noqa: D102
         # Check that the expected load problem is stored.
         _ = self.run_testcase(**setup_kwargs)
         load_problem = LOAD_PROBLEMS.problems[-1]
@@ -174,12 +174,12 @@ netcdf test {{
     # in v3.0.4, based on Pyke rules.
     #
 
-    def test_minimal(self):
+    def test_minimal(self):  # noqa: D102
         # Nothing but a var-name --> unrecognised dim-coord.
         result = self.run_testcase()
         self.check_result(result, None, None, "unknown")
 
-    def test_fullinfo_unrotated(self):
+    def test_fullinfo_unrotated(self):  # noqa: D102
         # Check behaviour with all normal info elements for 'unrotated' case.
         # Includes a grid-mapping, but no axis (should not be needed).
         result = self.run_testcase(
@@ -189,7 +189,7 @@ netcdf test {{
         )
         self.check_result(result, self.unrotated_name, None, "degrees", "latlon")
 
-    def test_fullinfo_rotated(self):
+    def test_fullinfo_rotated(self):  # noqa: D102
         # Check behaviour with all normal info elements for 'rotated' case.
         # Includes a grid-mapping, but no axis (should not be needed).
         result = self.run_testcase(
@@ -199,30 +199,30 @@ netcdf test {{
         )
         self.check_result(result, self.rotated_name, None, "degrees", "rotated")
 
-    def test_axis(self):
+    def test_axis(self):  # noqa: D102
         # A suitable axis --> unrotated lat/lon coord, but unknown units.
         result = self.run_testcase(axis=self.axis)
         self.check_result(result, self.unrotated_name, None, "unknown")
 
-    def test_units_unrotated(self):
+    def test_units_unrotated(self):  # noqa: D102
         # With a unit like 'degrees_east', we automatically identify this as a
         # latlon coord, *and* convert units to plain 'degrees' on loading.
         result = self.run_testcase(units=self.unrotated_units)
         self.check_result(result, self.unrotated_name, None, "degrees")
 
-    def test_units_rotated(self):
+    def test_units_rotated(self):  # noqa: D102
         # With no info except a "degrees" unit, we **don't** identify a latlon,
         # i.e. we do not set the standard-name
         result = self.run_testcase(units="degrees")
         self.check_result(result, None, None, "degrees")
 
-    def test_units_unrotated_gridmapping(self):
+    def test_units_unrotated_gridmapping(self):  # noqa: D102
         # With an unrotated unit *AND* a suitable grid-mapping, we identify a
         # rotated latlon coordinate + assign it the coord-system.
         result = self.run_testcase(units=self.unrotated_units, grid_mapping="latlon")
         self.check_result(result, self.unrotated_name, None, "degrees", "latlon")
 
-    def test_units_rotated_gridmapping_noname(self):
+    def test_units_rotated_gridmapping_noname(self):  # noqa: D102
         # Rotated units and grid-mapping, but *without* the expected name.
         # Does not translate, no coord-system (i.e. grid-mapping is discarded).
         result = self.run_testcase(
@@ -231,7 +231,7 @@ netcdf test {{
         )
         self.check_result(result, None, None, "degrees", None)
 
-    def test_units_rotated_gridmapping_withname(self):
+    def test_units_rotated_gridmapping_withname(self):  # noqa: D102
         # With a "degrees" unit, a rotated grid-mapping *AND* a suitable
         # standard-name, it recognises a rotated dimcoord.
         result = self.run_testcase(
@@ -241,7 +241,7 @@ netcdf test {{
         )
         self.check_result(result, self.rotated_name, None, "degrees", "rotated")
 
-    def test_units_rotated_gridmapping_varname(self):
+    def test_units_rotated_gridmapping_varname(self):  # noqa: D102
         # Same but with var-name containing the standard-name : in this case we
         # get NO COORDINATE-SYSTEM (which is a bit weird).
         result = self.run_testcase(
@@ -251,19 +251,19 @@ netcdf test {{
         )
         self.check_result(result, self.rotated_name, None, "degrees", None)
 
-    def test_varname_unrotated(self):
+    def test_varname_unrotated(self):  # noqa: D102
         # With a recognised name in the var-name, we set standard-name.
         # But units are left undetermined.
         result = self.run_testcase(var_name=self.unrotated_name)
         self.check_result(result, self.unrotated_name, None, "unknown")
 
-    def test_varname_rotated(self):
+    def test_varname_rotated(self):  # noqa: D102
         # With a *rotated* name in the var-name, we set standard-name.
         # But units are left undetermined.
         result = self.run_testcase(var_name=self.rotated_name)
         self.check_result(result, self.rotated_name, None, "unknown")
 
-    def test_varname_unrotated_units_rotated(self):
+    def test_varname_unrotated_units_rotated(self):  # noqa: D102
         # With a "degrees" unit and a suitable var-name, we do identify
         # (= set standard-name).
         # N.B. this accepts "degrees" as a generic term, and so does *not*
@@ -271,22 +271,22 @@ netcdf test {{
         result = self.run_testcase(var_name=self.unrotated_name, units="degrees")
         self.check_result(result, self.unrotated_name, None, "degrees")
 
-    def test_longname(self):
+    def test_longname(self):  # noqa: D102
         # A recognised form in long-name is *not* translated into standard-name.
         result = self.run_testcase(long_name=self.unrotated_name)
         self.check_result(result, None, self.unrotated_name, "unknown")
 
-    def test_stdname_unrotated(self):
+    def test_stdname_unrotated(self):  # noqa: D102
         # Only an (unrotated) standard name : units is not specified
         result = self.run_testcase(standard_name=self.unrotated_name)
         self.check_result(result, self.unrotated_name, None, None)
 
-    def test_stdname_rotated(self):
+    def test_stdname_rotated(self):  # noqa: D102
         # Only a (rotated) standard name : units is not specified
         result = self.run_testcase(standard_name=self.rotated_name)
         self.check_result(result, self.rotated_name, None, None)
 
-    def test_stdname_unrotated_gridmapping(self):
+    def test_stdname_unrotated_gridmapping(self):  # noqa: D102
         # An unrotated standard-name and grid-mapping, translates into a
         # coordinate system.
         result = self.run_testcase(
@@ -294,7 +294,7 @@ netcdf test {{
         )
         self.check_result(result, self.unrotated_name, None, "unknown", "latlon")
 
-    def test_stdname_rotated_gridmapping(self):
+    def test_stdname_rotated_gridmapping(self):  # noqa: D102
         # An *rotated* standard-name and grid-mapping, translates into a
         # coordinate system.
         result = self.run_testcase(
@@ -302,7 +302,7 @@ netcdf test {{
         )
         self.check_result(result, self.rotated_name, None, None, "rotated")
 
-    def test_fail_latlon(self):
+    def test_fail_latlon(self):  # noqa: D102
         self.check_load_problem(
             dict(
                 standard_name=self.unrotated_name,
@@ -312,7 +312,7 @@ netcdf test {{
             "FAILED : latlon coord with rotated cs",
         )
 
-    def test_fail_rotated(self):
+    def test_fail_rotated(self):  # noqa: D102
         self.check_load_problem(
             dict(
                 standard_name=self.rotated_name,
@@ -322,7 +322,7 @@ netcdf test {{
             "FAILED rotated coord with latlon cs",
         )
 
-    def test_fail_projected(self):
+    def test_fail_projected(self):  # noqa: D102
         self.check_load_problem(
             dict(
                 standard_name="projection_x_coordinate",

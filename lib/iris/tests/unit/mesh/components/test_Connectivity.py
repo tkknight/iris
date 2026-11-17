@@ -34,29 +34,29 @@ class TestStandard:
         }
         self.connectivity = Connectivity(**self.kwargs)
 
-    def test_cf_role(self):
+    def test_cf_role(self):  # noqa: D102
         assert self.kwargs["cf_role"] == self.connectivity.cf_role
 
-    def test_location(self):
+    def test_location(self):  # noqa: D102
         expected = self.kwargs["cf_role"].split("_")[0]
         assert expected == self.connectivity.location
 
-    def test_connected(self):
+    def test_connected(self):  # noqa: D102
         expected = self.kwargs["cf_role"].split("_")[1]
         assert expected == self.connectivity.connected
 
-    def test_start_index(self):
+    def test_start_index(self):  # noqa: D102
         assert self.kwargs["start_index"] == self.connectivity.start_index
 
-    def test_location_axis(self):
+    def test_location_axis(self):  # noqa: D102
         assert self.kwargs["location_axis"] == self.connectivity.location_axis
 
-    def test_indices(self):
+    def test_indices(self):  # noqa: D102
         _shared_utils.assert_array_equal(
             self.kwargs["indices"], self.connectivity.indices
         )
 
-    def test_read_only(self):
+    def test_read_only(self):  # noqa: D102
         attributes = ("indices", "cf_role", "start_index", "location_axis")
         if version.parse(python_version()) >= version.parse("3.11"):
             msg = "object has no setter"
@@ -66,32 +66,32 @@ class TestStandard:
             with pytest.raises(AttributeError, match=msg):
                 setattr(self.connectivity, attribute, 1)
 
-    def test_transpose(self):
+    def test_transpose(self):  # noqa: D102
         expected_dim = 1 - self.kwargs["location_axis"]
         expected_indices = self.kwargs["indices"].transpose()
         new_connectivity = self.connectivity.transpose()
         assert expected_dim == new_connectivity.location_axis
         _shared_utils.assert_array_equal(expected_indices, new_connectivity.indices)
 
-    def test_lazy_indices(self):
+    def test_lazy_indices(self):  # noqa: D102
         assert is_lazy_data(self.connectivity.lazy_indices())
 
-    def test_core_indices(self):
+    def test_core_indices(self):  # noqa: D102
         _shared_utils.assert_array_equal(
             self.kwargs["indices"], self.connectivity.core_indices()
         )
 
-    def test_has_lazy_indices(self):
+    def test_has_lazy_indices(self):  # noqa: D102
         assert not self.connectivity.has_lazy_indices()
 
-    def test_lazy_location_lengths(self):
+    def test_lazy_location_lengths(self):  # noqa: D102
         assert is_lazy_data(self.connectivity.lazy_location_lengths())
 
-    def test_location_lengths(self):
+    def test_location_lengths(self):  # noqa: D102
         expected = [4, 4, 4]
         _shared_utils.assert_array_equal(expected, self.connectivity.location_lengths())
 
-    def test___str__(self):
+    def test___str__(self):  # noqa: D102
         expected = "\n".join(
             [
                 "Connectivity :  my_face_nodes / (unknown)",
@@ -113,20 +113,20 @@ class TestStandard:
         )
         assert expected == self.connectivity.__str__()
 
-    def test___repr__(self):
+    def test___repr__(self):  # noqa: D102
         expected = (
             "<Connectivity: my_face_nodes / (unknown)  [[1, 2, 3], ...]  shape(4, 3)>"
         )
         assert expected == self.connectivity.__repr__()
 
-    def test_xml_element(self):
+    def test_xml_element(self):  # noqa: D102
         doc = minidom.Document()
         connectivity_element = self.connectivity.xml_element(doc)
         assert connectivity_element.tagName == "connectivity"
         for attribute in ("cf_role", "start_index", "location_axis"):
             assert attribute in connectivity_element.attributes
 
-    def test___eq__(self):
+    def test___eq__(self):  # noqa: D102
         equivalent_kwargs = self.kwargs
         equivalent_kwargs["indices"] = self.kwargs["indices"].transpose()
         equivalent_kwargs["location_axis"] = 1 - self.kwargs["location_axis"]
@@ -134,38 +134,38 @@ class TestStandard:
         assert not np.array_equal(equivalent.indices, self.connectivity.indices)
         assert equivalent == self.connectivity
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         different_kwargs = self.kwargs
         different_kwargs["indices"] = self.kwargs["indices"].transpose()
         different = Connectivity(**different_kwargs)
         assert different != self.connectivity
 
-    def test_no_cube_dims(self):
+    def test_no_cube_dims(self):  # noqa: D102
         with pytest.raises(NotImplementedError):
             self.connectivity.cube_dims(1)
 
-    def test_shape(self):
+    def test_shape(self):  # noqa: D102
         assert self.kwargs["indices"].shape == self.connectivity.shape
 
-    def test_ndim(self):
+    def test_ndim(self):  # noqa: D102
         assert self.kwargs["indices"].ndim == self.connectivity.ndim
 
-    def test___getitem_(self):
+    def test___getitem_(self):  # noqa: D102
         subset = self.connectivity[:, 0:1]
         _shared_utils.assert_array_equal(self.kwargs["indices"][:, 0:1], subset.indices)
 
-    def test_copy(self):
+    def test_copy(self):  # noqa: D102
         new_indices = np.linspace(11, 16, 6, dtype=int).reshape((3, -1))
         copy_connectivity = self.connectivity.copy(new_indices)
         _shared_utils.assert_array_equal(new_indices, copy_connectivity.indices)
 
-    def test_indices_by_location(self):
+    def test_indices_by_location(self):  # noqa: D102
         expected = self.kwargs["indices"].transpose()
         _shared_utils.assert_array_equal(
             expected, self.connectivity.indices_by_location()
         )
 
-    def test_indices_by_location_input(self):
+    def test_indices_by_location_input(self):  # noqa: D102
         expected = as_lazy_data(self.kwargs["indices"].transpose())
         by_location = self.connectivity.indices_by_location(
             self.connectivity.lazy_indices()
@@ -182,28 +182,28 @@ class TestAltIndices:
         self.masked_indices = ma.array(data=data, mask=mask)
         self.lazy_indices = as_lazy_data(data)
 
-    def common(self, indices):
+    def common(self, indices):  # noqa: D102
         connectivity = Connectivity(indices=indices, cf_role="face_node_connectivity")
         _shared_utils.assert_array_equal(indices, connectivity.indices)
 
-    def test_int32(self):
+    def test_int32(self):  # noqa: D102
         indices = np.linspace(1, 9, 9, dtype=np.int32).reshape((-1, 3))
         self.common(indices)
 
-    def test_uint32(self):
+    def test_uint32(self):  # noqa: D102
         indices = np.linspace(1, 9, 9, dtype=np.uint32).reshape((-1, 3))
         self.common(indices)
 
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         self.common(self.lazy_indices)
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         self.common(self.masked_indices)
 
-    def test_masked_lazy(self):
+    def test_masked_lazy(self):  # noqa: D102
         self.common(as_lazy_data(self.masked_indices))
 
-    def test_has_lazy_indices(self):
+    def test_has_lazy_indices(self):  # noqa: D102
         connectivity = Connectivity(
             indices=self.lazy_indices, cf_role="face_node_connectivity"
         )
@@ -212,7 +212,7 @@ class TestAltIndices:
 
 class TestValidations:
     """Test alidations."""
-    def test_start_index(self):
+    def test_start_index(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 9, 9, dtype=int).reshape((-1, 3)),
             "cf_role": "face_node_connectivity",
@@ -221,7 +221,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="Invalid start_index ."):
             Connectivity(**kwargs)
 
-    def test_location_axis(self):
+    def test_location_axis(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 9, 9, dtype=int).reshape((-1, 3)),
             "cf_role": "face_node_connectivity",
@@ -230,7 +230,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="Invalid location_axis ."):
             Connectivity(**kwargs)
 
-    def test_cf_role(self):
+    def test_cf_role(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 9, 9, dtype=int).reshape((-1, 3)),
             "cf_role": "error",
@@ -238,7 +238,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="Invalid cf_role ."):
             Connectivity(**kwargs)
 
-    def test_indices_int(self):
+    def test_indices_int(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 9, 9).reshape((-1, 3)),
             "cf_role": "face_node_connectivity",
@@ -246,7 +246,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="dtype must be numpy integer subtype"):
             Connectivity(**kwargs)
 
-    def test_indices_start_index(self):
+    def test_indices_start_index(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(-9, -1, 9, dtype=int).reshape((-1, 3)),
             "cf_role": "face_node_connectivity",
@@ -254,7 +254,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="< start_index"):
             Connectivity(**kwargs)
 
-    def test_indices_dims_low(self):
+    def test_indices_dims_low(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 9, 9, dtype=int),
             "cf_role": "face_node_connectivity",
@@ -262,7 +262,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="Expected 2-dimensional shape,"):
             Connectivity(**kwargs)
 
-    def test_indices_dims_high(self):
+    def test_indices_dims_high(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 12, 12, dtype=int).reshape((-1, 3, 2)),
             "cf_role": "face_node_connectivity",
@@ -270,7 +270,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="Expected 2-dimensional shape,"):
             Connectivity(**kwargs)
 
-    def test_indices_locations_edge(self):
+    def test_indices_locations_edge(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 9, 9, dtype=int).reshape((-1, 3)),
             "cf_role": "edge_node_connectivity",
@@ -278,7 +278,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="Not all edges meet requirement: len=2"):
             Connectivity(**kwargs)
 
-    def test_indices_locations_face(self):
+    def test_indices_locations_face(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 6, 6, dtype=int).reshape((-1, 2)),
             "cf_role": "face_node_connectivity",
@@ -286,7 +286,7 @@ class TestValidations:
         with pytest.raises(ValueError, match="Not all faces meet requirement: len>=3"):
             Connectivity(**kwargs)
 
-    def test_indices_locations_volume_face(self):
+    def test_indices_locations_volume_face(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 9, 9, dtype=int).reshape((-1, 3)),
             "cf_role": "volume_face_connectivity",
@@ -296,7 +296,7 @@ class TestValidations:
         ):
             Connectivity(**kwargs)
 
-    def test_indices_locations_volume_edge(self):
+    def test_indices_locations_volume_edge(self):  # noqa: D102
         kwargs = {
             "indices": np.linspace(1, 12, 12, dtype=int).reshape((-1, 3)),
             "cf_role": "volume_edge_connectivity",
@@ -318,7 +318,7 @@ class TestValidations:
         ):
             Connectivity(**kwargs)
 
-    def test_indices_locations_masked(self):
+    def test_indices_locations_masked(self):  # noqa: D102
         mask = ([0, 0, 0] * 2) + [0, 0, 1]
         data = np.linspace(1, 9, 9, dtype=int).reshape((3, -1))
         kwargs = {

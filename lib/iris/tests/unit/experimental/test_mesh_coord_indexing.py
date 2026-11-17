@@ -23,7 +23,7 @@ def restore_setting_value():
 
 class TestOptions:
     """Test ptions."""
-    def test_members(self):
+    def test_members(self):  # noqa: D102
         assert mesh_coord_indexing.Options.AUX_COORD.name == "AUX_COORD"
         assert mesh_coord_indexing.Options.NEW_MESH.name == "NEW_MESH"
         assert mesh_coord_indexing.Options.MESH_INDEX_SET.name == "MESH_INDEX_SET"
@@ -31,17 +31,17 @@ class TestOptions:
 
 class TestSettingValue:
     """Test ettingValue."""
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         assert (
             mesh_coord_indexing.SETTING.value == mesh_coord_indexing.Options.AUX_COORD
         )
 
-    def test_set_enum_member(self):
+    def test_set_enum_member(self):  # noqa: D102
         mesh_coord_indexing.SETTING.value = mesh_coord_indexing.Options.NEW_MESH
 
         assert mesh_coord_indexing.SETTING.value == mesh_coord_indexing.Options.NEW_MESH
 
-    def test_set_member_value(self):
+    def test_set_member_value(self):  # noqa: D102
         mesh_coord_indexing.SETTING.value = (
             mesh_coord_indexing.Options.MESH_INDEX_SET.value
         )
@@ -51,14 +51,14 @@ class TestSettingValue:
             == mesh_coord_indexing.Options.MESH_INDEX_SET
         )
 
-    def test_invalid_value(self):
+    def test_invalid_value(self):  # noqa: D102
         with pytest.raises(ValueError, match="is not a valid Options"):
             mesh_coord_indexing.SETTING.value = "not-an-option"
 
 
 class TestSettingContext:
     """Test ettingContext."""
-    def test_temporary_override(self):
+    def test_temporary_override(self):  # noqa: D102
         assert (
             mesh_coord_indexing.SETTING.value == mesh_coord_indexing.Options.AUX_COORD
         )
@@ -73,7 +73,7 @@ class TestSettingContext:
             mesh_coord_indexing.SETTING.value == mesh_coord_indexing.Options.AUX_COORD
         )
 
-    def test_restores_after_exception(self):
+    def test_restores_after_exception(self):  # noqa: D102
         class LocalTestException(Exception):
             pass
 
@@ -87,7 +87,7 @@ class TestSettingContext:
             mesh_coord_indexing.SETTING.value == mesh_coord_indexing.Options.AUX_COORD
         )
 
-    def test_invalid_context_value(self):
+    def test_invalid_context_value(self):  # noqa: D102
         with pytest.raises(ValueError, match="is not a valid Options"):
             with mesh_coord_indexing.SETTING.context("not-an-option"):
                 pass
@@ -95,7 +95,7 @@ class TestSettingContext:
 
 class TestThreadLocalSetting:
     """Test hreadLocalSetting."""
-    def test_independent_values_per_thread(self):
+    def test_independent_values_per_thread(self):  # noqa: D102
         thread_state = {}
 
         mesh_coord_indexing.SETTING.value = mesh_coord_indexing.Options.NEW_MESH

@@ -132,7 +132,7 @@ variables:
     # Actual testcase routines
     #
 
-    def test_basic_hybridheight(self):
+    def test_basic_hybridheight(self):  # noqa: D102
         # Rules Triggered:
         #     001 : fc_default
         #     002 : fc_build_auxiliary_coordinate
@@ -146,7 +146,7 @@ variables:
         result = self.run_testcase()
         self.check_result(result)
 
-    def test_missing_term(self):
+    def test_missing_term(self):  # noqa: D102
         # Check behaviour when a term is missing.
         # For the test, omit "orography", which is common in practice.
         #
@@ -161,7 +161,7 @@ variables:
         result = self.run_testcase(term_names=["a", "b"])  # missing the 'orog' term
         self.check_result(result, formula_terms=["a", "b"])
 
-    def test_no_terms(self):
+    def test_no_terms(self):  # noqa: D102
         # Check behaviour when *all* terms are missing.
         # N.B. for any _actual_ type, this is probably invalid and would fail?
         #
@@ -179,7 +179,7 @@ variables:
         # formula_terms.
         self.check_result(result, factory_type=None)
 
-    def test_unrecognised_verticaltype(self):
+    def test_unrecognised_verticaltype(self):  # noqa: D102
         # Set the root variable name to something NOT a recognised hybrid type.
         #
         # Rules Triggered:
@@ -199,7 +199,7 @@ variables:
         # which is simply discarded.
         self.check_result(result, factory_type=None, formula_terms=["a", "b"])
 
-    def test_two_formulae(self):
+    def test_two_formulae(self):  # noqa: D102
         # Construct an example with TWO hybrid coords.
         # This is not errored, but we don't correctly support it.
         #
@@ -222,43 +222,43 @@ variables:
             formula_terms=["a", "b", "depth", "eta", "orog", "sigma"],
         )
 
-    def test_atmosphere_sigma_coordinate(self):
+    def test_atmosphere_sigma_coordinate(self):  # noqa: D102
         hybrid_type = "atmosphere_sigma_coordinate"
         term_names = hh.CF_COORD_VERTICAL[hybrid_type]
         result = self.run_testcase(formula_root_name=hybrid_type, term_names=term_names)
         self.check_result(result, factory_type=hybrid_type, formula_terms=term_names)
 
-    def test_atmosphere_hybrid_sigma_pressure_coordinate(self):
+    def test_atmosphere_hybrid_sigma_pressure_coordinate(self):  # noqa: D102
         hybrid_type = "atmosphere_hybrid_sigma_pressure_coordinate"
         term_names = hh.CF_COORD_VERTICAL[hybrid_type]
         result = self.run_testcase(formula_root_name=hybrid_type, term_names=term_names)
         self.check_result(result, factory_type=hybrid_type, formula_terms=term_names)
 
-    def test_ocean_sigma_z_coordinate(self):
+    def test_ocean_sigma_z_coordinate(self):  # noqa: D102
         hybrid_type = "ocean_sigma_z_coordinate"
         term_names = hh.CF_COORD_VERTICAL[hybrid_type]
         result = self.run_testcase(formula_root_name=hybrid_type, term_names=term_names)
         self.check_result(result, factory_type=hybrid_type, formula_terms=term_names)
 
-    def test_ocean_sigma_coordinate(self):
+    def test_ocean_sigma_coordinate(self):  # noqa: D102
         hybrid_type = "ocean_sigma_coordinate"
         term_names = hh.CF_COORD_VERTICAL[hybrid_type]
         result = self.run_testcase(formula_root_name=hybrid_type, term_names=term_names)
         self.check_result(result, factory_type=hybrid_type, formula_terms=term_names)
 
-    def test_ocean_s_coordinate(self):
+    def test_ocean_s_coordinate(self):  # noqa: D102
         hybrid_type = "ocean_s_coordinate"
         term_names = hh.CF_COORD_VERTICAL[hybrid_type]
         result = self.run_testcase(formula_root_name=hybrid_type, term_names=term_names)
         self.check_result(result, factory_type=hybrid_type, formula_terms=term_names)
 
-    def test_ocean_s_coordinate_g1(self):
+    def test_ocean_s_coordinate_g1(self):  # noqa: D102
         hybrid_type = "ocean_s_coordinate_g1"
         term_names = hh.CF_COORD_VERTICAL[hybrid_type]
         result = self.run_testcase(formula_root_name=hybrid_type, term_names=term_names)
         self.check_result(result, factory_type=hybrid_type, formula_terms=term_names)
 
-    def test_ocean_s_coordinate_g2(self):
+    def test_ocean_s_coordinate_g2(self):  # noqa: D102
         hybrid_type = "ocean_s_coordinate_g2"
         term_names = hh.CF_COORD_VERTICAL[hybrid_type]
         result = self.run_testcase(formula_root_name=hybrid_type, term_names=term_names)

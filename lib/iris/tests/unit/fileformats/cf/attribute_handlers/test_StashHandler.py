@@ -33,19 +33,19 @@ class TestEncodeObject:
         expected = ("um_stash_source", "m02s05i023")  # Numbers filled to N digits
         assert result == expected
 
-    def test_invalid_string__fail(self):
+    def test_invalid_string__fail(self):  # noqa: D102
         with pytest.raises(ValueError, match="Expected STASH code MSI string"):
             STASH_HANDLER.encode_object("xxx")
 
-    def test_empty_string__fail(self):
+    def test_empty_string__fail(self):  # noqa: D102
         with pytest.raises(ValueError, match="Expected STASH code MSI string"):
             STASH_HANDLER.encode_object("")
 
-    def test_none_object__fail(self):
+    def test_none_object__fail(self):  # noqa: D102
         with pytest.raises(TypeError, match="Invalid STASH attribute"):
             STASH_HANDLER.encode_object(None)
 
-    def test_nonstash_object__fail(self):
+    def test_nonstash_object__fail(self):  # noqa: D102
         with pytest.raises(TypeError, match="Invalid STASH attribute"):
             STASH_HANDLER.encode_object({})
 
@@ -67,12 +67,12 @@ class TestDecodeAttribute:
         expected = STASH(1, 2, 3)
         assert result == expected
 
-    def test_invalid(self):
+    def test_invalid(self):  # noqa: D102
         test_string = "xxx"
         with pytest.raises(ValueError, match="Expected STASH code MSI"):
             STASH_HANDLER.decode_attribute(test_string)
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         test_string = ""
         with pytest.raises(ValueError, match="Expected STASH code MSI"):
             STASH_HANDLER.decode_attribute(test_string)

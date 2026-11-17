@@ -29,27 +29,27 @@ class TestEpochHours__standard:
         self.calendar = cf_units.CALENDAR_STANDARD
         self.hrs_unit = Unit("hours since epoch", calendar=self.calendar)
 
-    def test_1970_1_1(self):
+    def test_1970_1_1(self):  # noqa: D102
         test_date = nc_datetime(1970, 1, 1, calendar=self.calendar)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == 0.0
 
-    def test_ymd_1_1_1(self):
+    def test_ymd_1_1_1(self):  # noqa: D102
         test_date = nc_datetime(1, 1, 1, calendar=self.calendar)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17259936.0
 
-    def test_year_0(self):
+    def test_year_0(self):  # noqa: D102
         test_date = nc_datetime(0, 1, 1, calendar=self.calendar, has_year_zero=True)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17268720.0
 
-    def test_ymd_0_0_0(self):
+    def test_ymd_0_0_0(self):  # noqa: D102
         test_date = nc_datetime(0, 0, 0, calendar=None, has_year_zero=True)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17269488.0
 
-    def test_ymd_0_preserves_timeofday(self):
+    def test_ymd_0_preserves_timeofday(self):  # noqa: D102
         hrs, mins, secs, usecs = (7, 13, 24, 335772)
         hours_in_day = (
             hrs + 1.0 / 60 * mins + 1.0 / 3600 * secs + (1.0e-6) / 3600 * usecs
@@ -81,22 +81,22 @@ class TestEpochHours__360day:
         self.calendar = cf_units.CALENDAR_360_DAY
         self.hrs_unit = Unit("hours since epoch", calendar=self.calendar)
 
-    def test_1970_1_1(self):
+    def test_1970_1_1(self):  # noqa: D102
         test_date = nc_datetime(1970, 1, 1, calendar=self.calendar)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == 0.0
 
-    def test_ymd_1_1_1(self):
+    def test_ymd_1_1_1(self):  # noqa: D102
         test_date = nc_datetime(1, 1, 1, calendar=self.calendar)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17012160.0
 
-    def test_year_0(self):
+    def test_year_0(self):  # noqa: D102
         test_date = nc_datetime(0, 1, 1, calendar=self.calendar, has_year_zero=True)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17020800.0
 
-    def test_ymd_0_0_0(self):
+    def test_ymd_0_0_0(self):  # noqa: D102
         test_date = nc_datetime(0, 0, 0, calendar=None, has_year_zero=True)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17021544.0
@@ -109,22 +109,22 @@ class TestEpochHours__365day:
         self.calendar = cf_units.CALENDAR_365_DAY
         self.hrs_unit = Unit("hours since epoch", calendar=self.calendar)
 
-    def test_1970_1_1(self):
+    def test_1970_1_1(self):  # noqa: D102
         test_date = nc_datetime(1970, 1, 1, calendar=self.calendar)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == 0.0
 
-    def test_ymd_1_1_1(self):
+    def test_ymd_1_1_1(self):  # noqa: D102
         test_date = nc_datetime(1, 1, 1, calendar=self.calendar)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17248440.0
 
-    def test_year_0(self):
+    def test_year_0(self):  # noqa: D102
         test_date = nc_datetime(0, 1, 1, calendar=self.calendar, has_year_zero=True)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17257200.0
 
-    def test_ymd_0_0_0(self):
+    def test_ymd_0_0_0(self):  # noqa: D102
         test_date = nc_datetime(0, 0, 0, calendar=None, has_year_zero=True)
         result = epoch_hours_call(self.hrs_unit, test_date)
         assert result == -17257968.0
@@ -132,7 +132,7 @@ class TestEpochHours__365day:
 
 class TestEpochHours__invalid_calendar:
     """Test pochHours  invalid calendar."""
-    def test_bad_calendar(self):
+    def test_bad_calendar(self):  # noqa: D102
         self.calendar = cf_units.CALENDAR_ALL_LEAP
         # Setup a unit with an unrecognised calendar
         hrs_unit = Unit("hours since epoch", calendar=self.calendar)

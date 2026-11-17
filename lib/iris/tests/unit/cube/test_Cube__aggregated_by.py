@@ -106,7 +106,7 @@ class Test_aggregated_by:
         self.val_weights = np.ones_like(self.cube.data, dtype=np.float32)
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_2d_coord_simple_agg(self, dataless):
+    def test_2d_coord_simple_agg(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         # For 2d coords, slices of aggregated coord should be the same as
@@ -127,7 +127,7 @@ class Test_aggregated_by:
             assert not ma.isMaskedArray(actual.bounds)
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_agg_by_label(self, dataless):
+    def test_agg_by_label(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         # Aggregate a cube on a string coordinate label where label
@@ -163,7 +163,7 @@ class Test_aggregated_by:
         assert res_cube.coord("unmask") == unmask_coord
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_agg_by_label_bounded(self, dataless):
+    def test_agg_by_label_bounded(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         # Aggregate a cube on a string coordinate label where label
@@ -209,7 +209,7 @@ class Test_aggregated_by:
         assert res_cube.coord("unmask") == unmask_coord
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_2d_agg_by_label(self, dataless):
+    def test_2d_agg_by_label(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         res_cube = self.cube.aggregated_by("label", self.mock_agg)
@@ -229,7 +229,7 @@ class Test_aggregated_by:
             assert not ma.isMaskedArray(actual.bounds)
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_agg_by_val(self, dataless):
+    def test_agg_by_val(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         # Aggregate a cube on a numeric coordinate val where label
@@ -259,7 +259,7 @@ class Test_aggregated_by:
         assert res_cube.coord("unmask") == unmask_coord
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_2d_agg_by_val(self, dataless):
+    def test_2d_agg_by_val(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         res_cube = self.cube.aggregated_by("val", self.mock_agg)
@@ -279,7 +279,7 @@ class Test_aggregated_by:
             assert not ma.isMaskedArray(actual.bounds)
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_single_string_aggregation(self, dataless):
+    def test_single_string_aggregation(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         aux_coords = [
@@ -294,7 +294,7 @@ class Test_aggregated_by:
         assert result.coord("bar") == AuxCoord(["a|a", "a"], long_name="bar")
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_ancillary_variables_and_cell_measures_kept(self, dataless):
+    def test_ancillary_variables_and_cell_measures_kept(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         cube_agg = self.cube.aggregated_by("val", self.mock_agg)
@@ -302,14 +302,14 @@ class Test_aggregated_by:
         assert cube_agg.cell_measures() == [self.cell_measure]
 
     @pytest.mark.parametrize("dataless", [True, False])
-    def test_ancillary_variables_and_cell_measures_removed(self, dataless):
+    def test_ancillary_variables_and_cell_measures_removed(self, dataless):  # noqa: D102
         if dataless:
             self.cube.data = None
         cube_agg = self.cube.aggregated_by("simple_agg", self.mock_agg)
         assert cube_agg.ancillary_variables() == []
         assert cube_agg.cell_measures() == []
 
-    def test_1d_weights(self):
+    def test_1d_weights(self):  # noqa: D102
         self.cube.aggregated_by(
             "simple_agg", self.mock_weighted_agg, weights=self.simple_weights
         )
@@ -360,7 +360,7 @@ class Test_aggregated_by:
             ),
         )
 
-    def test_2d_weights(self):
+    def test_2d_weights(self):  # noqa: D102
         self.cube.aggregated_by("val", self.mock_weighted_agg, weights=self.val_weights)
 
         assert self.mock_weighted_agg.aggregate.call_count == 3
@@ -404,7 +404,7 @@ class Test_aggregated_by:
             call_3.kwargs["weights"], np.ones((4, 2))
         )
 
-    def test_returned(self):
+    def test_returned(self):  # noqa: D102
         output = self.cube.aggregated_by(
             "simple_agg", self.mock_weighted_agg, returned=True
         )
@@ -414,7 +414,7 @@ class Test_aggregated_by:
         assert output[0].shape == (2, 11)
         assert output[1].shape == (2, 11)
 
-    def test_fail_1d_weights_wrong_len(self):
+    def test_fail_1d_weights_wrong_len(self):  # noqa: D102
         wrong_weights = np.array([1.0, 2.0])
         msg = (
             r"1D weights must have the same length as the dimension that is "
@@ -425,7 +425,7 @@ class Test_aggregated_by:
                 "val", self.mock_weighted_agg, weights=wrong_weights
             )
 
-    def test_fail_weights_wrong_shape(self):
+    def test_fail_weights_wrong_shape(self):  # noqa: D102
         wrong_weights = np.ones((42, 1))
         msg = (
             r"Weights must either be 1D or have the same shape as the cube, "
@@ -489,7 +489,7 @@ class Test_aggregated_by__lazy:
         self.simple_weights = np.array([1.0, 0.0, 2.0, 2.0])
         self.val_weights = 2.0 * np.ones(self.cube.shape, dtype=np.float32)
 
-    def test_agg_by_label__lazy(self):
+    def test_agg_by_label__lazy(self):  # noqa: D102
         # Aggregate a cube on a string coordinate label where label
         # and val entries are not in step; the resulting cube has a val
         # coord of bounded cells and a label coord of single string entries.
@@ -510,7 +510,7 @@ class Test_aggregated_by__lazy:
         _shared_utils.assert_array_equal(res_cube.data, self.label_mean)
         assert not res_cube.has_lazy_data()
 
-    def test_agg_by_val__lazy(self):
+    def test_agg_by_val__lazy(self):  # noqa: D102
         # Aggregate a cube on a numeric coordinate val where label
         # and val entries are not in step; the resulting cube has a label
         # coord with serialised labels from the aggregated cells.
@@ -528,7 +528,7 @@ class Test_aggregated_by__lazy:
         _shared_utils.assert_array_equal(res_cube.data, self.val_mean)
         assert not res_cube.has_lazy_data()
 
-    def test_single_string_aggregation__lazy(self):
+    def test_single_string_aggregation__lazy(self):  # noqa: D102
         aux_coords = [
             (AuxCoord(["a", "b", "a"], long_name="foo"), 0),
             (AuxCoord(["a", "a", "a"], long_name="bar"), 0),
@@ -545,7 +545,7 @@ class Test_aggregated_by__lazy:
         _shared_utils.assert_array_equal(result.data, means)
         assert not result.has_lazy_data()
 
-    def test_1d_weights__lazy(self):
+    def test_1d_weights__lazy(self):  # noqa: D102
         assert self.cube.has_lazy_data()
 
         cube_agg = self.cube.aggregated_by(
@@ -572,7 +572,7 @@ class Test_aggregated_by__lazy:
         ]
         _shared_utils.assert_array_almost_equal(cube_agg.data, np.array([row_0, row_1]))
 
-    def test_2d_weights__lazy(self):
+    def test_2d_weights__lazy(self):  # noqa: D102
         assert self.cube.has_lazy_data()
 
         cube_agg = self.cube.aggregated_by("val", SUM, weights=self.val_weights)
@@ -593,7 +593,7 @@ class Test_aggregated_by__lazy:
             ),
         )
 
-    def test_returned__lazy(self):
+    def test_returned__lazy(self):  # noqa: D102
         assert self.cube.has_lazy_data()
 
         output = self.cube.aggregated_by(
@@ -645,7 +645,7 @@ class Test_aggregated_by__climatology:
         self.data = np.arange(100).reshape(20, 5)
         self.aggregator = iris.analysis.MEAN
 
-    def get_result(
+    def get_result(  # noqa: D102
         self,
         transpose: bool = False,
         second_categorised: bool = False,

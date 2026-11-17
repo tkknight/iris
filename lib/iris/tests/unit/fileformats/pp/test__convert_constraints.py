@@ -14,30 +14,30 @@ class Test_convert_constraints:
         constraint = iris.AttributeConstraint(STASH="m01s03i236")
         return _convert_constraints(constraint)
 
-    def test_single_stash(self, mocker):
+    def test_single_stash(self, mocker):  # noqa: D102
         pp_filter = self._single_stash()
         stcube = mocker.Mock(stash=STASH.from_msi("m01s03i236"))
         assert pp_filter(stcube)
 
-    def test_stash_object(self, mocker):
+    def test_stash_object(self, mocker):  # noqa: D102
         constraint = iris.AttributeConstraint(STASH=STASH.from_msi("m01s03i236"))
         pp_filter = _convert_constraints(constraint)
         stcube = mocker.Mock(stash=STASH.from_msi("m01s03i236"))
         assert pp_filter(stcube)
 
-    def test_surface_altitude(self, mocker):
+    def test_surface_altitude(self, mocker):  # noqa: D102
         # Ensure that surface altitude fields are not filtered.
         pp_filter = self._single_stash()
         orography_cube = mocker.Mock(stash=STASH.from_msi("m01s00i033"))
         assert pp_filter(orography_cube)
 
-    def test_surface_pressure(self, mocker):
+    def test_surface_pressure(self, mocker):  # noqa: D102
         # Ensure that surface pressure fields are not filtered.
         pp_filter = self._single_stash()
         pressure_cube = mocker.Mock(stash=STASH.from_msi("m01s00i001"))
         assert pp_filter(pressure_cube)
 
-    def test_double_stash(self, mocker):
+    def test_double_stash(self, mocker):  # noqa: D102
         stcube236 = mocker.Mock(stash=STASH.from_msi("m01s03i236"))
         stcube4 = mocker.Mock(stash=STASH.from_msi("m01s00i004"))
         stcube7 = mocker.Mock(stash=STASH.from_msi("m01s00i007"))
@@ -50,7 +50,7 @@ class Test_convert_constraints:
         assert pp_filter(stcube4)
         assert not pp_filter(stcube7)
 
-    def test_callable_stash(self, mocker):
+    def test_callable_stash(self, mocker):  # noqa: D102
         stcube236 = mocker.Mock(stash=STASH.from_msi("m01s03i236"))
         stcube4 = mocker.Mock(stash=STASH.from_msi("m01s00i004"))
         stcube7 = mocker.Mock(stash=STASH.from_msi("m01s00i007"))
@@ -62,7 +62,7 @@ class Test_convert_constraints:
         assert pp_filter(stcube4)
         assert pp_filter(stcube7)
 
-    def test_multiple_with_stash(self):
+    def test_multiple_with_stash(self):  # noqa: D102
         constraints = [
             iris.Constraint("air_potential_temperature"),
             iris.AttributeConstraint(STASH="m01s00i004"),
@@ -70,7 +70,7 @@ class Test_convert_constraints:
         pp_filter = _convert_constraints(constraints)
         assert pp_filter is None
 
-    def test_no_stash(self):
+    def test_no_stash(self):  # noqa: D102
         constraints = [
             iris.Constraint("air_potential_temperature"),
             iris.AttributeConstraint(source="asource"),
@@ -78,7 +78,7 @@ class Test_convert_constraints:
         pp_filter = _convert_constraints(constraints)
         assert pp_filter is None
 
-    def test_no_constraint(self):
+    def test_no_constraint(self):  # noqa: D102
         constraints = []
         pp_filter = _convert_constraints(constraints)
         assert pp_filter is None

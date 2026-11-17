@@ -26,22 +26,22 @@ class TestNoMetadata:
         self.representer = CubeRepresentation(self.cube)
         self.representer.repr_html()
 
-    def test_cube_name(self):
+    def test_cube_name(self):  # noqa: D102
         expected = "Unknown"  # This cube has no metadata.
         result = self.representer.name
         assert expected == result
 
-    def test_cube_units(self):
+    def test_cube_units(self):  # noqa: D102
         expected = "unknown"  # This cube has no metadata.
         result = self.representer.units
         assert expected == result
 
-    def test_dim_names(self):
+    def test_dim_names(self):  # noqa: D102
         expected = ["--"] * len(self.shape)
         result = self.representer.names
         assert expected == result
 
-    def test_shape(self):
+    def test_shape(self):  # noqa: D102
         result = self.representer.shapes
         assert result == self.shape
 
@@ -53,7 +53,7 @@ class TestMissingMetadata:
     def _setup(self):
         self.cube = stock.realistic_3d()
 
-    def test_no_coords(self):
+    def test_no_coords(self):  # noqa: D102
         all_coords = [coord.name() for coord in self.cube.coords()]
         for coord in all_coords:
             self.cube.remove_coord(coord)
@@ -64,7 +64,7 @@ class TestMissingMetadata:
         assert "scalar coordinates" not in result
         assert "attributes" in result
 
-    def test_no_dim_coords(self):
+    def test_no_dim_coords(self):  # noqa: D102
         dim_coords = [c.name() for c in self.cube.coords(dim_coords=True)]
         for coord in dim_coords:
             self.cube.remove_coord(coord)
@@ -75,7 +75,7 @@ class TestMissingMetadata:
         assert "scalar coordinates" in result
         assert "attributes" in result
 
-    def test_no_aux_coords(self):
+    def test_no_aux_coords(self):  # noqa: D102
         aux_coords = ["forecast_period"]
         for coord in aux_coords:
             self.cube.remove_coord(coord)
@@ -86,7 +86,7 @@ class TestMissingMetadata:
         assert "scalar coordinates" in result
         assert "attributes" in result
 
-    def test_no_scalar_coords(self):
+    def test_no_scalar_coords(self):  # noqa: D102
         aux_coords = ["air_pressure"]
         for coord in aux_coords:
             self.cube.remove_coord(coord)
@@ -97,7 +97,7 @@ class TestMissingMetadata:
         assert "scalar coordinates" not in result
         assert "attributes" in result
 
-    def test_no_attrs(self):
+    def test_no_attrs(self):  # noqa: D102
         self.cube.attributes = {}
         representer = CubeRepresentation(self.cube)
         result = representer.repr_html().lower()
@@ -106,7 +106,7 @@ class TestMissingMetadata:
         assert "scalar coordinates" in result
         assert "attributes" not in result
 
-    def test_no_cell_methods(self):
+    def test_no_cell_methods(self):  # noqa: D102
         representer = CubeRepresentation(self.cube)
         result = representer.repr_html().lower()
         assert "cell methods" not in result
@@ -121,33 +121,33 @@ class TestScalarCube:
         self.representer = CubeRepresentation(self.cube)
         self.representer.repr_html()
 
-    def test_identfication(self):
+    def test_identfication(self):  # noqa: D102
         # Is this scalar cube accurately identified?
         assert self.representer.scalar_cube
 
-    def test_header__name(self):
+    def test_header__name(self):  # noqa: D102
         header = self.representer._make_header()
         expected_name = escape(self.cube.name().title().replace("_", " "))
         assert expected_name in header
 
-    def test_header__units(self):
+    def test_header__units(self):  # noqa: D102
         header = self.representer._make_header()
         expected_units = escape(self.cube.units.symbol)
         assert expected_units in header
 
-    def test_header__scalar_str(self):
+    def test_header__scalar_str(self):  # noqa: D102
         # Check that 'scalar cube' is placed in the header.
         header = self.representer._make_header()
         expected_str = "(scalar cube)"
         assert expected_str in header
 
-    def test_content__scalars(self):
+    def test_content__scalars(self):  # noqa: D102
         # Check an element "Scalar coordinates" is present in the main content.
         content = self.representer._make_content()
         expected_str = "Scalar coordinates"
         assert expected_str in content
 
-    def test_content__specific_scalar_coord(self):
+    def test_content__specific_scalar_coord(self):  # noqa: D102
         # Check a specific scalar coord is present in the main content.
         content = self.representer._make_content()
         expected_coord = self.cube.coords()[0]
@@ -156,7 +156,7 @@ class TestScalarCube:
         expected_coord_val = escape(str(expected_coord.points[0]))
         assert expected_coord_val in content
 
-    def test_content__attributes(self):
+    def test_content__attributes(self):  # noqa: D102
         # Check an element "attributes" is present in the main content.
         content = self.representer._make_content()
         expected_str = "Attributes"

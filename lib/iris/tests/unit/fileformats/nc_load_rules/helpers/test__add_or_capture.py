@@ -27,14 +27,14 @@ class Mixin:
     )
 
     @pytest.fixture
-    def make_args(self, mocker):
+    def make_args(self, mocker):  # noqa: D102
         self.build_func = mocker.MagicMock()
         self.build_func.return_value = "BUILT"
         self.add_method = mocker.MagicMock()
         self.cf_var = CFVariableStandIn(**{self.attr_key: self.attr_value})
         self.cf_var.filename = self.filename
 
-    def call(
+    def call(  # noqa: D102
         self,
         filename=None,
         attr_key=None,
@@ -61,17 +61,17 @@ class TestBuildProblems(Mixin):
         self.build_func.side_effect = ValueError(self.failure_string)
 
     @pytest.fixture
-    def patch_build_raw_cube(self, mocker):
+    def patch_build_raw_cube(self, mocker):  # noqa: D102
         patch = mocker.patch.object(helpers, "build_raw_cube", return_value="RAW_CUBE")
         return patch
 
     @pytest.fixture
-    def cause_build_raw_cube_error(self, patch_build_raw_cube):
+    def cause_build_raw_cube_error(self, patch_build_raw_cube):  # noqa: D102
         patch_build_raw_cube.side_effect = ValueError("FAILED")
         yield
         patch_build_raw_cube.side_effect = None
 
-    def common_test(self, attr_key, expected_loaded):
+    def common_test(self, attr_key, expected_loaded):  # noqa: D102
         result = self.call(attr_key=attr_key)
         self.build_func.assert_called_once()
 
@@ -82,36 +82,36 @@ class TestBuildProblems(Mixin):
         assert result.destination is self.destination
         assert result is LOAD_PROBLEMS.problems[-1]
 
-    def test_w_o_attr_can_build(self, patch_build_raw_cube):
+    def test_w_o_attr_can_build(self, patch_build_raw_cube):  # noqa: D102
         self.common_test(
             attr_key=None,
             expected_loaded=patch_build_raw_cube.return_value,
         )
 
-    def test_w_o_attr_cannot_build(self, cause_build_raw_cube_error):
+    def test_w_o_attr_cannot_build(self, cause_build_raw_cube_error):  # noqa: D102
         self.common_test(
             attr_key=None,
             expected_loaded=None,
         )
 
-    def test_w_attr_can_find(self):
+    def test_w_attr_can_find(self):  # noqa: D102
         self.common_test(
             attr_key=self.attr_key, expected_loaded={self.attr_key: self.attr_value}
         )
 
-    def test_w_attr_cannot_find(self):
+    def test_w_attr_cannot_find(self):  # noqa: D102
         self.common_test(
             attr_key="standard_name",
             expected_loaded={"standard_name": None},
         )
 
-    def test_multiple_problems_same_file(self):
+    def test_multiple_problems_same_file(self):  # noqa: D102
         results = [self.call() for _ in range(3)]
         for ix, problem in enumerate(LOAD_PROBLEMS.problems):
             assert problem.filename == self.filename
             assert problem is results[ix]
 
-    def test_multiple_problems_diff_file(self):
+    def test_multiple_problems_diff_file(self):  # noqa: D102
         names = [f"test__add_or_capture_{ix}.nc" for ix in range(3)]
         results = [self.call(filename=name) for name in names]
         problems_by_file = LOAD_PROBLEMS.problems_by_file
@@ -132,7 +132,7 @@ class TestAddProblems(Mixin):
     @pytest.mark.parametrize(
         "attr_key", [None, Mixin.attr_key], ids=["w_o_attr", "w_attr"]
     )
-    def test_standard(self, attr_key):
+    def test_standard(self, attr_key):  # noqa: D102
         result = self.call(attr_key=attr_key)
         self.build_func.assert_called_once()
         self.add_method.assert_called_once_with(self.build_func.return_value)
@@ -148,13 +148,13 @@ class TestAddProblems(Mixin):
         assert str(result.stack_trace) == self.failure_string
         assert result is LOAD_PROBLEMS.problems[-1]
 
-    def test_multiple_problems_same_file(self):
+    def test_multiple_problems_same_file(self):  # noqa: D102
         results = [self.call() for _ in range(3)]
         for ix, problem in enumerate(LOAD_PROBLEMS.problems):
             assert problem.filename == self.filename
             assert problem is results[ix]
 
-    def test_multiple_problems_diff_file(self):
+    def test_multiple_problems_diff_file(self):  # noqa: D102
         names = [f"test__add_or_capture_{ix}.nc" for ix in range(3)]
         results = [self.call(filename=name) for name in names]
         problems_by_file = LOAD_PROBLEMS.problems_by_file
@@ -173,7 +173,7 @@ class TestSuccess(Mixin):
     @pytest.mark.parametrize(
         "attr_key", [None, Mixin.attr_key], ids=["w_o_attr", "w_attr"]
     )
-    def test(self, attr_key):
+    def test(self, attr_key):  # noqa: D102
         result = self.call(attr_key=attr_key)
         self.build_func.assert_called_once()
         self.add_method.assert_called_once_with(self.build_func.return_value)

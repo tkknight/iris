@@ -27,56 +27,56 @@ class TestCellMeasure:
             attributes={"notes": "1m accuracy"},
         )
 
-    def test_invalid_measure(self):
+    def test_invalid_measure(self):  # noqa: D102
         msg = "measure must be 'area' or 'volume', got 'length'"
         with pytest.raises(ValueError, match=msg):
             self.measure.measure = "length"
 
-    def test_set_measure(self):
+    def test_set_measure(self):  # noqa: D102
         v = "volume"
         self.measure.measure = v
         assert self.measure.measure == v
 
-    def test_data(self):
+    def test_data(self):  # noqa: D102
         _shared_utils.assert_array_equal(self.measure.data, self.values)
 
-    def test_set_data(self):
+    def test_set_data(self):  # noqa: D102
         new_vals = np.array((1.0, 2.0, 3.0, 4.0))
         self.measure.data = new_vals
         _shared_utils.assert_array_equal(self.measure.data, new_vals)
 
-    def test_set_data__int(self):
+    def test_set_data__int(self):  # noqa: D102
         new_vals = np.array((1, 2, 3, 4), dtype=np.int32)
         self.measure.data = new_vals
         _shared_utils.assert_array_equal(self.measure.data, new_vals)
 
-    def test_set_data__uint(self):
+    def test_set_data__uint(self):  # noqa: D102
         new_vals = np.array((1, 2, 3, 4), dtype=np.uint32)
         self.measure.data = new_vals
         _shared_utils.assert_array_equal(self.measure.data, new_vals)
 
-    def test_set_data__lazy(self):
+    def test_set_data__lazy(self):  # noqa: D102
         new_vals = as_lazy_data(np.array((1.0, 2.0, 3.0, 4.0)))
         self.measure.data = new_vals
         _shared_utils.assert_array_equal(self.measure.data, new_vals)
 
-    def test_data_different_shape(self):
+    def test_data_different_shape(self):  # noqa: D102
         new_vals = np.array((1.0, 2.0, 3.0))
         msg = "Require data with shape."
         with pytest.raises(ValueError, match=msg):
             self.measure.data = new_vals
 
-    def test_shape(self):
+    def test_shape(self):  # noqa: D102
         assert self.measure.shape == (4,)
 
-    def test_ndim(self):
+    def test_ndim(self):  # noqa: D102
         assert self.measure.ndim == 1
 
-    def test___getitem__(self):
+    def test___getitem__(self):  # noqa: D102
         sub_measure = self.measure[2]
         _shared_utils.assert_array_equal(self.values[2], sub_measure.data)
 
-    def test___getitem__data_copy(self):
+    def test___getitem__data_copy(self):  # noqa: D102
         # Check that a sliced cell measure has independent data.
         sub_measure = self.measure[1:3]
         old_values = sub_measure.data.copy()
@@ -85,12 +85,12 @@ class TestCellMeasure:
         # Check the new one has not changed.
         _shared_utils.assert_array_equal(sub_measure.data, old_values)
 
-    def test_copy(self):
+    def test_copy(self):  # noqa: D102
         new_vals = np.array((7.0, 8.0))
         copy_measure = self.measure.copy(new_vals)
         _shared_utils.assert_array_equal(copy_measure.data, new_vals)
 
-    def test___str__(self):
+    def test___str__(self):  # noqa: D102
         expected = "\n".join(
             [
                 "CellMeasure :  cell_area / (m^2)",
@@ -107,17 +107,17 @@ class TestCellMeasure:
         )
         assert self.measure.__str__() == expected
 
-    def test___repr__(self):
+    def test___repr__(self):  # noqa: D102
         expected = "<CellMeasure: cell_area / (m^2)  [10., 12., 16., 9.]  shape(4,)>"
         assert expected == self.measure.__repr__()
 
-    def test__eq__(self):
+    def test__eq__(self):  # noqa: D102
         assert self.measure == self.measure
 
 
 class Test_cube_dims:
     """Test cube dims."""
-    def test_cube_dims(self, mocker):
+    def test_cube_dims(self, mocker):  # noqa: D102
         # Check that "coord.cube_dims(cube)" calls "cube.coord_dims(coord)".
         mock_dims_result = mocker.sentinel.CM_DIMS
         mock_dims_call = mocker.Mock(return_value=mock_dims_result)

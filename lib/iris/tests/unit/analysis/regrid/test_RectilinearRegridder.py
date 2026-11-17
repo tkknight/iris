@@ -75,7 +75,7 @@ class Test__regrid__linear:
         self.x_dim = 2
         self.y_dim = 1
 
-    def assert_values(self, values):
+    def assert_values(self, values):  # noqa: D102
         # values is a list of [x, y, [val1, val2]]
         xs, ys, expecteds = zip(*values)
         expecteds = np.array(expecteds)[None, None, ...]
@@ -105,7 +105,7 @@ class Test__regrid__linear:
         )
         _shared_utils.assert_array_equal(result.T, result2)
 
-    def test_single_values(self):
+    def test_single_values(self):  # noqa: D102
         # Check that the values are sensible e.g. (3 + 4**2 == 19)
         self.assert_values(
             [
@@ -120,7 +120,7 @@ class Test__regrid__linear:
             ]
         )
 
-    def test_simple_result(self):
+    def test_simple_result(self):  # noqa: D102
         result = regrid(
             self.data,
             self.x_dim,
@@ -132,7 +132,7 @@ class Test__regrid__linear:
         )
         _shared_utils.assert_array_equal(result, self.expected)
 
-    def test_simple_masked(self):
+    def test_simple_masked(self):  # noqa: D102
         data = ma.MaskedArray(self.data, mask=True)
         data.mask[:, 1:30, 1:30] = False
         result = regrid(
@@ -157,7 +157,7 @@ class Test__regrid__linear:
         expected = ma.MaskedArray(self.expected, mask=expected_mask)
         _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_simple_masked_no_mask(self):
+    def test_simple_masked_no_mask(self):  # noqa: D102
         data = ma.MaskedArray(self.data, mask=False)
         result = regrid(
             data,
@@ -170,7 +170,7 @@ class Test__regrid__linear:
         )
         assert isinstance(result, ma.MaskedArray)
 
-    def test_result_transpose_shape(self):
+    def test_result_transpose_shape(self):  # noqa: D102
         ndim = self.data.ndim
         result = regrid(
             self.data.T,
@@ -183,7 +183,7 @@ class Test__regrid__linear:
         )
         _shared_utils.assert_array_equal(result, self.expected.T)
 
-    def test_reverse_x_coord(self):
+    def test_reverse_x_coord(self):  # noqa: D102
         index = [slice(None)] * self.data.ndim
         index[self.x_dim] = slice(None, None, -1)
         result = regrid(
@@ -197,7 +197,7 @@ class Test__regrid__linear:
         )
         _shared_utils.assert_array_equal(result, self.expected)
 
-    def test_circular_x_coord(self):
+    def test_circular_x_coord(self):  # noqa: D102
         # Check that interpolation of a circular src coordinate doesn't result
         # in an out of bounds value.
         self.x.circular = True
@@ -262,7 +262,7 @@ class Test__regrid__extrapolation_modes:
         result = regrid(data, x_dim, y_dim, x_coord, y_coord, grid_x, grid_y, **kwargs)
         return result
 
-    def test_default_ndarray(self):
+    def test_default_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> NaN
         data = np.arange(12, dtype=np.float64).reshape(3, 4)
@@ -273,7 +273,7 @@ class Test__regrid__extrapolation_modes:
             expected = self.values_by_method[method]
             _shared_utils.assert_array_equal(result, expected)
 
-    def test_default_maskedarray(self):
+    def test_default_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> Masked
@@ -288,7 +288,7 @@ class Test__regrid__extrapolation_modes:
             expected = ma.MaskedArray(values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_default_maskedarray_none_masked(self):
+    def test_default_maskedarray_none_masked(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> N/A
@@ -302,7 +302,7 @@ class Test__regrid__extrapolation_modes:
             expected = ma.MaskedArray(values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_default_maskedarray_none_masked_expanded(self):
+    def test_default_maskedarray_none_masked_expanded(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> N/A
@@ -318,7 +318,7 @@ class Test__regrid__extrapolation_modes:
             expected = ma.MaskedArray(values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_method_ndarray(self):
+    def test_method_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> linear
         data = np.arange(12, dtype=np.float64).reshape(3, 4)
@@ -329,7 +329,7 @@ class Test__regrid__extrapolation_modes:
             expected = self.extrapolate_values_by_method[method]
             _shared_utils.assert_array_equal(result, expected)
 
-    def test_method_maskedarray(self):
+    def test_method_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> linear
         # Masked        -> Masked
@@ -344,7 +344,7 @@ class Test__regrid__extrapolation_modes:
             expected = ma.MaskedArray(values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_nan_ndarray(self):
+    def test_nan_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> NaN
         data = np.arange(12, dtype=np.float64).reshape(3, 4)
@@ -355,7 +355,7 @@ class Test__regrid__extrapolation_modes:
             expected = self.values_by_method[method]
             _shared_utils.assert_array_equal(result, expected)
 
-    def test_nan_maskedarray(self):
+    def test_nan_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> NaN
         # Masked        -> Masked
@@ -370,7 +370,7 @@ class Test__regrid__extrapolation_modes:
             expected = ma.MaskedArray(values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_error_ndarray(self):
+    def test_error_ndarray(self):  # noqa: D102
         # Values irrelevant - the function raises an error.
         data = np.arange(12, dtype=np.float64).reshape(3, 4)
         data[0, 0] = np.nan
@@ -378,7 +378,7 @@ class Test__regrid__extrapolation_modes:
             with pytest.raises(ValueError, match="out of bounds"):
                 self._regrid(data, method, "error")
 
-    def test_error_maskedarray(self):
+    def test_error_maskedarray(self):  # noqa: D102
         # Values irrelevant - the function raises an error.
         data = ma.arange(12, dtype=np.float64).reshape(3, 4)
         data[0, 0] = np.nan
@@ -387,7 +387,7 @@ class Test__regrid__extrapolation_modes:
             with pytest.raises(ValueError, match="out of bounds"):
                 self._regrid(data, method, "error")
 
-    def test_mask_ndarray(self):
+    def test_mask_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked (this is different from all the other
         #                          modes)
@@ -401,7 +401,7 @@ class Test__regrid__extrapolation_modes:
             expected = ma.MaskedArray(values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_mask_maskedarray(self):
+    def test_mask_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> Masked
@@ -416,7 +416,7 @@ class Test__regrid__extrapolation_modes:
             expected = ma.MaskedArray(values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_nanmask_ndarray(self):
+    def test_nanmask_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> NaN
         data = np.arange(12, dtype=np.float64).reshape(3, 4)
@@ -427,7 +427,7 @@ class Test__regrid__extrapolation_modes:
             expected = self.values_by_method[method]
             _shared_utils.assert_array_equal(result, expected)
 
-    def test_nanmask_maskedarray(self):
+    def test_nanmask_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> Masked
@@ -442,14 +442,14 @@ class Test__regrid__extrapolation_modes:
             expected = ma.MaskedArray(values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_invalid(self):
+    def test_invalid(self):  # noqa: D102
         data = np.arange(12, dtype=np.float64).reshape(3, 4)
         emsg = "Invalid extrapolation mode"
         for method in self.methods:
             with pytest.raises(ValueError, match=emsg):
                 self._regrid(data, method, "BOGUS")
 
-    def test_method_result_types(self):
+    def test_method_result_types(self):  # noqa: D102
         # Check return types from basic calculation on floats and ints.
         for method in self.methods:
             result_dtypes = {}
@@ -483,7 +483,7 @@ class Test___call___lazy:
         self.lazy_masked_cube = self.lazy_cube.copy(da.ma.masked_array(self.cube.data))
         self.lazy_regridder = Regridder(self.lazy_cube, self.lazy_cube, *self.args)
 
-    def test_lazy_regrid(self):
+    def test_lazy_regrid(self):  # noqa: D102
         result = self.lazy_regridder(self.lazy_cube)
         assert result.has_lazy_data()
         meta = da.utils.meta_from_array(result.core_data())
@@ -492,7 +492,7 @@ class Test___call___lazy:
         assert result.dtype == expected.dtype
         assert result == expected
 
-    def test_lazy_masked_regrid(self):
+    def test_lazy_masked_regrid(self):  # noqa: D102
         result = self.lazy_regridder(self.lazy_masked_cube)
         assert result.has_lazy_data()
         meta = da.utils.meta_from_array(result.core_data())
@@ -512,24 +512,24 @@ class Test___call____invalid_types:
         self.regridder = Regridder(self.cube, self.cube, *self.args)
         self.assert_msg = "'.*' must be a Cube"
 
-    def test_src_as_array(self):
+    def test_src_as_array(self):  # noqa: D102
         arr = np.zeros((3, 4))
         with pytest.raises(TypeError, match=self.assert_msg):
             Regridder(arr, self.cube, *self.args)
         with pytest.raises(TypeError, match=self.assert_msg):
             self.regridder(arr)
 
-    def test_grid_as_array(self):
+    def test_grid_as_array(self):  # noqa: D102
         with pytest.raises(TypeError, match=self.assert_msg):
             Regridder(self.cube, np.zeros((3, 4)), *self.args)
 
-    def test_src_as_int(self):
+    def test_src_as_int(self):  # noqa: D102
         with pytest.raises(TypeError, match=self.assert_msg):
             Regridder(42, self.cube, *self.args)
         with pytest.raises(TypeError, match=self.assert_msg):
             self.regridder(42)
 
-    def test_grid_as_int(self):
+    def test_grid_as_int(self):  # noqa: D102
         with pytest.raises(TypeError, match=self.assert_msg):
             Regridder(self.cube, 42, *self.args)
 
@@ -541,7 +541,7 @@ class Test___call____missing_coords:
         self.args = ("linear", "mask")
         self.assert_msg = "Cube '.*' must contain a single 1D [xy] coordinate"
 
-    def ok_bad(self, coord_names):
+    def ok_bad(self, coord_names):  # noqa: D102
         # Deletes the named coords from `bad`.
         ok = lat_lon_cube()
         bad = lat_lon_cube()
@@ -549,7 +549,7 @@ class Test___call____missing_coords:
             bad.remove_coord(name)
         return ok, bad
 
-    def test_src_missing_lat(self):
+    def test_src_missing_lat(self):  # noqa: D102
         ok, bad = self.ok_bad(["latitude"])
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(bad, ok, *self.args)
@@ -557,12 +557,12 @@ class Test___call____missing_coords:
         with pytest.raises(ValueError, match=self.assert_msg):
             regridder(bad)
 
-    def test_grid_missing_lat(self):
+    def test_grid_missing_lat(self):  # noqa: D102
         ok, bad = self.ok_bad(["latitude"])
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(ok, bad, *self.args)
 
-    def test_src_missing_lon(self):
+    def test_src_missing_lon(self):  # noqa: D102
         ok, bad = self.ok_bad(["longitude"])
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(bad, ok, *self.args)
@@ -570,12 +570,12 @@ class Test___call____missing_coords:
         with pytest.raises(ValueError, match=self.assert_msg):
             regridder(bad)
 
-    def test_grid_missing_lon(self):
+    def test_grid_missing_lon(self):  # noqa: D102
         ok, bad = self.ok_bad(["longitude"])
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(ok, bad, *self.args)
 
-    def test_src_missing_lat_lon(self):
+    def test_src_missing_lat_lon(self):  # noqa: D102
         ok, bad = self.ok_bad(["latitude", "longitude"])
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(bad, ok, *self.args)
@@ -583,7 +583,7 @@ class Test___call____missing_coords:
         with pytest.raises(ValueError, match=self.assert_msg):
             regridder(bad)
 
-    def test_grid_missing_lat_lon(self):
+    def test_grid_missing_lat_lon(self):  # noqa: D102
         ok, bad = self.ok_bad(["latitude", "longitude"])
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(ok, bad, *self.args)
@@ -596,7 +596,7 @@ class Test___call____not_dim_coord:
         self.args = ("linear", "mask")
         self.assert_msg = "Cube '.*' must contain a single 1D [xy] coordinate"
 
-    def ok_bad(self, coord_name):
+    def ok_bad(self, coord_name):  # noqa: D102
         # Demotes the named DimCoord on `bad` to an AuxCoord.
         ok = lat_lon_cube()
         bad = lat_lon_cube()
@@ -607,7 +607,7 @@ class Test___call____not_dim_coord:
         bad.add_aux_coord(aux_coord, dims)
         return ok, bad
 
-    def test_src_with_aux_lat(self):
+    def test_src_with_aux_lat(self):  # noqa: D102
         ok, bad = self.ok_bad("latitude")
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(bad, ok, *self.args)
@@ -615,12 +615,12 @@ class Test___call____not_dim_coord:
         with pytest.raises(ValueError, match=self.assert_msg):
             regridder(bad)
 
-    def test_grid_with_aux_lat(self):
+    def test_grid_with_aux_lat(self):  # noqa: D102
         ok, bad = self.ok_bad("latitude")
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(ok, bad, *self.args)
 
-    def test_src_with_aux_lon(self):
+    def test_src_with_aux_lon(self):  # noqa: D102
         ok, bad = self.ok_bad("longitude")
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(bad, ok, *self.args)
@@ -628,7 +628,7 @@ class Test___call____not_dim_coord:
         with pytest.raises(ValueError, match=self.assert_msg):
             regridder(bad)
 
-    def test_grid_with_aux_lon(self):
+    def test_grid_with_aux_lon(self):  # noqa: D102
         ok, bad = self.ok_bad("longitude")
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(ok, bad, *self.args)
@@ -641,7 +641,7 @@ class Test___call____not_dim_coord_share:
         self.args = ("linear", "mask")
         self.assert_msg = "Cube '.*' must contain a single 1D [xy] coordinate"
 
-    def ok_bad(self):
+    def ok_bad(self):  # noqa: D102
         # Make lat/lon share a single dimension on `bad`.
         ok = lat_lon_cube()
         bad = lat_lon_cube()
@@ -651,7 +651,7 @@ class Test___call____not_dim_coord_share:
         bad.add_aux_coord(lat, 0)
         return ok, bad
 
-    def test_src_shares_dim(self):
+    def test_src_shares_dim(self):  # noqa: D102
         ok, bad = self.ok_bad()
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(bad, ok, *self.args)
@@ -659,7 +659,7 @@ class Test___call____not_dim_coord_share:
         with pytest.raises(ValueError, match=self.assert_msg):
             regridder(bad)
 
-    def test_grid_shares_dim(self):
+    def test_grid_shares_dim(self):  # noqa: D102
         ok, bad = self.ok_bad()
         with pytest.raises(ValueError, match=self.assert_msg):
             Regridder(ok, bad, *self.args)
@@ -675,7 +675,7 @@ class Test___call____bad_georeference:
             "both have coordinate systems or both have no coordinate system"
         )
 
-    def ok_bad(self, lat_cs, lon_cs):
+    def ok_bad(self, lat_cs, lon_cs):  # noqa: D102
         # Updates `bad` to use the given coordinate systems.
         ok = lat_lon_cube()
         bad = lat_lon_cube()
@@ -683,34 +683,34 @@ class Test___call____bad_georeference:
         bad.coord("longitude").coord_system = lon_cs
         return ok, bad
 
-    def test_src_no_cs(self):
+    def test_src_no_cs(self):  # noqa: D102
         ok, bad = self.ok_bad(None, None)
         regridder = Regridder(bad, ok, *self.args)
         with pytest.raises(ValueError, match=self.assert_msg_need_cs):
             regridder(bad)
 
-    def test_grid_no_cs(self):
+    def test_grid_no_cs(self):  # noqa: D102
         ok, bad = self.ok_bad(None, None)
         regridder = Regridder(ok, bad, *self.args)
         with pytest.raises(ValueError, match=self.assert_msg_need_cs):
             regridder(ok)
 
-    def test_src_one_cs(self):
+    def test_src_one_cs(self):  # noqa: D102
         ok, bad = self.ok_bad(None, GeogCS(6371000))
         with pytest.raises(ValueError, match=self.assert_msg_same_cs):
             Regridder(bad, ok, *self.args)
 
-    def test_grid_one_cs(self):
+    def test_grid_one_cs(self):  # noqa: D102
         ok, bad = self.ok_bad(None, GeogCS(6371000))
         with pytest.raises(ValueError, match=self.assert_msg_same_cs):
             Regridder(ok, bad, *self.args)
 
-    def test_src_inconsistent_cs(self):
+    def test_src_inconsistent_cs(self):  # noqa: D102
         ok, bad = self.ok_bad(GeogCS(6370000), GeogCS(6371000))
         with pytest.raises(ValueError, match=self.assert_msg_same_cs):
             Regridder(bad, ok, *self.args)
 
-    def test_grid_inconsistent_cs(self):
+    def test_grid_inconsistent_cs(self):  # noqa: D102
         ok, bad = self.ok_bad(GeogCS(6370000), GeogCS(6371000))
         with pytest.raises(ValueError, match=self.assert_msg_same_cs):
             Regridder(ok, bad, *self.args)
@@ -718,20 +718,20 @@ class Test___call____bad_georeference:
 
 class Test___call____bad_angular_units:
     """Test   call    bad angular units."""
-    def ok_bad(self):
+    def ok_bad(self):  # noqa: D102
         # Changes the longitude coord to radians on `bad`.
         ok = lat_lon_cube()
         bad = lat_lon_cube()
         bad.coord("longitude").units = "radians"
         return ok, bad
 
-    def test_src_radians(self):
+    def test_src_radians(self):  # noqa: D102
         ok, bad = self.ok_bad()
         regridder = Regridder(bad, ok, "linear", "mask")
         with pytest.raises(ValueError, match="Unsupported units for coordinate system"):
             regridder(bad)
 
-    def test_grid_radians(self):
+    def test_grid_radians(self):  # noqa: D102
         ok, bad = self.ok_bad()
         with pytest.raises(ValueError, match="Unsupported units for coordinate system"):
             Regridder(ok, bad, "linear", "mask")
@@ -757,20 +757,20 @@ def uk_cube():
 
 class Test___call____bad_linear_units:
     """Test   call    bad linear units."""
-    def ok_bad(self):
+    def ok_bad(self):  # noqa: D102
         # Defines `bad` with an x coordinate in km.
         ok = lat_lon_cube()
         bad = uk_cube()
         bad.coord(axis="x").units = "km"
         return ok, bad
 
-    def test_src_km(self):
+    def test_src_km(self):  # noqa: D102
         ok, bad = self.ok_bad()
         regridder = Regridder(bad, ok, "linear", "mask")
         with pytest.raises(ValueError, match="Unsupported units for coordinate system"):
             regridder(bad)
 
-    def test_grid_km(self):
+    def test_grid_km(self):  # noqa: D102
         ok, bad = self.ok_bad()
         with pytest.raises(ValueError, match="Unsupported units for coordinate system"):
             Regridder(ok, bad, "linear", "mask")
@@ -784,11 +784,11 @@ class Test___call____no_coord_systems:
         self.mode = "mask"
         self.methods = ("linear", "nearest")
 
-    def remove_coord_systems(self, cube):
+    def remove_coord_systems(self, cube):  # noqa: D102
         for coord in cube.coords():
             coord.coord_system = None
 
-    def test_ok(self):
+    def test_ok(self):  # noqa: D102
         # Ensure regridding is supported when the coordinate definitions match.
         # NB. We change the coordinate *values* to ensure that does not
         # prevent the regridding operation.
@@ -807,7 +807,7 @@ class Test___call____no_coord_systems:
             expected[2, :] = ma.masked
             _shared_utils.assert_masked_array_equal(result.data, expected)
 
-    def test_matching_units(self):
+    def test_matching_units(self):  # noqa: D102
         # Check we are insensitive to the units provided they match.
         # NB. We change the coordinate *values* to ensure that does not
         # prevent the regridding operation.
@@ -829,7 +829,7 @@ class Test___call____no_coord_systems:
             expected[2, :] = ma.masked
             _shared_utils.assert_masked_array_equal(result.data, expected)
 
-    def test_different_units(self):
+    def test_different_units(self):  # noqa: D102
         src = uk_cube()
         self.remove_coord_systems(src)
         # Move to unusual units (i.e. not metres or degrees).
@@ -847,7 +847,7 @@ class Test___call____no_coord_systems:
             with pytest.raises(ValueError, match=emsg):
                 regridder(src)
 
-    def test_coord_metadata_mismatch(self):
+    def test_coord_metadata_mismatch(self):  # noqa: D102
         # Check for failure when coordinate definitions differ.
         uk = uk_cube()
         self.remove_coord_systems(uk)
@@ -913,7 +913,7 @@ class Test___call____extrapolation_modes:
 
         return result.data
 
-    def test_default_ndarray(self):
+    def test_default_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         for method in self.methods:
@@ -924,7 +924,7 @@ class Test___call____extrapolation_modes:
             expected = ma.MaskedArray(self.values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_default_maskedarray(self):
+    def test_default_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> Masked
@@ -936,7 +936,7 @@ class Test___call____extrapolation_modes:
             expected = ma.MaskedArray(self.values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_default_maskedarray_none_masked(self):
+    def test_default_maskedarray_none_masked(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> N/A
@@ -951,7 +951,7 @@ class Test___call____extrapolation_modes:
             expected = ma.MaskedArray(self.values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_default_maskedarray_none_masked_expanded(self):
+    def test_default_maskedarray_none_masked_expanded(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> N/A
@@ -968,7 +968,7 @@ class Test___call____extrapolation_modes:
             expected = ma.MaskedArray(self.values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_method_ndarray(self):
+    def test_method_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> linear
         for method in self.methods:
@@ -978,7 +978,7 @@ class Test___call____extrapolation_modes:
             expected = self.extrapolate_values_by_method[method]
             _shared_utils.assert_array_equal(result, expected)
 
-    def test_nan_ndarray(self):
+    def test_nan_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> NaN
         for method in self.methods:
@@ -987,7 +987,7 @@ class Test___call____extrapolation_modes:
             assert not isinstance(result, ma.MaskedArray)
             _shared_utils.assert_array_equal(result, self.values)
 
-    def test_nan_maskedarray(self):
+    def test_nan_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> NaN
         # Masked        -> Masked
@@ -999,21 +999,21 @@ class Test___call____extrapolation_modes:
             expected = ma.MaskedArray(self.values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_error_ndarray(self):
+    def test_error_ndarray(self):  # noqa: D102
         # Values irrelevant - the function raises an error.
         for method in self.methods:
             src = self._ndarray_cube(method)
             with pytest.raises(ValueError, match="out of bounds"):
                 self._regrid(src, method, "error")
 
-    def test_error_maskedarray(self):
+    def test_error_maskedarray(self):  # noqa: D102
         # Values irrelevant - the function raises an error.
         for method in self.methods:
             src = self._masked_cube(method)
             with pytest.raises(ValueError, match="out of bounds"):
                 self._regrid(src, method, "error")
 
-    def test_mask_ndarray(self):
+    def test_mask_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked (this is different from all the other
         #                          modes)
@@ -1025,7 +1025,7 @@ class Test___call____extrapolation_modes:
             expected = ma.MaskedArray(self.values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_mask_maskedarray(self):
+    def test_mask_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> Masked
@@ -1037,7 +1037,7 @@ class Test___call____extrapolation_modes:
             expected = ma.MaskedArray(self.values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_nanmask_ndarray(self):
+    def test_nanmask_ndarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> NaN
         for method in self.methods:
@@ -1046,7 +1046,7 @@ class Test___call____extrapolation_modes:
             assert not isinstance(result, ma.MaskedArray)
             _shared_utils.assert_array_equal(result, self.values)
 
-    def test_nanmask_maskedarray(self):
+    def test_nanmask_maskedarray(self):  # noqa: D102
         # NaN           -> NaN
         # Extrapolated  -> Masked
         # Masked        -> Masked
@@ -1058,7 +1058,7 @@ class Test___call____extrapolation_modes:
             expected = ma.MaskedArray(self.values, mask)
             _shared_utils.assert_masked_array_equal(result, expected)
 
-    def test_invalid(self):
+    def test_invalid(self):  # noqa: D102
         src = uk_cube()
         emsg = "Invalid extrapolation mode"
         for method in self.methods:
@@ -1075,7 +1075,7 @@ class Test___call____rotated_to_lat_lon:
         self.mode = "mask"
         self.methods = ("linear", "nearest")
 
-    def test_single_point(self):
+    def test_single_point(self):  # noqa: D102
         src = self.src[0, 0]
         grid = global_pp()[:1, :1]
         # These coordinate values have been derived by converting the
@@ -1087,7 +1087,7 @@ class Test___call____rotated_to_lat_lon:
             result = regridder(src)
             assert src.data[1, 1] == result.data
 
-    def test_transposed_src(self, request):
+    def test_transposed_src(self, request):  # noqa: D102
         # The source dimensions are in a non-standard order.
         src = self.src
         src.transpose([3, 1, 2, 0])
@@ -1107,7 +1107,7 @@ class Test___call____rotated_to_lat_lon:
         grid.coord("latitude").points = np.linspace(52.372, 52.44, 4)
         return grid
 
-    def test_reversed(self, request):
+    def test_reversed(self, request):  # noqa: D102
         src = self.src
         grid = self._grid_subset()
 
@@ -1186,7 +1186,7 @@ class Test___call____rotated_to_lat_lon:
                 request, result[:, :, ::-1, ::-1], cml, approx_data=True
             )
 
-    def test_grid_subset(self, request):
+    def test_grid_subset(self, request):  # noqa: D102
         # The destination grid points are entirely contained within the
         # src grid points.
         grid = self._grid_subset()
@@ -1203,7 +1203,7 @@ class Test___call____rotated_to_lat_lon:
         big_grid.add_dim_coord(grid.coord("longitude"), 4)
         return big_grid
 
-    def test_grid_subset_big(self, request):
+    def test_grid_subset_big(self, request):  # noqa: D102
         # Add some extra dimensions to the destination Cube and
         # these should be safely ignored.
         big_grid = self._big_grid()
@@ -1213,7 +1213,7 @@ class Test___call____rotated_to_lat_lon:
             cml = RESULT_DIR + ("{}_subset.cml".format(method),)
             _shared_utils.assert_CML(request, result, cml, approx_data=True)
 
-    def test_grid_subset_big_transposed(self, request):
+    def test_grid_subset_big_transposed(self, request):  # noqa: D102
         # The order of the grid's dimensions (including the X and Y
         # dimensions) must not affect the result.
         big_grid = self._big_grid()
@@ -1224,7 +1224,7 @@ class Test___call____rotated_to_lat_lon:
             cml = RESULT_DIR + ("{}_subset.cml".format(method),)
             _shared_utils.assert_CML(request, result, cml, approx_data=True)
 
-    def test_grid_subset_anon(self, request):
+    def test_grid_subset_anon(self, request):  # noqa: D102
         # Must cope OK with anonymous source dimensions.
         src = self.src
         src.remove_coord("time")
@@ -1235,7 +1235,7 @@ class Test___call____rotated_to_lat_lon:
             cml = RESULT_DIR + ("{}_subset_anon.cml".format(method),)
             _shared_utils.assert_CML(request, result, cml, approx_data=True)
 
-    def test_grid_subset_missing_data_1(self, request):
+    def test_grid_subset_missing_data_1(self, request):  # noqa: D102
         # The destination grid points are entirely contained within the
         # src grid points AND we have missing data.
         src = self.src
@@ -1248,7 +1248,7 @@ class Test___call____rotated_to_lat_lon:
             cml = RESULT_DIR + ("{}_subset_masked_1.cml".format(method),)
             _shared_utils.assert_CML(request, result, cml, approx_data=True)
 
-    def test_grid_subset_missing_data_2(self, request):
+    def test_grid_subset_missing_data_2(self, request):  # noqa: D102
         # The destination grid points are entirely contained within the
         # src grid points AND we have missing data.
         src = self.src
@@ -1261,7 +1261,7 @@ class Test___call____rotated_to_lat_lon:
             cml = RESULT_DIR + ("{}_subset_masked_2.cml".format(method),)
             _shared_utils.assert_CML(request, result, cml, approx_data=True)
 
-    def test_grid_partial_overlap(self, request):
+    def test_grid_partial_overlap(self, request):  # noqa: D102
         # The destination grid points are partially contained within the
         # src grid points.
         grid = global_pp()[:4, :4]
@@ -1273,7 +1273,7 @@ class Test___call____rotated_to_lat_lon:
             cml = RESULT_DIR + ("{}_partial_overlap.cml".format(method),)
             _shared_utils.assert_CML(request, result, cml, approx_data=True)
 
-    def test_grid_no_overlap(self, request):
+    def test_grid_no_overlap(self, request):  # noqa: D102
         # The destination grid points are NOT contained within the
         # src grid points.
         grid = global_pp()[:4, :4]
@@ -1286,7 +1286,7 @@ class Test___call____rotated_to_lat_lon:
                 request, result, RESULT_DIR + ("no_overlap.cml",), approx_data=True
             )
 
-    def test_grid_subset_missing_data_aux(self, request):
+    def test_grid_subset_missing_data_aux(self, request):  # noqa: D102
         # The destination grid points are entirely contained within the
         # src grid points AND we have missing data on the aux coordinate.
         src = self.src
@@ -1312,22 +1312,22 @@ class Test___call____NOP:
         )
         self.grid = self.src.copy()
 
-    def test_nop__linear(self):
+    def test_nop__linear(self):  # noqa: D102
         regridder = Regridder(self.src, self.grid, "linear", "mask")
         result = regridder(self.src)
         assert result == self.src
 
-    def test_nop__nearest(self):
+    def test_nop__nearest(self):  # noqa: D102
         regridder = Regridder(self.src, self.grid, "nearest", "mask")
         result = regridder(self.src)
         assert result == self.src
 
-    def test_nop__linear_lazy(self):
+    def test_nop__linear_lazy(self):  # noqa: D102
         regridder = Regridder(self.lazy_src, self.grid, "linear", "mask")
         result = regridder(self.lazy_src)
         assert result == self.lazy_src
 
-    def test_nop__nearest_lazy(self):
+    def test_nop__nearest_lazy(self):  # noqa: D102
         regridder = Regridder(self.lazy_src, self.grid, "nearest", "mask")
         result = regridder(self.lazy_src)
         assert result == self.lazy_src
@@ -1362,7 +1362,7 @@ class Test___call____circular:
         self.mode = "mask"
         self.methods = ("linear", "nearest")
 
-    def test_non_circular(self, request):
+    def test_non_circular(self, request):  # noqa: D102
         # Non-circular src -> non-circular grid
         for method in self.methods:
             regridder = Regridder(self.src, self.grid, method, self.mode)
@@ -1382,13 +1382,13 @@ class Test___call____circular:
             _shared_utils.assert_CML(request, result, cml, approx_data=True)
         return results
 
-    def test_circular_src(self, request):
+    def test_circular_src(self, request):  # noqa: D102
         # Circular src -> non-circular grid, standard test.
         src = self.src
         src.coord("longitude").circular = True
         self._check_circular_results(src, request)
 
-    def test_circular_src__masked_missingmask(self, request):
+    def test_circular_src__masked_missingmask(self, request):  # noqa: D102
         # Test the special case where src_cube.data.mask is just *False*,
         # instead of being an array.
         src = self.src
@@ -1400,7 +1400,7 @@ class Test___call____circular:
             assert isinstance(method_result.data.mask, np.ndarray)
             assert np.all(method_result.data.mask == np.array(False))
 
-    def test_circular_src__masked(self):
+    def test_circular_src__masked(self):  # noqa: D102
         # Test that masked source points produce the expected masked results.
 
         # Define source + destination sample points.
@@ -1487,7 +1487,7 @@ class Test___call____circular:
                 result_masked.data, expected_result_data
             )
 
-    def test_circular_grid(self, request):
+    def test_circular_grid(self, request):  # noqa: D102
         # Non-circular src -> circular grid
         grid = self.grid
         grid.coord("longitude").circular = True
@@ -1498,7 +1498,7 @@ class Test___call____circular:
             cml = RESULT_DIR + ("{}_circular_grid.cml".format(method),)
             _shared_utils.assert_CML(request, result, cml, approx_data=True)
 
-    def test_circular_src_and_grid(self, request):
+    def test_circular_src_and_grid(self, request):  # noqa: D102
         # Circular src -> circular grid
         src = self.src
         src.coord("longitude").circular = True

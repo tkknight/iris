@@ -31,7 +31,7 @@ BASES = [
 
 class Test_factory:
     """Test factory."""
-    def test__kwargs_invalid(self):
+    def test__kwargs_invalid(self):  # noqa: D102
         emsg = "Invalid 'BaseMetadata' field parameters, got 'wibble'."
         with pytest.raises(ValueError, match=emsg):
             _ = metadata_manager_factory(BaseMetadata, wibble="nope")
@@ -43,7 +43,7 @@ class Test_instance:
     def _setup(self):
         self.bases = BASES
 
-    def test__namespace(self):
+    def test__namespace(self):  # noqa: D102
         namespace = [
             "DEFAULT_NAME",
             "__init__",
@@ -66,13 +66,13 @@ class Test_instance:
                 assert hasattr(metadata, "_names")
             assert metadata.cls is base
 
-    def test__kwargs_default(self):
+    def test__kwargs_default(self):  # noqa: D102
         for base in self.bases:
             kwargs = dict(zip(base._fields, [None] * len(base._fields)))
             metadata = metadata_manager_factory(base)
             assert metadata.values._asdict() == kwargs
 
-    def test__kwargs(self):
+    def test__kwargs(self):  # noqa: D102
         for base in self.bases:
             kwargs = dict(zip(base._fields, range(len(base._fields))))
             metadata = metadata_manager_factory(base, **kwargs)
@@ -85,17 +85,17 @@ class Test_instance___eq__:
     def _setup(self):
         self.metadata = metadata_manager_factory(BaseMetadata)
 
-    def test__not_implemented(self):
+    def test__not_implemented(self):  # noqa: D102
         assert self.metadata != 1
 
-    def test__not_is_cls(self):
+    def test__not_is_cls(self):  # noqa: D102
         base = BaseMetadata
         other = metadata_manager_factory(base)
         assert other.cls is base
         other.cls = CoordMetadata
         assert other != self.metadata
 
-    def test__not_values(self, mocker):
+    def test__not_values(self, mocker):  # noqa: D102
         standard_name = mocker.sentinel.standard_name
         other = metadata_manager_factory(BaseMetadata, standard_name=standard_name)
         assert other.standard_name == standard_name
@@ -105,11 +105,11 @@ class Test_instance___eq__:
         assert other.attributes is None
         assert other != self.metadata
 
-    def test__same_default(self):
+    def test__same_default(self):  # noqa: D102
         other = metadata_manager_factory(BaseMetadata)
         assert other == self.metadata
 
-    def test__same(self):
+    def test__same(self):  # noqa: D102
         kwargs = dict(standard_name=1, long_name=2, var_name=3, units=4, attributes=5)
         metadata = metadata_manager_factory(BaseMetadata, **kwargs)
         other = metadata_manager_factory(BaseMetadata, **kwargs)
@@ -123,7 +123,7 @@ class Test_instance____repr__:
     def _setup(self):
         self.metadata = metadata_manager_factory(BaseMetadata)
 
-    def test(self, mocker):
+    def test(self, mocker):  # noqa: D102
         standard_name = mocker.sentinel.standard_name
         long_name = mocker.sentinel.long_name
         var_name = mocker.sentinel.var_name
@@ -161,7 +161,7 @@ class Test_instance__pickle:
         kwargs = dict(zip(BaseMetadata._fields, values))
         self.metadata = metadata_manager_factory(BaseMetadata, **kwargs)
 
-    def test_pickle(self, tmp_path):
+    def test_pickle(self, tmp_path):  # noqa: D102
         for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
             fname = tmp_path / f"pickle_{protocol}.pkl"
             with open(fname, "wb") as fout:
@@ -177,7 +177,7 @@ class Test_instance__fields:
     def _setup(self):
         self.bases = BASES
 
-    def test(self):
+    def test(self):  # noqa: D102
         for base in self.bases:
             fields = base._fields
             metadata = metadata_manager_factory(base)
@@ -192,7 +192,7 @@ class Test_instance__values:
     def _setup(self):
         self.bases = BASES
 
-    def test(self):
+    def test(self):  # noqa: D102
         for base in self.bases:
             metadata = metadata_manager_factory(base)
             result = metadata.values

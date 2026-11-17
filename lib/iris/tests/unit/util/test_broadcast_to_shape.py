@@ -14,7 +14,7 @@ from iris.util import broadcast_to_shape
 
 class Test_broadcast_to_shape:
     """Test broadcast to shape."""
-    def test_same_shape(self):
+    def test_same_shape(self):  # noqa: D102
         # broadcast to current shape should result in no change
         rng = np.random.default_rng()
         a = rng.random((2, 3))
@@ -22,7 +22,7 @@ class Test_broadcast_to_shape:
         b = broadcast_to_shape(a, a.shape, (0, 1))
         _shared_utils.assert_array_equal(b, a)
 
-    def test_added_dimensions(self):
+    def test_added_dimensions(self):  # noqa: D102
         # adding two dimensions, on at the front and one in the middle of
         # the existing dimensions
         rng = np.random.default_rng()
@@ -32,7 +32,7 @@ class Test_broadcast_to_shape:
             for j in range(4):
                 _shared_utils.assert_array_equal(b[i, :, j, :], a)
 
-    def test_added_dimensions_transpose(self):
+    def test_added_dimensions_transpose(self):  # noqa: D102
         # adding dimensions and having the dimensions of the input
         # transposed
         rng = np.random.default_rng()
@@ -42,7 +42,7 @@ class Test_broadcast_to_shape:
             for j in range(4):
                 _shared_utils.assert_array_equal(b[i, :, j, :].T, a)
 
-    def test_lazy_added_dimensions_transpose(self, mocked_compute):
+    def test_lazy_added_dimensions_transpose(self, mocked_compute):  # noqa: D102
         # adding dimensions and having the dimensions of the input
         # transposed
         rng = da.random.default_rng()
@@ -53,7 +53,7 @@ class Test_broadcast_to_shape:
             for j in range(4):
                 _shared_utils.assert_array_equal(b[i, :, j, :].T.compute(), a.compute())
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         # masked arrays are also accepted
         rng = np.random.default_rng()
         a = rng.random((2, 3))
@@ -63,7 +63,7 @@ class Test_broadcast_to_shape:
             for j in range(4):
                 _shared_utils.assert_masked_array_equal(b[i, :, j, :].T, m)
 
-    def test_lazy_masked(self, mocked_compute):
+    def test_lazy_masked(self, mocked_compute):  # noqa: D102
         # masked arrays are also accepted
         rng = np.random.default_rng()
         a = rng.random((2, 3))
@@ -76,7 +76,7 @@ class Test_broadcast_to_shape:
                     b[i, :, j, :].compute().T, m.compute()
                 )
 
-    def test_lazy_chunks(self, mocked_compute):
+    def test_lazy_chunks(self, mocked_compute):  # noqa: D102
         # chunks can be specified along with the target shape and are only used
         # along new dimensions or on dimensions that have size 1 in the source
         # array.
@@ -102,7 +102,7 @@ class Test_broadcast_to_shape:
                 )
         assert b.chunks == ((1, 1, 1), (2, 2), (2, 2, 1))
 
-    def test_masked_degenerate(self):
+    def test_masked_degenerate(self):  # noqa: D102
         # masked arrays can have degenerate masks too
         rng = np.random.default_rng()
         a = rng.random((2, 3))

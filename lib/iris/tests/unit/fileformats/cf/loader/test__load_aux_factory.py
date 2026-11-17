@@ -33,7 +33,7 @@ class TestAtmosphereHybridSigmaPressureCoordinate(MockerMixin):
         func = "iris.aux_factory.HybridPressureFactory._check_dependencies"
         _ = mocker.patch(func)
 
-    def test_formula_terms_ap(self, mocker):
+    def test_formula_terms_ap(self, mocker):  # noqa: D102
         self.cube_parts["coordinates"].append((self.ap, "ap"))
         self.requires["formula_terms"] = dict(ap="ap", b="b", ps="ps")
         _load_aux_factory(self.engine, self.cube)
@@ -48,7 +48,7 @@ class TestAtmosphereHybridSigmaPressureCoordinate(MockerMixin):
         assert factory.sigma == mocker.sentinel.b
         assert factory.surface_air_pressure == self.ps
 
-    def test_formula_terms_a_p0(self, mocker):
+    def test_formula_terms_a_p0(self, mocker):  # noqa: D102
         coord_a = DimCoord(np.arange(5), units="1")
         coord_p0 = DimCoord(10, units="Pa")
         coord_expected = DimCoord(
@@ -80,7 +80,7 @@ class TestAtmosphereHybridSigmaPressureCoordinate(MockerMixin):
         assert factory.sigma == mocker.sentinel.b
         assert factory.surface_air_pressure == self.ps
 
-    def test_formula_terms_a_p0__promote_a_units_unknown_to_dimensionless(self, mocker):
+    def test_formula_terms_a_p0__promote_a_units_unknown_to_dimensionless(self, mocker):  # noqa: D102
         coord_a = DimCoord(np.arange(5), units="unknown")
         coord_p0 = DimCoord(10, units="Pa")
         coord_expected = DimCoord(
@@ -113,7 +113,7 @@ class TestAtmosphereHybridSigmaPressureCoordinate(MockerMixin):
         assert factory.sigma == mocker.sentinel.b
         assert factory.surface_air_pressure == self.ps
 
-    def test_formula_terms_p0_non_scalar(self):
+    def test_formula_terms_p0_non_scalar(self):  # noqa: D102
         coord_p0 = DimCoord(np.arange(5))
         msg = re.escape(
             "Expecting None to be a scalar reference pressure coordinate, got shape (5,)"
@@ -123,7 +123,7 @@ class TestAtmosphereHybridSigmaPressureCoordinate(MockerMixin):
         with pytest.raises(ValueError, match=msg):
             _load_aux_factory(self.engine, self.cube)
 
-    def test_formula_terms_p0_bounded(self):
+    def test_formula_terms_p0_bounded(self):  # noqa: D102
         coord_a = DimCoord(np.arange(5))
         coord_p0 = DimCoord(1, bounds=[0, 2], var_name="p0")
         self.cube_parts["coordinates"].extend([(coord_a, "a"), (coord_p0, "p0")])
@@ -151,7 +151,7 @@ class TestAtmosphereHybridSigmaPressureCoordinate(MockerMixin):
         assert factory.sigma == self.mocker.sentinel.b
         assert factory.surface_air_pressure == self.ps
 
-    def test_formula_terms_ap_missing_coords(self):
+    def test_formula_terms_ap_missing_coords(self):  # noqa: D102
         self.requires["formula_terms"] = dict(ap="ap", b="b", ps="ps")
         with pytest.warns(
             IrisFactoryCoordNotFoundWarning,
@@ -161,19 +161,19 @@ class TestAtmosphereHybridSigmaPressureCoordinate(MockerMixin):
         assert len(warn) == 1
         self._check_no_delta()
 
-    def test_formula_terms_no_delta_terms(self):
+    def test_formula_terms_no_delta_terms(self):  # noqa: D102
         self.requires["formula_terms"] = dict(b="b", ps="ps")
         _load_aux_factory(self.engine, self.cube)
         self._check_no_delta()
 
-    def test_formula_terms_no_p0_term(self):
+    def test_formula_terms_no_p0_term(self):  # noqa: D102
         coord_a = DimCoord(np.arange(5), units="Pa")
         self.cube_parts["coordinates"].append((coord_a, "a"))
         self.requires["formula_terms"] = dict(a="a", b="b", ps="ps")
         _load_aux_factory(self.engine, self.cube)
         self._check_no_delta()
 
-    def test_formula_terms_no_a_term(self):
+    def test_formula_terms_no_a_term(self):  # noqa: D102
         coord_p0 = DimCoord(10, units="1")
         self.cube_parts["coordinates"].append((coord_p0, "p0"))
         self.requires["formula_terms"] = dict(a="p0", b="b", ps="ps")

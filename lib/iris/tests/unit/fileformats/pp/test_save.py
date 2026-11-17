@@ -94,14 +94,14 @@ class TestVertical:
     def _setup(self):
         self.cube = stock.lat_lon_cube()
 
-    def test_pseudo_level(self):
+    def test_pseudo_level(self):  # noqa: D102
         pseudo_level = 123
         coord = DimCoord(pseudo_level, long_name="pseudo_level", units="1")
         self.cube.add_aux_coord(coord)
         lbuser5_produced = _pp_save_ppfield_values(self.cube).lbuser[4]
         assert pseudo_level == lbuser5_produced
 
-    def test_soil_level(self):
+    def test_soil_level(self):  # noqa: D102
         soil_level = 314
         coord = DimCoord(soil_level, long_name="soil_model_level_number")
         self.cube.add_aux_coord(coord)
@@ -113,7 +113,7 @@ class TestVertical:
         assert field.brsvd[0] == 0
         assert field.brlev == 0
 
-    def test_soil_depth(self):
+    def test_soil_depth(self):  # noqa: D102
         lower, point, upper = 1, 2, 3
         coord = DimCoord(point, standard_name="depth", bounds=[[lower, upper]])
         self.cube.add_aux_coord(coord)
@@ -132,27 +132,27 @@ class TestLbfcProduction:
     def _setup(self):
         self.cube = stock.lat_lon_cube()
 
-    def check_cube_stash_yields_lbfc(self, stash, lbfc_expected):
+    def check_cube_stash_yields_lbfc(self, stash, lbfc_expected):  # noqa: D102
         if stash:
             self.cube.attributes["STASH"] = stash
         lbfc_produced = _pp_save_ppfield_values(self.cube).lbfc
         assert lbfc_produced == lbfc_expected
 
-    def test_known_stash(self):
+    def test_known_stash(self):  # noqa: D102
         stashcode_str = "m04s07i002"
         assert stashcode_str in STASH_TRANS
         self.check_cube_stash_yields_lbfc(stashcode_str, 359)
 
-    def test_unknown_stash(self):
+    def test_unknown_stash(self):  # noqa: D102
         stashcode_str = "m99s99i999"
         assert stashcode_str not in STASH_TRANS
         self.check_cube_stash_yields_lbfc(stashcode_str, 0)
 
-    def test_no_stash(self):
+    def test_no_stash(self):  # noqa: D102
         assert "STASH" not in self.cube.attributes
         self.check_cube_stash_yields_lbfc(None, 0)
 
-    def check_cube_name_units_yields_lbfc(self, name, units, lbfc_expected):
+    def check_cube_name_units_yields_lbfc(self, name, units, lbfc_expected):  # noqa: D102
         self.cube.rename(name)
         self.cube.units = units
         lbfc_produced = _pp_save_ppfield_values(self.cube).lbfc
@@ -162,11 +162,11 @@ class TestLbfcProduction:
             )
         )
 
-    def test_name_units_to_lbfc(self):
+    def test_name_units_to_lbfc(self):  # noqa: D102
         # Check LBFC value produced from name and units.
         self.check_cube_name_units_yields_lbfc("sea_ice_temperature", "K", 209)
 
-    def test_bad_name_units_to_lbfc_0(self):
+    def test_bad_name_units_to_lbfc_0(self):  # noqa: D102
         # Check that badly-formed / unrecognised cases yield LBFC == 0.
         self.check_cube_name_units_yields_lbfc("sea_ice_temperature", "degC", 0)
         self.check_cube_name_units_yields_lbfc("Junk_Name", "K", 0)
@@ -178,7 +178,7 @@ class TestLbsrceProduction:
     def _setup(self):
         self.cube = stock.lat_lon_cube()
 
-    def check_cube_um_source_yields_lbsrce(
+    def check_cube_um_source_yields_lbsrce(  # noqa: D102
         self, source_str=None, um_version_str=None, lbsrce_expected=None
     ):
         if source_str is not None:
@@ -188,20 +188,20 @@ class TestLbsrceProduction:
         lbsrce_produced = _pp_save_ppfield_values(self.cube).lbsrce
         assert lbsrce_produced == lbsrce_expected
 
-    def test_none(self):
+    def test_none(self):  # noqa: D102
         self.check_cube_um_source_yields_lbsrce(None, None, 0)
 
-    def test_source_only_no_version(self):
+    def test_source_only_no_version(self):  # noqa: D102
         self.check_cube_um_source_yields_lbsrce(
             "Data from Met Office Unified Model", None, 1111
         )
 
-    def test_source_only_with_version(self):
+    def test_source_only_with_version(self):  # noqa: D102
         self.check_cube_um_source_yields_lbsrce(
             "Data from Met Office Unified Model 12.17", None, 12171111
         )
 
-    def test_um_version(self):
+    def test_um_version(self):  # noqa: D102
         self.check_cube_um_source_yields_lbsrce(
             "Data from Met Office Unified Model 12.17", "25.36", 25361111
         )
@@ -224,21 +224,21 @@ class Test_Save__LbprocProduction:
         self.pp_field.HEADER_DEFN = pp.PPField3.HEADER_DEFN
         mocker.patch("iris.fileformats.pp.PPField3", return_value=self.pp_field)
 
-    def test_no_cell_methods(self):
+    def test_no_cell_methods(self):  # noqa: D102
         lbproc = _lbproc_rules(self.cube, self.pp_field).lbproc
         assert lbproc == 0
 
-    def test_mean(self):
+    def test_mean(self):  # noqa: D102
         self.cube.cell_methods = (CellMethod("mean", "time", "1 hour"),)
         lbproc = _lbproc_rules(self.cube, self.pp_field).lbproc
         assert lbproc == 128
 
-    def test_minimum(self):
+    def test_minimum(self):  # noqa: D102
         self.cube.cell_methods = (CellMethod("minimum", "time", "1 hour"),)
         lbproc = _lbproc_rules(self.cube, self.pp_field).lbproc
         assert lbproc == 4096
 
-    def test_maximum(self):
+    def test_maximum(self):  # noqa: D102
         self.cube.cell_methods = (CellMethod("maximum", "time", "1 hour"),)
         lbproc = _lbproc_rules(self.cube, self.pp_field).lbproc
         assert lbproc == 8192
@@ -252,7 +252,7 @@ class TestTimeMean:
 
     """
 
-    def test_t1_time_mean(self, mocker, single_mean_time_cube):
+    def test_t1_time_mean(self, mocker, single_mean_time_cube):  # noqa: D102
         tc = single_mean_time_cube.coord(axis="t")
         expected = tc.units.num2date(0)
 
@@ -262,7 +262,7 @@ class TestTimeMean:
 
         assert expected == actual
 
-    def test_t1_no_time_mean(self, mocker, single_time_cube):
+    def test_t1_no_time_mean(self, mocker, single_time_cube):  # noqa: D102
         tc = single_time_cube.coord(axis="t")
         expected = tc.units.num2date(15)
 
@@ -272,7 +272,7 @@ class TestTimeMean:
 
         assert expected == actual
 
-    def test_t2_time_mean(self, mocker, single_mean_time_cube):
+    def test_t2_time_mean(self, mocker, single_mean_time_cube):  # noqa: D102
         tc = single_mean_time_cube.coord(axis="t")
         expected = tc.units.num2date(30)
 
@@ -282,7 +282,7 @@ class TestTimeMean:
 
         assert expected == actual
 
-    def test_t2_no_time_mean(self, mocker, single_time_cube):
+    def test_t2_no_time_mean(self, mocker, single_time_cube):  # noqa: D102
         expected = cftime.datetime(0, 0, 0, calendar=None, has_year_zero=True)
 
         pp_field = mocker.patch("iris.fileformats.pp.PPField3", autospec=True)
@@ -290,7 +290,7 @@ class TestTimeMean:
         actual = pp_field.t2
         assert expected == actual
 
-    def test_lbft_no_forecast_time(self, mocker, single_time_cube):
+    def test_lbft_no_forecast_time(self, mocker, single_time_cube):  # noqa: D102
         # Different pattern here: checking that lbft hasn't been changed from
         # the default value.
         mock_lbft = mocker.sentinel.lbft
@@ -302,7 +302,7 @@ class TestTimeMean:
 
         assert mock_lbft is actual
 
-    def test_lbft_forecast_period_converted_to_hours(self, mocker):
+    def test_lbft_forecast_period_converted_to_hours(self, mocker):  # noqa: D102
         cube = stock.realistic_3d()[0:1, :, :]
         time_coord = cube.coord("time")
         fp_coord = cube.coord("forecast_period")
@@ -318,7 +318,7 @@ class TestTimeMean:
 
         assert pp_field.lbft == pytest.approx(expected_hours)
 
-    def test_lbtim_no_time_mean(self, mocker, single_time_cube):
+    def test_lbtim_no_time_mean(self, mocker, single_time_cube):  # noqa: D102
         expected_ib = 0
         expected_ic = 2  # 360 day calendar
 
@@ -330,7 +330,7 @@ class TestTimeMean:
         assert expected_ib == actual_ib
         assert expected_ic == actual_ic
 
-    def test_lbtim_time_mean(self, mocker, single_mean_time_cube):
+    def test_lbtim_time_mean(self, mocker, single_mean_time_cube):  # noqa: D102
         expected_ib = 2  # Time mean
         expected_ic = 2  # 360 day calendar
 
@@ -342,7 +342,7 @@ class TestTimeMean:
         assert expected_ib == actual_ib
         assert expected_ic == actual_ic
 
-    def test_lbproc_no_time_mean(self, mocker, single_time_cube):
+    def test_lbproc_no_time_mean(self, mocker, single_time_cube):  # noqa: D102
         expected = 0
 
         pp_field = mocker.patch("iris.fileformats.pp.PPField3", autospec=True)
@@ -351,7 +351,7 @@ class TestTimeMean:
 
         assert expected == actual
 
-    def test_lbproc_time_mean(self, mocker, single_mean_time_cube):
+    def test_lbproc_time_mean(self, mocker, single_mean_time_cube):  # noqa: D102
         expected = 128
 
         pp_field = mocker.patch("iris.fileformats.pp.PPField3", autospec=True)
@@ -370,7 +370,7 @@ class TestPoleLocation:
             pytest.param(False, id="default"),
         ],
     )
-    def test_lam_standard_pole(self, mocker, future_enabled):
+    def test_lam_standard_pole(self, mocker, future_enabled):  # noqa: D102
         cube = stock.lat_lon_cube()
         pp_field = mocker.patch("iris.fileformats.pp.PPField3", autospec=True)
         with FUTURE.context(lam_pole_offset=future_enabled):
@@ -384,7 +384,7 @@ class TestPoleLocation:
 
         assert pp_field.bplat == 90.0
 
-    def test_global_standard_pole(self, mocker, global_cube):
+    def test_global_standard_pole(self, mocker, global_cube):  # noqa: D102
         pp_field = mocker.patch("iris.fileformats.pp.PPField3", autospec=True)
         with FUTURE.context(lam_pole_offset=True):
             verify(global_cube, pp_field)
@@ -393,7 +393,7 @@ class TestPoleLocation:
         assert pp_field.bplon == 0.0
         assert pp_field.bplat == 90.0
 
-    def test_zonal_slice(self, mocker, zonal_slice_cube):
+    def test_zonal_slice(self, mocker, zonal_slice_cube):  # noqa: D102
         pp_field = mocker.patch("iris.fileformats.pp.PPField3", autospec=True)
         with FUTURE.context(lam_pole_offset=True):
             verify(zonal_slice_cube, pp_field)
@@ -402,7 +402,7 @@ class TestPoleLocation:
         assert pp_field.bplon == 0.0
         assert pp_field.bplat == 90.0
 
-    def test_lam_rotated_pole(self, mocker, single_time_cube):
+    def test_lam_rotated_pole(self, mocker, single_time_cube):  # noqa: D102
         coord_system = single_time_cube.coord_system()
         bplon = coord_system.grid_north_pole_longitude
         bplat = coord_system.grid_north_pole_latitude

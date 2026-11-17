@@ -23,15 +23,15 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         self.cube = self.cube[0, :]
         self.lat_lon_cube = self.lat_lon_cube[0, :]
 
-    def test_xaxis_labels(self):
+    def test_xaxis_labels(self):  # noqa: D102
         iplt.scatter(self.cube.coord("str_coord"), self.cube)
         self.assert_bounds_tick_labels("xaxis")
 
-    def test_yaxis_labels(self):
+    def test_yaxis_labels(self):  # noqa: D102
         iplt.scatter(self.cube, self.cube.coord("str_coord"))
         self.assert_bounds_tick_labels("yaxis")
 
-    def test_xaxis_labels_with_axes(self):
+    def test_xaxis_labels_with_axes(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -41,7 +41,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         plt.close(fig)
         self.assert_points_tick_labels("xaxis", ax)
 
-    def test_yaxis_labels_with_axes(self):
+    def test_yaxis_labels_with_axes(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -51,7 +51,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         plt.close(fig)
         self.assert_points_tick_labels("yaxis", ax)
 
-    def test_scatter_longitude(self):
+    def test_scatter_longitude(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()

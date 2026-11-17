@@ -82,7 +82,7 @@ class TestRecombine__data:
     def _setup(self):
         common_test_setup(self)
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         # Just confirm that all source data is lazy (by default)
         for cube in self.region_cubes + [self.mesh_cube]:
             assert cube.has_lazy_data()
@@ -90,7 +90,7 @@ class TestRecombine__data:
         assert result.has_lazy_data()
         _shared_utils.assert_masked_array_equal(result.data, self.expected_result)
 
-    def test_chunking(self):
+    def test_chunking(self):  # noqa: D102
         # Make non-standard testcube with higher dimensions + specific chunking
         common_test_setup(self, shape_3d=(10, 3), data_chunks=(3, 2, -1))
         assert self.mesh_cube.lazy_data().chunksize == (3, 2, 20)
@@ -98,7 +98,7 @@ class TestRecombine__data:
         # Check that the result chunking matches the input.
         assert result.lazy_data().chunksize == (3, 2, 20)
 
-    def test_single_region(self):
+    def test_single_region(self):  # noqa: D102
         region = self.region_cubes[1]
         result = recombine_submeshes(self.mesh_cube, [region])
         # Construct a snapshot of the expected result.
@@ -108,7 +108,7 @@ class TestRecombine__data:
         expected[..., inds] = region.data
         _shared_utils.assert_masked_array_equal(result.data, expected)
 
-    def test_region_overlaps(self):
+    def test_region_overlaps(self):  # noqa: D102
         # generate two identical regions with different values.
         region1 = self.region_cubes[2]
         region1.data[:] = 101.0
@@ -124,7 +124,7 @@ class TestRecombine__data:
         result2 = result2[..., inds].data
         _shared_utils.assert_array_equal(result2, 101.0)
 
-    def test_missing_points(self):
+    def test_missing_points(self):  # noqa: D102
         # check results with and without a specific region included.
         region2 = self.region_cubes[2]
         inds = region2.coord("i_mesh_index").points
@@ -136,7 +136,7 @@ class TestRecombine__data:
         result_not2 = recombine_submeshes(self.mesh_cube, regions_not2)
         assert np.all(result_not2[..., inds].data.mask)
 
-    def test_transposed(self):
+    def test_transposed(self):  # noqa: D102
         # Check function when mesh-dim is NOT the last dim.
         self.mesh_cube.transpose()
         assert self.mesh_cube.mesh_dim() == 0
@@ -149,7 +149,7 @@ class TestRecombine__data:
             result.data.transpose(), self.expected_result
         )
 
-    def test_dtype(self):
+    def test_dtype(self):  # noqa: D102
         # Check that result dtype comes from submeshes, not mesh_cube.
         assert self.mesh_cube.dtype == np.float64
         assert all(cube.dtype == np.float64 for cube in self.region_cubes)
@@ -162,14 +162,14 @@ class TestRecombine__data:
         result2 = recombine_submeshes(self.mesh_cube, region_cubes2)
         assert result2.dtype == np.int16
 
-    def test_meshcube_real(self):
+    def test_meshcube_real(self):  # noqa: D102
         # Real data in reference 'mesh_cube' makes no difference.
         self.mesh_cube.data
         result = recombine_submeshes(self.mesh_cube, self.region_cubes)
         assert result.has_lazy_data()
         _shared_utils.assert_masked_array_equal(result.data, self.expected_result)
 
-    def test_regions_real(self):
+    def test_regions_real(self):  # noqa: D102
         # Real data in submesh cubes makes no difference.
         for cube in self.region_cubes:
             cube.data
@@ -177,7 +177,7 @@ class TestRecombine__data:
         assert result.has_lazy_data()
         _shared_utils.assert_masked_array_equal(result.data, self.expected_result)
 
-    def test_allinput_real(self):
+    def test_allinput_real(self):  # noqa: D102
         # Real data in reference AND regions still makes no difference.
         self.mesh_cube.data
         for cube in self.region_cubes:
@@ -186,7 +186,7 @@ class TestRecombine__data:
         assert result.has_lazy_data()
         _shared_utils.assert_masked_array_equal(result.data, self.expected_result)
 
-    def test_meshcube_masking(self):
+    def test_meshcube_masking(self):  # noqa: D102
         # Masked points in the reference 'mesh_cube' should make no difference.
         # get real data : copy as default is not writeable
         data = self.mesh_cube.data.copy()
@@ -200,7 +200,7 @@ class TestRecombine__data:
         result = recombine_submeshes(self.mesh_cube, self.region_cubes)
         _shared_utils.assert_masked_array_equal(result.data, self.expected_result)
 
-    def test_no_missing_results(self):
+    def test_no_missing_results(self):  # noqa: D102
         # For a result with no missing points, result array is still masked
         # get real data : copy as default is not writeable
         data = self.mesh_cube.data.copy()
@@ -224,7 +224,7 @@ class TestRecombine__data:
         assert isinstance(result.mask, np.ndarray)
         _shared_utils.assert_array_equal(result.mask, False)
 
-    def test_maskeddata(self):
+    def test_maskeddata(self):  # noqa: D102
         # Check that masked points within regions behave like ordinary values.
         # NB use overlap points
         # reg[1][0:2] == reg[3][5:7], but points in reg[3] dominate
@@ -240,7 +240,7 @@ class TestRecombine__data:
         expected[:, 6] = np.ma.masked
         _shared_utils.assert_array_equal(result.mask, expected.mask)
 
-    def test_nandata(self):
+    def test_nandata(self):  # noqa: D102
         # Check that NaN points within regions behave like ordinary values.
         # Duplicate of previous test, replacing masks with NaNs
         self.region_cubes[0].data[:, 0] = np.nan
@@ -260,37 +260,37 @@ class TestRecombine__api:
     def _setup(self):
         common_test_setup(self)
 
-    def test_fail_no_mesh(self):
+    def test_fail_no_mesh(self):  # noqa: D102
         self.mesh_cube = self.mesh_cube[..., 0:]
         with pytest.raises(ValueError, match='mesh_cube.*has no ".mesh"'):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_single_region(self):
+    def test_single_region(self):  # noqa: D102
         # Check that a single region-cube can replace a list.
         single_region = self.region_cubes[0]
         result1 = recombine_submeshes(self.mesh_cube, single_region)
         result2 = recombine_submeshes(self.mesh_cube, [single_region])
         assert result1 == result2
 
-    def test_fail_no_regions(self):
+    def test_fail_no_regions(self):  # noqa: D102
         with pytest.raises(ValueError, match="'submesh_cubes' must be non-empty"):
             recombine_submeshes(self.mesh_cube, [])
 
-    def test_fail_dims_mismatch_mesh_regions(self):
+    def test_fail_dims_mismatch_mesh_regions(self):  # noqa: D102
         self.mesh_cube = self.mesh_cube[0]
         with pytest.raises(
             ValueError, match="Submesh cube.*has 2 dimensions, but 'mesh_cube' has 1"
         ):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_fail_dims_mismatch_region_regions(self):
+    def test_fail_dims_mismatch_region_regions(self):  # noqa: D102
         self.region_cubes[1] = self.region_cubes[1][1]
         with pytest.raises(
             ValueError, match="Submesh cube.*has 1 dimensions, but 'mesh_cube' has 2"
         ):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_fail_metdata_mismatch_region_regions(self):
+    def test_fail_metdata_mismatch_region_regions(self):  # noqa: D102
         reg_cube = self.region_cubes[1]
         modded_cube = reg_cube.copy()
         modded_cube.long_name = "qq"
@@ -327,7 +327,7 @@ class TestRecombine__api:
         with pytest.raises(ValueError, match=msg):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_fail_dtype_mismatch_region_regions(self):
+    def test_fail_dtype_mismatch_region_regions(self):  # noqa: D102
         reg_cube = self.region_cubes[1]
         reg_cube.data = reg_cube.data.astype(np.int16)
         msg = (
@@ -338,13 +338,13 @@ class TestRecombine__api:
         with pytest.raises(ValueError, match=msg):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_fail_dimcoord_sub_no_mesh(self):
+    def test_fail_dimcoord_sub_no_mesh(self):  # noqa: D102
         self.mesh_cube.remove_coord("level")
         msg = "has a dim-coord \"level\" for dimension 0, but 'mesh_cube' has none."
         with pytest.raises(ValueError, match=msg):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_fail_dimcoord_mesh_no_sub(self):
+    def test_fail_dimcoord_mesh_no_sub(self):  # noqa: D102
         self.region_cubes[2].remove_coord("level")
         msg = (
             "has no dim-coord for dimension 0, "
@@ -353,7 +353,7 @@ class TestRecombine__api:
         with pytest.raises(ValueError, match=msg):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_fail_dimcoord_mesh_sub_differ(self):
+    def test_fail_dimcoord_mesh_sub_differ(self):  # noqa: D102
         dimco = self.mesh_cube.coord("level")
         dimco.points = dimco.points[::-1]
         msg = (
@@ -363,7 +363,7 @@ class TestRecombine__api:
         with pytest.raises(ValueError, match=msg):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_index_coordname(self):
+    def test_index_coordname(self):  # noqa: D102
         # Check that we can use different index coord names.
         for cube in self.region_cubes:
             cube.coord("i_mesh_index").rename("ii")
@@ -372,7 +372,7 @@ class TestRecombine__api:
         )
         _shared_utils.assert_array_equal(result.data, self.expected_result)
 
-    def test_fail_bad_indexcoord_name(self):
+    def test_fail_bad_indexcoord_name(self):  # noqa: D102
         self.region_cubes[2].coord("i_mesh_index").rename("ii")
         msg = (
             'Submesh cube #3/4, "mesh_phenom" has no "i_mesh_index" coord '
@@ -381,7 +381,7 @@ class TestRecombine__api:
         with pytest.raises(ValueError, match=msg):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_fail_missing_indexcoord(self):
+    def test_fail_missing_indexcoord(self):  # noqa: D102
         self.region_cubes[1].remove_coord("i_mesh_index")
         msg = (
             'Submesh cube #2/4, "mesh_phenom" has no "i_mesh_index" coord '
@@ -390,13 +390,13 @@ class TestRecombine__api:
         with pytest.raises(ValueError, match=msg):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_no_mesh_indexcoord(self):
+    def test_no_mesh_indexcoord(self):  # noqa: D102
         # It is ok for the mesh-cube to NOT have an index-coord.
         self.mesh_cube.remove_coord("i_mesh_index")
         result = recombine_submeshes(self.mesh_cube, self.region_cubes)
         _shared_utils.assert_array_equal(result.data, self.expected_result)
 
-    def test_fail_indexcoord_mismatch_mesh_region(self):
+    def test_fail_indexcoord_mismatch_mesh_region(self):  # noqa: D102
         self.mesh_cube.coord("i_mesh_index").units = "m"
         msg = (
             'Submesh cube #1/4, "mesh_phenom" has an index coord '
@@ -407,7 +407,7 @@ class TestRecombine__api:
         with pytest.raises(ValueError, match=msg):
             recombine_submeshes(self.mesh_cube, self.region_cubes)
 
-    def test_fail_indexcoord_mismatch_region_region(self):
+    def test_fail_indexcoord_mismatch_region_region(self):  # noqa: D102
         self.mesh_cube.remove_coord("i_mesh_index")
         self.region_cubes[2].coord("i_mesh_index").attributes["x"] = 3
         msg = (

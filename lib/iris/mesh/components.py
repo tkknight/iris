@@ -623,7 +623,7 @@ class Connectivity(_DimensionalMetadata):
         """Not available on :class:`Connectivity`."""
         raise NotImplementedError
 
-    def xml_element(self, doc):
+    def xml_element(self, doc):  # noqa: D102
         # Create the XML element as the camelCaseEquivalent of the
         # class name
         element = super().xml_element(doc)
@@ -3805,19 +3805,19 @@ class MeshCoord(AuxCoord):
     # ensure every property on a MeshCoord is read-only.
 
     @property
-    def mesh(self):
+    def mesh(self):  # noqa: D102
         return self._mesh
 
     @property
-    def location(self):
+    def location(self):  # noqa: D102
         return self._metadata_manager.location
 
     @property
-    def axis(self):
+    def axis(self):  # noqa: D102
         return self._metadata_manager.axis
 
     @property
-    def standard_name(self):
+    def standard_name(self):  # noqa: D102
         return self._metadata_manager.standard_name
 
     @standard_name.setter
@@ -3827,7 +3827,7 @@ class MeshCoord(AuxCoord):
             raise ValueError(msg)
 
     @property
-    def long_name(self):
+    def long_name(self):  # noqa: D102
         return self._metadata_manager.long_name
 
     @long_name.setter
@@ -3837,7 +3837,7 @@ class MeshCoord(AuxCoord):
             raise ValueError(msg)
 
     @property
-    def var_name(self):
+    def var_name(self):  # noqa: D102
         return self._metadata_manager.var_name
 
     @var_name.setter
@@ -3847,7 +3847,7 @@ class MeshCoord(AuxCoord):
             raise ValueError(msg)
 
     @property
-    def units(self):
+    def units(self):  # noqa: D102
         return self._metadata_manager.units
 
     @units.setter
@@ -3857,7 +3857,7 @@ class MeshCoord(AuxCoord):
             raise ValueError(msg)
 
     @property
-    def attributes(self):
+    def attributes(self):  # noqa: D102
         return self._metadata_manager.attributes
 
     @attributes.setter
@@ -3927,7 +3927,7 @@ class MeshCoord(AuxCoord):
                 raise ValueError(msg)
 
     @property
-    def bounds(self):
+    def bounds(self):  # noqa: D102
         # The bounds property should return real data, but shouldn't
         # realise the coord on the mesh.
         try:
@@ -4162,7 +4162,7 @@ class MeshCoord(AuxCoord):
     def __hash__(self):
         return hash(id(self))
 
-    def summary(self, *args, **kwargs):
+    def summary(self, *args, **kwargs):  # noqa: D102
         # We need to specialise _DimensionalMetadata.summary, so that we always
         # print the mesh+location of a MeshCoord.
         if len(args) > 0:

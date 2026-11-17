@@ -26,7 +26,7 @@ class Test:
         self.attributes = mocker.sentinel.attributes
         self.cls = BaseMetadata
 
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         metadata = self.cls(
             standard_name=self.standard_name,
             long_name=self.long_name,
@@ -47,7 +47,7 @@ class Test:
         )
         assert repr(metadata) == expected
 
-    def test_str(self):
+    def test_str(self):  # noqa: D102
         metadata = self.cls(
             standard_name="",
             long_name=None,
@@ -58,7 +58,7 @@ class Test:
         expected = f"BaseMetadata(var_name={self.var_name!r}, units={self.units!r})"
         assert str(metadata) == expected
 
-    def test__fields(self):
+    def test__fields(self):  # noqa: D102
         expected = (
             "standard_name",
             "long_name",
@@ -83,22 +83,22 @@ class Test___eq__:
         self.cls = BaseMetadata
         self.metadata = self.cls(**self.kwargs)
 
-    def test_lenient_service(self):
+    def test_lenient_service(self):  # noqa: D102
         qualname___eq__ = _qualname(self.cls.__eq__)
         assert qualname___eq__ in _LENIENT
         assert _LENIENT[qualname___eq__]
         assert _LENIENT[self.cls.__eq__]
 
-    def test_cannot_compare_non_class(self):
+    def test_cannot_compare_non_class(self):  # noqa: D102
         result = self.metadata.__eq__(None)
         assert result is NotImplemented
 
-    def test_cannot_compare_different_class(self):
+    def test_cannot_compare_different_class(self):  # noqa: D102
         other = CubeMetadata(*(None,) * len(CubeMetadata._fields))
         result = self.metadata.__eq__(other)
         assert result is NotImplemented
 
-    def test_lenient(self, mocker):
+    def test_lenient(self, mocker):  # noqa: D102
         return_value = mocker.sentinel.return_value
         mlenient = mocker.patch("iris.common.metadata._LENIENT", return_value=True)
         mcompare = mocker.patch.object(
@@ -117,13 +117,13 @@ class Test___eq__:
         assert _qualname(arg) == _qualname(self.cls.__eq__)
         assert kwargs == {}
 
-    def test_strict_same(self):
+    def test_strict_same(self):  # noqa: D102
         assert self.metadata.__eq__(self.metadata)
         other = self.cls(**self.kwargs)
         assert self.metadata.__eq__(other)
         assert other.__eq__(self.metadata)
 
-    def test_strict_different(self):
+    def test_strict_different(self):  # noqa: D102
         self.kwargs["var_name"] = None
         other = self.cls(**self.kwargs)
         assert not self.metadata.__eq__(other)
@@ -140,23 +140,23 @@ class Test___lt__:
         self.none = self.cls(1, 1, 1, None, 1)
         self.attributes = self.cls(1, 1, 1, 1, 10)
 
-    def test__ascending_lt(self):
+    def test__ascending_lt(self):  # noqa: D102
         result = self.one < self.two
         assert result
 
-    def test__descending_lt(self):
+    def test__descending_lt(self):  # noqa: D102
         result = self.two < self.one
         assert not result
 
-    def test__none_rhs_operand(self):
+    def test__none_rhs_operand(self):  # noqa: D102
         result = self.one < self.none
         assert not result
 
-    def test__none_lhs_operand(self):
+    def test__none_lhs_operand(self):  # noqa: D102
         result = self.none < self.one
         assert result
 
-    def test__ignore_attributes(self):
+    def test__ignore_attributes(self):  # noqa: D102
         result = self.one < self.attributes
         assert not result
         result = self.attributes < self.one
@@ -171,7 +171,7 @@ class Test___ne__:
         self.metadata = self.cls(*(None,) * len(self.cls._fields))
         self.other = mocker.sentinel.other
 
-    def test_notimplemented(self, mocker):
+    def test_notimplemented(self, mocker):  # noqa: D102
         return_value = NotImplemented
         patcher = mocker.patch.object(self.cls, "__eq__", return_value=return_value)
         result = self.metadata.__ne__(self.other)
@@ -182,7 +182,7 @@ class Test___ne__:
         assert arg == self.other
         assert kwargs == {}
 
-    def test_negate_true(self, mocker):
+    def test_negate_true(self, mocker):  # noqa: D102
         return_value = True
         patcher = mocker.patch.object(self.cls, "__eq__", return_value=return_value)
         result = self.metadata.__ne__(self.other)
@@ -192,7 +192,7 @@ class Test___ne__:
         assert arg == self.other
         assert kwargs == {}
 
-    def test_negate_false(self, mocker):
+    def test_negate_false(self, mocker):  # noqa: D102
         return_value = False
         patcher = mocker.patch.object(self.cls, "__eq__", return_value=return_value)
         result = self.metadata.__ne__(self.other)
@@ -217,7 +217,7 @@ class Test__combine:
         self.cls = BaseMetadata
         self.metadata = self.cls(**self.kwargs)
 
-    def test_lenient(self, mocker):
+    def test_lenient(self, mocker):  # noqa: D102
         return_value = mocker.sentinel._combine_lenient
         other = mocker.sentinel.other
         mlenient = mocker.patch("iris.common.metadata._LENIENT", return_value=True)
@@ -237,7 +237,7 @@ class Test__combine:
         assert arg == other
         assert kwargs == {}
 
-    def test_strict(self, mocker):
+    def test_strict(self, mocker):  # noqa: D102
         dummy = mocker.sentinel.dummy
         values = self.kwargs.copy()
         values["standard_name"] = dummy
@@ -266,7 +266,7 @@ class Test__combine_lenient:
             var_name=mocker.sentinel.var_name,
         )
 
-    def test_strict_units(self):
+    def test_strict_units(self):  # noqa: D102
         left = self.none.copy()
         left["units"] = "K"
         right = left.copy()
@@ -277,7 +277,7 @@ class Test__combine_lenient:
         assert lmetadata._combine_lenient(rmetadata) == expected
         assert rmetadata._combine_lenient(lmetadata) == expected
 
-    def test_strict_units_different(self):
+    def test_strict_units_different(self):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         left["units"] = "K"
@@ -291,7 +291,7 @@ class Test__combine_lenient:
         result = rmetadata._combine_lenient(lmetadata)
         assert result == expected
 
-    def test_strict_units_different_none(self):
+    def test_strict_units_different_none(self):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         left["units"] = "K"
@@ -305,7 +305,7 @@ class Test__combine_lenient:
         result = rmetadata._combine_lenient(lmetadata)
         assert result == expected
 
-    def test_attributes(self, mocker):
+    def test_attributes(self, mocker):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         ldict = dict(item=mocker.sentinel.left)
@@ -333,7 +333,7 @@ class Test__combine_lenient:
         assert args == expected
         assert kwargs == {}
 
-    def test_attributes_non_mapping_different(self, mocker):
+    def test_attributes_non_mapping_different(self, mocker):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         ldict = dict(item=mocker.sentinel.left)
@@ -347,7 +347,7 @@ class Test__combine_lenient:
         assert lmetadata._combine_lenient(rmetadata) == expected
         assert rmetadata._combine_lenient(lmetadata) == expected
 
-    def test_attributes_non_mapping_different_none(self, mocker):
+    def test_attributes_non_mapping_different_none(self, mocker):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         ldict = dict(item=mocker.sentinel.left)
@@ -364,7 +364,7 @@ class Test__combine_lenient:
         result = rmetadata._combine_lenient(lmetadata)
         assert result == expected
 
-    def test_names(self):
+    def test_names(self):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -375,7 +375,7 @@ class Test__combine_lenient:
         assert lmetadata._combine_lenient(rmetadata) == expected
         assert rmetadata._combine_lenient(lmetadata) == expected
 
-    def test_names_different(self, mocker):
+    def test_names_different(self, mocker):  # noqa: D102
         dummy = mocker.sentinel.dummy
         left = self.none.copy()
         right = self.none.copy()
@@ -390,7 +390,7 @@ class Test__combine_lenient:
         assert lmetadata._combine_lenient(rmetadata) == expected
         assert rmetadata._combine_lenient(lmetadata) == expected
 
-    def test_names_different_none(self):
+    def test_names_different_none(self):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         left.update(self.names)
@@ -420,7 +420,7 @@ class Test__combine_lenient_attributes:
         self.metadata = self.cls(*(None,) * len(self.cls._fields))
         self.dummy = mocker.sentinel.dummy
 
-    def test_same(self):
+    def test_same(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
 
@@ -431,7 +431,7 @@ class Test__combine_lenient_attributes:
         result = self.metadata._combine_lenient_attributes(right, left)
         assert_dict_equal(result, expected)
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["two"] = left["four"] = self.dummy
@@ -445,7 +445,7 @@ class Test__combine_lenient_attributes:
         result = self.metadata._combine_lenient_attributes(right, left)
         assert_dict_equal(result, expected)
 
-    def test_different_none(self):
+    def test_different_none(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["one"] = left["three"] = left["five"] = None
@@ -459,7 +459,7 @@ class Test__combine_lenient_attributes:
         result = self.metadata._combine_lenient_attributes(right, left)
         assert_dict_equal(result, expected)
 
-    def test_extra(self):
+    def test_extra(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["extra_left"] = "extra_left"
@@ -490,7 +490,7 @@ class Test__combine_strict_attributes:
         self.metadata = self.cls(*(None,) * len(self.cls._fields))
         self.dummy = mocker.sentinel.dummy
 
-    def test_same(self):
+    def test_same(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
 
@@ -501,7 +501,7 @@ class Test__combine_strict_attributes:
         result = self.metadata._combine_strict_attributes(right, left)
         assert_dict_equal(result, expected)
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["one"] = left["three"] = self.dummy
@@ -515,7 +515,7 @@ class Test__combine_strict_attributes:
         result = self.metadata._combine_strict_attributes(right, left)
         assert_dict_equal(result, expected)
 
-    def test_different_none(self):
+    def test_different_none(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["one"] = left["three"] = left["five"] = None
@@ -529,7 +529,7 @@ class Test__combine_strict_attributes:
         result = self.metadata._combine_strict_attributes(right, left)
         assert_dict_equal(result, expected)
 
-    def test_extra(self):
+    def test_extra(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["extra_left"] = "extra_left"
@@ -555,7 +555,7 @@ class Test__compare_lenient:
             var_name=mocker.sentinel.var_name,
         )
 
-    def test_name_same(self, mocker):
+    def test_name_same(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -570,7 +570,7 @@ class Test__compare_lenient:
         expected = (len(self.cls._fields) - 2) * 2
         assert patcher.call_count == expected
 
-    def test_name_same_lenient_false__long_name_different(self, mocker):
+    def test_name_same_lenient_false__long_name_different(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -586,7 +586,7 @@ class Test__compare_lenient:
         expected = (len(self.cls._fields) - 2) * 2
         assert patcher.call_count == expected
 
-    def test_name_same_lenient_true__var_name_different(self, mocker):
+    def test_name_same_lenient_true__var_name_different(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -602,7 +602,7 @@ class Test__compare_lenient:
         expected = (len(self.cls._fields) - 2) * 2
         assert patcher.call_count == expected
 
-    def test_name_different(self, mocker):
+    def test_name_different(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -616,7 +616,7 @@ class Test__compare_lenient:
 
         assert patcher.call_count == 0
 
-    def test_strict_units(self, mocker):
+    def test_strict_units(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         left["units"] = "K"
@@ -632,7 +632,7 @@ class Test__compare_lenient:
         expected = (len(self.cls._fields) - 2) * 2
         assert patcher.call_count == expected
 
-    def test_strict_units_different(self, mocker):
+    def test_strict_units_different(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         left["units"] = "K"
@@ -649,7 +649,7 @@ class Test__compare_lenient:
         expected = (len(self.cls._fields) - 2) * 2
         assert patcher.call_count == expected
 
-    def test_attributes(self, mocker):
+    def test_attributes(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -671,7 +671,7 @@ class Test__compare_lenient:
         expected = [((ldict, rdict),), ((rdict, ldict),)]
         assert patcher.call_args_list == expected
 
-    def test_attributes_non_mapping_different(self, mocker):
+    def test_attributes_non_mapping_different(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -685,7 +685,7 @@ class Test__compare_lenient:
         assert not lmetadata._compare_lenient(rmetadata)
         assert not rmetadata._compare_lenient(lmetadata)
 
-    def test_attributes_non_mapping_different_none(self, mocker):
+    def test_attributes_non_mapping_different_none(self, mocker):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -697,7 +697,7 @@ class Test__compare_lenient:
         assert lmetadata._compare_lenient(rmetadata)
         assert rmetadata._compare_lenient(lmetadata)
 
-    def test_names(self):
+    def test_names(self):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         left["long_name"] = None
@@ -725,14 +725,14 @@ class Test__compare_lenient_attributes:
         self.metadata = self.cls(*(None,) * len(self.cls._fields))
         self.dummy = mocker.sentinel.dummy
 
-    def test_same(self):
+    def test_same(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
 
         assert self.metadata._compare_lenient_attributes(left, right)
         assert self.metadata._compare_lenient_attributes(right, left)
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["two"] = left["four"] = self.dummy
@@ -740,7 +740,7 @@ class Test__compare_lenient_attributes:
         assert not self.metadata._compare_lenient_attributes(left, right)
         assert not self.metadata._compare_lenient_attributes(right, left)
 
-    def test_different_none(self):
+    def test_different_none(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["one"] = left["three"] = left["five"] = None
@@ -748,7 +748,7 @@ class Test__compare_lenient_attributes:
         assert not self.metadata._compare_lenient_attributes(left, right)
         assert not self.metadata._compare_lenient_attributes(right, left)
 
-    def test_extra(self, mocker):
+    def test_extra(self, mocker):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["extra_left"] = mocker.sentinel.extra_left
@@ -773,14 +773,14 @@ class Test__compare_strict_attributes:
         self.metadata = self.cls(*(None,) * len(self.cls._fields))
         self.dummy = mocker.sentinel.dummy
 
-    def test_same(self):
+    def test_same(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
 
         assert self.metadata._compare_strict_attributes(left, right)
         assert self.metadata._compare_strict_attributes(right, left)
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["two"] = left["four"] = self.dummy
@@ -788,7 +788,7 @@ class Test__compare_strict_attributes:
         assert not self.metadata._compare_strict_attributes(left, right)
         assert not self.metadata._compare_strict_attributes(right, left)
 
-    def test_different_none(self):
+    def test_different_none(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["one"] = left["three"] = left["five"] = None
@@ -796,7 +796,7 @@ class Test__compare_strict_attributes:
         assert not self.metadata._compare_strict_attributes(left, right)
         assert not self.metadata._compare_strict_attributes(right, left)
 
-    def test_extra(self, mocker):
+    def test_extra(self, mocker):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["extra_left"] = mocker.sentinel.extra_left
@@ -820,7 +820,7 @@ class Test__difference:
         self.cls = BaseMetadata
         self.metadata = self.cls(**self.kwargs)
 
-    def test_lenient(self, mocker):
+    def test_lenient(self, mocker):  # noqa: D102
         return_value = mocker.sentinel._difference_lenient
         other = mocker.sentinel.other
         mlenient = mocker.patch("iris.common.metadata._LENIENT", return_value=True)
@@ -840,7 +840,7 @@ class Test__difference:
         assert arg == other
         assert kwargs == {}
 
-    def test_strict(self, mocker):
+    def test_strict(self, mocker):  # noqa: D102
         dummy = mocker.sentinel.dummy
         values = self.kwargs.copy()
         values["long_name"] = dummy
@@ -889,7 +889,7 @@ class Test__difference_lenient:
             var_name=mocker.sentinel.var_name,
         )
 
-    def test_strict_units(self):
+    def test_strict_units(self):  # noqa: D102
         left = self.none.copy()
         left["units"] = "km"
         right = left.copy()
@@ -899,7 +899,7 @@ class Test__difference_lenient:
         assert lmetadata._difference_lenient(rmetadata) == expected
         assert rmetadata._difference_lenient(lmetadata) == expected
 
-    def test_strict_units_different(self):
+    def test_strict_units_different(self):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         lunits, runits = "m", "km"
@@ -920,7 +920,7 @@ class Test__difference_lenient:
         expected = list(expected.values())
         assert result == expected
 
-    def test_strict_units_different_none(self):
+    def test_strict_units_different_none(self):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         lunits, runits = "m", None
@@ -940,7 +940,7 @@ class Test__difference_lenient:
         expected = list(expected.values())
         assert result == expected
 
-    def test_attributes(self, mocker):
+    def test_attributes(self, mocker):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         ldict = dict(item=mocker.sentinel.left)
@@ -968,7 +968,7 @@ class Test__difference_lenient:
         assert args == expected
         assert kwargs == {}
 
-    def test_attributes_non_mapping_different(self, mocker):
+    def test_attributes_non_mapping_different(self, mocker):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         ldict = dict(item=mocker.sentinel.left)
@@ -990,7 +990,7 @@ class Test__difference_lenient:
         expected = list(expected.values())
         assert result == expected
 
-    def test_attributes_non_mapping_different_none(self, mocker):
+    def test_attributes_non_mapping_different_none(self, mocker):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         ldict = dict(item=mocker.sentinel.left)
@@ -1005,7 +1005,7 @@ class Test__difference_lenient:
         result = rmetadata._difference_lenient(lmetadata)
         assert result == expected
 
-    def test_names(self):
+    def test_names(self):  # noqa: D102
         left = self.none.copy()
         left.update(self.names)
         right = left.copy()
@@ -1016,7 +1016,7 @@ class Test__difference_lenient:
         assert lmetadata._difference_lenient(rmetadata) == expected
         assert rmetadata._difference_lenient(lmetadata) == expected
 
-    def test_names_different(self, mocker):
+    def test_names_different(self, mocker):  # noqa: D102
         dummy = mocker.sentinel.dummy
         left = self.none.copy()
         right = self.none.copy()
@@ -1049,7 +1049,7 @@ class Test__difference_lenient:
         expected = list(expected.values())
         assert result == expected
 
-    def test_names_different_none(self):
+    def test_names_different_none(self):  # noqa: D102
         left = self.none.copy()
         right = self.none.copy()
         left.update(self.names)
@@ -1079,7 +1079,7 @@ class Test__difference_lenient_attributes:
         self.metadata = self.cls(*(None,) * len(self.cls._fields))
         self.dummy = mocker.sentinel.dummy
 
-    def test_same(self):
+    def test_same(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
 
@@ -1089,7 +1089,7 @@ class Test__difference_lenient_attributes:
         result = self.metadata._difference_lenient_attributes(right, left)
         assert result is None
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["two"] = left["four"] = self.dummy
@@ -1108,7 +1108,7 @@ class Test__difference_lenient_attributes:
         assert_dict_equal(result_left, expected_right)
         assert_dict_equal(result_right, expected_left)
 
-    def test_different_none(self):
+    def test_different_none(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["one"] = left["three"] = left["five"] = None
@@ -1127,7 +1127,7 @@ class Test__difference_lenient_attributes:
         assert_dict_equal(result_left, expected_right)
         assert_dict_equal(result_right, expected_left)
 
-    def test_extra(self, mocker):
+    def test_extra(self, mocker):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["extra_left"] = mocker.sentinel.extra_left
@@ -1154,7 +1154,7 @@ class Test__difference_strict_attributes:
         self.metadata = self.cls(*(None,) * len(self.cls._fields))
         self.dummy = mocker.sentinel.dummy
 
-    def test_same(self):
+    def test_same(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
 
@@ -1163,7 +1163,7 @@ class Test__difference_strict_attributes:
         result = self.metadata._difference_strict_attributes(right, left)
         assert result is None
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["one"] = left["three"] = left["five"] = self.dummy
@@ -1183,7 +1183,7 @@ class Test__difference_strict_attributes:
         assert_dict_equal(result_left, expected_right)
         assert_dict_equal(result_right, expected_left)
 
-    def test_different_none(self):
+    def test_different_none(self):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["one"] = left["three"] = left["five"] = None
@@ -1203,7 +1203,7 @@ class Test__difference_strict_attributes:
         assert_dict_equal(result_left, expected_right)
         assert_dict_equal(result_right, expected_left)
 
-    def test_extra(self, mocker):
+    def test_extra(self, mocker):  # noqa: D102
         left = self.values.copy()
         right = self.values.copy()
         left["extra_left"] = mocker.sentinel.extra_left
@@ -1230,16 +1230,16 @@ class Test__is_attributes:
         self.metadata = self.cls(*(None,) * len(self.cls._fields))
         self.field = "attributes"
 
-    def test_field(self):
+    def test_field(self):  # noqa: D102
         assert self.metadata._is_attributes(self.field, {}, {})
 
-    def test_field_not_attributes(self):
+    def test_field_not_attributes(self):  # noqa: D102
         assert not self.metadata._is_attributes(None, {}, {})
 
-    def test_left_not_mapping(self):
+    def test_left_not_mapping(self):  # noqa: D102
         assert not self.metadata._is_attributes(self.field, None, {})
 
-    def test_right_not_mapping(self):
+    def test_right_not_mapping(self):  # noqa: D102
         assert not self.metadata._is_attributes(self.field, {}, None)
 
 
@@ -1264,24 +1264,24 @@ class Test_combine:
             attributes=mocker.sentinel.attributes,
         )
 
-    def test_lenient_service(self):
+    def test_lenient_service(self):  # noqa: D102
         qualname_combine = _qualname(self.cls.combine)
         assert qualname_combine in _LENIENT
         assert _LENIENT[qualname_combine]
         assert _LENIENT[self.cls.combine]
 
-    def test_cannot_combine_non_class(self):
+    def test_cannot_combine_non_class(self):  # noqa: D102
         emsg = "Cannot combine"
         with pytest.raises(TypeError, match=emsg):
             _ = self.metadata.combine(None)
 
-    def test_cannot_combine_different_class(self):
+    def test_cannot_combine_different_class(self):  # noqa: D102
         other = CubeMetadata(*(None,) * len(CubeMetadata._fields))
         emsg = "Cannot combine"
         with pytest.raises(TypeError, match=emsg):
             _ = self.metadata.combine(other)
 
-    def test_lenient_default(self, mocker):
+    def test_lenient_default(self, mocker):  # noqa: D102
         return_value = self.mock_kwargs.values()
         patcher = mocker.patch.object(self.cls, "_combine", return_value=return_value)
         result = self.metadata.combine(self.metadata)
@@ -1292,7 +1292,7 @@ class Test_combine:
         assert arg is self.metadata
         assert kwargs == {}
 
-    def test_lenient_true(self, mocker):
+    def test_lenient_true(self, mocker):  # noqa: D102
         return_value = self.mock_kwargs.values()
         mcombine = mocker.patch.object(self.cls, "_combine", return_value=return_value)
         mcontext = mocker.patch.object(_LENIENT, "context")
@@ -1309,7 +1309,7 @@ class Test_combine:
         assert arg is self.metadata
         assert kwargs == {}
 
-    def test_lenient_false(self, mocker):
+    def test_lenient_false(self, mocker):  # noqa: D102
         return_value = self.mock_kwargs.values()
         mcombine = mocker.patch.object(self.cls, "_combine", return_value=return_value)
         mcontext = mocker.patch.object(_LENIENT, "context")
@@ -1348,24 +1348,24 @@ class Test_difference:
             attributes=mocker.sentinel.attributes,
         )
 
-    def test_lenient_service(self):
+    def test_lenient_service(self):  # noqa: D102
         qualname_difference = _qualname(self.cls.difference)
         assert qualname_difference in _LENIENT
         assert _LENIENT[qualname_difference]
         assert _LENIENT[self.cls.difference]
 
-    def test_cannot_differ_non_class(self):
+    def test_cannot_differ_non_class(self):  # noqa: D102
         emsg = "Cannot differ"
         with pytest.raises(TypeError, match=emsg):
             _ = self.metadata.difference(None)
 
-    def test_cannot_differ_different_class(self):
+    def test_cannot_differ_different_class(self):  # noqa: D102
         other = CubeMetadata(*(None,) * len(CubeMetadata._fields))
         emsg = "Cannot differ"
         with pytest.raises(TypeError, match=emsg):
             _ = self.metadata.difference(other)
 
-    def test_lenient_default(self, mocker):
+    def test_lenient_default(self, mocker):  # noqa: D102
         return_value = self.mock_kwargs.values()
         patcher = mocker.patch.object(
             self.cls, "_difference", return_value=return_value
@@ -1378,7 +1378,7 @@ class Test_difference:
         assert arg is self.metadata
         assert kwargs == {}
 
-    def test_lenient_true(self, mocker):
+    def test_lenient_true(self, mocker):  # noqa: D102
         return_value = self.mock_kwargs.values()
         mdifference = mocker.patch.object(
             self.cls, "_difference", return_value=return_value
@@ -1397,7 +1397,7 @@ class Test_difference:
         assert arg is self.metadata
         assert kwargs == {}
 
-    def test_lenient_false(self, mocker):
+    def test_lenient_false(self, mocker):  # noqa: D102
         return_value = self.mock_kwargs.values()
         mdifference = mocker.patch.object(
             self.cls, "_difference", return_value=return_value
@@ -1431,24 +1431,24 @@ class Test_equal:
         self.cls = BaseMetadata
         self.metadata = self.cls(**kwargs)
 
-    def test_lenient_service(self):
+    def test_lenient_service(self):  # noqa: D102
         qualname_equal = _qualname(self.cls.equal)
         assert qualname_equal in _LENIENT
         assert _LENIENT[qualname_equal]
         assert _LENIENT[self.cls.equal]
 
-    def test_cannot_compare_non_class(self):
+    def test_cannot_compare_non_class(self):  # noqa: D102
         emsg = "Cannot compare"
         with pytest.raises(TypeError, match=emsg):
             _ = self.metadata.equal(None)
 
-    def test_cannot_compare_different_class(self):
+    def test_cannot_compare_different_class(self):  # noqa: D102
         other = CubeMetadata(*(None,) * len(CubeMetadata._fields))
         emsg = "Cannot compare"
         with pytest.raises(TypeError, match=emsg):
             _ = self.metadata.equal(other)
 
-    def test_lenient_default(self, mocker):
+    def test_lenient_default(self, mocker):  # noqa: D102
         return_value = mocker.sentinel.return_value
         patcher = mocker.patch.object(self.cls, "__eq__", return_value=return_value)
         result = self.metadata.equal(self.metadata)
@@ -1459,7 +1459,7 @@ class Test_equal:
         assert arg is self.metadata
         assert kwargs == {}
 
-    def test_lenient_true(self, mocker):
+    def test_lenient_true(self, mocker):  # noqa: D102
         return_value = mocker.sentinel.return_value
         m__eq__ = mocker.patch.object(self.cls, "__eq__", return_value=return_value)
         mcontext = mocker.patch.object(_LENIENT, "context")
@@ -1476,7 +1476,7 @@ class Test_equal:
         assert arg is self.metadata
         assert kwargs == {}
 
-    def test_lenient_false(self, mocker):
+    def test_lenient_false(self, mocker):  # noqa: D102
         return_value = mocker.sentinel.return_value
         m__eq__ = mocker.patch.object(self.cls, "__eq__", return_value=return_value)
         mcontext = mocker.patch.object(_LENIENT, "context")
@@ -1511,7 +1511,7 @@ class Test_name:
             attributes=None,
         )
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         token = "standard_name"
         metadata = self._make(standard_name=token)
 
@@ -1520,7 +1520,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == token
 
-    def test_standard_name__invalid_token(self):
+    def test_standard_name__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = self._make(standard_name=token)
 
@@ -1529,7 +1529,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         token = "long_name"
         metadata = self._make(long_name=token)
 
@@ -1538,7 +1538,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == token
 
-    def test_long_name__invalid_token(self):
+    def test_long_name__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = self._make(long_name=token)
 
@@ -1547,7 +1547,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         token = "var_name"
         metadata = self._make(var_name=token)
 
@@ -1556,7 +1556,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == token
 
-    def test_var_name__invalid_token(self):
+    def test_var_name__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = self._make(var_name=token)
 
@@ -1565,7 +1565,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         metadata = self._make()
 
         result = metadata.name()
@@ -1573,7 +1573,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_default__invalid_token(self):
+    def test_default__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = self._make()
 
@@ -1591,45 +1591,45 @@ class Test_token:
     def _setup(self):
         self.cls = BaseMetadata
 
-    def test_passthru_none(self):
+    def test_passthru_none(self):  # noqa: D102
         result = self.cls.token(None)
         assert result is None
 
-    def test_fail_leading_underscore(self):
+    def test_fail_leading_underscore(self):  # noqa: D102
         result = self.cls.token("_nope")
         assert result is None
 
-    def test_fail_leading_dot(self):
+    def test_fail_leading_dot(self):  # noqa: D102
         result = self.cls.token(".nope")
         assert result is None
 
-    def test_fail_leading_plus(self):
+    def test_fail_leading_plus(self):  # noqa: D102
         result = self.cls.token("+nope")
         assert result is None
 
-    def test_fail_leading_at(self):
+    def test_fail_leading_at(self):  # noqa: D102
         result = self.cls.token("@nope")
         assert result is None
 
-    def test_fail_space(self):
+    def test_fail_space(self):  # noqa: D102
         result = self.cls.token("nope nope")
         assert result is None
 
-    def test_fail_colon(self):
+    def test_fail_colon(self):  # noqa: D102
         result = self.cls.token("nope:")
         assert result is None
 
-    def test_pass_simple(self):
+    def test_pass_simple(self):  # noqa: D102
         token = "simple"
         result = self.cls.token(token)
         assert result == token
 
-    def test_pass_leading_digit(self):
+    def test_pass_leading_digit(self):  # noqa: D102
         token = "123simple"
         result = self.cls.token(token)
         assert result == token
 
-    def test_pass_mixture(self):
+    def test_pass_mixture(self):  # noqa: D102
         token = "S.imple@one+two_3"
         result = self.cls.token(token)
         assert result == token

@@ -17,7 +17,7 @@ from iris.tests import _shared_utils
 
 class TestPercentileAggregator:
     """Test ercentileAggregator."""
-    def test_init(self, mocker):
+    def test_init(self, mocker):  # noqa: D102
         name = "percentile"
         units_func = mocker.sentinel.units_func
         aggregator = PercentileAggregator(units_func=units_func)
@@ -43,13 +43,13 @@ class Test_post_process:
         self.cube_multi.add_dim_coord(self.coord_multi_0, 0)
         self.cube_multi.add_dim_coord(self.coord_multi_1, 1)
 
-    def test_missing_mandatory_kwarg(self):
+    def test_missing_mandatory_kwarg(self):  # noqa: D102
         aggregator = PercentileAggregator()
         emsg = "percentile aggregator requires .* keyword argument 'percent'"
         with pytest.raises(ValueError, match=emsg):
             aggregator.aggregate("dummy", axis=0)
 
-    def test_simple_single_point(self):
+    def test_simple_single_point(self):  # noqa: D102
         aggregator = PercentileAggregator()
         percent = 50
         kwargs = dict(percent=percent)
@@ -63,7 +63,7 @@ class Test_post_process:
         expected = AuxCoord(percent, long_name=name, units="percent")
         assert coord == expected
 
-    def test_simple_multiple_points(self):
+    def test_simple_multiple_points(self):  # noqa: D102
         aggregator = PercentileAggregator()
         percent = np.array([10, 20, 50, 90])
         kwargs = dict(percent=percent)
@@ -79,7 +79,7 @@ class Test_post_process:
         expected = AuxCoord(percent, long_name=name, units="percent")
         assert coord == expected
 
-    def test_multi_single_point(self):
+    def test_multi_single_point(self):  # noqa: D102
         aggregator = PercentileAggregator()
         percent = 70
         kwargs = dict(percent=percent)
@@ -93,7 +93,7 @@ class Test_post_process:
         expected = AuxCoord(percent, long_name=name, units="percent")
         assert coord == expected
 
-    def test_multi_multiple_points(self):
+    def test_multi_multiple_points(self):  # noqa: D102
         aggregator = PercentileAggregator()
         percent = np.array([17, 29, 81])
         kwargs = dict(percent=percent)
@@ -109,7 +109,7 @@ class Test_post_process:
         expected = AuxCoord(percent, long_name=name, units="percent")
         assert coord == expected
 
-    def test_multi_multiple_points_lazy(self):
+    def test_multi_multiple_points_lazy(self):  # noqa: D102
         # Check that lazy data is preserved.
         aggregator = PercentileAggregator()
         percent = np.array([17, 29, 81])

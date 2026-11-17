@@ -28,109 +28,109 @@ def construct_nd(sub_array, sub_dim, shape):
 
 class TestArrayStructure_from_array:
     """Test rrayStructure from array."""
-    def struct_from_arr(self, nd_array):
+    def struct_from_arr(self, nd_array):  # noqa: D102
         return ArrayStructure.from_array(nd_array.flatten())
 
-    def test_1d_len_0(self):
+    def test_1d_len_0(self):  # noqa: D102
         a = np.arange(0)
         assert self.struct_from_arr(a) == ArrayStructure(1, a)
 
-    def test_1d_len_1(self):
+    def test_1d_len_1(self):  # noqa: D102
         a = np.arange(1)
         assert self.struct_from_arr(a) == ArrayStructure(1, a)
 
-    def test_1d(self):
+    def test_1d(self):  # noqa: D102
         a = np.array([-1, 3, 1, 2])
         assert self.struct_from_arr(a) == ArrayStructure(1, a)
 
-    def test_1d_ones(self):
+    def test_1d_ones(self):  # noqa: D102
         a = np.ones(10)
         assert self.struct_from_arr(a) == ArrayStructure(1, [1])
 
-    def test_1d_range(self):
+    def test_1d_range(self):  # noqa: D102
         a = np.arange(6)
         assert self.struct_from_arr(a) == ArrayStructure(1, list(range(6)))
 
-    def test_3d_ones(self):
+    def test_3d_ones(self):  # noqa: D102
         a = np.ones([10, 2, 1])
         assert self.struct_from_arr(a) == ArrayStructure(1, [1])
 
-    def test_1d_over_2d_first_dim_manual(self):
+    def test_1d_over_2d_first_dim_manual(self):  # noqa: D102
         sub = np.array([10, 10, 20, 20])
         assert self.struct_from_arr(sub) == ArrayStructure(2, [10, 20])
 
-    def test_3d_first_dimension(self):
+    def test_3d_first_dimension(self):  # noqa: D102
         flattened = np.array([1, 1, 1, 2, 2, 2])
         assert ArrayStructure.from_array(flattened) == ArrayStructure(3, [1, 2])
 
-    def test_1d_over_2d_first_dim(self):
+    def test_1d_over_2d_first_dim(self):  # noqa: D102
         sub = np.array([-1, 3, 1, 2])
         a = construct_nd(sub, 0, (4, 2))
         assert self.struct_from_arr(a) == ArrayStructure(2, sub)
 
-    def test_1d_over_2d_second_dim(self):
+    def test_1d_over_2d_second_dim(self):  # noqa: D102
         sub = np.array([-1, 3, 1, 2])
         a = construct_nd(sub, 1, (2, 4))
         assert self.struct_from_arr(a) == ArrayStructure(1, sub)
 
-    def test_1d_over_3d_first_dim(self):
+    def test_1d_over_3d_first_dim(self):  # noqa: D102
         sub = np.array([-1, 3, 1, 2])
         a = construct_nd(sub, 0, (4, 2, 3))
         assert self.struct_from_arr(a) == ArrayStructure(6, sub)
 
-    def test_1d_over_3d_second_dim(self):
+    def test_1d_over_3d_second_dim(self):  # noqa: D102
         sub = np.array([-1, 3, 1, 2])
         a = construct_nd(sub, 1, (2, 4, 3))
         assert self.struct_from_arr(a) == ArrayStructure(3, sub)
 
-    def test_1d_over_3d_third_dim(self):
+    def test_1d_over_3d_third_dim(self):  # noqa: D102
         sub = np.array([-1, 3, 1, 2])
         a = construct_nd(sub, 2, (3, 2, 4))
         assert self.struct_from_arr(a) == ArrayStructure(1, sub)
 
-    def test_irregular_3d(self):
+    def test_irregular_3d(self):  # noqa: D102
         sub = np.array([-1, 3, 1, 2])
         a = construct_nd(sub, 2, (3, 2, 4))
         a[0, 0, 0] = 5
         assert self.struct_from_arr(a) is None
 
-    def test_irregular_1d(self):
+    def test_irregular_1d(self):  # noqa: D102
         # Note this tests a unique scenario where NumPy raises a broadcasting
         #  error (having previously allowed elementwise comparison in earlier
         #  versions).
         a = np.array([0, 0, 0, 0, 1, 1, 1, 1, 2])
         assert self.struct_from_arr(a) is None
 
-    def test_repeated_3d(self):
+    def test_repeated_3d(self):  # noqa: D102
         sub = np.array([-1, 3, 1, 2])
         a = construct_nd(sub, 2, (3, 2, 4))
         a[:, 0, 0] = 1
         assert self.struct_from_arr(a) is None
 
-    def test_rolled_3d(self):
+    def test_rolled_3d(self):  # noqa: D102
         # Shift the 3D array on by one, making the array 1d.
         sub = np.arange(4)
         a = construct_nd(sub, 0, (4, 2, 3))
         a = np.roll(a.flatten(), 1)
         assert self.struct_from_arr(a) is None
 
-    def test_len_1_3d(self):
+    def test_len_1_3d(self):  # noqa: D102
         # Setup a case which triggers an IndexError when identifying
         # the stride, but the result should still be correct.
         sub = np.arange(2)
         a = construct_nd(sub, 1, (1, 1, 1))
         assert self.struct_from_arr(a) == ArrayStructure(1, sub)
 
-    def test_not_an_array(self):
+    def test_not_an_array(self):  # noqa: D102
         # Support lists as an argument.
         assert ArrayStructure.from_array([1, 2, 3]) == ArrayStructure(1, [1, 2, 3])
 
-    def test_multi_dim_array(self):
+    def test_multi_dim_array(self):  # noqa: D102
         msg = "The given array must be 1D."
         with pytest.raises(ValueError, match=msg):
             ArrayStructure.from_array(np.arange(12).reshape(3, 4))
 
-    def test_eq_incompatible_shapes(self):
+    def test_eq_incompatible_shapes(self):  # noqa: D102
         struct1 = ArrayStructure(1, np.array([1, 2]))
         struct2 = ArrayStructure(1, np.array([1, 2, 3]))
         assert struct1 != struct2
@@ -147,7 +147,7 @@ class TestNdarrayAndDimsCases:
     def _order(self, request):
         self.order = request.param
 
-    def test_scalar_len1_first_dim(self):
+    def test_scalar_len1_first_dim(self):  # noqa: D102
         struct = ArrayStructure(1, [1])
         orig = np.array([1, 1, 1])
 
@@ -155,7 +155,7 @@ class TestNdarrayAndDimsCases:
         assert_array_equal(array, [1])
         assert dims == ()
 
-    def test_scalar_non_len1_first_dim(self):
+    def test_scalar_non_len1_first_dim(self):  # noqa: D102
         struct = ArrayStructure(1, [1])
         orig = np.array([1, 1, 1])
 
@@ -163,7 +163,7 @@ class TestNdarrayAndDimsCases:
         assert_array_equal(array, [1])
         assert dims == ()
 
-    def test_single_vector(self):
+    def test_single_vector(self):  # noqa: D102
         orig = construct_nd(np.array([1, 2]), 0, (2, 1, 3))
         flattened = orig.flatten(order=self.order)
         struct = ArrayStructure.from_array(flattened)
@@ -171,7 +171,7 @@ class TestNdarrayAndDimsCases:
         assert_array_equal(array, [1, 2])
         assert dims == (0,)
 
-    def test_single_vector_3rd_dim(self):
+    def test_single_vector_3rd_dim(self):  # noqa: D102
         orig = construct_nd(np.array([1, 2, 3]), 2, (4, 1, 3))
         flattened = orig.flatten(order=self.order)
 
@@ -180,7 +180,7 @@ class TestNdarrayAndDimsCases:
         assert_array_equal(array, [1, 2, 3])
         assert dims == (2,)
 
-    def test_orig_array_and_target_shape_inconsistent(self):
+    def test_orig_array_and_target_shape_inconsistent(self):  # noqa: D102
         # An array structure which has a length which is a product
         # of potential dimensions should not result in an array
         struct = ArrayStructure(2, [1, 2, 3])
@@ -190,7 +190,7 @@ class TestNdarrayAndDimsCases:
         with pytest.raises(ValueError, match=msg):
             struct.nd_array_and_dims(orig, (2, 3, 2), order=self.order)
 
-    def test_array_bigger_than_expected(self):
+    def test_array_bigger_than_expected(self):  # noqa: D102
         # An array structure which has a length which is a product
         # of potential dimensions should not result in an array
         struct = ArrayStructure(2, [1, 2, 3, 4, 5, 6])
@@ -199,7 +199,7 @@ class TestNdarrayAndDimsCases:
         with pytest.raises(_UnstructuredArrayException):
             struct.nd_array_and_dims(orig, (2, 3, 2), order=self.order)
 
-    def test_single_vector_extra_dimension(self):
+    def test_single_vector_extra_dimension(self):  # noqa: D102
         orig = construct_nd(np.array([1, 2]), 1, (3, 2))
         flattened = orig.flatten(order=self.order)
 

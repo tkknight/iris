@@ -34,7 +34,7 @@ class TestSimple:
         names = ["grid_latitude", "grid_longitude"]
         self.slices = iris.cube.CubeList(stock.realistic_4d().slices(names))
 
-    def test_constraints(self):
+    def test_constraints(self):  # noqa: D102
         constraint = iris.Constraint(model_level_number=10)
         sub_list = self.slices.extract(constraint)
         assert len(sub_list) == 6
@@ -63,7 +63,7 @@ class TestSimple:
         sub_list = self.slices.extract(constraint)
         assert len(sub_list) == 70 * 6
 
-    def test_coord_availability(self):
+    def test_coord_availability(self):  # noqa: D102
         # "model_level_number" coordinate available
         constraint = iris.Constraint(model_level_number=lambda x: True)
         result = self.slices.extract(constraint)
@@ -84,24 +84,24 @@ class TestSimple:
         result = self.slices.extract(constraint)
         assert not result
 
-    def test_mismatched_type(self):
+    def test_mismatched_type(self):  # noqa: D102
         constraint = iris.Constraint(model_level_number="aardvark")
         sub_list = self.slices.extract(constraint)
         assert len(sub_list) == 0
 
-    def test_cell(self):
+    def test_cell(self):  # noqa: D102
         cell = iris.coords.Cell(10)
         constraint = iris.Constraint(model_level_number=cell)
         sub_list = self.slices.extract(constraint)
         assert len(sub_list) == 6
 
-    def test_cell_equal_bounds(self):
+    def test_cell_equal_bounds(self):  # noqa: D102
         cell = self.slices[0].coord("level_height").cell(0)
         constraint = iris.Constraint(level_height=cell)
         sub_list = self.slices.extract(constraint)
         assert len(sub_list) == 6
 
-    def test_cell_different_bounds(self):
+    def test_cell_different_bounds(self):  # noqa: D102
         cell = iris.coords.Cell(10, bound=(9, 11))
         constraint = iris.Constraint(model_level_number=cell)
         sub_list = self.slices.extract(constraint)
@@ -150,7 +150,7 @@ class RelaxedConstraintMixin(ConstraintMixin):
     suffix: str
 
     @staticmethod
-    def fixup_sigma_to_be_aux(cubes):
+    def fixup_sigma_to_be_aux(cubes):  # noqa: D102
         # XXX Fix the cubes such that the sigma coordinate is always an AuxCoord. Pending gh issue #18
         if isinstance(cubes, iris.cube.Cube):
             cubes = [cubes]
@@ -160,14 +160,14 @@ class RelaxedConstraintMixin(ConstraintMixin):
             sigma = iris.coords.AuxCoord.from_coord(sigma)
             cube.replace_coord(sigma)
 
-    def assert_constraint_cml(self, request: pytest.FixtureRequest, cubes, filename):
+    def assert_constraint_cml(self, request: pytest.FixtureRequest, cubes, filename):  # noqa: D102
         filename = f"{filename}_{self.suffix}.cml"
         _shared_utils.assert_CML(request, cubes, ("constrained_load", filename))
 
-    def load_match(self, files, constraints):
+    def load_match(self, files, constraints):  # noqa: D102
         raise NotImplementedError()  # defined in subclasses
 
-    def test_single_atomic_constraint(self, request):
+    def test_single_atomic_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.dec_path, self.level_10)
         self.fixup_sigma_to_be_aux(cubes)
         self.assert_constraint_cml(request, cubes, "all_10")
@@ -190,7 +190,7 @@ class RelaxedConstraintMixin(ConstraintMixin):
             workaround_pending_1262(cubes)
             self.assert_constraint_cml(request, cubes, "all_ml_10_22")
 
-    def test_string_standard_name(self, request):
+    def test_string_standard_name(self, request):  # noqa: D102
         cubes = self.load_match(self.dec_path, SN_AIR_POTENTIAL_TEMPERATURE)
         self.assert_constraint_cml(request, cubes, "theta")
 
@@ -209,14 +209,14 @@ class RelaxedConstraintMixin(ConstraintMixin):
         self.fixup_sigma_to_be_aux(cubes)
         self.assert_constraint_cml(request, cubes, "theta_10")
 
-    def test_latitude_constraint(self, request):
+    def test_latitude_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.theta_path, self.lat_30)
         self.assert_constraint_cml(request, cubes, "theta_lat_30")
 
         cubes = self.load_match(self.theta_path, self.lat_gt_45)
         self.assert_constraint_cml(request, cubes, "theta_lat_gt_30")
 
-    def test_single_expression_constraint(self, request):
+    def test_single_expression_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.theta_path, self.theta & self.level_10)
         self.fixup_sigma_to_be_aux(cubes)
         self.assert_constraint_cml(request, cubes, "theta_10")
@@ -225,17 +225,17 @@ class RelaxedConstraintMixin(ConstraintMixin):
         self.fixup_sigma_to_be_aux(cubes)
         self.assert_constraint_cml(request, cubes, "theta_10")
 
-    def test_dual_atomic_constraint(self, request):
+    def test_dual_atomic_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.dec_path, [self.theta, self.level_10])
         self.fixup_sigma_to_be_aux(cubes)
         self.assert_constraint_cml(request, cubes, "theta_and_all_10")
 
-    def test_dual_repeated_constraint(self, request):
+    def test_dual_repeated_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.dec_path, [self.theta, self.theta])
         self.fixup_sigma_to_be_aux(cubes)
         self.assert_constraint_cml(request, cubes, "theta_and_theta")
 
-    def test_dual_expression_constraint(self, request):
+    def test_dual_expression_constraint(self, request):  # noqa: D102
         cubes = self.load_match(
             self.dec_path,
             [self.theta & self.level_10, self.level_gt_30_le_3 & self.theta],
@@ -245,21 +245,21 @@ class RelaxedConstraintMixin(ConstraintMixin):
             request, cubes, "theta_10_and_theta_level_gt_30_le_3"
         )
 
-    def test_invalid_constraint(self, request):
+    def test_invalid_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.theta_path, self.pressure_950)
         self.assert_constraint_cml(request, cubes, "pressure_950")
 
         cubes = self.load_match(self.theta_path, self.invalid_inequality)
         self.assert_constraint_cml(request, cubes, "invalid_inequality")
 
-    def test_inequality_constraint(self, request):
+    def test_inequality_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.theta_path, self.level_gt_30_le_3)
         self.assert_constraint_cml(request, cubes, "theta_gt_30_le_3")
 
 
 class StrictConstraintMixin(RelaxedConstraintMixin):
     """StrictConstraintMixin."""
-    def test_single_atomic_constraint(self, request):
+    def test_single_atomic_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.theta_path, self.theta)
         self.assert_constraint_cml(request, cubes, "theta")
 
@@ -267,11 +267,11 @@ class StrictConstraintMixin(RelaxedConstraintMixin):
         self.fixup_sigma_to_be_aux(cubes)
         self.assert_constraint_cml(request, cubes, "theta_10")
 
-    def test_invalid_constraint(self):
+    def test_invalid_constraint(self):  # noqa: D102
         with pytest.raises(iris.exceptions.ConstraintMismatchError):
             self.load_match(self.theta_path, self.pressure_950)
 
-    def test_dual_atomic_constraint(self, request):
+    def test_dual_atomic_constraint(self, request):  # noqa: D102
         cubes = self.load_match(self.dec_path, [self.theta, self.level_10 & self.theta])
         self.fixup_sigma_to_be_aux(cubes)
         self.assert_constraint_cml(request, cubes, "theta_and_theta_10")
@@ -282,7 +282,7 @@ class TestCubeLoadConstraint(RelaxedConstraintMixin):
     """Test ubeLoadConstraint."""
     suffix = "load_match"
 
-    def load_match(self, files, constraints):
+    def load_match(self, files, constraints):  # noqa: D102
         cubes = iris.load(files, constraints)
         if not isinstance(cubes, iris.cube.CubeList):
             raise Exception("NOT A CUBE LIST! " + str(type(cubes)))
@@ -294,7 +294,7 @@ class TestCubeListConstraint(RelaxedConstraintMixin):
     """Test ubeListConstraint."""
     suffix = "load_match"
 
-    def load_match(self, files, constraints):
+    def load_match(self, files, constraints):  # noqa: D102
         cubes = iris.load(files).extract(constraints)
         if not isinstance(cubes, iris.cube.CubeList):
             raise Exception("NOT A CUBE LIST! " + str(type(cubes)))
@@ -306,7 +306,7 @@ class TestCubeListStrictConstraint(StrictConstraintMixin):
     """Test ubeListStrictConstraint."""
     suffix = "load_strict"
 
-    def load_match(self, files, constraints):
+    def load_match(self, files, constraints):  # noqa: D102
         cubes = iris.load(files).extract_cubes(constraints)
         return cubes
 
@@ -340,31 +340,31 @@ class TestCubeExtract__names(ConstraintMixin):
         self.cubes.append(cube)
         self.index = len(self.cubes) - 1
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         constraint = iris.Constraint(self.standard_name)
         result = self.cubes.extract_cube(constraint)
         assert result is not None
         assert result.standard_name == self.standard_name
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         constraint = iris.Constraint(self.long_name)
         result = self.cubes.extract_cube(constraint)
         assert result is not None
         assert result.long_name == self.long_name
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         constraint = iris.Constraint(self.var_name)
         result = self.cubes.extract_cube(constraint)
         assert result is not None
         assert result.var_name == self.var_name
 
-    def test_stash(self):
+    def test_stash(self):  # noqa: D102
         constraint = iris.Constraint(self.stash)
         result = self.cubes.extract_cube(constraint)
         assert result is not None
         assert str(result.attributes["STASH"]) == self.stash
 
-    def test_unknown(self):
+    def test_unknown(self):  # noqa: D102
         cube = self.cubes[self.index]
         # Clear the cube metadata.
         cube.standard_name = None
@@ -397,7 +397,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         self.cubes.append(cube)
         self.index = len(self.cubes) - 1
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         # No match.
         constraint = NameConstraint(standard_name="wibble")
         result = self.cubes.extract(constraint)
@@ -416,7 +416,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         assert result is not None
         assert result.standard_name == self.standard_name
 
-    def test_standard_name__none(self):
+    def test_standard_name__none(self):  # noqa: D102
         cube = self.cubes[self.index]
         cube.standard_name = None
         constraint = NameConstraint(standard_name=None, long_name=self.long_name)
@@ -425,7 +425,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         assert result.standard_name is None
         assert result.long_name == self.long_name
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         # No match.
         constraint = NameConstraint(long_name="wibble")
         result = self.cubes.extract(constraint)
@@ -446,7 +446,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         assert result is not None
         assert result.long_name == self.long_name
 
-    def test_long_name__none(self):
+    def test_long_name__none(self):  # noqa: D102
         cube = self.cubes[self.index]
         cube.long_name = None
         constraint = NameConstraint(standard_name=self.standard_name, long_name=None)
@@ -455,7 +455,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         assert result.standard_name == self.standard_name
         assert result.long_name is None
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         # No match.
         constraint = NameConstraint(var_name="wibble")
         result = self.cubes.extract(constraint)
@@ -474,7 +474,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         assert result is not None
         assert result.var_name == self.var_name
 
-    def test_var_name__none(self):
+    def test_var_name__none(self):  # noqa: D102
         cube = self.cubes[self.index]
         cube.var_name = None
         constraint = NameConstraint(standard_name=self.standard_name, var_name=None)
@@ -483,7 +483,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         assert result.standard_name == self.standard_name
         assert result.var_name is None
 
-    def test_stash(self):
+    def test_stash(self):  # noqa: D102
         # No match.
         constraint = NameConstraint(STASH="m01s00i444")
         result = self.cubes.extract(constraint)
@@ -501,7 +501,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         result = self.cubes.extract_cube(constraint)
         assert result is not None
 
-    def test_stash__none(self):
+    def test_stash__none(self):  # noqa: D102
         cube = self.cubes[self.index]
         del cube.attributes["STASH"]
         constraint = NameConstraint(standard_name=self.standard_name, STASH=None)
@@ -510,7 +510,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         assert result.standard_name == self.standard_name
         assert result.attributes.get("STASH") is None
 
-    def test_compound(self):
+    def test_compound(self):  # noqa: D102
         # Match.
         constraint = NameConstraint(
             standard_name=self.standard_name, long_name=self.long_name
@@ -574,7 +574,7 @@ class TestCubeExtract__name_constraint(ConstraintMixin):
         result = self.cubes.extract(constraint)
         assert not result
 
-    def test_unknown(self):
+    def test_unknown(self):  # noqa: D102
         # No match.
         constraint = NameConstraint(None, None, None, None)
         result = self.cubes.extract(constraint)
@@ -602,7 +602,7 @@ class TestCubeExtract(ConstraintMixin):
     def _setup(self, _setup_mixin):
         self.cube = iris.load_cube(self.theta_path)
 
-    def test_attribute_constraint(self, request):
+    def test_attribute_constraint(self, request):  # noqa: D102
         # There is no my_attribute on the cube, so ensure it returns None.
         constraint = AttributeConstraint(my_attribute="foobar")
         cube = self.cube.extract(constraint)
@@ -639,14 +639,14 @@ class TestCubeExtract(ConstraintMixin):
         cube = orig_cube.extract(constraint)
         assert cube is None
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         r = iris.Constraint(SN_AIR_POTENTIAL_TEMPERATURE)
         assert self.cube.extract(r).standard_name, SN_AIR_POTENTIAL_TEMPERATURE
 
         r = iris.Constraint("wibble")
         assert self.cube.extract(r) is None
 
-    def test_empty_data(self):
+    def test_empty_data(self):  # noqa: D102
         # Ensure that the process of WHERE does not load data if there
         # was empty data to start with...
         cube = self.cube
@@ -656,7 +656,7 @@ class TestCubeExtract(ConstraintMixin):
         cube = self.cube.extract(self.level_10).extract(self.level_10)
         assert cube.has_lazy_data()
 
-    def test_non_existent_coordinate(self):
+    def test_non_existent_coordinate(self):  # noqa: D102
         # Check the behaviour when a constraint is given for a coordinate which does not exist/span a dimension
         assert self.cube[0, :, :].extract(self.level_10) is None
 
@@ -666,7 +666,7 @@ class TestCubeExtract(ConstraintMixin):
 @_shared_utils.skip_data
 class TestConstraints(ConstraintMixin):
     """Test onstraints."""
-    def test_constraint_expressions(self):
+    def test_constraint_expressions(self):  # noqa: D102
         rt = repr(self.theta)
         rl10 = repr(self.level_10)
 
@@ -678,7 +678,7 @@ class TestConstraints(ConstraintMixin):
         )
         assert expr == rt_l10
 
-    def test_string_repr(self):
+    def test_string_repr(self):  # noqa: D102
         rt = repr(iris.Constraint(SN_AIR_POTENTIAL_TEMPERATURE))
         assert rt == "Constraint(name='%s')" % SN_AIR_POTENTIAL_TEMPERATURE
 
@@ -689,7 +689,7 @@ class TestConstraints(ConstraintMixin):
             % SN_AIR_POTENTIAL_TEMPERATURE
         )
 
-    def test_number_of_raw_cubes(self):
+    def test_number_of_raw_cubes(self):  # noqa: D102
         # Test the constraints generate the correct number of raw cubes.
         raw_cubes = iris.load_raw(self.theta_path)
         assert len(raw_cubes) == 38
@@ -709,29 +709,29 @@ class TestConstraints(ConstraintMixin):
 
 class TestBetween:
     """Test etween."""
-    def run_test(self, function, numbers, results):
+    def run_test(self, function, numbers, results):  # noqa: D102
         for number, result in zip(numbers, results):
             assert function(number) == result
 
-    def test_le_ge(self):
+    def test_le_ge(self):  # noqa: D102
         function = iris.util.between(2, 4)
         numbers = [1, 2, 3, 4, 5]
         results = [False, True, True, True, False]
         self.run_test(function, numbers, results)
 
-    def test_lt_gt(self):
+    def test_lt_gt(self):  # noqa: D102
         function = iris.util.between(2, 4, rh_inclusive=False, lh_inclusive=False)
         numbers = [1, 2, 3, 4, 5]
         results = [False, False, True, False, False]
         self.run_test(function, numbers, results)
 
-    def test_le_gt(self):
+    def test_le_gt(self):  # noqa: D102
         function = iris.util.between(2, 4, rh_inclusive=False)
         numbers = [1, 2, 3, 4, 5]
         results = [False, True, True, False, False]
         self.run_test(function, numbers, results)
 
-    def test_lt_ge(self):
+    def test_lt_ge(self):  # noqa: D102
         function = iris.util.between(2, 4, lh_inclusive=False)
         numbers = [1, 2, 3, 4, 5]
         results = [False, False, True, True, False]

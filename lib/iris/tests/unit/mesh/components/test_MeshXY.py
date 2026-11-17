@@ -36,7 +36,7 @@ class TestMeshCommon:
 
     @staticmethod
     @pytest.fixture(scope="class", autouse=True)
-    def make_common_inputs():
+    def make_common_inputs():  # noqa: D102
         cls = TestMeshCommon
         cls.NODE_LON = AuxCoord(
             [0, 2, 1],
@@ -105,10 +105,10 @@ class TestProperties1D(TestMeshCommon):
         }
         cls.mesh = components.MeshXY(**cls.kwargs)
 
-    def test__metadata_manager(self):
+    def test__metadata_manager(self):  # noqa: D102
         assert self.mesh._metadata_manager.cls.__name__ == MeshMetadata.__name__
 
-    def test___getstate__(self):
+    def test___getstate__(self):  # noqa: D102
         expected = (
             self.mesh._metadata_manager,
             self.mesh._coord_manager,
@@ -116,11 +116,11 @@ class TestProperties1D(TestMeshCommon):
         )
         assert expected == self.mesh.__getstate__()
 
-    def test___repr__(self):
+    def test___repr__(self):  # noqa: D102
         expected = "<MeshXY: 'my_topology_mesh'>"
         assert expected == repr(self.mesh)
 
-    def test___str__(self):
+    def test___str__(self):  # noqa: D102
         expected = [
             "MeshXY : 'my_topology_mesh'",
             "    topology_dimension: 1",
@@ -145,14 +145,14 @@ class TestProperties1D(TestMeshCommon):
         ]
         assert expected == str(self.mesh).split("\n")
 
-    def test___eq__(self):
+    def test___eq__(self):  # noqa: D102
         # The dimension names do not participate in equality.
         equivalent_kwargs = self.kwargs.copy()
         equivalent_kwargs["node_dimension"] = "something_else"
         equivalent = components.MeshXY(**equivalent_kwargs)
         assert equivalent == self.mesh
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         different_kwargs = self.kwargs.copy()
         different_kwargs["long_name"] = "new_name"
         different = components.MeshXY(**different_kwargs)
@@ -173,27 +173,27 @@ class TestProperties1D(TestMeshCommon):
         different = components.MeshXY(**different_kwargs)
         assert different != self.mesh
 
-    def test_all_connectivities(self):
+    def test_all_connectivities(self):  # noqa: D102
         expected = components.Mesh1DConnectivities(self.EDGE_NODE)
         assert expected == self.mesh.all_connectivities
 
-    def test_all_coords(self):
+    def test_all_coords(self):  # noqa: D102
         expected = components.Mesh1DCoords(
             self.NODE_LON, self.NODE_LAT, self.EDGE_LON, self.EDGE_LAT
         )
         assert expected == self.mesh.all_coords
 
-    def test_boundary_node(self):
+    def test_boundary_node(self):  # noqa: D102
         with pytest.raises(AttributeError):
             _ = self.mesh.boundary_node_connectivity
 
-    def test_cf_role(self):
+    def test_cf_role(self):  # noqa: D102
         assert "mesh_topology" == self.mesh.cf_role
         # Read only.
         with pytest.raises(AttributeError):
             self.mesh.cf_role = "foo"
 
-    def test_connectivities(self, mocker):
+    def test_connectivities(self, mocker):  # noqa: D102
         # General results. Method intended for inheritance.
         positive_kwargs = (
             {"item": self.EDGE_NODE},
@@ -223,7 +223,7 @@ class TestProperties1D(TestMeshCommon):
         for kwargs in negative_kwargs:
             assert [] == func(**kwargs)
 
-    def test_connectivities_elements(self, caplog):
+    def test_connectivities_elements(self, caplog):  # noqa: D102
         # topology_dimension-specific results. Method intended to be overridden.
         positive_kwargs = (
             {"contains_node": True},
@@ -249,7 +249,7 @@ class TestProperties1D(TestMeshCommon):
         ):
             assert [] == func(contains_face=True)
 
-    def test_coord(self):
+    def test_coord(self):  # noqa: D102
         # See MeshXY.coords tests for thorough coverage of cases.
         func = self.mesh.coord
         exception = CoordinateNotFoundError
@@ -260,7 +260,7 @@ class TestProperties1D(TestMeshCommon):
         with pytest.raises(ValueError, match="Expected location.*got `foo`"):
             func(location="foo")
 
-    def test_coords(self):
+    def test_coords(self):  # noqa: D102
         # General results. Method intended for inheritance.
         positive_kwargs = (
             {"item": self.NODE_LON},
@@ -292,7 +292,7 @@ class TestProperties1D(TestMeshCommon):
         with pytest.raises(ValueError, match="Expected location.*got.*foo"):
             self.mesh.coords(location="foo")
 
-    def test_coords_elements(self):
+    def test_coords_elements(self):  # noqa: D102
         # topology_dimension-specific results. Method intended to be overridden.
         all_expected = {
             "node_x": self.NODE_LON,
@@ -313,7 +313,7 @@ class TestProperties1D(TestMeshCommon):
             expected = [all_expected[k] for k in expected if k in all_expected]
             assert expected == func(**kwargs)
 
-    def test_coords_elements_no_set_name(self):
+    def test_coords_elements_no_set_name(self):  # noqa: D102
         # Checks that issue found in #4863 is fixed, where previously mesh.coords
         # would fail when the coords don't have a set standard_name
         coords = {
@@ -349,7 +349,7 @@ class TestProperties1D(TestMeshCommon):
             assert expected == func(**kwargs)
 
     @pytest.mark.parametrize("location", ["face", "squiggle"])
-    def test_non_supported_coords_location(self, location):
+    def test_non_supported_coords_location(self, location):  # noqa: D102
         # Should raise a value error because 1D meshes don't have faces (nor squiggle)
         with pytest.raises(
             ValueError,
@@ -357,47 +357,47 @@ class TestProperties1D(TestMeshCommon):
         ):
             self.mesh.coords(location=location)
 
-    def test_edge_dimension(self):
+    def test_edge_dimension(self):  # noqa: D102
         assert self.kwargs["edge_dimension"] == self.mesh.edge_dimension
 
-    def test_edge_coords(self):
+    def test_edge_coords(self):  # noqa: D102
         expected = components.MeshEdgeCoords(self.EDGE_LON, self.EDGE_LAT)
         assert expected == self.mesh.edge_coords
 
-    def test_edge_face(self):
+    def test_edge_face(self):  # noqa: D102
         with pytest.raises(AttributeError):
             _ = self.mesh.edge_face_connectivity
 
-    def test_edge_node(self):
+    def test_edge_node(self):  # noqa: D102
         assert self.EDGE_NODE == self.mesh.edge_node_connectivity
 
-    def test_face_coords(self):
+    def test_face_coords(self):  # noqa: D102
         with pytest.raises(AttributeError):
             _ = self.mesh.face_coords
 
-    def test_face_dimension(self):
+    def test_face_dimension(self):  # noqa: D102
         assert self.mesh.face_dimension is None
 
-    def test_face_edge(self):
+    def test_face_edge(self):  # noqa: D102
         with pytest.raises(AttributeError):
             _ = self.mesh.face_edge_connectivity
 
-    def test_face_face(self):
+    def test_face_face(self):  # noqa: D102
         with pytest.raises(AttributeError):
             _ = self.mesh.face_face_connectivity
 
-    def test_face_node(self):
+    def test_face_node(self):  # noqa: D102
         with pytest.raises(AttributeError):
             _ = self.mesh.face_node_connectivity
 
-    def test_node_coords(self):
+    def test_node_coords(self):  # noqa: D102
         expected = components.MeshNodeCoords(self.NODE_LON, self.NODE_LAT)
         assert expected == self.mesh.node_coords
 
-    def test_node_dimension(self):
+    def test_node_dimension(self):  # noqa: D102
         assert self.kwargs["node_dimension"] == self.mesh.node_dimension
 
-    def test_topology_dimension(self):
+    def test_topology_dimension(self):  # noqa: D102
         assert self.kwargs["topology_dimension"] == self.mesh.topology_dimension
         # Read only.
         with pytest.raises(AttributeError):
@@ -427,11 +427,11 @@ class TestProperties2D(TestProperties1D):
         )
         cls.mesh = components.MeshXY(**cls.kwargs)
 
-    def test___repr__(self):
+    def test___repr__(self):  # noqa: D102
         expected = "<MeshXY: 'my_topology_mesh'>"
         assert expected == repr(self.mesh)
 
-    def test___str__(self):
+    def test___str__(self):  # noqa: D102
         expected = [
             "MeshXY : 'my_topology_mesh'",
             "    topology_dimension: 2",
@@ -479,7 +479,7 @@ class TestProperties2D(TestProperties1D):
         assert expected == str(self.mesh).split("\n")
 
     # Test some different options of the str() operation here.
-    def test___str__noedgecoords(self):
+    def test___str__noedgecoords(self):  # noqa: D102
         mesh_kwargs = self.kwargs.copy()
         del mesh_kwargs["edge_coords_and_axes"]
         alt_mesh = components.MeshXY(**mesh_kwargs)
@@ -526,7 +526,7 @@ class TestProperties2D(TestProperties1D):
         ]
         assert expected == str(alt_mesh).split("\n")
 
-    def test_all_connectivities(self):
+    def test_all_connectivities(self):  # noqa: D102
         expected = components.Mesh2DConnectivities(
             self.FACE_NODE,
             self.EDGE_NODE,
@@ -537,7 +537,7 @@ class TestProperties2D(TestProperties1D):
         )
         assert expected == self.mesh.all_connectivities
 
-    def test_all_coords(self):
+    def test_all_coords(self):  # noqa: D102
         expected = components.Mesh2DCoords(
             self.NODE_LON,
             self.NODE_LAT,
@@ -548,10 +548,10 @@ class TestProperties2D(TestProperties1D):
         )
         assert expected == self.mesh.all_coords
 
-    def test_boundary_node(self):
+    def test_boundary_node(self):  # noqa: D102
         assert self.BOUNDARY_NODE == self.mesh.boundary_node_connectivity
 
-    def test_connectivity(self):
+    def test_connectivity(self):  # noqa: D102
         # See MeshXY.connectivities tests for thorough coverage of cases.
         # Can only test MeshXY.connectivity for 2D since we need >1 connectivity.
         func = self.mesh.connectivity
@@ -561,7 +561,7 @@ class TestProperties2D(TestProperties1D):
         with pytest.raises(exception, match=".*but found none"):
             func(contains_node=False, contains_edge=False, contains_face=False)
 
-    def test_connectivities_elements(self):
+    def test_connectivities_elements(self):  # noqa: D102
         kwargs_expected = (
             (
                 {"contains_node": True},
@@ -617,7 +617,7 @@ class TestProperties2D(TestProperties1D):
             for item in expected:
                 assert item in result
 
-    def test_coords_elements(self):
+    def test_coords_elements(self):  # noqa: D102
         all_expected = {
             "node_x": self.NODE_LON,
             "node_y": self.NODE_LAT,
@@ -640,7 +640,7 @@ class TestProperties2D(TestProperties1D):
             expected = [all_expected[k] for k in expected if k in all_expected]
             assert expected == func(**kwargs)
 
-    def test_coords_elements_no_set_name(self):
+    def test_coords_elements_no_set_name(self):  # noqa: D102
         # Checks that issue found in #4863 is fixed, where previously mesh.coords
         # would fail when the coords don't have a set standard_name
         coords = {
@@ -683,30 +683,30 @@ class TestProperties2D(TestProperties1D):
             assert expected == func(**kwargs)
 
     @pytest.mark.parametrize("location", ["squiggle"])
-    def test_non_supported_coords_location(self, location):
+    def test_non_supported_coords_location(self, location):  # noqa: D102
         with pytest.raises(
             ValueError,
             match=f"Expected location to be one of `node`, `edge` or `face`, got `{location}`",
         ):
             self.mesh.coords(location=location)
 
-    def test_edge_face(self):
+    def test_edge_face(self):  # noqa: D102
         assert self.EDGE_FACE == self.mesh.edge_face_connectivity
 
-    def test_face_coords(self):
+    def test_face_coords(self):  # noqa: D102
         expected = components.MeshFaceCoords(self.FACE_LON, self.FACE_LAT)
         assert expected == self.mesh.face_coords
 
-    def test_face_dimension(self):
+    def test_face_dimension(self):  # noqa: D102
         assert self.kwargs["face_dimension"] == self.mesh.face_dimension
 
-    def test_face_edge(self):
+    def test_face_edge(self):  # noqa: D102
         assert self.FACE_EDGE == self.mesh.face_edge_connectivity
 
-    def test_face_face(self):
+    def test_face_face(self):  # noqa: D102
         assert self.FACE_FACE == self.mesh.face_face_connectivity
 
-    def test_face_node(self):
+    def test_face_node(self):  # noqa: D102
         assert self.FACE_NODE == self.mesh.face_node_connectivity
 
 
@@ -739,30 +739,30 @@ class Test__str__various(TestMeshCommon):
         }
         self.mesh = components.MeshXY(**self.kwargs)
 
-    def test___repr__basic(self):
+    def test___repr__basic(self):  # noqa: D102
         expected = "<MeshXY: 'my_topology_mesh'>"
         assert expected == repr(self.mesh)
 
-    def test___repr__varname(self):
+    def test___repr__varname(self):  # noqa: D102
         self.mesh.long_name = None
         expected = "<MeshXY: 'mesh'>"
         assert expected == repr(self.mesh)
 
-    def test___repr__noname(self):
+    def test___repr__noname(self):  # noqa: D102
         self.mesh.long_name = None
         self.mesh.var_name = None
         expected = "<MeshXY object at 0x[0-9a-f]+>"
         assert re.search(expected, repr(self.mesh))
 
-    def test___str__noattributes(self):
+    def test___str__noattributes(self):  # noqa: D102
         self.mesh.attributes = None
         assert "attributes" not in str(self.mesh)
 
-    def test___str__emptyattributes(self):
+    def test___str__emptyattributes(self):  # noqa: D102
         self.mesh.attributes.clear()
         assert "attributes" not in str(self.mesh)
 
-    def test__str__longstringattribute(self):
+    def test__str__longstringattribute(self):  # noqa: D102
         self.mesh.attributes["long_string"] = (
             "long_x_10_long_x_20_long_x_30_long_x_40_"
             "long_x_50_long_x_60_long_x_70_long_x_80_"
@@ -774,7 +774,7 @@ class Test__str__various(TestMeshCommon):
         )
         assert expected + ":END" in result + ":END"
 
-    def test___str__units_stdname(self):
+    def test___str__units_stdname(self):  # noqa: D102
         # These are usually missing, but they *can* be present.
         mesh_kwargs = self.kwargs.copy()
         mesh_kwargs["standard_name"] = "height"  # Odd choice !
@@ -829,7 +829,7 @@ class TestOperations1D(TestMeshCommon):
             shape = coord.shape
         return coord.copy(np.zeros(shape))
 
-    def test___setstate__(self):
+    def test___setstate__(self):  # noqa: D102
         false_metadata_manager = "foo"
         false_coord_manager = "bar"
         false_connectivity_manager = "baz"
@@ -845,7 +845,7 @@ class TestOperations1D(TestMeshCommon):
         assert false_coord_manager == self.mesh._coord_manager
         assert false_connectivity_manager == self.mesh._connectivity_manager
 
-    def test_add_connectivities(self):
+    def test_add_connectivities(self):  # noqa: D102
         # Cannot test ADD - 1D - nothing extra to add beyond minimum.
 
         for new_len in (False, True):
@@ -858,13 +858,13 @@ class TestOperations1D(TestMeshCommon):
                 == self.mesh.all_connectivities
             )
 
-    def test_add_connectivities_duplicates(self):
+    def test_add_connectivities_duplicates(self):  # noqa: D102
         edge_node_one = self.EDGE_NODE
         edge_node_two = self.new_connectivity(self.EDGE_NODE)
         self.mesh.add_connectivities(edge_node_one, edge_node_two)
         assert edge_node_two == self.mesh.edge_node_connectivity
 
-    def test_add_connectivities_invalid(self, caplog):
+    def test_add_connectivities_invalid(self, caplog):  # noqa: D102
         with pytest.raises(TypeError, match="Expected Connectivity.*"):
             self.mesh.add_connectivities("foo")
 
@@ -875,7 +875,7 @@ class TestOperations1D(TestMeshCommon):
         ):
             self.mesh.add_connectivities(face_node)
 
-    def test_add_coords(self):
+    def test_add_coords(self):  # noqa: D102
         # ADD coords.
         edge_kwargs = {"edge_x": self.EDGE_LON, "edge_y": self.EDGE_LAT}
         self.mesh.add_coords(**edge_kwargs)
@@ -896,11 +896,11 @@ class TestOperations1D(TestMeshCommon):
             assert components.MeshNodeCoords(**node_kwargs) == self.mesh.node_coords
             assert components.MeshEdgeCoords(**edge_kwargs) == self.mesh.edge_coords
 
-    def test_add_coords_face(self):
+    def test_add_coords_face(self):  # noqa: D102
         with pytest.raises(TypeError):
             self.mesh.add_coords(face_x=self.FACE_LON, face_y=self.FACE_LAT)
 
-    def test_add_coords_invalid(self):
+    def test_add_coords_invalid(self):  # noqa: D102
         func = self.mesh.add_coords
         with pytest.raises(TypeError, match=".*requires to be an 'AuxCoord'.*"):
             func(node_x="foo")
@@ -919,7 +919,7 @@ class TestOperations1D(TestMeshCommon):
         with pytest.raises(ValueError, match=".*requires to have shape.*"):
             func(node_x=wrong_shape)
 
-    def test_add_coords_single(self):
+    def test_add_coords_single(self):  # noqa: D102
         # ADD coord.
         edge_x = self.EDGE_LON
         expected = components.MeshEdgeCoords(edge_x=edge_x, edge_y=None)
@@ -947,11 +947,11 @@ class TestOperations1D(TestMeshCommon):
             with pytest.raises(ValueError, match=".*requires to have shape.*"):
                 self.mesh.add_coords(**kwargs)
 
-    def test_add_coords_single_face(self):
+    def test_add_coords_single_face(self):  # noqa: D102
         with pytest.raises(TypeError):
             self.mesh.add_coords(face_x=self.FACE_LON)
 
-    def test_dimension_names(self, caplog):
+    def test_dimension_names(self, caplog):  # noqa: D102
         # Test defaults.
         default = components.Mesh1DNames("Mesh1d_node", "Mesh1d_edge")
         assert default == self.mesh.dimension_names()
@@ -972,11 +972,11 @@ class TestOperations1D(TestMeshCommon):
         self.mesh.dimension_names_reset(edge=True)
         assert default == self.mesh.dimension_names()
 
-    def test_edge_dimension_set(self):
+    def test_edge_dimension_set(self):  # noqa: D102
         self.mesh.edge_dimension = "foo"
         assert "foo" == self.mesh.edge_dimension
 
-    def test_face_dimension_set(self, caplog):
+    def test_face_dimension_set(self, caplog):  # noqa: D102
         log_regex = r"Not setting face_dimension.*"
         with _shared_utils.assert_logs(
             caplog, logger, level="DEBUG", msg_regex=log_regex
@@ -984,7 +984,7 @@ class TestOperations1D(TestMeshCommon):
             self.mesh.face_dimension = "foo"
         assert self.mesh.face_dimension is None
 
-    def test_node_dimension_set(self):
+    def test_node_dimension_set(self):  # noqa: D102
         self.mesh.node_dimension = "foo"
         assert "foo" == self.mesh.node_dimension
 
@@ -1037,7 +1037,7 @@ class TestOperations1D(TestMeshCommon):
                 assert len(caplog.records) == 1
             assert self.EDGE_NODE == self.mesh.edge_node_connectivity
 
-    def test_remove_coords(self, caplog):
+    def test_remove_coords(self, caplog):  # noqa: D102
         # Test that remove() mimics the coords() method correctly,
         # and prevents removal of mandatory coords.
         positive_kwargs = (
@@ -1085,7 +1085,7 @@ class TestOperations1D(TestMeshCommon):
         self.mesh.remove_coords(self.EDGE_LON)
         assert None is self.mesh.edge_coords.edge_x
 
-    def test_to_MeshCoord(self):
+    def test_to_MeshCoord(self):  # noqa: D102
         location = "node"
         axis = "x"
         result = self.mesh.to_MeshCoord(location, axis)
@@ -1093,7 +1093,7 @@ class TestOperations1D(TestMeshCommon):
         assert location == result.location
         assert axis == result.axis
 
-    def test_to_MeshCoord_face(self):
+    def test_to_MeshCoord_face(self):  # noqa: D102
         location = "face"
         axis = "x"
         with pytest.raises(
@@ -1102,7 +1102,7 @@ class TestOperations1D(TestMeshCommon):
         ):
             self.mesh.to_MeshCoord(location, axis)
 
-    def test_to_MeshCoords(self):
+    def test_to_MeshCoords(self):  # noqa: D102
         location = "node"
         result = self.mesh.to_MeshCoords(location)
         assert len(self.mesh.AXES) == len(result)
@@ -1112,7 +1112,7 @@ class TestOperations1D(TestMeshCommon):
             assert location == coord.location
             assert axis == coord.axis
 
-    def test_to_MeshCoords_face(self):
+    def test_to_MeshCoords_face(self):  # noqa: D102
         location = "face"
         with pytest.raises(
             ValueError,
@@ -1132,7 +1132,7 @@ class TestOperations2D(TestOperations1D):
             connectivities=(self.FACE_NODE),
         )
 
-    def test_add_connectivities(self):
+    def test_add_connectivities(self):  # noqa: D102
         # ADD connectivities.
         kwargs = {
             "edge_node": self.EDGE_NODE,
@@ -1159,7 +1159,7 @@ class TestOperations2D(TestOperations1D):
                 == self.mesh.all_connectivities
             )
 
-    def test_add_connectivities_inconsistent(self):
+    def test_add_connectivities_inconsistent(self):  # noqa: D102
         # ADD Connectivities.
         self.mesh.add_connectivities(self.EDGE_NODE)
         face_edge = self.new_connectivity(self.FACE_EDGE, new_len=True)
@@ -1174,7 +1174,7 @@ class TestOperations2D(TestOperations1D):
             with pytest.raises(ValueError, match="inconsistent .* counts."):
                 self.mesh.add_connectivities(*args)
 
-    def test_add_connectivities_invalid(self, caplog, mocker):
+    def test_add_connectivities_invalid(self, caplog, mocker):  # noqa: D102
         fake_cf_role = mocker.Mock(__class__=components.Connectivity, cf_role="foo")
         log_regex = r"Not adding connectivity.*"
         with _shared_utils.assert_logs(
@@ -1182,7 +1182,7 @@ class TestOperations2D(TestOperations1D):
         ):
             self.mesh.add_connectivities(fake_cf_role)
 
-    def test_add_coords_face(self):
+    def test_add_coords_face(self):  # noqa: D102
         # ADD coords.
         kwargs = {"face_x": self.FACE_LON, "face_y": self.FACE_LAT}
         self.mesh.add_coords(**kwargs)
@@ -1198,7 +1198,7 @@ class TestOperations2D(TestOperations1D):
             self.mesh.add_coords(**kwargs)
             assert components.MeshFaceCoords(**kwargs) == self.mesh.face_coords
 
-    def test_add_coords_single_face(self):
+    def test_add_coords_single_face(self):  # noqa: D102
         # ADD coord.
         face_x = self.FACE_LON
         expected = components.MeshFaceCoords(face_x=face_x, face_y=None)
@@ -1216,7 +1216,7 @@ class TestOperations2D(TestOperations1D):
         with pytest.raises(ValueError, match=".*requires to have shape.*"):
             self.mesh.add_coords(face_x=face_x)
 
-    def test_dimension_names(self):
+    def test_dimension_names(self):  # noqa: D102
         # Test defaults.
         default = components.Mesh2DNames("Mesh2d_node", "Mesh2d_edge", "Mesh2d_face")
         assert default == self.mesh.dimension_names()
@@ -1235,7 +1235,7 @@ class TestOperations2D(TestOperations1D):
         self.mesh.dimension_names_reset(face=True)
         assert default == self.mesh.dimension_names()
 
-    def test_face_dimension_set(self):
+    def test_face_dimension_set(self):  # noqa: D102
         self.mesh.face_dimension = "foo"
         assert "foo" == self.mesh.face_dimension
 
@@ -1259,7 +1259,7 @@ class TestOperations2D(TestOperations1D):
         self.mesh.remove_coords(location="face")
         assert None is self.mesh.face_coords.face_x
 
-    def test_to_MeshCoord_face(self):
+    def test_to_MeshCoord_face(self):  # noqa: D102
         self.mesh.add_coords(face_x=self.FACE_LON)
         location = "face"
         axis = "x"
@@ -1268,7 +1268,7 @@ class TestOperations2D(TestOperations1D):
         assert location == result.location
         assert axis == result.axis
 
-    def test_to_MeshCoords_face(self):
+    def test_to_MeshCoords_face(self):  # noqa: D102
         self.mesh.add_coords(face_x=self.FACE_LON, face_y=self.FACE_LAT)
         location = "face"
         result = self.mesh.to_MeshCoords(location)
@@ -1282,7 +1282,7 @@ class TestOperations2D(TestOperations1D):
 
 class TestInitValidation(TestMeshCommon):
     """Test nitValidation."""
-    def test_invalid_topology(self):
+    def test_invalid_topology(self):  # noqa: D102
         kwargs = {
             "topology_dimension": 0,
             "node_coords_and_axes": (
@@ -1294,7 +1294,7 @@ class TestInitValidation(TestMeshCommon):
         with pytest.raises(ValueError, match="Expected 'topology_dimension'.*"):
             components.MeshXY(**kwargs)
 
-    def test_invalid_axes(self):
+    def test_invalid_axes(self):  # noqa: D102
         kwargs = {
             "topology_dimension": 2,
             "connectivities": self.FACE_NODE,
@@ -1321,7 +1321,7 @@ class TestInitValidation(TestMeshCommon):
 
     # Several arg safety checks in __init__ currently unreachable given earlier checks.
 
-    def test_minimum_connectivities(self):
+    def test_minimum_connectivities(self):  # noqa: D102
         # Further validations are tested in add_connectivity tests.
         kwargs = {
             "topology_dimension": 1,
@@ -1334,7 +1334,7 @@ class TestInitValidation(TestMeshCommon):
         with pytest.raises(ValueError, match=".*requires a edge_node_connectivity.*"):
             components.MeshXY(**kwargs)
 
-    def test_minimum_coords(self):
+    def test_minimum_coords(self):  # noqa: D102
         # Further validations are tested in add_coord tests.
         kwargs = {
             "topology_dimension": 1,

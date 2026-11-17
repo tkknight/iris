@@ -905,6 +905,7 @@ class CubeAttrsDict(MutableMapping):
 
     @property
     def locals(self) -> LimitedAttributeDict:
+        """Locals."""
         return self._locals
 
     @locals.setter
@@ -913,6 +914,7 @@ class CubeAttrsDict(MutableMapping):
 
     @property
     def globals(self) -> LimitedAttributeDict:
+        """Globals."""
         return self._globals
 
     @globals.setter
@@ -1398,6 +1400,7 @@ class Cube(CFVariableMixin):
     #
     @property  # type: ignore[override]
     def attributes(self) -> CubeAttrsDict:
+        """Attributes."""
         return super().attributes  # type: ignore[return-value]
 
     @attributes.setter

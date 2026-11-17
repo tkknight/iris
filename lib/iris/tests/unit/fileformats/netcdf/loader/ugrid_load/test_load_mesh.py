@@ -21,17 +21,17 @@ class Tests:
         #  a list of meshes.
         self.load_meshes_mock.return_value = {"file": ["mesh"]}
 
-    def test_calls_load_meshes(self):
+    def test_calls_load_meshes(self):  # noqa: D102
         args = [("file_1", "file_2"), "my_var_name"]
         _ = load_mesh(args)
         assert self.load_meshes_mock.call_count == 1
         assert self.load_meshes_mock.call_args == ((args, None),)
 
-    def test_returns_mesh(self):
+    def test_returns_mesh(self):  # noqa: D102
         mesh = load_mesh([])
         assert mesh == "mesh"
 
-    def test_single_mesh(self):
+    def test_single_mesh(self):  # noqa: D102
         # Override the load_meshes_mock return values to provoke errors.
         def common(ret_val):
             self.load_meshes_mock.return_value = ret_val

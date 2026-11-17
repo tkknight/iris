@@ -33,7 +33,7 @@ class TestColpex:
         cube.remove_coord("surface_altitude")
         self.cube = cube
 
-    def test_trajectory_extraction(self, request):
+    def test_trajectory_extraction(self, request):  # noqa: D102
         # Pull out a single point - no interpolation required
         single_point = traj_interpolate(
             self.cube,
@@ -47,7 +47,7 @@ class TestColpex:
             request, single_point, ("trajectory", "single_point.cml"), checksum=False
         )
 
-    def test_trajectory_extraction_calc(self):
+    def test_trajectory_extraction_calc(self):  # noqa: D102
         # Pull out another point and test against a manually calculated result.
         single_point = [
             ["grid_latitude", [-0.1188]],
@@ -72,7 +72,7 @@ class TestColpex:
             sample_points.append((name, values))
         return sample_points
 
-    def test_trajectory_extraction_axis_aligned(self, request):
+    def test_trajectory_extraction_axis_aligned(self, request):  # noqa: D102
         # Extract a simple, axis-aligned trajectory that is similar to an
         # indexing operation.
         # (It's not exactly the same because the source cube doesn't have
@@ -88,7 +88,7 @@ class TestColpex:
             request, trajectory_cube, ("trajectory", "constant_latitude.cml")
         )
 
-    def test_trajectory_extraction_zigzag(self, request):
+    def test_trajectory_extraction_zigzag(self, request):  # noqa: D102
         # Extract a zig-zag trajectory
         waypoints = [
             {"grid_latitude": -0.1188, "grid_longitude": 359.5886},
@@ -131,7 +131,7 @@ class TestColpex:
             trajectory_cube.data, expected, rtol=2.0e-7
         )
 
-    def test_colpex__nearest(self):
+    def test_colpex__nearest(self):  # noqa: D102
         # Check a smallish nearest-neighbour interpolation against a result
         # snapshot.
         test_cube = self.cube[0][0]
@@ -228,14 +228,14 @@ class TestTriPolar:
             ("latitude", latitudes),
         ]
 
-    def test_tri_polar(self, request):
+    def test_tri_polar(self, request):  # noqa: D102
         # extract
         sampled_cube = traj_interpolate(self.cube, self.sample_points, method="nearest")
         _shared_utils.assert_CML(
             request, sampled_cube, ("trajectory", "tri_polar_latitude_slice.cml")
         )
 
-    def test_tri_polar_method_linear_fails(self):
+    def test_tri_polar_method_linear_fails(self):  # noqa: D102
         # Try to request linear interpolation.
         # Not allowed, as we have multi-dimensional coords.
         pytest.raises(
@@ -246,7 +246,7 @@ class TestTriPolar:
             method="linear",
         )
 
-    def test_tri_polar_method_unknown_fails(self):
+    def test_tri_polar_method_unknown_fails(self):  # noqa: D102
         # Try to request unknown interpolation.
         pytest.raises(
             ValueError,
@@ -256,7 +256,7 @@ class TestTriPolar:
             method="linekar",
         )
 
-    def test_tri_polar__nearest(self):
+    def test_tri_polar__nearest(self):  # noqa: D102
         # Check a smallish nearest-neighbour interpolation against a result
         # snapshot.
         test_cube = self.cube
@@ -329,7 +329,7 @@ class TestTriPolar:
 
 class TestLazyData:
     """Test azyData."""
-    def test_hybrid_height(self, request):
+    def test_hybrid_height(self, request):  # noqa: D102
         cube = istk.simple_4d_with_hybrid_height()
         # Put a lazy array into the cube so we can test deferred loading.
         cube.data = as_lazy_data(cube.data)

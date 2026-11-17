@@ -26,7 +26,7 @@ class TestIdentify(IdentifyByAttributeMixin):
     MISSING_WARN_REGEX = r"Missing CF-netCDF label variable {subject!r}.*"
     SUBJECT_DTYPE_DEFAULT = np.bytes_
 
-    def test_non_string_ref_ignored(self):
+    def test_non_string_ref_ignored(self):  # noqa: D102
         # Label identify should reject non-string referenced variables.
         subject_name = "ref_subject"
         ref_source = _NetCDFVar("ref_source")
@@ -51,19 +51,19 @@ class TestCfLabelDimensions:
         stub = _NetCDFVarWithDimensions("data_var", data_dims)
         return CFDataVariable("data_var", stub)
 
-    def test_raises_for_non_cfdata_var(self):
+    def test_raises_for_non_cfdata_var(self):  # noqa: D102
         label_var = self._make_label_var(("x",))
         message = "cf_data_var argument should be of type CFDataVariable"
         with pytest.raises(TypeError, match=message):
             label_var.cf_label_dimensions(object())
 
-    def test_returns_overlap_dimensions(self):
+    def test_returns_overlap_dimensions(self):  # noqa: D102
         label_var = self._make_label_var(("x", "strlen"))
         data_var = self._make_data_var(("x", "y"))
         result = label_var.cf_label_dimensions(data_var)
         assert result == ("x",)
 
-    def test_no_overlap_returns_empty(self):
+    def test_no_overlap_returns_empty(self):  # noqa: D102
         label_var = self._make_label_var(("a", "b"))
         data_var = self._make_data_var(("x", "y"))
         result = label_var.cf_label_dimensions(data_var)

@@ -107,37 +107,37 @@ class Test__init__(MixinExampleSetup):
     """Test  init  ."""
     # Exercise all the constructor argument checks.
 
-    def test_fail_no_src_x(self):
+    def test_fail_no_src_x(self):  # noqa: D102
         self.src_cube.remove_coord("longitude")
         msg_re = "Source cube must have X- and Y-axis coordinates"
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_no_src_y(self):
+    def test_fail_no_src_y(self):  # noqa: D102
         self.src_cube.remove_coord("latitude")
         msg_re = "Source cube must have X- and Y-axis coordinates"
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_bad_src_dims(self):
+    def test_fail_bad_src_dims(self):  # noqa: D102
         self.src_cube = self.grid_cube
         msg_re = "Source.*same cube dimensions"
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_mixed_latlons(self):
+    def test_fail_mixed_latlons(self):  # noqa: D102
         self.src_cube.coord("longitude").rename("projection_x_coordinate")
         msg_re = "any.*latitudes/longitudes.*all must be"
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_bad_latlon_units(self):
+    def test_fail_bad_latlon_units(self):  # noqa: D102
         self.grid_cube.coord("longitude").units = "m"
         msg_re = 'does not convert to "degrees"'
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_non_latlon_units_mismatch(self):
+    def test_fail_non_latlon_units_mismatch(self):  # noqa: D102
         # Convert all to non-latlon system (does work: see in "Test__call__").
         for cube in (self.src_cube, self.grid_cube):
             for axis_name in ("x", "y"):
@@ -151,33 +151,33 @@ class Test__init__(MixinExampleSetup):
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_no_tgt_x(self):
+    def test_fail_no_tgt_x(self):  # noqa: D102
         self.grid_cube.remove_coord("longitude")
         msg_re = "must contain a single 1D x coordinate"
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_no_tgt_y(self):
+    def test_fail_no_tgt_y(self):  # noqa: D102
         self.grid_cube.remove_coord("latitude")
         msg_re = "must contain a single 1D y coordinate"
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_src_cs_mismatch(self):
+    def test_fail_src_cs_mismatch(self):  # noqa: D102
         cs = GeogCS(1000.0)
         self.src_cube.coord("latitude").coord_system = cs
         msg_re = "must all have the same coordinate system"
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_tgt_cs_mismatch(self):
+    def test_fail_tgt_cs_mismatch(self):  # noqa: D102
         cs = GeogCS(1000.0)
         self.grid_cube.coord("latitude").coord_system = cs
         msg_re = "x.*and y.*must have the same coordinate system"
         with pytest.raises(ValueError, match=msg_re):
             unn_gridder(self.src_cube, self.grid_cube)
 
-    def test_fail_src_tgt_cs_mismatch(self):
+    def test_fail_src_tgt_cs_mismatch(self):  # noqa: D102
         cs = GeogCS(1000.0)
         self.src_cube.coord("latitude").coord_system = cs
         self.src_cube.coord("longitude").coord_system = cs
@@ -190,14 +190,14 @@ class Test__call__(MixinExampleSetup):
     """Test  call  ."""
     # Test regridder operation and results.
 
-    def test_basic_latlon(self):
+    def test_basic_latlon(self):  # noqa: D102
         # Check a test operation.
         self._check_expected(
             expected_coord_names=["latitude", "longitude"],
             expected_data=self.expected_data,
         )
 
-    def test_non_latlon(self):
+    def test_non_latlon(self):  # noqa: D102
         # Check different answer in cartesian coordinates (no wrapping, etc).
         # Convert to non-latlon system, with the same coord values.
         for cube in (self.src_cube, self.grid_cube):
@@ -219,7 +219,7 @@ class Test__call__(MixinExampleSetup):
         expected_data = self.src_cube.data[non_latlon_indices]
         self._check_expected(expected_data=expected_data)
 
-    def test_multidimensional_xy(self):
+    def test_multidimensional_xy(self):  # noqa: D102
         # Recast the 4-point source cube as 2*2 : should yield the same result.
         co_x = self.src_cube.coord(axis="x")
         co_y = self.src_cube.coord(axis="y")
@@ -238,7 +238,7 @@ class Test__call__(MixinExampleSetup):
         new_src.add_aux_coord(new_y_co, (0, 1))
         self._check_expected(src_cube=new_src)
 
-    def test_transposed_grid(self):
+    def test_transposed_grid(self):  # noqa: D102
         # Show that changing the order of the grid X and Y has no effect.
         new_grid_cube = self.grid_cube.copy()
         new_grid_cube.transpose((1, 0))
@@ -253,7 +253,7 @@ class Test__call__(MixinExampleSetup):
             expected_coord_names=["latitude", "longitude"],
         )
 
-    def test_compatible_source(self):
+    def test_compatible_source(self):  # noqa: D102
         # Check operation on data with different dimensions to the original
         # source cube for the regridder creation.
         gridder = unn_gridder(self.src_cube, self.grid_cube)
@@ -265,7 +265,7 @@ class Test__call__(MixinExampleSetup):
         ]
         _shared_utils.assert_array_equal(result.data, self.expected_data_zxy)
 
-    def test_fail_incompatible_source(self):
+    def test_fail_incompatible_source(self):  # noqa: D102
         # Check that a slightly modified source cube is *not* acceptable.
         modified_src_cube = self.src_cube.copy()
         points = modified_src_cube.coord(axis="x").points
@@ -276,14 +276,14 @@ class Test__call__(MixinExampleSetup):
         with pytest.raises(ValueError, match=msg):
             gridder(modified_src_cube)
 
-    def test_transposed_source(self):
+    def test_transposed_source(self):  # noqa: D102
         # Check operation on data where the 'trajectory' dimension is not the
         # last one.
         src_z_cube = self.src_z_cube
         src_z_cube.transpose((1, 0))
         self._check_expected(src_cube=src_z_cube, expected_data=self.expected_data_zxy)
 
-    def test_radians_degrees(self):
+    def test_radians_degrees(self):  # noqa: D102
         # Check source + target unit conversions, grid and result in degrees.
         for axis_name in ("x", "y"):
             self.src_cube.coord(axis=axis_name).convert_units("radians")
@@ -291,7 +291,7 @@ class Test__call__(MixinExampleSetup):
         result = self._check_expected()
         assert result.coord(axis="x").units == "degrees"
 
-    def test_degrees_radians(self):
+    def test_degrees_radians(self):  # noqa: D102
         # Check source + target unit conversions, grid and result in radians.
         for axis_name in ("x", "y"):
             self.src_cube.coord(axis=axis_name).convert_units("degrees")
@@ -299,7 +299,7 @@ class Test__call__(MixinExampleSetup):
         result = self._check_expected()
         assert result.coord(axis="x").units == "radians"
 
-    def test_alternative_cs(self):
+    def test_alternative_cs(self):  # noqa: D102
         # Check the result is just the same in a different coordinate system.
         cs = RotatedGeogCS(
             grid_north_pole_latitude=75.3,

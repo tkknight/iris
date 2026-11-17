@@ -25,7 +25,7 @@ class Test_add_categorised_coord:
         self.units = "units"
         self.vectorised = mocker.Mock(name="vectorized_result")
 
-    def test_vectorise_call(self, mocker):
+    def test_vectorise_call(self, mocker):  # noqa: D102
         # Check that the function being passed through gets called with
         # numpy.vectorize, before being applied to the points array.
         # The reason we use numpy.vectorize is to support multi-dimensional
@@ -55,7 +55,7 @@ class Test_add_categorised_coord:
             aux_coord_constructor(), self.cube.coord_dims(self.coord)
         )
 
-    def test_string_vectorised(self, mocker):
+    def test_string_vectorised(self, mocker):  # noqa: D102
         # Check that special case handling of a vectorized string returning
         # function is taking place.
         def fn(coord, v):
@@ -87,7 +87,7 @@ class Test_add_day_of_year:
             "360_day": np.array(list(range(355, 361)) + list(range(1, 5))),
         }
 
-    def make_cube(self, calendar):
+    def make_cube(self, calendar):  # noqa: D102
         n_times = 10
         cube = Cube(np.arange(n_times))
         time_coord = DimCoord(
@@ -98,7 +98,7 @@ class Test_add_day_of_year:
         cube.add_dim_coord(time_coord, 0)
         return cube
 
-    def test_calendars(self):
+    def test_calendars(self):  # noqa: D102
         for calendar in calendars:
             # Skip the Julian calendar due to
             # https://github.com/Unidata/cftime/issues/13

@@ -127,12 +127,12 @@ class DatalessMixin:
 class MergeMixin:
     """Mix-in class for attributes & utilities common to these test cases."""
 
-    def test_normal_cubes(self, request):
+    def test_normal_cubes(self, request):  # noqa: D102
         cubes = iris.load(self._data_path)
         assert len(cubes) == self._num_cubes
         _shared_utils.assert_CML(request, cubes, ["merge", self._prefix + ".cml"])
 
-    def test_remerge(self):
+    def test_remerge(self):  # noqa: D102
         # After the merge process the coordinates within each cube can be in a
         # different order. Until that changes we can't compare the cubes
         # directly or with the CML ... so we just make sure the count stays
@@ -141,7 +141,7 @@ class MergeMixin:
         cubes2 = cubes.merge()
         assert len(cubes) == len(cubes2)
 
-    def test_duplication(self):
+    def test_duplication(self):  # noqa: D102
         cubes = iris.load(self._data_path)
         pytest.raises(iris.exceptions.DuplicateDataError, (cubes + cubes).merge)
         cubes2 = (cubes + cubes).merge(unique=False)
@@ -169,7 +169,7 @@ class TestMultiCube(MergeMixin, DatalessMixin):
         self._num_cubes = 4
         self._prefix = "dec"
 
-    def test_coord_attributes(self):
+    def test_coord_attributes(self):  # noqa: D102
         def custom_coord_callback(cube, field, filename):
             cube.coord("time").attributes["monty"] = "python"
             cube.coord("time").attributes["brain"] = "hurts"
@@ -193,7 +193,7 @@ class TestColpex(DatalessMixin):
             ("PP", "COLPEX", "small_colpex_theta_p_alt.pp")
         )
 
-    def test_colpex(self, request):
+    def test_colpex(self, request):  # noqa: D102
         cubes = iris.load(self._data_path)
         assert len(cubes) == 3
         _shared_utils.assert_CML(
@@ -204,7 +204,7 @@ class TestColpex(DatalessMixin):
 @_shared_utils.skip_data
 class TestDataMerge(DatalessMixin):
     """Test ataMerge."""
-    def test_extended_proxy_data(self, request):
+    def test_extended_proxy_data(self, request):  # noqa: D102
         # Get the empty theta cubes for T+1.5 and T+2
         data_path = _shared_utils.get_data_path(
             ("PP", "COLPEX", "theta_and_orog_subset.pp")
@@ -228,7 +228,7 @@ class TestDataMerge(DatalessMixin):
         cubes = iris.load_cube(data_path, phenom_constraint & time_constraint_1_and_2)
         _shared_utils.assert_CML(request, cubes, ("merge", "theta_two_times.cml"))
 
-    def test_real_data(self, request):
+    def test_real_data(self, request):  # noqa: D102
         data_path = _shared_utils.get_data_path(("PP", "globClim1", "theta.pp"))
         cubes = iris.load_raw(data_path)
         # Force the source 2-D cubes to load their data before the merge
@@ -271,7 +271,7 @@ class TestDimensionSplitting(DatalessMixin):
         )
         return cube
 
-    def test_single_split(self, request):
+    def test_single_split(self, request):  # noqa: D102
         # Test what happens when a cube forces a simple, two-way split.
         cubes = []
         cubes.append(self._make_cube(0, 0, 0, 0))
@@ -283,7 +283,7 @@ class TestDimensionSplitting(DatalessMixin):
         cube = iris.cube.CubeList(cubes).merge()
         _shared_utils.assert_CML(request, cube, ("merge", "single_split.cml"))
 
-    def test_multi_split(self, request):
+    def test_multi_split(self, request):  # noqa: D102
         # Test what happens when a cube forces a three-way split.
         cubes = []
         cubes.append(self._make_cube(0, 0, 0, 0))
@@ -333,7 +333,7 @@ class TestCombination(DatalessMixin):
 
         return cube
 
-    def test_separable_combination(self, request):
+    def test_separable_combination(self, request):  # noqa: D102
         cubes = iris.cube.CubeList()
 
         def add(*args):
@@ -397,7 +397,7 @@ class TestDimSelection(DatalessMixin):
 
         return cube
 
-    def test_string_a_with_aux(self, request):
+    def test_string_a_with_aux(self, request):  # noqa: D102
         templates = (("a", 0), ("b", 1), ("c", 2), ("d", 3))
         cubes = [self._make_cube(a, b) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -408,7 +408,7 @@ class TestDimSelection(DatalessMixin):
         assert isinstance(cube.coord("b"), DimCoord)
         assert cube.coord("b") in cube.dim_coords
 
-    def test_string_b_with_aux(self, request):
+    def test_string_b_with_aux(self, request):  # noqa: D102
         templates = ((0, "a"), (1, "b"), (2, "c"), (3, "d"))
         cubes = [self._make_cube(a, b) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -419,7 +419,7 @@ class TestDimSelection(DatalessMixin):
         assert cube.coord("a") in cube.dim_coords
         assert isinstance(cube.coord("b"), AuxCoord)
 
-    def test_string_a_with_dim(self, request):
+    def test_string_a_with_dim(self, request):  # noqa: D102
         templates = (("a", 0), ("b", 1), ("c", 2), ("d", 3))
         cubes = [self._make_cube(a, b, b_dim=True) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -430,7 +430,7 @@ class TestDimSelection(DatalessMixin):
         assert isinstance(cube.coord("b"), DimCoord)
         assert cube.coord("b") in cube.dim_coords
 
-    def test_string_b_with_dim(self, request):
+    def test_string_b_with_dim(self, request):  # noqa: D102
         templates = ((0, "a"), (1, "b"), (2, "c"), (3, "d"))
         cubes = [self._make_cube(a, b, a_dim=True) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -441,7 +441,7 @@ class TestDimSelection(DatalessMixin):
         assert cube.coord("a") in cube.dim_coords
         assert isinstance(cube.coord("b"), AuxCoord)
 
-    def test_string_a_b(self, request):
+    def test_string_a_b(self, request):  # noqa: D102
         templates = (("a", "0"), ("b", "1"), ("c", "2"), ("d", "3"))
         cubes = [self._make_cube(a, b) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -451,7 +451,7 @@ class TestDimSelection(DatalessMixin):
         assert isinstance(cube.coord("a"), AuxCoord)
         assert isinstance(cube.coord("b"), AuxCoord)
 
-    def test_a_aux_b_aux(self, request):
+    def test_a_aux_b_aux(self, request):  # noqa: D102
         templates = ((0, 10), (1, 11), (2, 12), (3, 13))
         cubes = [self._make_cube(a, b) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -463,7 +463,7 @@ class TestDimSelection(DatalessMixin):
         assert isinstance(cube.coord("b"), DimCoord)
         assert cube.coord("b") in cube.aux_coords
 
-    def test_a_aux_b_dim(self, request):
+    def test_a_aux_b_dim(self, request):  # noqa: D102
         templates = ((0, 10), (1, 11), (2, 12), (3, 13))
         cubes = [self._make_cube(a, b, b_dim=True) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -475,7 +475,7 @@ class TestDimSelection(DatalessMixin):
         assert isinstance(cube.coord("b"), DimCoord)
         assert cube.coord("b") in cube.dim_coords
 
-    def test_a_dim_b_aux(self, request):
+    def test_a_dim_b_aux(self, request):  # noqa: D102
         templates = ((0, 10), (1, 11), (2, 12), (3, 13))
         cubes = [self._make_cube(a, b, a_dim=True) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -487,7 +487,7 @@ class TestDimSelection(DatalessMixin):
         assert isinstance(cube.coord("b"), DimCoord)
         assert cube.coord("b") in cube.aux_coords
 
-    def test_a_dim_b_dim(self, request):
+    def test_a_dim_b_dim(self, request):  # noqa: D102
         templates = ((0, 10), (1, 11), (2, 12), (3, 13))
         cubes = [self._make_cube(a, b, a_dim=True, b_dim=True) for a, b in templates]
         cube = iris.cube.CubeList(cubes).merge()[0]
@@ -548,7 +548,7 @@ class TestTimeTripleMerging(DatalessMixin):
             request, cube, ("merge", "time_triple_" + filename + ".cml"), checksum=False
         )
 
-    def test_single_forecast(self, request):
+    def test_single_forecast(self, request):  # noqa: D102
         # A single forecast series (i.e. from a single reference time)
         # => fp, t: 4; rt: scalar
         triples = (
@@ -559,7 +559,7 @@ class TestTimeTripleMerging(DatalessMixin):
         )
         self._test_triples(triples, "single_forecast", request)
 
-    def test_successive_forecasts(self, request):
+    def test_successive_forecasts(self, request):  # noqa: D102
         # Three forecast series from successively later reference times
         # => rt, t: 3; fp, t: 4
         triples = (
@@ -578,7 +578,7 @@ class TestTimeTripleMerging(DatalessMixin):
         )
         self._test_triples(triples, "successive_forecasts", request)
 
-    def test_time_vs_ref_time(self, request):
+    def test_time_vs_ref_time(self, request):  # noqa: D102
         # => fp, t: 4; fp, rt: 3
         triples = (
             (2, 10, 12),
@@ -596,7 +596,7 @@ class TestTimeTripleMerging(DatalessMixin):
         )
         self._test_triples(triples, "time_vs_ref_time", request)
 
-    def test_time_vs_forecast(self, request):
+    def test_time_vs_forecast(self, request):  # noqa: D102
         # => rt, t: 4, fp, rt: 3
         triples = (
             (0, 10, 10),
@@ -614,7 +614,7 @@ class TestTimeTripleMerging(DatalessMixin):
         )
         self._test_triples(triples, "time_vs_forecast", request)
 
-    def test_time_non_dim_coord(self, request):
+    def test_time_non_dim_coord(self, request):  # noqa: D102
         # => rt: 1 fp, t (bounded): 2
         triples = (
             (5, 0, 2.5),
@@ -633,7 +633,7 @@ class TestTimeTripleMerging(DatalessMixin):
         # make sure that forecast_period is the dimensioned coordinate (as time becomes an AuxCoord)
         assert cube.coord(dimensions=0, dim_coords=True).name() == "forecast_period"
 
-    def test_independent(self, request):
+    def test_independent(self, request):  # noqa: D102
         # => fp: 2; rt: 2; t: 2
         triples = (
             (0, 10, 10),
@@ -647,7 +647,7 @@ class TestTimeTripleMerging(DatalessMixin):
         )
         self._test_triples(triples, "independent", request)
 
-    def test_series(self, request):
+    def test_series(self, request):  # noqa: D102
         # => fp, rt, t: 5 (with only t being definitive).
         triples = (
             (0, 10, 10),
@@ -658,7 +658,7 @@ class TestTimeTripleMerging(DatalessMixin):
         )
         self._test_triples(triples, "series", request)
 
-    def test_non_expanding_dimension(self, request):
+    def test_non_expanding_dimension(self, request):  # noqa: D102
         triples = (
             (0, 10, 0),
             (0, 20, 1),
@@ -667,7 +667,7 @@ class TestTimeTripleMerging(DatalessMixin):
         # => fp: scalar; rt, t: 3 (with no time being definitive)
         self._test_triples(triples, "non_expanding", request)
 
-    def test_duplicate_data(self, request):
+    def test_duplicate_data(self, request):  # noqa: D102
         # test what happens when we have repeated time coordinates (i.e. duplicate data)
         cube1 = self._make_cube(0, 10, 0)
         cube2 = self._make_cube(1, 20, 1)
@@ -682,7 +682,7 @@ class TestTimeTripleMerging(DatalessMixin):
             request, cubes, ("merge", "time_triple_duplicate_data.cml"), checksum=False
         )
 
-    def test_simple1(self, request):
+    def test_simple1(self, request):  # noqa: D102
         cube1 = self._make_cube(0, 10, 0)
         cube2 = self._make_cube(1, 20, 1)
         cube3 = self._make_cube(2, 20, 0)
@@ -691,7 +691,7 @@ class TestTimeTripleMerging(DatalessMixin):
             request, cube, ("merge", "time_triple_merging1.cml"), checksum=False
         )
 
-    def test_simple2(self, request):
+    def test_simple2(self, request):  # noqa: D102
         cubes = iris.cube.CubeList(
             [
                 self._make_cube(0, 0, 0),
@@ -712,7 +712,7 @@ class TestTimeTripleMerging(DatalessMixin):
             request, cube, ("merge", "time_triple_merging3.cml"), checksum=False
         )
 
-    def test_simple3(self, request):
+    def test_simple3(self, request):  # noqa: D102
         cubes = iris.cube.CubeList(
             [
                 self._make_cube(0, 0, 0),
@@ -736,7 +736,7 @@ class TestTimeTripleMerging(DatalessMixin):
 
 class TestCubeMergeTheoretical(DatalessMixin):
     """Test ubeMergeTheoretical."""
-    def test_simple_bounds_merge(self, request):
+    def test_simple_bounds_merge(self, request):  # noqa: D102
         cube1 = iris.tests.stock.simple_2d()
         cube2 = iris.tests.stock.simple_2d()
 
@@ -748,7 +748,7 @@ class TestCubeMergeTheoretical(DatalessMixin):
             request, r, ("cube_merge", "test_simple_bound_merge.cml")
         )
 
-    def test_simple_multidim_merge(self, request):
+    def test_simple_multidim_merge(self, request):  # noqa: D102
         cube1 = iris.tests.stock.simple_2d_w_multidim_coords()
         cube2 = iris.tests.stock.simple_2d_w_multidim_coords()
 
@@ -766,7 +766,7 @@ class TestCubeMergeTheoretical(DatalessMixin):
             request, r, ("cube_merge", "multidim_coord_merge_transpose.cml")
         )
 
-    def test_simple_points_merge(self, request):
+    def test_simple_points_merge(self, request):  # noqa: D102
         cube1 = iris.tests.stock.simple_2d(with_bounds=False)
         cube2 = iris.tests.stock.simple_2d(with_bounds=False)
 
@@ -817,7 +817,7 @@ class TestCubeMergeTheoretical(DatalessMixin):
 
 class TestContiguous(DatalessMixin):
     """Test ontiguous."""
-    def test_form_contiguous_dimcoord(self):
+    def test_form_contiguous_dimcoord(self):  # noqa: D102
         # Test that cube sliced up and remerged in the opposite order maintains
         # contiguity.
         cube1 = Cube([1, 2, 3], "air_temperature", units="K")

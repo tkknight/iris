@@ -35,7 +35,7 @@ def data_all_dtypes_and_lazynesses(self):
 class AncillaryVariableTestMixin(CoordTestMixin):
     """AncillaryVariableTestMixin."""
     # Define a 2-D default array shape.
-    def setup_test_arrays(self, shape=(2, 3), masked=False):
+    def setup_test_arrays(self, shape=(2, 3), masked=False):  # noqa: D102
         # Create concrete and lazy data test arrays, given a desired shape.
         # If masked=True, also add masked arrays with some or no masked data.
         n_vals = np.prod(shape)
@@ -63,7 +63,7 @@ class Test__init__(AncillaryVariableTestMixin):
     def _setup(self):
         self.setup_test_arrays(masked=True)
 
-    def test_lazyness_and_dtype_combinations(self):
+    def test_lazyness_and_dtype_combinations(self):  # noqa: D102
         for ancill_var, data_lazyness in data_all_dtypes_and_lazynesses(
             self,
         ):
@@ -92,7 +92,7 @@ class Test__init__(AncillaryVariableTestMixin):
                 target_dtype = ancill_var.dtype
                 assert ancill_var.data.dtype == target_dtype
 
-    def test_no_masked_data_real(self):
+    def test_no_masked_data_real(self):  # noqa: D102
         data = self.no_masked_data_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data) == 0
@@ -101,7 +101,7 @@ class Test__init__(AncillaryVariableTestMixin):
         assert ma.isMaskedArray(ancill_var.data)
         assert ma.count_masked(ancill_var.data) == 0
 
-    def test_no_masked_data_lazy(self):
+    def test_no_masked_data_lazy(self):  # noqa: D102
         data = self.no_masked_data_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -111,7 +111,7 @@ class Test__init__(AncillaryVariableTestMixin):
         assert ma.isMaskedArray(ancill_var.data)
         assert ma.count_masked(ancill_var.data) == 0
 
-    def test_masked_data_real(self):
+    def test_masked_data_real(self):  # noqa: D102
         data = self.masked_data_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data)
@@ -120,7 +120,7 @@ class Test__init__(AncillaryVariableTestMixin):
         assert ma.isMaskedArray(ancill_var.data)
         assert ma.count_masked(ancill_var.data)
 
-    def test_masked_data_lazy(self):
+    def test_masked_data_lazy(self):  # noqa: D102
         data = self.masked_data_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -138,7 +138,7 @@ class Test_core_data(AncillaryVariableTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_data(self):
+    def test_real_data(self):  # noqa: D102
         ancill_var = AncillaryVariable(self.data_real)
         result = ancill_var.core_data()
         self.assert_arrays_share_data(
@@ -147,12 +147,12 @@ class Test_core_data(AncillaryVariableTestMixin):
             "core_data() do not share data with the internal array.",
         )
 
-    def test_lazy_data(self):
+    def test_lazy_data(self):  # noqa: D102
         ancill_var = AncillaryVariable(self.data_lazy)
         result = ancill_var.core_data()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.data_lazy)
 
-    def test_lazy_points_realise(self):
+    def test_lazy_points_realise(self):  # noqa: D102
         ancill_var = AncillaryVariable(self.data_lazy)
         real_data = ancill_var.data
         result = ancill_var.core_data()
@@ -165,12 +165,12 @@ class Test_lazy_data(AncillaryVariableTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         ancill_var = AncillaryVariable(self.data_real)
         result = ancill_var.lazy_data()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.data_lazy)
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         ancill_var = AncillaryVariable(self.data_lazy)
         result = ancill_var.lazy_data()
         assert result is self.data_lazy
@@ -182,17 +182,17 @@ class Test_has_lazy_data(AncillaryVariableTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         ancill_var = AncillaryVariable(self.data_real)
         result = ancill_var.has_lazy_data()
         assert not result
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         ancill_var = AncillaryVariable(self.data_lazy)
         result = ancill_var.has_lazy_data()
         assert result
 
-    def test_lazy_core_realise(self):
+    def test_lazy_core_realise(self):  # noqa: D102
         ancill_var = AncillaryVariable(self.data_lazy)
         ancill_var.data
         result = ancill_var.has_lazy_data()
@@ -206,21 +206,21 @@ class Test__getitem__(AncillaryVariableTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_partial_slice_data_copy(self):
+    def test_partial_slice_data_copy(self):  # noqa: D102
         parent_ancill_var = AncillaryVariable([1.0, 2.0, 3.0])
         sub_ancill_var = parent_ancill_var[:1]
         values_before_change = sub_ancill_var.data.copy()
         parent_ancill_var.data[:] = -999.9
         _shared_utils.assert_array_equal(sub_ancill_var.data, values_before_change)
 
-    def test_full_slice_data_copy(self):
+    def test_full_slice_data_copy(self):  # noqa: D102
         parent_ancill_var = AncillaryVariable([1.0, 2.0, 3.0])
         sub_ancill_var = parent_ancill_var[:]
         values_before_change = sub_ancill_var.data.copy()
         parent_ancill_var.data[:] = -999.9
         _shared_utils.assert_array_equal(sub_ancill_var.data, values_before_change)
 
-    def test_dtypes(self):
+    def test_dtypes(self):  # noqa: D102
         # Index ancillary variables with real+lazy data, and either an int or
         # floating dtype.
         # Check that dtypes remain the same in all cases, taking the dtypes
@@ -239,7 +239,7 @@ class Test__getitem__(AncillaryVariableTestMixin):
                 ancill_var_dtype, data_lazyness, "data", sub_data.dtype
             )
 
-    def test_lazyness(self):
+    def test_lazyness(self):  # noqa: D102
         # Index ancillary variables with real+lazy data, and either an int or
         # floating dtype.
         # Check that lazy data stays lazy and real stays real, in all cases.
@@ -260,7 +260,7 @@ class Test__getitem__(AncillaryVariableTestMixin):
                 sub_data_lazyness,
             )
 
-    def test_real_data_copies(self):
+    def test_real_data_copies(self):  # noqa: D102
         # Index ancillary variables with real+lazy data.
         # In all cases, check that any real arrays are copied by the indexing.
         for main_ancill_var, data_lazyness in data_all_dtypes_and_lazynesses(self):
@@ -289,7 +289,7 @@ class Test_copy(AncillaryVariableTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_lazyness(self):
+    def test_lazyness(self):  # noqa: D102
         # Copy ancillary variables with real+lazy data, and either an int or
         # floating dtype.
         # Check that lazy data stays lazy and real stays real, in all cases.
@@ -311,7 +311,7 @@ class Test_copy(AncillaryVariableTestMixin):
                 copied_data_lazyness,
             )
 
-    def test_realdata_copies(self):
+    def test_realdata_copies(self):  # noqa: D102
         # Copy ancillary variables with real+lazy data.
         # In all cases, check that any real arrays are copies, not views.
         for main_ancill_var, data_lazyness in data_all_dtypes_and_lazynesses(self):
@@ -337,7 +337,7 @@ class Test_data__getter(AncillaryVariableTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_mutable_real_data(self):
+    def test_mutable_real_data(self):  # noqa: D102
         # Check that ancill_var.data returns a modifiable array, and changes
         # to it are reflected to the ancillary_var.
         data = np.array([1.0, 2.0, 3.0, 4.0])
@@ -347,7 +347,7 @@ class Test_data__getter(AncillaryVariableTestMixin):
         result = ancill_var.data
         assert not np.all(result == initial_values)
 
-    def test_real_data(self):
+    def test_real_data(self):  # noqa: D102
         # Getting real data does not change or copy them.
         ancill_var = AncillaryVariable(self.data_real)
         result = ancill_var.data
@@ -357,7 +357,7 @@ class Test_data__getter(AncillaryVariableTestMixin):
             "Data values do not share data with the provided array.",
         )
 
-    def test_lazy_data(self):
+    def test_lazy_data(self):  # noqa: D102
         # Getting lazy data realises them.
         ancill_var = AncillaryVariable(self.data_lazy)
         assert ancill_var.has_lazy_data()
@@ -372,7 +372,7 @@ class Test_data__setter(AncillaryVariableTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_set_real(self):
+    def test_real_set_real(self):  # noqa: D102
         # Setting new real data does not make a copy.
         ancill_var = AncillaryVariable(self.data_real)
         new_data = self.data_real + 102.3
@@ -384,14 +384,14 @@ class Test_data__setter(AncillaryVariableTestMixin):
             "Data values do not share data with the assigned array.",
         )
 
-    def test_fail_bad_shape(self):
+    def test_fail_bad_shape(self):  # noqa: D102
         # Setting real data requires matching shape.
         ancill_var = AncillaryVariable([1.0, 2.0])
         msg = r"Require data with shape \(2,\), got \(3,\)"
         with pytest.raises(ValueError, match=msg):
             ancill_var.data = np.array([1.0, 2.0, 3.0])
 
-    def test_real_set_lazy(self):
+    def test_real_set_lazy(self):  # noqa: D102
         # Setting new lazy data does not make a copy.
         ancill_var = AncillaryVariable(self.data_real)
         new_data = self.data_lazy + 102.3
@@ -402,7 +402,7 @@ class Test_data__setter(AncillaryVariableTestMixin):
 
 class Test__str__:
     """Test  str  ."""
-    def test_non_time_values(self):
+    def test_non_time_values(self):  # noqa: D102
         ancillary_var = AncillaryVariable(
             np.array([2, 5, 9]),
             standard_name="height",
@@ -426,7 +426,7 @@ class Test__str__:
         )
         assert expected == ancillary_var.__str__()
 
-    def test_time_values(self):
+    def test_time_values(self):  # noqa: D102
         ancillary_var = AncillaryVariable(
             np.array([2, 5, 9]),
             units="hours since 1970-01-01 01:00",
@@ -452,7 +452,7 @@ class Test__str__:
 
 class Test__repr__:
     """Test  repr  ."""
-    def test_non_time_values(self):
+    def test_non_time_values(self):  # noqa: D102
         ancillary_var = AncillaryVariable(
             np.array([2, 5, 9]),
             standard_name="height",
@@ -464,7 +464,7 @@ class Test__repr__:
         expected = "<AncillaryVariable: height / (m)  [2, 5, 9]  shape(3,)>"
         assert expected == ancillary_var.__repr__()
 
-    def test_time_values(self):
+    def test_time_values(self):  # noqa: D102
         ancillary_var = AncillaryVariable(
             np.array([2, 5, 9]),
             units="hours since 1970-01-01 01:00",
@@ -500,79 +500,79 @@ class Test___binary_operator__(AncillaryVariableTestMixin):
         else:
             self.assert_equal_lazy_arrays_and_dtypes(expected_data, data)
 
-    def test_add(self):
+    def test_add(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = ancill_var + 10
             expected_data = orig_data + 10
             self._check(result, expected_data, data_lazyness)
 
-    def test_add_inplace(self):
+    def test_add_inplace(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             ancill_var += 10
             expected_data = orig_data + 10
             self._check(ancill_var, expected_data, data_lazyness)
 
-    def test_right_add(self):
+    def test_right_add(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = 10 + ancill_var
             expected_data = 10 + orig_data
             self._check(result, expected_data, data_lazyness)
 
-    def test_subtract(self):
+    def test_subtract(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = ancill_var - 10
             expected_data = orig_data - 10
             self._check(result, expected_data, data_lazyness)
 
-    def test_subtract_inplace(self):
+    def test_subtract_inplace(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             ancill_var -= 10
             expected_data = orig_data - 10
             self._check(ancill_var, expected_data, data_lazyness)
 
-    def test_right_subtract(self):
+    def test_right_subtract(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = 10 - ancill_var
             expected_data = 10 - orig_data
             self._check(result, expected_data, data_lazyness)
 
-    def test_multiply(self):
+    def test_multiply(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = ancill_var * 10
             expected_data = orig_data * 10
             self._check(result, expected_data, data_lazyness)
 
-    def test_multiply_inplace(self):
+    def test_multiply_inplace(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             ancill_var *= 10
             expected_data = orig_data * 10
             self._check(ancill_var, expected_data, data_lazyness)
 
-    def test_right_multiply(self):
+    def test_right_multiply(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = 10 * ancill_var
             expected_data = 10 * orig_data
             self._check(result, expected_data, data_lazyness)
 
-    def test_divide(self):
+    def test_divide(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = ancill_var / 10
             expected_data = orig_data / 10
             self._check(result, expected_data, data_lazyness)
 
-    def test_divide_inplace(self):
+    def test_divide_inplace(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             ancill_var /= 10
             expected_data = orig_data / 10
             self._check(ancill_var, expected_data, data_lazyness)
 
-    def test_right_divide(self):
+    def test_right_divide(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = 10 / ancill_var
             expected_data = 10 / orig_data
             self._check(result, expected_data, data_lazyness)
 
-    def test_negative(self):
+    def test_negative(self):  # noqa: D102
         for ancill_var, orig_data, data_lazyness in self.test_combinations:
             result = -ancill_var
             expected_data = -orig_data
@@ -581,14 +581,14 @@ class Test___binary_operator__(AncillaryVariableTestMixin):
 
 class Test_has_bounds:
     """Test has bounds."""
-    def test(self):
+    def test(self):  # noqa: D102
         ancillary_var = AncillaryVariable(np.array([2, 9, 5]))
         assert not ancillary_var.has_bounds()
 
 
 class Test_convert_units:
     """Test convert units."""
-    def test_preserves_lazy(self):
+    def test_preserves_lazy(self):  # noqa: D102
         test_data = np.array([[11.1, 12.2, 13.3], [21.4, 22.5, 23.6]])
         lazy_data = as_lazy_data(test_data)
         ancill_var = AncillaryVariable(data=lazy_data, units="m")
@@ -607,39 +607,39 @@ class Test_is_compatible:
         )
         self.modified_ancill_var = self.ancill_var.copy()
 
-    def test_not_compatible_diff_name(self):
+    def test_not_compatible_diff_name(self):  # noqa: D102
         # Different name() - not compatible
         self.modified_ancill_var.rename("air_temperature")
         assert not self.ancill_var.is_compatible(self.modified_ancill_var)
 
-    def test_not_compatible_diff_units(self):
+    def test_not_compatible_diff_units(self):  # noqa: D102
         # Different units- not compatible
         self.modified_ancill_var.units = "m"
         assert not self.ancill_var.is_compatible(self.modified_ancill_var)
 
-    def test_not_compatible_diff_common_attrs(self):
+    def test_not_compatible_diff_common_attrs(self):  # noqa: D102
         # Different common attributes - not compatible.
         self.ancill_var.attributes["source"] = "A"
         self.modified_ancill_var.attributes["source"] = "B"
         assert not self.ancill_var.is_compatible(self.modified_ancill_var)
 
-    def test_compatible_diff_data(self):
+    def test_compatible_diff_data(self):  # noqa: D102
         # Different data values - compatible.
         self.modified_ancill_var.data = [10.0, 20.0, 100.0]
         assert self.ancill_var.is_compatible(self.modified_ancill_var)
 
-    def test_compatible_diff_var_name(self):
+    def test_compatible_diff_var_name(self):  # noqa: D102
         # Different var_name (but same name()) - compatible.
         self.modified_ancill_var.var_name = "obs_num"
         assert self.ancill_var.is_compatible(self.modified_ancill_var)
 
-    def test_compatible_diff_non_common_attributes(self):
+    def test_compatible_diff_non_common_attributes(self):  # noqa: D102
         # Different non-common attributes - compatible.
         self.ancill_var.attributes["source"] = "A"
         self.modified_ancill_var.attributes["origin"] = "B"
         assert self.ancill_var.is_compatible(self.modified_ancill_var)
 
-    def test_compatible_ignore_common_attribute(self):
+    def test_compatible_ignore_common_attribute(self):  # noqa: D102
         # ignore different common attributes - compatible.
         self.ancill_var.attributes["source"] = "A"
         self.modified_ancill_var.attributes["source"] = "B"
@@ -648,11 +648,11 @@ class Test_is_compatible:
 
 class TestEquality:
     """Test quality."""
-    def test_nanpoints_eq_self(self):
+    def test_nanpoints_eq_self(self):  # noqa: D102
         av1 = AncillaryVariable([1.0, np.nan, 2.0])
         assert av1 == av1
 
-    def test_nanpoints_eq_copy(self):
+    def test_nanpoints_eq_copy(self):  # noqa: D102
         av1 = AncillaryVariable([1.0, np.nan, 2.0])
         av2 = av1.copy()
         assert av1 == av2
@@ -660,7 +660,7 @@ class TestEquality:
 
 class Test_cube_dims:
     """Test cube dims."""
-    def test_cube_dims(self, mocker):
+    def test_cube_dims(self, mocker):  # noqa: D102
         # Check that "coord.cube_dims(cube)" calls "cube.coord_dims(coord)".
         mock_dims_result = mocker.sentinel.AV_DIMS
         mock_dims_call = mocker.Mock(return_value=mock_dims_result)

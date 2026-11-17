@@ -17,7 +17,7 @@ class TestCells:
         self.cell1 = iris.coords.Cell(3, [2, 4])
         self.cell2 = iris.coords.Cell(360.0, [350.0, 370.0])
 
-    def test_cell_from_coord(self):
+    def test_cell_from_coord(self):  # noqa: D102
         Cell = iris.coords.Cell
         coord = iris.coords.AuxCoord(np.arange(4) * 1.5, long_name="test", units="1")
         assert Cell(point=0.0, bound=None) == coord.cell(0)
@@ -33,7 +33,7 @@ class TestCells:
         assert Cell(point=3.0, bound=(2.25, 3.75)) == coord.cell(-2)
         assert Cell(point=4.5, bound=(3.75, 5.25)) == coord.cell(slice(-1, None))
 
-    def test_cell_from_multidim_coord(self):
+    def test_cell_from_multidim_coord(self):  # noqa: D102
         Cell = iris.coords.Cell
         coord = iris.coords.AuxCoord(
             points=np.arange(12).reshape(3, 4),
@@ -45,7 +45,7 @@ class TestCells:
             coord.cell(0)
         assert Cell(point=3, bound=(12, 13, 14, 15)) == coord.cell((0, 3))
 
-    def test_mod(self):
+    def test_mod(self):  # noqa: D102
         # Check that applying the mod function is not modifying the original
         c = self.cell1 % 3
         assert c != self.cell1
@@ -59,15 +59,15 @@ class TestCells:
             == "Cell(point=0.8700000000000045, bound=(350.0, 10.870000000000005))"
         )
 
-    def test_contains_point(self):
+    def test_contains_point(self):  # noqa: D102
         c = iris.coords.Cell(359.5, (359.49951, 359.5004))
         assert c.contains_point(359.49951)
 
-    def test_pointless(self):
+    def test_pointless(self):  # noqa: D102
         with pytest.raises(ValueError, match="Point must be defined"):
             iris.coords.Cell(None, (359.49951, 359.5004))
 
-    def test_add(self):
+    def test_add(self):  # noqa: D102
         # Check that applying the mod function is not modifying the original
         c = self.cell1 + 3
         assert c != self.cell1
@@ -78,7 +78,7 @@ class TestCells:
         c = self.cell2 + 359.13
         assert str(c) == "Cell(point=719.13, bound=(709.13, 729.13))"
 
-    def test_in(self):
+    def test_in(self):  # noqa: D102
         c = iris.coords.Cell(4, None)
         assert c not in [3, 5]
         assert c in [3, 4]
@@ -96,7 +96,7 @@ class TestCells:
         assert c not in [3, c1]
         assert c not in [3, c2]
 
-    def test_coord_equality(self):
+    def test_coord_equality(self):  # noqa: D102
         # NOTE: These comparisons intentionally use explicit operators to ensure each
         # rich comparison method (__eq__, __ne__, __lt__, __le__, __gt__, __ge__) is
         # exercised.
@@ -125,14 +125,14 @@ class TestCells:
         assert d.__eq__(Terry()) == NotImplemented
         assert d.__ne__(Terry()) == NotImplemented
 
-    def test_numpy_int_equality(self):
+    def test_numpy_int_equality(self):  # noqa: D102
         dtypes = (np.int_, np.int16, np.int32, np.int64)
         for dtype in dtypes:
             val = dtype(3)
             cell = iris.coords.Cell(val, None)
             assert cell == val
 
-    def test_numpy_float_equality(self):
+    def test_numpy_float_equality(self):  # noqa: D102
         dtypes = (
             np.float64,
             np.float16,
@@ -146,7 +146,7 @@ class TestCells:
             cell = iris.coords.Cell(val, None)
             assert cell == val, dtype
 
-    def test_coord_bounds_cmp(self):
+    def test_coord_bounds_cmp(self):  # noqa: D102
         e = iris.coords.Cell(0.7, [1.1, 1.9])
         assert e == 1.6
         assert not e != 1.6
@@ -164,7 +164,7 @@ class TestCells:
         assert e > 1
         assert e < 2
 
-    def test_cell_cell_cmp(self):
+    def test_cell_cell_cmp(self):  # noqa: D102
         e = iris.coords.Cell(1)
         f = iris.coords.Cell(1)
 
@@ -207,7 +207,7 @@ class TestCells:
         assert not f >= e
         assert f < e
 
-    def test_cmp_contig(self):
+    def test_cmp_contig(self):  # noqa: D102
         # Test cells that share an edge
         a = iris.coords.Cell(point=1054440.0, bound=(1054080.0, 1054800.0))
         b = iris.coords.Cell(point=1055160.0, bound=(1054800.0, 1055520.0))
@@ -217,7 +217,7 @@ class TestCells:
         assert not a >= b
         assert not a > b
 
-    def test_overlap_order(self):
+    def test_overlap_order(self):  # noqa: D102
         # Test cells that overlap still sort correctly.
         cells = [
             Cell(point=375804.0, bound=(375792.0, 375816.0)),
@@ -246,14 +246,14 @@ class TestCells:
         self._check_permutations(a, b, a_lt_b, a_le_b, a_eq_b)
         self._check_permutations(b, a, not a_le_b, not a_lt_b, a_eq_b)
 
-    def test_comparison_numeric(self):
+    def test_comparison_numeric(self):  # noqa: D102
         # Check what happens when you compare a simple number with a
         # point-only Cell.
         self._check_permutations(9, Cell(10), True, True, False)
         self._check_permutations(10, Cell(10), False, True, True)
         self._check_permutations(11, Cell(10), False, False, False)
 
-    def test_comparison_numeric_with_bounds(self):
+    def test_comparison_numeric_with_bounds(self):  # noqa: D102
         # Check what happens when you compare a simple number with a
         # point-and-bound Cell.
         self._check_permutations(7, Cell(10, [8, 12]), True, True, False)

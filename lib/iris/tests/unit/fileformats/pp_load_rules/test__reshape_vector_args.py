@@ -16,7 +16,7 @@ from iris.tests._shared_utils import assert_array_equal
 
 class TestEmpty:
     """Test mpty."""
-    def test(self):
+    def test(self):  # noqa: D102
         result = _reshape_vector_args([])
         assert result == []
 
@@ -28,36 +28,36 @@ class TestSingleArg:
         for result_arr, expected_arr in zip(result, expected):
             assert_array_equal(result_arr, expected_arr)
 
-    def test_nochange(self):
+    def test_nochange(self):  # noqa: D102
         points = np.array([[1, 2, 3], [4, 5, 6]])
         result = _reshape_vector_args([(points, (0, 1))])
         expected = [points]
         self._check(result, expected)
 
-    def test_bad_dimensions(self):
+    def test_bad_dimensions(self):  # noqa: D102
         points = np.array([[1, 2, 3], [4, 5, 6]])
         with pytest.raises(ValueError, match="Length"):
             _reshape_vector_args([(points, (0, 1, 2))])
 
-    def test_scalar(self):
+    def test_scalar(self):  # noqa: D102
         points = 5
         result = _reshape_vector_args([(points, ())])
         expected = [points]
         self._check(result, expected)
 
-    def test_nonarray(self):
+    def test_nonarray(self):  # noqa: D102
         points = [[1, 2, 3], [4, 5, 6]]
         result = _reshape_vector_args([(points, (0, 1))])
         expected = [np.array(points)]
         self._check(result, expected)
 
-    def test_transpose(self):
+    def test_transpose(self):  # noqa: D102
         points = np.array([[1, 2, 3], [4, 5, 6]])
         result = _reshape_vector_args([(points, (1, 0))])
         expected = [points.T]
         self._check(result, expected)
 
-    def test_extend(self):
+    def test_extend(self):  # noqa: D102
         points = np.array([[1, 2, 3, 4], [21, 22, 23, 24], [31, 32, 33, 34]])
         result = _reshape_vector_args([(points, (1, 3))])
         expected = [points.reshape(1, 3, 1, 4)]
@@ -71,28 +71,28 @@ class TestMultipleArgs:
         for result_arr, expected_arr in zip(result, expected):
             assert_array_equal(result_arr, expected_arr)
 
-    def test_nochange(self):
+    def test_nochange(self):  # noqa: D102
         a1 = np.array([[1, 2, 3], [4, 5, 6]])
         a2 = np.array([[0, 2, 4], [7, 8, 9]])
         result = _reshape_vector_args([(a1, (0, 1)), (a2, (0, 1))])
         expected = [a1, a2]
         self._check(result, expected)
 
-    def test_array_and_scalar(self):
+    def test_array_and_scalar(self):  # noqa: D102
         a1 = [[1, 2, 3], [3, 4, 5]]
         a2 = 5
         result = _reshape_vector_args([(a1, (0, 1)), (a2, ())])
         expected = [a1, np.array([[5]])]
         self._check(result, expected)
 
-    def test_transpose(self):
+    def test_transpose(self):  # noqa: D102
         a1 = np.array([[1, 2, 3], [4, 5, 6]])
         a2 = np.array([[0, 2, 4], [7, 8, 9]])
         result = _reshape_vector_args([(a1, (0, 1)), (a2, (1, 0))])
         expected = [a1, a2.T]
         self._check(result, expected)
 
-    def test_incompatible(self):
+    def test_incompatible(self):  # noqa: D102
         # Does not enforce compatibility of results.
         a1 = np.array([1, 2])
         a2 = np.array([1, 2, 3])
@@ -100,28 +100,28 @@ class TestMultipleArgs:
         expected = [a1, a2]
         self._check(result, expected)
 
-    def test_extend(self):
+    def test_extend(self):  # noqa: D102
         a1 = np.array([[1, 2, 3], [4, 5, 6]])
         a2 = np.array([11, 12, 13])
         result = _reshape_vector_args([(a1, (0, 1)), (a2, (1,))])
         expected = [a1, a2.reshape(1, 3)]
         self._check(result, expected)
 
-    def test_extend_transpose(self):
+    def test_extend_transpose(self):  # noqa: D102
         a1 = np.array([[1, 2, 3], [4, 5, 6]])
         a2 = np.array([11, 12, 13])
         result = _reshape_vector_args([(a1, (1, 0)), (a2, (1,))])
         expected = [a1.T, a2.reshape(1, 3)]
         self._check(result, expected)
 
-    def test_double_extend(self):
+    def test_double_extend(self):  # noqa: D102
         a1 = np.array([[1, 2, 3], [4, 5, 6]])
         a2 = np.array(1)
         result = _reshape_vector_args([(a1, (0, 2)), (a2, ())])
         expected = [a1.reshape(2, 1, 3), a2.reshape(1, 1, 1)]
         self._check(result, expected)
 
-    def test_triple(self):
+    def test_triple(self):  # noqa: D102
         a1 = np.array([[1, 2, 3, 4]])
         a2 = np.array([3, 4])
         a3 = np.array(7)

@@ -35,12 +35,12 @@ def simple_cube():
 @_shared_utils.skip_plot
 class TestSimple(_shared_utils.GraphicsTest):
     """Test imple."""
-    def test_points(self):
+    def test_points(self):  # noqa: D102
         cube = simple_cube()
         qplt.contourf(cube)
         self.check_graphic()
 
-    def test_bounds(self):
+    def test_bounds(self):  # noqa: D102
         cube = simple_cube()
         qplt.pcolor(cube)
         self.check_graphic()
@@ -56,17 +56,17 @@ class TestMissingCoord(_shared_utils.GraphicsTest):
         qplt.pcolor(cube)
         self.check_graphic()
 
-    def test_no_u(self):
+    def test_no_u(self):  # noqa: D102
         cube = simple_cube()
         cube.remove_coord("grid_longitude")
         self._check(cube)
 
-    def test_no_v(self):
+    def test_no_v(self):  # noqa: D102
         cube = simple_cube()
         cube.remove_coord("time")
         self._check(cube)
 
-    def test_none(self):
+    def test_none(self):  # noqa: D102
         cube = simple_cube()
         cube.remove_coord("grid_longitude")
         cube.remove_coord("time")
@@ -78,7 +78,7 @@ class TestMissingCoord(_shared_utils.GraphicsTest):
 class TestMissingCS(_shared_utils.GraphicsTest):
     """Test issingCS."""
     @_shared_utils.skip_data
-    def test_missing_cs(self):
+    def test_missing_cs(self):  # noqa: D102
         cube = iris.tests.stock.simple_pp()
         cube.coord("latitude").coord_system = None
         cube.coord("longitude").coord_system = None
@@ -112,13 +112,13 @@ class TestHybridHeight(_shared_utils.GraphicsTest):
             plt_method(self.cube, coords=["altitude", "grid_longitude"])
             self.check_graphic()
 
-    def test_points(self):
+    def test_points(self):  # noqa: D102
         self._check(qplt.contourf)
 
-    def test_bounds(self):
+    def test_bounds(self):  # noqa: D102
         self._check(qplt.pcolor, test_altitude=False)
 
-    def test_orography(self):
+    def test_orography(self):  # noqa: D102
         qplt.contourf(self.cube)
         iplt.orography_at_points(self.cube)
         iplt.points(self.cube)
@@ -151,32 +151,32 @@ class Test1dPlotMultiArgs(_shared_utils.GraphicsTest):
     def _setup(self, load_4d_testcube):
         self.cube1d = load_4d_testcube[0, :, 0, 0]
 
-    def test_cube(self):
+    def test_cube(self):  # noqa: D102
         # just plot a cube against its dim coord
         self.draw_method(self.cube1d)  # altitude vs temp
         self.check_graphic()
 
-    def test_coord(self):
+    def test_coord(self):  # noqa: D102
         # plot the altitude coordinate
         self.draw_method(self.cube1d.coord("altitude"))
         self.check_graphic()
 
-    def test_coord_cube(self):
+    def test_coord_cube(self):  # noqa: D102
         # plot temperature against sigma
         self.draw_method(self.cube1d.coord("sigma"), self.cube1d)
         self.check_graphic()
 
-    def test_cube_coord(self):
+    def test_cube_coord(self):  # noqa: D102
         # plot a vertical profile of temperature
         self.draw_method(self.cube1d, self.cube1d.coord("altitude"))
         self.check_graphic()
 
-    def test_coord_coord(self):
+    def test_coord_coord(self):  # noqa: D102
         # plot two coordinates that are not mappable
         self.draw_method(self.cube1d.coord("sigma"), self.cube1d.coord("altitude"))
         self.check_graphic()
 
-    def test_coord_coord_map(self):
+    def test_coord_coord_map(self):  # noqa: D102
         # plot lat-lon aux coordinates of a trajectory, which draws a map
         lon = iris.coords.AuxCoord(
             [0, 5, 10, 15, 20, 25, 30, 35, 40, 45],
@@ -192,7 +192,7 @@ class Test1dPlotMultiArgs(_shared_utils.GraphicsTest):
         plt.gca().coastlines("110m")
         self.check_graphic()
 
-    def test_cube_cube(self):
+    def test_cube_cube(self):  # noqa: D102
         # plot two phenomena against each other, in this case just dummy data
         cube1 = self.cube1d.copy()
         cube2 = self.cube1d.copy()
@@ -205,25 +205,25 @@ class Test1dPlotMultiArgs(_shared_utils.GraphicsTest):
         self.draw_method(cube1, cube2)
         self.check_graphic()
 
-    def test_incompatible_objects(self):
+    def test_incompatible_objects(self):  # noqa: D102
         # incompatible objects (not the same length) should raise an error
         with pytest.raises(ValueError, match="are not compatible"):
             self.draw_method(self.cube1d.coord("time"), (self.cube1d))
 
-    def test_multimidmensional(self, load_4d_testcube):
+    def test_multimidmensional(self, load_4d_testcube):  # noqa: D102
         # multidimensional cubes are not allowed
         cube = load_4d_testcube[0, :, :, 0]
         with pytest.raises(ValueError, match="must be 1-dimensional"):
             self.draw_method(cube)
 
-    def test_not_cube_or_coord(self):
+    def test_not_cube_or_coord(self):  # noqa: D102
         # inputs must be cubes or coordinates, otherwise an error should be
         # raised
         xdim = np.arange(self.cube1d.shape[0])
         with pytest.raises(TypeError):
             self.draw_method(xdim, self.cube1d)
 
-    def test_plot_old_coords_kwarg(self):
+    def test_plot_old_coords_kwarg(self):  # noqa: D102
         # Coords used to be a valid kwarg to plot, but it was deprecated and
         # we are maintaining a reasonable exception, check that it is raised
         # here.
@@ -255,14 +255,14 @@ class Test1dScatter(_shared_utils.GraphicsTest):
             "Temperature",
         )
 
-    def test_coord_coord(self):
+    def test_coord_coord(self):  # noqa: D102
         x = self.cube.coord("longitude")
         y = self.cube.coord("altitude")
         c = self.cube.data
         self.draw_method(x, y, c=c, edgecolor="none")
         self.check_graphic()
 
-    def test_coord_coord_map(self):
+    def test_coord_coord_map(self):  # noqa: D102
         x = self.cube.coord("longitude")
         y = self.cube.coord("latitude")
         c = self.cube.data
@@ -270,21 +270,21 @@ class Test1dScatter(_shared_utils.GraphicsTest):
         plt.gca().coastlines("110m")
         self.check_graphic()
 
-    def test_coord_cube(self):
+    def test_coord_cube(self):  # noqa: D102
         x = self.cube.coord("latitude")
         y = self.cube
         c = self.cube.coord("Travel Time").points
         self.draw_method(x, y, c=c, edgecolor="none")
         self.check_graphic()
 
-    def test_cube_coord(self):
+    def test_cube_coord(self):  # noqa: D102
         x = self.cube
         y = self.cube.coord("altitude")
         c = self.cube.coord("Travel Time").points
         self.draw_method(x, y, c=c, edgecolor="none")
         self.check_graphic()
 
-    def test_cube_cube(self):
+    def test_cube_cube(self):  # noqa: D102
         x = iris.load_cube(
             _shared_utils.get_data_path(("NAME", "NAMEIII_trajectory.txt")),
             "Rel Humidity",
@@ -294,21 +294,21 @@ class Test1dScatter(_shared_utils.GraphicsTest):
         self.draw_method(x, y, c=c, edgecolor="none")
         self.check_graphic()
 
-    def test_incompatible_objects(self):
+    def test_incompatible_objects(self):  # noqa: D102
         # cubes/coordinates of different sizes cannot be plotted
         x = self.cube
         y = self.cube.coord("altitude")[:-1]
         with pytest.raises(ValueError, match="are not compatible"):
             self.draw_method(x, y)
 
-    def test_multidimensional(self, load_4d_testcube):
+    def test_multidimensional(self, load_4d_testcube):  # noqa: D102
         # multidimensional cubes/coordinates are not allowed
         x = load_4d_testcube[0, :, :, 0]
         y = x.coord("model_level_number")
         with pytest.raises(ValueError, match="must be 1-dimensional"):
             self.draw_method(x, y)
 
-    def test_not_cube_or_coord(self):
+    def test_not_cube_or_coord(self):  # noqa: D102
         # inputs must be cubes or coordinates
         x = np.arange(self.cube.shape[0])
         y = self.cube
@@ -334,7 +334,7 @@ class Test2dPoints(_shared_utils.GraphicsTest):
         pp_file = _shared_utils.get_data_path(("PP", "globClim1", "u_wind.pp"))
         self.cube = iris.load(pp_file)[0][0]
 
-    def test_circular_changes(self):
+    def test_circular_changes(self):  # noqa: D102
         # Circular
         iplt.pcolormesh(self.cube, vmax=50)
         iplt.points(self.cube, s=self.cube.data)
@@ -358,35 +358,35 @@ class Test1dFillBetween(_shared_utils.GraphicsTest):
             "air_potential_temperature",
         )[0, 0]
 
-    def test_coord_coord(self):
+    def test_coord_coord(self):  # noqa: D102
         x = self.cube.coord("grid_latitude")
         y1 = self.cube.coord("surface_altitude")[:, 0]
         y2 = self.cube.coord("surface_altitude")[:, 1]
         self.draw_method(x, y1, y2)
         self.check_graphic()
 
-    def test_coord_cube(self):
+    def test_coord_cube(self):  # noqa: D102
         x = self.cube.coord("grid_latitude")
         y1 = self.cube.collapsed("grid_longitude", iris.analysis.MIN)
         y2 = self.cube.collapsed("grid_longitude", iris.analysis.MAX)
         self.draw_method(x, y1, y2)
         self.check_graphic()
 
-    def test_cube_coord(self):
+    def test_cube_coord(self):  # noqa: D102
         x = self.cube.collapsed("grid_longitude", iris.analysis.MEAN)
         y1 = self.cube.coord("surface_altitude")[:, 0]
         y2 = y1 + 10
         self.draw_method(x, y1, y2)
         self.check_graphic()
 
-    def test_cube_cube(self):
+    def test_cube_cube(self):  # noqa: D102
         x = self.cube.collapsed("grid_longitude", iris.analysis.MEAN)
         y1 = self.cube.collapsed("grid_longitude", iris.analysis.MIN)
         y2 = self.cube.collapsed("grid_longitude", iris.analysis.MAX)
         self.draw_method(x, y1, y2)
         self.check_graphic()
 
-    def test_incompatible_objects_x_odd(self):
+    def test_incompatible_objects_x_odd(self):  # noqa: D102
         # cubes/coordinates of different sizes cannot be plotted
         x = self.cube.coord("grid_latitude")[:-1]
         y1 = self.cube.collapsed("grid_longitude", iris.analysis.MIN)
@@ -394,7 +394,7 @@ class Test1dFillBetween(_shared_utils.GraphicsTest):
         with pytest.raises(ValueError, match="are not all compatible"):
             self.draw_method(x, y1, y2)
 
-    def test_incompatible_objects_y1_odd(self):
+    def test_incompatible_objects_y1_odd(self):  # noqa: D102
         # cubes/coordinates of different sizes cannot be plotted
         x = self.cube.coord("grid_latitude")
         y1 = self.cube.collapsed("grid_longitude", iris.analysis.MIN)[:-1]
@@ -402,7 +402,7 @@ class Test1dFillBetween(_shared_utils.GraphicsTest):
         with pytest.raises(ValueError, match="are not all compatible"):
             self.draw_method(x, y1, y2)
 
-    def test_incompatible_objects_y2_odd(self):
+    def test_incompatible_objects_y2_odd(self):  # noqa: D102
         # cubes/coordinates of different sizes cannot be plotted
         x = self.cube.coord("grid_latitude")
         y1 = self.cube.collapsed("grid_longitude", iris.analysis.MIN)
@@ -410,7 +410,7 @@ class Test1dFillBetween(_shared_utils.GraphicsTest):
         with pytest.raises(ValueError, match="are not all compatible"):
             self.draw_method(x, y1, y2)
 
-    def test_incompatible_objects_all_odd(self):
+    def test_incompatible_objects_all_odd(self):  # noqa: D102
         # cubes/coordinates of different sizes cannot be plotted
         x = self.cube.coord("grid_latitude")
         y1 = self.cube.collapsed("grid_longitude", iris.analysis.MIN)[:-1]
@@ -418,7 +418,7 @@ class Test1dFillBetween(_shared_utils.GraphicsTest):
         with pytest.raises(ValueError, match="are not all compatible"):
             self.draw_method(x, y1, y2)
 
-    def test_multidimensional(self):
+    def test_multidimensional(self):  # noqa: D102
         # multidimensional cubes/coordinates are not allowed
         x = self.cube.coord("grid_latitude")
         y1 = self.cube
@@ -426,7 +426,7 @@ class Test1dFillBetween(_shared_utils.GraphicsTest):
         with pytest.raises(ValueError, match="must be 1-dimensional"):
             self.draw_method(x, y1, y2)
 
-    def test_not_cube_or_coord(self):
+    def test_not_cube_or_coord(self):  # noqa: D102
         # inputs must be cubes or coordinates
         x = np.arange(self.cube.shape[0])
         y1 = self.cube.collapsed("grid_longitude", iris.analysis.MIN)
@@ -448,19 +448,19 @@ class Test1dQuickplotFillBetween(Test1dFillBetween):
 @_shared_utils.skip_plot
 class TestAttributePositive(_shared_utils.GraphicsTest):
     """Test ttributePositive."""
-    def test_1d_positive_up(self):
+    def test_1d_positive_up(self):  # noqa: D102
         path = _shared_utils.get_data_path(("NetCDF", "ORCA2", "votemper.nc"))
         cube = iris.load_cube(path)
         qplt.plot(cube.coord("depth"), cube[0, :, 60, 80])
         self.check_graphic()
 
-    def test_1d_positive_down(self):
+    def test_1d_positive_down(self):  # noqa: D102
         path = _shared_utils.get_data_path(("NetCDF", "ORCA2", "votemper.nc"))
         cube = iris.load_cube(path)
         qplt.plot(cube[0, :, 60, 80], cube.coord("depth"))
         self.check_graphic()
 
-    def test_2d_positive_up(self):
+    def test_2d_positive_up(self):  # noqa: D102
         path = _shared_utils.get_data_path(
             ("NetCDF", "testing", "small_theta_colpex.nc")
         )
@@ -468,7 +468,7 @@ class TestAttributePositive(_shared_utils.GraphicsTest):
         qplt.pcolormesh(cube)
         self.check_graphic()
 
-    def test_2d_positive_down(self):
+    def test_2d_positive_down(self):  # noqa: D102
         path = _shared_utils.get_data_path(("NetCDF", "ORCA2", "votemper.nc"))
         cube = iris.load_cube(path)[0, :, 42, :]
         qplt.pcolormesh(cube)
@@ -561,37 +561,37 @@ class SliceMixin:
         #  manager instead.
         self.warning_checker = nullcontext
 
-    def test_yx(self):
+    def test_yx(self):  # noqa: D102
         cube = self.wind[0, 0, :, :]
         with self.warning_checker(UserWarning):
             self.draw_method(cube)
         self.check_graphic()
 
-    def test_zx(self):
+    def test_zx(self):  # noqa: D102
         cube = self.wind[0, :, 0, :]
         with self.warning_checker(UserWarning):
             self.draw_method(cube)
         self.check_graphic()
 
-    def test_tx(self):
+    def test_tx(self):  # noqa: D102
         cube = _time_series(self.wind[:, 0, 0, :])
         with self.warning_checker(UserWarning):
             self.draw_method(cube)
         self.check_graphic()
 
-    def test_zy(self):
+    def test_zy(self):  # noqa: D102
         cube = self.wind[0, :, :, 0]
         with self.warning_checker(UserWarning):
             self.draw_method(cube)
         self.check_graphic()
 
-    def test_ty(self):
+    def test_ty(self):  # noqa: D102
         cube = _time_series(self.wind[:, 0, :, 0])
         with self.warning_checker(UserWarning):
             self.draw_method(cube)
         self.check_graphic()
 
-    def test_tz(self):
+    def test_tz(self):  # noqa: D102
         cube = _time_series(self.wind[:, :, 0, 0])
         with self.warning_checker(UserWarning):
             self.draw_method(cube)
@@ -679,27 +679,27 @@ class Slice1dMixin:
     and self.results to be a dictionary containing the desired test results.
     """
 
-    def test_x(self):
+    def test_x(self):  # noqa: D102
         cube = self.wind[0, 0, 0, :]
         self.draw_method(cube)
         self.check_graphic()
 
-    def test_y(self):
+    def test_y(self):  # noqa: D102
         cube = self.wind[0, 0, :, 0]
         self.draw_method(cube)
         self.check_graphic()
 
-    def test_z(self):
+    def test_z(self):  # noqa: D102
         cube = self.wind[0, :, 0, 0]
         self.draw_method(cube)
         self.check_graphic()
 
-    def test_t(self):
+    def test_t(self):  # noqa: D102
         cube = _time_series(self.wind[:, 0, 0, 0])
         self.draw_method(cube)
         self.check_graphic()
 
-    def test_t_dates(self):
+    def test_t_dates(self):  # noqa: D102
         cube = _date_series(self.wind[:, 0, 0, 0])
         self.draw_method(cube)
         plt.gcf().autofmt_xdate()
@@ -735,7 +735,7 @@ class LambdaStr:
         self.repr = repr
         self.lambda_fn = lambda_fn
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs):  # noqa: D102
         return self.lambda_fn(*args, **kwargs)
 
     def __repr__(self):
@@ -809,12 +809,12 @@ class TestPlotCoordinatesGiven(_shared_utils.GraphicsTest):
             "y": ([self.plot, ["grid_latitude"]],),
         }
 
-    def draw(self, draw_method, *args, **kwargs):
+    def draw(self, draw_method, *args, **kwargs):  # noqa: D102
         draw_fn = getattr(self.draw_module, draw_method)
         draw_fn(*args, **kwargs)
         self.check_graphic()
 
-    def run_tests(self, cube, results):
+    def run_tests(self, cube, results):  # noqa: D102
         for draw_method, rcoords in results:
             draw_method(cube, coords=rcoords)
             try:
@@ -825,7 +825,7 @@ class TestPlotCoordinatesGiven(_shared_utils.GraphicsTest):
                 )
                 raise
 
-    def run_tests_1d(self, cube, results):
+    def run_tests_1d(self, cube, results):  # noqa: D102
         # there is a different calling convention for 1d plots
         for draw_method, rcoords in results:
             draw_method(cube.coord(rcoords[0]), cube)
@@ -837,27 +837,27 @@ class TestPlotCoordinatesGiven(_shared_utils.GraphicsTest):
                 )
                 raise
 
-    def test_yx(self):
+    def test_yx(self):  # noqa: D102
         test_cube = self.cube[0, 0, :, :]
         self.run_tests(test_cube, self.results["yx"])
 
-    def test_zx(self):
+    def test_zx(self):  # noqa: D102
         test_cube = self.cube[0, :15, 0, :]
         self.run_tests(test_cube, self.results["zx"])
 
-    def test_tx(self):
+    def test_tx(self):  # noqa: D102
         test_cube = self.cube[:, 0, 0, :]
         self.run_tests(test_cube, self.results["tx"])
 
-    def test_x(self):
+    def test_x(self):  # noqa: D102
         test_cube = self.cube[0, 0, 0, :]
         self.run_tests_1d(test_cube, self.results["x"])
 
-    def test_y(self):
+    def test_y(self):  # noqa: D102
         test_cube = self.cube[0, 0, :, 0]
         self.run_tests_1d(test_cube, self.results["y"])
 
-    def test_badcoords(self):
+    def test_badcoords(self):  # noqa: D102
         cube = self.cube[0, 0, :, :]
         draw_fn = getattr(self.draw_module, "contourf")
         pytest.raises(
@@ -910,7 +910,7 @@ class TestPlotCoordinatesGiven(_shared_utils.GraphicsTest):
             match="should have the same length",
         )
 
-    def test_non_cube_coordinate(self):
+    def test_non_cube_coordinate(self):  # noqa: D102
         cube = self.cube[0, :, :, 0]
         pts = -100 + np.arange(cube.shape[1]) * 13
         x = coords.DimCoord(
@@ -926,7 +926,7 @@ class TestPlotCoordinatesGiven(_shared_utils.GraphicsTest):
 @_shared_utils.skip_plot
 class TestPlotHist(_shared_utils.GraphicsTest):
     """Test lotHist."""
-    def test_cube(self):
+    def test_cube(self):  # noqa: D102
         cube = simple_cube()[0]
         iplt.hist(cube, bins=np.linspace(287.7, 288.2, 11))
         self.check_graphic()
@@ -943,12 +943,12 @@ class TestPlotDimAndAuxCoordsKwarg(_shared_utils.GraphicsTest):
         )
         self.cube = iris.load_cube(filename)
 
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         iplt.contourf(self.cube)
         plt.gca().coastlines("110m")
         self.check_graphic()
 
-    def test_coords(self):
+    def test_coords(self):  # noqa: D102
         # Pass in dimension coords.
         rlat = self.cube.coord("grid_latitude")
         rlon = self.cube.coord("grid_longitude")
@@ -962,7 +962,7 @@ class TestPlotDimAndAuxCoordsKwarg(_shared_utils.GraphicsTest):
         plt.gca().coastlines("110m")
         self.check_graphic()
 
-    def test_coord_names(self):
+    def test_coord_names(self):  # noqa: D102
         # Pass in names of dimension coords.
         iplt.contourf(self.cube, coords=["grid_longitude", "grid_latitude"])
         plt.gca().coastlines("110m")
@@ -972,7 +972,7 @@ class TestPlotDimAndAuxCoordsKwarg(_shared_utils.GraphicsTest):
         plt.gca().coastlines("110m")
         self.check_graphic()
 
-    def test_yx_order(self):
+    def test_yx_order(self):  # noqa: D102
         # Do not attempt to draw coastlines as it is not a map.
         iplt.contourf(self.cube, coords=["grid_latitude", "grid_longitude"])
         self.check_graphic()
@@ -983,7 +983,7 @@ class TestPlotDimAndAuxCoordsKwarg(_shared_utils.GraphicsTest):
 @_shared_utils.skip_plot
 class TestSymbols(_shared_utils.GraphicsTest):
     """Test ymbols."""
-    def test_cloud_cover(self):
+    def test_cloud_cover(self):  # noqa: D102
         iplt.symbols(
             list(range(10)),
             [0] * 10,
@@ -1003,7 +1003,7 @@ class TestPlottingExceptions:
         self.bounded_cube.coord("latitude").guess_bounds()
         self.bounded_cube.coord("longitude").guess_bounds()
 
-    def test_boundmode_multidim(self):
+    def test_boundmode_multidim(self):  # noqa: D102
         # Test exception translation.
         # We can't get contiguous bounded grids from multi-d coords.
         cube = self.bounded_cube
@@ -1017,7 +1017,7 @@ class TestPlottingExceptions:
         with pytest.raises(ValueError, match="Could not get XY grid from bounds"):
             iplt.pcolormesh(cube, coords=["longitude", "latitude"])
 
-    def test_boundmode_4bounds(self):
+    def test_boundmode_4bounds(self):  # noqa: D102
         # Test exception translation.
         # We can only get contiguous bounded grids with 2 bounds per point.
         cube = self.bounded_cube
@@ -1030,7 +1030,7 @@ class TestPlottingExceptions:
         with pytest.raises(ValueError, match="Could not get XY grid from bounds."):
             iplt.pcolormesh(cube, coords=["longitude", "latitude"])
 
-    def test_different_coord_systems(self):
+    def test_different_coord_systems(self):  # noqa: D102
         cube = self.bounded_cube
         lat = cube.coord("latitude")
         lon = cube.coord("longitude")
@@ -1045,7 +1045,7 @@ class TestPlottingExceptions:
 @_shared_utils.skip_proj_9_8_incompatible
 class TestPlotOtherCoordSystems(_shared_utils.GraphicsTest):
     """Test lotOtherCoordSystems."""
-    def test_plot_tmerc(self):
+    def test_plot_tmerc(self):  # noqa: D102
         filename = _shared_utils.get_data_path(
             ("NetCDF", "transverse_mercator", "tmean_1910_1910.nc")
         )
@@ -1068,14 +1068,14 @@ class TestPlotCitation(_shared_utils.GraphicsTest):
             "dolore magna aliqua."
         )
 
-    def test(self):
+    def test(self):  # noqa: D102
         iplt.citation(self.text)
         self.check_graphic()
 
-    def test_figure(self):
+    def test_figure(self):  # noqa: D102
         iplt.citation(self.text, figure=self.figure)
         self.check_graphic()
 
-    def test_axes(self):
+    def test_axes(self):  # noqa: D102
         iplt.citation(self.text, axes=self.axes)
         self.check_graphic()

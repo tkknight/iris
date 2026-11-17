@@ -14,7 +14,7 @@ from iris.util import reverse
 
 class Test_array:
     """Test array."""
-    def test_simple_array(self):
+    def test_simple_array(self):  # noqa: D102
         a = np.arange(12).reshape(3, 4)
         _shared_utils.assert_array_equal(a[::-1], reverse(a, 0))
         _shared_utils.assert_array_equal(a[::-1, ::-1], reverse(a, [0, 1]))
@@ -39,7 +39,7 @@ class Test_array:
         with pytest.raises(TypeError, match=msg):
             reverse(a, "latitude")
 
-    def test_single_array(self):
+    def test_single_array(self):  # noqa: D102
         a = np.arange(36).reshape(3, 4, 3)
         _shared_utils.assert_array_equal(a[::-1], reverse(a, 0))
         _shared_utils.assert_array_equal(a[::-1, ::-1], reverse(a, [0, 1]))
@@ -93,7 +93,7 @@ class Test_cube:
 
         self.cube2 = iris.cube.Cube(data, dim_coords_and_dims=[(a2, 0), (b2, 1)])
 
-    def check_coorda_reversed(self, result):
+    def check_coorda_reversed(self, result):  # noqa: D102
         _shared_utils.assert_array_equal(
             self.cube2.coord("a").points, result.coord("a").points
         )
@@ -101,7 +101,7 @@ class Test_cube:
             self.cube2.coord("a").bounds, result.coord("a").bounds
         )
 
-    def check_coorda_unchanged(self, result):
+    def check_coorda_unchanged(self, result):  # noqa: D102
         _shared_utils.assert_array_equal(
             self.cube1.coord("a").points, result.coord("a").points
         )
@@ -109,31 +109,31 @@ class Test_cube:
             self.cube1.coord("a").bounds, result.coord("a").bounds
         )
 
-    def check_coordb_reversed(self, result):
+    def check_coordb_reversed(self, result):  # noqa: D102
         _shared_utils.assert_array_equal(
             self.cube2.coord("b").points, result.coord("b").points
         )
 
-    def check_coordb_unchanged(self, result):
+    def check_coordb_unchanged(self, result):  # noqa: D102
         _shared_utils.assert_array_equal(
             self.cube1.coord("b").points, result.coord("b").points
         )
 
-    def test_cube_dim0(self):
+    def test_cube_dim0(self):  # noqa: D102
         cube1_reverse0 = reverse(self.cube1, 0)
 
         _shared_utils.assert_array_equal(self.cube1.data[::-1], cube1_reverse0.data)
         self.check_coorda_reversed(cube1_reverse0)
         self.check_coordb_unchanged(cube1_reverse0)
 
-    def test_cube_dim1(self):
+    def test_cube_dim1(self):  # noqa: D102
         cube1_reverse1 = reverse(self.cube1, 1)
 
         _shared_utils.assert_array_equal(self.cube1.data[:, ::-1], cube1_reverse1.data)
         self.check_coordb_reversed(cube1_reverse1)
         self.check_coorda_unchanged(cube1_reverse1)
 
-    def test_cube_dim_both(self):
+    def test_cube_dim_both(self):  # noqa: D102
         cube1_reverse_both = reverse(self.cube1, (0, 1))
 
         _shared_utils.assert_array_equal(
@@ -142,21 +142,21 @@ class Test_cube:
         self.check_coorda_reversed(cube1_reverse_both)
         self.check_coordb_reversed(cube1_reverse_both)
 
-    def test_cube_coord0(self):
+    def test_cube_coord0(self):  # noqa: D102
         cube1_reverse0 = reverse(self.cube1, self.a1)
 
         _shared_utils.assert_array_equal(self.cube1.data[::-1], cube1_reverse0.data)
         self.check_coorda_reversed(cube1_reverse0)
         self.check_coordb_unchanged(cube1_reverse0)
 
-    def test_cube_coord1(self):
+    def test_cube_coord1(self):  # noqa: D102
         cube1_reverse1 = reverse(self.cube1, "b")
 
         _shared_utils.assert_array_equal(self.cube1.data[:, ::-1], cube1_reverse1.data)
         self.check_coordb_reversed(cube1_reverse1)
         self.check_coorda_unchanged(cube1_reverse1)
 
-    def test_cube_coord_both(self):
+    def test_cube_coord_both(self):  # noqa: D102
         cube1_reverse_both = reverse(self.cube1, (self.a1, self.b1))
 
         _shared_utils.assert_array_equal(
@@ -165,7 +165,7 @@ class Test_cube:
         self.check_coorda_reversed(cube1_reverse_both)
         self.check_coordb_reversed(cube1_reverse_both)
 
-    def test_cube_coord_spanning(self):
+    def test_cube_coord_spanning(self):  # noqa: D102
         cube1_reverse_spanning = reverse(self.cube1, "spanning")
 
         _shared_utils.assert_array_equal(
@@ -179,17 +179,17 @@ class Test_cube:
             cube1_reverse_spanning.coord("spanning").points,
         )
 
-    def test_wrong_coord_name(self):
+    def test_wrong_coord_name(self):  # noqa: D102
         msg = "Expected to find exactly 1 'latitude' coordinate, but found none."
         with pytest.raises(iris.exceptions.CoordinateNotFoundError, match=msg):
             reverse(self.cube1, "latitude")
 
-    def test_empty_list(self):
+    def test_empty_list(self):  # noqa: D102
         msg = "Reverse was expecting a single axis or a 1d array *"
         with pytest.raises(ValueError, match=msg):
             reverse(self.cube1, [])
 
-    def test_wrong_type_cube(self):
+    def test_wrong_type_cube(self):  # noqa: D102
         msg = (
             "coords_or_dims must be int, str, coordinate or sequence of "
             "these.  Got cube."
@@ -197,7 +197,7 @@ class Test_cube:
         with pytest.raises(TypeError, match=msg):
             reverse(self.cube1, self.cube1)
 
-    def test_wrong_type_float(self):
+    def test_wrong_type_float(self):  # noqa: D102
         msg = "coords_or_dims must be int, str, coordinate or sequence of these."
         with pytest.raises(TypeError, match=msg):
             reverse(self.cube1, 3.0)

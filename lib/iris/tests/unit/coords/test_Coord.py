@@ -42,38 +42,38 @@ class Test_nearest_neighbour_index__ascending:
         results = [self.coord.nearest_neighbour_index(ind) for ind in ext_pnts]
         assert results == target
 
-    def test_nobounds(self):
+    def test_nobounds(self):  # noqa: D102
         target = [0, 0, 1, 3, 3]
         self._test_nearest_neighbour_index(target)
 
-    def test_nobounds_circular(self):
+    def test_nobounds_circular(self):  # noqa: D102
         target = [3, 0, 1, 3, 0]
         self._test_nearest_neighbour_index(target, circular=True)
 
-    def test_bounded(self):
+    def test_bounded(self):  # noqa: D102
         target = [0, 0, 2, 3, 3]
         self._test_nearest_neighbour_index(target, bounds=True)
 
-    def test_bounded_circular(self):
+    def test_bounded_circular(self):  # noqa: D102
         target = [3, 0, 2, 3, 0]
         self._test_nearest_neighbour_index(target, bounds=True, circular=True)
 
-    def test_bounded_overlapping(self):
+    def test_bounded_overlapping(self):  # noqa: D102
         _bounds = [[-20, 50], [10, 150], [100, 300], [260, 340]]
         target = [0, 0, 1, 2, 3]
         self._test_nearest_neighbour_index(target, bounds=_bounds)
 
-    def test_bounded_disjointed(self):
+    def test_bounded_disjointed(self):  # noqa: D102
         _bounds = [[-20, 10], [80, 170], [180, 190], [240, 340]]
         target = [0, 0, 1, 3, 3]
         self._test_nearest_neighbour_index(target, bounds=_bounds)
 
-    def test_scalar(self):
+    def test_scalar(self):  # noqa: D102
         self.coord = DimCoord([0], circular=False, units="degrees")
         target = [0, 0, 0, 0, 0]
         self._test_nearest_neighbour_index(target)
 
-    def test_bounded_float_point(self):
+    def test_bounded_float_point(self):  # noqa: D102
         coord = DimCoord(1, bounds=[0, 2])
         result = coord.nearest_neighbour_index(2.5)
         assert result == 0
@@ -95,19 +95,19 @@ class Test_nearest_neighbour_index__descending:
         results = [self.coord.nearest_neighbour_index(ind) for ind in ext_pnts]
         assert results == target
 
-    def test_nobounds(self):
+    def test_nobounds(self):  # noqa: D102
         target = [3, 3, 2, 0, 0]
         self._test_nearest_neighbour_index(target)
 
-    def test_nobounds_circular(self):
+    def test_nobounds_circular(self):  # noqa: D102
         target = [0, 3, 2, 0, 3]
         self._test_nearest_neighbour_index(target, circular=True)
 
-    def test_bounded(self):
+    def test_bounded(self):  # noqa: D102
         target = [3, 3, 1, 0, 0]
         self._test_nearest_neighbour_index(target, bounds=True)
 
-    def test_bounded_circular(self):
+    def test_bounded_circular(self):  # noqa: D102
         target = [0, 3, 1, 0, 3]
         self._test_nearest_neighbour_index(target, bounds=True, circular=True)
 
@@ -123,7 +123,7 @@ class Test_guess_bounds:
             circular=True,
         )
 
-    def test_non_circular(self):
+    def test_non_circular(self):  # noqa: D102
         self.coord.circular = False
         self.coord.guess_bounds()
         target = np.array(
@@ -138,7 +138,7 @@ class Test_guess_bounds:
         )
         _shared_utils.assert_array_equal(target, self.coord.bounds)
 
-    def test_circular_increasing(self):
+    def test_circular_increasing(self):  # noqa: D102
         self.coord.guess_bounds()
         target = np.array(
             [
@@ -152,7 +152,7 @@ class Test_guess_bounds:
         )
         _shared_utils.assert_array_equal(target, self.coord.bounds)
 
-    def test_circular_decreasing(self):
+    def test_circular_decreasing(self):  # noqa: D102
         self.coord.points = self.coord.points[::-1]
         self.coord.guess_bounds()
         target = np.array(
@@ -167,7 +167,7 @@ class Test_guess_bounds:
         )
         _shared_utils.assert_array_equal(target, self.coord.bounds)
 
-    def test_circular_increasing_alt_range(self):
+    def test_circular_increasing_alt_range(self):  # noqa: D102
         self.coord.points = np.array([10, 30, 90, 150, 210, 220])
         self.coord.guess_bounds()
         target = np.array(
@@ -182,7 +182,7 @@ class Test_guess_bounds:
         )
         _shared_utils.assert_array_equal(target, self.coord.bounds)
 
-    def test_circular_decreasing_alt_range(self):
+    def test_circular_decreasing_alt_range(self):  # noqa: D102
         self.coord.points = np.array([10, 30, 90, 150, 210, 220])[::-1]
         self.coord.guess_bounds()
         target = np.array(
@@ -197,7 +197,7 @@ class Test_guess_bounds:
         )
         _shared_utils.assert_array_equal(target, self.coord.bounds)
 
-    def test_circular_n216_float32(self):
+    def test_circular_n216_float32(self):  # noqa: D102
         # Values represent longitude taken from an N216 pp-file.
         coord = DimCoord.from_regular(
             -0.41666666, 0.8333333, 432, units="degrees", circular=True
@@ -209,48 +209,48 @@ class Test_guess_bounds:
 
 class Test_guess_bounds__default_enabled_latitude_clipping:
     """Test guess bounds  default enabled latitude clipping."""
-    def test_all_inside(self):
+    def test_all_inside(self):  # noqa: D102
         lat = DimCoord([-10, 0, 20], units="degree", standard_name="latitude")
         lat.guess_bounds()
         _shared_utils.assert_array_equal(lat.bounds, [[-15, -5], [-5, 10], [10, 30]])
 
-    def test_points_inside_bounds_outside(self):
+    def test_points_inside_bounds_outside(self):  # noqa: D102
         lat = DimCoord([-80, 0, 70], units="degree", standard_name="latitude")
         lat.guess_bounds()
         _shared_utils.assert_array_equal(lat.bounds, [[-90, -40], [-40, 35], [35, 90]])
 
-    def test_points_inside_bounds_outside_grid_latitude(self):
+    def test_points_inside_bounds_outside_grid_latitude(self):  # noqa: D102
         lat = DimCoord([-80, 0, 70], units="degree", standard_name="grid_latitude")
         lat.guess_bounds()
         _shared_utils.assert_array_equal(lat.bounds, [[-90, -40], [-40, 35], [35, 90]])
 
-    def test_points_to_edges_bounds_outside(self):
+    def test_points_to_edges_bounds_outside(self):  # noqa: D102
         lat = DimCoord([-90, 0, 90], units="degree", standard_name="latitude")
         lat.guess_bounds()
         _shared_utils.assert_array_equal(lat.bounds, [[-90, -45], [-45, 45], [45, 90]])
 
-    def test_points_outside(self):
+    def test_points_outside(self):  # noqa: D102
         lat = DimCoord([-100, 0, 120], units="degree", standard_name="latitude")
         lat.guess_bounds()
         _shared_utils.assert_array_equal(
             lat.bounds, [[-150, -50], [-50, 60], [60, 180]]
         )
 
-    def test_points_inside_bounds_outside_wrong_unit(self):
+    def test_points_inside_bounds_outside_wrong_unit(self):  # noqa: D102
         lat = DimCoord([-80, 0, 70], units="feet", standard_name="latitude")
         lat.guess_bounds()
         _shared_utils.assert_array_equal(
             lat.bounds, [[-120, -40], [-40, 35], [35, 105]]
         )
 
-    def test_points_inside_bounds_outside_wrong_name(self):
+    def test_points_inside_bounds_outside_wrong_name(self):  # noqa: D102
         lat = DimCoord([-80, 0, 70], units="degree", standard_name="longitude")
         lat.guess_bounds()
         _shared_utils.assert_array_equal(
             lat.bounds, [[-120, -40], [-40, 35], [35, 105]]
         )
 
-    def test_points_inside_bounds_outside_wrong_name_2(self):
+    def test_points_inside_bounds_outside_wrong_name_2(self):  # noqa: D102
         lat = DimCoord([-80, 0, 70], units="degree", long_name="other_latitude")
         lat.guess_bounds()
         _shared_utils.assert_array_equal(
@@ -277,7 +277,7 @@ def test_guess_bounds_monthly_and_yearly():
 
 class Test_Guess_Bounds_Monthly:
     """Test Guess Bounds Monthly."""
-    def test_monthly_multiple_points_in_month(self):
+    def test_monthly_multiple_points_in_month(self):  # noqa: D102
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         points = units.date2num(
             [
@@ -294,7 +294,7 @@ class Test_Guess_Bounds_Monthly:
         ):
             coord.guess_bounds(monthly=True)
 
-    def test_monthly_non_contiguous(self):
+    def test_monthly_non_contiguous(self):  # noqa: D102
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         expected = units.date2num(
             [
@@ -310,7 +310,7 @@ class Test_Guess_Bounds_Monthly:
         ):
             coord.guess_bounds(monthly=True)
 
-    def test_monthly_end_of_month(self):
+    def test_monthly_end_of_month(self):  # noqa: D102
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         expected = units.date2num(
             [
@@ -332,7 +332,7 @@ class Test_Guess_Bounds_Monthly:
         expected_dates = units.num2date(expected)
         _shared_utils.assert_array_equal(dates, expected_dates)
 
-    def test_monthly_multiple_years(self):
+    def test_monthly_multiple_years(self):  # noqa: D102
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         expected = [
             [datetime(1990, 10, 1), datetime(1990, 11, 1)],
@@ -346,7 +346,7 @@ class Test_Guess_Bounds_Monthly:
         dates = units.num2date(coord.bounds)
         _shared_utils.assert_array_equal(dates, expected)
 
-    def test_monthly_single_point(self):
+    def test_monthly_single_point(self):  # noqa: D102
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         expected = [
             [datetime(1990, 1, 1), datetime(1990, 2, 1)],
@@ -361,7 +361,7 @@ class Test_Guess_Bounds_Monthly:
 
 class Test_Guess_Bounds_Yearly:
     """Test Guess Bounds Yearly."""
-    def test_yearly_multiple_points_in_year(self):
+    def test_yearly_multiple_points_in_year(self):  # noqa: D102
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         points = units.date2num(
             [
@@ -378,7 +378,7 @@ class Test_Guess_Bounds_Yearly:
         ):
             coord.guess_bounds(yearly=True)
 
-    def test_yearly_non_contiguous(self):
+    def test_yearly_non_contiguous(self):  # noqa: D102
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         expected = units.date2num(
             [
@@ -394,7 +394,7 @@ class Test_Guess_Bounds_Yearly:
         ):
             coord.guess_bounds(yearly=True)
 
-    def test_yearly_end_of_year(self):
+    def test_yearly_end_of_year(self):  # noqa: D102
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         expected = units.date2num(
             [
@@ -431,7 +431,7 @@ class Test_cell:
 
         return coord
 
-    def test_time_as_object(self, mocker):
+    def test_time_as_object(self, mocker):  # noqa: D102
         # Ensure Coord.cell() converts the point/bound values to
         # "datetime" objects.
         coord = self._mock_coord(mocker)
@@ -452,13 +452,13 @@ class Test_cell:
             mocker.call((mocker.sentinel.lower, mocker.sentinel.upper)),
         ]
 
-    def test_masked_point(self):
+    def test_masked_point(self):  # noqa: D102
         # A masked point should be preserved as masked in the cell (#5158).
         coord = AuxCoord(ma.masked_array([3.0], mask=[True]))
         cell = coord.cell(0)
         assert cell.point is ma.masked
 
-    def test_masked_bound(self):
+    def test_masked_bound(self):  # noqa: D102
         # A masked bound should be preserved as masked in the cell, rather
         # than revealing the value underneath the mask (#5158).
         coord = AuxCoord(
@@ -471,7 +471,7 @@ class Test_cell:
 
 class Test_collapsed(CoordTestMixin):
     """Test collapsed."""
-    def test_serialize(self):
+    def test_serialize(self):  # noqa: D102
         # Collapse a string AuxCoord, causing it to be serialised.
         string = Pair(
             np.array(["two", "four", "six", "eight"]),
@@ -514,7 +514,7 @@ class Test_collapsed(CoordTestMixin):
                             _serialize(bounds[index_slice]),
                         )
 
-    def test_dim_1d(self):
+    def test_dim_1d(self):  # noqa: D102
         # Numeric coords should not be serialised.
         coord = DimCoord(
             points=np.array([2, 4, 6, 8]),
@@ -532,14 +532,14 @@ class Test_collapsed(CoordTestMixin):
                 [[coord.bounds.min(), coord.bounds.max()]],
             )
 
-    def test_lazy_points(self):
+    def test_lazy_points(self):  # noqa: D102
         # Lazy points should stay lazy after collapse.
         coord = AuxCoord(points=da.from_array(np.arange(5), chunks=5))
         collapsed_coord = coord.collapsed()
         assert collapsed_coord.has_lazy_bounds()
         assert collapsed_coord.has_lazy_points()
 
-    def test_numeric_masked_all(self):
+    def test_numeric_masked_all(self):  # noqa: D102
         coord = AuxCoord(
             points=ma.array(
                 [[1, 2, 4, 5], [4, 5, 7, 8], [7, 8, 10, 11]],
@@ -579,7 +579,7 @@ class Test_collapsed(CoordTestMixin):
         )
         assert collapsed_coord == expected
 
-    def test_numeric_nd(self):
+    def test_numeric_nd(self):  # noqa: D102
         coord = AuxCoord(points=np.array([[1, 2, 4, 5], [4, 5, 7, 8], [7, 8, 10, 11]]))
 
         collapsed_coord = coord.collapsed()
@@ -603,7 +603,7 @@ class Test_collapsed(CoordTestMixin):
             np.array([[1, 7], [2, 8], [4, 10], [5, 11]]),
         )
 
-    def test_numeric_masked(self):
+    def test_numeric_masked(self):  # noqa: D102
         coord = AuxCoord(
             points=ma.array(
                 [[1, 2, 4, 5], [4, 5, 7, 8], [7, 8, 10, 11]],
@@ -639,7 +639,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[7, 7], [2, 2], [4, 4], [11, 11]])
         )
 
-    def test_numeric_nd_bounds_all(self):
+    def test_numeric_nd_bounds_all(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
 
@@ -647,7 +647,7 @@ class Test_collapsed(CoordTestMixin):
         _shared_utils.assert_array_equal(collapsed_coord.points, np.array([55]))
         _shared_utils.assert_array_equal(collapsed_coord.bounds, np.array([[-2, 112]]))
 
-    def test_numeric_no_masked_bounds_all(self):
+    def test_numeric_no_masked_bounds_all(self):  # noqa: D102
         self.setup_test_arrays((3, 4), masked=True)
         coord = AuxCoord(self.no_masked_pts_real, bounds=self.no_masked_bds_real)
 
@@ -655,7 +655,7 @@ class Test_collapsed(CoordTestMixin):
         _shared_utils.assert_array_equal(collapsed_coord.points, np.array([55]))
         _shared_utils.assert_array_equal(collapsed_coord.bounds, np.array([[-2, 112]]))
 
-    def test_numeric_masked_bounds_all(self):
+    def test_numeric_masked_bounds_all(self):  # noqa: D102
         self.setup_test_arrays((3, 4), masked=True)
         coord = AuxCoord(self.masked_pts_real, bounds=self.masked_bds_real)
 
@@ -663,7 +663,7 @@ class Test_collapsed(CoordTestMixin):
         _shared_utils.assert_array_equal(collapsed_coord.points, np.array([75]))
         _shared_utils.assert_array_equal(collapsed_coord.bounds, np.array([[38, 112]]))
 
-    def test_numeric_nd_bounds_second(self):
+    def test_numeric_nd_bounds_second(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         collapsed_coord = coord.collapsed(1)
@@ -672,7 +672,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[-2, 32], [38, 72], [78, 112]])
         )
 
-    def test_numeric_no_masked_bounds_second(self):
+    def test_numeric_no_masked_bounds_second(self):  # noqa: D102
         self.setup_test_arrays((3, 4), masked=True)
         coord = AuxCoord(self.no_masked_pts_real, bounds=self.no_masked_bds_real)
         collapsed_coord = coord.collapsed(dims_to_collapse=1)
@@ -681,7 +681,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[-2, 32], [38, 72], [78, 112]])
         )
 
-    def test_numeric_masked_bounds_second(self):
+    def test_numeric_masked_bounds_second(self):  # noqa: D102
         self.setup_test_arrays((3, 4), masked=True)
         coord = AuxCoord(self.masked_pts_real, bounds=self.masked_bds_real)
         collapsed_coord = coord.collapsed(dims_to_collapse=1)
@@ -696,7 +696,7 @@ class Test_collapsed(CoordTestMixin):
         )
         assert collapsed_coord == expected
 
-    def test_numeric_nd_bounds_first(self):
+    def test_numeric_nd_bounds_first(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         # ... and the other..
@@ -709,7 +709,7 @@ class Test_collapsed(CoordTestMixin):
             np.array([[-2, 82], [8, 92], [18, 102], [28, 112]]),
         )
 
-    def test_numeric_no_masked_bounds_first(self):
+    def test_numeric_no_masked_bounds_first(self):  # noqa: D102
         self.setup_test_arrays((3, 4), masked=True)
         coord = AuxCoord(self.no_masked_pts_real, bounds=self.no_masked_bds_real)
         collapsed_coord = coord.collapsed(dims_to_collapse=0)
@@ -720,7 +720,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[-2, 82], [8, 92], [18, 102], [28, 112]])
         )
 
-    def test_numeric_masked_bounds_first(self):
+    def test_numeric_masked_bounds_first(self):  # noqa: D102
         self.setup_test_arrays((3, 4), masked=True)
         coord = AuxCoord(self.masked_pts_real, bounds=self.masked_bds_real)
         collapsed_coord = coord.collapsed(dims_to_collapse=0)
@@ -731,7 +731,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[38, 82], [48, 92], [58, 102], [68, 112]])
         )
 
-    def test_numeric_nd_bounds_last(self):
+    def test_numeric_nd_bounds_last(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         # ... and again with -ve dimension specification.
@@ -741,7 +741,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[-2, 32], [38, 72], [78, 112]])
         )
 
-    def test_numeric_no_masked_bounds_last(self):
+    def test_numeric_no_masked_bounds_last(self):  # noqa: D102
         self.setup_test_arrays((3, 4), masked=True)
         coord = AuxCoord(self.no_masked_pts_real, bounds=self.no_masked_bds_real)
         collapsed_coord = coord.collapsed(dims_to_collapse=-1)
@@ -750,7 +750,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[-2, 32], [38, 72], [78, 112]])
         )
 
-    def test_numeric_masked_bounds_last(self):
+    def test_numeric_masked_bounds_last(self):  # noqa: D102
         self.setup_test_arrays((3, 4), masked=True)
         coord = AuxCoord(self.masked_pts_real, bounds=self.masked_bds_real)
         collapsed_coord = coord.collapsed(dims_to_collapse=-1)
@@ -765,7 +765,7 @@ class Test_collapsed(CoordTestMixin):
         )
         assert collapsed_coord == expected
 
-    def test_lazy_nd_bounds_all(self):
+    def test_lazy_nd_bounds_all(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
 
@@ -779,7 +779,7 @@ class Test_collapsed(CoordTestMixin):
         _shared_utils.assert_array_equal(collapsed_coord.points, np.array([55]))
         _shared_utils.assert_array_equal(collapsed_coord.bounds, da.array([[-2, 112]]))
 
-    def test_lazy_nd_bounds_second(self):
+    def test_lazy_nd_bounds_second(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
 
@@ -789,7 +789,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[-2, 32], [38, 72], [78, 112]])
         )
 
-    def test_lazy_nd_bounds_first(self):
+    def test_lazy_nd_bounds_first(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
 
@@ -802,7 +802,7 @@ class Test_collapsed(CoordTestMixin):
             np.array([[-2, 82], [8, 92], [18, 102], [28, 112]]),
         )
 
-    def test_lazy_nd_bounds_last(self):
+    def test_lazy_nd_bounds_last(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
 
@@ -812,7 +812,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[-2, 32], [38, 72], [78, 112]])
         )
 
-    def test_lazy_nd_points_and_bounds(self):
+    def test_lazy_nd_points_and_bounds(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_lazy, bounds=self.bds_lazy)
 
@@ -824,7 +824,7 @@ class Test_collapsed(CoordTestMixin):
         _shared_utils.assert_array_equal(collapsed_coord.points, da.array([55]))
         _shared_utils.assert_array_equal(collapsed_coord.bounds, da.array([[-2, 112]]))
 
-    def test_numeric_nd_multidim_bounds_warning(self):
+    def test_numeric_nd_multidim_bounds_warning(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real, bounds=self.bds_real, long_name="y")
 
@@ -835,7 +835,7 @@ class Test_collapsed(CoordTestMixin):
         with pytest.warns(IrisVagueMetadataWarning, match=msg):
             coord.collapsed()
 
-    def test_lazy_nd_multidim_bounds_warning(self):
+    def test_lazy_nd_multidim_bounds_warning(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_lazy, bounds=self.bds_lazy, long_name="y")
 
@@ -846,7 +846,7 @@ class Test_collapsed(CoordTestMixin):
         with pytest.warns(IrisVagueMetadataWarning, match=msg):
             coord.collapsed()
 
-    def test_numeric_nd_noncontiguous_bounds_warning(self):
+    def test_numeric_nd_noncontiguous_bounds_warning(self):  # noqa: D102
         self.setup_test_arrays((3))
         coord = AuxCoord(self.pts_real, bounds=self.bds_real, long_name="y")
 
@@ -857,7 +857,7 @@ class Test_collapsed(CoordTestMixin):
         with pytest.warns(IrisVagueMetadataWarning, match=msg):
             coord.collapsed()
 
-    def test_lazy_nd_noncontiguous_bounds_warning(self):
+    def test_lazy_nd_noncontiguous_bounds_warning(self):  # noqa: D102
         self.setup_test_arrays((3))
         coord = AuxCoord(self.pts_lazy, bounds=self.bds_lazy, long_name="y")
 
@@ -868,7 +868,7 @@ class Test_collapsed(CoordTestMixin):
         with pytest.warns(IrisVagueMetadataWarning, match=msg):
             coord.collapsed()
 
-    def test_numeric_3_bounds(self):
+    def test_numeric_3_bounds(self):  # noqa: D102
         points = np.array([2.0, 6.0, 4.0])
         bounds = np.array([[1.0, 0.0, 3.0], [5.0, 4.0, 7.0], [3.0, 2.0, 5.0]])
 
@@ -891,7 +891,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, np.array([[2.0, 6.0]])
         )
 
-    def test_lazy_3_bounds(self):
+    def test_lazy_3_bounds(self):  # noqa: D102
         points = da.arange(3) * 2.0
         bounds = da.arange(3 * 3).reshape(3, 3)
 
@@ -914,7 +914,7 @@ class Test_collapsed(CoordTestMixin):
             collapsed_coord.bounds, da.array([[0.0, 4.0]])
         )
 
-    def test_string_masked(self):
+    def test_string_masked(self):  # noqa: D102
         points = ma.array(["foo", "bar", "bing"], mask=[0, 1, 0], dtype=str)
         coord = AuxCoord(points)
 
@@ -923,7 +923,7 @@ class Test_collapsed(CoordTestMixin):
         expected = "foo|--|bing"
         assert collapsed_coord.points == expected
 
-    def test_string_nd_first(self):
+    def test_string_nd_first(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real.astype(str))
 
@@ -937,7 +937,7 @@ class Test_collapsed(CoordTestMixin):
 
         _shared_utils.assert_array_equal(collapsed_coord.points, expected)
 
-    def test_string_nd_second(self):
+    def test_string_nd_second(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real.astype(str))
 
@@ -950,7 +950,7 @@ class Test_collapsed(CoordTestMixin):
 
         _shared_utils.assert_array_equal(collapsed_coord.points, expected)
 
-    def test_string_nd_both(self):
+    def test_string_nd_both(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real.astype(str))
 
@@ -959,7 +959,7 @@ class Test_collapsed(CoordTestMixin):
 
         _shared_utils.assert_array_equal(collapsed_coord.points, expected)
 
-    def test_string_nd_bounds_first(self):
+    def test_string_nd_bounds_first(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real.astype(str), bounds=self.bds_real.astype(str))
 
@@ -983,7 +983,7 @@ class Test_collapsed(CoordTestMixin):
         _shared_utils.assert_array_equal(collapsed_coord.bounds[:, 0], expected_lower)
         _shared_utils.assert_array_equal(collapsed_coord.bounds[:, 1], expected_upper)
 
-    def test_string_nd_bounds_second(self):
+    def test_string_nd_bounds_second(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real.astype(str), bounds=self.bds_real.astype(str))
 
@@ -1005,7 +1005,7 @@ class Test_collapsed(CoordTestMixin):
         _shared_utils.assert_array_equal(collapsed_coord.bounds[:, 0], expected_lower)
         _shared_utils.assert_array_equal(collapsed_coord.bounds[:, 1], expected_upper)
 
-    def test_string_nd_bounds_both(self):
+    def test_string_nd_bounds_both(self):  # noqa: D102
         self.setup_test_arrays((3, 4))
         coord = AuxCoord(self.pts_real.astype(str), bounds=self.bds_real.astype(str))
 
@@ -1028,24 +1028,24 @@ class Test_is_compatible:
         self.test_coord = AuxCoord([1.0])
         self.other_coord = self.test_coord.copy()
 
-    def test_noncommon_array_attrs_compatible(self):
+    def test_noncommon_array_attrs_compatible(self):  # noqa: D102
         # Non-common array attributes should be ok.
         self.test_coord.attributes["array_test"] = np.array([1.0, 2, 3])
         assert self.test_coord.is_compatible(self.other_coord)
 
-    def test_matching_array_attrs_compatible(self):
+    def test_matching_array_attrs_compatible(self):  # noqa: D102
         # Matching array attributes should be ok.
         self.test_coord.attributes["array_test"] = np.array([1.0, 2, 3])
         self.other_coord.attributes["array_test"] = np.array([1.0, 2, 3])
         assert self.test_coord.is_compatible(self.other_coord)
 
-    def test_different_array_attrs_incompatible(self):
+    def test_different_array_attrs_incompatible(self):  # noqa: D102
         # Differing array attributes should make coords incompatible.
         self.test_coord.attributes["array_test"] = np.array([1.0, 2, 3])
         self.other_coord.attributes["array_test"] = np.array([1.0, 2, 777.7])
         assert not self.test_coord.is_compatible(self.other_coord)
 
-    def test_misshaped_array_attrs_incompatible(self):
+    def test_misshaped_array_attrs_incompatible(self):  # noqa: D102
         # Comparison should avoid broadcast failures and return False.
         self.test_coord.attributes["array_test"] = np.array([1.0, 2, 3])
         self.other_coord.attributes["array_test"] = np.array([1.0, 2])
@@ -1054,25 +1054,25 @@ class Test_is_compatible:
 
 class Test_contiguous_bounds:
     """Test contiguous bounds."""
-    def test_1d_coord_no_bounds_warning(self):
+    def test_1d_coord_no_bounds_warning(self):  # noqa: D102
         coord = DimCoord([0, 1, 2], standard_name="latitude")
         msg = "Coordinate 'latitude' is not bounded, guessing contiguous bounds."
         with pytest.warns(match=msg):
             coord.contiguous_bounds()
 
-    def test_2d_coord_no_bounds_error(self):
+    def test_2d_coord_no_bounds_error(self):  # noqa: D102
         coord = AuxCoord(np.array([[0, 0], [5, 5]]), standard_name="latitude")
         emsg = "Guessing bounds of 2D coords is not supported"
         with pytest.raises(ValueError, match=emsg):
             coord.contiguous_bounds()
 
-    def test__sanity_check_bounds_call(self, mocker):
+    def test__sanity_check_bounds_call(self, mocker):  # noqa: D102
         coord = DimCoord([5, 15, 25], bounds=[[0, 10], [10, 20], [20, 30]])
         bounds_check = mocker.patch("iris.coords.Coord._sanity_check_bounds")
         coord.contiguous_bounds()
         bounds_check.assert_called_once()
 
-    def test_1d_coord(self):
+    def test_1d_coord(self):  # noqa: D102
         coord = DimCoord(
             [2, 4, 6],
             standard_name="latitude",
@@ -1082,7 +1082,7 @@ class Test_contiguous_bounds:
         result = coord.contiguous_bounds()
         _shared_utils.assert_array_equal(result, expected)
 
-    def test_1d_coord_discontiguous(self):
+    def test_1d_coord_discontiguous(self):  # noqa: D102
         coord = DimCoord(
             [2, 4, 6],
             standard_name="latitude",
@@ -1092,7 +1092,7 @@ class Test_contiguous_bounds:
         result = coord.contiguous_bounds()
         _shared_utils.assert_array_equal(result, expected)
 
-    def test_2d_lon_bounds(self):
+    def test_2d_lon_bounds(self):  # noqa: D102
         coord = AuxCoord(
             np.array([[1, 3], [1, 3]]),
             bounds=np.array(
@@ -1103,7 +1103,7 @@ class Test_contiguous_bounds:
         result = coord.contiguous_bounds()
         _shared_utils.assert_array_equal(result, expected)
 
-    def test_2d_lat_bounds(self):
+    def test_2d_lat_bounds(self):  # noqa: D102
         coord = AuxCoord(
             np.array([[1, 1], [3, 3]]),
             bounds=np.array(
@@ -1117,12 +1117,12 @@ class Test_contiguous_bounds:
 
 class Test_is_contiguous:
     """Test is contiguous."""
-    def test_no_bounds(self):
+    def test_no_bounds(self):  # noqa: D102
         coord = DimCoord([1, 3])
         result = coord.is_contiguous()
         assert not result
 
-    def test__discontiguity_in_bounds_call(self, mocker):
+    def test__discontiguity_in_bounds_call(self, mocker):  # noqa: D102
         # Check that :meth:`iris.coords.Coord._discontiguity_in_bounds` is
         # called.
         coord = DimCoord([1, 3], bounds=[[0, 2], [2, 4]])
@@ -1155,26 +1155,26 @@ class Test__discontiguity_in_bounds:
             ]
         )
 
-    def test_1d_contiguous(self):
+    def test_1d_contiguous(self):  # noqa: D102
         coord = DimCoord([-20, 0, 20], bounds=[[-30, -10], [-10, 10], [10, 30]])
         contiguous, diffs = coord._discontiguity_in_bounds()
         assert contiguous
         _shared_utils.assert_array_equal(diffs, np.zeros(2))
 
-    def test_1d_discontiguous(self):
+    def test_1d_discontiguous(self):  # noqa: D102
         coord = DimCoord([10, 20, 40], bounds=[[5, 15], [15, 25], [35, 45]])
         contiguous, diffs = coord._discontiguity_in_bounds()
         assert not contiguous
         _shared_utils.assert_array_equal(diffs, np.array([False, True]))
 
-    def test_1d_one_cell(self):
+    def test_1d_one_cell(self):  # noqa: D102
         # Test a 1D coord with a single cell.
         coord = DimCoord(20, bounds=[[10, 30]])
         contiguous, diffs = coord._discontiguity_in_bounds()
         assert contiguous
         _shared_utils.assert_array_equal(diffs, np.array([]))
 
-    def test_2d_contiguous_both_dirs(self):
+    def test_2d_contiguous_both_dirs(self):  # noqa: D102
         coord = AuxCoord(self.points_3by3, bounds=self.lon_bounds_3by3)
         contiguous, diffs = coord._discontiguity_in_bounds()
         diffs_along_x, diffs_along_y = diffs
@@ -1182,7 +1182,7 @@ class Test__discontiguity_in_bounds:
         assert not diffs_along_x.any()
         assert not diffs_along_y.any()
 
-    def test_2d_discontiguous_along_x(self):
+    def test_2d_discontiguous_along_x(self):  # noqa: D102
         coord = AuxCoord(
             self.points_3by3[:, ::2], bounds=self.lon_bounds_3by3[:, ::2, :]
         )
@@ -1194,7 +1194,7 @@ class Test__discontiguity_in_bounds:
         )
         assert not diffs_along_y.any()
 
-    def test_2d_discontiguous_along_y(self):
+    def test_2d_discontiguous_along_y(self):  # noqa: D102
         coord = AuxCoord(
             self.points_3by3[::2, :], bounds=self.lat_bounds_3by3[::2, :, :]
         )
@@ -1204,7 +1204,7 @@ class Test__discontiguity_in_bounds:
         assert not diffs_along_x.any()
         _shared_utils.assert_array_equal(diffs_along_y, np.array([[True, True, True]]))
 
-    def test_2d_discontiguous_along_x_and_y(self):
+    def test_2d_discontiguous_along_x_and_y(self):  # noqa: D102
         coord = AuxCoord(
             np.array([[1, 5], [3, 5]]),
             bounds=np.array(
@@ -1219,7 +1219,7 @@ class Test__discontiguity_in_bounds:
         _shared_utils.assert_array_equal(diffs_along_x, exp_x_diffs)
         _shared_utils.assert_array_equal(diffs_along_y, exp_y_diffs)
 
-    def test_2d_contiguous_along_x_atol(self):
+    def test_2d_contiguous_along_x_atol(self):  # noqa: D102
         coord = AuxCoord(
             self.points_3by3[:, ::2], bounds=self.lon_bounds_3by3[:, ::2, :]
         )
@@ -1232,7 +1232,7 @@ class Test__discontiguity_in_bounds:
         )
         assert not diffs_along_y.any()
 
-    def test_2d_one_cell(self):
+    def test_2d_one_cell(self):  # noqa: D102
         # Test a 2D coord with a single cell, where the coord has shape (1, 1).
         coord = AuxCoord(
             self.points_3by3[:1, :1], bounds=self.lon_bounds_3by3[:1, :1, :]
@@ -1244,7 +1244,7 @@ class Test__discontiguity_in_bounds:
         _shared_utils.assert_array_equal(diffs_along_x, expected_diffs.reshape(1, 0))
         _shared_utils.assert_array_equal(diffs_along_y, expected_diffs.reshape(0, 1))
 
-    def test_2d_one_cell_along_x(self):
+    def test_2d_one_cell_along_x(self):  # noqa: D102
         # Test a 2D coord with a single cell along the x axis, where the coord
         # has shape (2, 1).
         coord = AuxCoord(self.points_3by3[:, :1], bounds=self.lat_bounds_3by3[:, :1, :])
@@ -1254,7 +1254,7 @@ class Test__discontiguity_in_bounds:
         assert not diffs_along_x.any()
         _shared_utils.assert_array_equal(diffs_along_y, np.array([0, 0]).reshape(2, 1))
 
-    def test_2d_one_cell_along_y(self):
+    def test_2d_one_cell_along_y(self):  # noqa: D102
         # Test a 2D coord with a single cell along the y axis, where the coord
         # has shape (1, 2).
         coord = AuxCoord(self.points_3by3[:1, :], bounds=self.lon_bounds_3by3[:1, :, :])
@@ -1264,7 +1264,7 @@ class Test__discontiguity_in_bounds:
         assert not diffs_along_x.any()
         assert not diffs_along_y.any()
 
-    def test_2d_contiguous_mod_360(self):
+    def test_2d_contiguous_mod_360(self):  # noqa: D102
         # Test that longitude coordinates are adjusted by the 360 modulus when
         # calculating the discontiguities in contiguous bounds.
         coord = AuxCoord(
@@ -1283,7 +1283,7 @@ class Test__discontiguity_in_bounds:
         assert not diffs_along_x.any()
         assert not diffs_along_y.any()
 
-    def test_2d_discontiguous_mod_360(self):
+    def test_2d_discontiguous_mod_360(self):  # noqa: D102
         # Test that longitude coordinates are adjusted by the 360 modulus when
         # calculating the discontiguities in contiguous bounds.
         coord = AuxCoord(
@@ -1302,7 +1302,7 @@ class Test__discontiguity_in_bounds:
         _shared_utils.assert_array_equal(diffs_along_x, np.array([[True], [True]]))
         assert not diffs_along_y.any()
 
-    def test_2d_contiguous_mod_360_not_longitude(self):
+    def test_2d_contiguous_mod_360_not_longitude(self):  # noqa: D102
         # Test that non-longitude coordinates are not adjusted by the 360
         # modulus when calculating the discontiguities in contiguous bounds.
         coord = AuxCoord(
@@ -1321,7 +1321,7 @@ class Test__discontiguity_in_bounds:
         assert not diffs_along_x.any()
         assert not diffs_along_y.any()
 
-    def test_2d_discontiguous_mod_360_not_longitude(self):
+    def test_2d_discontiguous_mod_360_not_longitude(self):  # noqa: D102
         # Test that non-longitude coordinates are not adjusted by the 360
         # modulus when calculating the discontiguities in discontiguous bounds.
         coord = AuxCoord(
@@ -1343,20 +1343,20 @@ class Test__discontiguity_in_bounds:
 
 class Test__sanity_check_bounds:
     """Test  sanity check bounds."""
-    def test_coord_1d_2_bounds(self):
+    def test_coord_1d_2_bounds(self):  # noqa: D102
         # Check that a 1d coord with 2 bounds does not raise an error.
         coord = iris.coords.DimCoord(
             [0, 1], standard_name="latitude", bounds=[[0, 1], [1, 2]]
         )
         coord._sanity_check_bounds()
 
-    def test_coord_1d_no_bounds(self):
+    def test_coord_1d_no_bounds(self):  # noqa: D102
         coord = iris.coords.DimCoord([0, 1], standard_name="latitude")
         emsg = "Contiguous bounds are only defined for 1D coordinates with 2 bounds."
         with pytest.raises(ValueError, match=emsg):
             coord._sanity_check_bounds()
 
-    def test_coord_1d_1_bounds(self):
+    def test_coord_1d_1_bounds(self):  # noqa: D102
         coord = iris.coords.DimCoord(
             [0, 1], standard_name="latitude", bounds=np.array([[0], [1]])
         )
@@ -1364,7 +1364,7 @@ class Test__sanity_check_bounds:
         with pytest.raises(ValueError, match=emsg):
             coord._sanity_check_bounds()
 
-    def test_coord_2d_4_bounds(self):
+    def test_coord_2d_4_bounds(self):  # noqa: D102
         coord = iris.coords.AuxCoord(
             [[0, 0], [1, 1]],
             standard_name="latitude",
@@ -1374,13 +1374,13 @@ class Test__sanity_check_bounds:
         )
         coord._sanity_check_bounds()
 
-    def test_coord_2d_no_bounds(self):
+    def test_coord_2d_no_bounds(self):  # noqa: D102
         coord = iris.coords.AuxCoord([[0, 0], [1, 1]], standard_name="latitude")
         emsg = "Contiguous bounds are only defined for 2D coordinates with 4 bounds."
         with pytest.raises(ValueError, match=emsg):
             coord._sanity_check_bounds()
 
-    def test_coord_2d_2_bounds(self):
+    def test_coord_2d_2_bounds(self):  # noqa: D102
         coord = iris.coords.AuxCoord(
             [[0, 0], [1, 1]],
             standard_name="latitude",
@@ -1390,7 +1390,7 @@ class Test__sanity_check_bounds:
         with pytest.raises(ValueError, match=emsg):
             coord._sanity_check_bounds()
 
-    def test_coord_3d(self):
+    def test_coord_3d(self):  # noqa: D102
         coord = iris.coords.AuxCoord(np.zeros((2, 2, 2)), standard_name="height")
         emsg = (
             "Contiguous bounds are not defined for coordinates with more "
@@ -1402,7 +1402,7 @@ class Test__sanity_check_bounds:
 
 class Test_convert_units:
     """Test convert units."""
-    def test_convert_unknown_units(self):
+    def test_convert_unknown_units(self):  # noqa: D102
         coord = iris.coords.AuxCoord(1, units="unknown")
         emsg = (
             "Cannot convert from unknown units. "
@@ -1420,7 +1420,7 @@ class Test_convert_units:
             "actual_range",
         ],
     )
-    def test_convert_attributes(self, attribute):
+    def test_convert_attributes(self, attribute):  # noqa: D102
         coord = iris.coords.AuxCoord(1, units="m")
         value = np.array([0, 10]) if attribute.endswith("range") else 0
         coord.attributes[attribute] = value
@@ -1433,7 +1433,7 @@ class Test_convert_units:
 
 class Test___str__:
     """Test   str  ."""
-    def test_short_time_interval(self):
+    def test_short_time_interval(self):  # noqa: D102
         coord = DimCoord([5], standard_name="time", units="days since 1970-01-01")
         expected = "\n".join(
             [
@@ -1447,7 +1447,7 @@ class Test___str__:
         result = coord.__str__()
         assert expected == result
 
-    def test_short_time_interval__bounded(self):
+    def test_short_time_interval__bounded(self):  # noqa: D102
         coord = DimCoord([5, 6], standard_name="time", units="days since 1970-01-01")
         coord.guess_bounds()
         expected = "\n".join(
@@ -1465,7 +1465,7 @@ class Test___str__:
         result = coord.__str__()
         assert expected == result
 
-    def test_long_time_interval(self):
+    def test_long_time_interval(self):  # noqa: D102
         coord = DimCoord([5], standard_name="time", units="years since 1970-01-01")
         expected = "\n".join(
             [
@@ -1479,7 +1479,7 @@ class Test___str__:
         result = coord.__str__()
         assert expected == result
 
-    def test_long_time_interval__bounded(self):
+    def test_long_time_interval__bounded(self):  # noqa: D102
         coord = DimCoord([5, 6], standard_name="time", units="years since 1970-01-01")
         coord.guess_bounds()
         expected = "\n".join(
@@ -1497,7 +1497,7 @@ class Test___str__:
         result = coord.__str__()
         assert expected == result
 
-    def test_empty_time_coord(self):
+    def test_empty_time_coord(self):  # noqa: D102
         # A length-0 time coordinate (an as-yet-unfilled unlimited dimension)
         # should print rather than raising (#6531).
         coord = DimCoord([], standard_name="time", units="days since 1970-01-01")
@@ -1513,7 +1513,7 @@ class Test___str__:
         result = coord.__str__()
         assert expected == result
 
-    def test_empty_string_coord(self):
+    def test_empty_string_coord(self):  # noqa: D102
         # A length-0 string coordinate also exercises the empty-array path.
         coord = AuxCoord(np.array([], dtype="<U1"), long_name="label")
         expected = "\n".join(
@@ -1528,7 +1528,7 @@ class Test___str__:
         result = coord.__str__()
         assert expected == result
 
-    def test_non_time_unit(self):
+    def test_non_time_unit(self):  # noqa: D102
         coord = DimCoord([1.0])
         expected = "\n".join(
             [
@@ -1548,7 +1548,7 @@ class TestClimatology:
     # Only using AuxCoord since there is no different behaviour between Aux
     # and DimCoords for this property.
 
-    def test_create(self):
+    def test_create(self):  # noqa: D102
         coord = AuxCoord(
             points=[0, 1],
             bounds=[[0, 1], [1, 2]],
@@ -1557,7 +1557,7 @@ class TestClimatology:
         )
         assert coord.climatological
 
-    def test_create_no_bounds_no_set(self):
+    def test_create_no_bounds_no_set(self):  # noqa: D102
         with pytest.raises(ValueError, match="Cannot set.*no bounds exist"):
             AuxCoord(
                 points=[0, 1],
@@ -1565,32 +1565,32 @@ class TestClimatology:
                 climatological=True,
             )
 
-    def test_create_no_time_no_set(self):
+    def test_create_no_time_no_set(self):  # noqa: D102
         emsg = "Cannot set climatological .* valid time reference units.*"
         with pytest.raises(TypeError, match=emsg):
             AuxCoord(points=[0, 1], bounds=[[0, 1], [1, 2]], climatological=True)
 
-    def test_absent(self):
+    def test_absent(self):  # noqa: D102
         coord = AuxCoord(points=[0, 1], bounds=[[0, 1], [1, 2]])
         assert not coord.climatological
 
-    def test_absent_no_bounds_no_set(self):
+    def test_absent_no_bounds_no_set(self):  # noqa: D102
         coord = AuxCoord(points=[0, 1], units="days since 1970-01-01")
         with pytest.raises(ValueError, match="Cannot set.*no bounds exist"):
             coord.climatological = True
 
-    def test_absent_no_time_no_set(self):
+    def test_absent_no_time_no_set(self):  # noqa: D102
         coord = AuxCoord(points=[0, 1], bounds=[[0, 1], [1, 2]])
         emsg = "Cannot set climatological .* valid time reference units.*"
         with pytest.raises(TypeError, match=emsg):
             coord.climatological = True
 
-    def test_absent_no_bounds_unset(self):
+    def test_absent_no_bounds_unset(self):  # noqa: D102
         coord = AuxCoord(points=[0, 1])
         coord.climatological = False
         assert not coord.climatological
 
-    def test_bounds_set(self):
+    def test_bounds_set(self):  # noqa: D102
         coord = AuxCoord(
             points=[0, 1],
             bounds=[[0, 1], [1, 2]],
@@ -1599,7 +1599,7 @@ class TestClimatology:
         coord.climatological = True
         assert coord.climatological
 
-    def test_bounds_unset(self):
+    def test_bounds_unset(self):  # noqa: D102
         coord = AuxCoord(
             points=[0, 1],
             bounds=[[0, 1], [1, 2]],
@@ -1609,7 +1609,7 @@ class TestClimatology:
         coord.climatological = False
         assert not coord.climatological
 
-    def test_remove_bounds(self):
+    def test_remove_bounds(self):  # noqa: D102
         coord = AuxCoord(
             points=[0, 1],
             bounds=[[0, 1], [1, 2]],
@@ -1619,7 +1619,7 @@ class TestClimatology:
         coord.bounds = None
         assert not coord.climatological
 
-    def test_change_units(self):
+    def test_change_units(self):  # noqa: D102
         coord = AuxCoord(
             points=[0, 1],
             bounds=[[0, 1], [1, 2]],
@@ -1633,14 +1633,14 @@ class TestClimatology:
 
 class TestIgnoreAxis:
     """Test gnoreAxis."""
-    def test_default(self, sample_coord):
+    def test_default(self, sample_coord):  # noqa: D102
         assert sample_coord.ignore_axis is False
 
-    def test_set_true(self, sample_coord):
+    def test_set_true(self, sample_coord):  # noqa: D102
         sample_coord.ignore_axis = True
         assert sample_coord.ignore_axis is True
 
-    def test_set_random_value(self, sample_coord):
+    def test_set_random_value(self, sample_coord):  # noqa: D102
         with pytest.raises(
             ValueError,
             match=r"'ignore_axis' can only be set to 'True' or 'False'",
@@ -1656,7 +1656,7 @@ class TestIgnoreAxis:
             (False, "from_coord", False),
         ],
     )
-    def test_copy_coord(self, ignore_axis, copy_or_from, result, sample_coord):
+    def test_copy_coord(self, ignore_axis, copy_or_from, result, sample_coord):  # noqa: D102
         sample_coord.ignore_axis = ignore_axis
         if copy_or_from == "copy":
             new_coord = sample_coord.copy()
@@ -1667,7 +1667,7 @@ class TestIgnoreAxis:
 
 class Test___init____abstractmethod:
     """Test   init    abstractmethod."""
-    def test_abstract(self):
+    def test_abstract(self):  # noqa: D102
         emsg = "Can't instantiate abstract class Coord"
         with pytest.raises(TypeError, match=emsg):
             _ = Coord(points=[0, 1])
@@ -1675,7 +1675,7 @@ class Test___init____abstractmethod:
 
 class Test_cube_dims:
     """Test cube dims."""
-    def test_cube_dims(self, mocker):
+    def test_cube_dims(self, mocker):  # noqa: D102
         # Check that "coord.cube_dims(cube)" calls "cube.coord_dims(coord)".
         mock_dims_result = mocker.sentinel.COORD_DIMS
         mock_dims_call = mocker.Mock(return_value=mock_dims_result)

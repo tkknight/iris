@@ -18,15 +18,15 @@ if _shared_utils.MPL_AVAILABLE:
 @_shared_utils.skip_plot
 class TestStringCoordPlot(TestGraphicStringCoord):
     """Test tringCoordPlot."""
-    def test_yaxis_labels(self):
+    def test_yaxis_labels(self):  # noqa: D102
         iplt.points(self.cube, coords=("bar", "str_coord"))
         self.assert_bounds_tick_labels("yaxis")
 
-    def test_xaxis_labels(self):
+    def test_xaxis_labels(self):  # noqa: D102
         iplt.points(self.cube, coords=("str_coord", "bar"))
         self.assert_bounds_tick_labels("xaxis")
 
-    def test_xaxis_labels_with_axes(self):
+    def test_xaxis_labels_with_axes(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -36,7 +36,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         plt.close(fig)
         self.assert_points_tick_labels("xaxis", ax)
 
-    def test_yaxis_labels_with_axes(self):
+    def test_yaxis_labels_with_axes(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -46,7 +46,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         plt.close(fig)
         self.assert_points_tick_labels("yaxis", ax)
 
-    def test_geoaxes_exception(self):
+    def test_geoaxes_exception(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()

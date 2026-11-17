@@ -29,7 +29,7 @@ import iris.tests.stock as stock
 
 class TestConcreteReferenceTarget:
     """Test oncreteReferenceTarget."""
-    def test_attributes(self):
+    def test_attributes(self):  # noqa: D102
         with pytest.raises(TypeError):
             target = ConcreteReferenceTarget()
 
@@ -44,13 +44,13 @@ class TestConcreteReferenceTarget:
         assert target.name == "foo"
         assert target.transform is transform
 
-    def test_single_cube_no_transform(self):
+    def test_single_cube_no_transform(self):  # noqa: D102
         target = ConcreteReferenceTarget("foo")
         src = stock.simple_2d()
         target.add_cube(src)
         assert target.as_cube() is src
 
-    def test_single_cube_with_transform(self):
+    def test_single_cube_with_transform(self):  # noqa: D102
         def transform(cube):
             return {"long_name": "wibble"}
 
@@ -64,7 +64,7 @@ class TestConcreteReferenceTarget:
         assert dest == src
 
     @skip_data
-    def test_multiple_cubes_no_transform(self):
+    def test_multiple_cubes_no_transform(self):  # noqa: D102
         target = ConcreteReferenceTarget("foo")
         src = stock.realistic_4d()
         for i in range(src.shape[0]):
@@ -74,7 +74,7 @@ class TestConcreteReferenceTarget:
         assert dest == src
 
     @skip_data
-    def test_multiple_cubes_with_transform(self):
+    def test_multiple_cubes_with_transform(self):  # noqa: D102
         def transform(cube):
             return {"long_name": "wibble"}
 
@@ -91,7 +91,7 @@ class TestConcreteReferenceTarget:
 
 class TestLoadCubes:
     """Test oadCubes."""
-    def test_simple_factory(self):
+    def test_simple_factory(self):  # noqa: D102
         # Test the creation process for a factory definition which only
         # uses simple dict arguments.
 
@@ -148,7 +148,7 @@ class TestLoadCubes:
         assert aux_factory.fake_args == ({"name": "foo"},)
 
     @skip_data
-    def test_cross_reference(self):
+    def test_cross_reference(self):  # noqa: D102
         # Test the creation process for a factory definition which uses
         # a cross-reference.
 
@@ -231,24 +231,24 @@ class TestLoadCubes:
 class Test_scalar_cell_method:
     """Tests for iris.fileformats.rules.scalar_cell_method() function."""
 
-    def setup_method(self):
+    def setup_method(self):  # noqa: D102
         self.cube = stock.simple_2d()
         self.cm = CellMethod("mean", "foo", "1 hour")
         self.cube.cell_methods = (self.cm,)
 
-    def test_cell_method_found(self):
+    def test_cell_method_found(self):  # noqa: D102
         actual = scalar_cell_method(self.cube, "mean", "foo")
         assert actual == self.cm
 
-    def test_method_different(self):
+    def test_method_different(self):  # noqa: D102
         actual = scalar_cell_method(self.cube, "average", "foo")
         assert actual is None
 
-    def test_coord_name_different(self):
+    def test_coord_name_different(self):  # noqa: D102
         actual = scalar_cell_method(self.cube, "average", "bar")
         assert actual is None
 
-    def test_double_coord_fails(self):
+    def test_double_coord_fails(self):  # noqa: D102
         self.cube.cell_methods = (
             CellMethod("mean", ("foo", "bar"), ("1 hour", "1 hour")),
         )

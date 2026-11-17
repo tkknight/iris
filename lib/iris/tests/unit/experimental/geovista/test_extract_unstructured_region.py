@@ -19,19 +19,19 @@ VTK_POINT_IDS = "vtkOriginalPointIds"
 class TestRegionExtraction:
     """Test egionExtraction."""
     @pytest.fixture
-    def cube_2d(self):
+    def cube_2d(self):  # noqa: D102
         return sample_2d_latlons()
 
     @pytest.fixture(params=["face", "node"], autouse=True)
-    def cube_mesh(self, request):
+    def cube_mesh(self, request):  # noqa: D102
         self.cube_mesh = sample_mesh_cube(location=request.param, n_z=10)
 
     @pytest.fixture
-    def cube_mesh_edge(self):
+    def cube_mesh_edge(self):  # noqa: D102
         return sample_mesh_cube(location="edge")
 
     @pytest.fixture(autouse=True)
-    def mocked_polydata(self, mocker):
+    def mocked_polydata(self, mocker):  # noqa: D102
         mock_polydata_scalars = {
             VTK_CELL_IDS: np.arange(2),
             VTK_POINT_IDS: np.arange(14),
@@ -43,18 +43,18 @@ class TestRegionExtraction:
         self.mocked_polydata = polydata
 
     @pytest.fixture(autouse=True)
-    def mocked_region(self, mocker):
+    def mocked_region(self, mocker):  # noqa: D102
         region = mocker.Mock()
         region.enclosed.return_value = self.mocked_polydata
         self.mocked_region = region
 
-    def test_called_with(self):
+    def test_called_with(self):  # noqa: D102
         extract_unstructured_region(
             self.cube_mesh, self.mocked_polydata, self.mocked_region
         )
         self.mocked_region.enclosed.assert_called_with(self.mocked_polydata)
 
-    def test_kwarg(self):
+    def test_kwarg(self):  # noqa: D102
         extract_unstructured_region(
             self.cube_mesh,
             self.mocked_polydata,
@@ -67,7 +67,7 @@ class TestRegionExtraction:
     @pytest.mark.parametrize(
         "transpose_cube", [True, False], ids=["Transposed", "Not Transposed"]
     )
-    def test_indices(self, transpose_cube):
+    def test_indices(self, transpose_cube):  # noqa: D102
         if transpose_cube:
             self.cube_mesh.transpose()
         extracted_region = extract_unstructured_region(
@@ -81,7 +81,7 @@ class TestRegionExtraction:
         mesh_dim = self.cube_mesh.mesh_dim()
         assert extracted_region.shape[mesh_dim] == expected_length
 
-    def test_empty_indices(self):
+    def test_empty_indices(self):  # noqa: D102
         mock_polydata_scalars = {
             VTK_CELL_IDS: np.arange(0),
             VTK_POINT_IDS: np.arange(0),
@@ -94,7 +94,7 @@ class TestRegionExtraction:
                 self.cube_mesh, self.mocked_polydata, self.mocked_region
             )
 
-    def test_recreate_mesh(self):
+    def test_recreate_mesh(self):  # noqa: D102
         extracted_region = extract_unstructured_region(
             self.cube_mesh, self.mocked_polydata, self.mocked_region
         )
@@ -103,7 +103,7 @@ class TestRegionExtraction:
         else:
             assert extracted_region.mesh is None
 
-    def test_new_mesh_coords(self):
+    def test_new_mesh_coords(self):  # noqa: D102
         extracted_region = extract_unstructured_region(
             self.cube_mesh, self.mocked_polydata, self.mocked_region
         )
@@ -120,12 +120,12 @@ class TestRegionExtraction:
             )
             _shared_utils.assert_array_equal(mesh_coords[1].points, [3100, 3101])
 
-    def test_no_mesh(self, cube_2d):
+    def test_no_mesh(self, cube_2d):  # noqa: D102
         cube = cube_2d
         with pytest.raises(ValueError, match="Cube must have a mesh"):
             extract_unstructured_region(cube, self.mocked_polydata, self.mocked_region)
 
-    def test_edge_location(self, cube_mesh_edge):
+    def test_edge_location(self, cube_mesh_edge):  # noqa: D102
         with pytest.raises(
             NotImplementedError,
             match=f"cube.location must be `face` or `node`."
@@ -135,7 +135,7 @@ class TestRegionExtraction:
                 cube_mesh_edge, self.mocked_polydata, self.mocked_region
             )
 
-    def test_cube_and_poly_shapes_mismatch(self):
+    def test_cube_and_poly_shapes_mismatch(self):  # noqa: D102
         self.mocked_polydata.GetNumberOfCells.return_value = 4
         self.mocked_polydata.GetNumberOfPoints.return_value = 16
         polydata_length = ()

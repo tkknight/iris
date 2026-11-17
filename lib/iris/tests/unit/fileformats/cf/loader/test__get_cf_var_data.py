@@ -79,14 +79,14 @@ class Test__get_cf_var_data(MockerMixin):
         cf_var.__getitem__.return_value = self.mocker.sentinel.real_data_accessed
         return cf_var
 
-    def test_cf_data_type(self):
+    def test_cf_data_type(self):  # noqa: D102
         chunks = [1, 12, 100]
         cf_var = self._make(chunks)
         lazy_data = _get_cf_var_data(cf_var)
         assert isinstance(lazy_data, da.Array)
         assert isinstance(da.utils.meta_from_array(lazy_data), np.ma.MaskedArray)
 
-    def test_cf_data_chunks(self):
+    def test_cf_data_chunks(self):  # noqa: D102
         chunks = [2500, 240, 200]
         cf_var = self._make(chunks)
         lazy_data = _get_cf_var_data(cf_var)
@@ -94,7 +94,7 @@ class Test__get_cf_var_data(MockerMixin):
         expected_chunks = _optimum_chunksize(chunks, self.shape)
         _shared_utils.assert_array_equal(lazy_data_chunks, expected_chunks)
 
-    def test_cf_data_chunk_control(self):
+    def test_cf_data_chunk_control(self):  # noqa: D102
         # more thorough testing can be found at `test__chunk_control`
         chunks = [2500, 240, 200]
         cf_var = self._make(shape=(2500, 240, 200), chunksizes=chunks)
@@ -104,7 +104,7 @@ class Test__get_cf_var_data(MockerMixin):
         expected_chunks = (25, 24, 20)
         _shared_utils.assert_array_equal(lazy_data_chunks, expected_chunks)
 
-    def test_cf_data_no_chunks(self):
+    def test_cf_data_no_chunks(self):  # noqa: D102
         # No chunks means chunks are calculated from the array's shape by
         # `iris._lazy_data._optimum_chunksize()`. This also covers what used
         # to be the separate "contiguous" case: NetCDFDatasetVariable.chunking
@@ -115,61 +115,61 @@ class Test__get_cf_var_data(MockerMixin):
         lazy_data_chunks = [c[0] for c in lazy_data.chunks]
         _shared_utils.assert_array_equal(lazy_data_chunks, self.expected_chunks)
 
-    def test_type__1kf8_is_lazy(self):
+    def test_type__1kf8_is_lazy(self):  # noqa: D102
         cf_var = self._make(shape=(1000,), dtype="f8")
         var_data = _get_cf_var_data(cf_var)
         assert isinstance(var_data, da.Array)
 
-    def test_arraytype__1ki2_is_real(self, mocker):
+    def test_arraytype__1ki2_is_real(self, mocker):  # noqa: D102
         cf_var = self._make(shape=(1000,), dtype="i2")
         var_data = _get_cf_var_data(cf_var)
         assert var_data is mocker.sentinel.real_data_accessed
 
-    def test_arraytype__100f8_is_real(self, mocker):
+    def test_arraytype__100f8_is_real(self, mocker):  # noqa: D102
         cf_var = self._make(shape=(100,), dtype="f8")
         var_data = _get_cf_var_data(cf_var)
         assert var_data is mocker.sentinel.real_data_accessed
 
-    def test_vltype__1000str_is_lazy(self):
+    def test_vltype__1000str_is_lazy(self):  # noqa: D102
         cf_var = self._make(shape=(1000,), dtype=str)
         cf_var.cf_data.is_variable_length = True
         var_data = _get_cf_var_data(cf_var)
         assert isinstance(var_data, da.Array)
 
-    def test_vltype__1000str_is_real_with_hint(self, mocker):
+    def test_vltype__1000str_is_real_with_hint(self, mocker):  # noqa: D102
         cf_var = self._make(shape=(100,), dtype=str)
         cf_var.cf_data.is_variable_length = True
         with CHUNK_CONTROL.set("DUMMY_VAR", _vl_hint=1):
             var_data = _get_cf_var_data(cf_var)
         assert var_data is mocker.sentinel.real_data_accessed
 
-    def test_vltype__100str_is_real(self, mocker):
+    def test_vltype__100str_is_real(self, mocker):  # noqa: D102
         cf_var = self._make(shape=(100,), dtype=str)
         cf_var.cf_data.is_variable_length = True
         var_data = _get_cf_var_data(cf_var)
         assert var_data is mocker.sentinel.real_data_accessed
 
-    def test_vltype__100str_is_lazy_with_hint(self):
+    def test_vltype__100str_is_lazy_with_hint(self):  # noqa: D102
         cf_var = self._make(shape=(100,), dtype=str)
         cf_var.cf_data.is_variable_length = True
         with CHUNK_CONTROL.set("DUMMY_VAR", _vl_hint=50):
             var_data = _get_cf_var_data(cf_var)
         assert isinstance(var_data, da.Array)
 
-    def test_vltype__100f8_is_lazy(self):
+    def test_vltype__100f8_is_lazy(self):  # noqa: D102
         cf_var = self._make(shape=(1000,), dtype="f8")
         cf_var.cf_data.is_variable_length = True
         var_data = _get_cf_var_data(cf_var)
         assert isinstance(var_data, da.Array)
 
-    def test_vltype__100f8_is_real_with_hint(self, mocker):
+    def test_vltype__100f8_is_real_with_hint(self, mocker):  # noqa: D102
         cf_var = self._make(shape=(100,), dtype="f8")
         cf_var.cf_data.is_variable_length = True
         with CHUNK_CONTROL.set("DUMMY_VAR", _vl_hint=2):
             var_data = _get_cf_var_data(cf_var)
         assert var_data is mocker.sentinel.real_data_accessed
 
-    def test_vltype_warns_that_the_size_is_unknown(self):
+    def test_vltype_warns_that_the_size_is_unknown(self):  # noqa: D102
         cf_var = self._make(shape=(1000,), dtype="f8")
         cf_var.cf_data.is_variable_length = True
         with pytest.warns(
@@ -179,7 +179,7 @@ class Test__get_cf_var_data(MockerMixin):
 
     @pytest.mark.parametrize("is_realdata", [True, False], ids=["realdata", "lazydata"])
     @pytest.mark.parametrize("is_string", [True, False], ids=["string", "numeric"])
-    def test_cf_data_emulation(self, mocker, is_realdata, is_string):
+    def test_cf_data_emulation(self, mocker, is_realdata, is_string):  # noqa: D102
         # Check that a variable emulation object passes its real data directly.
         # ... or for string data, that it converts it, either lazy or real.
         shape = (20, 30, 30)

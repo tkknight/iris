@@ -37,7 +37,7 @@ class TestProjectedUnstructured:
 
         self.global_grid = global_pp()
 
-    def test_nearest(self):
+    def test_nearest(self):  # noqa: D102
         res = self.src.regrid(self.global_grid, ProjectedUnstructuredNearest())
         _shared_utils.assert_array_shape_stats(
             res, (1, 6, 73, 96), 315.8913582, 11.00063922733, rtol=1e-8
@@ -46,7 +46,7 @@ class TestProjectedUnstructured:
             res[:, 0], (1, 73, 96), 299.99993826, 3.9226378869e-5
         )
 
-    def test_nearest_sinusoidal(self):
+    def test_nearest_sinusoidal(self):  # noqa: D102
         crs = ccrs.Sinusoidal()
         res = self.src.regrid(self.global_grid, ProjectedUnstructuredNearest(crs))
         _shared_utils.assert_array_shape_stats(
@@ -57,7 +57,7 @@ class TestProjectedUnstructured:
         )
 
     @pytest.mark.skip("Deprecated API and provenance of reference numbers unknown.")
-    def test_nearest_gnomonic_uk_domain(self):
+    def test_nearest_gnomonic_uk_domain(self):  # noqa: D102
         crs = ccrs.Gnomonic(central_latitude=60.0)
         uk_grid = self.global_grid.intersection(longitude=(-20, 20), latitude=(40, 80))
         res = self.src.regrid(uk_grid, ProjectedUnstructuredNearest(crs))
@@ -86,7 +86,7 @@ class TestProjectedUnstructured:
             expected_subset, res.data[0, 3, 5:8, 4:7].data
         )
 
-    def test_nearest_aux_factories(self):
+    def test_nearest_aux_factories(self):  # noqa: D102
         src = self.src
 
         (xy_dim_len,) = src.coord(axis="X").shape
@@ -129,7 +129,7 @@ class TestProjectedUnstructured:
         )
         assert res.coord("altitude").shape == (6, 73, 96)
 
-    def test_linear_sinusoidal(self):
+    def test_linear_sinusoidal(self):  # noqa: D102
         res = self.src.regrid(self.global_grid, ProjectedUnstructuredLinear())
         _shared_utils.assert_array_shape_stats(
             res, (1, 6, 73, 96), 315.8914839, 11.0006338412, rtol=1e-8

@@ -35,13 +35,13 @@ class Test:
             self.field.units = units_str
         units(self.cube, self.field)
 
-    def test_null(self, mocker):
+    def test_null(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_units(units_str="m")
         assert self.cube.units == "m"
         assert_array_almost_equal(self.cube.data, np.ones_like(self.cube.data))
 
-    def test_times32(self, mocker):
+    def test_times32(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_units(
                 data=np.ones_like(self.cube.data) * 32, units_str="mm/hr*32"
@@ -50,7 +50,7 @@ class Test:
         assert_array_almost_equal(self.cube.data, np.ones_like(self.cube.data))
         assert self.cube.data.dtype == np.float32
 
-    def test_visibility_units(self, mocker):
+    def test_visibility_units(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_units(
                 data=((np.ones_like(self.cube.data) / 2) - 25000),
@@ -60,7 +60,7 @@ class Test:
         assert_array_almost_equal(self.cube.data, np.ones_like(self.cube.data))
         assert self.cube.data.dtype == np.float32
 
-    def test_power_in_units(self, mocker):
+    def test_power_in_units(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_units(
                 data=np.ones_like(self.cube.data) * 1000, units_str="mm*10^3"
@@ -69,7 +69,7 @@ class Test:
         assert_array_almost_equal(self.cube.data, np.ones_like(self.cube.data))
         assert self.cube.data.dtype == np.float32
 
-    def test_ug_per_m3_units(self, mocker):
+    def test_ug_per_m3_units(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_units(
                 data=(np.ones_like(self.cube.data) * 10),
@@ -79,7 +79,7 @@ class Test:
         assert_array_almost_equal(self.cube.data, np.ones_like(self.cube.data))
         assert self.cube.data.dtype == np.float32
 
-    def test_g_per_kg(self, mocker):
+    def test_g_per_kg(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_units(
                 data=(np.ones_like(self.cube.data) * 1000), units_str="g/Kg"
@@ -88,21 +88,21 @@ class Test:
         assert_array_almost_equal(self.cube.data, np.ones_like(self.cube.data))
         assert self.cube.data.dtype == np.float32
 
-    def test_unit_expection_dictionary(self, mocker):
+    def test_unit_expection_dictionary(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_units(units_str="mb")
         assert self.cube.units == "hPa"
         assert_array_almost_equal(self.cube.data, np.ones_like(self.cube.data))
         assert self.cube.data.dtype == np.float32
 
-    def test_per_second(self, mocker):
+    def test_per_second(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_units(units_str="/s")
         assert self.cube.units == "s^-1"
         assert_array_almost_equal(self.cube.data, np.ones_like(self.cube.data))
         assert self.cube.data.dtype == np.float32
 
-    def test_unhandled_unit(self, mocker):
+    def test_unhandled_unit(self, mocker):  # noqa: D102
         warning_message = "Unhandled units 'kittens' recorded in cube attributes"
         with pytest.warns(match=warning_message):
             self._call_units(units_str="kittens")

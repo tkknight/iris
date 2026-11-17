@@ -313,7 +313,7 @@ class GeogCS(CoordSystem):
                     text_attrs.append("{}={}".format(k, v))
             return "GeogCS({})".format(", ".join(text_attrs))
 
-    def xml_element(self, doc):
+    def xml_element(self, doc):  # noqa: D102
         # Special output for spheres
         attrs = self._pretty_attrs()
         if len(attrs) == 1 and attrs[0][0] == "semi_major_axis":
@@ -321,16 +321,16 @@ class GeogCS(CoordSystem):
 
         return CoordSystem.xml_element(self, doc, attrs)
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         return self._crs
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return ccrs.PlateCarree(
             central_longitude=self.longitude_of_prime_meridian,
             globe=self.as_cartopy_globe(),
         )
 
-    def as_cartopy_globe(self):
+    def as_cartopy_globe(self):  # noqa: D102
         return self._globe
 
     @cached_property
@@ -385,7 +385,7 @@ class GeogCS(CoordSystem):
             pass
 
     @property
-    def semi_major_axis(self):
+    def semi_major_axis(self):  # noqa: D102
         if self._semi_major_axis is not None:
             return self._semi_major_axis
         else:
@@ -407,7 +407,7 @@ class GeogCS(CoordSystem):
         self._semi_major_axis = value
 
     @property
-    def semi_minor_axis(self):
+    def semi_minor_axis(self):  # noqa: D102
         if self._semi_minor_axis is not None:
             return self._semi_minor_axis
         else:
@@ -429,7 +429,7 @@ class GeogCS(CoordSystem):
         self._semi_minor_axis = value
 
     @property
-    def inverse_flattening(self):
+    def inverse_flattening(self):  # noqa: D102
         if self._inverse_flattening is not None:
             return self._inverse_flattening
         else:
@@ -453,7 +453,7 @@ class GeogCS(CoordSystem):
         self._inverse_flattening = value
 
     @property
-    def datum(self):
+    def datum(self):  # noqa: D102
         if self._datum is None:
             return None
         else:
@@ -478,7 +478,7 @@ class GeogCS(CoordSystem):
         self._datum = value
 
     @classmethod
-    def from_datum(cls, datum, longitude_of_prime_meridian=None):
+    def from_datum(cls, datum, longitude_of_prime_meridian=None):  # noqa: D102
         crs = super().__new__(cls)
 
         crs._semi_major_axis = None
@@ -575,7 +575,7 @@ class RotatedGeogCS(CoordSystem):
         result = result.replace("grid_north_pole_longitude=", "")
         return result
 
-    def xml_element(self, doc):
+    def xml_element(self, doc):  # noqa: D102
         return CoordSystem.xml_element(self, doc, self._pretty_attrs())
 
     def _ccrs_kwargs(self):
@@ -589,10 +589,10 @@ class RotatedGeogCS(CoordSystem):
 
         return cartopy_kwargs
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         return ccrs.RotatedGeodetic(**self._ccrs_kwargs())
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return ccrs.RotatedPole(**self._ccrs_kwargs())
 
 
@@ -676,7 +676,7 @@ class TransverseMercator(CoordSystem):
             )
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, None)
 
         return ccrs.TransverseMercator(
@@ -688,7 +688,7 @@ class TransverseMercator(CoordSystem):
             globe=globe,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -706,10 +706,10 @@ class OSGB(TransverseMercator):
             GeogCS(6377563.396, 6356256.909),
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         return ccrs.OSGB()
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return ccrs.OSGB()
 
 
@@ -771,7 +771,7 @@ class Orthographic(CoordSystem):
             )
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, ccrs.Globe())
 
         warnings.warn(
@@ -785,7 +785,7 @@ class Orthographic(CoordSystem):
             globe=globe,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -857,7 +857,7 @@ class VerticalPerspective(CoordSystem):
             )
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, ccrs.Globe())
 
         return ccrs.NearsidePerspective(
@@ -869,7 +869,7 @@ class VerticalPerspective(CoordSystem):
             globe=globe,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -953,7 +953,7 @@ class Geostationary(CoordSystem):
             )
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, ccrs.Globe())
 
         return ccrs.Geostationary(
@@ -965,7 +965,7 @@ class Geostationary(CoordSystem):
             sweep_axis=self.sweep_angle_axis,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -1059,7 +1059,7 @@ class Stereographic(CoordSystem):
     def __repr__(self):
         return "Stereographic" + self._repr_attributes()
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, ccrs.Globe())
 
         return ccrs.Stereographic(
@@ -1072,7 +1072,7 @@ class Stereographic(CoordSystem):
             globe=globe,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -1207,7 +1207,7 @@ class LambertConformal(CoordSystem):
             )
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         # We're either north or south polar. Set a cutoff accordingly.
         if self.secant_latitudes is not None:
             lats = self.secant_latitudes
@@ -1230,7 +1230,7 @@ class LambertConformal(CoordSystem):
             standard_parallels=self.secant_latitudes,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -1320,7 +1320,7 @@ class Mercator(CoordSystem):
         )
         return res.format(self=self)
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, ccrs.Globe())
 
         return ccrs.Mercator(
@@ -1332,7 +1332,7 @@ class Mercator(CoordSystem):
             false_northing=self.false_northing,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -1397,7 +1397,7 @@ class LambertAzimuthalEqualArea(CoordSystem):
             self.ellipsoid,
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, ccrs.Globe())
 
         return ccrs.LambertAzimuthalEqualArea(
@@ -1408,7 +1408,7 @@ class LambertAzimuthalEqualArea(CoordSystem):
             globe=globe,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -1485,7 +1485,7 @@ class AlbersEqualArea(CoordSystem):
             self.ellipsoid,
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, ccrs.Globe())
 
         return ccrs.AlbersEqualArea(
@@ -1497,7 +1497,7 @@ class AlbersEqualArea(CoordSystem):
             globe=globe,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 
@@ -1599,7 +1599,7 @@ class ObliqueMercator(CoordSystem):
             )
         )
 
-    def as_cartopy_crs(self):
+    def as_cartopy_crs(self):  # noqa: D102
         globe = self._ellipsoid_to_globe(self.ellipsoid, None)
 
         return ccrs.ObliqueMercator(
@@ -1612,7 +1612,7 @@ class ObliqueMercator(CoordSystem):
             globe=globe,
         )
 
-    def as_cartopy_projection(self):
+    def as_cartopy_projection(self):  # noqa: D102
         return self.as_cartopy_crs()
 
 

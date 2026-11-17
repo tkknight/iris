@@ -69,13 +69,13 @@ class TestLBTIMx0x_SingleTimepoint:
             expect_result = []
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
 
-    def test_normal_xy_dims(self):
+    def test_normal_xy_dims(self):  # noqa: D102
         self._check_timepoint(_lbcode(1))
 
-    def test_non_time_cross_section(self):
+    def test_non_time_cross_section(self):  # noqa: D102
         self._check_timepoint(_lbcode(ix=1, iy=2))
 
-    def test_time_cross_section(self):
+    def test_time_cross_section(self):  # noqa: D102
         self._check_timepoint(_lbcode(ix=1, iy=20), expect_match=False)
 
 
@@ -127,16 +127,16 @@ class TestLBTIMx1x_Forecast:
             expect_result = []
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
 
-    def test_normal_xy(self):
+    def test_normal_xy(self):  # noqa: D102
         self._check_forecast(_lbcode(1))
 
-    def test_non_time_cross_section(self):
+    def test_non_time_cross_section(self):  # noqa: D102
         self._check_forecast(_lbcode(ix=1, iy=2))
 
-    def test_time_cross_section(self):
+    def test_time_cross_section(self):  # noqa: D102
         self._check_forecast(_lbcode(ix=1, iy=20), expect_match=False)
 
-    def test_exact_hours(self):
+    def test_exact_hours(self):  # noqa: D102
         lbtim = _lbtim(ib=1, ic=1)
         t1 = nc_datetime(2015, 1, 20, hour=7, minute=0, second=0)
         t2 = nc_datetime(2015, 1, 20, hour=0, minute=0, second=0)
@@ -153,7 +153,7 @@ class TestLBTIMx1x_Forecast:
         assert fp.points[0] == 7
         assert t.points[0] == 394927
 
-    def test_not_exact_hours(self):
+    def test_not_exact_hours(self):  # noqa: D102
         lbtim = _lbtim(ib=1, ic=1)
         t1 = nc_datetime(2015, 1, 20, hour=7, minute=10, second=0)
         t2 = nc_datetime(2015, 1, 20, hour=0, minute=0, second=0)
@@ -220,13 +220,13 @@ class TestLBTIMx2x_TimePeriod:
             expect_result = []
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
 
-    def test_normal_xy(self):
+    def test_normal_xy(self):  # noqa: D102
         self._check_period(_lbcode(1))
 
-    def test_non_time_cross_section(self):
+    def test_non_time_cross_section(self):  # noqa: D102
         self._check_period(_lbcode(ix=1, iy=2))
 
-    def test_time_cross_section(self):
+    def test_time_cross_section(self):  # noqa: D102
         self._check_period(_lbcode(ix=1, iy=20), expect_match=False)
 
 
@@ -283,19 +283,19 @@ class TestLBTIMx3x_YearlyAggregation:
             expect_result = []
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
 
-    def test_normal_xy(self):
+    def test_normal_xy(self):  # noqa: D102
         self._check_yearly(_lbcode(1))
 
-    def test_non_time_cross_section(self):
+    def test_non_time_cross_section(self):  # noqa: D102
         self._check_yearly(_lbcode(ix=1, iy=2))
 
-    def test_time_cross_section(self):
+    def test_time_cross_section(self):  # noqa: D102
         self._check_yearly(_lbcode(ix=1, iy=20), expect_match=False)
 
 
 class TestLBTIMx2x_ZeroYear:
     """Test BTIMx2x ZeroYear."""
-    def test_(self):
+    def test_(self):  # noqa: D102
         lbtim = _lbtim(ib=2, ic=1)
         t1 = nc_datetime(0, 1, 1, has_year_zero=True)
         t2 = nc_datetime(0, 1, 31, 23, 59, 00, has_year_zero=True)
@@ -314,7 +314,7 @@ class TestLBTIMx2x_ZeroYear:
 
 class TestLBTIMxxx_Unhandled:
     """Test BTIMxxx Unhandled."""
-    def test_unrecognised(self):
+    def test_unrecognised(self):  # noqa: D102
         lbtim = _lbtim(ib=4, ic=1)
         t1 = nc_datetime(0, 0, 0, calendar=None, has_year_zero=True)
         t2 = nc_datetime(0, 0, 0, calendar=None, has_year_zero=True)
@@ -333,7 +333,7 @@ class TestLBTIMxxx_Unhandled:
 
 class TestLBCODE3xx:
     """Test BCODE3xx."""
-    def test(self):
+    def test(self):  # noqa: D102
         lbcode = _lbcode(value=31323)
         lbtim = _lbtim(ib=2, ic=2)
         calendar = CALENDAR_360_DAY
@@ -364,7 +364,7 @@ class TestLBCODE3xx:
 
 class TestArrayInputWithLBTIM_0_0_1:
     """Test rrayInputWithLBTIM 0 0 1."""
-    def test_t1_list(self):
+    def test_t1_list(self):  # noqa: D102
         # lbtim ia = 0, ib = 0, ic = 1
         # with a series of times (t1).
         lbcode = _lbcode(1)
@@ -397,7 +397,7 @@ class TestArrayInputWithLBTIM_0_0_1:
 
 class TestArrayInputWithLBTIM_0_1_1:
     """Test rrayInputWithLBTIM 0 1 1."""
-    def test_t1_list_t2_scalar(self):
+    def test_t1_list_t2_scalar(self):  # noqa: D102
         # lbtim ia = 0, ib = 1, ic = 1
         # with a single forecast reference time (t2) and a series
         # of validity times (t1).
@@ -444,7 +444,7 @@ class TestArrayInputWithLBTIM_0_1_1:
         ]
         assert_coords_and_dims_lists_match(coords_and_dims, expected)
 
-    def test_t1_and_t2_list(self):
+    def test_t1_and_t2_list(self):  # noqa: D102
         # lbtim ia = 0, ib = 1, ic = 1
         # with a single repeated forecast reference time (t2) and a series
         # of validity times (t1).
@@ -493,7 +493,7 @@ class TestArrayInputWithLBTIM_0_1_1:
         ]
         assert_coords_and_dims_lists_match(coords_and_dims, expected)
 
-    def test_t1_and_t2_orthogonal_lists(self):
+    def test_t1_and_t2_orthogonal_lists(self):  # noqa: D102
         # lbtim ia = 0, ib = 1, ic = 1
         # with a single repeated forecast reference time (t2) and a series
         # of validity times (t1).
@@ -540,7 +540,7 @@ class TestArrayInputWithLBTIM_0_1_1:
         ]
         assert_coords_and_dims_lists_match(coords_and_dims, expected)
 
-    def test_t1_multi_dim_list_t2_scalar(self):
+    def test_t1_multi_dim_list_t2_scalar(self):  # noqa: D102
         # Another case of lbtim ia = 0, ib = 1, ic = 1 but
         # with a changing forecast reference time (t2) and
         # validity time (t1).
@@ -594,7 +594,7 @@ class TestArrayInputWithLBTIM_0_1_1:
         ]
         assert_coords_and_dims_lists_match(coords_and_dims, expected)
 
-    def test_t1_and_t2_nparrays(self):
+    def test_t1_and_t2_nparrays(self):  # noqa: D102
         # lbtim ia = 0, ib = 1, ic = 1
         # with a single repeated forecast reference time (t2) and a series
         # of validity times (t1).
@@ -650,7 +650,7 @@ class TestArrayInputWithLBTIM_0_1_1:
 
 class TestArrayInputWithLBTIM_0_2_1:
     """Test rrayInputWithLBTIM 0 2 1."""
-    def test_t1_list_t2_scalar(self):
+    def test_t1_list_t2_scalar(self):  # noqa: D102
         lbtim = _lbtim(ib=2, ic=1)
         lbcode = _lbcode(1)
         hours = np.array([0, 3, 6, 9])
@@ -706,7 +706,7 @@ class TestArrayInputWithLBTIM_0_2_1:
 
 class TestArrayInputWithLBTIM_0_3_1:
     """Test rrayInputWithLBTIM 0 3 1."""
-    def test_t1_scalar_t2_list(self):
+    def test_t1_scalar_t2_list(self):  # noqa: D102
         lbtim = _lbtim(ib=3, ic=1)
         lbcode = _lbcode(1)
         years = np.array([1972, 1973, 1974])

@@ -60,7 +60,7 @@ class Test:
         assert metadata.attributes == {"STASH": (1, 0, 2)}
         assert metadata.cell_methods == []
 
-    def test_all_scalar(self, mocker):
+    def test_all_scalar(self, mocker):  # noqa: D102
         field = self._field()
         field.lbtim = 11
         field.t1 = cftime.datetime(1970, 1, 1, 18)
@@ -87,7 +87,7 @@ class Test:
         ]
         assert metadata.aux_coords_and_dims == coords_and_dims
 
-    def test_vector_t1(self, mocker):
+    def test_vector_t1(self, mocker):  # noqa: D102
         field = self._field()
         field.lbtim = 11
         field.t2 = cftime.datetime(1970, 1, 1, 12)
@@ -129,7 +129,7 @@ class Test:
         ]
         assert metadata.aux_coords_and_dims == coords_and_dims
 
-    def test_vector_t2(self, mocker):
+    def test_vector_t2(self, mocker):  # noqa: D102
         field = self._field()
         field.lbtim = 11
         field.t1 = cftime.datetime(1970, 1, 1, 18)
@@ -173,7 +173,7 @@ class Test:
         ]
         assert metadata.aux_coords_and_dims == coords_and_dims
 
-    def test_vector_lbft(self, mocker):
+    def test_vector_lbft(self, mocker):  # noqa: D102
         field = self._field()
         field.lbtim = 21
         field.t1 = cftime.datetime(1970, 1, 1, 12)
@@ -217,7 +217,7 @@ class Test:
         ]
         assert metadata.aux_coords_and_dims == coords_and_dims
 
-    def test_vector_t1_and_t2(self, mocker):
+    def test_vector_t1_and_t2(self, mocker):  # noqa: D102
         field = self._field()
         field.lbtim = 11
         t1 = (
@@ -268,7 +268,7 @@ class Test:
         ]
         assert metadata.aux_coords_and_dims == coords_and_dims
 
-    def test_vertical_pressure(self, mocker):
+    def test_vertical_pressure(self, mocker):  # noqa: D102
         field = self._field()
         field.lbvc = 8
         blev = ([1000, 850, 700], (0,))
@@ -294,7 +294,7 @@ class Test:
         coords_and_dims = []
         assert metadata.aux_coords_and_dims == coords_and_dims
 
-    def test_soil_level(self, mocker):
+    def test_soil_level(self, mocker):  # noqa: D102
         field = self._field()
         field.lbvc = 6
         points = [10, 20, 30]
@@ -325,7 +325,7 @@ class Test:
         coords_and_dims = []
         assert metadata.aux_coords_and_dims == coords_and_dims
 
-    def test_soil_depth(self, mocker):
+    def test_soil_depth(self, mocker):  # noqa: D102
         field = self._field()
         field.lbvc = 6
         points = [10, 20, 30]
@@ -357,7 +357,7 @@ class Test:
         coords_and_dims = []
         assert metadata.aux_coords_and_dims == coords_and_dims
 
-    def test_vertical_hybrid_height(self, mocker):
+    def test_vertical_hybrid_height(self, mocker):  # noqa: D102
         field = self._field()
         field.lbvc = 65
         blev = ([5, 18, 38], (0,))

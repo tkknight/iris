@@ -42,7 +42,7 @@ netcdf test {{
 """
         return cdl_string
 
-    def check_result(self, cube, stashcode=None, processflags=None):
+    def check_result(self, cube, stashcode=None, processflags=None):  # noqa: D102
         cube_stashattr = cube.attributes.get("STASH")
         cube_processflags = cube.attributes.get("ukmo__process_flags")
 
@@ -63,15 +63,15 @@ netcdf test {{
     #
     stashcode = "m01s02i034"  # Just one valid STASH msi string for testing
 
-    def test_stash(self):
+    def test_stash(self):  # noqa: D102
         cube = self.run_testcase(um_stash_source=self.stashcode)
         self.check_result(cube, stashcode=self.stashcode)
 
-    def test_stash_altname(self):
+    def test_stash_altname(self):  # noqa: D102
         cube = self.run_testcase(ukmo__um_stash_source=self.stashcode)
         self.check_result(cube, stashcode=self.stashcode)
 
-    def test_stash_empty(self):
+    def test_stash_empty(self):  # noqa: D102
         value = ""
         cube = self.run_testcase(
             ukmo__um_stash_source=value,
@@ -80,7 +80,7 @@ netcdf test {{
         assert "STASH" not in cube.attributes
         assert cube.attributes["ukmo__um_stash_source"] == value
 
-    def test_stash_invalid(self):
+    def test_stash_invalid(self):  # noqa: D102
         value = "XXX"
         cube = self.run_testcase(
             ukmo__um_stash_source="XXX",
@@ -89,17 +89,17 @@ netcdf test {{
         assert "STASH" not in cube.attributes
         assert cube.attributes["ukmo__um_stash_source"] == value
 
-    def test_processflags_single(self):
+    def test_processflags_single(self):  # noqa: D102
         cube = self.run_testcase(ukmo__process_flags="this")
         self.check_result(cube, processflags=["this"])
 
-    def test_processflags_multi_with_underscores(self):
+    def test_processflags_multi_with_underscores(self):  # noqa: D102
         flags_testinput = "this that_1 the_other_one x"
         flags_expectresult = ["this", "that 1", "the other one", "x"]
         cube = self.run_testcase(ukmo__process_flags=flags_testinput)
         self.check_result(cube, processflags=flags_expectresult)
 
-    def test_processflags_empty(self):
+    def test_processflags_empty(self):  # noqa: D102
         cube = self.run_testcase(ukmo__process_flags="")
         expected_result = ()
         self.check_result(cube, processflags=expected_result)
@@ -161,7 +161,7 @@ class Test__labels_cellmeasures_ancils(Mixin__nc_load_actions):
         """
         return cdl_string
 
-    def check_result(
+    def check_result(  # noqa: D102
         self,
         cube,
         expect_label=False,
@@ -193,14 +193,14 @@ class Test__labels_cellmeasures_ancils(Mixin__nc_load_actions):
         else:
             assert len(ancils) == 0
 
-    def test_label(self):
+    def test_label(self):  # noqa: D102
         cube = self.run_testcase(include_label=True)
         self.check_result(cube, expect_label=True)
 
-    def test_ancil(self):
+    def test_ancil(self):  # noqa: D102
         cube = self.run_testcase(include_ancil=True)
         self.check_result(cube, expect_ancil=True)
 
-    def test_cellmeasure(self):
+    def test_cellmeasure(self):  # noqa: D102
         cube = self.run_testcase(include_cellmeasure=True)
         self.check_result(cube, expect_cellmeasure=True)

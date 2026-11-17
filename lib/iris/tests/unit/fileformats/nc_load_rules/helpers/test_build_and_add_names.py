@@ -43,7 +43,7 @@ class TestCubeName:
         LOAD_PROBLEMS.reset()
         self.engine = mock_engine
 
-    def check_cube_names(self, inputs, expected):
+    def check_cube_names(self, inputs, expected):  # noqa: D102
         # Inputs - attributes on the fake CF Variable.
         standard_name, long_name = inputs
         # Expected - The expected cube attributes.
@@ -59,7 +59,7 @@ class TestCubeName:
         assert self.engine.cube.standard_name == exp_standard_name
         assert self.engine.cube.long_name == exp_long_name
 
-    def check_load_problems(self, invalid_standard_name=None):
+    def check_load_problems(self, invalid_standard_name=None):  # noqa: D102
         if invalid_standard_name is None:
             assert LOAD_PROBLEMS.problems == []
         else:
@@ -71,31 +71,31 @@ class TestCubeName:
             assert destination.iris_class == Cube
             assert destination.identifier == self.cf_name
 
-    def test_standard_name_none_long_name_none(self):
+    def test_standard_name_none_long_name_none(self):  # noqa: D102
         inputs = (None, None)
         expected = (None, None)
         self.check_cube_names(inputs, expected)
         self.check_load_problems()
 
-    def test_standard_name_none_long_name_set(self):
+    def test_standard_name_none_long_name_set(self):  # noqa: D102
         inputs = (None, "ice_thickness_long_name")
         expected = (None, "ice_thickness_long_name")
         self.check_cube_names(inputs, expected)
         self.check_load_problems()
 
-    def test_standard_name_valid_long_name_none(self):
+    def test_standard_name_valid_long_name_none(self):  # noqa: D102
         inputs = ("sea_ice_thickness", None)
         expected = ("sea_ice_thickness", None)
         self.check_cube_names(inputs, expected)
         self.check_load_problems()
 
-    def test_standard_name_valid_long_name_set(self):
+    def test_standard_name_valid_long_name_set(self):  # noqa: D102
         inputs = ("sea_ice_thickness", "ice_thickness_long_name")
         expected = ("sea_ice_thickness", "ice_thickness_long_name")
         self.check_cube_names(inputs, expected)
         self.check_load_problems()
 
-    def test_standard_name_invalid_long_name_none(self):
+    def test_standard_name_invalid_long_name_none(self):  # noqa: D102
         inputs = ("not_a_standard_name", None)
         expected = (
             None,
@@ -104,7 +104,7 @@ class TestCubeName:
         self.check_cube_names(inputs, expected)
         self.check_load_problems("not_a_standard_name")
 
-    def test_standard_name_invalid_long_name_set(self):
+    def test_standard_name_invalid_long_name_set(self):  # noqa: D102
         inputs = ("not_a_standard_name", "ice_thickness_long_name")
         expected = (None, "ice_thickness_long_name")
         self.check_cube_names(inputs, expected)

@@ -349,7 +349,7 @@ class STASH(collections.namedtuple("STASH", "model section item")):
         return self.model or 0
 
     @property
-    def is_valid(self):
+    def is_valid(self):  # noqa: D102
         return "?" not in str(self)
 
     def __hash__(self):
@@ -947,12 +947,12 @@ class PPField(metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def t1(self):
+    def t1(self):  # noqa: D102
         pass
 
     @property
     @abstractmethod
-    def t2(self):
+    def t2(self):  # noqa: D102
         pass
 
     def __repr__(self):
@@ -1032,7 +1032,7 @@ class PPField(metaclass=ABCMeta):
         self.lbuser[3] = self._stash.lbuser3()
 
     @property
-    def lbtim(self):
+    def lbtim(self):  # noqa: D102
         return self._lbtim
 
     @lbtim.setter
@@ -1043,7 +1043,7 @@ class PPField(metaclass=ABCMeta):
 
     # lbcode
     @property
-    def lbcode(self):
+    def lbcode(self):  # noqa: D102
         return self._lbcode
 
     @lbcode.setter
@@ -1055,7 +1055,7 @@ class PPField(metaclass=ABCMeta):
 
     # lbpack
     @property
-    def lbpack(self):
+    def lbpack(self):  # noqa: D102
         return self._lbpack
 
     @lbpack.setter
@@ -1070,7 +1070,7 @@ class PPField(metaclass=ABCMeta):
         self._lbpack = new_value
 
     @property
-    def lbproc(self):
+    def lbproc(self):  # noqa: D102
         return self._lbproc
 
     @lbproc.setter
@@ -1092,7 +1092,7 @@ class PPField(metaclass=ABCMeta):
     def data(self, value):
         self._data = value
 
-    def core_data(self):
+    def core_data(self):  # noqa: D102
         return self._data
 
     @property
@@ -1143,12 +1143,12 @@ class PPField(metaclass=ABCMeta):
             extra_len -= data_len
 
     @property
-    def x_bounds(self):
+    def x_bounds(self):  # noqa: D102
         if hasattr(self, "x_lower_bound") and hasattr(self, "x_upper_bound"):
             return np.column_stack((self.x_lower_bound, self.x_upper_bound))
 
     @property
-    def y_bounds(self):
+    def y_bounds(self):  # noqa: D102
         if hasattr(self, "y_lower_bound") and hasattr(self, "y_upper_bound"):
             return np.column_stack((self.y_lower_bound, self.y_upper_bound))
 
@@ -1374,7 +1374,7 @@ class PPField(metaclass=ABCMeta):
     # From here on define helper methods for PP -> Cube conversion.
     #
 
-    def time_unit(self, time_unit, epoch="epoch"):
+    def time_unit(self, time_unit, epoch="epoch"):  # noqa: D102
         return cf_units.Unit("%s since %s" % (time_unit, epoch), calendar=self.calendar)
 
     def coord_system(self):

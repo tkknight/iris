@@ -59,14 +59,14 @@ class TestBuildGeostationaryCoordinateSystem(MockerMixin):
         expected = Geostationary(ellipsoid=ellipsoid, **non_ellipsoid_kwargs)
         assert cs == expected
 
-    def test_valid(self):
+    def test_valid(self):  # noqa: D102
         self._test(inverse_flattening=False)
 
-    def test_inverse_flattening(self):
+    def test_inverse_flattening(self):  # noqa: D102
         self._test(inverse_flattening=True)
 
-    def test_false_offsets_missing(self):
+    def test_false_offsets_missing(self):  # noqa: D102
         self._test(remove_props=["false_easting", "false_northing"])
 
-    def test_false_offsets_none(self):
+    def test_false_offsets_none(self):  # noqa: D102
         self._test(replace_props={"false_easting": None, "false_northing": None})

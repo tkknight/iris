@@ -15,56 +15,56 @@ from iris.tests._shared_utils import assert_array_equal
 
 class Test:
     """Test ."""
-    def test_scalar(self):
+    def test_scalar(self):  # noqa: D102
         array = np.array(1)
         dims, result, bounds = _reduce_points_and_bounds(array)
         assert_array_equal(result, array)
         assert dims is None
         assert bounds is None
 
-    def test_1d_nochange(self):
+    def test_1d_nochange(self):  # noqa: D102
         array = np.array([1, 2, 3])
         dims, result, _ = _reduce_points_and_bounds(array)
         assert_array_equal(result, array)
         assert dims == (0,)
 
-    def test_1d_collapse(self):
+    def test_1d_collapse(self):  # noqa: D102
         array = np.array([1, 1, 1])
         dims, result, _ = _reduce_points_and_bounds(array)
         assert_array_equal(result, np.array(1))
         assert dims is None
 
-    def test_2d_nochange(self):
+    def test_2d_nochange(self):  # noqa: D102
         array = np.array([[1, 2, 3], [4, 5, 6]])
         dims, result, _ = _reduce_points_and_bounds(array)
         assert_array_equal(result, array)
         assert dims == (0, 1)
 
-    def test_2d_collapse_dim0(self):
+    def test_2d_collapse_dim0(self):  # noqa: D102
         array = np.array([[1, 2, 3], [1, 2, 3]])
         dims, result, _ = _reduce_points_and_bounds(array)
         assert_array_equal(result, np.array([1, 2, 3]))
         assert dims == (1,)
 
-    def test_2d_collapse_dim1(self):
+    def test_2d_collapse_dim1(self):  # noqa: D102
         array = np.array([[1, 1, 1], [2, 2, 2]])
         dims, result, _ = _reduce_points_and_bounds(array)
         assert_array_equal(result, np.array([1, 2]))
         assert dims == (0,)
 
-    def test_2d_collapse_both(self):
+    def test_2d_collapse_both(self):  # noqa: D102
         array = np.array([[3, 3, 3], [3, 3, 3]])
         dims, result, _ = _reduce_points_and_bounds(array)
         assert_array_equal(result, np.array(3))
         assert dims is None
 
-    def test_3d(self):
+    def test_3d(self):  # noqa: D102
         array = np.array([[[3, 3, 3], [4, 4, 4]], [[3, 3, 3], [4, 4, 4]]])
         dims, result, _ = _reduce_points_and_bounds(array)
         assert_array_equal(result, np.array([3, 4]))
         assert dims == (1,)
 
-    def test_bounds_collapse(self):
+    def test_bounds_collapse(self):  # noqa: D102
         points = np.array([1, 1, 1])
         bounds = np.array([[0, 2], [0, 2], [0, 2]])
         result_dims, result_pts, result_bds = _reduce_points_and_bounds(
@@ -74,7 +74,7 @@ class Test:
         assert_array_equal(result_bds, np.array([0, 2]))
         assert result_dims is None
 
-    def test_bounds_no_collapse(self):
+    def test_bounds_no_collapse(self):  # noqa: D102
         points = np.array([1, 2, 3])
         bounds = np.array([[0, 2], [1, 3], [2, 4]])
         result_dims, result_pts, result_bds = _reduce_points_and_bounds(

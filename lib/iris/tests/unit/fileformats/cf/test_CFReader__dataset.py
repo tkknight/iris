@@ -94,7 +94,7 @@ class TestABorrowedBareDataset:
     pins it.
     """
 
-    def test_char_data_is_decoded(self, char_path):
+    def test_char_data_is_decoded(self, char_path):  # noqa: D102
         # A genuinely bare, unwrapped dataset - not a DatasetWrapper, not an
         # EncodedDataset - is the point of this test.
         import netCDF4
@@ -112,37 +112,37 @@ class TestABorrowedBareDataset:
 
 class TestTheSwap:
     """Test heSwap."""
-    def test_the_reader_owns_a_netcdf_dataset(self, sample_path):
+    def test_the_reader_owns_a_netcdf_dataset(self, sample_path):  # noqa: D102
         with CFReader(str(sample_path)) as reader:
             assert isinstance(reader._dataset, _dataset.NetCDFDataset)
 
-    def test_cf_data_is_a_cf_dataset_variable(self, sample_path):
+    def test_cf_data_is_a_cf_dataset_variable(self, sample_path):  # noqa: D102
         # Nothing downstream of here needs to know the file is netCDF.
         with CFReader(str(sample_path)) as reader:
             assert isinstance(reader.cf_group["air"].cf_data, CFDatasetVariable)
 
-    def test_attributes_come_from_the_file(self, sample_path):
+    def test_attributes_come_from_the_file(self, sample_path):  # noqa: D102
         with CFReader(str(sample_path)) as reader:
             air = reader.cf_group["air"]
             assert air.attributes["units"] == "K"
             assert air.units == "K"
             assert air.dimensions == ("time",)
 
-    def test_global_attributes_come_from_the_dataset(self, sample_path):
+    def test_global_attributes_come_from_the_dataset(self, sample_path):  # noqa: D102
         with CFReader(str(sample_path)) as reader:
             assert reader.cf_group.global_attributes["title"] == "a sample file"
 
-    def test_filename_is_the_variables_location(self, sample_path):
+    def test_filename_is_the_variables_location(self, sample_path):  # noqa: D102
         with CFReader(str(sample_path)) as reader:
             assert reader.cf_group["air"].filename == str(sample_path)
 
-    def test_the_bounds_variable_was_classified(self, sample_path):
+    def test_the_bounds_variable_was_classified(self, sample_path):  # noqa: D102
         # identify() now reads through .attributes, so a miss here means the
         # classification pass lost sight of the file's attributes entirely.
         with CFReader(str(sample_path)) as reader:
             assert "time_bnds" in reader.cf_group.bounds
 
-    def test_a_borrowed_dataset_is_used_and_not_closed(self, sample_path):
+    def test_a_borrowed_dataset_is_used_and_not_closed(self, sample_path):  # noqa: D102
         raw = _thread_safe_nc.DatasetWrapper(sample_path, mode="r")
         try:
             with CFReader(raw) as reader:
@@ -159,7 +159,7 @@ class TestAttributesAreASnapshot:
     therefore takes a copy.
     """
 
-    def test_a_write_does_not_reach_the_file(self, sample_path):
+    def test_a_write_does_not_reach_the_file(self, sample_path):  # noqa: D102
         with CFReader(str(sample_path)) as reader:
             air = reader.cf_group["air"]
             air.attributes["bounds"] = "invented"
@@ -176,7 +176,7 @@ class TestAttributeTrackingAcrossReset:
     cube as if the file had volunteered it.
     """
 
-    def test_the_reader_resets_what_it_read_while_classifying(self, sample_path):
+    def test_the_reader_resets_what_it_read_while_classifying(self, sample_path):  # noqa: D102
         with CFReader(str(sample_path)) as reader:
             time = reader.cf_group["time"]
             # CFBoundaryVariable.identify() read "bounds" during __init__.
@@ -184,7 +184,7 @@ class TestAttributeTrackingAcrossReset:
             assert "bounds" in time.attributes.untracked
             assert dict(time.cf_attrs_used()) == dict(time.cf_attrs_ignored())
 
-    def test_a_read_after_the_reset_is_recorded(self, sample_path):
+    def test_a_read_after_the_reset_is_recorded(self, sample_path):  # noqa: D102
         with CFReader(str(sample_path)) as reader:
             time = reader.cf_group["time"]
 
@@ -192,7 +192,7 @@ class TestAttributeTrackingAcrossReset:
             assert "units" in dict(time.cf_attrs_used())
             assert "units" not in dict(time.cf_attrs_unused())
 
-    def test_an_unread_attribute_reaches_the_cube(self, sample_path):
+    def test_an_unread_attribute_reaches_the_cube(self, sample_path):  # noqa: D102
         cube = iris.load_cube(str(sample_path))
 
         # "title" is a global attribute: build_and_add_global_attributes

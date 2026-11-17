@@ -20,7 +20,7 @@ class Test:
         self.units = "m"
         self.attr = {"positive": "up", "wibble": "wobble"}
 
-    def test_dim_monotonic(self):
+    def test_dim_monotonic(self):  # noqa: D102
         result = _dim_or_aux(
             self.mono,
             standard_name=self.std_name,
@@ -35,7 +35,7 @@ class Test:
         )
         assert result == expected
 
-    def test_dim_non_monotonic(self):
+    def test_dim_non_monotonic(self):  # noqa: D102
         result = _dim_or_aux(
             self.non_mono,
             standard_name=self.std_name,

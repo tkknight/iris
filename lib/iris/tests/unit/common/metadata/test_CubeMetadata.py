@@ -51,7 +51,7 @@ class Test:
         self.cell_methods = mocker.sentinel.cell_methods
         self.cls = CubeMetadata
 
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         metadata = self.cls(
             standard_name=self.standard_name,
             long_name=self.long_name,
@@ -74,7 +74,7 @@ class Test:
         )
         assert repr(metadata) == expected
 
-    def test__fields(self):
+    def test__fields(self):  # noqa: D102
         expected = (
             "standard_name",
             "long_name",
@@ -85,7 +85,7 @@ class Test:
         )
         assert self.cls._fields == expected
 
-    def test_bases(self):
+    def test_bases(self):  # noqa: D102
         assert issubclass(self.cls, BaseMetadata)
 
 
@@ -442,16 +442,16 @@ class Test___eq__(MixinSplitattrsMatrixTests):
         self.dummy = mocker.sentinel.dummy
         self.cls = CubeMetadata
 
-    def test_wraps_docstring(self):
+    def test_wraps_docstring(self):  # noqa: D102
         assert self.cls.__eq__.__doc__ == BaseMetadata.__eq__.__doc__
 
-    def test_lenient_service(self):
+    def test_lenient_service(self):  # noqa: D102
         qualname___eq__ = _qualname(self.cls.__eq__)
         assert qualname___eq__ in _LENIENT
         assert _LENIENT[qualname___eq__]
         assert _LENIENT[self.cls.__eq__]
 
-    def test_call(self, mocker):
+    def test_call(self, mocker):  # noqa: D102
         other = mocker.sentinel.other
         return_value = mocker.sentinel.return_value
         metadata = self.cls(*(None,) * len(self.cls._fields))
@@ -461,7 +461,7 @@ class Test___eq__(MixinSplitattrsMatrixTests):
         assert result == return_value
         assert patcher.call_args_list == [mocker.call(other)]
 
-    def test_op_same(self, leniency, mocker):
+    def test_op_same(self, leniency, mocker):  # noqa: D102
         # Check op all-same content, but all-new data.
         # NOTE: test for both strict/lenient, should both work the same.
         is_lenient = leniency == "lenient"
@@ -473,7 +473,7 @@ class Test___eq__(MixinSplitattrsMatrixTests):
         assert lmetadata.__eq__(rmetadata)
         assert rmetadata.__eq__(lmetadata)
 
-    def test_op_different__none(self, fieldname, leniency, mocker):
+    def test_op_different__none(self, fieldname, leniency, mocker):  # noqa: D102
         # One side has field=value, and the other field=None, both strict + lenient.
         if fieldname == "attributes":
             # Must be a dict, cannot be None.
@@ -498,7 +498,7 @@ class Test___eq__(MixinSplitattrsMatrixTests):
             assert lmetadata.__eq__(rmetadata) == expect_success
             assert rmetadata.__eq__(lmetadata) == expect_success
 
-    def test_op_different__value(self, fieldname, leniency, mocker):
+    def test_op_different__value(self, fieldname, leniency, mocker):  # noqa: D102
         # Compare when a given field value is changed, both strict + lenient.
         if fieldname == "attributes":
             # Dicts have more possibilities: handled separately.
@@ -528,7 +528,7 @@ class Test___eq__(MixinSplitattrsMatrixTests):
             assert lmetadata.__eq__(rmetadata) == expect_success
             assert rmetadata.__eq__(lmetadata) == expect_success
 
-    def test_op_different__attribute_extra(self, leniency, mocker):
+    def test_op_different__attribute_extra(self, leniency, mocker):  # noqa: D102
         # Check when one set of attributes has an extra entry.
         is_lenient = leniency == "lenient"
         lmetadata = self.cls(**self.lvalues)
@@ -541,7 +541,7 @@ class Test___eq__(MixinSplitattrsMatrixTests):
         assert lmetadata.__eq__(rmetadata) == expect_success
         assert rmetadata.__eq__(lmetadata) == expect_success
 
-    def test_op_different__attribute_value(self, leniency, mocker):
+    def test_op_different__attribute_value(self, leniency, mocker):  # noqa: D102
         # lhs and rhs have different values for an attribute, both strict + lenient.
         is_lenient = leniency == "lenient"
         self.lvalues["attributes"]["_extra_"] = mocker.sentinel.value1
@@ -564,23 +564,23 @@ class Test___lt__:
         self.none = self.cls(1, 1, 1, None, 1, 1)
         self.attributes_cm = self.cls(1, 1, 1, 1, 10, 10)
 
-    def test__ascending_lt(self):
+    def test__ascending_lt(self):  # noqa: D102
         result = self.one < self.two
         assert result
 
-    def test__descending_lt(self):
+    def test__descending_lt(self):  # noqa: D102
         result = self.two < self.one
         assert not result
 
-    def test__none_rhs_operand(self):
+    def test__none_rhs_operand(self):  # noqa: D102
         result = self.one < self.none
         assert not result
 
-    def test__none_lhs_operand(self):
+    def test__none_lhs_operand(self):  # noqa: D102
         result = self.none < self.one
         assert result
 
-    def test__ignore_attributes_cell_methods(self):
+    def test__ignore_attributes_cell_methods(self):  # noqa: D102
         result = self.one < self.attributes_cm
         assert not result
         result = self.attributes_cm < self.one
@@ -607,16 +607,16 @@ class Test_combine(MixinSplitattrsMatrixTests):
         self.cls = CubeMetadata
         self.none = self.cls(*(None,) * len(self.cls._fields))
 
-    def test_wraps_docstring(self):
+    def test_wraps_docstring(self):  # noqa: D102
         assert self.cls.combine.__doc__ == BaseMetadata.combine.__doc__
 
-    def test_lenient_service(self):
+    def test_lenient_service(self):  # noqa: D102
         qualname_combine = _qualname(self.cls.combine)
         assert qualname_combine in _LENIENT
         assert _LENIENT[qualname_combine]
         assert _LENIENT[self.cls.combine]
 
-    def test_lenient_default(self, mocker):
+    def test_lenient_default(self, mocker):  # noqa: D102
         other = mocker.sentinel.other
         return_value = mocker.sentinel.return_value
         patcher = mocker.patch.object(
@@ -627,7 +627,7 @@ class Test_combine(MixinSplitattrsMatrixTests):
         assert result == return_value
         assert patcher.call_args_list == [mocker.call(other, lenient=None)]
 
-    def test_lenient(self, mocker):
+    def test_lenient(self, mocker):  # noqa: D102
         other = mocker.sentinel.other
         lenient = mocker.sentinel.lenient
         return_value = mocker.sentinel.return_value
@@ -639,7 +639,7 @@ class Test_combine(MixinSplitattrsMatrixTests):
         assert result == return_value
         assert patcher.call_args_list == [mocker.call(other, lenient=lenient)]
 
-    def test_op_same(self, leniency, mocker):
+    def test_op_same(self, leniency, mocker):  # noqa: D102
         # Result is same as either input, both strict + lenient.
         is_lenient = leniency == "lenient"
         lmetadata = self.cls(**self.lvalues)
@@ -651,7 +651,7 @@ class Test_combine(MixinSplitattrsMatrixTests):
         assert lmetadata.combine(rmetadata)._asdict() == expected
         assert rmetadata.combine(lmetadata)._asdict() == expected
 
-    def test_op_different__none(self, fieldname, leniency, mocker):
+    def test_op_different__none(self, fieldname, leniency, mocker):  # noqa: D102
         # One side has field=value, and the other field=None, both strict + lenient.
         if fieldname == "attributes":
             # Can't be None : Tested separately
@@ -686,7 +686,7 @@ class Test_combine(MixinSplitattrsMatrixTests):
         assert lmetadata.combine(rmetadata)._asdict() == expected
         assert rmetadata.combine(lmetadata)._asdict() == expected
 
-    def test_op_different__value(self, fieldname, leniency, mocker):
+    def test_op_different__value(self, fieldname, leniency, mocker):  # noqa: D102
         # One field has different value for lhs/rhs, both strict + lenient.
         if fieldname == "attributes":
             # Attribute behaviours are tested separately
@@ -708,7 +708,7 @@ class Test_combine(MixinSplitattrsMatrixTests):
         assert lmetadata.combine(rmetadata)._asdict() == expected
         assert rmetadata.combine(lmetadata)._asdict() == expected
 
-    def test_op_different__attribute_extra(self, leniency, mocker):
+    def test_op_different__attribute_extra(self, leniency, mocker):  # noqa: D102
         # One field has an extra attribute, both strict + lenient.
         is_lenient = leniency == "lenient"
 
@@ -730,7 +730,7 @@ class Test_combine(MixinSplitattrsMatrixTests):
         assert lmetadata.combine(rmetadata)._asdict() == expected
         assert rmetadata.combine(lmetadata)._asdict() == expected
 
-    def test_op_different__attribute_value(self, leniency, mocker):
+    def test_op_different__attribute_value(self, leniency, mocker):  # noqa: D102
         # lhs and rhs have different values for an attribute, both strict + lenient.
         is_lenient = leniency == "lenient"
 
@@ -776,16 +776,16 @@ class Test_difference(MixinSplitattrsMatrixTests):
         self.cls = CubeMetadata
         self.none = self.cls(*(None,) * len(self.cls._fields))
 
-    def test_wraps_docstring(self):
+    def test_wraps_docstring(self):  # noqa: D102
         assert self.cls.difference.__doc__ == BaseMetadata.difference.__doc__
 
-    def test_lenient_service(self):
+    def test_lenient_service(self):  # noqa: D102
         qualname_difference = _qualname(self.cls.difference)
         assert qualname_difference in _LENIENT
         assert _LENIENT[qualname_difference]
         assert _LENIENT[self.cls.difference]
 
-    def test_lenient_default(self, mocker):
+    def test_lenient_default(self, mocker):  # noqa: D102
         other = mocker.sentinel.other
         return_value = mocker.sentinel.return_value
         patcher = mocker.patch.object(
@@ -796,7 +796,7 @@ class Test_difference(MixinSplitattrsMatrixTests):
         assert result == return_value
         assert patcher.call_args_list == [mocker.call(other, lenient=None)]
 
-    def test_lenient(self, mocker):
+    def test_lenient(self, mocker):  # noqa: D102
         other = mocker.sentinel.other
         lenient = mocker.sentinel.lenient
         return_value = mocker.sentinel.return_value
@@ -808,7 +808,7 @@ class Test_difference(MixinSplitattrsMatrixTests):
         assert result == return_value
         assert patcher.call_args_list == [mocker.call(other, lenient=lenient)]
 
-    def test_op_same(self, leniency, mocker):
+    def test_op_same(self, leniency, mocker):  # noqa: D102
         is_lenient = leniency == "lenient"
         lmetadata = self.cls(**self.lvalues)
         rmetadata = self.cls(**self.rvalues)
@@ -817,7 +817,7 @@ class Test_difference(MixinSplitattrsMatrixTests):
         assert lmetadata.difference(rmetadata) is None
         assert rmetadata.difference(lmetadata) is None
 
-    def test_op_different__none(self, fieldname, leniency, mocker):
+    def test_op_different__none(self, fieldname, leniency, mocker):  # noqa: D102
         # One side has field=value, and the other field=None, both strict + lenient.
         if fieldname == "attributes":
             # These cannot properly be set to 'None'.  Tested elsewhere.
@@ -857,7 +857,7 @@ class Test_difference(MixinSplitattrsMatrixTests):
             assert lmetadata.difference(rmetadata) is None
             assert rmetadata.difference(lmetadata) is None
 
-    def test_op_different__value(self, fieldname, leniency, mocker):
+    def test_op_different__value(self, fieldname, leniency, mocker):  # noqa: D102
         # One field has different value for lhs/rhs, both strict + lenient.
         if fieldname == "attributes":
             # Attribute behaviours are tested separately
@@ -879,7 +879,7 @@ class Test_difference(MixinSplitattrsMatrixTests):
         assert lmetadata.difference(rmetadata)._asdict() == ldiff_metadata
         assert rmetadata.difference(lmetadata)._asdict() == rdiff_metadata
 
-    def test_op_different__attribute_extra(self, leniency, mocker):
+    def test_op_different__attribute_extra(self, leniency, mocker):  # noqa: D102
         # One field has an extra attribute, both strict + lenient.
         is_lenient = leniency == "lenient"
         self.lvalues["attributes"] = {"_a_common_": self.dummy}
@@ -906,7 +906,7 @@ class Test_difference(MixinSplitattrsMatrixTests):
             assert lmetadata.difference(rmetadata)._asdict() == lexpected
             assert rmetadata.difference(lmetadata)._asdict() == rexpected
 
-    def test_op_different__attribute_value(self, leniency, mocker):
+    def test_op_different__attribute_value(self, leniency, mocker):  # noqa: D102
         # lhs and rhs have different values for an attribute, both strict + lenient.
         is_lenient = leniency == "lenient"
         self.lvalues["attributes"] = {
@@ -945,16 +945,16 @@ class Test_equal:
         self.cls = CubeMetadata
         self.none = self.cls(*(None,) * len(self.cls._fields))
 
-    def test_wraps_docstring(self):
+    def test_wraps_docstring(self):  # noqa: D102
         assert BaseMetadata.equal.__doc__ == self.cls.equal.__doc__
 
-    def test_lenient_service(self):
+    def test_lenient_service(self):  # noqa: D102
         qualname_equal = _qualname(self.cls.equal)
         assert qualname_equal in _LENIENT
         assert _LENIENT[qualname_equal]
         assert _LENIENT[self.cls.equal]
 
-    def test_lenient_default(self, mocker):
+    def test_lenient_default(self, mocker):  # noqa: D102
         other = mocker.sentinel.other
         return_value = mocker.sentinel.return_value
         patcher = mocker.patch.object(BaseMetadata, "equal", return_value=return_value)
@@ -966,7 +966,7 @@ class Test_equal:
         assert arg == other
         assert kwargs == dict(lenient=None)
 
-    def test_lenient(self, mocker):
+    def test_lenient(self, mocker):  # noqa: D102
         other = mocker.sentinel.other
         lenient = mocker.sentinel.lenient
         return_value = mocker.sentinel.return_value
@@ -986,7 +986,7 @@ class Test_name:
     def _setup(self):
         self.default = CubeMetadata.DEFAULT_NAME
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         token = "standard_name"
         metadata = _make_metadata(standard_name=token)
         result = metadata.name()
@@ -994,7 +994,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == token
 
-    def test_standard_name__invalid_token(self):
+    def test_standard_name__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = _make_metadata(standard_name=token)
         result = metadata.name()
@@ -1002,7 +1002,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         token = "long_name"
         metadata = _make_metadata(long_name=token)
         result = metadata.name()
@@ -1010,7 +1010,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == token
 
-    def test_long_name__invalid_token(self):
+    def test_long_name__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = _make_metadata(long_name=token)
         result = metadata.name()
@@ -1018,7 +1018,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         token = "var_name"
         metadata = _make_metadata(var_name=token)
         result = metadata.name()
@@ -1026,7 +1026,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == token
 
-    def test_var_name__invalid_token(self):
+    def test_var_name__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = _make_metadata(var_name=token)
         result = metadata.name()
@@ -1034,7 +1034,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_attributes(self):
+    def test_attributes(self):  # noqa: D102
         token = "stash"
         metadata = _make_metadata(attributes=token)
         result = metadata.name()
@@ -1042,7 +1042,7 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == token
 
-    def test_attributes__invalid_token(self):
+    def test_attributes__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = _make_metadata(attributes=token)
         result = metadata.name()
@@ -1050,21 +1050,21 @@ class Test_name:
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_attributes__non_mapping(self):
+    def test_attributes__non_mapping(self):  # noqa: D102
         metadata = _make_metadata(force_mapping=False)
         assert metadata.attributes is None
         emsg = "Invalid 'CubeMetadata.attributes' member, must be a mapping."
         with pytest.raises(AttributeError, match=emsg):
             _ = metadata.name()
 
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         metadata = _make_metadata()
         result = metadata.name()
         assert result == self.default
         result = metadata.name(token=True)
         assert result == self.default
 
-    def test_default__invalid_token(self):
+    def test_default__invalid_token(self):  # noqa: D102
         token = "nope nope"
         metadata = _make_metadata()
         result = metadata.name(default=token)
@@ -1076,42 +1076,42 @@ class Test_name:
 
 class Test__names:
     """Test  names."""
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         token = "standard_name"
         metadata = _make_metadata(standard_name=token)
         expected = (token, None, None, None)
         result = metadata._names
         assert result == expected
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         token = "long_name"
         metadata = _make_metadata(long_name=token)
         expected = (None, token, None, None)
         result = metadata._names
         assert result == expected
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         token = "var_name"
         metadata = _make_metadata(var_name=token)
         expected = (None, None, token, None)
         result = metadata._names
         assert result == expected
 
-    def test_attributes(self):
+    def test_attributes(self):  # noqa: D102
         token = "stash"
         metadata = _make_metadata(attributes=token)
         expected = (None, None, None, token)
         result = metadata._names
         assert result == expected
 
-    def test_attributes__non_mapping(self):
+    def test_attributes__non_mapping(self):  # noqa: D102
         metadata = _make_metadata(force_mapping=False)
         assert metadata.attributes is None
         emsg = "Invalid 'CubeMetadata.attributes' member, must be a mapping."
         with pytest.raises(AttributeError, match=emsg):
             _ = metadata._names
 
-    def test_none(self):
+    def test_none(self):  # noqa: D102
         metadata = _make_metadata()
         expected = (None, None, None, None)
         result = metadata._names

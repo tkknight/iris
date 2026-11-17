@@ -137,19 +137,19 @@ class MaskedTest:
 
 class RealMixin:
     """RealMixin."""
-    def run_func(self, *args, **kwargs):
+    def run_func(self, *args, **kwargs):  # noqa: D102
         return MAX_RUN.call_func(*args, **kwargs)
 
-    def check_array(self, result, expected):
+    def check_array(self, result, expected):  # noqa: D102
         _shared_utils.assert_array_equal(result, expected)
 
 
 class LazyMixin:
     """LazyMixin."""
-    def run_func(self, *args, **kwargs):
+    def run_func(self, *args, **kwargs):  # noqa: D102
         return MAX_RUN.lazy_func(*args, **kwargs)
 
-    def check_array(self, result, expected, expected_chunks):
+    def check_array(self, result, expected, expected_chunks):  # noqa: D102
         assert is_lazy_data(result)
         assert result.chunks == expected_chunks
         result = as_concrete_data(result)
@@ -158,7 +158,7 @@ class LazyMixin:
 
 class TestBasic(UnmaskedTest, RealMixin):
     """Test asic."""
-    def test_1d(self):
+    def test_1d(self):  # noqa: D102
         for data, expected in self.data_1ds:
             result = self.run_func(
                 data,
@@ -167,7 +167,7 @@ class TestBasic(UnmaskedTest, RealMixin):
             )
             self.check_array(result, expected)
 
-    def test_2d_axis0(self):
+    def test_2d_axis0(self):  # noqa: D102
         result = self.run_func(
             self.data_2d_axis0,
             axis=0,
@@ -175,7 +175,7 @@ class TestBasic(UnmaskedTest, RealMixin):
         )
         self.check_array(result, self.expected_2d_axis0)
 
-    def test_2d_axis1(self):
+    def test_2d_axis1(self):  # noqa: D102
         result = self.run_func(
             self.data_2d_axis1,
             axis=1,
@@ -186,7 +186,7 @@ class TestBasic(UnmaskedTest, RealMixin):
 
 class TestLazy(UnmaskedTest, LazyMixin):
     """Test azy."""
-    def test_1d(self):
+    def test_1d(self):  # noqa: D102
         for data, expected in self.data_1ds:
             data = da.from_array(data)
             result = self.run_func(
@@ -196,7 +196,7 @@ class TestLazy(UnmaskedTest, LazyMixin):
             )
             self.check_array(result, expected, ())
 
-    def test_2d_axis0(self):
+    def test_2d_axis0(self):  # noqa: D102
         data = da.from_array(self.data_2d_axis0)
         result = self.run_func(
             data,
@@ -207,7 +207,7 @@ class TestLazy(UnmaskedTest, LazyMixin):
             result, self.expected_2d_axis0, ((len(self.expected_2d_axis0),),)
         )
 
-    def test_2d_axis1(self):
+    def test_2d_axis1(self):  # noqa: D102
         data = da.from_array(self.data_2d_axis1)
         result = self.run_func(
             data,
@@ -221,7 +221,7 @@ class TestLazy(UnmaskedTest, LazyMixin):
 
 class TestLazyChunked(UnmaskedTest, LazyMixin):
     """Test azyChunked."""
-    def test_1d(self):
+    def test_1d(self):  # noqa: D102
         for data, expected in self.data_1ds:
             data = da.from_array(data, chunks=(1,))
             result = self.run_func(
@@ -231,7 +231,7 @@ class TestLazyChunked(UnmaskedTest, LazyMixin):
             )
             self.check_array(result, expected, ())
 
-    def test_2d_axis0_chunk0(self):
+    def test_2d_axis0_chunk0(self):  # noqa: D102
         data = da.from_array(self.data_2d_axis0, chunks=(1, -1))
         result = self.run_func(
             data,
@@ -242,7 +242,7 @@ class TestLazyChunked(UnmaskedTest, LazyMixin):
             result, self.expected_2d_axis0, ((len(self.expected_2d_axis0),),)
         )
 
-    def test_2d_axis0_chunk1(self):
+    def test_2d_axis0_chunk1(self):  # noqa: D102
         data = da.from_array(self.data_2d_axis0, chunks=(-1, 1))
         result = self.run_func(
             data,
@@ -252,7 +252,7 @@ class TestLazyChunked(UnmaskedTest, LazyMixin):
         expected_chunks = (tuple([1] * len(self.expected_2d_axis0)),)
         self.check_array(result, self.expected_2d_axis0, expected_chunks)
 
-    def test_2d_axis1_chunk0(self):
+    def test_2d_axis1_chunk0(self):  # noqa: D102
         data = da.from_array(self.data_2d_axis1, chunks=(1, -1))
         result = self.run_func(
             data,
@@ -262,7 +262,7 @@ class TestLazyChunked(UnmaskedTest, LazyMixin):
         expected_chunks = (tuple([1] * len(self.expected_2d_axis1)),)
         self.check_array(result, self.expected_2d_axis1, expected_chunks)
 
-    def test_2d_axis1_chunk1(self):
+    def test_2d_axis1_chunk1(self):  # noqa: D102
         data = da.from_array(self.data_2d_axis1, chunks=(-1, 1))
         result = self.run_func(
             data,
@@ -276,7 +276,7 @@ class TestLazyChunked(UnmaskedTest, LazyMixin):
 
 class TestMasked(MaskedTest, RealMixin):
     """Test asked."""
-    def test_1d(self):
+    def test_1d(self):  # noqa: D102
         for data, expected in self.data_1ds:
             result = self.run_func(
                 data,
@@ -285,7 +285,7 @@ class TestMasked(MaskedTest, RealMixin):
             )
             self.check_array(result, expected)
 
-    def test_2d_axis0(self):
+    def test_2d_axis0(self):  # noqa: D102
         result = self.run_func(
             self.data_2d_axis0,
             axis=0,
@@ -293,7 +293,7 @@ class TestMasked(MaskedTest, RealMixin):
         )
         self.check_array(result, self.expected_2d_axis0)
 
-    def test_2d_axis1(self):
+    def test_2d_axis1(self):  # noqa: D102
         result = self.run_func(
             self.data_2d_axis1,
             axis=1,
@@ -304,11 +304,11 @@ class TestMasked(MaskedTest, RealMixin):
 
 class Test_name:
     """Test name."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert MAX_RUN.name() == "max_run"
 
 
 class Test_cell_method:
     """Test cell method."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert MAX_RUN.cell_method is None

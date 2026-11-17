@@ -35,23 +35,23 @@ class TestBasic(_shared_utils.GraphicsTest):
     def _setup(self):
         self.cube = iris.tests.stock.realistic_4d()
 
-    def test_contourf(self):
+    def test_contourf(self):  # noqa: D102
         cube = self.cube[0, 0]
         iplt.contourf(cube)
         self.check_graphic()
 
-    def test_pcolor(self):
+    def test_pcolor(self):  # noqa: D102
         cube = self.cube[0, 0]
         iplt.pcolor(cube)
         self.check_graphic()
 
-    def test_unmappable(self):
+    def test_unmappable(self):  # noqa: D102
         cube = self.cube[0, 0]
         cube.coord("grid_longitude").standard_name = None
         iplt.contourf(cube)
         self.check_graphic()
 
-    def test_default_projection_and_extent(self):
+    def test_default_projection_and_extent(self):  # noqa: D102
         assert iplt.default_projection(self.cube) == ccrs.RotatedPole(
             357.5 - 180, 37.5, globe=_DEFAULT_GLOBE
         )
@@ -89,7 +89,7 @@ class TestUnmappable(_shared_utils.GraphicsTest):
         cube.units = "K"
         self.cube = cube
 
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         iplt.contourf(self.cube, coords=["y", "x"])
         self.check_graphic()
 
@@ -108,7 +108,7 @@ class TestMappingSubRegion(_shared_utils.GraphicsTest):
         self.cube = cube[::10, ::10]
 
     @_shared_utils.skip_proj_9_8_incompatible
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         # First sub-plot
         plt.subplot(221)
         plt.title("Default")
@@ -136,7 +136,7 @@ class TestMappingSubRegion(_shared_utils.GraphicsTest):
 
         self.check_graphic()
 
-    def test_default_projection_and_extent(self):
+    def test_default_projection_and_extent(self):  # noqa: D102
         assert iplt.default_projection(self.cube) == ccrs.RotatedPole(
             357.5 - 180, 37.5, globe=_DEFAULT_GLOBE
         )
@@ -158,11 +158,11 @@ class TestLowLevel(_shared_utils.GraphicsTest):
         self.few_levels = list(range(280, 300, 5))
         self.many_levels = np.linspace(self.cube.data.min(), self.cube.data.max(), 40)
 
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         iplt.contour(self.cube)
         self.check_graphic()
 
-    def test_params(self):
+    def test_params(self):  # noqa: D102
         iplt.contourf(self.cube, self.few)
         self.check_graphic()
 
@@ -172,7 +172,7 @@ class TestLowLevel(_shared_utils.GraphicsTest):
         iplt.contourf(self.cube, self.many_levels)
         self.check_graphic()
 
-    def test_keywords(self):
+    def test_keywords(self):  # noqa: D102
         iplt.contourf(self.cube, levels=self.few_levels)
         self.check_graphic()
 
@@ -194,18 +194,18 @@ class TestBoundedCube(_shared_utils.GraphicsTest):
         self.cube.coord("longitude").guess_bounds()
 
     @_shared_utils.skip_proj_9_8_incompatible
-    def test_pcolormesh(self):
+    def test_pcolormesh(self):  # noqa: D102
         # pcolormesh can only be drawn in native coordinates (or more
         # specifically, in coordinates that don't wrap).
         plt.axes(projection=ccrs.PlateCarree(central_longitude=180))
         iplt.pcolormesh(self.cube)
         self.check_graphic()
 
-    def test_grid(self):
+    def test_grid(self):  # noqa: D102
         iplt.outline(self.cube)
         self.check_graphic()
 
-    def test_default_projection_and_extent(self):
+    def test_default_projection_and_extent(self):  # noqa: D102
         assert iplt.default_projection(self.cube) == ccrs.PlateCarree(
             globe=self.cube.coord_system("CoordSystem").as_cartopy_globe()
         )
@@ -230,16 +230,16 @@ class TestLimitedAreaCube(_shared_utils.GraphicsTest):
         self.cube.coord("grid_latitude").guess_bounds()
         self.cube.coord("grid_longitude").guess_bounds()
 
-    def test_pcolormesh(self):
+    def test_pcolormesh(self):  # noqa: D102
         iplt.pcolormesh(self.cube)
         self.check_graphic()
 
-    def test_outline(self):
+    def test_outline(self):  # noqa: D102
         iplt.outline(self.cube)
         self.check_graphic()
 
     @_shared_utils.skip_proj_9_8_incompatible
-    def test_scatter(self):
+    def test_scatter(self):  # noqa: D102
         iplt.points(self.cube)
         plt.gca().coastlines("110m")
         self.check_graphic()

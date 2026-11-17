@@ -31,27 +31,27 @@ class TestInputReshape:
         # get hold of the first arg instead.
         _shared_utils.assert_array_equal(self.stat_func.call_args.args[0], expected)
 
-    def test_1d_input(self):
+    def test_1d_input(self):  # noqa: D102
         # Trailing axis chosen, so array should be unchanged.
         data = np.arange(5)
         axis = 0
         self.check_input(data, axis, data)
 
-    def test_2d_input_trailing(self):
+    def test_2d_input_trailing(self):  # noqa: D102
         # Trailing axis chosen, so array should be unchanged.
         data = np.arange(6).reshape(2, 3)
         axis = 1
         self.stat_func.return_value = np.empty(2)
         self.check_input(data, axis, data)
 
-    def test_2d_input_transpose(self):
+    def test_2d_input_transpose(self):  # noqa: D102
         # Leading axis chosen, so array should be transposed.
         data = np.arange(6).reshape(2, 3)
         axis = 0
         self.stat_func.return_value = np.empty(3)
         self.check_input(data, axis, data.T)
 
-    def test_3d_input_middle(self):
+    def test_3d_input_middle(self):  # noqa: D102
         # Middle axis is chosen, should be moved to end. Other dims should be
         # flattened.
         data = np.arange(24).reshape(2, 3, 4)
@@ -60,7 +60,7 @@ class TestInputReshape:
         expected = np.moveaxis(data, 1, 2).reshape(8, 3)
         self.check_input(data, axis, expected)
 
-    def test_3d_input_leading_multiple(self):
+    def test_3d_input_leading_multiple(self):  # noqa: D102
         # First 2 axis chosen, should be flattened and moved to end.
         data = np.arange(24).reshape(2, 3, 4)
         axis = (0, 1)
@@ -68,14 +68,14 @@ class TestInputReshape:
         expected = np.moveaxis(data, 2, 0).reshape(4, 6)
         self.check_input(data, axis, expected)
 
-    def test_4d_first_and_last(self):
+    def test_4d_first_and_last(self):  # noqa: D102
         data = np.arange(120).reshape(2, 3, 4, 5)
         axis = (0, -1)
         self.stat_func.return_value = np.empty(12)
         expected = np.moveaxis(data, 0, 2).reshape(12, 10)
         self.check_input(data, axis, expected)
 
-    def test_3d_input_leading_multiple_lazy(self):
+    def test_3d_input_leading_multiple_lazy(self):  # noqa: D102
         # First 2 axis chosen, should be flattened and moved to end.  Lazy data
         # should be preserved.
         data = np.arange(24).reshape(2, 3, 4)
@@ -99,7 +99,7 @@ class TestOutputReshape:
     def _setup(self, mocker):
         self.stat_func = mocker.Mock()
 
-    def test_1d_input_1d_output(self):
+    def test_1d_input_1d_output(self):  # noqa: D102
         # If array is fully aggregated, result should be same as returned by stat
         # function.
         data = np.arange(3)
@@ -108,7 +108,7 @@ class TestOutputReshape:
         result = wrapped_stat_func(data, axis=0)
         _shared_utils.assert_array_equal(result, self.stat_func.return_value)
 
-    def test_3d_input_middle_single_stat(self):
+    def test_3d_input_middle_single_stat(self):  # noqa: D102
         # result shape should match non-aggregated input dims.
         data = np.empty((2, 3, 4))
         axis = 1
@@ -118,7 +118,7 @@ class TestOutputReshape:
         result = wrapped_stat_func(data, axis=axis)
         _shared_utils.assert_array_equal(result, expected)
 
-    def test_3d_input_middle_single_stat_lazy(self):
+    def test_3d_input_middle_single_stat_lazy(self):  # noqa: D102
         # result shape should match non-aggregated input dims.  Lazy data should
         # be preserved.
         data = np.empty((2, 3, 4))
@@ -130,7 +130,7 @@ class TestOutputReshape:
         assert is_lazy_data(result)
         _shared_utils.assert_array_equal(as_concrete_data(result), expected)
 
-    def test_3d_input_middle_multiple_stat(self):
+    def test_3d_input_middle_multiple_stat(self):  # noqa: D102
         # result shape should match non-aggregated input dims, plus trailing dim
         # with size determined by the stat function.
         data = np.empty((2, 3, 4))

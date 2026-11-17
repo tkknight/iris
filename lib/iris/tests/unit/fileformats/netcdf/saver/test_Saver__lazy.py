@@ -42,7 +42,7 @@ class Test_write(LazyMixin, test_Saver.Test_write):
 class Test__create_cf_bounds(test_Saver.Test__create_cf_bounds):
     """Test  create cf bounds."""
     @staticmethod
-    def climatology_3d():
+    def climatology_3d():  # noqa: D102
         cube = stock.climatology_3d()
         aux_coord = AuxCoord.from_coord(cube.coord("time"))
         lazy_coord = aux_coord.copy(aux_coord.lazy_points(), aux_coord.lazy_bounds())
@@ -105,7 +105,7 @@ class TestStreamed:
         self.store_watch = mocker.patch("dask.array.store")
 
     @pytest.fixture
-    def save_common(self, tmp_path):
+    def save_common(self, tmp_path):  # noqa: D102
         def _save_common(cube_to_save):
             nc_path = tmp_path / "temp.nc"
             with Saver(nc_path, "NETCDF4") as saver:
@@ -113,23 +113,23 @@ class TestStreamed:
 
         return _save_common
 
-    def test_realised_not_streamed(self, save_common):
+    def test_realised_not_streamed(self, save_common):  # noqa: D102
         save_common(self.cube)
         assert not self.store_watch.called
 
-    def test_lazy_streamed_data(self, save_common):
+    def test_lazy_streamed_data(self, save_common):  # noqa: D102
         self.cube.data = self.cube.lazy_data()
         save_common(self.cube)
         assert self.store_watch.called
 
-    def test_lazy_streamed_coord(self, save_common):
+    def test_lazy_streamed_coord(self, save_common):  # noqa: D102
         aux_coord = AuxCoord.from_coord(self.cube.coords()[0])
         lazy_coord = aux_coord.copy(aux_coord.lazy_points(), aux_coord.lazy_bounds())
         self.cube.replace_coord(lazy_coord)
         save_common(self.cube)
         assert self.store_watch.called
 
-    def test_lazy_streamed_bounds(self, save_common):
+    def test_lazy_streamed_bounds(self, save_common):  # noqa: D102
         aux_coord = AuxCoord.from_coord(self.cube.coords()[0])
         lazy_coord = aux_coord.copy(aux_coord.points, aux_coord.lazy_bounds())
         self.cube.replace_coord(lazy_coord)

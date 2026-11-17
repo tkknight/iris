@@ -143,7 +143,7 @@ class TestWriteStrings:
     which is separately tested -- see 'TestReadStrings'.
     """
 
-    def test_encodings(self, encoding, tempdir):
+    def test_encodings(self, encoding, tempdir):  # noqa: D102
         # Create a dataset with the variable
         path = tempdir / f"test_bytecoded_writestrings_encoding_{encoding!s}.nc"
 
@@ -173,7 +173,7 @@ class TestWriteStrings:
         result_attr = v.getncattr("_Encoding") if "_Encoding" in v.ncattrs() else None
         assert result_attr == encoding
 
-    def test_scalar(self, tempdir):
+    def test_scalar(self, tempdir):  # noqa: D102
         # Like 'test_write_strings', but the variable has *only* the string dimension.
         path = tempdir / "test_bytecoded_writestrings_scalar.nc"
 
@@ -189,7 +189,7 @@ class TestWriteStrings:
         expected_bytes = make_bytearray(b"stuff", strlen)
         check_raw_content(path, "v0_scalar", expected_bytes)
 
-    def test_multidim(self, tempdir):
+    def test_multidim(self, tempdir):  # noqa: D102
         # Like 'test_write_strings', but the variable has additional dimensions.
         path = tempdir / "test_bytecoded_writestrings_multidim.nc"
 
@@ -218,7 +218,7 @@ class TestWriteStrings:
         expected_bytes = make_bytearray(test_data, strlen)
         check_raw_content(path, "vyxn", expected_bytes)
 
-    def test_write_encoding_failure(self, tempdir):
+    def test_write_encoding_failure(self, tempdir):  # noqa: D102
         path = tempdir / f"test_bytecoded_writestrings_encoding_{encoding}_fail.nc"
         ds = make_encoded_dataset(path, strlen=5, encoding="ascii")
         v = ds.variables["vxs"]
@@ -230,7 +230,7 @@ class TestWriteStrings:
             v[:] = samples_3_nonascii
 
     @pytest.mark.parametrize("mode", ["invalid", "unsupported"])
-    def test_write_badencoding_ignore(self, tempdir, mode):
+    def test_write_badencoding_ignore(self, tempdir, mode):  # noqa: D102
         if mode == "invalid":
             encoding = "<unknown>"
         else:
@@ -245,7 +245,7 @@ class TestWriteStrings:
         with pytest.warns(IrisCfSaveWarning, match=msg):
             v[:] = samples_3_ascii  # will work OK
 
-    def test_overlength(self, tempdir):
+    def test_overlength(self, tempdir):  # noqa: D102
         # Check expected behaviour with over-length data
         path = tempdir / "test_bytecoded_writestrings_overlength.nc"
         strlen = 6
@@ -258,7 +258,7 @@ class TestWriteStrings:
         with pytest.raises(TranslationError, match=msg):
             v[:] = ["1", "éclair", "two"]
 
-    def test_overlength_splitcoding(self, tempdir):
+    def test_overlength_splitcoding(self, tempdir):  # noqa: D102
         # Check expected behaviour when non-ascii multibyte coding gets truncated
         path = tempdir / "test_bytecoded_writestrings_overlength_splitcoding.nc"
         strlen = 5
@@ -298,7 +298,7 @@ class TestWriteStrings:
 class TestWriteChars:
     """Test riteChars."""
     @pytest.mark.parametrize("write_form", ["strings", "bytes"])
-    def test_write_chars(self, tempdir, write_form):
+    def test_write_chars(self, tempdir, write_form):  # noqa: D102
         encoding = "utf-8"
         write_strings = samples_3_nonascii
         strlen = strings_maxbytes(write_strings, encoding)
@@ -331,10 +331,10 @@ class TestRead:
     """
 
     @pytest.fixture(params=["strings", "bytes"])
-    def readmode(self, request):
+    def readmode(self, request):  # noqa: D102
         return request.param
 
-    def undecoded_testvar(self, ds_encoded, varname: str):
+    def undecoded_testvar(self, ds_encoded, varname: str):  # noqa: D102
         path = ds_encoded.filepath()
         ds_encoded.close()
         ds = DatasetWrapper(path)
@@ -342,7 +342,7 @@ class TestRead:
         v.set_auto_chartostring(False)
         return v
 
-    def test_encodings(self, encoding, tempdir, readmode):
+    def test_encodings(self, encoding, tempdir, readmode):  # noqa: D102
         # Create a dataset with the variable
         path = tempdir / f"test_bytecoded_read_encodings_{encoding!s}_{readmode}.nc"
 
@@ -389,7 +389,7 @@ class TestRead:
 
         check_array_matching(result, expected)
 
-    def test_scalar(self, tempdir, readmode):
+    def test_scalar(self, tempdir, readmode):  # noqa: D102
         # Like 'test_write_strings', but the variable has *only* the string dimension.
         path = tempdir / f"test_bytecoded_read_scalar_{readmode}.nc"
 
@@ -415,7 +415,7 @@ class TestRead:
 
         check_array_matching(result, expected)
 
-    def test_multidim(self, tempdir, readmode):
+    def test_multidim(self, tempdir, readmode):  # noqa: D102
         # Like 'test_write_strings', but the variable has additional dimensions.
         path = tempdir / f"test_bytecoded_read_multidim_{readmode}.nc"
 
@@ -452,7 +452,7 @@ class TestRead:
 
         check_array_matching(result, expected)
 
-    def test_read_encoding_failure(self, tempdir, readmode):
+    def test_read_encoding_failure(self, tempdir, readmode):  # noqa: D102
         path = tempdir / f"test_bytecoded_read_encoding_failure_{readmode}.nc"
         strlen = 10
         ds_encoded = make_encoded_dataset(path, strlen=strlen, encoding="ascii")
@@ -476,7 +476,7 @@ class TestRead:
             assert np.all(result == test_utf8_bytes)
 
     @pytest.mark.parametrize("mode", ["invalid", "unsupported"])
-    def test_read_badencoding_ignore(self, tempdir, mode):
+    def test_read_badencoding_ignore(self, tempdir, mode):  # noqa: D102
         if mode == "invalid":
             encoding = "<unknown>"
         else:
@@ -503,7 +503,7 @@ class TestObjectTypes:
     """Check that the types of dataset content objects are consistent."""
 
     @pytest.fixture
-    def samplefile_path(self, tmp_path):
+    def samplefile_path(self, tmp_path):  # noqa: D102
         testpath = tmp_path / "test.nc"
         ds = netCDF4.Dataset(testpath, "w")
         ds.createDimension("x", 4)
@@ -514,7 +514,7 @@ class TestObjectTypes:
         return testpath
 
     @pytest.fixture(params=["netCDF4", "unencoded", "encoded"])
-    def classtype(self, request):
+    def classtype(self, request):  # noqa: D102
         param = request.param
         if param == "netCDF4":
             self.dataset_class = netCDF4.Dataset
@@ -530,7 +530,7 @@ class TestObjectTypes:
             self.variable_class = EncodedVariable
         return param
 
-    def test_dataset_nonencoded_types(self, samplefile_path, classtype):
+    def test_dataset_nonencoded_types(self, samplefile_path, classtype):  # noqa: D102
         ds = self.dataset_class(samplefile_path)
         try:
             grps = ds.groups
@@ -549,7 +549,7 @@ class TestObjectTypes:
 
     @pytest.mark.parametrize("is_on", [True, False], ids=["c2sOn", "c2sOff"])
     @pytest.mark.parametrize("component_type", ["ds", "var", "group"])
-    def test_auto_chartostring(self, samplefile_path, classtype, component_type, is_on):
+    def test_auto_chartostring(self, samplefile_path, classtype, component_type, is_on):  # noqa: D102
         ds = self.dataset_class(samplefile_path)
         var = ds.variables["vx"]
         grp = ds.groups["grp_a"]

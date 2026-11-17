@@ -11,7 +11,7 @@ from iris.tests.stock import netcdf
 
 class XIOSFileMixin:
     """XIOSFileMixin."""
-    def create_synthetic_file(self, **create_kwargs):
+    def create_synthetic_file(self, **create_kwargs):  # noqa: D102
         # Should be overridden to invoke one of the create_file_ functions.
         # E.g.
         # return netcdf.create_file__xios_2d_face_half_levels(
@@ -19,12 +19,12 @@ class XIOSFileMixin:
         # )
         raise NotImplementedError
 
-    def create_synthetic_test_cube(self, **create_kwargs):
+    def create_synthetic_test_cube(self, **create_kwargs):  # noqa: D102
         file_path = self.create_synthetic_file(**create_kwargs)
         cube = load_cube(file_path)
         return cube
 
-    def check_cube(self, cube, shape, location, level):
+    def check_cube(self, cube, shape, location, level):  # noqa: D102
         # Basic checks on the primary data cube.
         assert cube.var_name == "thing"
         assert cube.long_name == "thingness"
@@ -44,67 +44,67 @@ class XIOSFileMixin:
 
 class Test_create_file__xios_2d_face_half_levels(XIOSFileMixin):
     """Test create file  xios 2d face half levels."""
-    def create_synthetic_file(self, **create_kwargs):
+    def create_synthetic_file(self, **create_kwargs):  # noqa: D102
         return netcdf.create_file__xios_2d_face_half_levels(
             dataset_name="mesh", **create_kwargs
         )
 
-    def test_basic_load(self, tmp_path):
+    def test_basic_load(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(1, 866), location="face", level="half")
 
-    def test_scale_mesh(self, tmp_path):
+    def test_scale_mesh(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(n_faces=10, temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(1, 10), location="face", level="half")
 
-    def test_scale_time(self, tmp_path):
+    def test_scale_time(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(n_times=3, temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(3, 866), location="face", level="half")
 
 
 class Test_create_file__xios_3d_face_half_levels(XIOSFileMixin):
     """Test create file  xios 3d face half levels."""
-    def create_synthetic_file(self, **create_kwargs):
+    def create_synthetic_file(self, **create_kwargs):  # noqa: D102
         return netcdf.create_file__xios_3d_face_half_levels(
             dataset_name="mesh", **create_kwargs
         )
 
-    def test_basic_load(self, tmp_path):
+    def test_basic_load(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(1, 38, 866), location="face", level="half")
 
-    def test_scale_mesh(self, tmp_path):
+    def test_scale_mesh(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(n_faces=10, temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(1, 38, 10), location="face", level="half")
 
-    def test_scale_time(self, tmp_path):
+    def test_scale_time(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(n_times=3, temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(3, 38, 866), location="face", level="half")
 
-    def test_scale_levels(self, tmp_path):
+    def test_scale_levels(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(n_levels=10, temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(1, 10, 866), location="face", level="half")
 
 
 class Test_create_file__xios_3d_face_full_levels(XIOSFileMixin):
     """Test create file  xios 3d face full levels."""
-    def create_synthetic_file(self, **create_kwargs):
+    def create_synthetic_file(self, **create_kwargs):  # noqa: D102
         return netcdf.create_file__xios_3d_face_full_levels(
             dataset_name="mesh", **create_kwargs
         )
 
-    def test_basic_load(self, tmp_path):
+    def test_basic_load(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(1, 39, 866), location="face", level="full")
 
-    def test_scale_mesh(self, tmp_path):
+    def test_scale_mesh(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(n_faces=10, temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(1, 39, 10), location="face", level="full")
 
-    def test_scale_time(self, tmp_path):
+    def test_scale_time(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(n_times=3, temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(3, 39, 866), location="face", level="full")
 
-    def test_scale_levels(self, tmp_path):
+    def test_scale_levels(self, tmp_path):  # noqa: D102
         cube = self.create_synthetic_test_cube(n_levels=10, temp_file_dir=tmp_path)
         self.check_cube(cube, shape=(1, 10, 866), location="face", level="full")

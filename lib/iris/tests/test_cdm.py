@@ -25,7 +25,7 @@ import iris.tests.stock
 
 class IrisDotTest:
     """IrisDotTest."""
-    def check_dot(self, cube, reference_filename):
+    def check_dot(self, cube, reference_filename):  # noqa: D102
         test_string = iris.fileformats.dot.cube_text(cube)
         reference_path = _shared_utils.get_result_path(reference_filename)
         if Path(reference_path).is_file():
@@ -56,7 +56,7 @@ class TestBasicCubeConstruction:
             np.arange(12).reshape((3, 4)) * 3.0, long_name="xy"
         )
 
-    def test_add_dim_coord(self):
+    def test_add_dim_coord(self):  # noqa: D102
         # Lengths must match
         with pytest.raises(ValueError, match="Unequal lengths"):
             self.cube.add_dim_coord(self.y, 1)
@@ -88,7 +88,7 @@ class TestBasicCubeConstruction:
         with pytest.raises(ValueError, match="dim_coord is already associated"):
             self.cube.add_dim_coord(y_other, 0)
 
-    def test_add_scalar_coord(self):
+    def test_add_scalar_coord(self):  # noqa: D102
         scalar_dim_coord = iris.coords.DimCoord(23, long_name="scalar_dim_coord")
         scalar_aux_coord = iris.coords.AuxCoord(23, long_name="scalar_aux_coord")
         match_common = "dimension must be a single number"
@@ -136,7 +136,7 @@ class TestBasicCubeConstruction:
         cube.add_aux_coord(scalar_dim_coord)
         assert cube.aux_coords == (scalar_dim_coord,)
 
-    def test_add_aux_coord(self):
+    def test_add_aux_coord(self):  # noqa: D102
         y_another = iris.coords.DimCoord(
             np.array([2.5, 7.5, 12.5]), long_name="y_another"
         )
@@ -158,7 +158,7 @@ class TestBasicCubeConstruction:
         with pytest.raises(ValueError, match="Duplicate coordinates are not permitted"):
             cube.add_aux_coord(self.xy, [1, 0])
 
-    def test_remove_coord(self):
+    def test_remove_coord(self):  # noqa: D102
         self.cube.add_dim_coord(self.y, 0)
         self.cube.add_dim_coord(self.x, 1)
         self.cube.add_aux_coord(self.xy, (0, 1))
@@ -173,7 +173,7 @@ class TestBasicCubeConstruction:
         self.cube.remove_coord("y")
         assert self.cube.coords() == []
 
-    def test_immutable_dimcoord_dims(self):
+    def test_immutable_dimcoord_dims(self):  # noqa: D102
         # Add DimCoord to dimension 1
         dims = [1]
         self.cube.add_dim_coord(self.x, dims)
@@ -189,7 +189,7 @@ class TestBasicCubeConstruction:
         with pytest.raises(TypeError):
             dims[0] = 0
 
-    def test_immutable_auxcoord_dims(self):
+    def test_immutable_auxcoord_dims(self):  # noqa: D102
         # Add AuxCoord to dimensions (0, 1)
         dims = [0, 1]
         self.cube.add_aux_coord(self.xy, dims)
@@ -214,34 +214,34 @@ class TestStockCubeStringRepresentations:
     def _setup(self):
         self.cube = iris.tests.stock.realistic_4d()
 
-    def test_4d_str(self, request):
+    def test_4d_str(self, request):  # noqa: D102
         _shared_utils.assert_string(request, str(self.cube))
 
-    def test_4d_repr(self, request):
+    def test_4d_repr(self, request):  # noqa: D102
         _shared_utils.assert_string(request, repr(self.cube))
 
-    def test_3d_str(self, request):
+    def test_3d_str(self, request):  # noqa: D102
         _shared_utils.assert_string(request, str(self.cube[0]))
 
-    def test_3d_repr(self, request):
+    def test_3d_repr(self, request):  # noqa: D102
         _shared_utils.assert_string(request, repr(self.cube[0]))
 
-    def test_2d_str(self, request):
+    def test_2d_str(self, request):  # noqa: D102
         _shared_utils.assert_string(request, str(self.cube[0, 0]))
 
-    def test_2d_repr(self, request):
+    def test_2d_repr(self, request):  # noqa: D102
         _shared_utils.assert_string(request, repr(self.cube[0, 0]))
 
-    def test_1d_str(self, request):
+    def test_1d_str(self, request):  # noqa: D102
         _shared_utils.assert_string(request, str(self.cube[0, 0, 0]))
 
-    def test_1d_repr(self, request):
+    def test_1d_repr(self, request):  # noqa: D102
         _shared_utils.assert_string(request, repr(self.cube[0, 0, 0]))
 
-    def test_0d_str(self, request):
+    def test_0d_str(self, request):  # noqa: D102
         _shared_utils.assert_string(request, str(self.cube[0, 0, 0, 0]))
 
-    def test_0d_repr(self, request):
+    def test_0d_repr(self, request):  # noqa: D102
         _shared_utils.assert_string(request, repr(self.cube[0, 0, 0, 0]))
 
 
@@ -257,7 +257,7 @@ class TestCubeStringRepresentations(IrisDotTest):
         self.unicode_cube = iris.tests.stock.simple_1d()
         self.unicode_cube.attributes["source"] = unicode_str
 
-    def test_dot_simple_pp(self):
+    def test_dot_simple_pp(self):  # noqa: D102
         # Test dot output of a 2d cube loaded from pp.
         cube = self.cube_2d
         cube.attributes["my_attribute"] = "foobar"
@@ -275,12 +275,12 @@ class TestCubeStringRepresentations(IrisDotTest):
 
     # TODO hybrid height and dot output - relatitionship links
     @_shared_utils.skip_data
-    def test_dot_4d(self):
+    def test_dot_4d(self):  # noqa: D102
         cube = iris.tests.stock.realistic_4d()
         self.check_dot(cube, ("file_load", "4d_pp.dot"))
 
     @_shared_utils.skip_data
-    def test_missing_coords(self, request):
+    def test_missing_coords(self, request):  # noqa: D102
         cube = iris.tests.stock.realistic_4d()
         cube.remove_coord("time")
         cube.remove_coord("model_level_number")
@@ -292,7 +292,7 @@ class TestCubeStringRepresentations(IrisDotTest):
         )
 
     @_shared_utils.skip_data
-    def test_cubelist_string(self, request):
+    def test_cubelist_string(self, request):  # noqa: D102
         cube_list = iris.cube.CubeList(
             [iris.tests.stock.realistic_4d(), iris.tests.stock.global_pp()]
         )
@@ -303,7 +303,7 @@ class TestCubeStringRepresentations(IrisDotTest):
             request, repr(cube_list), ("cdm", "str_repr", "cubelist.__repr__.txt")
         )
 
-    def test_basic_0d_cube(self, request):
+    def test_basic_0d_cube(self, request):  # noqa: D102
         _shared_utils.assert_string(
             request,
             repr(self.cube_2d[0, 0]),
@@ -318,7 +318,7 @@ class TestCubeStringRepresentations(IrisDotTest):
             request, str(self.cube_2d[0, 0]), ("cdm", "str_repr", "0d_cube.__str__.txt")
         )
 
-    def test_similar_coord(self, request):
+    def test_similar_coord(self, request):  # noqa: D102
         cube = self.cube_2d.copy()
 
         lon = cube.coord("longitude")
@@ -340,7 +340,7 @@ class TestCubeStringRepresentations(IrisDotTest):
             request, str(cube), ("cdm", "str_repr", "similar.__str__.txt")
         )
 
-    def test_cube_summary_cell_methods(self, request):
+    def test_cube_summary_cell_methods(self, request):  # noqa: D102
         cube = self.cube_2d.copy()
 
         # Create a list of values used to create cell methods
@@ -377,7 +377,7 @@ class TestCubeStringRepresentations(IrisDotTest):
             request, str(cube), ("cdm", "str_repr", "cell_methods.__str__.txt")
         )
 
-    def test_cube_summary_alignment(self, request):
+    def test_cube_summary_alignment(self, request):  # noqa: D102
         # Test the cube summary dimension alignment and coord name clipping
         cube = iris.tests.stock.simple_1d()
         aux = iris.coords.AuxCoord(
@@ -392,7 +392,7 @@ class TestCubeStringRepresentations(IrisDotTest):
             request, str(cube), ("cdm", "str_repr", "simple.__str__.txt")
         )
 
-    def test_unicode_attribute(self, request):
+    def test_unicode_attribute(self, request):  # noqa: D102
         _shared_utils.assert_string(
             request,
             str(self.unicode_cube),
@@ -409,12 +409,12 @@ class TestValidity:
             _shared_utils.get_data_path(("PP", "simple_pp", "global.pp"))
         )
 
-    def test_wrong_length_vector_coord(self):
+    def test_wrong_length_vector_coord(self):  # noqa: D102
         wobble = iris.coords.DimCoord(points=[1, 2], long_name="wobble", units="1")
         with pytest.raises(ValueError, match="Unequal lengths"):
             self.cube_2d.add_aux_coord(wobble, 0)
 
-    def test_invalid_dimension_vector_coord(self):
+    def test_invalid_dimension_vector_coord(self):  # noqa: D102
         wobble = iris.coords.DimCoord(points=[1, 2], long_name="wobble", units="1")
         with pytest.raises(
             ValueError, match="cube does not have the specified dimension"
@@ -428,7 +428,7 @@ class TestQueryCoord:
     def _setup(self):
         self.t = iris.tests.stock.simple_2d_w_multidim_and_scalars()
 
-    def test_name(self):
+    def test_name(self):  # noqa: D102
         coords = self.t.coords("dim1")
         assert [coord.name() for coord in coords] == ["dim1"]
 
@@ -444,25 +444,25 @@ class TestQueryCoord:
         coords = self.t.coords("wibble")
         assert coords == []
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         # Both standard_name and long_name defined
         coords = self.t.coords(long_name="custom long name")
         # coord.name() returns standard_name if available
         assert [coord.name() for coord in coords] == ["air_temperature"]
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         # Both standard_name and long_name defined
         coords = self.t.coords(standard_name="custom long name")
         assert [coord.name() for coord in coords] == []
         coords = self.t.coords(standard_name="air_temperature")
         assert [coord.name() for coord in coords] == ["air_temperature"]
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         coords = self.t.coords(var_name="custom_var_name")
         # Matching coord in test cube has a standard_name of 'air_temperature'.
         assert [coord.name() for coord in coords] == ["air_temperature"]
 
-    def test_axis(self):
+    def test_axis(self):  # noqa: D102
         cube = self.t.copy()
         cube.coord("dim1").rename("latitude")
         cube.coord("dim2").rename("longitude")
@@ -486,7 +486,7 @@ class TestQueryCoord:
         coords = cube.coords(axis="z")
         assert coords == []
 
-    def test_contains_dimension(self):
+    def test_contains_dimension(self):  # noqa: D102
         coords = self.t.coords(contains_dimension=0)
         assert [coord.name() for coord in coords] == ["dim1", "my_multi_dim_coord"]
 
@@ -496,7 +496,7 @@ class TestQueryCoord:
         coords = self.t.coords(contains_dimension=2)
         assert coords == []
 
-    def test_dimensions(self):
+    def test_dimensions(self):  # noqa: D102
         coords = self.t.coords(dimensions=0)
         assert [coord.name() for coord in coords] == ["dim1"]
 
@@ -513,7 +513,7 @@ class TestQueryCoord:
         coords = self.t.coords(dimensions=[0, 1])
         assert [coord.name() for coord in coords] == ["my_multi_dim_coord"]
 
-    def test_coord_dim_coords_keyword(self):
+    def test_coord_dim_coords_keyword(self):  # noqa: D102
         coords = self.t.coords(dim_coords=True)
         assert set([coord.name() for coord in coords]) == {"dim1", "dim2"}
 
@@ -524,7 +524,7 @@ class TestQueryCoord:
             "air_temperature",
         }
 
-    def test_coords_empty(self):
+    def test_coords_empty(self):  # noqa: D102
         coords = self.t.coords()
         assert set([coord.name() for coord in coords]) == {
             "dim1",
@@ -534,7 +534,7 @@ class TestQueryCoord:
             "air_temperature",
         }
 
-    def test_coord(self):
+    def test_coord(self):  # noqa: D102
         coords = self.t.coords(self.t.coord("dim1"))
         assert [coord.name() for coord in coords] == ["dim1"]
         # check for metadata look-up by modifying points
@@ -543,7 +543,7 @@ class TestQueryCoord:
         coords = self.t.coords(coord)
         assert [coord.name() for coord in coords] == ["dim1"]
 
-    def test_str_repr(self, request):
+    def test_str_repr(self, request):  # noqa: D102
         # TODO consolidate with the TestCubeStringRepresentations class
         _shared_utils.assert_string(
             request, str(self.t), ("cdm", "str_repr", "multi_dim_coord.__str__.txt")
@@ -563,22 +563,22 @@ class TestCube2d:
 
 class Test2dIndexing(TestCube2d):
     """Test dIndexing."""
-    def test_indexing_of_0d_cube(self):
+    def test_indexing_of_0d_cube(self):  # noqa: D102
         c = self.t[0, 0]
         with pytest.raises(IndexError, match="More slices requested than dimensions"):
             _ = c[:]
 
-    def test_cube_indexing_0d(self, request):
+    def test_cube_indexing_0d(self, request):  # noqa: D102
         _shared_utils.assert_CML(
             request, [self.t[0, 0]], ("cube_slice", "2d_to_0d_cube_slice.cml")
         )
 
-    def test_cube_indexing_1d(self, request):
+    def test_cube_indexing_1d(self, request):  # noqa: D102
         _shared_utils.assert_CML(
             request, [self.t[0, 0:]], ("cube_slice", "2d_to_1d_cube_slice.cml")
         )
 
-    def test_cube_indexing_1d_multi_slice(self, request):
+    def test_cube_indexing_1d_multi_slice(self, request):  # noqa: D102
         _shared_utils.assert_CML(
             request,
             [self.t[0, (0, 1)]],
@@ -590,7 +590,7 @@ class Test2dIndexing(TestCube2d):
             ("cube_slice", "2d_to_1d_cube_multi_slice.cml"),
         )
 
-    def test_cube_indexing_1d_multi_slice2(self, request):
+    def test_cube_indexing_1d_multi_slice2(self, request):  # noqa: D102
         _shared_utils.assert_CML(
             request,
             [self.t[(0, 2), (0, 1, 3)]],
@@ -607,7 +607,7 @@ class Test2dIndexing(TestCube2d):
             ("cube_slice", "2d_to_1d_cube_multi_slice2.cml"),
         )
 
-    def test_cube_indexing_1d_multi_slice3(self, request):
+    def test_cube_indexing_1d_multi_slice3(self, request):  # noqa: D102
         _shared_utils.assert_CML(
             request,
             [self.t[(0, 2), :]],
@@ -619,27 +619,27 @@ class Test2dIndexing(TestCube2d):
             ("cube_slice", "2d_to_1d_cube_multi_slice3.cml"),
         )
 
-    def test_cube_indexing_no_change(self, request):
+    def test_cube_indexing_no_change(self, request):  # noqa: D102
         _shared_utils.assert_CML(
             request, [self.t[0:, 0:]], ("cube_slice", "2d_orig.cml")
         )
 
-    def test_cube_indexing_reverse_coords(self, request):
+    def test_cube_indexing_reverse_coords(self, request):  # noqa: D102
         _shared_utils.assert_CML(
             request, [self.t[::-1, ::-1]], ("cube_slice", "2d_to_2d_revesed.cml")
         )
 
-    def test_cube_indexing_no_residual_change(self, request):
+    def test_cube_indexing_no_residual_change(self, request):  # noqa: D102
         self.t[0:3]
         _shared_utils.assert_CML(request, [self.t], ("cube_slice", "2d_orig.cml"))
 
-    def test_overspecified(self):
+    def test_overspecified(self):  # noqa: D102
         with pytest.raises(IndexError, match="More slices requested than dimensions"):
             _ = self.t[0, 0, Ellipsis, 0]
         with pytest.raises(IndexError, match="More slices requested than dimensions"):
             _ = self.t[0, 0, 0]
 
-    def test_ellipsis(self, request):
+    def test_ellipsis(self, request):  # noqa: D102
         _shared_utils.assert_CML(
             request, [self.t[Ellipsis]], ("cube_slice", "2d_orig.cml")
         )
@@ -684,30 +684,30 @@ class Test2dIndexing(TestCube2d):
 
 class TestIteration(TestCube2d):
     """Test teration."""
-    def test_cube_iteration(self):
+    def test_cube_iteration(self):  # noqa: D102
         with pytest.raises(TypeError):
             for subcube in self.t:
                 pass
 
-    def test_not_iterable(self):
+    def test_not_iterable(self):  # noqa: D102
         assert not isinstance(self.t, collections.abc.Iterable)
 
 
 class Test2dSlicing(TestCube2d):
     """Test dSlicing."""
-    def test_cube_slice_all_dimensions(self, request):
+    def test_cube_slice_all_dimensions(self, request):  # noqa: D102
         for cube in self.t.slices(["dim1", "dim2"]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_orig.cml"))
 
-    def test_cube_slice_with_transpose(self, request):
+    def test_cube_slice_with_transpose(self, request):  # noqa: D102
         for cube in self.t.slices(["dim2", "dim1"]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_transposed.cml"))
 
-    def test_cube_slice_without_transpose(self, request):
+    def test_cube_slice_without_transpose(self, request):  # noqa: D102
         for cube in self.t.slices(["dim2", "dim1"], ordered=False):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_orig.cml"))
 
-    def test_cube_slice_1dimension(self, request):
+    def test_cube_slice_1dimension(self, request):  # noqa: D102
         # Result came from the equivalent test test_cube_indexing_1d which
         # does self.t[0, 0:]
         slices = [res for res in self.t.slices(["dim2"])]
@@ -715,34 +715,34 @@ class Test2dSlicing(TestCube2d):
             request, slices[0], ("cube_slice", "2d_to_1d_cube_slice.cml")
         )
 
-    def test_cube_slice_zero_len_slice(self):
+    def test_cube_slice_zero_len_slice(self):  # noqa: D102
         with pytest.raises(IndexError, match="Cannot index with zero length slice"):
             _ = self.t[0:0]
 
-    def test_cube_slice_with_non_existant_coords(self):
+    def test_cube_slice_with_non_existant_coords(self):  # noqa: D102
         with pytest.raises(iris.exceptions.CoordinateNotFoundError):
             self.t.slices(["dim2", "dim1", "doesn't exist"])
 
-    def test_cube_extract_coord_with_non_describing_coordinates(self):
+    def test_cube_extract_coord_with_non_describing_coordinates(self):  # noqa: D102
         with pytest.raises(ValueError, match="does not describe a dimension"):
             self.t.slices(["an_other"])
 
 
 class Test2dSlicing_ByDim(TestCube2d):
     """Test dSlicing ByDim."""
-    def test_cube_slice_all_dimensions(self, request):
+    def test_cube_slice_all_dimensions(self, request):  # noqa: D102
         for cube in self.t.slices([0, 1]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_orig.cml"))
 
-    def test_cube_slice_with_transpose(self, request):
+    def test_cube_slice_with_transpose(self, request):  # noqa: D102
         for cube in self.t.slices([1, 0]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_transposed.cml"))
 
-    def test_cube_slice_without_transpose(self, request):
+    def test_cube_slice_without_transpose(self, request):  # noqa: D102
         for cube in self.t.slices([1, 0], ordered=False):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_orig.cml"))
 
-    def test_cube_slice_1dimension(self, request):
+    def test_cube_slice_1dimension(self, request):  # noqa: D102
         # Result came from the equivalent test test_cube_indexing_1d which
         # does self.t[0, 0:]
         slices = [res for res in self.t.slices([1])]
@@ -750,39 +750,39 @@ class Test2dSlicing_ByDim(TestCube2d):
             request, slices[0], ("cube_slice", "2d_to_1d_cube_slice.cml")
         )
 
-    def test_cube_slice_nodimension(self, request):
+    def test_cube_slice_nodimension(self, request):  # noqa: D102
         slices = [res for res in self.t.slices([])]
         _shared_utils.assert_CML(
             request, slices[0], ("cube_slice", "2d_to_0d_cube_slice.cml")
         )
 
-    def test_cube_slice_with_non_existant_dims(self):
+    def test_cube_slice_with_non_existant_dims(self):  # noqa: D102
         with pytest.raises(IndexError):
             self.t.slices([1, 0, 2])
 
-    def test_cube_slice_duplicate_dimensions(self):
+    def test_cube_slice_duplicate_dimensions(self):  # noqa: D102
         with pytest.raises(ValueError, match="coordinates are not orthogonal"):
             self.t.slices([1, 1])
 
 
 class Test2dSlicing_ByMix(TestCube2d):
     """Test dSlicing ByMix."""
-    def test_cube_slice_all_dimensions(self, request):
+    def test_cube_slice_all_dimensions(self, request):  # noqa: D102
         for cube in self.t.slices([0, "dim2"]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_orig.cml"))
 
-    def test_cube_slice_with_transpose(self, request):
+    def test_cube_slice_with_transpose(self, request):  # noqa: D102
         for cube in self.t.slices(["dim2", 0]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_transposed.cml"))
 
-    def test_cube_slice_with_non_existant_dims(self):
+    def test_cube_slice_with_non_existant_dims(self):  # noqa: D102
         with pytest.raises(ValueError, match="does not describe a dimension"):
             self.t.slices([1, 0, "an_other"])
 
 
 class Test2dExtraction(TestCube2d):
     """Test dExtraction."""
-    def test_cube_extract_0d(self, request):
+    def test_cube_extract_0d(self, request):  # noqa: D102
         # Extract the first value from each of the coords in the cube
         # this result is shared with the self.t[0, 0] test
         _shared_utils.assert_CML(
@@ -795,7 +795,7 @@ class Test2dExtraction(TestCube2d):
             ("cube_slice", "2d_to_0d_cube_slice.cml"),
         )
 
-    def test_cube_extract_1d(self, request):
+    def test_cube_extract_1d(self, request):  # noqa: D102
         # Extract the first value from the second coord in the cube
         # this result is shared with the self.t[0, 0:] test
         _shared_utils.assert_CML(
@@ -804,22 +804,22 @@ class Test2dExtraction(TestCube2d):
             ("cube_slice", "2d_to_1d_cube_slice.cml"),
         )
 
-    def test_cube_extract_2d(self, request):
+    def test_cube_extract_2d(self, request):  # noqa: D102
         # Do nothing - return the original
         _shared_utils.assert_CML(
             request, [self.t.extract(iris.Constraint())], ("cube_slice", "2d_orig.cml")
         )
 
-    def test_cube_extract_coord_which_does_not_exist(self):
+    def test_cube_extract_coord_which_does_not_exist(self):  # noqa: D102
         assert self.t.extract(iris.Constraint(doesnt_exist=8.1)) is None
 
-    def test_cube_extract_coord_with_non_existant_values(self):
+    def test_cube_extract_coord_with_non_existant_values(self):  # noqa: D102
         assert self.t.extract(iris.Constraint(dim1=8)) is None
 
 
 class Test2dExtractionByCoord(TestCube2d):
     """Test dExtractionByCoord."""
-    def test_cube_extract_by_coord_advanced(self, request):
+    def test_cube_extract_by_coord_advanced(self, request):  # noqa: D102
         # This test reverses the coordinate in the cube and also takes a subset of the original coordinate
         points = np.array([9, 8, 7, 5, 4, 3, 2, 1, 0], dtype=np.int32)
         bounds = np.array(
@@ -854,7 +854,7 @@ class TestCubeExtract:
             "air_potential_temperature",
         )
 
-    def test_simple(self, request):
+    def test_simple(self, request):  # noqa: D102
         constraint = iris.Constraint(latitude=10)
         cube = self.single_cube.extract(constraint)
         _shared_utils.assert_CML(request, cube, ("cdm", "extract", "lat_eq_10.cml"))
@@ -865,7 +865,7 @@ class TestCubeExtract:
             ("cdm", "extract", "lat_gt_10.cml"),
         )
 
-    def test_combined(self, request):
+    def test_combined(self, request):  # noqa: D102
         constraint = iris.Constraint(
             latitude=lambda c: c > 10, longitude=lambda c: c >= 10
         )
@@ -876,37 +876,37 @@ class TestCubeExtract:
             ("cdm", "extract", "lat_gt_10_and_lon_ge_10.cml"),
         )
 
-    def test_no_results(self):
+    def test_no_results(self):  # noqa: D102
         constraint = iris.Constraint(latitude=lambda c: c > 1000000)
         assert self.single_cube.extract(constraint) is None
 
 
 class TestCubeAPI(TestCube2d):
     """Test ubeAPI."""
-    def test_getting_standard_name(self):
+    def test_getting_standard_name(self):  # noqa: D102
         assert self.t.name() == "test 2d dimensional cube"
 
-    def test_rename(self):
+    def test_rename(self):  # noqa: D102
         self.t.rename("foo")
         assert self.t.name() == "foo"
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         self.t.var_name = None
         assert self.t.var_name is None
         self.t.var_name = "bar"
         assert self.t.var_name == "bar"
 
-    def test_default_name(self):
+    def test_default_name(self):  # noqa: D102
         self.t.long_name = ""
         assert self.t.name() == "unknown"
         assert self.t.name("a_default") == "a_default"
 
-    def test_stash_name(self):
+    def test_stash_name(self):  # noqa: D102
         self.t.long_name = ""
         self.t.attributes["STASH"] = iris.fileformats.pp.STASH(1, 2, 3)
         assert self.t.name() == "m01s02i003"
 
-    def test_name_and_var_name(self):
+    def test_name_and_var_name(self):  # noqa: D102
         # Assign only var_name.
         self.t.standard_name = None
         self.t.long_name = None
@@ -915,35 +915,35 @@ class TestCubeAPI(TestCube2d):
         # long_name are None.
         assert self.t.name() == "foo"
 
-    def test_rename_and_var_name(self):
+    def test_rename_and_var_name(self):  # noqa: D102
         self.t.var_name = "bar"
         self.t.rename("foo")
         # Rename should clear var_name.
         assert self.t.var_name is None
 
-    def test_setting_invalid_var_name(self):
+    def test_setting_invalid_var_name(self):  # noqa: D102
         # Name with whitespace should raise an exception.
         with pytest.raises(ValueError, match="not a valid NetCDF variable name"):
             self.t.var_name = "foo bar"
 
-    def test_setting_empty_var_name(self):
+    def test_setting_empty_var_name(self):  # noqa: D102
         # Empty string should raise an exception.
         with pytest.raises(ValueError, match="not a valid NetCDF variable name"):
             self.t.var_name = ""
 
-    def test_getting_units(self):
+    def test_getting_units(self):  # noqa: D102
         assert self.t.units == cf_units.Unit("meters")
 
-    def test_setting_units(self):
+    def test_setting_units(self):  # noqa: D102
         assert self.t.units == cf_units.Unit("meters")
         self.t.units = "kelvin"
         assert self.t.units == cf_units.Unit("kelvin")
 
-    def test_clearing_units(self):
+    def test_clearing_units(self):  # noqa: D102
         self.t.units = None
         assert str(self.t.units) == "unknown"
 
-    def test_convert_units(self):
+    def test_convert_units(self):  # noqa: D102
         # Set to 'volt'
         self.t.units = cf_units.Unit("volt")
         data = self.t.data.copy()
@@ -952,10 +952,10 @@ class TestCubeAPI(TestCube2d):
         assert str(self.t.units) == "kV"
         _shared_utils.assert_array_almost_equal(self.t.data, data / 1000.0)
 
-    def test_coords_are_copies(self):
+    def test_coords_are_copies(self):  # noqa: D102
         assert self.t.coord("dim1") is not self.t.copy().coord("dim1")
 
-    def test_metadata_nop(self):
+    def test_metadata_nop(self):  # noqa: D102
         self.t.metadata = self.t.metadata
         assert self.t.standard_name is None
         assert self.t.long_name == "test 2d dimensional cube"
@@ -964,7 +964,7 @@ class TestCubeAPI(TestCube2d):
         assert self.t.attributes == {}
         assert self.t.cell_methods == ()
 
-    def test_metadata_tuple(self):
+    def test_metadata_tuple(self):  # noqa: D102
         metadata = ("air_pressure", "foo", "bar", "", {"random": "12"}, ())
         self.t.metadata = metadata
         assert self.t.standard_name == "air_pressure"
@@ -975,7 +975,7 @@ class TestCubeAPI(TestCube2d):
         assert self.t.attributes is not metadata[4]
         assert self.t.cell_methods == ()
 
-    def test_metadata_dict(self):
+    def test_metadata_dict(self):  # noqa: D102
         metadata = {
             "standard_name": "air_pressure",
             "long_name": "foo",
@@ -993,7 +993,7 @@ class TestCubeAPI(TestCube2d):
         assert self.t.attributes is not metadata["attributes"]
         assert self.t.cell_methods == ()
 
-    def test_metadata_attrs(self):
+    def test_metadata_attrs(self):  # noqa: D102
         class Metadata:
             pass
 
@@ -1015,7 +1015,7 @@ class TestCubeAPI(TestCube2d):
         assert self.t.cell_methods == ()
         assert self.t._cell_measures_and_dims == []
 
-    def test_metadata_fail(self):
+    def test_metadata_fail(self):  # noqa: D102
         with pytest.raises(TypeError):
             self.t.metadata = (
                 "air_pressure",
@@ -1052,23 +1052,23 @@ class TestCubeAPI(TestCube2d):
 
 class TestCubeEquality(TestCube2d):
     """Test ubeEquality."""
-    def test_simple_equality(self):
+    def test_simple_equality(self):  # noqa: D102
         assert self.t == self.t.copy()
 
-    def test_data_inequality(self):
+    def test_data_inequality(self):  # noqa: D102
         assert self.t != self.t + 1
 
-    def test_coords_inequality(self):
+    def test_coords_inequality(self):  # noqa: D102
         r = self.t.copy()
         r.remove_coord(r.coord("an_other"))
         assert self.t != r
 
-    def test_attributes_inequality(self):
+    def test_attributes_inequality(self):  # noqa: D102
         r = self.t.copy()
         r.attributes["new_thing"] = None
         assert self.t != r
 
-    def test_array_attributes(self):
+    def test_array_attributes(self):  # noqa: D102
         r = self.t.copy()
         r.attributes["things"] = np.arange(3)
         s = r.copy()
@@ -1080,12 +1080,12 @@ class TestCubeEquality(TestCube2d):
         del s.attributes["things"]
         assert s != r
 
-    def test_cell_methods_inequality(self):
+    def test_cell_methods_inequality(self):  # noqa: D102
         r = self.t.copy()
         r.add_cell_method(iris.coords.CellMethod("mean"))
         assert self.t != r
 
-    def test_not_compatible(self):
+    def test_not_compatible(self):  # noqa: D102
         r = self.t.copy()
         assert self.t.is_compatible(r)
         # The following changes should make the cubes incompatible.
@@ -1102,7 +1102,7 @@ class TestCubeEquality(TestCube2d):
         r.attributes["source"] = "alice"
         assert not self.t.is_compatible(r)
 
-    def test_compatible(self):
+    def test_compatible(self):  # noqa: D102
         r = self.t.copy()
         assert self.t.is_compatible(r)
         # The following changes should not affect compatibility.
@@ -1120,7 +1120,7 @@ class TestCubeEquality(TestCube2d):
         r.var_name = "foo"
         assert self.t.is_compatible(r)
 
-    def test_is_compatible_ignore(self):
+    def test_is_compatible_ignore(self):  # noqa: D102
         r = self.t.copy()
         assert self.t.is_compatible(r)
         # Different histories.
@@ -1132,7 +1132,7 @@ class TestCubeEquality(TestCube2d):
         assert self.t.is_compatible(r, ignore=("history",))
         assert self.t.is_compatible(r, ignore=r.attributes)
 
-    def test_is_compatible_metadata(self):
+    def test_is_compatible_metadata(self):  # noqa: D102
         metadata = self.t.metadata
         assert self.t.is_compatible(metadata)
 
@@ -1146,18 +1146,18 @@ class TestDataManagerIndexing(TestCube2d):
             _shared_utils.get_data_path(("PP", "aPProt1", "rotatedMHtimecube.pp"))
         )
 
-    def assert_is_lazy(self, cube):
+    def assert_is_lazy(self, cube):  # noqa: D102
         assert cube.has_lazy_data()
 
-    def assert_is_not_lazy(self, cube):
+    def assert_is_not_lazy(self, cube):  # noqa: D102
         assert not cube.has_lazy_data()
 
-    def test_slices(self):
+    def test_slices(self):  # noqa: D102
         lat_cube = next(self.cube.slices(["grid_latitude"]))
         assert lat_cube.has_lazy_data()
         assert self.cube.has_lazy_data()
 
-    def test_cube_empty_indexing(self, request):
+    def test_cube_empty_indexing(self, request):  # noqa: D102
         test_filename = ("cube_slice", "real_empty_data_indexing.cml")
         r = self.cube[:5, ::-1][3]
         rshape = r.shape
@@ -1182,7 +1182,7 @@ class TestDataManagerIndexing(TestCube2d):
 
         _shared_utils.assert_array_equal(r_data, c.data)
 
-    def test_real_data_cube_indexing(self, request):
+    def test_real_data_cube_indexing(self, request):  # noqa: D102
         cube = self.cube[(0, 4, 5, 2), 0, 0]
         _shared_utils.assert_CML(
             request, cube, ("cube_slice", "real_data_dual_tuple_indexing1.cml")
@@ -1204,7 +1204,7 @@ class TestDataManagerIndexing(TestCube2d):
         with pytest.raises(IndexError, match="More slices requested than dimensions"):
             _ = self.cube[*six_ellipsis]
 
-    def test_fancy_indexing_bool_array(self):
+    def test_fancy_indexing_bool_array(self):  # noqa: D102
         cube = self.cube
         cube.data = np.ma.masked_array(cube.data, mask=cube.data > 100000)
         r = cube[:, cube.coord("grid_latitude").points > 1]
@@ -1216,7 +1216,7 @@ class TestDataManagerIndexing(TestCube2d):
 
 class TestCubeCollapsed:
     """Test ubeCollapsed."""
-    def partial_compare(self, dual, single):
+    def partial_compare(self, dual, single):  # noqa: D102
         result = iris.analysis._dimensional_metadata_comparison(dual, single)
         assert len(result["not_equal"]) == 0
         assert dual.name() == single.name(), (
@@ -1225,7 +1225,7 @@ class TestCubeCollapsed:
         assert dual.units == single.units, "dual and single stage units differ"
         assert dual.shape == single.shape, "dual and single stage shape differ"
 
-    def collapse_test_common(self, request, cube, a_name, b_name, *args, **kwargs):
+    def collapse_test_common(self, request, cube, a_name, b_name, *args, **kwargs):  # noqa: D102
         # preserve filenames from before the introduction of "grid_" in rotated coord names.
         a_filename = a_name.replace("grid_", "")
         b_filename = b_name.replace("grid_", "")
@@ -1272,7 +1272,7 @@ class TestCubeCollapsed:
         self.partial_compare(dual_stage, single_stage)
 
     @_shared_utils.skip_data
-    def test_multi_d(self, request):
+    def test_multi_d(self, request):  # noqa: D102
         cube = iris.tests.stock.realistic_4d()
 
         # TODO: Re-instate surface_altitude & hybrid-height once we're
@@ -1361,7 +1361,7 @@ class TestCubeCollapsed:
 @_shared_utils.skip_data
 class TestTrimAttributes:
     """Test rimAttributes."""
-    def test_non_string_attributes(self):
+    def test_non_string_attributes(self):  # noqa: D102
         cube = iris.tests.stock.realistic_4d()
         attrib_key = "gorf"
         attrib_val = 23
@@ -1391,7 +1391,7 @@ class TestMaskedData:
             _shared_utils.get_data_path(["PP", "mdi_handmade_small", "*.pp"])
         )
 
-    def test_complete_field(self):
+    def test_complete_field(self):  # noqa: D102
         # This pp field has no missing data values
         cube = iris.load_cube(
             _shared_utils.get_data_path(
@@ -1401,7 +1401,7 @@ class TestMaskedData:
 
         assert isinstance(cube.data, np.ndarray)
 
-    def test_masked_field(self):
+    def test_masked_field(self):  # noqa: D102
         # This pp field has some missing data values
         cube = iris.load_cube(
             _shared_utils.get_data_path(
@@ -1410,12 +1410,12 @@ class TestMaskedData:
         )
         assert isinstance(cube.data, ma.core.MaskedArray)
 
-    def test_missing_file(self, request):
+    def test_missing_file(self, request):  # noqa: D102
         cube = self._load_3d_cube()
         assert isinstance(cube.data, ma.core.MaskedArray)
         _shared_utils.assert_CML(request, cube, ("cdm", "masked_cube.cml"))
 
-    def test_slicing(self):
+    def test_slicing(self):  # noqa: D102
         cube = self._load_3d_cube()
 
         # Test the slicing before deferred loading
@@ -1432,7 +1432,7 @@ class TestMaskedData:
         assert isinstance(partial_slice.data, ma.core.MaskedArray)
         assert ma.count_masked(partial_slice.data) == 25
 
-    def test_save_and_merge(self):
+    def test_save_and_merge(self):  # noqa: D102
         cube = self._load_3d_cube()
         dtype = cube.dtype
         fill_value = 123456
@@ -1468,7 +1468,7 @@ class TestMaskedData:
 @_shared_utils.skip_data
 class TestConversionToCoordList:
     """Test onversionToCoordList."""
-    def test_coord_conversion(self):
+    def test_coord_conversion(self):  # noqa: D102
         cube = iris.tests.stock.realistic_4d()
 
         # Single string

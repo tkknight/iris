@@ -59,13 +59,13 @@ class Mixin_FieldTest:
         )
         return file_path
 
-    def save_fieldcubes(self, cubes, basename=""):
+    def save_fieldcubes(self, cubes, basename=""):  # noqa: D102
         # Save cubes to a temporary file, and return its filepath.
         file_path = self._temp_filepath(user_name=basename, suffix=".pp")
         iris.save(cubes, file_path)
         return file_path
 
-    def fields(
+    def fields(  # noqa: D102
         self,
         c_t=None,
         cft=None,
@@ -261,7 +261,7 @@ class MixinBasic:
     #
     # Basic functional tests.
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         # Show that basic load merging works.
         flds = self.fields(c_t="123", cft="000", ctp="123", c_p=0)
         file = self.save_fieldcubes(flds)
@@ -269,7 +269,7 @@ class MixinBasic:
         expected = CubeList(flds).merge()
         assert results == expected
 
-    def test_phenomena(self):
+    def test_phenomena(self):  # noqa: D102
         # Show that different phenomena are merged into distinct cubes.
         flds = self.fields(c_t="1122", phn="0101")
         file = self.save_fieldcubes(flds)
@@ -277,7 +277,7 @@ class MixinBasic:
         expected = CubeList(flds).merge()
         assert results == expected
 
-    def test_cross_file_concatenate(self):
+    def test_cross_file_concatenate(self):  # noqa: D102
         # Combine vector dimensions (i.e. concatenate) across multiple files.
         fldset_1 = self.fields(c_t="12")
         fldset_2 = self.fields(c_t="34")
@@ -287,7 +287,7 @@ class MixinBasic:
         expected = CubeList(fldset_1 + fldset_2).merge()
         assert results == expected
 
-    def test_cell_method(self):
+    def test_cell_method(self):  # noqa: D102
         # Check that cell methods (i.e. LBPROC values) produce distinct
         # phenomena.
         flds = self.fields(c_t="000111222", mmm="-01-01-01")
@@ -307,7 +307,7 @@ class MixinCallDetails:
     #
     # Tests for different load calls and load-call arguments.
 
-    def test_stash_constraint(self):
+    def test_stash_constraint(self):  # noqa: D102
         # Check that an attribute constraint functions correctly.
         # Note: this is a special case in "fileformats.pp".
         flds = self.fields(c_t="1122", phn="0101")
@@ -318,7 +318,7 @@ class MixinCallDetails:
         expected = CubeList(airtemp_flds).merge()
         assert results == expected
 
-    def test_ordinary_constraint(self):
+    def test_ordinary_constraint(self):  # noqa: D102
         # Check that a 'normal' constraint functions correctly.
         # Note: *should* be independent of structured loading.
         flds = self.fields(c_h="0123")
@@ -328,7 +328,7 @@ class MixinCallDetails:
         expected = CubeList(flds[1:3]).merge()
         assert results == expected
 
-    def test_callback(self):
+    def test_callback(self):  # noqa: D102
         # Use 2 timesteps each of (air-temp on height) and (rh on pressure).
         flds = self.fields(c_t="0011", phn="0303", c_h="0-1-", c_p="-2-3")
         file = self.save_fieldcubes(flds)
@@ -373,14 +373,14 @@ class MixinCallDetails:
 
         assert results == expected
 
-    def test_load_cube(self):
+    def test_load_cube(self):  # noqa: D102
         flds = self.fields(c_t="123", cft="000", ctp="123", c_p=0)
         file = self.save_fieldcubes(flds)
         results = iris.load_cube(file)
         expected = CubeList(flds).merge_cube()
         assert results == expected
 
-    def test_load_cubes(self):
+    def test_load_cubes(self):  # noqa: D102
         flds = self.fields(c_h="0123")
         file = self.save_fieldcubes(flds)
         height_constraints = [
@@ -398,7 +398,7 @@ class MixinCallDetails:
         )
         assert results == expected
 
-    def test_load_raw(self):
+    def test_load_raw(self):  # noqa: D102
         fldset_1 = self.fields(c_t="015", phn="001")
         fldset_2 = self.fields(c_t="234")
         file_1 = self.save_fieldcubes(fldset_1)
@@ -448,7 +448,7 @@ class MixinDimsAndOrdering:
     #
     # Tests for multidimensional results and dimension orderings.
 
-    def test_multidim(self):
+    def test_multidim(self):  # noqa: D102
         # Check that a full 2-phenom * 2d structure all works properly.
         flds = self.fields(c_t="00001111", c_h="00110011", phn="01010101")
         file = self.save_fieldcubes(flds)
@@ -456,7 +456,7 @@ class MixinDimsAndOrdering:
         expected = CubeList(flds).merge()
         assert results == expected
 
-    def test_odd_order(self):
+    def test_odd_order(self):  # noqa: D102
         # Show that an erratic interleaving of phenomena fields still works.
         # N.B. field sequences *within* each phenomenon are properly ordered.
         flds = self.fields(c_t="00010111", c_h="00101101", phn="01001011")
@@ -465,7 +465,7 @@ class MixinDimsAndOrdering:
         expected = CubeList(flds).merge()
         assert results == expected
 
-    def test_v_t_order(self):
+    def test_v_t_order(self):  # noqa: D102
         # With height varying faster than time, first dimension is time,
         # which matches the 'normal' load behaviour.
         flds = self.fields(c_t="000111", c_h="012012")
@@ -477,7 +477,7 @@ class MixinDimsAndOrdering:
         assert expected[0].coord_dims("height") == (1,)
         assert results == expected
 
-    def test_t_v_order(self):
+    def test_t_v_order(self):  # noqa: D102
         # With time varying faster than height, first dimension is height,
         # which does not match the 'normal' load.
         flds = self.fields(c_t="010101", c_h="001122")
@@ -495,7 +495,7 @@ class MixinDimsAndOrdering:
             expected[0].transpose((1, 0, 2, 3))
         assert results == expected
 
-    def test_missing_combination(self):
+    def test_missing_combination(self):  # noqa: D102
         # A case where one field is 'missing' to make a 2d result.
         flds = self.fields(c_t="00011", c_h="01202")
         file = self.save_fieldcubes(flds)
@@ -516,7 +516,7 @@ class MixinDimsAndOrdering:
 
 class MixinProblemCases:
     """MixinProblemCases."""
-    def test_FAIL_scalar_vector_concatenate(self):
+    def test_FAIL_scalar_vector_concatenate(self):  # noqa: D102
         # Structured load can produce a scalar coordinate from one file, and a
         # matching vector one from another file, but these won't "combine".
         # We'd really like to fix this one...
@@ -544,7 +544,7 @@ class MixinProblemCases:
             results = CubeList(sorted(results, key=lambda cube: cube.shape))
         assert results == expected
 
-    def test_FAIL_phenomena_nostash(self):
+    def test_FAIL_phenomena_nostash(self):  # noqa: D102
         # If we remove the 'STASH' attributes, certain phenomena can still be
         # successfully encoded+decoded by standard load using LBFC values.
         # Structured loading gets this wrong, because it does not use LBFC in
@@ -584,7 +584,7 @@ class MixinProblemCases:
             expected = [one_cube]
         assert results == expected
 
-    def test_FAIL_pseudo_levels(self):
+    def test_FAIL_pseudo_levels(self):  # noqa: D102
         # Show how pseudo levels are handled.
         flds = self.fields(c_t="000111222", pse="123123123")
         file = self.save_fieldcubes(flds)

@@ -25,7 +25,7 @@ class TestHist:
     @pytest.mark.parametrize(
         "x", [AuxCoord, Cube, DimCoord, CellMeasure, AncillaryVariable]
     )
-    def test_simple(self, x, mocker):
+    def test_simple(self, x, mocker):  # noqa: D102
         mock_patch = mocker.patch("matplotlib.pyplot.hist")
         iplt.hist(x(self.data))
         # mocker.assert_called_once_with is not working as expected with
@@ -35,13 +35,13 @@ class TestHist:
         assert len(args) == 1
         _shared_utils.assert_array_equal(args[0], self.data)
 
-    def test_kwargs(self, mocker):
+    def test_kwargs(self, mocker):  # noqa: D102
         cube = Cube(self.data)
         bins = [0, 150, 250, 350]
         mock_patch = mocker.patch("matplotlib.pyplot.hist")
         iplt.hist(cube, bins=bins)
         mock_patch.assert_called_once_with(self.data, bins=bins)
 
-    def test_unsupported_input(self):
+    def test_unsupported_input(self):  # noqa: D102
         with pytest.raises(TypeError, match="x must be a"):
             iplt.hist(self.data)

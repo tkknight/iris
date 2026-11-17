@@ -354,7 +354,7 @@ class CubeListRepresentation:
         self.cubelist = cubelist
         self.cubelist_id = id(self.cubelist)
 
-    def make_content(self):
+    def make_content(self):  # noqa: D102
         html = []
         for i, cube in enumerate(self.cubelist):
             title = "{i}: {summary}".format(i=i, summary=cube.summary(shorten=True))
@@ -367,7 +367,7 @@ class CubeListRepresentation:
             )
         return html
 
-    def repr_html(self):
+    def repr_html(self):  # noqa: D102
         contents = self.make_content()
         contents_str = "\n".join(contents)
         return self._template.format(uid=self.cubelist_id, contents=contents_str)

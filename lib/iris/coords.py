@@ -1095,6 +1095,7 @@ class AncillaryVariable(_DimensionalMetadata):
 
     @property
     def data(self):
+        """Data."""
         return self._values
 
     @data.setter
@@ -1203,6 +1204,7 @@ class CellMeasure(AncillaryVariable):
 
     @property
     def measure(self):
+        """Measure."""
         return self._metadata_manager.measure
 
     @measure.setter
@@ -2988,6 +2990,7 @@ class DimCoord(Coord):
 
     @property
     def circular(self):
+        """Circular."""
         return self._metadata_manager.circular
 
     @circular.setter
@@ -2995,6 +2998,7 @@ class DimCoord(Coord):
         self._metadata_manager.circular = bool(circular)
 
     def copy(self, points=None, bounds=None):
+        """Copy."""
         new_coord = super().copy(points=points, bounds=bounds)
         # Make the arrays read-only.
         new_coord._values_dm.data.flags.writeable = False
@@ -3028,6 +3032,7 @@ class DimCoord(Coord):
         return coord
 
     def collapsed(self, dims_to_collapse=None):
+        """Collapsed."""
         coord = Coord.collapsed(self, dims_to_collapse=dims_to_collapse)
         if self.circular and self.units.modulus is not None:
             bnds = coord.bounds.copy()
@@ -3169,6 +3174,7 @@ class DimCoord(Coord):
 
     @property
     def bounds(self):
+        """Bounds."""
         # Overridden just to allow .setter override.
         return super().bounds
 
@@ -3198,6 +3204,7 @@ class DimCoord(Coord):
             bounds.flags.writeable = False
 
     def is_monotonic(self):
+        """Is monotonic."""
         return True
 
     def xml_element(self, doc):

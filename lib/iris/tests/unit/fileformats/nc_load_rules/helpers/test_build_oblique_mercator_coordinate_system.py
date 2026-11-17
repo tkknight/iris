@@ -148,7 +148,7 @@ class TestAttributes:
 
         self.coord_system_args_expected = list(coord_system_kwargs_expected.values())
 
-    def test_attributes(self, mocker):
+    def test_attributes(self, mocker):  # noqa: D102
         cf_var_mock = CFVariableStandIn(**self.nc_attributes)
         coord_system_mock = mocker.Mock(spec=self.expected_class)
         setattr(coord_systems, self.expected_class.__name__, coord_system_mock)

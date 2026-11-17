@@ -364,7 +364,7 @@ class TestSaveUgrid__cube:
         request.cls.temp_dir = tmp_path_factory.mktemp("test")
 
     @pytest.fixture
-    def check_save_cubes(self, request):
+    def check_save_cubes(self, request):  # noqa: D102
         def _check_save_cubes(cube_or_cubes, compression_kwargs=None):
             """Write cubes to a new file in the common temporary directory.
 
@@ -425,7 +425,7 @@ class TestSaveUgrid__cube:
         expected = {"Mesh2d"}
         assert result == expected
 
-    def test_basic_mesh(self, request, check_save_cubes):
+    def test_basic_mesh(self, request, check_save_cubes):  # noqa: D102
         # Save a small mesh example and check aspects of the resulting file.
         cube = make_cube()  # A simple face-mapped data example.
 
@@ -494,7 +494,7 @@ class TestSaveUgrid__cube:
         # For completeness, also check against a full CDL snapshot
         _shared_utils.assert_CDL(request, tempfile_path)
 
-    def test_multi_cubes_common_mesh(self, check_save_cubes):
+    def test_multi_cubes_common_mesh(self, check_save_cubes):  # noqa: D102
         cube1 = make_cube(var_name="a")
         cube2 = make_cube(var_name="b")
 
@@ -514,7 +514,7 @@ class TestSaveUgrid__cube:
         assert v_b["location"] == "face"
         assert v_b["coordinates"] == "face_x face_y"
 
-    def test_multi_cubes_different_locations(self, check_save_cubes):
+    def test_multi_cubes_different_locations(self, check_save_cubes):  # noqa: D102
         cube1 = make_cube(var_name="a", location="face")
         cube2 = make_cube(var_name="b", location="node")
 
@@ -540,7 +540,7 @@ class TestSaveUgrid__cube:
         assert v_a[_VAR_DIMS] == [face_dim]
         assert v_b[_VAR_DIMS] == [node_dim]
 
-    def test_multi_cubes_equal_meshes(self, check_save_cubes):
+    def test_multi_cubes_equal_meshes(self, check_save_cubes):  # noqa: D102
         # Make 2 identical meshes
         # NOTE: *can't* name these explicitly, as it stops them being identical.
         mesh1 = make_mesh()
@@ -575,7 +575,7 @@ class TestSaveUgrid__cube:
         assert a_props[_VAR_DIMS] == ["Mesh2d_faces"]
         assert b_props[_VAR_DIMS] == ["Mesh2d_faces"]
 
-    def test_multi_cubes_different_mesh(self, check_save_cubes):
+    def test_multi_cubes_different_mesh(self, check_save_cubes):  # noqa: D102
         # Check that we can correctly distinguish 2 different meshes.
         cube1 = make_cube(var_name="a")
         cube2 = make_cube(var_name="b", mesh=make_mesh(n_faces=4))
@@ -605,7 +605,7 @@ class TestSaveUgrid__cube:
         assert loc_a == "face"
         assert loc_b == "face"
 
-    def test_nonmesh_dim(self, check_save_cubes):
+    def test_nonmesh_dim(self, check_save_cubes):  # noqa: D102
         # Check where the data variable has a 'normal' dim and a mesh dim.
         cube = make_cube()
         cube = add_height_dim(cube)
@@ -630,7 +630,7 @@ class TestSaveUgrid__cube:
         assert data_props["location"] == "face"
 
     @_shared_utils.skip_data
-    def test_nonmesh_hybrid_dim(self, check_save_cubes):
+    def test_nonmesh_hybrid_dim(self, check_save_cubes):  # noqa: D102
         # Check a case with a hybrid non-mesh dimension
         cube = realistic_4d()
         # Strip off the time and longitude dims, to make it simpler.
@@ -685,7 +685,7 @@ class TestSaveUgrid__cube:
         assert data_props["mesh"] == mesh_name
         assert data_props["location"] == "face"
 
-    def test_alternate_cube_dim_order(self, check_save_cubes):
+    def test_alternate_cube_dim_order(self, check_save_cubes):  # noqa: D102
         # A cube transposed from the 'usual' order
         # Should work much the same as the "basic" case.
         cube_1 = make_cube(var_name="a")
@@ -745,7 +745,7 @@ class TestSaveUgrid__mesh:
         request.cls.temp_dir = tmp_path_factory.mktemp("test")
 
     @pytest.fixture
-    def check_save_mesh(self, request):
+    def check_save_mesh(self, request):  # noqa: D102
         def _check_save_mesh(mesh, compression_kwargs=None):
             """Write a mesh to a new file in the common temporary directory.
 
@@ -882,7 +882,7 @@ class TestSaveUgrid__mesh:
         assert faceconn_props["start_index"] == 0
         assert edgeconn_props["start_index"] == 1
 
-    def test_nonuniform_connectivity(self, check_save_mesh):
+    def test_nonuniform_connectivity(self, check_save_mesh):  # noqa: D102
         # Check handling of connectivities with missing points.
         n_faces = 7
         mesh = make_mesh(n_faces=n_faces)
@@ -935,7 +935,7 @@ class TestSaveUgrid__mesh:
         filled_indices = indices.filled(-1)
         _shared_utils.assert_array_equal(raw_data, filled_indices)
 
-    def test_one_dimensional(self, check_save_mesh):
+    def test_one_dimensional(self, check_save_mesh):  # noqa: D102
         # Test a mesh with edges only.
         mesh = make_mesh(n_edges=5, n_faces=0, mesh_kwargs={"var_name": "Mesh1d"})
 
@@ -962,7 +962,7 @@ class TestSaveUgrid__mesh:
         assert "edge_node_connectivity" in mesh_props
         assert "face_node_connectivity" not in mesh_props
 
-    def test_location_coord_units(self, check_save_mesh):
+    def test_location_coord_units(self, check_save_mesh):  # noqa: D102
         # Check that units on mesh locations are handled correctly.
         # NOTE: at present, the MeshXY class cannot handle coordinates that are
         # not recognised by 'guess_coord_axis' == suitable standard names
@@ -1033,7 +1033,7 @@ class TestSaveUgrid__mesh:
         ]
         return f"({' '.join(name_texts)})"
 
-    def test_mesh_names(self, check_save_mesh):
+    def test_mesh_names(self, check_save_mesh):  # noqa: D102
         # Check the selection of mesh-variables names.
         # N.B. this is basically centralised in Saver._get_mesh_variable_name,
         # but we test in an implementation-neutral way (as it's fairly easy).
@@ -1105,7 +1105,7 @@ class TestSaveUgrid__mesh:
             )
             assert expected_names == result_names, fail_msg
 
-    def test_location_coord_names(self, check_save_mesh):
+    def test_location_coord_names(self, check_save_mesh):  # noqa: D102
         # Check the selection of mesh-element coordinate names.
         # Check the selection of mesh-variables names.
         # N.B. this is basically centralised in Saver._get_mesh_variable_name,
@@ -1172,7 +1172,7 @@ class TestSaveUgrid__mesh:
             )
             assert expected_names == result_names, fail_msg
 
-    def test_mesh_dim_names(self, check_save_mesh):
+    def test_mesh_dim_names(self, check_save_mesh):  # noqa: D102
         # Check the selection of dimension names from the mesh.
 
         dim_names_tests = [
@@ -1195,7 +1195,7 @@ class TestSaveUgrid__mesh:
             )
             assert expected_name == face_dim, fail_msg
 
-    def test_connectivity_names(self, check_save_mesh):
+    def test_connectivity_names(self, check_save_mesh):  # noqa: D102
         # Check the selection of connectivity names.
         conn_names_tests = [
             # var_name only
@@ -1266,7 +1266,7 @@ class TestSaveUgrid__mesh:
             )
             assert expected_names == result_names, fail_msg
 
-    def test_multiple_equal_mesh(self, check_save_mesh):
+    def test_multiple_equal_mesh(self, check_save_mesh):  # noqa: D102
         mesh1 = make_mesh()
         mesh2 = make_mesh()
 
@@ -1291,7 +1291,7 @@ class TestSaveUgrid__mesh:
                 conn_vars = vars_w_props(vars, cf_role=conn.cf_role)
                 assert 1 == len(conn_vars)
 
-    def test_multiple_different_meshes(self, check_save_mesh):
+    def test_multiple_different_meshes(self, check_save_mesh):  # noqa: D102
         # Create 2 meshes with different faces, but same edges.
         # N.B. they should then share an edge dimension.
         mesh1 = make_mesh(n_faces=3, n_edges=2)
@@ -1356,7 +1356,7 @@ class TestSaveUgrid__mesh:
                 "Mesh2d_0_edge_N_nodes",
             ]
 
-    def test_mesh_no_standard_name_coords_saves_as_unknown(self, check_save_mesh):
+    def test_mesh_no_standard_name_coords_saves_as_unknown(self, check_save_mesh):  # noqa: D102
         # Tests when the coords of a mesh don't contain a standard that it is possible to save
         # and that the saved coords are marked as "unknown"
         face_lat = AuxCoord([2])
@@ -1383,7 +1383,7 @@ class TestSaveUgrid__mesh:
         for expected_coord_name in expected_coord_names:
             assert expected_coord_name in vars
 
-    def test_fail_mesh_index_set(self, check_save_mesh):
+    def test_fail_mesh_index_set(self, check_save_mesh):  # noqa: D102
         mesh = make_mesh(n_faces=3, n_edges=2)
         index_set = _MeshIndexSet([0, 2], mesh=mesh, location="face")
 

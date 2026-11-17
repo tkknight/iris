@@ -35,39 +35,39 @@ class TestBytesLikeObject:
         )
         return xxh64_hexdigest(parts.encode())
 
-    def test_string(self):
+    def test_string(self):  # noqa: D102
         value = "hello world"
         self.hasher.update(value.encode())
         expected = self.hasher.hexdigest()
         assert hexdigest(value) == expected
 
-    def test_numpy_array_int(self):
+    def test_numpy_array_int(self):  # noqa: D102
         value = np.arange(10, dtype=np.int_)
         expected = self._ndarray(value)
         assert hexdigest(value) == expected
 
-    def test_numpy_array_float(self):
+    def test_numpy_array_float(self):  # noqa: D102
         value = np.arange(10, dtype=np.float64)
         expected = self._ndarray(value)
         assert hexdigest(value) == expected
 
-    def test_numpy_array_float_not_int(self):
+    def test_numpy_array_float_not_int(self):  # noqa: D102
         ivalue = np.arange(10, dtype=np.int_)
         fvalue = np.arange(10, dtype=np.float64)
         expected = self._ndarray(ivalue)
         assert hexdigest(fvalue) != expected
 
-    def test_numpy_array_reshape(self):
+    def test_numpy_array_reshape(self):  # noqa: D102
         value = np.arange(10).reshape(2, 5)
         expected = self._ndarray(value)
         assert hexdigest(value) == expected
 
-    def test_numpy_array_reshape_not_flat(self):
+    def test_numpy_array_reshape_not_flat(self):  # noqa: D102
         value = np.arange(10).reshape(2, 5)
         expected = self._ndarray(value)
         assert hexdigest(value.flatten()) != expected
 
-    def test_masked_array_int(self):
+    def test_masked_array_int(self):  # noqa: D102
         value = ma.arange(10, dtype=np.int_)
         expected = self._masked(value)
         assert hexdigest(value) == expected
@@ -77,7 +77,7 @@ class TestBytesLikeObject:
         expected = self._masked(value)
         assert hexdigest(value) == expected
 
-    def test_masked_array_float(self):
+    def test_masked_array_float(self):  # noqa: D102
         value = ma.arange(10, dtype=np.float64)
         expected = self._masked(value)
         assert hexdigest(value) == expected
@@ -87,23 +87,23 @@ class TestBytesLikeObject:
         expected = self._masked(value)
         assert hexdigest(value) == expected
 
-    def test_masked_array_float_not_int(self):
+    def test_masked_array_float_not_int(self):  # noqa: D102
         ivalue = ma.arange(10, dtype=np.int_)
         fvalue = ma.arange(10, dtype=np.float64)
         expected = self._masked(ivalue)
         assert hexdigest(fvalue) != expected
 
-    def test_masked_array_not_array(self):
+    def test_masked_array_not_array(self):  # noqa: D102
         value = ma.arange(10)
         expected = self._masked(value)
         assert hexdigest(value.data) != expected
 
-    def test_masked_array_reshape(self):
+    def test_masked_array_reshape(self):  # noqa: D102
         value = ma.arange(10).reshape(2, 5)
         expected = self._masked(value)
         assert hexdigest(value) == expected
 
-    def test_masked_array_reshape_not_flat(self):
+    def test_masked_array_reshape_not_flat(self):  # noqa: D102
         value = ma.arange(10).reshape(2, 5)
         expected = self._masked(value)
         assert hexdigest(value.flatten()) != expected
@@ -115,47 +115,47 @@ class TestNotBytesLikeObject:
         parts = str((type(value), value))
         return xxh64_hexdigest(parts.encode())
 
-    def test_int(self):
+    def test_int(self):  # noqa: D102
         value = 123
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_numpy_int(self):
+    def test_numpy_int(self):  # noqa: D102
         value = int(123)
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_float(self):
+    def test_float(self):  # noqa: D102
         value = 123.4
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_numpy_float(self):
+    def test_numpy_float(self):  # noqa: D102
         value = float(123.4)
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_list(self):
+    def test_list(self):  # noqa: D102
         value = [1, 2, 3]
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_tuple(self):
+    def test_tuple(self):  # noqa: D102
         value = (1, 2, 3)
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_dict(self):
+    def test_dict(self):  # noqa: D102
         value = dict(one=1, two=2, three=3)
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_sentinel(self, mocker):
+    def test_sentinel(self, mocker):  # noqa: D102
         value = mocker.sentinel.value
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_instance(self):
+    def test_instance(self):  # noqa: D102
         class Dummy:
             pass
 
@@ -163,7 +163,7 @@ class TestNotBytesLikeObject:
         expected = self._expected(value)
         assert hexdigest(value) == expected
 
-    def test_int_not_str(self):
+    def test_int_not_str(self):  # noqa: D102
         value = 123
         expected = self._expected(value)
         assert hexdigest(str(value)) != expected

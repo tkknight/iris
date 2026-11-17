@@ -107,14 +107,14 @@ class TestLabels(_shared_utils.GraphicsTest):
         cube = self._slice(["model_level_number", "grid_longitude"])
         return cube[:5, :5]
 
-    def test_contour(self):
+    def test_contour(self):  # noqa: D102
         qplt.contour(self._small())
         self.check_graphic()
 
         qplt.contourf(self._small(), coords=["model_level_number", "grid_longitude"])
         self.check_graphic()
 
-    def test_contourf(self):
+    def test_contourf(self):  # noqa: D102
         qplt.contourf(self._small())
 
         cube = self._small()
@@ -128,7 +128,7 @@ class TestLabels(_shared_utils.GraphicsTest):
         qplt.contourf(self._small(), coords=["grid_longitude", "model_level_number"])
         self.check_graphic()
 
-    def test_contourf_axes_specified(self):
+    def test_contourf_axes_specified(self):  # noqa: D102
         # Check that the contourf function does not modify the matplotlib
         # pyplot state machine.
 
@@ -154,14 +154,14 @@ class TestLabels(_shared_utils.GraphicsTest):
         assert axes1.get_xlabel() == "Grid longitude / degrees"
         assert axes1.get_ylabel() == "Altitude / m"
 
-    def test_contourf_nameless(self):
+    def test_contourf_nameless(self):  # noqa: D102
         cube = self._small()
         cube.standard_name = None
         cube.attributes["STASH"] = ""
         qplt.contourf(cube, coords=["grid_longitude", "model_level_number"])
         self.check_graphic()
 
-    def test_contourf_no_colorbar(self):
+    def test_contourf_no_colorbar(self):  # noqa: D102
         qplt.contourf(
             self._small(),
             colorbar=False,
@@ -169,15 +169,15 @@ class TestLabels(_shared_utils.GraphicsTest):
         )
         self.check_graphic()
 
-    def test_pcolor(self):
+    def test_pcolor(self):  # noqa: D102
         qplt.pcolor(self._small())
         self.check_graphic()
 
-    def test_pcolor_no_colorbar(self):
+    def test_pcolor_no_colorbar(self):  # noqa: D102
         qplt.pcolor(self._small(), colorbar=False)
         self.check_graphic()
 
-    def test_pcolormesh(self):
+    def test_pcolormesh(self):  # noqa: D102
         qplt.pcolormesh(self._small())
 
         # cube = self._small()
@@ -185,18 +185,18 @@ class TestLabels(_shared_utils.GraphicsTest):
 
         self.check_graphic()
 
-    def test_pcolormesh_str_symbol(self):
+    def test_pcolormesh_str_symbol(self):  # noqa: D102
         pcube = self._small().copy()
         pcube.coords("level_height")[0].units = "centimeters"
         qplt.pcolormesh(pcube)
 
         self.check_graphic()
 
-    def test_pcolormesh_no_colorbar(self):
+    def test_pcolormesh_no_colorbar(self):  # noqa: D102
         qplt.pcolormesh(self._small(), colorbar=False)
         self.check_graphic()
 
-    def test_map(self):
+    def test_map(self):  # noqa: D102
         cube = self._slice(["grid_latitude", "grid_longitude"])
         qplt.contour(cube)
         self.check_graphic()
@@ -207,7 +207,7 @@ class TestLabels(_shared_utils.GraphicsTest):
         qplt.contour(cube)
         self.check_graphic()
 
-    def test_alignment(self):
+    def test_alignment(self):  # noqa: D102
         cube = self._small()
         qplt.contourf(cube)
         # qplt.outline(cube)
@@ -224,13 +224,13 @@ class TestTimeReferenceUnitsLabels(_shared_utils.GraphicsTest):
         path = _shared_utils.get_data_path(("PP", "aPProt1", "rotatedMHtimecube.pp"))
         self.cube = iris.load_cube(path)[:, 0, 0]
 
-    def test_reference_time_units(self):
+    def test_reference_time_units(self):  # noqa: D102
         # units should not be displayed for a reference time
         qplt.plot(self.cube.coord("time"), self.cube)
         plt.gcf().autofmt_xdate()
         self.check_graphic()
 
-    def test_not_reference_time_units(self):
+    def test_not_reference_time_units(self):  # noqa: D102
         # units should be displayed for other time coordinates
         qplt.plot(self.cube.coord("forecast_period"), self.cube)
         self.check_graphic()
@@ -255,17 +255,17 @@ class TestSubplotColorbar:
         assert mappable.colorbar.mappable is mappable
         assert mappable.colorbar.ax.get_figure() is figure
 
-    def test_with_axes1(self):
+    def test_with_axes1(self):  # noqa: D102
         # plot using the first figure subplot axes (explicit)
         mappable = qplt.contourf(self.data, axes=self.axes1)
         self._check(mappable, self.figure1, self.axes1)
 
-    def test_with_axes2(self):
+    def test_with_axes2(self):  # noqa: D102
         # plot using the second figure subplot axes (explicit)
         mappable = qplt.contourf(self.data, axes=self.axes2)
         self._check(mappable, self.figure2, self.axes2)
 
-    def test_without_axes__default(self):
+    def test_without_axes__default(self):  # noqa: D102
         # plot using the second/last figure subplot axes (default)
         mappable = qplt.contourf(self.data)
         self._check(mappable, self.figure2, self.axes2)
@@ -275,12 +275,12 @@ class TestSubplotColorbar:
 @_shared_utils.skip_plot
 class TestPlotHist(_shared_utils.GraphicsTest):
     """Test lotHist."""
-    def test_horizontal(self):
+    def test_horizontal(self):  # noqa: D102
         cube = test_plot.simple_cube()[0]
         qplt.hist(cube, bins=np.linspace(287.7, 288.2, 11))
         self.check_graphic()
 
-    def test_vertical(self):
+    def test_vertical(self):  # noqa: D102
         cube = test_plot.simple_cube()[0]
         qplt.hist(cube, bins=np.linspace(287.7, 288.2, 11), orientation="horizontal")
         self.check_graphic()
@@ -292,7 +292,7 @@ class TestFooter:
     @pytest.mark.parametrize(
         "text", [qplt.Classification.official_sensitive, "Example"]
     )
-    def test__footer(self, text):
+    def test__footer(self, text):  # noqa: D102
         fig = plt.figure()
         qplt._footer(text)
         footer_text = fig.texts[0].get_text()

@@ -39,11 +39,11 @@ class Test_optimal_array_structure:
                 ),
             )
 
-    def test_none(self):
+    def test_none(self):  # noqa: D102
         with pytest.raises(IndexError, match="index 0 is out of bounds"):
             _ = optimal_array_structure([], [])
 
-    def test_one(self):
+    def test_one(self):  # noqa: D102
         # A single value does not make a dimension (no length-1 dims).
         elements = [("a", np.array([1]))]
         shape, primaries, elems_and_dims = optimal_array_structure(elements)
@@ -51,14 +51,14 @@ class Test_optimal_array_structure:
         assert primaries == set()
         assert elems_and_dims == {}
 
-    def test_1d(self):
+    def test_1d(self):  # noqa: D102
         elements = [("a", np.array([1, 2, 4]))]
         shape, primaries, elems_and_dims = optimal_array_structure(elements)
         assert shape == (3,)
         assert primaries == set("a")
         self._check_arrays_and_dims(elems_and_dims, {"a": (np.array([1, 2, 4]), (0,))})
 
-    def test_1d_actuals(self):
+    def test_1d_actuals(self):  # noqa: D102
         # Test use of alternate element values for array construction.
         elements = [("a", np.array([1, 2, 4]))]
         actual_values = [("a", np.array([7, 3, 9]))]
@@ -69,7 +69,7 @@ class Test_optimal_array_structure:
         assert primaries == set("a")
         self._check_arrays_and_dims(elems_and_dims, {"a": (np.array([7, 3, 9]), (0,))})
 
-    def test_actuals_mismatch_fail(self):
+    def test_actuals_mismatch_fail(self):  # noqa: D102
         elements = [("a", np.array([1, 2, 4]))]
         actual_values = [("b", np.array([7, 3, 9]))]
         with pytest.raises(ValueError, match="Names.* do not match.*"):
@@ -77,7 +77,7 @@ class Test_optimal_array_structure:
                 elements, actual_values
             )
 
-    def test_2d(self):
+    def test_2d(self):  # noqa: D102
         elements = [
             ("a", np.array([2, 2, 2, 3, 3, 3])),
             ("b", np.array([7, 8, 9, 7, 8, 9])),
@@ -90,7 +90,7 @@ class Test_optimal_array_structure:
             {"a": (np.array([2, 3]), (0,)), "b": (np.array([7, 8, 9]), (1,))},
         )
 
-    def test_2d_with_element_values(self):
+    def test_2d_with_element_values(self):  # noqa: D102
         # Confirm that elements values are used in the output when supplied.
         elements = [
             ("a", np.array([2, 2, 2, 3, 3, 3])),
@@ -110,7 +110,7 @@ class Test_optimal_array_structure:
             {"a": (np.array([6, 8]), (0,)), "b": (np.array([3, 4, 5]), (1,))},
         )
 
-    def test_non_2d(self):
+    def test_non_2d(self):  # noqa: D102
         # An incomplete 2d expansion just becomes 1d
         elements = [
             ("a", np.array([2, 2, 2, 3, 3])),
@@ -127,7 +127,7 @@ class Test_optimal_array_structure:
             },
         )
 
-    def test_degenerate(self):
+    def test_degenerate(self):  # noqa: D102
         # A all-same vector does not appear in the output.
         elements = [("a", np.array([1, 2, 3])), ("b", np.array([4, 4, 4]))]
         shape, primaries, elems_and_dims = optimal_array_structure(elements)
@@ -135,7 +135,7 @@ class Test_optimal_array_structure:
         assert primaries == set(["a"])
         self._check_arrays_and_dims(elems_and_dims, {"a": (np.array([1, 2, 3]), (0,))})
 
-    def test_1d_duplicates(self):
+    def test_1d_duplicates(self):  # noqa: D102
         # When two have the same structure, the first is 'the dimension'.
         elements = [("a", np.array([1, 3, 4])), ("b", np.array([6, 7, 9]))]
         shape, primaries, elems_and_dims = optimal_array_structure(elements)
@@ -149,7 +149,7 @@ class Test_optimal_array_structure:
             },
         )
 
-    def test_1d_duplicates_order(self):
+    def test_1d_duplicates_order(self):  # noqa: D102
         # Same as previous but reverse passed order of elements 'a' and 'b'.
         elements = [("b", np.array([6, 7, 9])), ("a", np.array([1, 3, 4]))]
         shape, primaries, elems_and_dims = optimal_array_structure(elements)
@@ -164,7 +164,7 @@ class Test_optimal_array_structure:
             },
         )
 
-    def test_3_way(self):
+    def test_3_way(self):  # noqa: D102
         elements = [
             ("t1", np.array([2, 3, 4])),
             ("t2", np.array([4, 5, 6])),
@@ -182,7 +182,7 @@ class Test_optimal_array_structure:
             },
         )
 
-    def test_mixed_dims(self):
+    def test_mixed_dims(self):  # noqa: D102
         elements = [
             ("t1", np.array([1, 1, 11, 11])),
             ("t2", np.array([15, 16, 25, 26])),
@@ -200,7 +200,7 @@ class Test_optimal_array_structure:
             },
         )
 
-    def test_missing_dim(self):
+    def test_missing_dim(self):  # noqa: D102
         # Case with no dimension element for dimension 1.
         elements = [
             ("t1", np.array([1, 1, 11, 11])),
@@ -219,7 +219,7 @@ class Test_optimal_array_structure:
             },
         )
 
-    def test_optimal_structure_decision(self):
+    def test_optimal_structure_decision(self):  # noqa: D102
         # Checks the optimal structure decision logic is working correctly:
         # given the arrays we have here we would expect 'a' to be the primary
         # dimension, as it has higher priority for being supplied first.

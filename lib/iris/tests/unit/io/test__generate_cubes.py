@@ -13,7 +13,7 @@ from iris.loading import _generate_cubes
 
 class TestGenerateCubes:
     """Test enerateCubes."""
-    def test_pathlib_paths(self, mocker):
+    def test_pathlib_paths(self, mocker):  # noqa: D102
         test_variants = [
             ("string", "string"),
             (["string"], "string"),
@@ -41,7 +41,7 @@ class TestGenerateCubes:
             "https://foo#mode=nczarr",
         ],
     )
-    def test_nczarr_uri(self, uri, mocker):
+    def test_nczarr_uri(self, uri, mocker):  # noqa: D102
         load_files_mock = mocker.patch("iris.iris.io._load_files", return_value=[])
         load_http_mock = mocker.patch("iris.iris.io.load_http", return_value=[])
 
@@ -50,7 +50,7 @@ class TestGenerateCubes:
         load_http_mock.assert_called_once_with([uri], None)
         load_files_mock.assert_not_called()
 
-    def test_non_nczarr_uri(self, mocker):
+    def test_non_nczarr_uri(self, mocker):  # noqa: D102
         uri = "file:///foo#bar=baz"
         # The partition needs a real-looking part name to classify, not a
         # file-system lookup against a path that was never written.

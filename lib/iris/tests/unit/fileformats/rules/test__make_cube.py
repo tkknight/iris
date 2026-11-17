@@ -12,7 +12,7 @@ from iris.fileformats.rules import ConversionMetadata, _make_cube
 
 class Test:
     """Test ."""
-    def test_invalid_units(self, mocker):
+    def test_invalid_units(self, mocker):  # noqa: D102
         # Mock converter() function that returns an invalid
         # units string amongst the collection of other elements.
         factories = None

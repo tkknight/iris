@@ -19,10 +19,10 @@ class Test__x_vectors:
         _shared_utils.assert_array_equal(result_xp, xp)
         _shared_utils.assert_array_equal(result_xu, xu)
 
-    def test_none(self):
+    def test_none(self):  # noqa: D102
         self._test(column=None, horiz_grid_type=None, xp=None, xu=None)
 
-    def test_1d(self):
+    def test_1d(self):  # noqa: D102
         self._test(
             column=np.array([[0], [1], [2], [3]]),
             horiz_grid_type=None,
@@ -30,7 +30,7 @@ class Test__x_vectors:
             xu=None,
         )
 
-    def test_2d_no_wrap(self):
+    def test_2d_no_wrap(self):  # noqa: D102
         self._test(
             column=np.array([[0, 0], [1, 10], [2, 20], [3, 30]]),
             horiz_grid_type=1,
@@ -38,7 +38,7 @@ class Test__x_vectors:
             xu=np.array([0, 10, 20, 30]),
         )
 
-    def test_2d_with_wrap(self):
+    def test_2d_with_wrap(self):  # noqa: D102
         self._test(
             column=np.array([[0, 0], [1, 10], [2, 20], [3, 30]]),
             horiz_grid_type=0,
@@ -55,10 +55,10 @@ class Test_regular_x:
         assert result_bzx == bzx
         assert result_bdx == bdx
 
-    def test_theta_subgrid(self):
+    def test_theta_subgrid(self):  # noqa: D102
         self._test(1, -9.0, 4.0)
 
-    def test_u_subgrid(self):
+    def test_u_subgrid(self):  # noqa: D102
         self._test(11, -7.0, 4.0)
 
 
@@ -71,14 +71,14 @@ class Test_regular_y:
         assert result_bzy == bzy
         assert result_bdy == bdy
 
-    def test_theta_subgrid_NewDynamics(self):
+    def test_theta_subgrid_NewDynamics(self):  # noqa: D102
         self._test(0.5, 1, 41.0, 4.0)
 
-    def test_v_subgrid_NewDynamics(self):
+    def test_v_subgrid_NewDynamics(self):  # noqa: D102
         self._test(0.5, 11, 43.0, 4.0)
 
-    def test_theta_subgrid_ENDGame(self):
+    def test_theta_subgrid_ENDGame(self):  # noqa: D102
         self._test(-0.5, 1, 41.0, 4.0)
 
-    def test_v_subgrid_ENDGame(self):
+    def test_v_subgrid_ENDGame(self):  # noqa: D102
         self._test(-0.5, 11, 39.0, 4.0)

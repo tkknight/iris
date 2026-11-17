@@ -23,18 +23,18 @@ class TestStringCoordPlot(TestGraphicStringCoord):
     def _setup(self, parent_setup):
         self.cube = self.cube[0, :]
 
-    def test_yaxis_labels(self):
+    def test_yaxis_labels(self):  # noqa: D102
         qplt.plot(self.cube, self.cube.coord("str_coord"))
         self.assert_bounds_tick_labels("yaxis")
 
-    def test_xaxis_labels(self):
+    def test_xaxis_labels(self):  # noqa: D102
         qplt.plot(self.cube.coord("str_coord"), self.cube)
         self.assert_bounds_tick_labels("xaxis")
 
 
 class TestAxisLabels(_shared_utils.GraphicsTest):
     """Test xisLabels."""
-    def test_xy_cube(self):
+    def test_xy_cube(self):  # noqa: D102
         c = simple_1d()
         qplt.plot(c)
         ax = qplt.plt.gca()
@@ -43,7 +43,7 @@ class TestAxisLabels(_shared_utils.GraphicsTest):
         y = ax.yaxis.get_label().get_text()
         assert y == "Thingness"
 
-    def test_yx_cube(self):
+    def test_yx_cube(self):  # noqa: D102
         c = simple_1d()
         c.transpose()
         # Making the cube a vertical coordinate should change the default

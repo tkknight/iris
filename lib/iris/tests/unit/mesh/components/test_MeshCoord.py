@@ -43,7 +43,7 @@ class Test___init__:
         self.mesh = mesh
         self.meshcoord = sample_meshcoord(mesh=mesh)
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         meshcoord = self.meshcoord
         assert meshcoord.mesh == self.mesh
         assert meshcoord.location == "face"
@@ -51,7 +51,7 @@ class Test___init__:
         assert isinstance(meshcoord, MeshCoord)
         assert isinstance(meshcoord, Coord)
 
-    def test_derived_properties(self):
+    def test_derived_properties(self):  # noqa: D102
         # Check the derived properties of the meshcoord against the correct
         # underlying mesh coordinate.
         for axis in MeshXY.AXES:
@@ -62,20 +62,20 @@ class Test___init__:
                 # All relevant attributes are derived from the face coord.
                 assert meshval == getattr(face_x_coord, key)
 
-    def test_fail_bad_mesh(self, mocker):
+    def test_fail_bad_mesh(self, mocker):  # noqa: D102
         with pytest.raises(TypeError, match="must be a.*Mesh"):
             sample_meshcoord(mesh=mocker.sentinel.odd)
 
-    def test_valid_locations(self):
+    def test_valid_locations(self):  # noqa: D102
         for loc in MeshXY.ELEMENTS:
             meshcoord = sample_meshcoord(location=loc)
             assert meshcoord.location == loc
 
-    def test_fail_bad_location(self):
+    def test_fail_bad_location(self):  # noqa: D102
         with pytest.raises(ValueError, match="not a valid MeshXY location"):
             sample_meshcoord(location="bad")
 
-    def test_fail_bad_axis(self):
+    def test_fail_bad_axis(self):  # noqa: D102
         with pytest.raises(ValueError, match="not a valid MeshXY axis"):
             sample_meshcoord(axis="q")
 
@@ -86,7 +86,7 @@ class Test__readonly_properties:
     def _setup(self):
         self.meshcoord = sample_meshcoord()
 
-    def test_fixed_metadata(self, mocker):
+    def test_fixed_metadata(self, mocker):  # noqa: D102
         # Check that you cannot set any of these on an existing MeshCoord.
         meshcoord = self.meshcoord
         if version.parse(python_version()) >= version.parse("3.11"):
@@ -97,7 +97,7 @@ class Test__readonly_properties:
             with pytest.raises(AttributeError, match=msg):
                 setattr(meshcoord, prop, mocker.sentinel.odd)
 
-    def test_set_coord_system(self):
+    def test_set_coord_system(self):  # noqa: D102
         # The property exists, =None, can set to None, can not set otherwise.
         assert hasattr(self.meshcoord, "coord_system")
         assert self.meshcoord.coord_system is None
@@ -105,7 +105,7 @@ class Test__readonly_properties:
         with pytest.raises(ValueError, match=r"Cannot set.* MeshCoord\.$"):
             self.meshcoord.coord_system = 1
 
-    def test_set_climatological(self):
+    def test_set_climatological(self):  # noqa: D102
         # The property exists, =False, can set to False, can not set otherwise.
         assert hasattr(self.meshcoord, "climatological")
         assert self.meshcoord.climatological is False
@@ -125,7 +125,7 @@ class Test__readonly_properties:
             "attributes",
         ],
     )
-    def test_set_other(self, metadata_name):
+    def test_set_other(self, metadata_name):  # noqa: D102
         with pytest.raises(
             ValueError, match=rf"Cannot set '{metadata_name}' on a MeshCoord\.$"
         ):
@@ -136,13 +136,13 @@ class Test__points_and_bounds:
     """Test  points and bounds."""
     # Basic method testing only, for 3 locations with simple array values.
     # See Test_MeshCoord__dataviews for more detailed checks.
-    def test_node(self):
+    def test_node(self):  # noqa: D102
         meshcoord = sample_meshcoord(location="node")
         n_nodes = iris.tests.stock.mesh._TEST_N_NODES  # n-nodes default for sample mesh
         assert meshcoord.core_bounds() is None
         assert_array_all_close(meshcoord.points, 1100 + np.arange(n_nodes))
 
-    def test_edge(self):
+    def test_edge(self):  # noqa: D102
         meshcoord = sample_meshcoord(location="edge")
         points, bounds = meshcoord.core_points(), meshcoord.core_bounds()
         assert points.shape == meshcoord.shape
@@ -159,7 +159,7 @@ class Test__points_and_bounds:
             ],
         )
 
-    def test_face(self):
+    def test_face(self):  # noqa: D102
         meshcoord = sample_meshcoord(location="face")
         points, bounds = meshcoord.core_points(), meshcoord.core_bounds()
         assert points.shape == meshcoord.shape
@@ -184,19 +184,19 @@ class Test___eq__:
     def _create_common_mesh(self, **kwargs):
         return sample_meshcoord(mesh=self.mesh, **kwargs)
 
-    def test_identical_mesh(self):
+    def test_identical_mesh(self):  # noqa: D102
         meshcoord1 = self._create_common_mesh()
         meshcoord2 = self._create_common_mesh()
         assert meshcoord2 == meshcoord1
 
-    def test_equal_mesh(self):
+    def test_equal_mesh(self):  # noqa: D102
         mesh1 = sample_mesh()
         mesh2 = sample_mesh()
         meshcoord1 = sample_meshcoord(mesh=mesh1)
         meshcoord2 = sample_meshcoord(mesh=mesh2)
         assert meshcoord2 == meshcoord1
 
-    def test_different_mesh(self):
+    def test_different_mesh(self):  # noqa: D102
         mesh1 = sample_mesh()
         mesh2 = sample_mesh()
         mesh2.long_name = "new_name"
@@ -204,12 +204,12 @@ class Test___eq__:
         meshcoord2 = sample_meshcoord(mesh=mesh2)
         assert meshcoord2 != meshcoord1
 
-    def test_different_location(self):
+    def test_different_location(self):  # noqa: D102
         meshcoord = self._create_common_mesh()
         meshcoord2 = self._create_common_mesh(location="node")
         assert meshcoord2 != meshcoord
 
-    def test_different_axis(self):
+    def test_different_axis(self):  # noqa: D102
         meshcoord = self._create_common_mesh()
         meshcoord2 = self._create_common_mesh(axis="y")
         assert meshcoord2 != meshcoord
@@ -217,7 +217,7 @@ class Test___eq__:
 
 class Test__copy:
     """Test  copy."""
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         meshcoord = sample_meshcoord()
         meshcoord2 = meshcoord.copy()
         assert meshcoord2 is not meshcoord
@@ -225,12 +225,12 @@ class Test__copy:
         # In this case, they should share *NOT* copy the Mesh object.
         assert meshcoord2.mesh is meshcoord.mesh
 
-    def test_fail_copy_newpoints(self):
+    def test_fail_copy_newpoints(self):  # noqa: D102
         meshcoord = sample_meshcoord()
         with pytest.raises(ValueError, match="Cannot change the content"):
             meshcoord.copy(points=meshcoord.points)
 
-    def test_fail_copy_newbounds(self):
+    def test_fail_copy_newbounds(self):  # noqa: D102
         meshcoord = sample_meshcoord()
         with pytest.raises(ValueError, match="Cannot change the content"):
             meshcoord.copy(bounds=meshcoord.bounds)
@@ -238,7 +238,7 @@ class Test__copy:
 
 class Test__getitem__:
     """Test  getitem  ."""
-    def test_slice_wholeslice_1tuple(self):
+    def test_slice_wholeslice_1tuple(self):  # noqa: D102
         meshcoord = sample_meshcoord()
         meshcoord2 = meshcoord[:,]
         assert meshcoord2 is not meshcoord
@@ -246,7 +246,7 @@ class Test__getitem__:
         # In this case, we should *NOT* copy the linked Mesh object.
         assert meshcoord2.mesh is meshcoord.mesh
 
-    def test_slice_whole_slice_singlekey(self):
+    def test_slice_whole_slice_singlekey(self):  # noqa: D102
         # A slice(None) fails, if not presented in a 1-tuple.
         meshcoord = sample_meshcoord()
         with pytest.raises(
@@ -255,7 +255,7 @@ class Test__getitem__:
         ):
             meshcoord[:]
 
-    def test_fail_slice_part(self):
+    def test_fail_slice_part(self):  # noqa: D102
         meshcoord = sample_meshcoord()
         with pytest.raises(
             ValueError,
@@ -263,7 +263,7 @@ class Test__getitem__:
         ):
             meshcoord[:1]
 
-    def test_scalar_index_default_mode(self):
+    def test_scalar_index_default_mode(self):  # noqa: D102
         meshcoord = sample_meshcoord(location="face", axis="x")
         result = meshcoord[(0,)]
 
@@ -278,7 +278,7 @@ class Test__getitem__:
             (mesh_coord_indexing.Options.MESH_INDEX_SET, _MeshIndexSet),
         ],
     )
-    def test_scalar_index_mesh_modes(self, mode, expected_mesh_type):
+    def test_scalar_index_mesh_modes(self, mode, expected_mesh_type):  # noqa: D102
         meshcoord = sample_meshcoord(location="face", axis="x")
 
         with mesh_coord_indexing.SETTING.context(mode):
@@ -289,7 +289,7 @@ class Test__getitem__:
         assert result.shape == (1,)
         assert result.points[0] == 3100
 
-    def test_new_mesh_mode(self):
+    def test_new_mesh_mode(self):  # noqa: D102
         meshcoord = sample_meshcoord(location="face", axis="x")
 
         with mesh_coord_indexing.SETTING.context(mesh_coord_indexing.Options.NEW_MESH):
@@ -300,7 +300,7 @@ class Test__getitem__:
         assert result.mesh is not meshcoord.mesh
         assert result.shape == (2,)
 
-    def test_mesh_index_set_mode(self):
+    def test_mesh_index_set_mode(self):  # noqa: D102
         meshcoord = sample_meshcoord(location="face", axis="x")
 
         with mesh_coord_indexing.SETTING.context(
@@ -314,7 +314,7 @@ class Test__getitem__:
         assert result.mesh.location == meshcoord.location
         assert result.shape == (2,)
 
-    def test_mesh_index_set_mode_reindex_from_existing_index_set(self):
+    def test_mesh_index_set_mode_reindex_from_existing_index_set(self):  # noqa: D102
         meshcoord = sample_meshcoord(location="face", axis="x")
 
         with mesh_coord_indexing.SETTING.context(
@@ -328,7 +328,7 @@ class Test__getitem__:
         assert second.mesh.mesh is meshcoord.mesh
         assert second.shape == (1,)
 
-    def test_bad_indexing_setting(self, monkeypatch):
+    def test_bad_indexing_setting(self, monkeypatch):  # noqa: D102
         meshcoord = sample_meshcoord(location="face", axis="x")
         monkeypatch.setattr(mesh_coord_indexing.SETTING, "_value", "bad_value")
 
@@ -398,7 +398,7 @@ class Test__str_repr:
         regexp = re.compile(regexp, flags=re.DOTALL)
         return regexp
 
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         # A simple check for the condensed form.
         result = repr(self.meshcoord)
         expected = (
@@ -407,7 +407,7 @@ class Test__str_repr:
         )
         assert expected == result
 
-    def test_repr_lazy(self):
+    def test_repr_lazy(self):  # noqa: D102
         # Displays lazy content (and does not realise!).
         coord_on_mesh = self.meshcoord.mesh.coord(
             standard_name=self.meshcoord.standard_name,
@@ -433,7 +433,7 @@ class Test__str_repr:
         )
         assert expected == result
 
-    def test_repr__nameless_mesh(self):
+    def test_repr__nameless_mesh(self):  # noqa: D102
         # Check what it does when the Mesh doesn't have a name.
         self.mesh.long_name = None
         assert self.mesh.name() == "unknown"
@@ -444,14 +444,14 @@ class Test__str_repr:
         )
         assert re.match(re_expected, result)
 
-    def test__str__(self):
+    def test__str__(self):  # noqa: D102
         # Basic output contains mesh, location, standard_name, long_name,
         # attributes, mesh, location and axis
         result = str(self.meshcoord)
         re_expected = self._expected_elements_regexp()
         re.match(re_expected, result)
 
-    def test__str__lazy(self):
+    def test__str__lazy(self):  # noqa: D102
         # Displays lazy content (and does not realise!).
         coord_on_mesh = self.meshcoord.mesh.coord(
             standard_name=self.meshcoord.standard_name,
@@ -473,7 +473,7 @@ class Test__str_repr:
         re_expected = self._expected_elements_regexp()
         re.match(re_expected, result)
 
-    def test_alternative_location_and_axis(self):
+    def test_alternative_location_and_axis(self):  # noqa: D102
         meshcoord = sample_meshcoord(mesh=self.mesh, location="edge", axis="y")
         result = str(meshcoord)
         re_expected = self._expected_elements_regexp(
@@ -486,7 +486,7 @@ class Test__str_repr:
         re.match(re_expected, result)
         # Basic output contains standard_name, long_name, attributes
 
-    def test_str_no_long_name(self):
+    def test_str_no_long_name(self):  # noqa: D102
         mesh = self.mesh
         # Remove the long_name of the node coord in the mesh.
         node_coord = mesh.coord(location="node", axis="x")
@@ -497,7 +497,7 @@ class Test__str_repr:
         re_expected = self._expected_elements_regexp(long_name=False)
         re.match(re_expected, result)
 
-    def test_str_no_attributes(self):
+    def test_str_no_attributes(self):  # noqa: D102
         mesh = self.mesh
         # No attributes on the node coord in the mesh.
         node_coord = mesh.coord(location="node", axis="x")
@@ -508,7 +508,7 @@ class Test__str_repr:
         re_expected = self._expected_elements_regexp(attributes=False)
         re.match(re_expected, result)
 
-    def test_str_empty_attributes(self):
+    def test_str_empty_attributes(self):  # noqa: D102
         mesh = self.mesh
         # Empty attributes dict on the node coord in the mesh.
         node_coord = mesh.coord(location="node", axis="x")
@@ -533,18 +533,18 @@ class Test_cube_containment:
         self.meshcoord = meshcoord
         self.cube = cube
 
-    def test_added_to_cube(self):
+    def test_added_to_cube(self):  # noqa: D102
         meshcoord = self.meshcoord
         cube = self.cube
         assert meshcoord in cube.coords()
 
-    def test_cube_dims(self):
+    def test_cube_dims(self):  # noqa: D102
         meshcoord = self.meshcoord
         cube = self.cube
         assert meshcoord.cube_dims(cube) == (1,)
         assert cube.coord_dims(meshcoord) == (1,)
 
-    def test_find_by_name(self):
+    def test_find_by_name(self):  # noqa: D102
         meshcoord = self.meshcoord
 
         # changes to meshcoords have to be done via the attached mesh
@@ -557,7 +557,7 @@ class Test_cube_containment:
         assert cube.coord(standard_name="longitude") is meshcoord
         assert cube.coord(long_name="odd_case") is meshcoord
 
-    def test_find_by_axis(self):
+    def test_find_by_axis(self):  # noqa: D102
         meshcoord = self.meshcoord
         mesh = self.meshcoord.mesh
         cube = self.cube
@@ -574,7 +574,7 @@ class Test_cube_containment:
         assert cube.coord(axis="x") is meshcoord
         assert cube.coords(axis="y") == []
 
-    def test_cube_copy(self):
+    def test_cube_copy(self):  # noqa: D102
         # Check that we can copy a cube, and get a MeshCoord == the original.
         # Note: currently must have the *same* mesh, as for MeshCoord.copy().
         meshcoord = self.meshcoord
@@ -584,7 +584,7 @@ class Test_cube_containment:
         assert meshco2 is not meshcoord
         assert meshco2 == meshcoord
 
-    def test_cube_nonmesh_slice(self):
+    def test_cube_nonmesh_slice(self):  # noqa: D102
         # Check that we can slice a cube on a non-mesh dimension, and get a
         # meshcoord == original.
         # Note: currently this must have the *same* mesh, as for .copy().
@@ -595,7 +595,7 @@ class Test_cube_containment:
         assert meshco2 is not meshcoord
         assert meshco2 == meshcoord
 
-    def test_cube_mesh_partslice(self):
+    def test_cube_mesh_partslice(self):  # noqa: D102
         # Check that we can *not* get a partial MeshCoord slice, as the
         # MeshCoord refuses to be sliced.
         # Instead, you get an AuxCoord created from the MeshCoord.
@@ -619,7 +619,7 @@ class Test_cube_containment:
 
 class Test_auxcoord_conversion:
     """Test auxcoord conversion."""
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         meshcoord = sample_meshcoord()
         auxcoord = AuxCoord.from_coord(meshcoord)
         for propname, auxval in auxcoord.metadata._asdict().items():
@@ -818,19 +818,19 @@ class Test_MeshCoord__dataviews:
         # Check values, as previous.
         self._check_expected_points_values()
 
-    def test_lazy_bounds_values(self):
+    def test_lazy_bounds_values(self):  # noqa: D102
         meshcoord = self._make_test_meshcoord(lazy_sources=True)
         assert meshcoord.has_lazy_points() is True
         assert meshcoord.has_lazy_bounds() is True
         # Check values, as previous.
         self._check_expected_bounds_values()
 
-    def test_edge_points(self):
+    def test_edge_points(self):  # noqa: D102
         meshcoord = self._make_test_meshcoord(location="edge")
         result = meshcoord.points
         assert_array_all_close(result, self.edge_xs)
 
-    def test_edge_bounds(self):
+    def test_edge_bounds(self):  # noqa: D102
         meshcoord = self._make_test_meshcoord(location="edge")
         result = meshcoord.bounds
         # The bounds are selected node_x-s :  all == node_number + 100.0
@@ -838,17 +838,17 @@ class Test_MeshCoord__dataviews:
         # NB simpler than faces : no possibility of missing points
         assert_array_almost_equal(result, expected)
 
-    def test_bounds_connectivity__location_axis_1(self):
+    def test_bounds_connectivity__location_axis_1(self):  # noqa: D102
         # Test with a transposed indices array.
         self._make_test_meshcoord(inds_location_axis=1)
         self._check_expected_bounds_values()
 
-    def test_bounds_connectivity__start_index_1(self):
+    def test_bounds_connectivity__start_index_1(self):  # noqa: D102
         # Test 1-based indices.
         self._make_test_meshcoord(inds_start_index=1)
         self._check_expected_bounds_values()
 
-    def test_meshcoord_leaves_originals_lazy(self):
+    def test_meshcoord_leaves_originals_lazy(self):  # noqa: D102
         self._make_test_meshcoord(lazy_sources=True)
         mesh = self.mesh
         meshcoord = self.meshcoord
@@ -897,16 +897,16 @@ class Test_MeshCoord__dataviews:
         self._make_test_meshcoord(facenodes_changes=facenodes_modify, lazy_sources=lazy)
         self._check_expected_bounds_values()
 
-    def test_bounds_badvalues__real(self):
+    def test_bounds_badvalues__real(self):  # noqa: D102
         self._check_bounds_bad_index_values(lazy=False)
 
-    def test_bounds_badvalues__lazy(self):
+    def test_bounds_badvalues__lazy(self):  # noqa: D102
         self._check_bounds_bad_index_values(lazy=True)
 
 
 class Test__metadata:
     """Test  metadata."""
-    def setup_mesh(self, location, axis):
+    def setup_mesh(self, location, axis):  # noqa: D102
         # Create a standard test mesh + attach it to the test instance.
         mesh = sample_mesh()
 
@@ -927,31 +927,31 @@ class Test__metadata:
         self.location_coord = location_coord
         self.node_coord = node_coord
 
-    def coord_metadata_matches(self, test_coord, ref_coord):
+    def coord_metadata_matches(self, test_coord, ref_coord):  # noqa: D102
         # Check that two coords match, in all the basic Coord identity/phenomenon
         # metadata fields -- so it works even between coords of different subclasses.
         for key in CoordMetadata._fields:
             assert getattr(test_coord, key) == getattr(ref_coord, key)
 
     @pytest.fixture(params=["x", "y"])
-    def axis_x_or_y(self, request):
+    def axis_x_or_y(self, request):  # noqa: D102
         # Fixture to parametrise over axis = X/Y
         return request.param
 
-    def test_node_meshcoord(self, axis_x_or_y):
+    def test_node_meshcoord(self, axis_x_or_y):  # noqa: D102
         # MeshCoord metadata matches that of the relevant node coord.
         self.setup_mesh(location="node", axis=axis_x_or_y)
         meshcoord = self.mesh.to_MeshCoord(location=self.location, axis=self.axis)
         self.coord_metadata_matches(meshcoord, self.node_coord)
 
-    def test_faceedge_basic(self, location_face_or_edge, axis_x_or_y):
+    def test_faceedge_basic(self, location_face_or_edge, axis_x_or_y):  # noqa: D102
         # MeshCoord metadata matches that of the face/edge ("points") coord.
         self.setup_mesh(location_face_or_edge, axis_x_or_y)
         meshcoord = self.mesh.to_MeshCoord(location=self.location, axis=self.axis)
         self.coord_metadata_matches(meshcoord, self.location_coord)
 
     @pytest.mark.parametrize("fieldname", ["long_name", "var_name", "attributes"])
-    def test_faceedge_dontcare_fields(
+    def test_faceedge_dontcare_fields(  # noqa: D102
         self, location_face_or_edge, axis_x_or_y, fieldname
     ):
         # Check that it's ok for the face/edge and node coords to have different
@@ -969,7 +969,7 @@ class Test__metadata:
         # ... but also, check that the result matches the expected face/edge coord.
         self.coord_metadata_matches(meshcoord, self.location_coord)
 
-    def test_faceedge_fail_mismatched_stdnames(
+    def test_faceedge_fail_mismatched_stdnames(  # noqa: D102
         self, location_face_or_edge, axis_x_or_y
     ):
         # Different "standard_name" for node and face/edge causes an error.
@@ -986,7 +986,7 @@ class Test__metadata:
         with pytest.raises(ValueError, match=msg):
             self.mesh.to_MeshCoord(location=location_face_or_edge, axis=axis_x_or_y)
 
-    def test_faceedge_fail_missing_stdnames(self, location_face_or_edge, axis_x_or_y):
+    def test_faceedge_fail_missing_stdnames(self, location_face_or_edge, axis_x_or_y):  # noqa: D102
         # "standard_name" compared with None also causes an error.
         self.setup_mesh(location_face_or_edge, axis_x_or_y)
         self.node_coord.standard_name = None
@@ -1005,7 +1005,7 @@ class Test__metadata:
         with pytest.raises(ValueError, match=msg):
             self.mesh.to_MeshCoord(location=location_face_or_edge, axis=axis_x_or_y)
 
-    def test_faceedge_fail_mismatched_units(self, location_face_or_edge, axis_x_or_y):
+    def test_faceedge_fail_mismatched_units(self, location_face_or_edge, axis_x_or_y):  # noqa: D102
         # Different "units" for node and face/edge causes an error.
         self.setup_mesh(location_face_or_edge, axis_x_or_y)
         self.node_coord.units = "hPa"
@@ -1018,7 +1018,7 @@ class Test__metadata:
         with pytest.raises(ValueError, match=msg):
             self.mesh.to_MeshCoord(location=location_face_or_edge, axis=axis_x_or_y)
 
-    def test_faceedge_missing_units(self, location_face_or_edge, axis_x_or_y):
+    def test_faceedge_missing_units(self, location_face_or_edge, axis_x_or_y):  # noqa: D102
         # Units compared with a None ("unknown") is not an error.
         self.setup_mesh(location_face_or_edge, axis_x_or_y)
         self.node_coord.units = None
@@ -1027,7 +1027,7 @@ class Test__metadata:
         # ... but also, check that the result matches the expected face/edge coord.
         self.coord_metadata_matches(meshcoord, self.location_coord)
 
-    def test_updates_from_mesh(self):
+    def test_updates_from_mesh(self):  # noqa: D102
         self.setup_mesh(location="node", axis="x")
         coord_on_mesh = self.mesh.coord(location=self.location, axis=self.axis)
         meshcoord = self.mesh.to_MeshCoord(location=self.location, axis=self.axis)
@@ -1044,20 +1044,20 @@ class Test_collapsed:
     """
 
     @pytest.fixture(params=[False, True], ids=["real", "lazy"])
-    def lazy(self, request):
+    def lazy(self, request):  # noqa: D102
         return request.param
 
     @pytest.fixture(params=[4, 5], ids=["quads", "pentagons"])
-    def nodes_per_face(self, request):
+    def nodes_per_face(self, request):  # noqa: D102
         return request.param
 
     @pytest.fixture(params=[False, True], ids=["conn_no_masks", "conn_has_masks"])
-    def masked_connecteds(self, request):
+    def masked_connecteds(self, request):  # noqa: D102
         return request.param
 
     @staticmethod
     @pytest.fixture
-    def mesh_coord(location_face_or_edge, lazy, nodes_per_face, masked_connecteds):
+    def mesh_coord(location_face_or_edge, lazy, nodes_per_face, masked_connecteds):  # noqa: D102
         mesh = sample_mesh(
             lazy_values=lazy,
             nodes_per_face=nodes_per_face,
@@ -1071,7 +1071,7 @@ class Test_collapsed:
 
     @staticmethod
     @pytest.fixture
-    def mesh_coord_basic():
+    def mesh_coord_basic():  # noqa: D102
         return sample_meshcoord()
 
     def test_works(self, mesh_coord):
@@ -1099,7 +1099,7 @@ class Test_collapsed:
         message = record[0].message.args[0]
         assert message.startswith("Collapsing a mesh coordinate")
 
-    def test_aux_collapsed_called(self, mesh_coord_basic, mocker):
+    def test_aux_collapsed_called(self, mesh_coord_basic, mocker):  # noqa: D102
         mocked = mocker.patch.object(AuxCoord, "collapsed")
         _ = mesh_coord_basic.collapsed()
         mocked.assert_called_once()
@@ -1120,7 +1120,7 @@ class Test__updates_from_mesh:
         for c in self.mesh.coords():
             c.__setattr__(name, value)
 
-    def test__last_modified(self):
+    def test__last_modified(self):  # noqa: D102
         # Ensure that mesh._last_modified is updated when you update the mesh, and
         # and meshcoord._last_modified is updated to match that.
 
@@ -1131,7 +1131,7 @@ class Test__updates_from_mesh:
         assert self.meshcoord.mesh._last_modified == self.meshcoord._last_modified
         assert self.meshcoord.mesh._last_modified != self.timestamp_at_creation
 
-    def test_points(self, mocker):
+    def test_points(self, mocker):  # noqa: D102
         zeroes = np.zeros(3)
         mocked = mocker.patch.object(MeshCoord, "_load_points_and_bounds")
         mocked.return_value = (
@@ -1143,7 +1143,7 @@ class Test__updates_from_mesh:
         assert self.meshcoord.points.all() == zeroes.all()
         mocked.assert_called_once()
 
-    def test_bounds(self, mocker):
+    def test_bounds(self, mocker):  # noqa: D102
         zero_bounds = np.zeros(3)
         zero_points = np.zeros(15)
         mocked = mocker.patch.object(MeshCoord, "_load_points_and_bounds")
@@ -1166,7 +1166,7 @@ class Test__updates_from_mesh:
             ("attributes", {"foo": 1}),
         ],
     )
-    def test_basic_metadata(self, metadata_name, value, mocker):
+    def test_basic_metadata(self, metadata_name, value, mocker):  # noqa: D102
         mocked = mocker.patch.object(MeshCoord, "_load_points_and_bounds")
 
         self.coord_on_mesh.__setattr__(metadata_name, value)
@@ -1178,7 +1178,7 @@ class Test__updates_from_mesh:
         # to update points and bounds.
         mocked.assert_not_called()
 
-    def test_units(self, mocker):
+    def test_units(self, mocker):  # noqa: D102
         mocked = mocker.patch.object(MeshCoord, "_load_points_and_bounds")
         for c in self.mesh.coords():
             c.units = "radians"
@@ -1187,7 +1187,7 @@ class Test__updates_from_mesh:
         # to update points and bounds.
         mocked.assert_not_called()
 
-    def test_standard_name(self, mocker):
+    def test_standard_name(self, mocker):  # noqa: D102
         mocked = mocker.patch.object(MeshCoord, "_load_points_and_bounds")
         for c in self.mesh.coords(axis="x"):
             c.standard_name = "grid_longitude"
@@ -1198,7 +1198,7 @@ class Test__updates_from_mesh:
         # to update points and bounds.
         mocked.assert_not_called()
 
-    def test_updates(self, mocker):
+    def test_updates(self, mocker):  # noqa: D102
         mocked = mocker.patch.object(MeshCoord, "_load_points_and_bounds")
         mocked.return_value = (
             np.zeros(
@@ -1220,7 +1220,7 @@ class Test__updates_from_mesh:
         self.meshcoord.standard_name
         assert mocked.call_count == 2
 
-    def test_update_from_mesh(self, mocker):
+    def test_update_from_mesh(self, mocker):  # noqa: D102
         mocked = mocker.patch.object(MeshCoord, "_load_points_and_bounds")
         mocked.return_value = (
             np.zeros(

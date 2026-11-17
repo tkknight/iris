@@ -71,7 +71,7 @@ _NO_OP_MESSAGE = "'equalise_cubes' call does nothing"
 
 class TestNoOperation:
     """Test oOperation."""
-    def test(self):
+    def test(self):  # noqa: D102
         # A standalone test, that a call with no operations enabled raises a warning
         with pytest.warns(IrisUserWarning, match=_NO_OP_MESSAGE):
             equalise_cubes([])
@@ -80,7 +80,7 @@ class TestNoOperation:
 class WarnChecked:
     """WarnChecked."""
     @pytest.fixture(autouse=True)
-    def nowarn(self, usage):
+    def nowarn(self, usage):  # noqa: D102
         if usage == "off":
             with pytest.warns(IrisUserWarning, match=_NO_OP_MESSAGE):
                 yield
@@ -93,7 +93,7 @@ class WarnChecked:
 class TestUnifyNames(WarnChecked):
     """Test nifyNames."""
     # Test the 'normalise_names' operation.
-    def test_simple(self, usage):
+    def test_simple(self, usage):  # noqa: D102
         sn = "air_temperature"
         stdnames = [sn, sn, sn]
         longnames = [None, "long1", "long2"]
@@ -116,7 +116,7 @@ class TestUnifyNames(WarnChecked):
         # Assert result
         assert [cube.metadata for cube in results] == expected_metadatas
 
-    def test_multi(self, usage):
+    def test_multi(self, usage):  # noqa: D102
         # Show that different cases are resolved independently
         sn1, sn2 = "air_temperature", "air_pressure"
         stdnames = [sn1, None, None, None, sn2, None]
@@ -150,7 +150,7 @@ class TestUnifyNames(WarnChecked):
 class TestEqualiseAttributes(WarnChecked):
     """Test qualiseAttributes."""
     # Test the 'equalise_attributes' operation.
-    def test_calling(self, usage, mocker):
+    def test_calling(self, usage, mocker):  # noqa: D102
         patch = mocker.patch("iris.util.equalise_attributes")
         test_cubes = [_cube()]
         kwargs, expected_metadatas = _usage_common(
@@ -163,7 +163,7 @@ class TestEqualiseAttributes(WarnChecked):
         expected_calls = 0 if usage == "off" else 1
         assert len(patch.call_args_list) == expected_calls
 
-    def test_basic_function(self, usage):
+    def test_basic_function(self, usage):  # noqa: D102
         test_cubes = [_cube(att_a=10, att_b=1), _cube(att_a=10, att_b=2)]
         kwargs, expected_metadatas = _usage_common(
             usage, "equalise_attributes", test_cubes
@@ -181,7 +181,7 @@ class TestEqualiseAttributes(WarnChecked):
         # Assert result
         assert [cube.metadata for cube in results] == expected_metadatas
 
-    def test_operation_in_groups(self, usage):
+    def test_operation_in_groups(self, usage):  # noqa: D102
         # Check that it acts independently within groups (as defined, here, by naming)
         test_cubes = [
             _cube(longname="a", att_a=10, att_b=1),
@@ -212,7 +212,7 @@ class TestEqualiseAttributes(WarnChecked):
         # Assert result
         assert [cube.metadata for cube in results] == expected_metadatas
 
-    def test_array_attributes(self, usage):
+    def test_array_attributes(self, usage):  # noqa: D102
         # Array content is worth a special test because it breaks dictionary equality.
         a1 = np.array([4.1, 5.2, 6.3])
         a2 = np.array([1, 2])
@@ -250,7 +250,7 @@ class TestEqualiseAttributes(WarnChecked):
 class TestUnifyTimeUnits(WarnChecked):
     """Test nifyTimeUnits."""
     # Test the 'unify_time_units' operation.
-    def test_calling(self, usage, mocker):
+    def test_calling(self, usage, mocker):  # noqa: D102
         patch = mocker.patch("iris.util.unify_time_units")
         test_cubes = [_cube()]
         kwargs, expected_metadatas = _usage_common(
@@ -268,7 +268,7 @@ class TestUnifyTimeUnits(WarnChecked):
         cube.add_dim_coord(DimCoord([0.0], standard_name="time", units=unit), 0)
         return cube
 
-    def test_basic_function(self, usage):
+    def test_basic_function(self, usage):  # noqa: D102
         if usage == "scrambled":
             pytest.skip("scrambled mode not supported")
         tu1, tu2 = [Unit(name) for name in ("days since 1970", "days since 1971")]
@@ -286,7 +286,7 @@ class TestUnifyTimeUnits(WarnChecked):
         # Assert result
         assert [cube.coord("time").units for cube in results] == expected_units
 
-    def test_operation_in_groups(self, usage):
+    def test_operation_in_groups(self, usage):  # noqa: D102
         # Check that it acts independently within groups (as defined, here, by naming)
         test_cubes = [
             _cube(longname="a", att_a=10, att_b=1),

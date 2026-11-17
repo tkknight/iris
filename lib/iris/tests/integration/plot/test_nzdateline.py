@@ -18,7 +18,7 @@ if _shared_utils.MPL_AVAILABLE:
 @_shared_utils.skip_data
 class TestExtent:
     """Test xtent."""
-    def test_dateline(self):
+    def test_dateline(self):  # noqa: D102
         dpath = _shared_utils.get_data_path(["PP", "nzgust.pp"])
         cube = iris.load_cube(dpath)
         pcolormesh(cube)

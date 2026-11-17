@@ -12,7 +12,7 @@ import iris.tests.stock as stock
 
 class Test:
     """Test ."""
-    def test_polygon_smaller_than_cube(self):
+    def test_polygon_smaller_than_cube(self):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.dim_coords[0].guess_bounds()
         cube.dim_coords[1].guess_bounds()
@@ -26,7 +26,7 @@ class Test:
         )
         assert target == actual
 
-    def test_polygon_larger_than_cube(self):
+    def test_polygon_larger_than_cube(self):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.dim_coords[0].guess_bounds()
         cube.dim_coords[1].guess_bounds()
@@ -40,7 +40,7 @@ class Test:
         )
         assert target == actual
 
-    def test_polygon_on_cube_boundary(self):
+    def test_polygon_on_cube_boundary(self):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.dim_coords[0].guess_bounds()
         cube.dim_coords[1].guess_bounds()
@@ -54,7 +54,7 @@ class Test:
         )
         assert target == actual
 
-    def test_rotated_polygon_on_cube_boundary(self):
+    def test_rotated_polygon_on_cube_boundary(self):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.dim_coords[0].guess_bounds()
         cube.dim_coords[1].guess_bounds()
@@ -70,7 +70,7 @@ class Test:
         )
         assert target == actual
 
-    def test_rotated_polygon_larger_than_cube_boundary(self):
+    def test_rotated_polygon_larger_than_cube_boundary(self):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.dim_coords[0].guess_bounds()
         cube.dim_coords[1].guess_bounds()

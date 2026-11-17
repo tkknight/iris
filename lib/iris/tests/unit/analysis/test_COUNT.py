@@ -27,33 +27,33 @@ class Test_basics:
         self.lazy_cube.add_dim_coord(coord, 0)
         self.func = lambda x: x >= 3
 
-    def test_name(self):
+    def test_name(self):  # noqa: D102
         assert COUNT.name() == "count"
 
-    def test_no_function(self):
+    def test_no_function(self):  # noqa: D102
         exp_emsg = r"function must be a callable. Got <.* 'NoneType'>"
         with pytest.raises(TypeError, match=exp_emsg):
             COUNT.lazy_aggregate(self.lazy_cube.lazy_data(), axis=0)
 
-    def test_not_callable(self):
+    def test_not_callable(self):  # noqa: D102
         with pytest.raises(TypeError, match="function must be a callable"):
             COUNT.aggregate(self.cube.data, axis=0, function="wibble")
 
-    def test_lazy_not_callable(self):
+    def test_lazy_not_callable(self):  # noqa: D102
         with pytest.raises(TypeError, match="function must be a callable"):
             COUNT.lazy_aggregate(self.lazy_cube.lazy_data(), axis=0, function="wibble")
 
-    def test_collapse(self):
+    def test_collapse(self):  # noqa: D102
         data = COUNT.aggregate(self.cube.data, axis=0, function=self.func)
         _shared_utils.assert_array_equal(data, [3])
 
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         lazy_data = COUNT.lazy_aggregate(
             self.lazy_cube.lazy_data(), axis=0, function=self.func
         )
         assert is_lazy_data(lazy_data)
 
-    def test_lazy_collapse(self):
+    def test_lazy_collapse(self):  # noqa: D102
         lazy_data = COUNT.lazy_aggregate(
             self.lazy_cube.lazy_data(), axis=0, function=self.func
         )
@@ -62,7 +62,7 @@ class Test_basics:
 
 class Test_units_func:
     """Test units func."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert COUNT.units_func is not None
         new_units = COUNT.units_func(None)
         assert new_units == 1
@@ -76,7 +76,7 @@ class Test_masked:
         self.cube.add_dim_coord(DimCoord([6, 7, 8, 9, 10], long_name="foo"), 0)
         self.func = lambda x: x >= 3
 
-    def test_ma(self):
+    def test_ma(self):  # noqa: D102
         data = COUNT.aggregate(self.cube.data, axis=0, function=self.func)
         _shared_utils.assert_array_equal(data, [2])
 
@@ -90,7 +90,7 @@ class Test_lazy_masked:
         self.lazy_cube.add_dim_coord(DimCoord([6, 7, 8, 9, 10], long_name="foo"), 0)
         self.func = lambda x: x >= 3
 
-    def test_ma(self):
+    def test_ma(self):  # noqa: D102
         lazy_data = COUNT.lazy_aggregate(
             self.lazy_cube.lazy_data(), axis=0, function=self.func
         )
@@ -100,7 +100,7 @@ class Test_lazy_masked:
 
 class Test_aggregate_shape:
     """Test aggregate shape."""
-    def test(self):
+    def test(self):  # noqa: D102
         shape = ()
         kwargs = dict()
         assert COUNT.aggregate_shape(**kwargs) == shape

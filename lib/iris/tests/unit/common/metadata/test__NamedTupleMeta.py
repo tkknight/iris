@@ -14,11 +14,11 @@ from iris.common.metadata import _NamedTupleMeta
 class TestNamedTupleMeta:
     """Test amedTupleMeta."""
     @staticmethod
-    def names(classes):
+    def names(classes):  # noqa: D102
         return [cls.__name__ for cls in classes]
 
     @staticmethod
-    def emsg_generate(members):
+    def emsg_generate(members):  # noqa: D102
         if isinstance(members, str):
             members = (members,)
         emsg = ".* missing {} required positional argument{}: {}"
@@ -33,7 +33,7 @@ class TestNamedTupleMeta:
         plural = "s" if count > 1 else ""
         return emsg.format(len(members), plural, args)
 
-    def test__no_bases_with_abstract_members_property(self):
+    def test__no_bases_with_abstract_members_property(self):  # noqa: D102
         class Metadata(metaclass=_NamedTupleMeta):
             @property
             @abstractmethod
@@ -48,7 +48,7 @@ class TestNamedTupleMeta:
         with pytest.raises(TypeError, match=emsg):
             _ = Metadata()
 
-    def test__no_bases_single_member(self):
+    def test__no_bases_single_member(self):  # noqa: D102
         member = "arg_one"
 
         class Metadata(metaclass=_NamedTupleMeta):
@@ -65,7 +65,7 @@ class TestNamedTupleMeta:
         assert metadata._fields == (member,)
         assert metadata.arg_one == 1
 
-    def test__no_bases_multiple_members(self):
+    def test__no_bases_multiple_members(self):  # noqa: D102
         members = ("arg_one", "arg_two")
 
         class Metadata(metaclass=_NamedTupleMeta):
@@ -84,7 +84,7 @@ class TestNamedTupleMeta:
         expected = dict(zip(members, values))
         assert metadata._asdict() == expected
 
-    def test__multiple_bases_multiple_members(self):
+    def test__multiple_bases_multiple_members(self):  # noqa: D102
         members_parent = ("arg_one", "arg_two")
         members_child = ("arg_three", "arg_four")
 

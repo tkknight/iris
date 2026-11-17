@@ -116,10 +116,10 @@ class TestGridcellAngles:
 
         return angles_calculated, angles_expected
 
-    def test_various_orientations_and_locations(self):
+    def test_various_orientations_and_locations(self):  # noqa: D102
         self._check_multiple_orientations_and_latitudes()
 
-    def test_result_form(self):
+    def test_result_form(self):  # noqa: D102
         # Check properties of the result cube *other than* the data values.
         test_cube = self.standard_regional_cube
         result_cube = self.standard_result_cube
@@ -129,7 +129,7 @@ class TestGridcellAngles:
         assert result_cube.coord(axis="x") == test_cube.coord(axis="x")
         assert result_cube.coord(axis="y") == test_cube.coord(axis="y")
 
-    def test_bottom_edge_method(self):
+    def test_bottom_edge_method(self):  # noqa: D102
         # Get results with the "other" calculation method + check to tolerance.
         # A smallish cellsize should yield similar results in both cases.
         r1, _ = self._check_multiple_orientations_and_latitudes()
@@ -146,7 +146,7 @@ class TestGridcellAngles:
         # Note: results are a bit different in places.  This is acceptable.
         _shared_utils.assert_array_all_close(r1, r2, atol=0.1)
 
-    def test_bounded_coord_args(self):
+    def test_bounded_coord_args(self):  # noqa: D102
         # Check that passing the coords gives the same result as the cube.
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         result = gridcell_angles(co_x, co_y)
@@ -154,7 +154,7 @@ class TestGridcellAngles:
             result.data, self.standard_small_cube_results
         )
 
-    def test_coords_radians_args(self):
+    def test_coords_radians_args(self):  # noqa: D102
         # Check it still works with coords converted to radians.
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         for coord in (co_x, co_y):
@@ -164,7 +164,7 @@ class TestGridcellAngles:
             result.data, self.standard_small_cube_results
         )
 
-    def test_bounds_array_args(self):
+    def test_bounds_array_args(self):  # noqa: D102
         # Check we can calculate from bounds values alone.
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         # Results drawn from coord bounds should be nearly the same,
@@ -174,7 +174,7 @@ class TestGridcellAngles:
             result.data, self.standard_small_cube_results, atol=0.1
         )
 
-    def test_unbounded_regional_coord_args(self):
+    def test_unbounded_regional_coord_args(self):  # noqa: D102
         # Remove the coord bounds to check points-based calculation.
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         for coord in (co_x, co_y):
@@ -187,7 +187,7 @@ class TestGridcellAngles:
             result.data[:, 1:-1], self.standard_small_cube_results[:, 1:-1]
         )
 
-    def test_points_array_args(self):
+    def test_points_array_args(self):  # noqa: D102
         # Check we can calculate from points arrays alone (no coords).
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         # As previous, the leftmost and rightmost columns are not good.
@@ -196,7 +196,7 @@ class TestGridcellAngles:
             result.data[:, 1:-1], self.standard_small_cube_results[:, 1:-1]
         )
 
-    def test_unbounded_global(self):
+    def test_unbounded_global(self):  # noqa: D102
         # For a contiguous global grid, a result based on points, i.e. with the
         # bounds removed, should be a reasonable match for the 'ideal' one
         # based on the bounds.
@@ -223,7 +223,7 @@ class TestGridcellAngles:
         # maximum errors there in the end columns are actually > 100 degrees !
 
     @_shared_utils.skip_proj_9_8_incompatible
-    def test_nonlatlon_coord_system(self):
+    def test_nonlatlon_coord_system(self):  # noqa: D102
         # Check with points specified in an unexpected coord system.
         cube = sample_2d_latlons(regional=True, rotated=True)
         result = gridcell_angles(cube)
@@ -241,40 +241,40 @@ class TestGridcellAngles:
         assert x_coord.coord_system is None
         assert y_coord.coord_system is None
 
-    def test_fail_coords_bad_units(self):
+    def test_fail_coords_bad_units(self):  # noqa: D102
         # Check error with bad coords units.
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         co_y.units = "m"
         with pytest.raises(ValueError, match="must have angular units"):
             gridcell_angles(co_x, co_y)
 
-    def test_fail_nonarraylike(self):
+    def test_fail_nonarraylike(self):  # noqa: D102
         # Check error with bad args.
         co_x, co_y = 1, 2
         with pytest.raises(ValueError, match="must have array shape property"):
             gridcell_angles(co_x, co_y)
 
-    def test_fail_non2d_coords(self):
+    def test_fail_non2d_coords(self):  # noqa: D102
         # Check error with bad args.
         cube = lat_lon_cube()
         with pytest.raises(ValueError, match="inputs must have 2-dimensional shape"):
             gridcell_angles(cube)
 
-    def test_fail_different_shapes(self):
+    def test_fail_different_shapes(self):  # noqa: D102
         # Check error with mismatched shapes.
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         co_y = co_y[1:]
         with pytest.raises(ValueError, match="must have same shape"):
             gridcell_angles(co_x, co_y)
 
-    def test_fail_different_coord_system(self):
+    def test_fail_different_coord_system(self):  # noqa: D102
         # Check error with mismatched coord systems.
         cube = sample_2d_latlons(regional=True, rotated=True)
         cube.coord(axis="x").coord_system = None
         with pytest.raises(ValueError, match="must have same coordinate system"):
             gridcell_angles(cube)
 
-    def test_fail_cube_dims(self):
+    def test_fail_cube_dims(self):  # noqa: D102
         # Check error with mismatched cube dims.
         cube = self.standard_regional_cube
         # Make 5x6 into 5x5.
@@ -289,18 +289,18 @@ class TestGridcellAngles:
         with pytest.raises(ValueError, match="must have the same cube dimensions"):
             gridcell_angles(cube)
 
-    def test_fail_coord_noncoord(self):
+    def test_fail_coord_noncoord(self):  # noqa: D102
         # Check that passing a coord + an array gives an error.
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         with pytest.raises(ValueError, match="is a Coordinate, but .* is not"):
             gridcell_angles(co_x, co_y.bounds)
 
-    def test_fail_noncoord_coord(self):
+    def test_fail_noncoord_coord(self):  # noqa: D102
         # Check that passing an array + a coord gives an error.
         co_x, co_y = (self.standard_regional_cube.coord(axis=ax) for ax in ("x", "y"))
         with pytest.raises(ValueError, match="is a Coordinate, but .* is not"):
             gridcell_angles(co_x.points, co_y)
 
-    def test_fail_bad_method(self):
+    def test_fail_bad_method(self):  # noqa: D102
         with pytest.raises(ValueError, match="unrecognised cell_angle_boundpoints"):
             self._check_multiple_orientations_and_latitudes(method="something_unknown")

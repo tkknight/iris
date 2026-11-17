@@ -16,7 +16,7 @@ from iris.tests import _shared_utils
 
 class Test_aggregate:
     """Test aggregate."""
-    def test_missing_mandatory_kwargs(self):
+    def test_missing_mandatory_kwargs(self):  # noqa: D102
         emsg = "weighted_percentile aggregator requires .* keyword argument 'percent'"
         with pytest.raises(ValueError, match=emsg):
             WPERCENTILE.aggregate("dummy", axis=0, weights=None)
@@ -24,7 +24,7 @@ class Test_aggregate:
         with pytest.raises(ValueError, match=emsg):
             WPERCENTILE.aggregate("dummy", axis=0, percent=50)
 
-    def test_wrong_weights_shape(self):
+    def test_wrong_weights_shape(self):  # noqa: D102
         data = np.arange(11)
         weights = np.ones(10)
         emsg = re.escape(
@@ -33,7 +33,7 @@ class Test_aggregate:
         with pytest.raises(ValueError, match=emsg):
             WPERCENTILE.aggregate(data, axis=0, percent=50, weights=weights)
 
-    def test_1d_single(self):
+    def test_1d_single(self):  # noqa: D102
         data = np.arange(11)
         weights = np.ones(data.shape)
         actual = WPERCENTILE.aggregate(data, axis=0, percent=50, weights=weights)
@@ -41,7 +41,7 @@ class Test_aggregate:
         assert actual.shape == ()
         assert actual == expected
 
-    def test_1d_single_unequal(self):
+    def test_1d_single_unequal(self):  # noqa: D102
         data = np.arange(12)
         weights = np.ones(data.shape)
         weights[0:3] = 3
@@ -53,7 +53,7 @@ class Test_aggregate:
         assert actual == expected
         assert weight_total == 18
 
-    def test_masked_1d_single(self):
+    def test_masked_1d_single(self):  # noqa: D102
         data = ma.arange(11)
         weights = np.ones(data.shape)
         data[3:7] = ma.masked
@@ -62,7 +62,7 @@ class Test_aggregate:
         assert actual.shape == ()
         assert actual == expected
 
-    def test_1d_multi(self):
+    def test_1d_multi(self):  # noqa: D102
         data = np.arange(11)
         weights = np.ones(data.shape)
         percent = np.array([20, 50, 90])
@@ -71,7 +71,7 @@ class Test_aggregate:
         assert actual.shape == percent.shape
         _shared_utils.assert_array_almost_equal(actual, expected)
 
-    def test_1d_multi_unequal(self):
+    def test_1d_multi_unequal(self):  # noqa: D102
         data = np.arange(13)
         weights = np.ones(data.shape)
         weights[1::2] = 3
@@ -81,7 +81,7 @@ class Test_aggregate:
         assert actual.shape == percent.shape
         _shared_utils.assert_array_almost_equal(actual, expected)
 
-    def test_masked_1d_multi(self):
+    def test_masked_1d_multi(self):  # noqa: D102
         data = ma.arange(11)
         weights = np.ones(data.shape)
         data[3:9] = ma.masked
@@ -91,7 +91,7 @@ class Test_aggregate:
         assert actual.shape == percent.shape
         _shared_utils.assert_array_almost_equal(actual, expected)
 
-    def test_2d_single(self):
+    def test_2d_single(self):  # noqa: D102
         shape = (2, 11)
         data = np.arange(np.prod(shape)).reshape(shape)
         weights = np.ones(shape)
@@ -100,7 +100,7 @@ class Test_aggregate:
         expected = np.arange(shape[-1]) + 5.5
         _shared_utils.assert_array_equal(actual, expected)
 
-    def test_masked_2d_single(self):
+    def test_masked_2d_single(self):  # noqa: D102
         shape = (2, 11)
         data = ma.arange(np.prod(shape)).reshape(shape)
         data[0, ::2] = ma.masked
@@ -113,7 +113,7 @@ class Test_aggregate:
         expected[::2] = data[1, ::2]
         _shared_utils.assert_array_equal(actual, expected)
 
-    def test_2d_multi(self):
+    def test_2d_multi(self):  # noqa: D102
         shape = (2, 10)
         data = np.arange(np.prod(shape)).reshape(shape)
         weights = np.ones(shape)
@@ -126,7 +126,7 @@ class Test_aggregate:
         expected[:, -1] += 10.0
         _shared_utils.assert_array_almost_equal(actual, expected)
 
-    def test_masked_2d_multi(self):
+    def test_masked_2d_multi(self):  # noqa: D102
         shape = (3, 10)
         data = ma.arange(np.prod(shape)).reshape(shape)
         weights = np.ones(shape)
@@ -140,7 +140,7 @@ class Test_aggregate:
         expected[:, -1] += 20.0
         _shared_utils.assert_array_almost_equal(actual, expected)
 
-    def test_masked_2d_multi_unequal(self):
+    def test_masked_2d_multi_unequal(self):  # noqa: D102
         shape = (3, 10)
         data = ma.arange(np.prod(shape)).reshape(shape)
         weights = np.ones(shape)
@@ -161,7 +161,7 @@ class Test_aggregate:
         assert weight_total.shape == (shape[-1],)
         _shared_utils.assert_array_equal(weight_total, np.repeat(4, shape[-1]))
 
-    def test_2d_multi_weight1d_unequal(self):
+    def test_2d_multi_weight1d_unequal(self):  # noqa: D102
         shape = (3, 10)
         data = np.arange(np.prod(shape)).reshape(shape)
         weights1d = np.ones(shape[-1])
@@ -180,13 +180,13 @@ class Test_aggregate:
 
 class Test_name:
     """Test name."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert WPERCENTILE.name() == "weighted_percentile"
 
 
 class Test_aggregate_shape:
     """Test aggregate shape."""
-    def test_missing_mandatory_kwarg(self):
+    def test_missing_mandatory_kwarg(self):  # noqa: D102
         emsg_pc = (
             "weighted_percentile aggregator requires .* keyword argument 'percent'"
         )
@@ -215,13 +215,13 @@ class Test_aggregate_shape:
         with pytest.raises(ValueError, match=emsg_wt):
             WPERCENTILE.aggregate_shape(**kwargs)
 
-    def test_mandatory_kwarg_no_shape(self):
+    def test_mandatory_kwarg_no_shape(self):  # noqa: D102
         kwargs = dict(percent=50, weights=None)
         assert WPERCENTILE.aggregate_shape(**kwargs) == ()
         kwargs = dict(percent=[50], weights=None)
         assert WPERCENTILE.aggregate_shape(**kwargs) == ()
 
-    def test_mandatory_kwarg_shape(self):
+    def test_mandatory_kwarg_shape(self):  # noqa: D102
         kwargs = dict(percent=(10, 20), weights=None)
         assert WPERCENTILE.aggregate_shape(**kwargs) == (2,)
         kwargs = dict(percent=range(13), weights=None)
@@ -230,5 +230,5 @@ class Test_aggregate_shape:
 
 class Test_cell_method:
     """Test cell method."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert WPERCENTILE.cell_method is None

@@ -41,13 +41,13 @@ def int64_cube():
 class TestInt64:
     """int64 is the dtype the restricted formats cannot hold."""
 
-    def test_netcdf4_keeps_it(self, int64_cube, tmp_path):
+    def test_netcdf4_keeps_it(self, int64_cube, tmp_path):  # noqa: D102
         assert saved_dtype(int64_cube, tmp_path / "out.nc", "NETCDF4") == np.int64
 
     @pytest.mark.parametrize(
         "netcdf_format", ["NETCDF4_CLASSIC", "NETCDF3_CLASSIC", "NETCDF3_64BIT"]
     )
-    def test_the_restricted_formats_narrow_it(
+    def test_the_restricted_formats_narrow_it(  # noqa: D102
         self, int64_cube, tmp_path, netcdf_format
     ):
         assert saved_dtype(int64_cube, tmp_path / "out.nc", netcdf_format) == np.int32
@@ -62,7 +62,7 @@ class TestInt64:
             ("NETCDF3_64BIT", "NETCDF3_64BIT_OFFSET"),
         ],
     )
-    def test_a_value_too_large_to_narrow_names_the_format(
+    def test_a_value_too_large_to_narrow_names_the_format(  # noqa: D102
         self, tmp_path, netcdf_format, named
     ):
         cube = Cube(np.array([2**40], dtype=np.int64), var_name="payload")
@@ -75,6 +75,6 @@ class TestDtypesEveryFormatHolds:
 
     @pytest.mark.parametrize("dtype", ["f4", "f8", "i2", "i4"])
     @pytest.mark.parametrize("netcdf_format", ALL_FORMATS)
-    def test_not_narrowed(self, tmp_path, dtype, netcdf_format):
+    def test_not_narrowed(self, tmp_path, dtype, netcdf_format):  # noqa: D102
         cube = Cube(np.arange(4, dtype=dtype), var_name="payload")
         assert saved_dtype(cube, tmp_path / "out.nc", netcdf_format) == np.dtype(dtype)

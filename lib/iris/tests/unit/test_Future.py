@@ -33,7 +33,7 @@ def patched_future(value=False, deprecated=False, error=False):
 
 class Test___setattr__:
     """Test   setattr  ."""
-    def test_valid_setting(self):
+    def test_valid_setting(self):  # noqa: D102
         future = patched_future()
         new_value = not future.example_future_flag
         with warnings.catch_warnings():
@@ -41,19 +41,19 @@ class Test___setattr__:
             future.example_future_flag = new_value
         assert future.example_future_flag == new_value
 
-    def test_deprecated_warning(self):
+    def test_deprecated_warning(self):  # noqa: D102
         future = patched_future(deprecated=True, error=False)
         msg = "'Future' property 'example_future_flag' is deprecated"
         with pytest.warns(iris._deprecation.IrisDeprecation, match=msg):
             future.example_future_flag = False
 
-    def test_deprecated_error(self):
+    def test_deprecated_error(self):  # noqa: D102
         future = patched_future(deprecated=True, error=True)
         exp_emsg = "'Future' property 'example_future_flag' has been deprecated"
         with pytest.raises(AttributeError, match=exp_emsg):
             future.example_future_flag = False
 
-    def test_invalid_attribute(self):
+    def test_invalid_attribute(self):  # noqa: D102
         future = Future()
         with pytest.raises(AttributeError):
             future.numberwang = 7
@@ -61,7 +61,7 @@ class Test___setattr__:
 
 class Test_context:
     """Test context."""
-    def test_generic_no_args(self):
+    def test_generic_no_args(self):  # noqa: D102
         # While Future has no properties, it is necessary to patch Future in
         # order for these tests to work. This test is not a precise emulation
         # of the test it is replacing, but ought to cover most of the same
@@ -76,7 +76,7 @@ class Test_context:
                 assert future.example_future_flag
             assert not future.example_future_flag
 
-    def test_generic_with_arg(self):
+    def test_generic_with_arg(self):  # noqa: D102
         # While Future has no properties, it is necessary to patch Future in
         # order for these tests to work. This test is not a precise emulation
         # of the test it is replacing, but ought to cover most of the same
@@ -90,7 +90,7 @@ class Test_context:
                 assert future.example_future_flag
             assert not future.example_future_flag
 
-    def test_invalid_arg(self):
+    def test_invalid_arg(self):  # noqa: D102
         future = Future()
         with pytest.raises(AttributeError):
             with future.context(this_does_not_exist=True):
@@ -99,7 +99,7 @@ class Test_context:
                 # exception we're looking for.
                 pass
 
-    def test_generic_exception(self):
+    def test_generic_exception(self):  # noqa: D102
         # Check that an interrupted context block restores the initial state.
         class LocalTestException(Exception):
             pass
@@ -131,12 +131,12 @@ class Test__str_repr:
         for propname in future.__dict__.keys():
             assert f"{propname}=False" in text
 
-    def test_str(self):
+    def test_str(self):  # noqa: D102
         future = Future()
         text = str(future)
         self._check_content(future, text)
 
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         future = Future()
         text = repr(future)
         self._check_content(future, text)

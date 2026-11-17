@@ -34,12 +34,12 @@ class TestAtmosphereSigma:
         cube.add_aux_factory(factory)
         self.cube = cube
 
-    def test_save(self, request, tmp_path):
+    def test_save(self, request, tmp_path):  # noqa: D102
         filename = tmp_path / "fn.nc"
         iris.save(self.cube, filename)
         _shared_utils.assert_CDL(request, filename)
 
-    def test_save_load_loop(self, tmp_path):
+    def test_save_load_loop(self, tmp_path):  # noqa: D102
         # Ensure that the AtmosphereSigmaFactory is automatically loaded
         # when loading the file.
         filename = tmp_path / "fn.nc"
@@ -69,12 +69,12 @@ class TestHybridPressure:
         cube.add_aux_factory(factory)
         self.cube = cube
 
-    def test_save(self, request, tmp_path):
+    def test_save(self, request, tmp_path):  # noqa: D102
         filename = tmp_path / "fn.nc"
         iris.save(self.cube, filename)
         _shared_utils.assert_CDL(request, filename)
 
-    def test_save_load_loop(self, tmp_path):
+    def test_save_load_loop(self, tmp_path):  # noqa: D102
         # Tests an issue where the variable names in the formula
         # terms changed to the standard_names instead of the variable names
         # when loading a previously saved cube.
@@ -90,7 +90,7 @@ class TestHybridPressure:
 @_shared_utils.skip_data
 class TestSaveMultipleAuxFactories:
     """Test aveMultipleAuxFactories."""
-    def test_hybrid_height_and_pressure(self, request, tmp_path):
+    def test_hybrid_height_and_pressure(self, request, tmp_path):  # noqa: D102
         cube = stock.realistic_4d()
         cube.add_aux_coord(
             iris.coords.DimCoord(1200.0, long_name="level_pressure", units="hPa")
@@ -111,7 +111,7 @@ class TestSaveMultipleAuxFactories:
         iris.save(cube, filename)
         _shared_utils.assert_CDL(request, filename)
 
-    def test_shared_primary(self, tmp_path):
+    def test_shared_primary(self, tmp_path):  # noqa: D102
         cube = stock.realistic_4d()
         factory = iris.aux_factory.HybridHeightFactory(
             cube.coord("level_height"),
@@ -124,7 +124,7 @@ class TestSaveMultipleAuxFactories:
         with pytest.raises(ValueError, match="multiple aux factories"):
             iris.save(cube, filename)
 
-    def test_hybrid_height_cubes(self, request, tmp_path):
+    def test_hybrid_height_cubes(self, request, tmp_path):  # noqa: D102
         hh1 = stock.simple_4d_with_hybrid_height()
         hh1.attributes["cube"] = "hh1"
         hh2 = stock.simple_4d_with_hybrid_height()
@@ -137,7 +137,7 @@ class TestSaveMultipleAuxFactories:
         cubes = sorted(cubes, key=lambda cube: cube.attributes["cube"])
         _shared_utils.assert_CML(request, cubes)
 
-    def test_hybrid_height_cubes_on_dimension_coordinate(self, tmp_path):
+    def test_hybrid_height_cubes_on_dimension_coordinate(self, tmp_path):  # noqa: D102
         hh1 = stock.hybrid_height()
         hh2 = stock.hybrid_height()
         sa = hh2.coord("surface_altitude")

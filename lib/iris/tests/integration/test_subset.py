@@ -33,7 +33,7 @@ class TestSubset:
     def _setup(self):
         self.cube = _make_test_cube()
 
-    def test_coordinate_subset(self):
+    def test_coordinate_subset(self):  # noqa: D102
         coord = self.cube.coord("pressure")
         subsetted = self.cube.subset(coord)
         assert self.cube == subsetted

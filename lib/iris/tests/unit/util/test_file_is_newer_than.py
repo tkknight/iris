@@ -53,42 +53,42 @@ class TestFileIsNewer:
         # Check result is as expected.
         assert boolean_result == file_is_newer_than(result_path, source_paths)
 
-    def test_no_sources(self):
+    def test_no_sources(self):  # noqa: D102
         self._test(True, "example_result", [])
 
-    def test_string_ok(self):
+    def test_string_ok(self):  # noqa: D102
         self._test(True, "example_result", "older_source_1")
 
-    def test_string_fail(self):
+    def test_string_fail(self):  # noqa: D102
         self._test(False, "example_result", "newer_source_1")
 
-    def test_self_result(self):
+    def test_self_result(self):  # noqa: D102
         # This fails, because same-timestamp is *not* acceptable.
         self._test(False, "example_result", "example_result")
 
-    def test_single_ok(self):
+    def test_single_ok(self):  # noqa: D102
         self._test(True, "example_result", ["older_source_2"])
 
-    def test_single_fail(self):
+    def test_single_fail(self):  # noqa: D102
         self._test(False, "example_result", ["newer_source_2"])
 
-    def test_multiple_ok(self):
+    def test_multiple_ok(self):  # noqa: D102
         self._test(True, "example_result", ["older_source_1", "older_source_2"])
 
-    def test_multiple_fail(self):
+    def test_multiple_fail(self):  # noqa: D102
         self._test(
             False,
             "example_result",
             ["older_source_1", "older_source_2", "newer_source_1"],
         )
 
-    def test_wild_ok(self):
+    def test_wild_ok(self):  # noqa: D102
         self._test(True, "example_result", ["older_sour*_*"])
 
-    def test_wild_fail(self):
+    def test_wild_fail(self):  # noqa: D102
         self._test(False, "example_result", ["older_sour*", "newer_sour*"])
 
-    def test_error_missing_result(self):
+    def test_error_missing_result(self):  # noqa: D102
         msg = r"\[Errno 2\] No such file or directory:.*"
         with pytest.raises(OSError, match=msg) as error_trap:
             self._test(False, "non_exist", ["older_sour*"])
@@ -96,7 +96,7 @@ class TestFileIsNewer:
         assert error.strerror == "No such file or directory"
         assert error.filename == self._name2path("non_exist")
 
-    def test_error_missing_source(self):
+    def test_error_missing_source(self):  # noqa: D102
         msg = "One or more of the files specified did not exist:.*"
         with pytest.raises(IOError, match=msg) as error_trap:
             self._test(False, "example_result", ["older_sour*", "non_exist"])
@@ -104,7 +104,7 @@ class TestFileIsNewer:
             "One or more of the files specified did not exist" in error_trap.exconly()
         )
 
-    def test_error_missing_wild(self):
+    def test_error_missing_wild(self):  # noqa: D102
         msg = "One or more of the files specified did not exist:.*"
         with pytest.raises(IOError, match=msg) as error_trap:
             self._test(False, "example_result", ["older_sour*", "unknown_*"])

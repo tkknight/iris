@@ -117,7 +117,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
         self.cf_coord_var.filename = "DUMMY"
         self._set_data_var_length(points.shape[0])
 
-    def check_case_dim_coord_construction(self, climatology=False):
+    def check_case_dim_coord_construction(self, climatology=False):  # noqa: D102
         # Test a generic dimension coordinate, with or without
         # a climatological coord.
         self.use_climatology_bounds = climatology
@@ -137,13 +137,13 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
         # Test that expected coord is built and added to cube.
         self.engine.cube.add_dim_coord.assert_called_with(expected_coord, 0)
 
-    def test_dim_coord_construction(self):
+    def test_dim_coord_construction(self):  # noqa: D102
         self.check_case_dim_coord_construction(climatology=False)
 
-    def test_dim_coord_construction__climatology(self):
+    def test_dim_coord_construction__climatology(self):  # noqa: D102
         self.check_case_dim_coord_construction(climatology=True)
 
-    def test_dim_coord_construction_masked_array(self):
+    def test_dim_coord_construction_masked_array(self):  # noqa: D102
         self._set_cf_coord_var(
             np.ma.array(
                 np.arange(6),
@@ -170,7 +170,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
             assert len(w) == 1
             assert "Gracefully filling" in w[0].message.args[0]
 
-    def test_dim_coord_construction_masked_array_mask_does_nothing(self):
+    def test_dim_coord_construction_masked_array_mask_does_nothing(self):  # noqa: D102
         self._set_cf_coord_var(
             np.ma.array(
                 np.arange(6),
@@ -195,7 +195,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
             # Assert no warning is raised
             assert len(w) == 0
 
-    def test_dim_coord_construction_masked_bounds_mask_does_nothing(self):
+    def test_dim_coord_construction_masked_bounds_mask_does_nothing(self):  # noqa: D102
         self.bounds = np.ma.array(np.arange(12).reshape(6, 2), mask=False)
         self._set_cf_coord_var(np.arange(6))
 
@@ -216,7 +216,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
             # Assert no warning is raised
             assert len(w) == 0
 
-    def test_with_coord_system(self):
+    def test_with_coord_system(self):  # noqa: D102
         self._set_cf_coord_var(np.arange(6))
         coord_system = RotatedGeogCS(
             grid_north_pole_latitude=45.0, grid_north_pole_longitude=45.0
@@ -238,7 +238,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
         # Test that expected coord is built and added to cube.
         self.engine.cube.add_dim_coord.assert_called_with(expected_coord, 0)
 
-    def test_bad_coord_system(self, mocker):
+    def test_bad_coord_system(self, mocker):  # noqa: D102
         self._set_cf_coord_var(np.arange(6))
         coord_system = RotatedGeogCS(
             grid_north_pole_latitude=45.0, grid_north_pole_longitude=45.0
@@ -264,7 +264,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
         load_problem = LOAD_PROBLEMS.problems[-1]
         assert "test_bad_coord_system" in "".join(load_problem.stack_trace.format())
 
-    def test_aux_coord_construction(self):
+    def test_aux_coord_construction(self):  # noqa: D102
         # Use non monotonically increasing coordinates to force aux coord
         # construction.
         self._set_cf_coord_var(np.array([1, 3, 2, 4, 6, 5]))
@@ -287,7 +287,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
         )
         assert load_problem.handled
 
-    def test_dimcoord_not_added(self):
+    def test_dimcoord_not_added(self):  # noqa: D102
         # Confirm that the coord will be skipped if a CannotAddError is raised
         #  when attempting to add.
         def mock_add_dim_coord(_, __):
@@ -305,7 +305,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
         assert isinstance(load_problem.loaded, DimCoord)
         assert [type(i[0]) for i in self.engine.cube_parts["coordinates"]] == [AuxCoord]
 
-    def test_auxcoord_not_added(self):
+    def test_auxcoord_not_added(self):  # noqa: D102
         # Confirm that a gracefully-created auxiliary coord will also be
         #  skipped if a CannotAddError is raised when attempting to add.
         def mock_add_aux_coord(_, __):
@@ -322,7 +322,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
         assert load_problem.stack_trace.exc_type is CannotAddError
         assert self.engine.cube_parts["coordinates"] == []
 
-    def test_unhandlable_error(self):
+    def test_unhandlable_error(self):  # noqa: D102
         # Confirm that the code can redirect an error to LOAD_PROBLEMS even
         #  when there is no specific handling code for it.
         with self.monkeypatch.context() as m:
@@ -334,7 +334,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
 
         assert self.engine.cube_parts["coordinates"] == []
 
-    def test_problem_destination(self):
+    def test_problem_destination(self):  # noqa: D102
         # Confirm that the destination of the problem is set correctly.
         with self.monkeypatch.context() as m:
             m.setattr(self.engine, "cube", "foo")
@@ -364,7 +364,7 @@ class TestBoundsVertexDim(RulesTestMixin):
         self.cf_coord_var.dtype = points.dtype
         self._set_data_var_length(points.shape[0])
 
-    def test_slowest_varying_vertex_dim__normalise_bounds(self):
+    def test_slowest_varying_vertex_dim__normalise_bounds(self):  # noqa: D102
         # Create the bounds cf variable.
         bounds = np.arange(12).reshape(2, 6) * 1000
         dimensions = ("nv", "foo")
@@ -391,7 +391,7 @@ class TestBoundsVertexDim(RulesTestMixin):
         expected_list = [(expected_coord, self.cf_coord_var.cf_name)]
         assert self.engine.cube_parts["coordinates"] == expected_list
 
-    def test_fastest_varying_vertex_dim__normalise_bounds(self):
+    def test_fastest_varying_vertex_dim__normalise_bounds(self):  # noqa: D102
         bounds = np.arange(12).reshape(6, 2) * 1000
         dimensions = ("foo", "nv")
         units = "m"
@@ -414,7 +414,7 @@ class TestBoundsVertexDim(RulesTestMixin):
         expected_list = [(expected_coord, self.cf_coord_var.cf_name)]
         assert self.engine.cube_parts["coordinates"] == expected_list
 
-    def test_fastest_with_different_dim_names__normalise_bounds(self):
+    def test_fastest_with_different_dim_names__normalise_bounds(self):  # noqa: D102
         # Despite the dimension names 'x' differing from the coord's
         # which is 'foo' (as permitted by the cf spec),
         # this should still work because the vertex dim is the fastest varying.
@@ -476,57 +476,57 @@ class TestCircular(RulesTestMixin):
         coord, dims = self.engine.cube.add_dim_coord.call_args[0]
         assert coord.circular == circular
 
-    def check_circular(self, *args, **kwargs):
+    def check_circular(self, *args, **kwargs):  # noqa: D102
         self._check_circular(True, *args, **kwargs)
 
-    def check_noncircular(self, *args, **kwargs):
+    def check_noncircular(self, *args, **kwargs):  # noqa: D102
         self._check_circular(False, *args, **kwargs)
 
-    def test_single_zero_noncircular(self):
+    def test_single_zero_noncircular(self):  # noqa: D102
         self.check_noncircular([0.0])
 
-    def test_single_lt_modulus_noncircular(self):
+    def test_single_lt_modulus_noncircular(self):  # noqa: D102
         self.check_noncircular([-1.0])
 
-    def test_single_eq_modulus_circular(self):
+    def test_single_eq_modulus_circular(self):  # noqa: D102
         self.check_circular([360.0])
 
-    def test_single_gt_modulus_circular(self):
+    def test_single_gt_modulus_circular(self):  # noqa: D102
         self.check_circular([361.0])
 
-    def test_single_bounded_noncircular(self):
+    def test_single_bounded_noncircular(self):  # noqa: D102
         self.check_noncircular([180.0], bounds=[90.0, 240.0])
 
-    def test_single_bounded_circular(self):
+    def test_single_bounded_circular(self):  # noqa: D102
         self.check_circular([180.0], bounds=[90.0, 450.0])
 
-    def test_multiple_unbounded_circular(self):
+    def test_multiple_unbounded_circular(self):  # noqa: D102
         self.check_circular([0.0, 90.0, 180.0, 270.0])
 
-    def test_non_angle_noncircular(self):
+    def test_non_angle_noncircular(self):  # noqa: D102
         points = [0.0, 90.0, 180.0, 270.0]
         self.check_noncircular(points, units="m")
 
-    def test_non_longitude_noncircular(self):
+    def test_non_longitude_noncircular(self):  # noqa: D102
         points = [0.0, 90.0, 180.0, 270.0]
         self.check_noncircular(points, coord_name="depth")
 
-    def test_multiple_unbounded_irregular_noncircular(self):
+    def test_multiple_unbounded_irregular_noncircular(self):  # noqa: D102
         self.check_noncircular([0.0, 90.0, 189.999, 270.0])
 
-    def test_multiple_unbounded_offset_circular(self):
+    def test_multiple_unbounded_offset_circular(self):  # noqa: D102
         self.check_circular([45.0, 135.0, 225.0, 315.0])
 
-    def test_multiple_unbounded_shortrange_circular(self):
+    def test_multiple_unbounded_shortrange_circular(self):  # noqa: D102
         self.check_circular([0.0, 90.0, 180.0, 269.9999])
 
-    def test_multiple_bounded_circular(self):
+    def test_multiple_bounded_circular(self):  # noqa: D102
         self.check_circular(
             [0.0, 120.3, 240.0],
             bounds=[[-45.0, 50.0], [100.0, 175.0], [200.0, 315.0]],
         )
 
-    def test_multiple_bounded_noncircular(self):
+    def test_multiple_bounded_noncircular(self):  # noqa: D102
         self.check_noncircular(
             [0.0, 120.3, 240.0],
             bounds=[[-45.0, 50.0], [100.0, 175.0], [200.0, 355.0]],
@@ -562,26 +562,26 @@ class TestCircularScalar(RulesTestMixin):
         coord, dims = self.engine.cube.add_aux_coord.call_args[0]
         assert coord.circular == value
 
-    def test_two_bounds_noncircular(self):
+    def test_two_bounds_noncircular(self):  # noqa: D102
         self._make_vars([0.0, 180.0])
         self._assert_circular(False)
 
-    def test_two_bounds_circular(self):
+    def test_two_bounds_circular(self):  # noqa: D102
         self._make_vars([0.0, 360.0])
         self._assert_circular(True)
 
-    def test_two_bounds_circular_decreasing(self):
+    def test_two_bounds_circular_decreasing(self):  # noqa: D102
         self._make_vars([360.0, 0.0])
         self._assert_circular(True)
 
-    def test_two_bounds_circular_alt(self):
+    def test_two_bounds_circular_alt(self):  # noqa: D102
         self._make_vars([-180.0, 180.0])
         self._assert_circular(True)
 
-    def test_two_bounds_circular_alt_decreasing(self):
+    def test_two_bounds_circular_alt_decreasing(self):  # noqa: D102
         self._make_vars([180.0, -180.0])
         self._assert_circular(True)
 
-    def test_four_bounds(self):
+    def test_four_bounds(self):  # noqa: D102
         self._make_vars([0.0, 10.0, 20.0, 30.0])
         self._assert_circular(False)

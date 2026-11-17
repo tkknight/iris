@@ -274,7 +274,7 @@ class TestConservativeRegrid:
         # check all other metadata
         assert c1_to_c2.metadata == c1.metadata
 
-    def test_xy_transposed(self):
+    def test_xy_transposed(self):  # noqa: D102
         # Test effects of transposing X and Y in src/dst data.
         c1, c2 = self.stock_c1_c2
         testcube_xy = self.stock_regrid_c1toc2
@@ -293,14 +293,14 @@ class TestConservativeRegrid:
         testcube_dst_transpose = regrid_conservative_via_esmpy(c1, c2_yx)
         assert testcube_dst_transpose == testcube_xy
 
-    def test_same_grid(self):
+    def test_same_grid(self):  # noqa: D102
         # Test regridding onto the identical grid.
         # Use regrid with self as target.
         c1, _ = self.stock_c1_c2
         testcube = regrid_conservative_via_esmpy(c1, c1)
         assert testcube == c1
 
-    def test_global(self):
+    def test_global(self):  # noqa: D102
         # Test global regridding.
         # Compute basic test data cubes.
         shape1 = (8, 6)
@@ -338,7 +338,7 @@ class TestConservativeRegrid:
         c1toc2_areasum = _cube_area_sum(c1toc2)
         _shared_utils.assert_array_all_close(c1toc2_areasum, c1_areasum, rtol=0.006)
 
-    def test_global_collapse(self):
+    def test_global_collapse(self):  # noqa: D102
         # Test regridding global data to a single cell.
         # Fetch 'standard' testcube data
         c1, _ = self.stock_c1_c2
@@ -374,7 +374,7 @@ class TestConservativeRegrid:
             # Check the total area sum is still the same
             _shared_utils.assert_array_all_close(c1_to_global.data[0, 0], c1_areasum)
 
-    def test_single_cells(self):
+    def test_single_cells(self):  # noqa: D102
         # Test handling of single-cell grids.
         # Fetch 'standard' testcube data
         c1, c2 = self.stock_c1_c2
@@ -577,7 +577,7 @@ class TestConservativeRegrid:
         c1to2to1_areasum = _cube_area_sum(c1to2to1)
         _shared_utils.assert_array_all_close(c1to2to1_areasum, c1_areasum)
 
-    def test_fail_no_cs(self):
+    def test_fail_no_cs(self):  # noqa: D102
         # Test error when one coordinate has no coord_system.
         shape1 = (5, 5)
         xlims1, ylims1 = ((-2, 2), (-2, 2))
@@ -598,7 +598,7 @@ class TestConservativeRegrid:
         with pytest.raises(ValueError, match=emsg):
             regrid_conservative_via_esmpy(c1, c2)
 
-    def test_fail_different_cs(self):
+    def test_fail_different_cs(self):  # noqa: D102
         # Test error when either src or dst coords have different
         # coord_systems.
         shape1 = (5, 5)

@@ -15,7 +15,7 @@ import iris.fileformats.netcdf.saver
 
 class TestSave:
     """Test ave."""
-    def test_pathlib_save(self, mocker):
+    def test_pathlib_save(self, mocker):  # noqa: D102
         file_mock = mocker.Mock()
         # Have to configure after creation because "name" is special
         file_mock.configure_mock(name="string")
@@ -82,7 +82,7 @@ class TestCubeListSavers:
         iris.save(cubes, str(target), saver=netcdf_save)
         assert len(iris.load(str(target))) == 2
 
-    def test_an_unregistered_saver_still_needs_append(self, tmp_path):
+    def test_an_unregistered_saver_still_needs_append(self, tmp_path):  # noqa: D102
         def saver_without_append(cube, target):
             pass
 

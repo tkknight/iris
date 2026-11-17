@@ -20,10 +20,10 @@ class Test_Mercator__basics:
             ellipsoid=GeogCS(6377563.396, 6356256.909),
         )
 
-    def test_construction(self):
+    def test_construction(self):  # noqa: D102
         _shared_utils.assert_XML_element(self.tm, ("coord_systems", "Mercator.xml"))
 
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         expected = (
             "Mercator(longitude_of_projection_origin=90.0, "
             "ellipsoid=GeogCS(semi_major_axis=6377563.396, "
@@ -37,7 +37,7 @@ class Test_Mercator__basics:
 
 class Test_init_defaults:
     """Test init defaults."""
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = Mercator(
             longitude_of_projection_origin=27,
@@ -50,7 +50,7 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.false_easting, 13.0)
         _shared_utils.assert_equal_and_kind(crs.false_northing, 12.0)
 
-    def test_set_optional_scale_factor_alternative(self):
+    def test_set_optional_scale_factor_alternative(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = Mercator(
             scale_factor_at_projection_origin=1.3,
@@ -66,12 +66,12 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.false_northing, 0.0)
         _shared_utils.assert_equal_and_kind(crs.scale_factor_at_projection_origin, None)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = Mercator()
         self._check_crs_defaults(crs)
 
-    def test_optional_args_none(self):
+    def test_optional_args_none(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = Mercator(
             longitude_of_projection_origin=None,
@@ -85,7 +85,7 @@ class Test_init_defaults:
 
 class Test_Mercator__as_cartopy_crs:
     """Test Mercator  as cartopy crs."""
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         # Check that a projection set up with all the defaults is correctly
         # converted to a cartopy CRS.
         merc_cs = Mercator()
@@ -94,7 +94,7 @@ class Test_Mercator__as_cartopy_crs:
         expected = ccrs.Mercator(globe=ccrs.Globe(), latitude_true_scale=0.0)
         assert res == expected
 
-    def test_extra_kwargs(self):
+    def test_extra_kwargs(self):  # noqa: D102
         # Check that a projection with non-default values is correctly
         # converted to a cartopy CRS.
         longitude_of_projection_origin = 90.0
@@ -126,7 +126,7 @@ class Test_Mercator__as_cartopy_crs:
         res = merc_cs.as_cartopy_crs()
         assert res == expected
 
-    def test_extra_kwargs_scale_factor_alternative(self):
+    def test_extra_kwargs_scale_factor_alternative(self):  # noqa: D102
         # Check that a projection with non-default values is correctly
         # converted to a cartopy CRS.
         scale_factor_at_projection_origin = 1.3
@@ -152,7 +152,7 @@ class Test_Mercator__as_cartopy_crs:
 
 class Test_as_cartopy_projection:
     """Test as cartopy projection."""
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         # Check that a projection set up with all the defaults is correctly
         # converted to a cartopy projection.
         merc_cs = Mercator()
@@ -160,7 +160,7 @@ class Test_as_cartopy_projection:
         expected = ccrs.Mercator(globe=ccrs.Globe(), latitude_true_scale=0.0)
         assert res == expected
 
-    def test_extra_kwargs(self):
+    def test_extra_kwargs(self):  # noqa: D102
         longitude_of_projection_origin = 90.0
         true_scale_lat = 14.0
         false_easting = 13
@@ -190,7 +190,7 @@ class Test_as_cartopy_projection:
         res = merc_cs.as_cartopy_projection()
         assert res == expected
 
-    def test_extra_kwargs_scale_factor_alternative(self):
+    def test_extra_kwargs_scale_factor_alternative(self):  # noqa: D102
         ellipsoid = GeogCS(semi_major_axis=6377563.396, semi_minor_axis=6356256.909)
         scale_factor_at_projection_origin = 1.3
 

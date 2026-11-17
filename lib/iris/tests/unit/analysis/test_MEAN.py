@@ -24,7 +24,7 @@ class Test_lazy_aggregate:
         self.axis = 0
         self.expected_masked = ma.mean(self.data, axis=self.axis)
 
-    def test_mdtol_default(self):
+    def test_mdtol_default(self):  # noqa: D102
         # Default operation is "mdtol=1" --> unmasked if *any* valid points.
         # --> output column masks = [0, 0, 0, 1]
         agg = MEAN.lazy_aggregate(self.array, axis=self.axis)
@@ -33,7 +33,7 @@ class Test_lazy_aggregate:
             masked_result, self.expected_masked
         )
 
-    def test_mdtol_belowall(self):
+    def test_mdtol_belowall(self):  # noqa: D102
         # Mdtol=0.25 --> masked columns = [0, 1, 1, 1]
         agg = MEAN.lazy_aggregate(self.array, axis=self.axis, mdtol=0.25)
         masked_result = as_concrete_data(agg)
@@ -41,7 +41,7 @@ class Test_lazy_aggregate:
         expected_masked.mask = [False, True, True, True]
         _shared_utils.assert_masked_array_almost_equal(masked_result, expected_masked)
 
-    def test_mdtol_intermediate(self):
+    def test_mdtol_intermediate(self):  # noqa: D102
         # mdtol=0.5 --> masked columns = [0, 0, 1, 1]
         agg = MEAN.lazy_aggregate(self.array, axis=self.axis, mdtol=0.5)
         masked_result = as_concrete_data(agg)
@@ -49,7 +49,7 @@ class Test_lazy_aggregate:
         expected_masked.mask = [False, False, True, True]
         _shared_utils.assert_masked_array_almost_equal(masked_result, expected_masked)
 
-    def test_mdtol_aboveall(self):
+    def test_mdtol_aboveall(self):  # noqa: D102
         # mdtol=0.75 --> masked columns = [0, 0, 0, 1]
         # In this case, effectively the same as mdtol=None.
         agg = MEAN.lazy_aggregate(self.array, axis=self.axis, mdtol=0.75)
@@ -58,7 +58,7 @@ class Test_lazy_aggregate:
             masked_result, self.expected_masked
         )
 
-    def test_multi_axis(self):
+    def test_multi_axis(self):  # noqa: D102
         data = np.arange(24.0).reshape((2, 3, 4))
         collapse_axes = (0, 2)
         lazy_data = as_lazy_data(data)
@@ -67,7 +67,7 @@ class Test_lazy_aggregate:
         expected = np.mean(data, axis=collapse_axes)
         _shared_utils.assert_array_all_close(result, expected)
 
-    def test_last_axis(self):
+    def test_last_axis(self):  # noqa: D102
         # From _setup:
         # self.data.mask = [[0, 0, 0, 1],
         #                   [0, 0, 1, 1],
@@ -80,13 +80,13 @@ class Test_lazy_aggregate:
         masked_result = as_concrete_data(agg)
         _shared_utils.assert_masked_array_almost_equal(masked_result, expected_masked)
 
-    def test_all_axes_belowtol(self):
+    def test_all_axes_belowtol(self):  # noqa: D102
         agg = MEAN.lazy_aggregate(self.array, axis=None, mdtol=0.75)
         expected_masked = ma.mean(self.data)
         masked_result = as_concrete_data(agg)
         _shared_utils.assert_masked_array_almost_equal(masked_result, expected_masked)
 
-    def test_all_axes_abovetol(self):
+    def test_all_axes_abovetol(self):  # noqa: D102
         agg = MEAN.lazy_aggregate(self.array, axis=None, mdtol=0.45)
         expected_masked = ma.masked_less([0.0], 1)
         masked_result = as_concrete_data(agg)
@@ -95,13 +95,13 @@ class Test_lazy_aggregate:
 
 class Test_name:
     """Test name."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert MEAN.name() == "mean"
 
 
 class Test_aggregate_shape:
     """Test aggregate shape."""
-    def test(self):
+    def test(self):  # noqa: D102
         shape = ()
         kwargs = dict()
         assert MEAN.aggregate_shape(**kwargs) == shape

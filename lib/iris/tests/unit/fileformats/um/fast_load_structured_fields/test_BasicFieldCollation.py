@@ -19,14 +19,14 @@ from iris.tests import _shared_utils
 
 class Test___init__:
     """Test   init  ."""
-    def test_no_fields(self):
+    def test_no_fields(self):  # noqa: D102
         with pytest.raises(AssertionError):
             BasicFieldCollation([])
 
 
 class Test_fields:
     """Test fields."""
-    def test_preserve_members(self):
+    def test_preserve_members(self):  # noqa: D102
         fields = ("foo", "bar", "wibble")
         collation = BasicFieldCollation(fields)
         assert collation.fields == fields
@@ -63,7 +63,7 @@ def _make_data(fill_value):
 class Test_data:
     """Test data."""
     # Test order of the data attribute when fastest-varying element is changed.
-    def test_t1_varies_faster(self):
+    def test_t1_varies_faster(self):  # noqa: D102
         collation = BasicFieldCollation(
             [
                 _make_field(lbyr=2013, lbyrd=2000, data=0),
@@ -78,7 +78,7 @@ class Test_data:
         expected = [[0, 1, 2], [3, 4, 5]]
         _shared_utils.assert_array_equal(result, expected)
 
-    def test_t2_varies_faster(self):
+    def test_t2_varies_faster(self):  # noqa: D102
         collation = BasicFieldCollation(
             [
                 _make_field(lbyr=2013, lbyrd=2000, data=0),
@@ -96,12 +96,12 @@ class Test_data:
 
 class Test_element_arrays_and_dims:
     """Test element arrays and dims."""
-    def test_single_field(self):
+    def test_single_field(self):  # noqa: D102
         field = _make_field(2013)
         collation = BasicFieldCollation([field])
         assert collation.element_arrays_and_dims == {}
 
-    def test_t1(self):
+    def test_t1(self):  # noqa: D102
         collation = BasicFieldCollation(
             [_make_field(lbyr=2013), _make_field(lbyr=2014)]
         )
@@ -113,7 +113,7 @@ class Test_element_arrays_and_dims:
         )
         assert dims == (0,)
 
-    def test_t1_and_t2(self):
+    def test_t1_and_t2(self):  # noqa: D102
         collation = BasicFieldCollation(
             [
                 _make_field(lbyr=2013, lbyrd=2000),
@@ -136,7 +136,7 @@ class Test_element_arrays_and_dims:
         )
         assert dims == (0,)
 
-    def test_t1_and_t2_and_lbft(self):
+    def test_t1_and_t2_and_lbft(self):  # noqa: D102
         collation = BasicFieldCollation(
             [
                 _make_field(lbyr=1, lbyrd=15, lbft=6),
@@ -165,7 +165,7 @@ class Test_element_arrays_and_dims:
         _shared_utils.assert_array_equal(values, [6, 9])
         assert dims == (1,)
 
-    def test_blev(self):
+    def test_blev(self):  # noqa: D102
         collation = BasicFieldCollation([_make_field(blev=1), _make_field(blev=2)])
         result = collation.element_arrays_and_dims
         keys = set(["blev", "brsvd1", "brsvd2", "brlev", "bhrlev", "lblev", "bhlev"])
@@ -174,7 +174,7 @@ class Test_element_arrays_and_dims:
         _shared_utils.assert_array_equal(values, [1, 2])
         assert dims == (0,)
 
-    def test_bhlev(self):
+    def test_bhlev(self):  # noqa: D102
         collation = BasicFieldCollation(
             [_make_field(blev=0, bhlev=1), _make_field(blev=1, bhlev=2)]
         )
@@ -188,7 +188,7 @@ class Test_element_arrays_and_dims:
 
 class Test__time_comparable_int:
     """Test  time comparable int."""
-    def test(self):
+    def test(self):  # noqa: D102
         # Define a list of date-time tuples, which should remain both all
         # distinct and in ascending order when converted...
         test_date_tuples = [

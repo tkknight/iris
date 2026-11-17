@@ -22,7 +22,7 @@ from iris.tests import _shared_utils
 
 class TestUmVersionAttribute:
     """Test mVersionAttribute."""
-    def test_single_saves_as_global(self, tmp_path, request):
+    def test_single_saves_as_global(self, tmp_path, request):  # noqa: D102
         cube = Cube(
             [1.0],
             standard_name="air_temperature",
@@ -33,7 +33,7 @@ class TestUmVersionAttribute:
         iris.save(cube, nc_path)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_multiple_same_saves_as_global(self, tmp_path, request):
+    def test_multiple_same_saves_as_global(self, tmp_path, request):  # noqa: D102
         cube_a = Cube(
             [1.0],
             standard_name="air_temperature",
@@ -50,7 +50,7 @@ class TestUmVersionAttribute:
         iris.save(CubeList([cube_a, cube_b]), nc_path)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_multiple_different_saves_on_variables(self, tmp_path, request):
+    def test_multiple_different_saves_on_variables(self, tmp_path, request):  # noqa: D102
         cube_a = Cube(
             [1.0],
             standard_name="air_temperature",
@@ -86,7 +86,7 @@ def _patch_site_configuration(mocker):
 
 class TestConventionsAttributes:
     """Test onventionsAttributes."""
-    def test_patching_conventions_attribute(self, tmp_path, mocker):
+    def test_patching_conventions_attribute(self, tmp_path, mocker):  # noqa: D102
         # Ensure that user defined conventions are wiped and those which are
         # saved patched through site_config can be loaded without an exception
         # being raised.
@@ -120,7 +120,7 @@ class TestCfPatch:
 
     """
 
-    def test_cf_patch_receives_a_netcdf4_variable(self, tmp_path):
+    def test_cf_patch_receives_a_netcdf4_variable(self, tmp_path):  # noqa: D102
         received = []
 
         def cf_profile(cube):
@@ -166,7 +166,7 @@ class TestAttributesNamedLikeNetcdf4Members:
 
     NAMES = ("shape", "size", "name", "dtype", "dimensions", "mask")
 
-    def test_attributes_named_after_netcdf4_members_are_saved(self, tmp_path):
+    def test_attributes_named_after_netcdf4_members_are_saved(self, tmp_path):  # noqa: D102
         coord = DimCoord(
             np.arange(3.0),
             standard_name="longitude",
@@ -235,7 +235,7 @@ class TestGridMappingAttributes:
         finally:
             dataset.close()
 
-    def test_mercator_scale_factor(self, tmp_path):
+    def test_mercator_scale_factor(self, tmp_path):  # noqa: D102
         # Mercator takes a scale factor *or* a standard parallel. Only the
         # standard-parallel branch is read back anywhere else.
         coord_system = iris.coord_systems.Mercator(
@@ -260,7 +260,7 @@ class TestGridMappingAttributes:
         ],
         ids=["true_scale_lat", "scale_factor", "neither"],
     )
-    def test_polar_stereographic(self, scale_kwargs, expected_scale, tmp_path):
+    def test_polar_stereographic(self, scale_kwargs, expected_scale, tmp_path):  # noqa: D102
         coord_system = iris.coord_systems.PolarStereographic(
             central_lat=90.0,
             central_lon=-150.0,
@@ -281,7 +281,7 @@ class TestGridMappingAttributes:
 
 class TestStandardName:
     """Test tandardName."""
-    def test_standard_name_roundtrip(self, tmp_path):
+    def test_standard_name_roundtrip(self, tmp_path):  # noqa: D102
         standard_name = "air_temperature detection_minimum"
         cube = iris.cube.Cube(1, standard_name=standard_name)
         fout = tmp_path / "standard_name.nc"
@@ -297,7 +297,7 @@ class TestCalendar:
         self.calendar = Unit("days since 1970-01-01", calendar="360_day")
         self.cube = iris.cube.Cube(1, units=self.calendar)
 
-    def test_calendar_roundtrip(self, tmp_path):
+    def test_calendar_roundtrip(self, tmp_path):  # noqa: D102
         fout = tmp_path / "calendar.nc"
         iris.save(self.cube, fout)
         detection_limit_cube = iris.load_cube(fout)

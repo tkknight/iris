@@ -15,36 +15,36 @@ from iris.fileformats.cf._variables import _DimensionIdentity
 
 class Test___eq__:
     """Test   eq  ."""
-    def test_same_name_and_size_are_equal(self):
+    def test_same_name_and_size_are_equal(self):  # noqa: D102
         assert _DimensionIdentity("time", 4) == _DimensionIdentity("time", 4)
 
-    def test_same_name_at_two_sizes_is_not_equal(self):
+    def test_same_name_at_two_sizes_is_not_equal(self):  # noqa: D102
         # The reason matching is a pair: Zarr lets one name mean two lengths.
         assert _DimensionIdentity("time", 4) != _DimensionIdentity("time", 5)
 
-    def test_different_names_at_one_size_are_not_equal(self):
+    def test_different_names_at_one_size_are_not_equal(self):  # noqa: D102
         assert _DimensionIdentity("time", 4) != _DimensionIdentity("level", 4)
 
-    def test_an_anonymous_dimension_equals_itself(self):
+    def test_an_anonymous_dimension_equals_itself(self):  # noqa: D102
         identity = _DimensionIdentity(None, 4)
         assert identity == identity
 
-    def test_two_anonymous_dimensions_are_not_equal(self):
+    def test_two_anonymous_dimensions_are_not_equal(self):  # noqa: D102
         # Not even at the same size. There is nothing to match on.
         assert _DimensionIdentity(None, 4) != _DimensionIdentity(None, 4)
 
-    def test_an_anonymous_dimension_does_not_equal_a_named_one(self):
+    def test_an_anonymous_dimension_does_not_equal_a_named_one(self):  # noqa: D102
         assert _DimensionIdentity(None, 4) != _DimensionIdentity("time", 4)
         assert _DimensionIdentity("time", 4) != _DimensionIdentity(None, 4)
 
-    def test_a_foreign_object_is_not_equal(self):
+    def test_a_foreign_object_is_not_equal(self):  # noqa: D102
         # `__eq__` returns NotImplemented, so Python falls back to identity.
         assert _DimensionIdentity("time", 4) != ("time", 4)
 
 
 class Test___hash__:
     """Test   hash  ."""
-    def test_same_name_and_size_hash_alike(self):
+    def test_same_name_and_size_hash_alike(self):  # noqa: D102
         # Equal members must land in the same bucket, or `set.issubset` misses.
         assert hash(_DimensionIdentity("time", 4)) == hash(
             _DimensionIdentity("time", 4)
@@ -60,12 +60,12 @@ class Test_set_membership:
     satisfying it would break loading rather than fail a dunder test.
     """
 
-    def test_named_identities_work_as_a_subset(self):
+    def test_named_identities_work_as_a_subset(self):  # noqa: D102
         source = {_DimensionIdentity("time", 4)}
         target = {_DimensionIdentity("time", 4), _DimensionIdentity("level", 3)}
         assert source.issubset(target)
 
-    def test_an_anonymous_dimension_is_never_a_subset(self):
+    def test_an_anonymous_dimension_is_never_a_subset(self):  # noqa: D102
         source = {_DimensionIdentity(None, 4)}
         target = {_DimensionIdentity(None, 4), _DimensionIdentity("level", 3)}
         assert not source.issubset(target)

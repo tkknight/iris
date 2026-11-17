@@ -20,7 +20,7 @@ from iris.tests import _shared_utils
 
 class Test:
     """Test ."""
-    def cube(self, x, y):
+    def cube(self, x, y):  # noqa: D102
         data = np.arange(len(x) * len(y)).reshape(len(y), len(x))
         cube = Cube(data)
         lat = DimCoord(y, "latitude", units="degrees")
@@ -31,15 +31,15 @@ class Test:
         cube.coord("longitude").guess_bounds()
         return cube
 
-    def grids(self):
+    def grids(self):  # noqa: D102
         src = self.cube(np.linspace(20, 30, 3), np.linspace(10, 25, 4))
         target = self.cube(np.linspace(22, 28, 8), np.linspace(11, 22, 9))
         return src, target
 
-    def extract_grid(self, cube):
+    def extract_grid(self, cube):  # noqa: D102
         return cube.coord("latitude"), cube.coord("longitude")
 
-    def check_mdtol(self, mocker, mdtol=None):
+    def check_mdtol(self, mocker, mdtol=None):  # noqa: D102
         src_grid, target_grid = self.grids()
         # Get _regrid_info result
         _regrid_info = _regrid_area_weighted_rectilinear_src_and_grid__prepare(
@@ -86,25 +86,25 @@ class Test:
         assert kwargs == {"mdtol": mdtol}
         assert result is mocker.sentinel.result
 
-    def test_default(self, mocker):
+    def test_default(self, mocker):  # noqa: D102
         self.check_mdtol(mocker)
 
-    def test_specified_mdtol(self, mocker):
+    def test_specified_mdtol(self, mocker):  # noqa: D102
         self.check_mdtol(mocker, mdtol=0.5)
 
-    def test_invalid_high_mdtol(self):
+    def test_invalid_high_mdtol(self):  # noqa: D102
         src, target = self.grids()
         msg = "mdtol must be in range 0 - 1"
         with pytest.raises(ValueError, match=msg):
             AreaWeightedRegridder(src, target, mdtol=1.2)
 
-    def test_invalid_low_mdtol(self):
+    def test_invalid_low_mdtol(self):  # noqa: D102
         src, target = self.grids()
         msg = "mdtol must be in range 0 - 1"
         with pytest.raises(ValueError, match=msg):
             AreaWeightedRegridder(src, target, mdtol=-0.2)
 
-    def test_mismatched_src_coord_systems(self, mocker):
+    def test_mismatched_src_coord_systems(self, mocker):  # noqa: D102
         src = Cube(np.zeros((3, 4)))
         cs = GeogCS(6543210)
         lat = DimCoord(np.arange(3), "latitude", coord_system=cs)
@@ -116,14 +116,14 @@ class Test:
         with pytest.raises(ValueError, match=emsg):
             AreaWeightedRegridder(src, target)
 
-    def test_src_and_target_are_the_same(self):
+    def test_src_and_target_are_the_same(self):  # noqa: D102
         src = self.cube(np.linspace(20, 30, 3), np.linspace(10, 25, 4))
         target = self.cube(np.linspace(20, 30, 3), np.linspace(10, 25, 4))
         regridder = AreaWeightedRegridder(src, target)
         result = regridder(src)
         _shared_utils.assert_array_all_close(result.data, target.data)
 
-    def test_result_coords_independent_of_target(self):
+    def test_result_coords_independent_of_target(self):  # noqa: D102
         # The horizontal coordinates of the result must be copies, not the
         # same objects as the target's: mutating one must not mutate the
         # other (#6844).
@@ -139,7 +139,7 @@ class Test:
             result_coord.points = result_coord.points + 100
             _shared_utils.assert_array_equal(target.coord(name).points, original)
 
-    def test_multiple_src_on_same_grid(self):
+    def test_multiple_src_on_same_grid(self):  # noqa: D102
         coord_names = ["latitude", "longitude"]
         src1 = self.cube(np.linspace(20, 32, 4), np.linspace(10, 22, 4))
         src2 = self.cube(np.linspace(20, 32, 4), np.linspace(10, 22, 4))
@@ -209,7 +209,7 @@ class Test:
         assert result1 == reference1
         assert result2 == reference2
 
-    def test_src_data_different_dims(self):
+    def test_src_data_different_dims(self):  # noqa: D102
         src, target = self.grids()
         regridder = AreaWeightedRegridder(src, target)
         result = regridder(src)
@@ -278,7 +278,7 @@ class TestLazy:
         # Chunked data makes the regridder run repeatedly
         self.cube.data = self.cube.lazy_data().rechunk((1, -1, -1))
 
-    def test_src_stays_lazy(self) -> None:
+    def test_src_stays_lazy(self) -> None:  # noqa: D102
         cube = self.cube.copy()
         # Regrid the cube onto the template.
         regridder = AreaWeightedRegridder(cube, self.template_cube)
@@ -286,7 +286,7 @@ class TestLazy:
         # Base cube stays lazy
         assert cube.has_lazy_data()
 
-    def test_output_lazy(self) -> None:
+    def test_output_lazy(self) -> None:  # noqa: D102
         cube = self.cube.copy()
         # Regrid the cube onto the template.
         regridder = AreaWeightedRegridder(cube, self.template_cube)

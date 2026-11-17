@@ -14,14 +14,14 @@ import iris.tests.stock as stock
 
 class Test:
     """Test ."""
-    def test_bounds_mismatch(self):
+    def test_bounds_mismatch(self):  # noqa: D102
         cube = stock.realistic_3d()
         cube.coord("grid_longitude").guess_bounds()
 
         with pytest.raises(ValueError, match="bounds"):
             _ = _xy_range(cube)
 
-    def test_non_circular(self):
+    def test_non_circular(self):  # noqa: D102
         cube = stock.realistic_3d()
         assert not cube.coord("grid_longitude").circular
 
@@ -29,7 +29,7 @@ class Test:
         assert result_non_circ == ((-5.0, 5.0), (-4.0, 4.0))
 
     @_shared_utils.skip_data
-    def test_geog_cs_circular(self):
+    def test_geog_cs_circular(self):  # noqa: D102
         cube = stock.global_pp()
         assert cube.coord("longitude").circular
 
@@ -39,7 +39,7 @@ class Test:
         )
 
     @_shared_utils.skip_data
-    def test_geog_cs_regional(self):
+    def test_geog_cs_regional(self):  # noqa: D102
         cube = stock.global_pp()
         cube = cube[10:20, 20:30]
         assert not cube.coord("longitude").circular

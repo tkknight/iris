@@ -41,7 +41,7 @@ class ThreeDimCube:
 
 class Test___init__(ThreeDimCube):
     """Test   init  ."""
-    def test_properties(self):
+    def test_properties(self):  # noqa: D102
         interpolator = RectilinearInterpolator(
             self.cube, ["latitude"], LINEAR, EXTRAPOLATE
         )
@@ -58,7 +58,7 @@ class Test___init__(ThreeDimCube):
 
 class Test___init____validation(ThreeDimCube):
     """Test   init    validation."""
-    def test_interpolator_overspecified(self):
+    def test_interpolator_overspecified(self):  # noqa: D102
         # Over specification by means of interpolating over two coordinates
         # mapped to the same dimension.
         msg = (
@@ -70,7 +70,7 @@ class Test___init____validation(ThreeDimCube):
                 self.cube, ["wibble", "height"], LINEAR, EXTRAPOLATE
             )
 
-    def test_interpolator_overspecified_scalar(self):
+    def test_interpolator_overspecified_scalar(self):  # noqa: D102
         # Over specification by means of interpolating over one dimension
         # coordinate and a scalar coordinate (not mapped to a dimension).
         self.cube.add_aux_coord(iris.coords.AuxCoord(1, long_name="scalar"), None)
@@ -84,7 +84,7 @@ class Test___init____validation(ThreeDimCube):
                 self.cube, ["wibble", "scalar"], LINEAR, EXTRAPOLATE
             )
 
-    def test_interpolate__decreasing(self):
+    def test_interpolate__decreasing(self):  # noqa: D102
         def check_expected():
             # Check a simple case is equivalent to extracting the first row.
             self.interpolator = RectilinearInterpolator(
@@ -100,7 +100,7 @@ class Test___init____validation(ThreeDimCube):
         self.cube = self.cube[:, ::-1]
         check_expected()
 
-    def test_interpolate_non_monotonic(self):
+    def test_interpolate_non_monotonic(self):  # noqa: D102
         self.cube.add_aux_coord(
             iris.coords.AuxCoord([0, 3, 2], long_name="non-monotonic"), 1
         )
@@ -117,12 +117,12 @@ class Test___call___1D(ThreeDimCube):
             self.cube, ["latitude"], LINEAR, EXTRAPOLATE
         )
 
-    def test_interpolate_bad_coord_name(self):
+    def test_interpolate_bad_coord_name(self):  # noqa: D102
         emsg = 'Expected to find exactly 1 ".*" coordinate, but found none'
         with pytest.raises(iris.exceptions.CoordinateNotFoundError, match=emsg):
             RectilinearInterpolator(self.cube, ["doesn't exist"], LINEAR, EXTRAPOLATE)
 
-    def test_interpolate_data_single(self):
+    def test_interpolate_data_single(self):  # noqa: D102
         # Single sample point.
         result = self.interpolator([[1.5]])
         expected = self.data[:, 1:, :].mean(axis=1).reshape(2, 1, 4)
@@ -140,7 +140,7 @@ class Test___call___1D(ThreeDimCube):
         _shared_utils.assert_array_equal(foo_res, expected_foo)
         _shared_utils.assert_array_equal(bar_res, expected_bar)
 
-    def test_interpolate_data_multiple(self):
+    def test_interpolate_data_multiple(self):  # noqa: D102
         # Multiple sample points for a single coordinate (these points are not
         # interpolated).
         result = self.interpolator([[1, 2]])
@@ -154,7 +154,7 @@ class Test___call___1D(ThreeDimCube):
         _shared_utils.assert_array_equal(foo_res, expected_foo)
         _shared_utils.assert_array_equal(bar_res, expected_bar)
 
-    def test_interpolate_data_linear_extrapolation(self):
+    def test_interpolate_data_linear_extrapolation(self):  # noqa: D102
         # Sample point outside the coordinate range.
         result = self.interpolator([[-1]])
         expected = self.data[:, 0:1] - (self.data[:, 1:2] - self.data[:, 0:1])
@@ -168,15 +168,15 @@ class Test___call___1D(ThreeDimCube):
         result = interpolator([[-1]])
         assert np.all(np.isnan(result.data))
 
-    def test_extrapolation_nan_float32(self):
+    def test_extrapolation_nan_float32(self):  # noqa: D102
         # Ensure np.nan in a float32 array results.
         self._extrapolation_dtype(np.float32)
 
-    def test_extrapolation_nan_float64(self):
+    def test_extrapolation_nan_float64(self):  # noqa: D102
         # Ensure np.nan in a float64 array results.
         self._extrapolation_dtype(np.float64)
 
-    def test_interpolate_data_error_on_extrapolation(self):
+    def test_interpolate_data_error_on_extrapolation(self):  # noqa: D102
         msg = "One of the requested xi is out of bounds in dimension 0"
         interpolator = RectilinearInterpolator(
             self.cube, ["latitude"], LINEAR, extrapolation_mode="error"
@@ -184,7 +184,7 @@ class Test___call___1D(ThreeDimCube):
         with pytest.raises(ValueError, match=msg):
             interpolator([[-1]])
 
-    def test_interpolate_data_unsupported_extrapolation(self):
+    def test_interpolate_data_unsupported_extrapolation(self):  # noqa: D102
         msg = "Extrapolation mode 'unsupported' not supported"
         with pytest.raises(ValueError, match=msg):
             RectilinearInterpolator(
@@ -194,7 +194,7 @@ class Test___call___1D(ThreeDimCube):
                 extrapolation_mode="unsupported",
             )
 
-    def test_multi_points_array(self):
+    def test_multi_points_array(self):  # noqa: D102
         # Providing a multidimensional sample points for a 1D interpolation.
         # i.e. points given for two coordinates where there are only one
         # specified.
@@ -202,7 +202,7 @@ class Test___call___1D(ThreeDimCube):
         with pytest.raises(ValueError, match=msg):
             self.interpolator([[1, 2], [1]])
 
-    def test_interpolate_data_dtype_casting(self):
+    def test_interpolate_data_dtype_casting(self):  # noqa: D102
         data = self.data.astype(int)
         self.cube.data = data
         self.interpolator = RectilinearInterpolator(
@@ -211,28 +211,28 @@ class Test___call___1D(ThreeDimCube):
         result = self.interpolator([[0.125]])
         assert result.data.dtype == np.float64
 
-    def test_default_collapse_scalar(self):
+    def test_default_collapse_scalar(self):  # noqa: D102
         interpolator = RectilinearInterpolator(
             self.cube, ["wibble"], LINEAR, EXTRAPOLATE
         )
         result = interpolator([0])
         assert result.shape == (3, 4)
 
-    def test_collapse_scalar(self):
+    def test_collapse_scalar(self):  # noqa: D102
         interpolator = RectilinearInterpolator(
             self.cube, ["wibble"], LINEAR, EXTRAPOLATE
         )
         result = interpolator([0], collapse_scalar=True)
         assert result.shape == (3, 4)
 
-    def test_no_collapse_scalar(self):
+    def test_no_collapse_scalar(self):  # noqa: D102
         interpolator = RectilinearInterpolator(
             self.cube, ["wibble"], LINEAR, EXTRAPOLATE
         )
         result = interpolator([0], collapse_scalar=False)
         assert result.shape == (1, 3, 4)
 
-    def test_unsorted_datadim_mapping(self):
+    def test_unsorted_datadim_mapping(self):  # noqa: D102
         # Currently unsorted data dimension mapping is not supported as the
         # indexing is not yet clever enough to remap the interpolated
         # coordinates.
@@ -271,55 +271,55 @@ class Test___call___1D_circular(ThreeDimCube):
             [(np.linspace(-360, 360, 100) + 360) % 360],
         )
 
-    def test_fully_wrapped(self):
+    def test_fully_wrapped(self):  # noqa: D102
         points, points_wrapped = self.testpoints_fully_wrapped
         expected = self.interpolator(points)
         result = self.interpolator(points_wrapped)
         _shared_utils.assert_array_equal(expected.data, result.data)
 
-    def test_fully_wrapped_reversed_mainpoints(self):
+    def test_fully_wrapped_reversed_mainpoints(self):  # noqa: D102
         points, _ = self.testpoints_fully_wrapped
         expected = self.interpolator(points)
         result = self.interpolator_reverselons(points)
         _shared_utils.assert_array_equal(expected.data, result.data)
 
-    def test_fully_wrapped_reversed_testpoints(self):
+    def test_fully_wrapped_reversed_testpoints(self):  # noqa: D102
         _, points = self.testpoints_fully_wrapped
         expected = self.interpolator(points)
         result = self.interpolator_reverselons(points)
         _shared_utils.assert_array_equal(expected.data, result.data)
 
-    def test_partially_wrapped(self):
+    def test_partially_wrapped(self):  # noqa: D102
         points, points_wrapped = self.testpoints_partially_wrapped
         expected = self.interpolator(points)
         result = self.interpolator(points_wrapped)
         _shared_utils.assert_array_equal(expected.data, result.data)
 
-    def test_partially_wrapped_reversed_mainpoints(self):
+    def test_partially_wrapped_reversed_mainpoints(self):  # noqa: D102
         points, _ = self.testpoints_partially_wrapped
         expected = self.interpolator(points)
         result = self.interpolator_reverselons(points)
         _shared_utils.assert_array_equal(expected.data, result.data)
 
-    def test_partially_wrapped_reversed_testpoints(self):
+    def test_partially_wrapped_reversed_testpoints(self):  # noqa: D102
         points, _ = self.testpoints_partially_wrapped
         expected = self.interpolator(points)
         result = self.interpolator_reverselons(points)
         _shared_utils.assert_array_equal(expected.data, result.data)
 
-    def test_fully_wrapped_twice(self):
+    def test_fully_wrapped_twice(self):  # noqa: D102
         xs, xs_not_wrapped = self.testpoints_fully_wrapped_twice
         expected = self.interpolator(xs)
         result = self.interpolator(xs_not_wrapped)
         _shared_utils.assert_array_equal(expected.data, result.data)
 
-    def test_fully_wrapped_twice_reversed_mainpoints(self):
+    def test_fully_wrapped_twice_reversed_mainpoints(self):  # noqa: D102
         _, points = self.testpoints_fully_wrapped_twice
         expected = self.interpolator(points)
         result = self.interpolator_reverselons(points)
         _shared_utils.assert_array_equal(expected.data, result.data)
 
-    def test_fully_wrapped_not_circular(self):
+    def test_fully_wrapped_not_circular(self):  # noqa: D102
         cube = stock.lat_lon_cube()
         new_long = cube.coord("longitude").copy(cube.coord("longitude").points + 710)
         cube.remove_coord("longitude")
@@ -352,19 +352,19 @@ class Test___call___1D_singlelendim(ThreeDimCube):
             self.cube, ["latitude"], LINEAR, EXTRAPOLATE
         )
 
-    def test_interpolate_data_linear_extrapolation(self):
+    def test_interpolate_data_linear_extrapolation(self):  # noqa: D102
         # Linear extrapolation of a single valued element.
         result = self.interpolator([[1001]])
         _shared_utils.assert_array_equal(result.data, self.cube.data)
 
-    def test_interpolate_data_nan_extrapolation(self):
+    def test_interpolate_data_nan_extrapolation(self):  # noqa: D102
         interpolator = RectilinearInterpolator(
             self.cube, ["latitude"], LINEAR, extrapolation_mode="nan"
         )
         result = interpolator([[1001]])
         assert np.all(np.isnan(result.data))
 
-    def test_interpolate_data_nan_extrapolation_not_needed(self):
+    def test_interpolate_data_nan_extrapolation_not_needed(self):  # noqa: D102
         # No extrapolation for a single length dimension.
         interpolator = RectilinearInterpolator(
             self.cube, ["latitude"], LINEAR, extrapolation_mode="nan"
@@ -382,7 +382,7 @@ class Test___call___masked:
         mask[::3, ::3] = True
         self.cube.data = np.ma.masked_array(self.cube.data, mask=mask)
 
-    def test_orthogonal_cube(self, request):
+    def test_orthogonal_cube(self, request):  # noqa: D102
         interpolator = RectilinearInterpolator(
             self.cube, ["grid_latitude"], LINEAR, EXTRAPOLATE
         )
@@ -415,7 +415,7 @@ class Test___call___2D(ThreeDimCube):
             self.cube, ["latitude", "longitude"], LINEAR, EXTRAPOLATE
         )
 
-    def test_interpolate_data(self):
+    def test_interpolate_data(self):  # noqa: D102
         result = self.interpolator([[1, 2], [2]])
         expected = self.data[:, 1:3, 2:3]
         _shared_utils.assert_array_equal(result.data, expected)
@@ -427,7 +427,7 @@ class Test___call___2D(ThreeDimCube):
 
             _shared_utils.assert_array_equal(coord_res, coord_expected)
 
-    def test_orthogonal_points(self):
+    def test_orthogonal_points(self):  # noqa: D102
         result = self.interpolator([[1, 2], [1, 2]])
         expected = self.data[:, 1:3, 1:3]
         _shared_utils.assert_array_equal(result.data, expected)
@@ -439,7 +439,7 @@ class Test___call___2D(ThreeDimCube):
 
             _shared_utils.assert_array_equal(coord_res, coord_expected)
 
-    def test_multi_dim_coord_interpolation(self):
+    def test_multi_dim_coord_interpolation(self):  # noqa: D102
         msg = "Interpolation coords must be 1-d for rectilinear interpolation."
         with pytest.raises(ValueError, match=msg):
             RectilinearInterpolator(self.cube, ["foo", "bar"], LINEAR, EXTRAPOLATE)
@@ -454,7 +454,7 @@ class Test___call___2D_non_contiguous(ThreeDimCube):
             self.cube, coords, LINEAR, EXTRAPOLATE
         )
 
-    def test_interpolate_data_multiple(self):
+    def test_interpolate_data_multiple(self):  # noqa: D102
         result = self.interpolator([[1], [1, 2]])
         expected = self.data[1:2, :, 1:3]
         _shared_utils.assert_array_equal(result.data, expected)
@@ -466,7 +466,7 @@ class Test___call___2D_non_contiguous(ThreeDimCube):
 
             _shared_utils.assert_array_equal(coord_res, coord_expected)
 
-    def test_orthogonal_cube(self, request):
+    def test_orthogonal_cube(self, request):  # noqa: D102
         result_cube = self.interpolator([np.int64([0, 1, 1]), np.int32([0, 1])])
         result_path = (
             "experimental",
@@ -479,7 +479,7 @@ class Test___call___2D_non_contiguous(ThreeDimCube):
         assert result_cube.coord("longitude").dtype == np.int32
         assert result_cube.coord("height").dtype == np.int64
 
-    def test_orthogonal_cube_squash(self, request):
+    def test_orthogonal_cube_squash(self, request):  # noqa: D102
         result_cube = self.interpolator([np.int64(0), np.int32([0, 1])])
         result_path = (
             "experimental",
@@ -509,7 +509,7 @@ class Test___call___2D_non_contiguous(ThreeDimCube):
 
 class Test___call___real_data(ThreeDimCube):
     """Test   call   real data."""
-    def test_src_cube_data_loaded(self):
+    def test_src_cube_data_loaded(self):  # noqa: D102
         # If the source cube has real data when the interpolator is
         # instantiated, then the interpolated result should also have
         # real data.
@@ -525,7 +525,7 @@ class Test___call___real_data(ThreeDimCube):
 
 class Test___call___lazy_data(ThreeDimCube):
     """Test   call   lazy data."""
-    def test_src_cube_data_loaded(self):
+    def test_src_cube_data_loaded(self):  # noqa: D102
         # If the source cube has lazy data when the interpolator is
         # instantiated, then the interpolated result should also have
         # lazy data.
@@ -544,7 +544,7 @@ class Test___call___lazy_data(ThreeDimCube):
 
 class Test___call___time:
     """Test   call   time."""
-    def interpolator(self, method=LINEAR):
+    def interpolator(self, method=LINEAR):  # noqa: D102
         data = np.arange(12).reshape(4, 3)
         cube = iris.cube.Cube(data)
         time_coord = iris.coords.DimCoord(
@@ -555,22 +555,22 @@ class Test___call___time:
         cube.add_dim_coord(height_coord, 1)
         return RectilinearInterpolator(cube, ["time"], method, EXTRAPOLATE)
 
-    def test_number_at_existing_value(self):
+    def test_number_at_existing_value(self):  # noqa: D102
         interpolator = self.interpolator()
         result = interpolator([12])
         _shared_utils.assert_array_equal(result.data, [3, 4, 5])
 
-    def test_datetime_at_existing_value(self):
+    def test_datetime_at_existing_value(self):  # noqa: D102
         interpolator = self.interpolator()
         result = interpolator([datetime.datetime(1970, 1, 1, 12)])
         _shared_utils.assert_array_equal(result.data, [3, 4, 5])
 
-    def test_datetime_between_existing_values(self):
+    def test_datetime_between_existing_values(self):  # noqa: D102
         interpolator = self.interpolator()
         result = interpolator([datetime.datetime(1970, 1, 1, 18)])
         _shared_utils.assert_array_equal(result.data, [4.5, 5.5, 6.5])
 
-    def test_mixed_numbers_and_datetimes(self):
+    def test_mixed_numbers_and_datetimes(self):  # noqa: D102
         interpolator = self.interpolator()
         result = interpolator(
             [
@@ -588,7 +588,7 @@ class Test___call___time:
             [[3, 4, 5], [4.5, 5.5, 6.5], [6, 7, 8], [6.5, 7.5, 8.5]],
         )
 
-    def test_mixed_numbers_and_datetimes_nearest(self):
+    def test_mixed_numbers_and_datetimes_nearest(self):  # noqa: D102
         interpolator = self.interpolator(NEAREST)
         result = interpolator(
             [

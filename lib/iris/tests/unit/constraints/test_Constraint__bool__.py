@@ -25,27 +25,27 @@ class Test_Constraint__bool__:
 
     _match = "truth value of a Constraint is ambiguous"
 
-    def test_bool(self):
+    def test_bool(self):  # noqa: D102
         with pytest.raises(TypeError, match=self._match):
             bool(Constraint("air_temperature"))
 
-    def test_keyword_or(self):
+    def test_keyword_or(self):  # noqa: D102
         c1 = Constraint("air_temperature")
         c2 = Constraint("time")
         with pytest.raises(TypeError, match=self._match):
             c1 or c2
 
-    def test_keyword_and(self):
+    def test_keyword_and(self):  # noqa: D102
         c1 = Constraint("air_temperature")
         c2 = Constraint("time")
         with pytest.raises(TypeError, match=self._match):
             c1 and c2
 
-    def test_keyword_not(self):
+    def test_keyword_not(self):  # noqa: D102
         with pytest.raises(TypeError, match=self._match):
             not Constraint("air_temperature")
 
-    def test_constraint_combination(self):
+    def test_constraint_combination(self):  # noqa: D102
         combination = ConstraintCombination(
             Constraint("air_temperature"),
             Constraint("time"),
@@ -54,15 +54,15 @@ class Test_Constraint__bool__:
         with pytest.raises(TypeError, match=self._match):
             bool(combination)
 
-    def test_attribute_constraint(self):
+    def test_attribute_constraint(self):  # noqa: D102
         with pytest.raises(TypeError, match=self._match):
             bool(AttributeConstraint(STASH="m01s00i024"))
 
-    def test_name_constraint(self):
+    def test_name_constraint(self):  # noqa: D102
         with pytest.raises(TypeError, match=self._match):
             bool(NameConstraint(standard_name="air_temperature"))
 
-    def test_and_operator_still_works(self):
+    def test_and_operator_still_works(self):  # noqa: D102
         # The supported way of combining constraints must be unaffected.
         c1 = Constraint("air_temperature")
         c2 = Constraint("time")

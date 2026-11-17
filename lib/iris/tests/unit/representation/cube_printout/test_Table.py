@@ -20,7 +20,7 @@ class TestTable:
         table.add_row(["a", "two", "c"], aligns=["right", "left", "right"])
         self.simple_table = table
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         table = Table()
         assert table.n_columns is None
         assert len(table.rows) == 0
@@ -31,7 +31,7 @@ class TestTable:
         assert table.formatted_as_strings() == []
         assert str(table) == ""
 
-    def test_basic_content(self):
+    def test_basic_content(self):  # noqa: D102
         # Mirror the above 'empty' tests on a small basic table.
         table = self.simple_table
         assert table.n_columns == 3
@@ -42,7 +42,7 @@ class TestTable:
         assert table.formatted_as_strings() == ["one   b three", "  a two     c"]
         assert str(table) == "one   b three\n  a two     c"
 
-    def test_copy(self):
+    def test_copy(self):  # noqa: D102
         table = self.simple_table
         # Add some detail information
         table.rows[1].i_col_unlimited = 77  # Doesn't actually affect anything
@@ -58,7 +58,7 @@ class TestTable:
             assert row2.aligns == row.aligns
             assert row2.i_col_unlimited == row.i_col_unlimited
 
-    def test_add_row(self):
+    def test_add_row(self):  # noqa: D102
         table = Table()
         assert table.n_columns is None
         # Add one row.
@@ -85,7 +85,7 @@ class TestTable:
         with pytest.raises(ValueError, match=regex):
             table.add_row(["1", "2", "3"], ["left", "left", "left", "left"])
 
-    def test_formatted_as_strings(self):
+    def test_formatted_as_strings(self):  # noqa: D102
         # Test simple self-print is same as
         table = Table()
         aligns = ["left", "right", "left"]
@@ -98,7 +98,7 @@ class TestTable:
         assert result == ["1   266 32", "123   2 3"]
         assert table.col_widths == [3, 3, 2]
 
-    def test_fail_bad_alignments(self):
+    def test_fail_bad_alignments(self):  # noqa: D102
         # Invalid 'aligns' content : only detected when printed
         table = Table()
         table.add_row(["1", "2", "3"], ["left", "right", "BAD"])
@@ -106,7 +106,7 @@ class TestTable:
         with pytest.raises(ValueError, match=regex):
             str(table)
 
-    def test_table_set_width(self):
+    def test_table_set_width(self):  # noqa: D102
         # Check that changes do *not* affect pre-existing widths.
         table = Table()
         aligns = ["left", "right", "left"]
@@ -124,7 +124,7 @@ class TestTable:
             "12345 12345 12345",
         ]
 
-    def test_unlimited_column(self):
+    def test_unlimited_column(self):  # noqa: D102
         table = Table()
         aligns = ["left", "right", "left"]
         table.add_row(["a", "beee", "c"], aligns)
@@ -140,7 +140,7 @@ class TestTable:
             "12      x yy",
         ]
 
-    def test_str(self):
+    def test_str(self):  # noqa: D102
         # Check that str returns the formatted_as_strings() output.
         table = Table()
         aligns = ["left", "left", "left"]

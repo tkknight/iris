@@ -21,7 +21,7 @@ def zarr_format(request):
 
 class Test_opening:
     """Test opening."""
-    def test_opens_and_reports_itself(self, tmp_path, zarr_format):
+    def test_opens_and_reports_itself(self, tmp_path, zarr_format):  # noqa: D102
         location = stores.make_store(tmp_path / "s.zarr", zarr_format=zarr_format)
         dataset = ZarrDataset(location)
 
@@ -59,7 +59,7 @@ class Test_attributes:
 
 class Test_dimensions:
     """Test dimensions."""
-    def test_dimensions_are_assembled_from_the_arrays(self, tmp_path, zarr_format):
+    def test_dimensions_are_assembled_from_the_arrays(self, tmp_path, zarr_format):  # noqa: D102
         location = stores.make_store(tmp_path / "s.zarr", zarr_format=zarr_format)
         assert dict(ZarrDataset(location).dimensions) == stores.DIMENSIONS
 
@@ -88,7 +88,7 @@ class Test_dimensions:
         assert dataset.variables["short"].dimensions == ("t",)
         assert dataset.variables["long"].dimensions == ("t",)
 
-    def test_anonymous_dimensions_are_not_in_the_mapping(self, tmp_path):
+    def test_anonymous_dimensions_are_not_in_the_mapping(self, tmp_path):  # noqa: D102
         group = zarr.open_group(store=tmp_path / "a.zarr", mode="w", zarr_format=3)
         stores.make_array(group, "named", (2,), "f8", 3, dimensions=("t",))
         stores.make_array(group, "unnamed", (4,), "f8", 3)
@@ -99,14 +99,14 @@ class Test_dimensions:
 
 class Test_close:
     """Test close."""
-    def test_close_is_idempotent(self, tmp_path):
+    def test_close_is_idempotent(self, tmp_path):  # noqa: D102
         location = stores.make_store(tmp_path / "s.zarr")
         dataset = ZarrDataset(location)
         dataset.close()
         dataset.close()
         assert dataset.closed is True
 
-    def test_context_manager_closes(self, tmp_path):
+    def test_context_manager_closes(self, tmp_path):  # noqa: D102
         location = stores.make_store(tmp_path / "s.zarr")
         dataset = ZarrDataset(location)
         with dataset as entered:
@@ -116,7 +116,7 @@ class Test_close:
 
 class Test_groups:
     """Test groups."""
-    def test_group_keyword_selects_a_subgroup(self, tmp_path):
+    def test_group_keyword_selects_a_subgroup(self, tmp_path):  # noqa: D102
         root = zarr.open_group(store=tmp_path / "n.zarr", mode="w", zarr_format=3)
         sub = root.create_group("measurements/r10m")
         stores.make_array(sub, "b02", (2,), "u2", 3, dimensions=("p",))
@@ -125,7 +125,7 @@ class Test_groups:
         assert list(dataset.variables) == ["b02"]
         assert dataset.location.endswith("measurements/r10m")
 
-    def test_groups_holding_arrays_lists_the_groups_with_arrays(self, tmp_path):
+    def test_groups_holding_arrays_lists_the_groups_with_arrays(self, tmp_path):  # noqa: D102
         root = zarr.open_group(store=tmp_path / "n.zarr", mode="w", zarr_format=3)
         stores.make_array(root.create_group("conditions"), "c", (2,), "f8", 3)
         stores.make_array(root.create_group("measurements"), "m", (2,), "f8", 3)
@@ -160,7 +160,7 @@ class Test_groups:
         dataset = ZarrDataset(str(tmp_path / "n.zarr"))
         assert dataset.groups_holding_arrays == ("measurements", "measurements/r10m")
 
-    def test_groups_holding_no_arrays_anywhere_are_not_listed(self, tmp_path):
+    def test_groups_holding_no_arrays_anywhere_are_not_listed(self, tmp_path):  # noqa: D102
         root = zarr.open_group(store=tmp_path / "n.zarr", mode="w", zarr_format=3)
         root.create_group("conditions").create_group("quality")
 
@@ -179,7 +179,7 @@ class Test_groups:
 
         assert list(ZarrDataset(str(tmp_path / "n.zarr")).variables) == ["top"]
 
-    def test_a_missing_group_raises(self, tmp_path):
+    def test_a_missing_group_raises(self, tmp_path):  # noqa: D102
         location = stores.make_store(tmp_path / "s.zarr")
         with pytest.raises(zarr.errors.GroupNotFoundError):
             ZarrDataset(location, group="nope")
@@ -190,7 +190,7 @@ class Test_supports_dtype:
     @pytest.mark.parametrize(
         "dtype", ["i1", "i2", "i4", "i8", "u1", "u2", "u4", "u8", "f4", "f8", "c8"]
     )
-    def test_supports_every_dtype(self, tmp_path, zarr_format, dtype):
+    def test_supports_every_dtype(self, tmp_path, zarr_format, dtype):  # noqa: D102
         # The netCDF 3 formats have no 64-bit or unsigned integer type, which is
         # what makes supports_dtype worth asking. Zarr has every one of them, in
         # both versions, so the Zarr answer carries no format test.
@@ -211,11 +211,11 @@ class Test_locations:
         dataset = ZarrDataset(memory)
         assert list(dataset.variables) == ["v"]
 
-    def test_a_missing_store_raises_zarrs_own_error(self, tmp_path):
+    def test_a_missing_store_raises_zarrs_own_error(self, tmp_path):  # noqa: D102
         with pytest.raises(FileNotFoundError):
             ZarrDataset(str(tmp_path / "nothing.zarr"))
 
-    def test_a_directory_that_is_not_a_store_raises(self, tmp_path):
+    def test_a_directory_that_is_not_a_store_raises(self, tmp_path):  # noqa: D102
         (tmp_path / "plain").mkdir()
         with pytest.raises(zarr.errors.GroupNotFoundError):
             ZarrDataset(str(tmp_path / "plain"))

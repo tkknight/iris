@@ -30,7 +30,7 @@ class MixinVectorPlotCases:
 
     """
 
-    def plot(self, plotname, *args, **kwargs):
+    def plot(self, plotname, *args, **kwargs):  # noqa: D102
         plot_function = self.plot_function_to_test()
         plot_function(*args, **kwargs)
         plt.suptitle(plotname)
@@ -69,7 +69,7 @@ class MixinVectorPlotCases:
         v_cube.data = v
         return u_cube, v_cube
 
-    def test_non_latlon_1d_coords(self):
+    def test_non_latlon_1d_coords(self):  # noqa: D102
         # Plot against simple 1D x and y coords.
         x, y, u, v = self._nonlatlon_xyuv()
         u_cube, v_cube = self._nonlatlon_uv_cubes(x, y, u, v)
@@ -78,7 +78,7 @@ class MixinVectorPlotCases:
         plt.ylim(y.min() - 1, y.max() + 2)
         self.check_graphic()
 
-    def test_non_latlon_2d_coords(self):
+    def test_non_latlon_2d_coords(self):  # noqa: D102
         # Plot against expanded 2D x and y coords.
         x, y, u, v = self._nonlatlon_xyuv()
         x, y = np.meshgrid(x, y)
@@ -108,7 +108,7 @@ class MixinVectorPlotCases:
         v_cube.data = scale * np.sin(np.deg2rad(angles))
         return u_cube, v_cube
 
-    def test_2d_plain_latlon(self):
+    def test_2d_plain_latlon(self):  # noqa: D102
         # Test 2d vector plotting with implicit (PlateCarree) coord system.
         u_cube, v_cube = self._latlon_uv_cubes(sample_2d_latlons())
         ax = plt.axes(projection=ccrs.PlateCarree(central_longitude=180))
@@ -117,7 +117,7 @@ class MixinVectorPlotCases:
         ax.set_global()
         self.check_graphic()
 
-    def test_2d_rotated_latlon(self):
+    def test_2d_rotated_latlon(self):  # noqa: D102
         # Test plotting vectors in a rotated latlon coord system.
         u_cube, v_cube = self._latlon_uv_cubes(sample_2d_latlons(rotated=True))
         ax = plt.axes(projection=ccrs.PlateCarree(central_longitude=180))
@@ -126,7 +126,7 @@ class MixinVectorPlotCases:
         ax.set_global()
         self.check_graphic()
 
-    def test_fail_unsupported_coord_system(self):
+    def test_fail_unsupported_coord_system(self):  # noqa: D102
         # Test plotting vectors in a rotated latlon coord system.
         u_cube, v_cube = self._latlon_uv_cubes(sample_2d_latlons())
         patch_coord_system = Mercator()
@@ -140,7 +140,7 @@ class MixinVectorPlotCases:
         with pytest.raises(ValueError, match=re_msg):
             self.plot("2d_rotated", u_cube, v_cube, coords=("longitude", "latitude"))
 
-    def test_circular_longitude(self):
+    def test_circular_longitude(self):  # noqa: D102
         # Test circular longitude does not cause a crash.
         res = 5
         lat = DimCoord(np.arange(-90, 91, res), "latitude", units="degrees_north")
@@ -189,10 +189,10 @@ class TestBarbs(MixinVectorPlotCases, _shared_utils.GraphicsTest):
         v_cube.data *= scale_factor
         return u_cube, v_cube
 
-    def plot_function_to_test(self):
+    def plot_function_to_test(self):  # noqa: D102
         return barbs
 
-    def test_2d_plain_latlon_on_polar_map(self):
+    def test_2d_plain_latlon_on_polar_map(self):  # noqa: D102
         # Test 2d vector plotting onto a different projection.
 
         # use a scale factor that ensures the barb vector magnitudes fall
@@ -216,10 +216,10 @@ class TestBarbs(MixinVectorPlotCases, _shared_utils.GraphicsTest):
 
 class TestQuiver(MixinVectorPlotCases, _shared_utils.GraphicsTest):
     """Test uiver."""
-    def plot_function_to_test(self):
+    def plot_function_to_test(self):  # noqa: D102
         return quiver
 
-    def test_2d_plain_latlon_on_polar_map(self):
+    def test_2d_plain_latlon_on_polar_map(self):  # noqa: D102
         # Test 2d vector plotting onto a different projection.
         u_cube, v_cube = self._latlon_uv_cubes(sample_2d_latlons())
         ax = plt.axes(projection=ccrs.NorthPolarStereo())

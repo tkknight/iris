@@ -16,11 +16,11 @@ class Test_run_callback:
     def _setup(self, mocker):
         self.cube = mocker.sentinel.cube
 
-    def test_no_callback(self):
+    def test_no_callback(self):  # noqa: D102
         # No callback results in the cube being returned.
         assert iris.io.run_callback(None, self.cube, None, None) == self.cube
 
-    def test_ignore_cube(self):
+    def test_ignore_cube(self):  # noqa: D102
         # Ignore cube should result in None being returned.
         def callback(cube, field, fname):
             raise iris.exceptions.IgnoreCubeException()
@@ -28,7 +28,7 @@ class Test_run_callback:
         cube = self.cube
         assert iris.io.run_callback(callback, cube, None, None) is None
 
-    def test_callback_no_return(self):
+    def test_callback_no_return(self):  # noqa: D102
         # Check that a callback not returning anything still results in the
         # cube being passed back from "run_callback".
         def callback(cube, field, fname):
@@ -37,7 +37,7 @@ class Test_run_callback:
         cube = self.cube
         assert iris.io.run_callback(callback, cube, None, None) == cube
 
-    def test_bad_callback_return_type(self):
+    def test_bad_callback_return_type(self):  # noqa: D102
         # Check that a TypeError is raised with a bad callback return value.
         def callback(cube, field, fname):
             return iris.cube.CubeList()
@@ -46,7 +46,7 @@ class Test_run_callback:
         with pytest.raises(TypeError, match=emsg):
             iris.io.run_callback(callback, None, None, None)
 
-    def test_bad_signature(self):
+    def test_bad_signature(self):  # noqa: D102
         # Check that a TypeError is raised with a bad callback function
         # signature.
         def callback(cube):
@@ -56,7 +56,7 @@ class Test_run_callback:
         with pytest.raises(TypeError, match=emsg):
             iris.io.run_callback(callback, None, None, None)
 
-    def test_callback_args(self, mocker):
+    def test_callback_args(self, mocker):  # noqa: D102
         # Check that the appropriate args are passed through to the callback.
         self.field = mocker.sentinel.field
         self.fname = mocker.sentinel.fname

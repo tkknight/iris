@@ -27,12 +27,12 @@ def stores():
 
 class Test_load_stores:
     """Test load stores."""
-    def test_a_local_store_loads(self, stores, tmp_path):
+    def test_a_local_store_loads(self, stores, tmp_path):  # noqa: D102
         location = stores.make_store(tmp_path / "s.zarr")
         cubes = list(load_stores([location], None))
         assert [cube.var_name for cube in cubes] == ["air_temperature"]
 
-    def test_several_stores_in_one_call(self, stores, tmp_path):
+    def test_several_stores_in_one_call(self, stores, tmp_path):  # noqa: D102
         first = stores.make_store(tmp_path / "a.zarr")
         second = stores.make_store(tmp_path / "b.zarr")
         assert len(list(load_stores([first, second], None))) == 2
@@ -65,13 +65,13 @@ class Test__is_remote_store_uri:
             ("relative/data.zarr", False),
         ],
     )
-    def test_which_uris_are_remote_stores(self, uri, expected):
+    def test_which_uris_are_remote_stores(self, uri, expected):  # noqa: D102
         assert _is_remote_store_uri(uri) is expected
 
 
 class Test_iris_load:
     """Test iris load."""
-    def test_accepts_a_local_store(self, stores, tmp_path):
+    def test_accepts_a_local_store(self, stores, tmp_path):  # noqa: D102
         location = stores.make_store(tmp_path / "s.zarr")
         cubes = iris.load(location)
         assert len(cubes) == 1
@@ -171,13 +171,13 @@ class Test_saving:
         iris.io._check_init_savers()
         assert zarr_save in iris.io._savers.cubelist_savers
 
-    def test_find_saver_tolerates_a_trailing_separator(self):
+    def test_find_saver_tolerates_a_trailing_separator(self):  # noqa: D102
         from iris.io import find_saver
 
         assert find_saver("out.nc") is find_saver("out.nc/")
 
     @_shared_utils.skip_data
-    def test_saving_a_cubelist_to_netcdf_still_takes_one_call(self, tmp_path):
+    def test_saving_a_cubelist_to_netcdf_still_takes_one_call(self, tmp_path):  # noqa: D102
         cubes = iris.load(
             _shared_utils.get_data_path(
                 ("NetCDF", "global", "xyt", "SMALL_hires_wind_u_for_ipcc4.nc")

@@ -57,51 +57,51 @@ class CFDatasetReadContract:
 
     # -- The dataset itself ------------------------------------------------
 
-    def test_is_a_cf_dataset(self, readable):
+    def test_is_a_cf_dataset(self, readable):  # noqa: D102
         assert isinstance(readable, CFDataset)
 
-    def test_location_is_a_non_empty_string(self, readable):
+    def test_location_is_a_non_empty_string(self, readable):  # noqa: D102
         assert isinstance(readable.location, str)
         assert readable.location
 
-    def test_mode_is_a_read_mode(self, readable):
+    def test_mode_is_a_read_mode(self, readable):  # noqa: D102
         assert readable.mode in ("r", "r+", "a")
 
-    def test_starts_open(self, readable):
+    def test_starts_open(self, readable):  # noqa: D102
         assert readable.closed is False
 
-    def test_close_then_closed(self, readable):
+    def test_close_then_closed(self, readable):  # noqa: D102
         readable.close()
         assert readable.closed is True
 
-    def test_close_is_idempotent(self, readable):
+    def test_close_is_idempotent(self, readable):  # noqa: D102
         readable.close()
         readable.close()
         assert readable.closed is True
 
-    def test_context_manager_returns_self_and_closes(self, readable):
+    def test_context_manager_returns_self_and_closes(self, readable):  # noqa: D102
         with readable as entered:
             assert entered is readable
         assert readable.closed is True
 
-    def test_dimensions(self, readable):
+    def test_dimensions(self, readable):  # noqa: D102
         assert dict(readable.dimensions) == CONTRACT_DIMENSIONS
 
-    def test_global_attributes(self, readable):
+    def test_global_attributes(self, readable):  # noqa: D102
         assert dict(readable.attributes) == CONTRACT_GLOBALS
 
-    def test_variable_names(self, readable):
+    def test_variable_names(self, readable):  # noqa: D102
         assert sorted(readable.variables) == ["air_temperature", "grid"]
 
-    def test_format_is_a_non_empty_string(self, readable):
+    def test_format_is_a_non_empty_string(self, readable):  # noqa: D102
         assert isinstance(readable.format, str)
         assert readable.format
 
-    def test_supports_the_contract_dtype(self, readable):
+    def test_supports_the_contract_dtype(self, readable):  # noqa: D102
         # Whatever a store is, it holds the dtype the contract writes into it.
         assert readable.supports_dtype(CONTRACT_DATA.dtype) is True
 
-    def test_storage_settings_is_a_readable_mapping(self, readable):
+    def test_storage_settings_is_a_readable_mapping(self, readable):  # noqa: D102
         # Its keys are the backend's own spelling and generic code must never
         # branch on one, but it must be possible to read them: otherwise a
         # caller that wants to know how a store is laid out has to reach
@@ -113,67 +113,67 @@ class CFDatasetReadContract:
     # -- A variable --------------------------------------------------------
 
     @pytest.fixture
-    def variable(self, readable):
+    def variable(self, readable):  # noqa: D102
         return readable.variables["air_temperature"]
 
     @pytest.fixture
-    def scalar(self, readable):
+    def scalar(self, readable):  # noqa: D102
         return readable.variables["grid"]
 
-    def test_variable_is_a_cf_dataset_variable(self, variable):
+    def test_variable_is_a_cf_dataset_variable(self, variable):  # noqa: D102
         assert isinstance(variable, CFDatasetVariable)
 
-    def test_variable_name(self, variable):
+    def test_variable_name(self, variable):  # noqa: D102
         assert variable.name == "air_temperature"
 
-    def test_variable_location_matches_its_dataset(self, variable, readable):
+    def test_variable_location_matches_its_dataset(self, variable, readable):  # noqa: D102
         assert variable.location == readable.location
 
-    def test_variable_format_matches_its_dataset(self, variable, readable):
+    def test_variable_format_matches_its_dataset(self, variable, readable):  # noqa: D102
         assert variable.format == readable.format
 
-    def test_variable_storage_settings_reports_the_chunking(self, variable):
+    def test_variable_storage_settings_reports_the_chunking(self, variable):  # noqa: D102
         storage_settings = variable.storage_settings
         assert isinstance(storage_settings, Mapping)
         assert variable.chunking == storage_settings[self.chunking_key]
 
-    def test_variable_dimensions(self, variable):
+    def test_variable_dimensions(self, variable):  # noqa: D102
         assert variable.dimensions == tuple(CONTRACT_DIMENSIONS)
 
-    def test_variable_shape(self, variable):
+    def test_variable_shape(self, variable):  # noqa: D102
         assert variable.shape == tuple(CONTRACT_DIMENSIONS.values())
 
-    def test_variable_dtype(self, variable):
+    def test_variable_dtype(self, variable):  # noqa: D102
         assert variable.dtype == np.dtype("f8")
 
-    def test_variable_size(self, variable):
+    def test_variable_size(self, variable):  # noqa: D102
         assert variable.size == CONTRACT_DATA.size
 
-    def test_variable_ndim(self, variable):
+    def test_variable_ndim(self, variable):  # noqa: D102
         assert variable.ndim == CONTRACT_DATA.ndim
 
-    def test_variable_len(self, variable):
+    def test_variable_len(self, variable):  # noqa: D102
         assert len(variable) == CONTRACT_DATA.shape[0]
 
-    def test_variable_data(self, variable):
+    def test_variable_data(self, variable):  # noqa: D102
         np.testing.assert_array_equal(variable[:], CONTRACT_DATA)
 
-    def test_variable_data_indexed(self, variable):
+    def test_variable_data_indexed(self, variable):  # noqa: D102
         np.testing.assert_array_equal(variable[1], CONTRACT_DATA[1])
 
-    def test_variable_attributes(self, variable):
+    def test_variable_attributes(self, variable):  # noqa: D102
         for name, value in CONTRACT_VARIABLE_ATTRS.items():
             assert variable.attributes[name] == value
 
-    def test_variable_attributes_omit_unset_names(self, variable):
+    def test_variable_attributes_omit_unset_names(self, variable):  # noqa: D102
         assert "nonesuch" not in variable.attributes
         with pytest.raises(KeyError):
             variable.attributes["nonesuch"]
 
-    def test_variable_fill_value(self, variable):
+    def test_variable_fill_value(self, variable):  # noqa: D102
         assert variable.fill_value == -1.0
 
-    def test_variable_chunking_is_none_or_a_shape(self, variable):
+    def test_variable_chunking_is_none_or_a_shape(self, variable):  # noqa: D102
         chunking = variable.chunking
         # np.integer alongside int: netCDF4 answers plain ints, but a Zarr
         # chunk shape is plausibly numpy.int64, and both are equally a shape.
@@ -183,7 +183,7 @@ class CFDatasetReadContract:
             and all(isinstance(size, int | np.integer) for size in chunking)
         )
 
-    def test_read_data_returns_the_data_for_a_small_variable(self, variable):
+    def test_read_data_returns_the_data_for_a_small_variable(self, variable):  # noqa: D102
         # CONTRACT_DATA is small, so this exercises the read-whole path only,
         # and the policy below is never consulted. Reading a variable large
         # enough to come back lazy is a per-format test, not a contract one:
@@ -191,7 +191,7 @@ class CFDatasetReadContract:
         result = variable.read_data(lambda: (None, None))
         np.testing.assert_array_equal(np.asarray(result), CONTRACT_DATA)
 
-    def test_read_data_leaves_the_policy_alone_for_a_small_variable(self, variable):
+    def test_read_data_leaves_the_policy_alone_for_a_small_variable(self, variable):  # noqa: D102
         # The chunking policy raises under CHUNK_CONTROL.from_file() for an
         # unchunked variable. A variable small enough to read whole must reach
         # its data without ever asking, or `from_file` would start rejecting
@@ -201,7 +201,7 @@ class CFDatasetReadContract:
 
         variable.read_data(policy)
 
-    def test_scalar_variable(self, scalar):
+    def test_scalar_variable(self, scalar):  # noqa: D102
         assert scalar.dimensions == ()
         assert scalar.shape == ()
         with pytest.raises(TypeError, match="unsized"):
@@ -249,7 +249,7 @@ class CFDatasetWriteContract:
         scalar[()] = 0
         return dataset
 
-    def test_populate_then_read_back(self, writable, reopen):
+    def test_populate_then_read_back(self, writable, reopen):  # noqa: D102
         self.populate(writable)
         writable.close()
         with reopen() as reader:
@@ -259,17 +259,17 @@ class CFDatasetWriteContract:
             assert dict(reader.dimensions) == CONTRACT_DIMENSIONS
             assert dict(reader.attributes) == CONTRACT_GLOBALS
 
-    def test_created_variable_is_visible_on_the_dataset(self, writable):
+    def test_created_variable_is_visible_on_the_dataset(self, writable):  # noqa: D102
         writable.create_dimension("x", 2)
         created = writable.create_variable("thing", np.dtype("f4"), ("x",))
         assert writable.variables["thing"].name == created.name
 
-    def test_create_variable_without_dimensions(self, writable):
+    def test_create_variable_without_dimensions(self, writable):  # noqa: D102
         # saver.py creates a grid variable with only a name and a dtype.
         variable = writable.create_variable("grid", np.dtype("i4"))
         assert variable.dimensions == ()
 
-    def test_unlimited_dimension_is_supported_or_refused(self, writable):
+    def test_unlimited_dimension_is_supported_or_refused(self, writable):  # noqa: D102
         # The one member whose docstring sanctions two answers: a store with
         # no unlimited concept - Zarr - refuses rather than inventing one.
         # Either answer conforms; what does not conform is a third, such as
@@ -280,20 +280,20 @@ class CFDatasetWriteContract:
             return
         assert "t" in writable.dimensions
 
-    def test_setitem_then_getitem(self, writable):
+    def test_setitem_then_getitem(self, writable):  # noqa: D102
         writable.create_dimension("x", 3)
         variable = writable.create_variable("thing", np.dtype("f4"), ("x",))
         variable[:] = [1.0, 2.0, 3.0]
         np.testing.assert_array_equal(variable[:], [1.0, 2.0, 3.0])
 
-    def test_attribute_write_through(self, writable, reopen):
+    def test_attribute_write_through(self, writable, reopen):  # noqa: D102
         self.populate(writable)
         writable.variables["air_temperature"].attributes["comment"] = "added"
         writable.close()
         with reopen() as reader:
             assert reader.variables["air_temperature"].attributes["comment"] == "added"
 
-    def test_write_handle_works_after_close(self, writable, reopen):
+    def test_write_handle_works_after_close(self, writable, reopen):  # noqa: D102
         # Not asserted: that the handle survives a pickle round trip. Under
         # the default threaded scheduler its lock is an unpicklable
         # threading.Lock, and only the distributed scheduler - which supplies
@@ -310,7 +310,7 @@ class CFDatasetWriteContract:
                 reader.variables["air_temperature"][:], payload
             )
 
-    def test_sync_and_finalise_are_callable(self, writable):
+    def test_sync_and_finalise_are_callable(self, writable):  # noqa: D102
         self.populate(writable)
         assert writable.sync() is None
         assert writable.finalise() is None

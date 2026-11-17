@@ -22,7 +22,7 @@ class TestIdentify(IdentifyByAttributeMixin):
     IDENTITY_SUPPORTS_MULTIPLE_REFS = False
     MISSING_WARN_REGEX = r"Missing CF-netCDF boundary variable {subject!r}.*"
 
-    def test_whitespace_padded_ref(self):
+    def test_whitespace_padded_ref(self):  # noqa: D102
         # CF boundary references accept surrounding whitespace.
         subject_name = "ref_subject"
         ref_subject = self._make_subject(subject_name)

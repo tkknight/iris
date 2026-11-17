@@ -52,7 +52,7 @@ class Mixin__nc_load_actions:
     debug_info = False
 
     @pytest.fixture(autouse=True, scope="class")
-    def setup_mixin(self, request, tmp_path_factory):
+    def setup_mixin(self, request, tmp_path_factory):  # noqa: D102
         # Create a temp directory for temp files.
         request.cls.temp_dirpath = tmp_path_factory.mktemp("temp")
 

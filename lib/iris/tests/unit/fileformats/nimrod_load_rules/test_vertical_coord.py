@@ -50,16 +50,16 @@ class TestVerticalCoord:
             self.field.reference_vertical_coord_type = reference_vertical_coord_type
         vertical_coord(self.cube, self.field)
 
-    def test_unhandled(self):
+    def test_unhandled(self):  # noqa: D102
         message_regexp = "Vertical coord -1 not yet handled"
         with pytest.warns(TranslationWarning, match=message_regexp):
             self._call_vertical_coord(vertical_coord_val=1.0, vertical_coord_type=-1)
 
-    def test_null(self):
+    def test_null(self):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_vertical_coord(vertical_coord_type=NIMROD_DEFAULT)
             self._call_vertical_coord(vertical_coord_type=self.field.int_mdi)
 
-    def test_ground_level(self):
+    def test_ground_level(self):  # noqa: D102
         with assert_no_warnings_regexp():
             self._call_vertical_coord(vertical_coord_val=9999.0, vertical_coord_type=0)

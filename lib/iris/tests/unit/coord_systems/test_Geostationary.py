@@ -52,15 +52,15 @@ class TestGeostationary:
             self.ellipsoid,
         )
 
-    def test_crs_creation(self):
+    def test_crs_creation(self):  # noqa: D102
         res = self.geo_cs.as_cartopy_crs()
         assert res == self.expected
 
-    def test_projection_creation(self):
+    def test_projection_creation(self):  # noqa: D102
         res = self.geo_cs.as_cartopy_projection()
         assert res == self.expected
 
-    def test_non_zero_lat(self):
+    def test_non_zero_lat(self):  # noqa: D102
         with pytest.raises(ValueError, match="Non-zero latitude"):
             Geostationary(
                 0.1,
@@ -72,7 +72,7 @@ class TestGeostationary:
                 self.ellipsoid,
             )
 
-    def test_invalid_sweep(self):
+    def test_invalid_sweep(self):  # noqa: D102
         with pytest.raises(ValueError, match="Invalid sweep_angle_axis"):
             Geostationary(
                 self.latitude_of_projection_origin,
@@ -84,7 +84,7 @@ class TestGeostationary:
                 self.ellipsoid,
             )
 
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = Geostationary(0, 0, 1000, "y", false_easting=100, false_northing=-200)
         _shared_utils.assert_equal_and_kind(crs.false_easting, 100.0)
@@ -96,12 +96,12 @@ class TestGeostationary:
         _shared_utils.assert_equal_and_kind(crs.false_easting, 0.0)
         _shared_utils.assert_equal_and_kind(crs.false_northing, 0.0)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = Geostationary(0, 0, 1000, "y")
         self._check_crs_defaults(crs)
 
-    def test_optional_args_none(self):
+    def test_optional_args_none(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = Geostationary(0, 0, 1000, "y", false_easting=None, false_northing=None)
         self._check_crs_defaults(crs)

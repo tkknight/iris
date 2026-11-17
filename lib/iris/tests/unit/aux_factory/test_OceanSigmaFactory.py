@@ -26,7 +26,7 @@ class Test___init__:
         self.depth = Mock(units=Unit("m"), nbounds=0)
         self.kwargs = dict(sigma=self.sigma, eta=self.eta, depth=self.depth)
 
-    def test_insufficient_coordinates(self):
+    def test_insufficient_coordinates(self):  # noqa: D102
         msg = "Unable to construct ocean sigma coordinate factory due to insufficient source coordinates."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaFactory()
@@ -37,31 +37,31 @@ class Test___init__:
         with pytest.raises(ValueError, match=msg):
             OceanSigmaFactory(sigma=self.sigma, eta=self.eta, depth=None)
 
-    def test_sigma_too_many_bounds(self):
+    def test_sigma_too_many_bounds(self):  # noqa: D102
         self.sigma.nbounds = 4
         msg = "Invalid sigma coordinate .*: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaFactory(**self.kwargs)
 
-    def test_sigma_incompatible_units(self):
+    def test_sigma_incompatible_units(self):  # noqa: D102
         self.sigma.units = Unit("km")
         msg = "Invalid units: sigma coordinate .* must be dimensionless."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaFactory(**self.kwargs)
 
-    def test_eta_incompatible_units(self):
+    def test_eta_incompatible_units(self):  # noqa: D102
         self.eta.units = Unit("km")
         msg = "Incompatible units: eta coordinate .* and depth coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaFactory(**self.kwargs)
 
-    def test_depth_incompatible_units(self):
+    def test_depth_incompatible_units(self):  # noqa: D102
         self.depth.units = Unit("km")
         msg = "Incompatible units: eta coordinate .*and depth coordinate .*must have the same units."
         with pytest.raises(ValueError, match=msg):
             OceanSigmaFactory(**self.kwargs)
 
-    def test_promote_sigma_units_unknown_to_dimensionless(self):
+    def test_promote_sigma_units_unknown_to_dimensionless(self):  # noqa: D102
         sigma = Mock(units=Unit("unknown"), nbounds=0)
         self.kwargs["sigma"] = sigma
         factory = OceanSigmaFactory(**self.kwargs)
@@ -77,7 +77,7 @@ class Test_dependencies:
         self.depth = Mock(units=Unit("m"), nbounds=0)
         self.kwargs = dict(sigma=self.sigma, eta=self.eta, depth=self.depth)
 
-    def test_values(self):
+    def test_values(self):  # noqa: D102
         factory = OceanSigmaFactory(**self.kwargs)
         assert factory.dependencies == self.kwargs
 
@@ -85,12 +85,12 @@ class Test_dependencies:
 class Test_make_coord:
     """Test make coord."""
     @staticmethod
-    def coord_dims(coord):
+    def coord_dims(coord):  # noqa: D102
         mapping = dict(sigma=(0,), eta=(1, 2), depth=(1, 2))
         return mapping[coord.name()]
 
     @staticmethod
-    def derive(sigma, eta, depth, coord=True):
+    def derive(sigma, eta, depth, coord=True):  # noqa: D102
         result = eta + sigma * (depth + eta)
         if coord:
             name = "sea_surface_height_above_reference_ellipsoid"
@@ -117,7 +117,7 @@ class Test_make_coord:
         )
         self.kwargs = dict(sigma=self.sigma, eta=self.eta, depth=self.depth)
 
-    def test_derived_points(self):
+    def test_derived_points(self):  # noqa: D102
         # Broadcast expected points given the known dimensional mapping.
         sigma = self.sigma.points[..., np.newaxis, np.newaxis]
         eta = self.eta.points[np.newaxis, ...]
@@ -140,40 +140,40 @@ class Test_update:
         self.kwargs = dict(sigma=self.sigma, eta=self.eta, depth=self.depth)
         self.factory = OceanSigmaFactory(**self.kwargs)
 
-    def test_sigma(self):
+    def test_sigma(self):  # noqa: D102
         new_sigma = Mock(units=Unit("1"), nbounds=0)
         self.factory.update(self.sigma, new_sigma)
         assert self.factory.sigma is new_sigma
 
-    def test_sigma_too_many_bounds(self):
+    def test_sigma_too_many_bounds(self):  # noqa: D102
         new_sigma = Mock(units=Unit("1"), nbounds=4)
         msg = "Failed to update dependencies. Invalid sigma coordinate .*: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.sigma, new_sigma)
 
-    def test_sigma_incompatible_units(self):
+    def test_sigma_incompatible_units(self):  # noqa: D102
         new_sigma = Mock(units=Unit("Pa"), nbounds=0)
         msg = "Failed to update dependencies. Invalid units: sigma coordinate .* must be dimensionless."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.sigma, new_sigma)
 
-    def test_eta(self):
+    def test_eta(self):  # noqa: D102
         new_eta = Mock(units=Unit("m"), nbounds=0)
         self.factory.update(self.eta, new_eta)
         assert self.factory.eta is new_eta
 
-    def test_eta_incompatible_units(self):
+    def test_eta_incompatible_units(self):  # noqa: D102
         new_eta = Mock(units=Unit("Pa"), nbounds=0)
         msg = "Failed to update dependencies. Incompatible units: eta coordinate .* and depth coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.eta, new_eta)
 
-    def test_depth(self):
+    def test_depth(self):  # noqa: D102
         new_depth = Mock(units=Unit("m"), nbounds=0)
         self.factory.update(self.depth, new_depth)
         assert self.factory.depth is new_depth
 
-    def test_depth_incompatible_units(self):
+    def test_depth_incompatible_units(self):  # noqa: D102
         new_depth = Mock(units=Unit("Pa"), nbounds=0)
         msg = "Failed to update dependencies. Incompatible units: eta coordinate .* and depth coordinate .* must have the same units."
         with pytest.raises(ValueError, match=msg):

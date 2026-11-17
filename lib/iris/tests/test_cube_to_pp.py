@@ -33,7 +33,7 @@ def itab_callback(cube, field, filename):
 @_shared_utils.skip_data
 class TestPPSave:
     """Test PSave."""
-    def test_no_forecast_time(self, request):
+    def test_no_forecast_time(self, request):  # noqa: D102
         cube = stock.lat_lon_cube()
         coord = iris.coords.DimCoord(
             np.array([24], dtype=np.int64),
@@ -51,7 +51,7 @@ class TestPPSave:
         ) as temp_pp_path:
             iris.save(cube, temp_pp_path)
 
-    def test_no_forecast_period(self, request):
+    def test_no_forecast_period(self, request):  # noqa: D102
         cube = stock.lat_lon_cube()
         # Add a bounded scalar time coord and a forecast_reference_time.
         time_coord = iris.coords.DimCoord(
@@ -79,7 +79,7 @@ class TestPPSave:
         ) as temp_pp_path:
             iris.save(cube, temp_pp_path)
 
-    def test_pp_save_rules(self):
+    def test_pp_save_rules(self):  # noqa: D102
         # Test pp save rules without user rules.
 
         # read
@@ -92,7 +92,7 @@ class TestPPSave:
         ) as temp_pp_path:
             iris.save(cubes, temp_pp_path)
 
-    def test_pp_append_singles(self):
+    def test_pp_append_singles(self):  # noqa: D102
         # Test pp append saving - single cubes.
 
         # load 2 arrays of >2D cubes
@@ -116,7 +116,7 @@ class TestPPSave:
             iris.save(cube, temp_pp_path)  # Create file
             iris.save(cube, temp_pp_path)  # Replace file
 
-    def test_pp_append_lists(self):
+    def test_pp_append_lists(self):  # noqa: D102
         # Test PP append saving - lists of cubes.
         # For each of the first four time-steps in the 4D cube,
         # pull out the bottom two levels.
@@ -141,7 +141,7 @@ class TestPPSave:
             iris.save(cubes[:2], temp_pp_path)
             iris.save(cubes[2:], temp_pp_path)
 
-    def add_coords_to_cube_and_test(self, coord1, coord2):
+    def add_coords_to_cube_and_test(self, coord1, coord2):  # noqa: D102
         # a wrapper for creating arbitrary 2d cross-sections and run pp-saving tests
         dataarray = np.arange(16, dtype=">f4").reshape(4, 4)
         cm = iris.cube.Cube(data=dataarray)
@@ -173,7 +173,7 @@ class TestPPSave:
         ) as temp_pp_path:
             iris.save(cm, temp_pp_path, field_coords=[coord1, coord2])
 
-    def test_non_standard_cross_sections(self):
+    def test_non_standard_cross_sections(self):  # noqa: D102
         # ticket #1037, the five variants being dealt with are
         #    'pressure.latitude',
         #    'depth.latitude',
@@ -248,7 +248,7 @@ class TestPPSave:
             ),
         )
 
-    def test_365_calendar_export(self, mocker):
+    def test_365_calendar_export(self, mocker):  # noqa: D102
         # test for 365 day calendar export
         cube = stock.simple_pp()
         new_unit = cf_units.Unit(
@@ -284,7 +284,7 @@ class FakePPEnvironment:
 
 class TestPPSaveRules:
     """Test PSaveRules."""
-    def test_default_coord_system(self):
+    def test_default_coord_system(self):  # noqa: D102
         GeogCS = iris.coord_systems.GeogCS
         cube = stock.lat_lon_cube()
         reference_txt_path = _shared_utils.get_result_path(
@@ -309,13 +309,13 @@ class TestPPSaveRules:
             assert pp_cube.coord_system() is not None
             assert isinstance(pp_cube.coord_system(), iris.coord_systems.GeogCS)
 
-    def lbproc_from_pp(self, filename):
+    def lbproc_from_pp(self, filename):  # noqa: D102
         # Gets the lbproc field from the ppfile
         pp_file = iris.fileformats.pp.load(filename)
         field = next(pp_file)
         return field.lbproc
 
-    def test_pp_save_rules(self, tmp_path):
+    def test_pp_save_rules(self, tmp_path):  # noqa: D102
         # Test single process flags
         for code, process_desc in iris.fileformats.pp.LBPROC_PAIRS[1:]:
             # Get basic cube and set process flag manually
@@ -353,7 +353,7 @@ class TestPPSaveRules:
             assert self.lbproc_from_pp(temp_filename) == lbproc
 
     @_shared_utils.skip_data
-    def test_lbvc(self, tmp_path):
+    def test_lbvc(self, tmp_path):  # noqa: D102
         cube = stock.realistic_4d_no_derived()[0, :4, ...]
 
         v_coord = iris.coords.DimCoord(
@@ -374,7 +374,7 @@ class TestPPSaveRules:
             assert field.lblev == lblev
             assert field.blev == blev
 
-    def test_surface_field(self, tmp_path):
+    def test_surface_field(self, tmp_path):  # noqa: D102
         def setup_cube(coord=None):
             cube = stock.lat_lon_cube()
             if coord:

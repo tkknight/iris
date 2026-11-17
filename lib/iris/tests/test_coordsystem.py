@@ -36,16 +36,16 @@ class TestCoordSystemLookup:
     def _setup(self):
         self.cube = iris.tests.stock.lat_lon_cube()
 
-    def test_hit_name(self):
+    def test_hit_name(self):  # noqa: D102
         assert isinstance(self.cube.coord_system("GeogCS"), GeogCS)
 
-    def test_hit_type(self):
+    def test_hit_type(self):  # noqa: D102
         assert isinstance(self.cube.coord_system(GeogCS), GeogCS)
 
-    def test_miss(self):
+    def test_miss(self):  # noqa: D102
         assert self.cube.coord_system(RotatedGeogCS) is None
 
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         assert isinstance(self.cube.coord_system(GeogCS), GeogCS)
         assert self.cube.coord_system(None) is not None
         assert isinstance(self.cube.coord_system(None), GeogCS)
@@ -68,17 +68,17 @@ class TestCoordSystemSame:
         self.cs2 = iris.coord_systems.GeogCS(6371229)
         self.cs3 = iris.coord_systems.RotatedGeogCS(30, 30, ellipsoid=GeogCS(6371229))
 
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         a = self.cs1
         b = self.cs2
         assert a == b
 
-    def test_different_class(self):
+    def test_different_class(self):  # noqa: D102
         a = self.cs1
         b = self.cs3
         assert a != b
 
-    def test_different_public_attributes(self):
+    def test_different_public_attributes(self):  # noqa: D102
         a = self.cs1
         b = self.cs2
         a.foo = "a"
@@ -100,7 +100,7 @@ class TestCoordSystemSame:
 
 class Test_CoordSystem_xml_element:
     """Test CoordSystem xml element."""
-    def test_rotated(self):
+    def test_rotated(self):  # noqa: D102
         cs = RotatedGeogCS(30, 40, ellipsoid=GeogCS(6371229))
         _shared_utils.assert_XML_element(
             cs, ("coord_systems", "CoordSystem_xml_element.xml")
@@ -112,31 +112,31 @@ class Test_GeogCS_construction:
     # Test Ellipsoid constructor
     # Don't care about testing the units, it has no logic specific to this class.
 
-    def test_sphere_param(self):
+    def test_sphere_param(self):  # noqa: D102
         cs = GeogCS(6543210)
         _shared_utils.assert_XML_element(
             cs, ("coord_systems", "GeogCS_init_sphere.xml")
         )
 
-    def test_no_major(self):
+    def test_no_major(self):  # noqa: D102
         cs = GeogCS(semi_minor_axis=6500000, inverse_flattening=151.42814163388104)
         _shared_utils.assert_XML_element(
             cs, ("coord_systems", "GeogCS_init_no_major.xml")
         )
 
-    def test_no_minor(self):
+    def test_no_minor(self):  # noqa: D102
         cs = GeogCS(semi_major_axis=6543210, inverse_flattening=151.42814163388104)
         _shared_utils.assert_XML_element(
             cs, ("coord_systems", "GeogCS_init_no_minor.xml")
         )
 
-    def test_no_invf(self):
+    def test_no_invf(self):  # noqa: D102
         cs = GeogCS(semi_major_axis=6543210, semi_minor_axis=6500000)
         _shared_utils.assert_XML_element(
             cs, ("coord_systems", "GeogCS_init_no_invf.xml")
         )
 
-    def test_invalid_ellipsoid_params(self):
+    def test_invalid_ellipsoid_params(self):  # noqa: D102
         # no params
         with pytest.raises(ValueError, match="No ellipsoid specified"):
             GeogCS()
@@ -154,7 +154,7 @@ class Test_GeogCS_construction:
 
 class Test_GeogCS_repr:
     """Test GeogCS repr."""
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         cs = GeogCS(6543210, 6500000)
         expected = "GeogCS(semi_major_axis=6543210.0, semi_minor_axis=6500000.0)"
         assert expected == repr(cs)
@@ -162,7 +162,7 @@ class Test_GeogCS_repr:
 
 class Test_GeogCS_str:
     """Test GeogCS str."""
-    def test_str(self):
+    def test_str(self):  # noqa: D102
         cs = GeogCS(6543210, 6500000)
         expected = "GeogCS(semi_major_axis=6543210.0, semi_minor_axis=6500000.0)"
         assert expected == str(cs)
@@ -170,7 +170,7 @@ class Test_GeogCS_str:
 
 class Test_GeogCS_as_cartopy_globe:
     """Test GeogCS as cartopy globe."""
-    def test_as_cartopy_globe(self):
+    def test_as_cartopy_globe(self):  # noqa: D102
         cs = GeogCS(6543210, 6500000)
         # Can't check equality directly, so use the proj4 params instead.
         res = cs.as_cartopy_globe().to_proj4_params()
@@ -180,7 +180,7 @@ class Test_GeogCS_as_cartopy_globe:
 
 class Test_GeogCS_as_cartopy_projection:
     """Test GeogCS as cartopy projection."""
-    def test_as_cartopy_projection(self):
+    def test_as_cartopy_projection(self):  # noqa: D102
         geogcs_args = {
             "semi_major_axis": 6543210,
             "semi_minor_axis": 6500000,
@@ -204,7 +204,7 @@ class Test_GeogCS_as_cartopy_projection:
 
 class Test_GeogCS_as_cartopy_crs:
     """Test GeogCS as cartopy crs."""
-    def test_as_cartopy_crs(self):
+    def test_as_cartopy_crs(self):  # noqa: D102
         cs = GeogCS(6543210, 6500000)
         res = cs.as_cartopy_crs()
         globe = ccrs.Globe(
@@ -219,7 +219,7 @@ class Test_GeogCS_as_cartopy_crs:
 class Test_GeogCS_equality:
     """Test cached values don't break GeogCS equality."""
 
-    def test_as_cartopy_globe(self):
+    def test_as_cartopy_globe(self):  # noqa: D102
         cs_const = GeogCS(6543210, 6500000)
         cs_mut = GeogCS(6543210, 6500000)
         initial_globe = cs_mut.as_cartopy_globe()
@@ -228,7 +228,7 @@ class Test_GeogCS_equality:
         assert new_globe is initial_globe
         assert cs_const == cs_mut
 
-    def test_as_cartopy_projection(self):
+    def test_as_cartopy_projection(self):  # noqa: D102
         cs_const = GeogCS(6543210, 6500000)
         cs_mut = GeogCS(6543210, 6500000)
         initial_projection = cs_mut.as_cartopy_projection()
@@ -239,7 +239,7 @@ class Test_GeogCS_equality:
         assert new_globe is initial_globe
         assert cs_const == cs_mut
 
-    def test_as_cartopy_crs(self):
+    def test_as_cartopy_crs(self):  # noqa: D102
         cs_const = GeogCS(6543210, 6500000)
         cs_mut = GeogCS(6543210, 6500000)
         initial_crs = cs_mut.as_cartopy_crs()
@@ -251,7 +251,7 @@ class Test_GeogCS_equality:
         assert new_globe is initial_globe
         assert cs_const == cs_mut
 
-    def test_update_to_equivalent(self):
+    def test_update_to_equivalent(self):  # noqa: D102
         cs_const = GeogCS(6500000, 6000000)
         # Cause caching
         _ = cs_const.as_cartopy_crs()
@@ -271,7 +271,7 @@ class Test_GeogCS_equality:
 class Test_GeogCS_mutation:
     """Test that altering attributes of a GeogCS instance behaves as expected."""
 
-    def test_semi_major_axis_change(self):
+    def test_semi_major_axis_change(self):  # noqa: D102
         # Clear datum
         # Clear caches
         cs = GeogCS.from_datum("OSGB 1936")
@@ -281,7 +281,7 @@ class Test_GeogCS_mutation:
         assert cs.datum is None
         assert cs.as_cartopy_globe().semimajor_axis == 6000000
 
-    def test_semi_major_axis_no_change(self):
+    def test_semi_major_axis_no_change(self):  # noqa: D102
         # Datum untouched
         # Caches untouched
         cs = GeogCS.from_datum("OSGB 1936")
@@ -292,7 +292,7 @@ class Test_GeogCS_mutation:
         new_crs = cs.as_cartopy_crs()
         assert new_crs is initial_crs
 
-    def test_semi_minor_axis_change(self):
+    def test_semi_minor_axis_change(self):  # noqa: D102
         # Clear datum
         # Clear caches
         cs = GeogCS.from_datum("OSGB 1936")
@@ -302,7 +302,7 @@ class Test_GeogCS_mutation:
         assert cs.datum is None
         assert cs.as_cartopy_globe().semiminor_axis == 6000000
 
-    def test_semi_minor_axis_no_change(self):
+    def test_semi_minor_axis_no_change(self):  # noqa: D102
         # Datum untouched
         # Caches untouched
         cs = GeogCS.from_datum("OSGB 1936")
@@ -313,7 +313,7 @@ class Test_GeogCS_mutation:
         new_crs = cs.as_cartopy_crs()
         assert new_crs is initial_crs
 
-    def test_datum_change(self):
+    def test_datum_change(self):  # noqa: D102
         # Semi-major axis changes
         # All internal ellipoid values set to None
         # CRS changes
@@ -329,7 +329,7 @@ class Test_GeogCS_mutation:
         assert cs.__dict__["_inverse_flattening"] is None
         assert cs.semi_major_axis == 6377563.396
 
-    def test_datum_no_change(self):
+    def test_datum_no_change(self):  # noqa: D102
         # Caches untouched
         cs = GeogCS.from_datum("OSGB 1936")
         initial_crs = cs.as_cartopy_crs()
@@ -337,7 +337,7 @@ class Test_GeogCS_mutation:
         new_crs = cs.as_cartopy_crs()
         assert new_crs is initial_crs
 
-    def test_inverse_flattening_change(self):
+    def test_inverse_flattening_change(self):  # noqa: D102
         # Caches untouched
         # Axes unchanged (this behaviour is odd, but matches existing behaviour)
         # Warning about lack of effect on other aspects
@@ -356,7 +356,7 @@ class Test_GeogCS_mutation:
 
 class Test_RotatedGeogCS_construction:
     """Test RotatedGeogCS construction."""
-    def test_init(self):
+    def test_init(self):  # noqa: D102
         rcs = RotatedGeogCS(
             30, 40, north_pole_grid_longitude=50, ellipsoid=GeogCS(6371229)
         )
@@ -377,7 +377,7 @@ class Test_RotatedGeogCS_construction:
 
 class Test_RotatedGeogCS_repr:
     """Test RotatedGeogCS repr."""
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         rcs = RotatedGeogCS(
             30,
             40,
@@ -401,7 +401,7 @@ class Test_RotatedGeogCS_repr:
 
 class Test_RotatedGeogCS_str:
     """Test RotatedGeogCS str."""
-    def test_str(self):
+    def test_str(self):  # noqa: D102
         rcs = RotatedGeogCS(
             30,
             40,
@@ -425,7 +425,7 @@ class Test_RotatedGeogCS_str:
 
 class Test_TransverseMercator_construction:
     """Test TransverseMercator construction."""
-    def test_osgb(self):
+    def test_osgb(self):  # noqa: D102
         tm = osgb()
         _shared_utils.assert_XML_element(
             tm, ("coord_systems", "TransverseMercator_osgb.xml")
@@ -434,7 +434,7 @@ class Test_TransverseMercator_construction:
 
 class Test_TransverseMercator_repr:
     """Test TransverseMercator repr."""
-    def test_osgb(self):
+    def test_osgb(self):  # noqa: D102
         tm = osgb()
         expected = (
             "TransverseMercator(latitude_of_projection_origin=49.0, longitude_of_central_meridian=-2.0, "
@@ -446,7 +446,7 @@ class Test_TransverseMercator_repr:
 
 class Test_TransverseMercator_as_cartopy_crs:
     """Test TransverseMercator as cartopy crs."""
-    def test_as_cartopy_crs(self):
+    def test_as_cartopy_crs(self):  # noqa: D102
         latitude_of_projection_origin = 49.0
         longitude_of_central_meridian = -2.0
         false_easting = -40000.0
@@ -482,7 +482,7 @@ class Test_TransverseMercator_as_cartopy_crs:
 
 class Test_TransverseMercator_as_cartopy_projection:
     """Test TransverseMercator as cartopy projection."""
-    def test_as_cartopy_projection(self):
+    def test_as_cartopy_projection(self):  # noqa: D102
         latitude_of_projection_origin = 49.0
         longitude_of_central_meridian = -2.0
         false_easting = -40000.0
@@ -518,36 +518,36 @@ class Test_TransverseMercator_as_cartopy_projection:
 
 class Test_LambertConformal(_shared_utils.GraphicsTest):
     """Test LambertConformal."""
-    def test_fail_secant_latitudes_none(self):
+    def test_fail_secant_latitudes_none(self):  # noqa: D102
         emsg = "secant latitudes"
         with pytest.raises(ValueError, match=emsg):
             LambertConformal(secant_latitudes=())
 
-    def test_fail_secant_latitudes_excessive(self):
+    def test_fail_secant_latitudes_excessive(self):  # noqa: D102
         emsg = "secant latitudes"
         with pytest.raises(ValueError, match=emsg):
             LambertConformal(secant_latitudes=(1, 2, 3))
 
-    def test_secant_latitudes_single_value(self):
+    def test_secant_latitudes_single_value(self):  # noqa: D102
         lat_1 = 40
         lcc = LambertConformal(secant_latitudes=lat_1)
         ccrs = lcc.as_cartopy_crs()
         assert lat_1 == ccrs.proj4_params["lat_1"]
         assert "lat_2" not in ccrs.proj4_params
 
-    def test_secant_latitudes(self):
+    def test_secant_latitudes(self):  # noqa: D102
         lat_1, lat_2 = 40, 41
         lcc = LambertConformal(secant_latitudes=(lat_1, lat_2))
         ccrs = lcc.as_cartopy_crs()
         assert lat_1 == ccrs.proj4_params["lat_1"]
         assert lat_2 == ccrs.proj4_params["lat_2"]
 
-    def test_north_cutoff(self):
+    def test_north_cutoff(self):  # noqa: D102
         lcc = LambertConformal(0, 0, secant_latitudes=(30, 60))
         ccrs = lcc.as_cartopy_crs()
         assert ccrs.cutoff == -30
 
-    def test_south_cutoff(self):
+    def test_south_cutoff(self):  # noqa: D102
         lcc = LambertConformal(0, 0, secant_latitudes=(-30, -60))
         ccrs = lcc.as_cartopy_crs()
         assert ccrs.cutoff == 30
@@ -555,12 +555,12 @@ class Test_LambertConformal(_shared_utils.GraphicsTest):
 
 class Test_Datums:
     """Test Datums."""
-    def test_default_none(self):
+    def test_default_none(self):  # noqa: D102
         cs = GeogCS(6543210, 6500000)  # Arbitrary radii
         cartopy_crs = cs.as_cartopy_crs()
         assert cartopy_crs.datum.name == "unknown"
 
-    def test_set_persist(self):
+    def test_set_persist(self):  # noqa: D102
         cs = GeogCS.from_datum(datum="WGS84")
         cartopy_crs = cs.as_cartopy_crs()
         assert cartopy_crs.datum.name == "World Geodetic System 1984"

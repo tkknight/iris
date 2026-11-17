@@ -49,15 +49,15 @@ class TestVerticalPerspective:
             self.ellipsoid,
         )
 
-    def test_crs_creation(self):
+    def test_crs_creation(self):  # noqa: D102
         res = self.vp_cs.as_cartopy_crs()
         assert res == self.expected
 
-    def test_projection_creation(self):
+    def test_projection_creation(self):  # noqa: D102
         res = self.vp_cs.as_cartopy_projection()
         assert res == self.expected
 
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = VerticalPerspective(0, 0, 1000, false_easting=100, false_northing=-203.7)
         _shared_utils.assert_equal_and_kind(crs.false_easting, 100.0)
@@ -69,12 +69,12 @@ class TestVerticalPerspective:
         _shared_utils.assert_equal_and_kind(crs.false_easting, 0.0)
         _shared_utils.assert_equal_and_kind(crs.false_northing, 0.0)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = VerticalPerspective(0, 0, 1000)
         self._check_crs_defaults(crs)
 
-    def test_optional_args_none(self):
+    def test_optional_args_none(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = VerticalPerspective(0, 0, 1000, false_easting=None, false_northing=None)
         self._check_crs_defaults(crs)

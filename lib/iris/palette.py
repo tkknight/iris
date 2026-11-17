@@ -194,7 +194,7 @@ class SymmetricNormalize(mpl_colors.Normalize):
             self._vmax = self.pivot + diff
 
     @property
-    def vmin(self):
+    def vmin(self):  # noqa: D102
         return getattr(self, "_vmin")
 
     @vmin.setter
@@ -209,7 +209,7 @@ class SymmetricNormalize(mpl_colors.Normalize):
             self._update(val)
 
     @property
-    def vmax(self):
+    def vmax(self):  # noqa: D102
         return getattr(self, "_vmax")
 
     @vmax.setter

@@ -19,29 +19,29 @@ from iris.fileformats.netcdf._thread_safe_nc import NetCDFDataProxy
 
 class Test_as_lazy_data:
     """Test as lazy data."""
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         data = da.from_array(np.arange(24).reshape((2, 3, 4)), chunks="auto")
         result = as_lazy_data(data)
         assert isinstance(result, da.core.Array)
 
-    def test_real(self):
+    def test_real(self):  # noqa: D102
         data = np.arange(24).reshape((2, 3, 4))
         result = as_lazy_data(data)
         assert isinstance(result, da.core.Array)
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         data = np.ma.masked_greater(np.arange(24), 10)
         result = as_lazy_data(data)
         assert isinstance(result, da.core.Array)
 
-    def test_non_default_chunks(self):
+    def test_non_default_chunks(self):  # noqa: D102
         data = np.arange(24)
         chunks = (12,)
         lazy_data = as_lazy_data(data, chunks=chunks)
         (result,) = np.unique(lazy_data.chunks)
         assert result == 24
 
-    def test_dask_chunking(self, mocker):
+    def test_dask_chunking(self, mocker):  # noqa: D102
         data = np.arange(24)
         chunks = (12,)
         optimum = mocker.patch("iris._lazy_data._optimum_chunksize")
@@ -49,13 +49,13 @@ class Test_as_lazy_data:
         _ = as_lazy_data(data, chunks="auto")
         assert not optimum.called
 
-    def test_with_masked_constant(self):
+    def test_with_masked_constant(self):  # noqa: D102
         masked_data = ma.masked_array([8], mask=True)
         masked_constant = masked_data[0]
         result = as_lazy_data(masked_constant)
         assert isinstance(result, da.core.Array)
 
-    def test_missing_meta(self):
+    def test_missing_meta(self):  # noqa: D102
         class MyProxy:
             pass
 
@@ -82,7 +82,7 @@ class Test_as_lazy_data__cache_key:
             -1.0,
         )
 
-    def test_key_is_the_caller_s_string(self):
+    def test_key_is_the_caller_s_string(self):  # noqa: D102
         proxy = self._proxy()
         CACHE._cache.clear()
         as_lazy_data(proxy, meta=proxy.dask_meta, cache_key=repr(proxy))
@@ -95,13 +95,13 @@ class Test_as_lazy_data__cache_key:
             type(proxy.dask_meta),
         )
 
-    def test_no_key_means_no_caching(self):
+    def test_no_key_means_no_caching(self):  # noqa: D102
         proxy = self._proxy()
         CACHE._cache.clear()
         as_lazy_data(proxy, meta=proxy.dask_meta)
         assert len(CACHE._cache) == 0
 
-    def test_second_call_reuses_the_cached_array(self, mocker):
+    def test_second_call_reuses_the_cached_array(self, mocker):  # noqa: D102
         proxy = self._proxy()
         CACHE._cache.clear()
         from_array = mocker.patch("iris._lazy_data.da.from_array", wraps=da.from_array)
@@ -109,7 +109,7 @@ class Test_as_lazy_data__cache_key:
         as_lazy_data(proxy, meta=proxy.dask_meta, cache_key=repr(proxy))
         assert from_array.call_count == 1
 
-    def test_key_without_meta_is_refused(self):
+    def test_key_without_meta_is_refused(self):  # noqa: D102
         data = np.arange(24).reshape((2, 3, 4))
         with pytest.raises(ValueError, match="cache_key"):
             as_lazy_data(data, cache_key="anything")
@@ -140,7 +140,7 @@ class Test__optimised_chunks:
     def _dummydata(shape):
         return mock.Mock(spec=da.core.Array, dtype=np.dtype("f4"), shape=shape)
 
-    def test_chunk_size_limiting(self):
+    def test_chunk_size_limiting(self):  # noqa: D102
         # Check default chunksizes for large data (with a known size limit).
         given_shapes_and_resulting_chunks = [
             ((16, 1024, 1024), (16, 1024, 1024)),  # largest unmodified
@@ -156,7 +156,7 @@ class Test__optimised_chunks:
             msg = err_fmt.format(shape, chunks, expected)
             assert chunks == expected, msg
 
-    def test_chunk_size_expanding(self):
+    def test_chunk_size_expanding(self):  # noqa: D102
         # Check the expansion of small chunks, (with a known size limit).
         given_shapes_and_resulting_chunks = [
             ((1, 100, 100), (16, 100, 100), (16, 100, 100)),
@@ -174,7 +174,7 @@ class Test__optimised_chunks:
             msg = err_fmt.format(fullshape, shape, chunks, expected)
             assert chunks == expected, msg
 
-    def test_chunk_expanding_equal_division(self):
+    def test_chunk_expanding_equal_division(self):  # noqa: D102
         # Check that expansion chooses equal chunk sizes as far as possible.
 
         # Table of test cases:
@@ -212,13 +212,13 @@ class Test__optimised_chunks:
             msg = err_fmt_main.format(chunks, shape, limit, result, expected_result)
             assert result == expected_result, msg
 
-    def test_default_chunksize(self):
+    def test_default_chunksize(self):  # noqa: D102
         # Check that the "ideal" chunksize is taken from the dask config.
         with dask.config.set({"array.chunk-size": "20b"}):
             chunks = _optimum_chunksize((1, 8), shape=(400, 20), dtype=np.dtype("f4"))
             assert chunks == (1, 4)
 
-    def test_default_chunks_limiting(self, mocker):
+    def test_default_chunks_limiting(self, mocker):  # noqa: D102
         # Check that chunking is still controlled when no specific 'chunks'
         # is passed.
         limitcall_patch = mocker.patch("iris._lazy_data._optimum_chunksize")
@@ -234,7 +234,7 @@ class Test__optimised_chunks:
             )
         ]
 
-    def test_shapeless_data(self, mocker):
+    def test_shapeless_data(self, mocker):  # noqa: D102
         # Check that chunk optimisation is skipped if shape contains a zero.
         limitcall_patch = mocker.patch("iris._lazy_data._optimum_chunksize")
         test_shape = (2, 1, 0, 2)

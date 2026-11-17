@@ -15,7 +15,7 @@ from iris.tests.stock.mesh import sample_mesh_cube
 
 class TestCubePrintout___str__:
     """Test ubePrintout   str  ."""
-    def test_str(self):
+    def test_str(self):  # noqa: D102
         # Just check that its str representation is the 'to_string' result.
         cube = Cube(0)
         printer = CubePrinter(CubeSummary(cube))
@@ -29,20 +29,20 @@ def cube_replines(cube, **kwargs):
 
 class TestCubePrintout__to_string:
     """Test ubePrintout  to string."""
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         cube = Cube([0])
         rep = cube_replines(cube)
         expect = ["unknown / (unknown)                 (-- : 1)"]
         assert expect == rep
 
-    def test_shortform__default(self):
+    def test_shortform__default(self):  # noqa: D102
         cube = Cube([0])
         expect = ["unknown / (unknown)                 (-- : 1)"]
         # In this case, default one-line is the same.
         rep = cube_replines(cube, oneline=True)
         assert expect == rep
 
-    def test_shortform__compressed(self):
+    def test_shortform__compressed(self):  # noqa: D102
         cube = Cube([0])
         rep = cube_replines(cube, oneline=True, name_padding=0)
         expect = ["unknown / (unknown) (-- : 1)"]
@@ -59,7 +59,7 @@ class TestCubePrintout__to_string:
         )
         return cube
 
-    def test_wide_cube(self):
+    def test_wide_cube(self):  # noqa: D102
         # For comparison with the shortform and padding-controlled cases.
         cube = self._sample_wide_cube()
         rep = cube_replines(cube)
@@ -70,26 +70,26 @@ class TestCubePrintout__to_string:
         ]
         assert expect_full == rep
 
-    def test_shortform__wide__default(self):
+    def test_shortform__wide__default(self):  # noqa: D102
         cube = self._sample_wide_cube()
         rep = cube_replines(cube, oneline=True)
         # *default* one-line is shorter than full header, but not minimal.
         expect = ["unknown / (unknown)                 (-- : 2)"]
         assert rep == expect
 
-    def test_shortform__wide__compressed(self):
+    def test_shortform__wide__compressed(self):  # noqa: D102
         cube = self._sample_wide_cube()
         rep = cube_replines(cube, oneline=True, name_padding=0)
         expect = ["unknown / (unknown) (-- : 2)"]
         assert rep == expect
 
-    def test_shortform__wide__intermediate(self):
+    def test_shortform__wide__intermediate(self):  # noqa: D102
         cube = self._sample_wide_cube()
         rep = cube_replines(cube, oneline=True, name_padding=25)
         expect = ["unknown / (unknown)       (-- : 2)"]
         assert expect == rep
 
-    def test_scalar_cube_summaries(self):
+    def test_scalar_cube_summaries(self):  # noqa: D102
         cube = Cube(0)
         expect = ["unknown / (unknown)                 (scalar cube)"]
         rep = cube_replines(cube)
@@ -98,7 +98,7 @@ class TestCubePrintout__to_string:
         rep = cube_replines(cube, oneline=True)
         assert expect == rep
 
-    def test_name_padding(self):
+    def test_name_padding(self):  # noqa: D102
         cube = Cube([1, 2], long_name="cube_accel", units="ms-2")
         rep = cube_replines(cube)
         assert rep == ["cube_accel / (ms-2)                 (-- : 2)"]
@@ -107,7 +107,7 @@ class TestCubePrintout__to_string:
         rep = cube_replines(cube, name_padding=25)
         assert rep == ["cube_accel / (ms-2)       (-- : 2)"]
 
-    def test_columns_long_coordname(self):
+    def test_columns_long_coordname(self):  # noqa: D102
         cube = Cube([0], long_name="short", units=1)
         coord = AuxCoord([0], long_name="very_very_very_very_very_long_coord_name")
         cube.add_aux_coord(coord, 0)
@@ -123,7 +123,7 @@ class TestCubePrintout__to_string:
         short_expected = ["short / (1)                         (-- : 1)"]
         assert short_expected == rep
 
-    def test_columns_long_attribute(self):
+    def test_columns_long_attribute(self):  # noqa: D102
         cube = Cube([0], long_name="short", units=1)
         cube.attributes["very_very_very_very_very_long_name"] = (
             "longish string extends beyond dim columns"
@@ -139,7 +139,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_coord_distinguishing_attributes(self):
+    def test_coord_distinguishing_attributes(self):  # noqa: D102
         # Printout of differing attributes to differentiate same-named coords.
         # include : vector + scalar
         cube = Cube([0, 1], long_name="name", units=1)
@@ -166,7 +166,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_coord_extra_attributes__array(self):
+    def test_coord_extra_attributes__array(self):  # noqa: D102
         cube = Cube(0, long_name="name", units=1)
         # Add a pair of vector coords with same name but different attributes.
         array1 = np.arange(0, 3)
@@ -189,7 +189,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_coord_extra_attributes__array__long(self):
+    def test_coord_extra_attributes__array__long(self):  # noqa: D102
         # Also test with a long array representation.
         # NOTE: this also pushes the dimension map right-wards.
         array = 10 + np.arange(24.0).reshape((2, 3, 4))
@@ -221,7 +221,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_coord_extra_attributes__string(self):
+    def test_coord_extra_attributes__string(self):  # noqa: D102
         cube = Cube(0, long_name="name", units=1)
         cube.add_aux_coord(AuxCoord([1], long_name="co"))
         cube.add_aux_coord(
@@ -237,7 +237,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_coord_extra_attributes__string_escaped(self):
+    def test_coord_extra_attributes__string_escaped(self):  # noqa: D102
         cube = Cube(0, long_name="name", units=1)
         cube.add_aux_coord(AuxCoord([1], long_name="co"))
         cube.add_aux_coord(
@@ -257,7 +257,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_coord_extra_attributes__string_overlong(self):
+    def test_coord_extra_attributes__string_overlong(self):  # noqa: D102
         cube = Cube(0, long_name="name", units=1)
         cube.add_aux_coord(AuxCoord([1], long_name="co"))
         long_string = (
@@ -289,7 +289,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_vector_dimcoords(self):
+    def test_section_vector_dimcoords(self):  # noqa: D102
         cube = Cube(np.zeros((2, 3)), long_name="name", units=1)
         cube.add_dim_coord(DimCoord([0, 1], long_name="y"), 0)
         cube.add_dim_coord(DimCoord([0, 1, 2], long_name="x"), 1)
@@ -303,7 +303,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_vector_auxcoords(self):
+    def test_section_vector_auxcoords(self):  # noqa: D102
         cube = Cube(np.zeros((2, 3)), long_name="name", units=1)
         cube.add_aux_coord(DimCoord([0, 1], long_name="y"), 0)
         cube.add_aux_coord(DimCoord([0, 1, 2], long_name="x"), 1)
@@ -317,7 +317,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_vector_ancils(self):
+    def test_section_vector_ancils(self):  # noqa: D102
         cube = Cube(np.zeros((2, 3)), long_name="name", units=1)
         cube.add_ancillary_variable(AncillaryVariable([0, 1], long_name="av1"), 0)
 
@@ -329,7 +329,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_vector_ancils_length_1(self):
+    def test_section_vector_ancils_length_1(self):  # noqa: D102
         # Check ancillary variables that map to a cube dimension of length 1
         # are not interpreted as scalar ancillary variables.
         cube = Cube(np.zeros((1, 3)), long_name="name", units=1)
@@ -343,7 +343,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_vector_cell_measures(self):
+    def test_section_vector_cell_measures(self):  # noqa: D102
         cube = Cube(np.zeros((2, 3)), long_name="name", units=1)
         cube.add_cell_measure(CellMeasure([0, 1, 2], long_name="cm"), 1)
 
@@ -355,7 +355,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_vector_cell_measures_length_1(self):
+    def test_section_vector_cell_measures_length_1(self):  # noqa: D102
         # Check cell measures that map to a cube dimension of length 1 are not
         # interpreted as scalar cell measures.
         cube = Cube(np.zeros((2, 1)), long_name="name", units=1)
@@ -369,7 +369,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_scalar_coords(self):
+    def test_section_scalar_coords(self):  # noqa: D102
         # incl points + bounds
         # TODO: ought to incorporate coord-based summary
         #  - which would allow for special printout of time values
@@ -386,7 +386,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_scalar_coords__string(self):
+    def test_section_scalar_coords__string(self):  # noqa: D102
         # incl a newline-escaped one
         # incl a long (clipped) one
         # CHECK THAT CLIPPED+ESCAPED WORKS (don't lose final quote)
@@ -410,7 +410,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_scalar_cell_measures(self):
+    def test_section_scalar_cell_measures(self):  # noqa: D102
         cube = Cube(np.zeros((2, 3)), long_name="name", units=1)
         cube.add_cell_measure(CellMeasure([0], long_name="cm"))
 
@@ -422,7 +422,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_scalar_ancillaries(self):
+    def test_section_scalar_ancillaries(self):  # noqa: D102
         # There *is* no section for this.  But there probably ought to be.
         cube = Cube(np.zeros((2, 3)), long_name="name", units=1)
         cube.add_ancillary_variable(AncillaryVariable([0], long_name="av"))
@@ -435,7 +435,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_cube_attributes(self):
+    def test_section_cube_attributes(self):  # noqa: D102
         cube = Cube([0], long_name="name", units=1)
         cube.attributes["number"] = 1.2
         cube.attributes["list"] = [3]
@@ -453,7 +453,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_cube_attributes__string_extras(self):
+    def test_section_cube_attributes__string_extras(self):  # noqa: D102
         cube = Cube([0], long_name="name", units=1)
         # Overlong strings are truncated (with iris.util.clip_string).
         long_string = (
@@ -480,7 +480,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_cube_attributes__array(self):
+    def test_section_cube_attributes__array(self):  # noqa: D102
         # Including  a long one, which gets a truncated representation.
         cube = Cube([0], long_name="name", units=1)
         small_array = np.array([1.2, 3.4])
@@ -499,7 +499,7 @@ class TestCubePrintout__to_string:
         ]
         assert rep == expected
 
-    def test_section_cell_methods(self):
+    def test_section_cell_methods(self):  # noqa: D102
         cube = Cube([0], long_name="name", units=1)
         cube.add_cell_method(CellMethod("stdev", "area"))
         cube.add_cell_method(
@@ -523,7 +523,7 @@ class TestCubePrintout__to_string:
         ]
         assert expected == rep
 
-    def test_unstructured_cube(self):
+    def test_unstructured_cube(self):  # noqa: D102
         # Check a sample mesh-cube against the expected result.
         cube = sample_mesh_cube()
         rep = cube_replines(cube)

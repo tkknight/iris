@@ -11,7 +11,7 @@ from iris.analysis import AreaWeighted
 
 class Test:
     """Test ."""
-    def check_call(self, mocker, mdtol=None):
+    def check_call(self, mocker, mdtol=None):  # noqa: D102
         # Check that `iris.analysis.AreaWeighted` correctly calls an
         # `iris.analysis._area_weighted.AreaWeightedRegridder` object.
         if mdtol is None:
@@ -32,18 +32,18 @@ class Test:
         )
         assert regridder is mocker.sentinel.regridder
 
-    def test_default(self, mocker):
+    def test_default(self, mocker):  # noqa: D102
         self.check_call(mocker)
 
-    def test_specified_mdtol(self, mocker):
+    def test_specified_mdtol(self, mocker):  # noqa: D102
         self.check_call(mocker, 0.5)
 
-    def test_invalid_high_mdtol(self):
+    def test_invalid_high_mdtol(self):  # noqa: D102
         msg = "mdtol must be in range 0 - 1"
         with pytest.raises(ValueError, match=msg):
             AreaWeighted(mdtol=1.2)
 
-    def test_invalid_low_mdtol(self):
+    def test_invalid_low_mdtol(self):  # noqa: D102
         msg = "mdtol must be in range 0 - 1"
         with pytest.raises(ValueError, match=msg):
             AreaWeighted(mdtol=-0.2)

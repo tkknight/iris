@@ -73,13 +73,13 @@ class TestRotateGridVectors:
             _shared_utils.assert_array_equal(out_u.mask, nan_angles_mask)
             _shared_utils.assert_array_equal(out_v.mask, nan_angles_mask)
 
-    def test_angles_calculation(self):
+    def test_angles_calculation(self):  # noqa: D102
         self._check_angles_calculation()
 
-    def test_angles_in_radians(self):
+    def test_angles_in_radians(self):  # noqa: D102
         self._check_angles_calculation(angles_in_degrees=False)
 
-    def test_angles_from_grid(self, mocker):
+    def test_angles_from_grid(self, mocker):  # noqa: D102
         # Check it will gets angles from 'u_cube', and pass any kwargs on to
         # the angles routine.
         u_cube = sample_2d_latlons(regional=True, transformed=True)
@@ -114,7 +114,7 @@ class TestRotateGridVectors:
         _shared_utils.assert_array_all_close(out_u, expect_u)
         _shared_utils.assert_array_all_close(out_v, expect_v)
 
-    def test_nan_vectors(self):
+    def test_nan_vectors(self):  # noqa: D102
         bad_angle_points = np.zeros((5, 6), dtype=bool)
         bad_angle_points[2, 3] = True
         self._check_angles_calculation(nan_angles_mask=bad_angle_points)

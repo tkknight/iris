@@ -26,18 +26,18 @@ class Test_basics:
         self.lazy_cube = Cube(as_lazy_data(data))
         self.lazy_cube.add_dim_coord(coord, 0)
 
-    def test_name(self):
+    def test_name(self):  # noqa: D102
         assert MAX.name() == "maximum"
 
-    def test_collapse(self):
+    def test_collapse(self):  # noqa: D102
         data = MAX.aggregate(self.cube.data, axis=0)
         _shared_utils.assert_array_equal(data, [5])
 
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         lazy_data = MAX.lazy_aggregate(self.lazy_cube.lazy_data(), axis=0)
         assert is_lazy_data(lazy_data)
 
-    def test_lazy_collapse(self):
+    def test_lazy_collapse(self):  # noqa: D102
         lazy_data = MAX.lazy_aggregate(self.lazy_cube.lazy_data(), axis=0)
         _shared_utils.assert_array_equal(lazy_data.compute(), [5])
 
@@ -49,7 +49,7 @@ class Test_masked:
         self.cube = Cube(ma.masked_greater([1, 2, 3, 4, 5], 3))
         self.cube.add_dim_coord(DimCoord([6, 7, 8, 9, 10], long_name="foo"), 0)
 
-    def test_ma(self):
+    def test_ma(self):  # noqa: D102
         data = MAX.aggregate(self.cube.data, axis=0)
         _shared_utils.assert_array_equal(data, [3])
 
@@ -62,7 +62,7 @@ class Test_lazy_masked:
         self.cube = Cube(as_lazy_data(masked_data))
         self.cube.add_dim_coord(DimCoord([6, 7, 8, 9, 10], long_name="foo"), 0)
 
-    def test_lazy_ma(self):
+    def test_lazy_ma(self):  # noqa: D102
         lazy_data = MAX.lazy_aggregate(self.cube.lazy_data(), axis=0)
         assert is_lazy_data(lazy_data)
         _shared_utils.assert_array_equal(lazy_data.compute(), [3])
@@ -70,7 +70,7 @@ class Test_lazy_masked:
 
 class Test_aggregate_shape:
     """Test aggregate shape."""
-    def test(self):
+    def test(self):  # noqa: D102
         shape = ()
         kwargs = dict()
         assert MAX.aggregate_shape(**kwargs) == shape

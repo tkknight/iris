@@ -17,7 +17,7 @@ from iris.util import unify_time_units
 
 class Test:
     """Test ."""
-    def simple_1d_time_cubes(self, calendar="standard"):
+    def simple_1d_time_cubes(self, calendar="standard"):  # noqa: D102
         coord_points = [1, 2, 3, 4, 5]
         data_points = [273, 275, 278, 277, 274]
         reftimes = [
@@ -51,7 +51,7 @@ class Test:
             else:
                 assert expected == epoch
 
-    def test_cubelist_with_time_coords(self):
+    def test_cubelist_with_time_coords(self):  # noqa: D102
         # Tests an :class:`iris.cube.CubeList` containing cubes with time
         # coords against a time string and a time coord.
         cubelist = iris.cube.CubeList(self.simple_1d_time_cubes())
@@ -59,7 +59,7 @@ class Test:
         unify_time_units(cubelist)
         self._common(expected, cubelist)
 
-    def test_list_of_cubes_with_time_coords(self):
+    def test_list_of_cubes_with_time_coords(self):  # noqa: D102
         # Tests an iterable containing cubes with time coords against a time
         # string and a time coord.
         list_of_cubes = self.simple_1d_time_cubes()
@@ -68,7 +68,7 @@ class Test:
         self._common(expected, list_of_cubes)
 
     @_shared_utils.skip_data
-    def test_no_time_coord_in_cubes(self):
+    def test_no_time_coord_in_cubes(self):  # noqa: D102
         path0 = _shared_utils.get_data_path(("PP", "aPPglob1", "global.pp"))
         path1 = _shared_utils.get_data_path(("PP", "aPPglob1", "global_t_forecast.pp"))
         cube0 = iris.load_cube(path0)
@@ -78,7 +78,7 @@ class Test:
         unify_time_units(result)
         assert cubes == result
 
-    def test_time_coord_only_in_some_cubes(self):
+    def test_time_coord_only_in_some_cubes(self):  # noqa: D102
         list_of_cubes = self.simple_1d_time_cubes()
         cube = stock.simple_2d()
         list_of_cubes.append(cube)
@@ -86,7 +86,7 @@ class Test:
         unify_time_units(list_of_cubes)
         self._common(expected, list_of_cubes)
 
-    def test_multiple_time_coords_in_cube(self):
+    def test_multiple_time_coords_in_cube(self):  # noqa: D102
         cube0, cube1 = self.simple_1d_time_cubes()
         units = cf_units.Unit("days since 1980-05-02 00:00:00", calendar="standard")
         aux_coord = iris.coords.AuxCoord(
@@ -99,7 +99,7 @@ class Test:
         self._common(expected, cubelist)
         self._common(expected, cubelist, coord_name="forecast_reference_time")
 
-    def test_multiple_calendars(self):
+    def test_multiple_calendars(self):  # noqa: D102
         cube0, cube1 = self.simple_1d_time_cubes()
         cube2, cube3 = self.simple_1d_time_cubes(calendar="360_day")
         cubelist = iris.cube.CubeList([cube0, cube1, cube2, cube3])
@@ -107,7 +107,7 @@ class Test:
         unify_time_units(cubelist)
         self._common(expected, cubelist)
 
-    def test_units_dtype_ints(self):
+    def test_units_dtype_ints(self):  # noqa: D102
         cube0, cube1 = self.simple_1d_time_cubes()
         cube0.coord("time").points = np.array([1, 2, 3, 4, 5], dtype=int)
         cube1.coord("time").points = np.array([1, 2, 3, 4, 5], dtype=int)
@@ -115,7 +115,7 @@ class Test:
         unify_time_units(cubelist)
         assert len(cubelist.concatenate()) == 1
 
-    def test_units_bounded_dtype_ints(self):
+    def test_units_bounded_dtype_ints(self):  # noqa: D102
         cube0, cube1 = self.simple_1d_time_cubes()
         cube0.coord("time").bounds = np.array(
             [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]], dtype=int
@@ -127,7 +127,7 @@ class Test:
         unify_time_units(cubelist)
         assert len(cubelist.concatenate()) == 1
 
-    def test_units_dtype_int_float(self):
+    def test_units_dtype_int_float(self):  # noqa: D102
         cube0, cube1 = self.simple_1d_time_cubes()
         cube0.coord("time").points = np.array([1, 2, 3, 4, 5], dtype=int)
         cube1.coord("time").points = np.array([1, 2, 3, 4, 5], dtype=np.float64)

@@ -22,7 +22,7 @@ class TestIdentify(IdentifyByAttributeListMixin):
     ]
     MISSING_WARN_REGEX = r"Missing CF-netCDF auxiliary coordinate variable {subject}.*"
 
-    def test_two_part_ref(self):
+    def test_two_part_ref(self):  # noqa: D102
         # UGRID auxiliary coordinate attributes can contain multiple refs.
         subject_names = ("ref_subject_1", "ref_subject_2")
         ref_subject_vars = {name: _NetCDFVar(name) for name in subject_names}

@@ -54,7 +54,7 @@ class Test:
     def _interpolate_point(p_t, p_0, p_1, d_0, d_1):
         return d_0 + (d_1 - d_0) * ((p_t - p_0) / (p_1 - p_0))
 
-    def test_compute_interp_weights(self):
+    def test_compute_interp_weights(self):  # noqa: D102
         weights = self.weights
         assert isinstance(weights, tuple)
         assert len(weights) == 5
@@ -62,14 +62,14 @@ class Test:
         assert weights[1] == "linear"
         assert isinstance(weights[2], csr_matrix)
 
-    def test__evaluate_linear_sparse(self):
+    def test__evaluate_linear_sparse(self):  # noqa: D102
         interpolator = self.interpolator
         weights = self.weights
         output_data = interpolator._evaluate_linear_sparse(weights[2])
         test_data = self.cube.data.reshape(-1) + self.test_increment
         _shared_utils.assert_array_almost_equal(output_data, test_data)
 
-    def test_interp_using_pre_computed_weights(self):
+    def test_interp_using_pre_computed_weights(self):  # noqa: D102
         interpolator = self.interpolator
         weights = self.weights
         output_data = interpolator.interp_using_pre_computed_weights(weights)

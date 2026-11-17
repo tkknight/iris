@@ -19,7 +19,7 @@ class TestNetCDFDatasetContract(CFDatasetReadContract, CFDatasetWriteContract):
     chunking_key = "chunksizes"
 
     @pytest.fixture
-    def readable(self, tmp_path):
+    def readable(self, tmp_path):  # noqa: D102
         path = tmp_path / "contract.nc"
         with _dataset.NetCDFDataset(path, mode="w", netcdf_format="NETCDF4") as dataset:
             self.populate(dataset)
@@ -27,7 +27,7 @@ class TestNetCDFDatasetContract(CFDatasetReadContract, CFDatasetWriteContract):
             yield dataset
 
     @pytest.fixture
-    def writable(self, tmp_path):
+    def writable(self, tmp_path):  # noqa: D102
         dataset = _dataset.NetCDFDataset(
             tmp_path / "written.nc", mode="w", netcdf_format="NETCDF4"
         )
@@ -35,7 +35,7 @@ class TestNetCDFDatasetContract(CFDatasetReadContract, CFDatasetWriteContract):
         dataset.close()
 
     @pytest.fixture
-    def reopen(self, tmp_path):
+    def reopen(self, tmp_path):  # noqa: D102
         def _reopen():
             return _dataset.NetCDFDataset(tmp_path / "written.nc")
 

@@ -25,7 +25,7 @@ class TestSaveFields:
         self.pp_field.data = np.zeros((1, 1))
         self.pp_field.save = asave
 
-    def test_save(self, mocker):
+    def test_save(self, mocker):  # noqa: D102
         open_func = "builtins.open"
         m = mocker.mock_open()
         mocker.patch(open_func, m, create=True)
@@ -33,7 +33,7 @@ class TestSaveFields:
         assert mocker.call("foo.pp", "wb") in m.mock_calls
         assert mocker.call().write("saved") in m.mock_calls
 
-    def test_save_append(self, mocker):
+    def test_save_append(self, mocker):  # noqa: D102
         open_func = "builtins.open"
         m = mocker.mock_open()
         mocker.patch(open_func, m, create=True)

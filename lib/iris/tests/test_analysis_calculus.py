@@ -19,7 +19,7 @@ import iris.tests.stock
 class TestCubeDelta:
     """Test ubeDelta."""
     @_shared_utils.skip_data
-    def test_invalid(self):
+    def test_invalid(self):  # noqa: D102
         cube = iris.tests.stock.realistic_4d()
         with pytest.raises(iris.exceptions.CoordinateMultiDimError):
             _ = iris.analysis.calculus.cube_delta(cube, "surface_altitude")
@@ -29,7 +29,7 @@ class TestCubeDelta:
         with pytest.raises(ValueError, match=msg):
             _ = iris.analysis.calculus.cube_delta(cube, "forecast_period")
 
-    def test_delta_coord_lookup(self):
+    def test_delta_coord_lookup(self):  # noqa: D102
         cube = iris.cube.Cube(np.arange(10), standard_name="air_temperature")
         # Add a coordinate with a lot of metadata.
         coord = iris.coords.DimCoord(
@@ -47,7 +47,7 @@ class TestCubeDelta:
         assert coord == cube.coord(delta_coord)
 
     @pytest.mark.parametrize("is_lazy", [True, False], ids=["is_lazy", "not_lazy"])
-    def test_delta_lazypreserving(self, is_lazy):
+    def test_delta_lazypreserving(self, is_lazy):  # noqa: D102
         cube = iris.cube.Cube(np.arange(10), standard_name="air_temperature")
         # Add a coordinate with a lot of metadata.
         coord = iris.coords.DimCoord(
@@ -72,7 +72,7 @@ class TestDeltaAndMidpoint:
             ("analysis", "delta_and_midpoint", "simple%s.cml" % suffix)
         )
 
-    def test_simple1_delta_midpoint(self):
+    def test_simple1_delta_midpoint(self):  # noqa: D102
         a = iris.coords.DimCoord(
             (np.arange(4, dtype=np.float32) * 90) - 180,
             long_name="foo",
@@ -87,7 +87,7 @@ class TestDeltaAndMidpoint:
         midpoint = iris.analysis.calculus._construct_midpoint_coord(a)
         _shared_utils.assert_XML_element(midpoint, self._simple_filename("1_midpoint"))
 
-    def test_simple2_delta_midpoint(self):
+    def test_simple2_delta_midpoint(self):  # noqa: D102
         a = iris.coords.DimCoord(
             (np.arange(4, dtype=np.float32) * -90) + 180,
             long_name="foo",
@@ -102,7 +102,7 @@ class TestDeltaAndMidpoint:
         midpoint = iris.analysis.calculus._construct_midpoint_coord(a)
         _shared_utils.assert_XML_element(midpoint, self._simple_filename("2_midpoint"))
 
-    def test_simple3_delta_midpoint(self):
+    def test_simple3_delta_midpoint(self):  # noqa: D102
         a = iris.coords.DimCoord(
             (np.arange(4, dtype=np.float32) * 90) - 180,
             long_name="foo",
@@ -118,7 +118,7 @@ class TestDeltaAndMidpoint:
         midpoint = iris.analysis.calculus._construct_midpoint_coord(a)
         _shared_utils.assert_XML_element(midpoint, self._simple_filename("3_midpoint"))
 
-    def test_simple4_delta_midpoint(self):
+    def test_simple4_delta_midpoint(self):  # noqa: D102
         a = iris.coords.AuxCoord(
             np.arange(4, dtype=np.float32) * 90 - 180,
             long_name="foo",
@@ -134,7 +134,7 @@ class TestDeltaAndMidpoint:
         midpoint = iris.analysis.calculus._construct_midpoint_coord(b)
         _shared_utils.assert_XML_element(midpoint, self._simple_filename("4_midpoint"))
 
-    def test_simple5_not_degrees_delta_midpoint(self):
+    def test_simple5_not_degrees_delta_midpoint(self):  # noqa: D102
         # Not sure it makes sense to have a circular coordinate which does not have a modulus but test it anyway.
         a = iris.coords.DimCoord(
             np.arange(4, dtype=np.float32) * 90 - 180,
@@ -150,7 +150,7 @@ class TestDeltaAndMidpoint:
         midpoints = iris.analysis.calculus._construct_midpoint_coord(a)
         _shared_utils.assert_XML_element(midpoints, self._simple_filename("5_midpoint"))
 
-    def test_simple6_delta_midpoint(self):
+    def test_simple6_delta_midpoint(self):  # noqa: D102
         a = iris.coords.DimCoord(
             np.arange(5, dtype=np.float32),
             long_name="foo",
@@ -160,7 +160,7 @@ class TestDeltaAndMidpoint:
         midpoints = iris.analysis.calculus._construct_midpoint_coord(a)
         _shared_utils.assert_XML_element(midpoints, self._simple_filename("6"))
 
-    def test_singular_delta(self):
+    def test_singular_delta(self):  # noqa: D102
         # Test single valued coordinate mid-points when circular
         lon = iris.coords.DimCoord(
             np.float32(-180.0), "latitude", units="degrees", circular=True
@@ -182,7 +182,7 @@ class TestDeltaAndMidpoint:
         with pytest.raises(ValueError, match=msg):
             iris.analysis.calculus._construct_delta_coord(lon)
 
-    def test_singular_midpoint(self):
+    def test_singular_midpoint(self):  # noqa: D102
         # Test single valued coordinate mid-points when circular
         lon = iris.coords.DimCoord(
             np.float32(-180.0), "latitude", units="degrees", circular=True
@@ -221,7 +221,7 @@ class TestCoordTrig:
             bounds=np.deg2rad(bounds),
         )
 
-    def test_sin(self):
+    def test_sin(self):  # noqa: D102
         sin_of_coord = iris.analysis.calculus._coord_sin(self.lat)
         sin_of_coord_radians = iris.analysis.calculus._coord_sin(self.rlat)
 
@@ -244,7 +244,7 @@ class TestCoordTrig:
         assert sin_of_coord.name() == "sin(latitude)"
         assert sin_of_coord.units == "1"
 
-    def test_cos(self):
+    def test_cos(self):  # noqa: D102
         cos_of_coord = iris.analysis.calculus._coord_cos(self.lat)
         cos_of_coord_radians = iris.analysis.calculus._coord_cos(self.rlat)
 
@@ -309,7 +309,7 @@ class TestCalculusSimple3:
 
         self.cube = cube
 
-    def test_diff_wrt_lon(self):
+    def test_diff_wrt_lon(self):  # noqa: D102
         t = iris.analysis.calculus.differentiate(self.cube, "longitude")
 
         _shared_utils.assert_CML(
@@ -319,7 +319,7 @@ class TestCalculusSimple3:
             approx_data=True,
         )
 
-    def test_diff_wrt_lat(self):
+    def test_diff_wrt_lat(self):  # noqa: D102
         t = iris.analysis.calculus.differentiate(self.cube, "latitude")
         _shared_utils.assert_CML(
             self.request,
@@ -329,7 +329,7 @@ class TestCalculusSimple3:
         )
 
     @pytest.mark.parametrize("is_lazy", [True, False], ids=["is_lazy", "not_lazy"])
-    def test_diff_lazypreserving(self, is_lazy):
+    def test_diff_lazypreserving(self, is_lazy):  # noqa: D102
         if is_lazy:
             self.cube.data = self.cube.lazy_data()
         t = iris.analysis.calculus.differentiate(self.cube, "longitude")
@@ -389,7 +389,7 @@ class TestCalculusSimple2:
 
         self.cube = cube
 
-    def test_diff_wrt_x(self):
+    def test_diff_wrt_x(self):  # noqa: D102
         t = iris.analysis.calculus.differentiate(self.cube, "x")
         _shared_utils.assert_CML(
             self.request,
@@ -398,7 +398,7 @@ class TestCalculusSimple2:
             approx_data=True,
         )
 
-    def test_diff_wrt_y(self):
+    def test_diff_wrt_y(self):  # noqa: D102
         t = iris.analysis.calculus.differentiate(self.cube, "y")
         _shared_utils.assert_CML(
             self.request,
@@ -407,7 +407,7 @@ class TestCalculusSimple2:
             approx_data=True,
         )
 
-    def test_diff_wrt_lon(self):
+    def test_diff_wrt_lon(self):  # noqa: D102
         t = iris.analysis.calculus.differentiate(self.cube, "longitude")
         _shared_utils.assert_CML(
             self.request,
@@ -416,7 +416,7 @@ class TestCalculusSimple2:
             approx_data=True,
         )
 
-    def test_diff_wrt_lat(self):
+    def test_diff_wrt_lat(self):  # noqa: D102
         t = iris.analysis.calculus.differentiate(self.cube, "latitude")
         _shared_utils.assert_CML(
             self.request,
@@ -425,7 +425,7 @@ class TestCalculusSimple2:
             approx_data=True,
         )
 
-    def test_delta_wrt_x(self):
+    def test_delta_wrt_x(self):  # noqa: D102
         t = iris.analysis.calculus.cube_delta(self.cube, "x")
         _shared_utils.assert_CML(
             self.request,
@@ -434,7 +434,7 @@ class TestCalculusSimple2:
             approx_data=True,
         )
 
-    def test_delta_wrt_y(self):
+    def test_delta_wrt_y(self):  # noqa: D102
         t = iris.analysis.calculus.cube_delta(self.cube, "y")
         _shared_utils.assert_CML(
             self.request,
@@ -443,7 +443,7 @@ class TestCalculusSimple2:
             approx_data=True,
         )
 
-    def test_delta_wrt_lon(self):
+    def test_delta_wrt_lon(self):  # noqa: D102
         t = iris.analysis.calculus.cube_delta(self.cube, "longitude")
         _shared_utils.assert_CML(
             self.request,
@@ -452,7 +452,7 @@ class TestCalculusSimple2:
             approx_data=True,
         )
 
-    def test_delta_wrt_lat(self):
+    def test_delta_wrt_lat(self):  # noqa: D102
         t = iris.analysis.calculus.cube_delta(self.cube, "latitude")
         _shared_utils.assert_CML(
             self.request,
@@ -490,7 +490,7 @@ class TestCalculusSimple1:
 
         self.cube = cube
 
-    def test_diff_wrt_x(self):
+    def test_diff_wrt_x(self):  # noqa: D102
         t = iris.analysis.calculus.differentiate(self.cube, "x")
         _shared_utils.assert_CML(
             self.request,
@@ -499,7 +499,7 @@ class TestCalculusSimple1:
             approx_data=True,
         )
 
-    def test_delta_wrt_x(self):
+    def test_delta_wrt_x(self):  # noqa: D102
         t = iris.analysis.calculus.cube_delta(self.cube, "x")
         _shared_utils.assert_CML(
             self.request,
@@ -625,7 +625,7 @@ class TestCalculusWKnownSolutions:
 
         return (x_pts, x_ones, y_pts, y_ones, z_pts, z_ones)
 
-    def test_contrived_differential1(self):
+    def test_contrived_differential1(self):  # noqa: D102
         # testing :
         # F = ( cos(lat) cos(lon) )
         # dF/dLon = - sin(lon) cos(lat)     (and to simplify /cos(lat) )
@@ -663,7 +663,7 @@ class TestCalculusWKnownSolutions:
 
         _shared_utils.assert_array_almost_equal(result.data, df_dlon.data, decimal=3)
 
-    def test_contrived_differential2(self):
+    def test_contrived_differential2(self):  # noqa: D102
         # testing :
         # w = y^2
         # dw_dy = 2*y
@@ -680,7 +680,7 @@ class TestCalculusWKnownSolutions:
 
         _shared_utils.assert_array_almost_equal(result.data, r.data, decimal=6)
 
-    def test_contrived_non_spherical_curl1(self):
+    def test_contrived_non_spherical_curl1(self):  # noqa: D102
         # testing :
         # F(x, y, z) = (y, 0, 0)
         # curl( F(x, y, z) ) = (0, 0, -1)
@@ -708,7 +708,7 @@ class TestCalculusWKnownSolutions:
         )
         assert np.all(np.abs(cube.data - (-1.0)) < 1.0e-7)
 
-    def test_contrived_non_spherical_curl2(self):
+    def test_contrived_non_spherical_curl2(self):  # noqa: D102
         # testing :
         # F(x, y, z) = (z^3, x+2, y^2)
         # curl( F(x, y, z) ) = (2y, 3z^2, 1)
@@ -751,7 +751,7 @@ class TestCalculusWKnownSolutions:
             checksum=False,
         )
 
-    def test_contrived_spherical_curl1(self):
+    def test_contrived_spherical_curl1(self):  # noqa: D102
         # testing:
         # F(lon, lat, r) = (- r sin(lon), -r cos(lon) sin(lat), 0)
         # curl( F(x, y, z) ) = (0, 0, 0)
@@ -786,7 +786,7 @@ class TestCalculusWKnownSolutions:
             checksum=False,
         )
 
-    def test_contrived_spherical_curl2(self):
+    def test_contrived_spherical_curl2(self):  # noqa: D102
         # testing:
         # F(lon, lat, r) = (r sin(lat) cos(lon), -r sin(lon), 0)
         # curl( F(x, y, z) ) = (0, 0, -2 cos(lon) cos(lat) )
@@ -841,7 +841,7 @@ class TestCalculusWKnownSolutions:
 
 class TestCurlInterface:
     """Test urlInterface."""
-    def test_non_conformed(self):
+    def test_non_conformed(self):  # noqa: D102
         u = build_cube(np.empty((50, 20)), spherical=True)
 
         v = u.copy()
@@ -849,7 +849,7 @@ class TestCurlInterface:
         y.points = y.points + 5
         pytest.raises(ValueError, iris.analysis.calculus.curl, u, v)
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         nx = 20
         ny = 50
         u = build_cube(np.empty((ny, nx)), spherical=True)
@@ -932,7 +932,7 @@ class TestCurlInterface:
             v,
         )
 
-    def test_rotated_pole(self):
+    def test_rotated_pole(self):  # noqa: D102
         u = build_cube(np.empty((30, 20)), spherical="rotated")
         v = u.copy()
         u.rename("u_wind")

@@ -21,7 +21,7 @@ from iris.fileformats.pp import STASH
 class SaveTestCommon:
     """SaveTestCommon."""
     @pytest.fixture(autouse=True)
-    def tmp_filepath(self, tmp_path_factory):
+    def tmp_filepath(self, tmp_path_factory):  # noqa: D102
         tmp_dir = tmp_path_factory.mktemp("tmp_nc")
         # We can reuse the same path all over, as it is recreated for each test.
         self.tmp_ncpath = tmp_dir / "tmp.nc"
@@ -48,33 +48,33 @@ class TestStash(SaveTestCommon):
             value=value,
         )
 
-    def test_simple_object(self):
+    def test_simple_object(self):  # noqa: D102
         stash = STASH(1, 2, 324)
         result = self._check_save(stash)
         assert result == "m01s02i324"
 
-    def test_simple_string(self):
+    def test_simple_string(self):  # noqa: D102
         stash_str = "m1s2i324"
         result = self._check_save(stash_str)
         assert result == "m01s02i324"
 
-    def test_bad_string__fail(self):
+    def test_bad_string__fail(self):  # noqa: D102
         bad_str = "xxx"
         with pytest.warns(UserWarning, match="Invalid value in managed.* attribute"):
             result = self._check_save(bad_str, succeed=False)
         assert result == "xxx"
 
-    def test_empty_string__fail(self):
+    def test_empty_string__fail(self):  # noqa: D102
         with pytest.warns(UserWarning, match="Invalid value in managed.* attribute"):
             result = self._check_save("", succeed=False)
         assert result == ""
 
-    def test_bad_object__fail(self):
+    def test_bad_object__fail(self):  # noqa: D102
         with pytest.warns(UserWarning, match="Invalid value in managed.* attribute"):
             result = self._check_save({}, succeed=False)
         assert result == "{}"
 
-    def test_none_object__fail(self):
+    def test_none_object__fail(self):  # noqa: D102
         with pytest.warns(UserWarning, match="Invalid value in managed.* attribute"):
             result = self._check_save(None, succeed=False)
         assert result == "None"
@@ -87,43 +87,43 @@ class TestUkmoProcessFlags(SaveTestCommon):
             "ukmo__process_flags", "ukmo__process_flags", value
         )
 
-    def test_simple_object(self):
+    def test_simple_object(self):  # noqa: D102
         flags = ("one", "two")
         result = self._check_save(flags)
         assert result == "one two"
 
-    def test_simple_string(self):
+    def test_simple_string(self):  # noqa: D102
         string = "one two three"
         result = self._check_save(string)
         assert result == string
 
-    def test_empty_tuple(self):
+    def test_empty_tuple(self):  # noqa: D102
         obj = ()
         result = self._check_save(obj)
         assert result == ""
 
-    def test_string_w_spaces(self):
+    def test_string_w_spaces(self):  # noqa: D102
         obj = ("one", "two three")
         result = self._check_save(obj)
         assert result == "one two_three"
 
-    def test_string_w_underscores(self):
+    def test_string_w_underscores(self):  # noqa: D102
         obj = ("one", "two_three")
         result = self._check_save(obj)
         assert result == "one two_three"
 
-    def test_tuple_w_empty_string(self):
+    def test_tuple_w_empty_string(self):  # noqa: D102
         obj = ("one", "", "two")
         result = self._check_save(obj)
         assert result == "one <EMPTY> two"
 
-    def test_bad_object(self):
+    def test_bad_object(self):  # noqa: D102
         obj = {}
         with pytest.warns(UserWarning, match="Invalid value in managed.* attribute"):
             result = self._check_save(obj)
         assert result == "{}"
 
-    def test_none_object(self):
+    def test_none_object(self):  # noqa: D102
         obj = None
         with pytest.warns(UserWarning, match="Invalid value in managed.* attribute"):
             result = self._check_save(obj)
@@ -136,14 +136,14 @@ class TestGribParam(SaveTestCommon):
     def _check_save(self, value):
         return self._check_save_inner("GRIB_PARAM", "GRIB_PARAM", value)
 
-    def test_simple_object(self):
+    def test_simple_object(self):  # noqa: D102
         code = GRIBCode(1, 2, 3, 4)
         result = self._check_save(code)
         assert (
             result == "GRIBCode(edition=1, table_version=2, centre_number=3, number=4)"
         )
 
-    def test_simple_string(self):
+    def test_simple_string(self):  # noqa: D102
         code_string = "1, 2, 3,,,  4"  # the converter is highly tolerant
         result = self._check_save(code_string)
         assert (
@@ -154,25 +154,25 @@ class TestGribParam(SaveTestCommon):
         r"Invalid value in managed.* attribute.* set to raw \(string\) value"
     )
 
-    def test_bad_string_toofew__fail(self):
+    def test_bad_string_toofew__fail(self):  # noqa: D102
         code_string = "1, 2,  3"
         with pytest.warns(UserWarning, match=self._encode_fail_msg):
             result = self._check_save(code_string)
         assert result == "1, 2,  3"
 
-    def test_bad_string_junk__fail(self):
+    def test_bad_string_junk__fail(self):  # noqa: D102
         code_string = "xxx"
         with pytest.warns(UserWarning, match=self._encode_fail_msg):
             result = self._check_save(code_string)
         assert result == "xxx"
 
-    def test_bad_object__fail(self):
+    def test_bad_object__fail(self):  # noqa: D102
         obj = {}
         with pytest.warns(UserWarning, match=self._encode_fail_msg):
             result = self._check_save(obj)
         assert result == "{}"
 
-    def test_none_object__fail(self):
+    def test_none_object__fail(self):  # noqa: D102
         obj = None
         with pytest.warns(UserWarning, match=self._encode_fail_msg):
             result = self._check_save(obj)

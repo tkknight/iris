@@ -27,7 +27,7 @@ class TestAnalysisCubeCoordComparison:
     def _setup(self, request):
         self.request = request
 
-    def assert_comparison_dict(self, comparison_dict, reference_filename):
+    def assert_comparison_dict(self, comparison_dict, reference_filename):  # noqa: D102
         string = ""
         for key in sorted(comparison_dict):
             coord_groups = comparison_dict[key]
@@ -40,7 +40,7 @@ class TestAnalysisCubeCoordComparison:
             string += "\n"
         _shared_utils.assert_string(self.request, string, reference_filename)
 
-    def test_coord_comparison(self):
+    def test_coord_comparison(self):  # noqa: D102
         cube1 = iris.cube.Cube(np.zeros((41, 41)))
         lonlat_cs = iris.coord_systems.GeogCS(6371229)
         lon_points1 = -180 + 4.5 * np.arange(41, dtype=np.float32)
@@ -177,7 +177,7 @@ class TestAnalysisWeights:
     def _setup(self, request):
         self.request = request
 
-    def test_weighted_mean_little(self):
+    def test_weighted_mean_little(self):  # noqa: D102
         data = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]], dtype=np.float32)
         weights = np.array([[9, 8, 7], [6, 5, 4], [3, 2, 1]], dtype=np.float32)
 
@@ -256,7 +256,7 @@ class TestAnalysisWeights:
         )
 
     @_shared_utils.skip_data
-    def test_weighted_mean(self):
+    def test_weighted_mean(self):  # noqa: D102
         # compare with pp_area_avg - which collapses both lat and lon
         #
         #     pp = ppa('/data/local/dataZoo/PP/simple_pp/global.pp', 0)
@@ -366,42 +366,42 @@ class TestAnalysisBasic:
         # Check there was no residual change
         _shared_utils.assert_CML(self.request, self.cube, ("analysis", original_name))
 
-    def test_mean(self):
+    def test_mean(self):  # noqa: D102
         self._common("mean", iris.analysis.MEAN, rtol=1e-05)
 
-    def test_std_dev(self):
+    def test_std_dev(self):  # noqa: D102
         # as the numbers are so high, trim off some trailing digits & compare to 0dp
         self._common("std_dev", iris.analysis.STD_DEV, rtol=1e-05)
 
-    def test_hmean(self):
+    def test_hmean(self):  # noqa: D102
         # harmonic mean requires data > 0
         self.cube.data *= self.cube.data
         self._common("hmean", iris.analysis.HMEAN, "original_hmean.cml", rtol=1e-05)
 
-    def test_gmean(self):
+    def test_gmean(self):  # noqa: D102
         self._common("gmean", iris.analysis.GMEAN, rtol=1e-05)
 
-    def test_variance(self):
+    def test_variance(self):  # noqa: D102
         # as the numbers are so high, trim off some trailing digits & compare to 0dp
         self._common("variance", iris.analysis.VARIANCE, rtol=1e-05)
 
-    def test_median(self):
+    def test_median(self):  # noqa: D102
         self._common("median", iris.analysis.MEDIAN)
 
-    def test_sum(self):
+    def test_sum(self):  # noqa: D102
         # as the numbers are so high, trim off some trailing digits & compare to 0dp
         self._common("sum", iris.analysis.SUM, rtol=1e-05)
 
-    def test_max(self):
+    def test_max(self):  # noqa: D102
         self._common("max", iris.analysis.MAX)
 
-    def test_min(self):
+    def test_min(self):  # noqa: D102
         self._common("min", iris.analysis.MIN)
 
-    def test_rms(self):
+    def test_rms(self):  # noqa: D102
         self._common("rms", iris.analysis.RMS)
 
-    def test_duplicate_coords(self):
+    def test_duplicate_coords(self):  # noqa: D102
         pytest.raises(ValueError, stock.track_1d, duplicate_x=True)
 
 
@@ -422,21 +422,21 @@ class TestMissingData:
             self.cube_with_nan.data, mask=np.isnan(self.cube_with_nan.data)
         )
 
-    def test_max(self):
+    def test_max(self):  # noqa: D102
         cube = self.cube_with_nan.collapsed("foo", iris.analysis.MAX)
         _shared_utils.assert_array_equal(cube.data, np.array([3, np.nan, np.nan]))
 
         cube = self.cube_with_mask.collapsed("foo", iris.analysis.MAX)
         _shared_utils.assert_array_equal(cube.data, np.array([3, 7, 9]))
 
-    def test_min(self):
+    def test_min(self):  # noqa: D102
         cube = self.cube_with_nan.collapsed("foo", iris.analysis.MIN)
         _shared_utils.assert_array_equal(cube.data, np.array([0, np.nan, np.nan]))
 
         cube = self.cube_with_mask.collapsed("foo", iris.analysis.MIN)
         _shared_utils.assert_array_equal(cube.data, np.array([0, 5, 8]))
 
-    def test_sum(self):
+    def test_sum(self):  # noqa: D102
         cube = self.cube_with_nan.collapsed("foo", iris.analysis.SUM)
         _shared_utils.assert_array_equal(cube.data, np.array([6, np.nan, np.nan]))
 
@@ -454,7 +454,7 @@ class TestAuxCoordCollapse:
         self.cube_with_aux_coord.coord("grid_latitude").guess_bounds()
         self.cube_with_aux_coord.coord("grid_longitude").guess_bounds()
 
-    def test_max(self):
+    def test_max(self):  # noqa: D102
         cube = self.cube_with_aux_coord.collapsed("grid_latitude", iris.analysis.MAX)
         _shared_utils.assert_array_equal(
             cube.coord("surface_altitude").points,
@@ -519,12 +519,12 @@ class TestAggregator_mdtol_keyword:
         cube.add_dim_coord(lon_coord, 1)
         self.cube = cube
 
-    def test_single_coord_no_mdtol(self):
+    def test_single_coord_no_mdtol(self):  # noqa: D102
         collapsed = self.cube.collapsed(self.cube.coord("lat"), iris.analysis.MEAN)
         t = ma.array([2.5, 5.0], mask=[False, True])
         _shared_utils.assert_masked_array_almost_equal(collapsed.data, t)
 
-    def test_single_coord_mdtol(self):
+    def test_single_coord_mdtol(self):  # noqa: D102
         self.cube.data.mask = np.array([[False, True], [False, False]])
         collapsed = self.cube.collapsed(
             self.cube.coord("lat"), iris.analysis.MEAN, mdtol=0.5
@@ -532,7 +532,7 @@ class TestAggregator_mdtol_keyword:
         t = ma.array([2.5, 5], mask=[False, False])
         _shared_utils.assert_masked_array_almost_equal(collapsed.data, t)
 
-    def test_single_coord_mdtol_alt(self):
+    def test_single_coord_mdtol_alt(self):  # noqa: D102
         self.cube.data.mask = np.array([[False, True], [False, False]])
         collapsed = self.cube.collapsed(
             self.cube.coord("lat"), iris.analysis.MEAN, mdtol=0.4
@@ -540,7 +540,7 @@ class TestAggregator_mdtol_keyword:
         t = ma.array([2.5, 5], mask=[False, True])
         _shared_utils.assert_masked_array_almost_equal(collapsed.data, t)
 
-    def test_multi_coord_no_mdtol(self):
+    def test_multi_coord_no_mdtol(self):  # noqa: D102
         collapsed = self.cube.collapsed(
             [self.cube.coord("lat"), self.cube.coord("lon")],
             iris.analysis.MEAN,
@@ -548,7 +548,7 @@ class TestAggregator_mdtol_keyword:
         t = np.array(2.5)
         _shared_utils.assert_array_equal(collapsed.data, t)
 
-    def test_multi_coord_mdtol(self):
+    def test_multi_coord_mdtol(self):  # noqa: D102
         collapsed = self.cube.collapsed(
             [self.cube.coord("lat"), self.cube.coord("lon")],
             iris.analysis.MEAN,
@@ -593,19 +593,19 @@ class TestAggregators:
         _shared_utils.assert_array_almost_equal(result, expected_result)
         assert type(result) is type(expected_result)
 
-    def test_percentile_1d_25_percent(self):
+    def test_percentile_1d_25_percent(self):  # noqa: D102
         cube = stock.simple_1d()
         self._check_collapsed_percentile(
             cube, 25, "foo", 2.5, CML_filename="first_quartile_foo_1d.cml"
         )
 
-    def test_percentile_1d_75_percent(self):
+    def test_percentile_1d_75_percent(self):  # noqa: D102
         cube = stock.simple_1d()
         self._check_collapsed_percentile(
             cube, 75, "foo", 7.5, CML_filename="third_quartile_foo_1d.cml"
         )
 
-    def test_fast_percentile_1d_25_percent(self):
+    def test_fast_percentile_1d_25_percent(self):  # noqa: D102
         cube = stock.simple_1d()
         self._check_collapsed_percentile(
             cube,
@@ -616,7 +616,7 @@ class TestAggregators:
             CML_filename="first_quartile_foo_1d_fast_percentile.cml",
         )
 
-    def test_fast_percentile_1d_75_percent(self):
+    def test_fast_percentile_1d_75_percent(self):  # noqa: D102
         cube = stock.simple_1d()
         self._check_collapsed_percentile(
             cube,
@@ -627,7 +627,7 @@ class TestAggregators:
             CML_filename="third_quartile_foo_1d_fast_percentile.cml",
         )
 
-    def test_fast_percentile_1d_75_percent_masked_type_no_mask(self):
+    def test_fast_percentile_1d_75_percent_masked_type_no_mask(self):  # noqa: D102
         cube = stock.simple_1d()
         cube.data = ma.MaskedArray(cube.data)
         self._check_collapsed_percentile(
@@ -639,7 +639,7 @@ class TestAggregators:
             CML_filename="third_quartile_foo_1d_fast_percentile.cml",
         )
 
-    def test_percentile_2d_single_coord(self):
+    def test_percentile_2d_single_coord(self):  # noqa: D102
         cube = stock.simple_2d()
         self._check_collapsed_percentile(
             cube,
@@ -649,7 +649,7 @@ class TestAggregators:
             CML_filename="first_quartile_foo_2d.cml",
         )
 
-    def test_percentile_2d_two_coords(self):
+    def test_percentile_2d_two_coords(self):  # noqa: D102
         cube = stock.simple_2d()
         self._check_collapsed_percentile(
             cube,
@@ -659,7 +659,7 @@ class TestAggregators:
             CML_filename="first_quartile_foo_bar_2d.cml",
         )
 
-    def test_fast_percentile_2d_single_coord(self):
+    def test_fast_percentile_2d_single_coord(self):  # noqa: D102
         cube = stock.simple_2d()
         self._check_collapsed_percentile(
             cube,
@@ -670,7 +670,7 @@ class TestAggregators:
             CML_filename="first_quartile_foo_2d_fast_percentile.cml",
         )
 
-    def test_fast_percentile_2d_two_coords(self):
+    def test_fast_percentile_2d_two_coords(self):  # noqa: D102
         cube = stock.simple_2d()
         self._check_collapsed_percentile(
             cube,
@@ -681,7 +681,7 @@ class TestAggregators:
             CML_filename="first_quartile_foo_bar_2d_fast_percentile.cml",
         )
 
-    def test_fast_percentile_2d_single_coord_masked_type_no_mask(self):
+    def test_fast_percentile_2d_single_coord_masked_type_no_mask(self):  # noqa: D102
         cube = stock.simple_2d()
         cube.data = ma.MaskedArray(cube.data)
         self._check_collapsed_percentile(
@@ -693,7 +693,7 @@ class TestAggregators:
             CML_filename="first_quartile_foo_2d_fast_percentile.cml",
         )
 
-    def test_fast_percentile_2d_two_coords_masked_type_no_mask(self):
+    def test_fast_percentile_2d_two_coords_masked_type_no_mask(self):  # noqa: D102
         cube = stock.simple_2d()
         cube.data = ma.MaskedArray(cube.data)
         self._check_collapsed_percentile(
@@ -705,7 +705,7 @@ class TestAggregators:
             CML_filename="first_quartile_foo_bar_2d_fast_percentile.cml",
         )
 
-    def test_percentile_3d(self):
+    def test_percentile_3d(self):  # noqa: D102
         array_3d = np.arange(24, dtype=np.int32).reshape((2, 3, 4))
         expected_result = np.array(
             [
@@ -717,7 +717,7 @@ class TestAggregators:
         )
         self._check_percentile(array_3d, 0, 50, expected_result)
 
-    def test_fast_percentile_3d(self):
+    def test_fast_percentile_3d(self):  # noqa: D102
         array_3d = np.arange(24, dtype=np.int32).reshape((2, 3, 4))
         expected_result = np.array(
             [
@@ -731,7 +731,7 @@ class TestAggregators:
             array_3d, 0, 50, expected_result, fast_percentile_method=True
         )
 
-    def test_percentile_3d_axis_one(self):
+    def test_percentile_3d_axis_one(self):  # noqa: D102
         array_3d = np.arange(24, dtype=np.int32).reshape((2, 3, 4))
         expected_result = np.array(
             [[4.0, 5.0, 6.0, 7.0], [16.0, 17.0, 18.0, 19.0]], dtype=np.float32
@@ -739,7 +739,7 @@ class TestAggregators:
 
         self._check_percentile(array_3d, 1, 50, expected_result)
 
-    def test_fast_percentile_3d_axis_one(self):
+    def test_fast_percentile_3d_axis_one(self):  # noqa: D102
         array_3d = np.arange(24, dtype=np.int32).reshape((2, 3, 4))
         expected_result = np.array(
             [[4.0, 5.0, 6.0, 7.0], [16.0, 17.0, 18.0, 19.0]], dtype=np.float32
@@ -749,7 +749,7 @@ class TestAggregators:
             array_3d, 1, 50, expected_result, fast_percentile_method=True
         )
 
-    def test_fast_percentile_3d_axis_one_masked_type_no_mask(self):
+    def test_fast_percentile_3d_axis_one_masked_type_no_mask(self):  # noqa: D102
         array_3d = np.arange(24, dtype=np.int32).reshape((2, 3, 4))
         array_3d = np.ma.MaskedArray(array_3d)
         expected_result = ma.MaskedArray(
@@ -760,7 +760,7 @@ class TestAggregators:
             array_3d, 1, 50, expected_result, fast_percentile_method=True
         )
 
-    def test_percentile_3d_axis_two(self):
+    def test_percentile_3d_axis_two(self):  # noqa: D102
         array_3d = np.arange(24, dtype=np.int32).reshape((2, 3, 4))
         expected_result = np.array(
             [[1.5, 5.5, 9.5], [13.5, 17.5, 21.5]], dtype=np.float32
@@ -768,7 +768,7 @@ class TestAggregators:
 
         self._check_percentile(array_3d, 2, 50, expected_result)
 
-    def test_fast_percentile_3d_axis_two(self):
+    def test_fast_percentile_3d_axis_two(self):  # noqa: D102
         array_3d = np.arange(24, dtype=np.int32).reshape((2, 3, 4))
         expected_result = np.array(
             [[1.5, 5.5, 9.5], [13.5, 17.5, 21.5]], dtype=np.float32
@@ -778,7 +778,7 @@ class TestAggregators:
             array_3d, 2, 50, expected_result, fast_percentile_method=True
         )
 
-    def test_fast_percentile_3d_axis_two_masked_type_no_mask(self):
+    def test_fast_percentile_3d_axis_two_masked_type_no_mask(self):  # noqa: D102
         array_3d = np.arange(24, dtype=np.int32).reshape((2, 3, 4))
         array_3d = ma.MaskedArray(array_3d)
         expected_result = ma.MaskedArray(
@@ -789,7 +789,7 @@ class TestAggregators:
             array_3d, 2, 50, expected_result, fast_percentile_method=True
         )
 
-    def test_percentile_3d_masked(self):
+    def test_percentile_3d_masked(self):  # noqa: D102
         cube = stock.simple_3d_mask()
         expected_result = [
             [12.0, 13.0, 14.0, 15.0],
@@ -805,7 +805,7 @@ class TestAggregators:
             CML_filename="last_quartile_foo_3d_masked.cml",
         )
 
-    def test_fast_percentile_3d_masked_type_masked(self):
+    def test_fast_percentile_3d_masked_type_masked(self):  # noqa: D102
         cube = stock.simple_3d_mask()
         msg = "Cannot use fast np.percentile method with masked array."
 
@@ -817,7 +817,7 @@ class TestAggregators:
                 fast_percentile_method=True,
             )
 
-    def test_percentile_3d_notmasked(self):
+    def test_percentile_3d_notmasked(self):  # noqa: D102
         cube = stock.simple_3d()
         expected_result = [
             [9.0, 10.0, 11.0, 12.0],
@@ -833,7 +833,7 @@ class TestAggregators:
             CML_filename="last_quartile_foo_3d_notmasked.cml",
         )
 
-    def test_fast_percentile_3d_notmasked(self):
+    def test_fast_percentile_3d_notmasked(self):  # noqa: D102
         cube = stock.simple_3d()
         expected_result = [
             [9.0, 10.0, 11.0, 12.0],
@@ -850,7 +850,7 @@ class TestAggregators:
             CML_filename="last_quartile_foo_3d_notmasked_fast_percentile.cml",
         )
 
-    def test_proportion(self):
+    def test_proportion(self):  # noqa: D102
         cube = stock.simple_1d()
         assert np.any(cube.data >= 5)
         gt5 = cube.collapsed(
@@ -861,7 +861,7 @@ class TestAggregators:
             self.request, gt5, ("analysis", "proportion_foo_1d.cml"), checksum=False
         )
 
-    def test_proportion_2d(self):
+    def test_proportion_2d(self):  # noqa: D102
         cube = stock.simple_2d()
 
         gt6 = cube.collapsed(
@@ -917,7 +917,7 @@ class TestAggregators:
             checksum=False,
         )
 
-    def test_count(self):
+    def test_count(self):  # noqa: D102
         cube = stock.simple_1d()
         gt5 = cube.collapsed("foo", iris.analysis.COUNT, function=lambda val: val >= 5)
         _shared_utils.assert_array_almost_equal(gt5.data, np.array([6]))
@@ -926,7 +926,7 @@ class TestAggregators:
             self.request, gt5, ("analysis", "count_foo_1d.cml"), checksum=False
         )
 
-    def test_count_2d(self):
+    def test_count_2d(self):  # noqa: D102
         cube = stock.simple_2d()
 
         gt6 = cube.collapsed("foo", iris.analysis.COUNT, function=lambda val: val >= 6)
@@ -958,7 +958,7 @@ class TestAggregators:
             self.request, gt6, ("analysis", "count_foo_bar_2d.cml"), checksum=False
         )
 
-    def test_max_run_1d(self):
+    def test_max_run_1d(self):  # noqa: D102
         cube = stock.simple_1d()
         # [ 0  1  2  3  4  5  6  7  8  9 10]
         result = cube.collapsed(
@@ -973,7 +973,7 @@ class TestAggregators:
             self.request, result, ("analysis", "max_run_foo_1d.cml"), checksum=False
         )
 
-    def test_max_run_lazy(self):
+    def test_max_run_lazy(self):  # noqa: D102
         cube = stock.simple_1d()
         # [ 0  1  2  3  4  5  6  7  8  9 10]
         # Make data lazy
@@ -993,7 +993,7 @@ class TestAggregators:
             self.request, result, ("analysis", "max_run_foo_1d.cml"), checksum=False
         )
 
-    def test_max_run_2d(self):
+    def test_max_run_2d(self):  # noqa: D102
         cube = stock.simple_2d()
         # [[ 0  1  2  3]
         #  [ 4  5  6  7]
@@ -1034,7 +1034,7 @@ class TestAggregators:
                 function=lambda val: np.isin(val, [0, 3, 4, 5, 7, 9, 11]),
             )
 
-    def test_max_run_masked(self):
+    def test_max_run_masked(self):  # noqa: D102
         cube = stock.simple_2d()
         # [[ 0  1  2  3]
         #  [ 4  5  6  7]
@@ -1062,7 +1062,7 @@ class TestAggregators:
             checksum=False,
         )
 
-    def test_weighted_sum_consistency(self):
+    def test_weighted_sum_consistency(self):  # noqa: D102
         # weighted sum with unit weights should be the same as a sum
         cube = stock.simple_1d()
         normal_sum = cube.collapsed("foo", iris.analysis.SUM)
@@ -1070,7 +1070,7 @@ class TestAggregators:
         weighted_sum = cube.collapsed("foo", iris.analysis.SUM, weights=weights)
         _shared_utils.assert_array_almost_equal(normal_sum.data, weighted_sum.data)
 
-    def test_weighted_sum_1d(self):
+    def test_weighted_sum_1d(self):  # noqa: D102
         # verify 1d weighted sum is correct
         cube = stock.simple_1d()
         weights = np.array([0.05, 0.05, 0.1, 0.1, 0.2, 0.3, 0.2, 0.1, 0.1, 0.05, 0.05])
@@ -1080,7 +1080,7 @@ class TestAggregators:
             self.request, result, ("analysis", "sum_weighted_1d.cml"), checksum=False
         )
 
-    def test_weighted_sum_2d(self):
+    def test_weighted_sum_2d(self):  # noqa: D102
         # verify 2d weighted sum is correct
         cube = stock.simple_2d()
         weights = np.array([0.3, 0.4, 0.3])
@@ -1093,7 +1093,7 @@ class TestAggregators:
             self.request, result, ("analysis", "sum_weighted_2d.cml"), checksum=False
         )
 
-    def test_weighted_rms(self):
+    def test_weighted_rms(self):  # noqa: D102
         cube = stock.simple_2d()
         # modify cube data so that the results are nice numbers
         cube.data = np.array(
@@ -1137,7 +1137,7 @@ class TestRotatedPole:
             rlats, ("analysis", "rotated_pole.{}.rlat.json".format(index))
         )
 
-    def test_all(self):
+    def test_all(self):  # noqa: D102
         path = _shared_utils.get_data_path(("PP", "ukVorog", "ukv_orog_refonly.pp"))
         master_cube = iris.load_cube(path)
 
@@ -1149,7 +1149,7 @@ class TestRotatedPole:
         cube = master_cube[210:238, 424:450]
         self._check_both_conversions(cube, 1)
 
-    def test_unrotate_nd(self):
+    def test_unrotate_nd(self):  # noqa: D102
         rlons = np.array([[350.0, 352.0], [350.0, 352.0]])
         rlats = np.array([[-5.0, -0.0], [-4.0, -1.0]])
 
@@ -1162,7 +1162,7 @@ class TestRotatedPole:
         _shared_utils.assert_array_almost_equal(resx, solx)
         _shared_utils.assert_array_almost_equal(resy, soly)
 
-    def test_unrotate_1d(self):
+    def test_unrotate_1d(self):  # noqa: D102
         rlons = np.array([350.0, 352.0, 354.0, 356.0])
         rlats = np.array([-5.0, -0.0, 5.0, 10.0])
 
@@ -1177,7 +1177,7 @@ class TestRotatedPole:
         _shared_utils.assert_array_almost_equal(resx, solx)
         _shared_utils.assert_array_almost_equal(resy, soly)
 
-    def test_rotate_nd(self):
+    def test_rotate_nd(self):  # noqa: D102
         rlons = np.array([[350.0, 351.0], [352.0, 353.0]])
         rlats = np.array([[10.0, 15.0], [20.0, 25.0]])
 
@@ -1190,7 +1190,7 @@ class TestRotatedPole:
         _shared_utils.assert_array_almost_equal(resx, solx)
         _shared_utils.assert_array_almost_equal(resy, soly)
 
-    def test_rotate_1d(self):
+    def test_rotate_1d(self):  # noqa: D102
         rlons = np.array([350.0, 351.0, 352.0, 353.0])
         rlats = np.array([10.0, 15.0, 20.0, 25.0])
 
@@ -1213,7 +1213,7 @@ class TestAreaWeights:
     def _setup(self, request):
         self.request = request
 
-    def test_area_weights(self):
+    def test_area_weights(self):  # noqa: D102
         small_cube = stock.simple_pp()
         # Get offset, subsampled region: small enough to test against literals
         small_cube = small_cube[10:, 35:]
@@ -1259,7 +1259,7 @@ class TestLazyAreaWeights:
     """Test azyAreaWeights."""
     @pytest.mark.parametrize("normalize", [True, False])
     @pytest.mark.parametrize("chunks", [None, (2, 3, 4), (2, 2, 2)])
-    def test_lazy_area_weights(self, chunks, normalize):
+    def test_lazy_area_weights(self, chunks, normalize):  # noqa: D102
         small_cube = iris.tests.stock.simple_3d()[[0, 0, 0, 0], :, :]
         small_cube.coord("latitude").guess_bounds()
         small_cube.coord("longitude").guess_bounds()
@@ -1303,68 +1303,68 @@ class TestAreaWeightGeneration:
     def _setup(self):
         self.cube = stock.realistic_4d()
 
-    def test_area_weights_std(self):
+    def test_area_weights_std(self):  # noqa: D102
         # weights for stock 4d data
         weights = iris.analysis.cartography.area_weights(self.cube)
         assert weights.shape == self.cube.shape
 
-    def test_area_weights_order(self):
+    def test_area_weights_order(self):  # noqa: D102
         # weights for data with dimensions in a different order
         order = [3, 2, 1, 0]  # (lon, lat, level, time)
         self.cube.transpose(order)
         weights = iris.analysis.cartography.area_weights(self.cube)
         assert weights.shape == self.cube.shape
 
-    def test_area_weights_non_adjacent(self):
+    def test_area_weights_non_adjacent(self):  # noqa: D102
         # weights for cube with non-adjacent latitude/longitude dimensions
         order = [0, 3, 1, 2]  # (time, lon, level, lat)
         self.cube.transpose(order)
         weights = iris.analysis.cartography.area_weights(self.cube)
         assert weights.shape == self.cube.shape
 
-    def test_area_weights_scalar_latitude(self):
+    def test_area_weights_scalar_latitude(self):  # noqa: D102
         # weights for cube with a scalar latitude dimension
         cube = self.cube[:, :, 0, :]
         weights = iris.analysis.cartography.area_weights(cube)
         assert weights.shape == cube.shape
 
-    def test_area_weights_scalar_longitude(self):
+    def test_area_weights_scalar_longitude(self):  # noqa: D102
         # weights for cube with a scalar longitude dimension
         cube = self.cube[:, :, :, 0]
         weights = iris.analysis.cartography.area_weights(cube)
         assert weights.shape == cube.shape
 
-    def test_area_weights_scalar(self):
+    def test_area_weights_scalar(self):  # noqa: D102
         # weights for cube with scalar latitude and longitude dimensions
         cube = self.cube[:, :, 0, 0]
         weights = iris.analysis.cartography.area_weights(cube)
         assert weights.shape == cube.shape
 
-    def test_area_weights_singleton_latitude(self):
+    def test_area_weights_singleton_latitude(self):  # noqa: D102
         # singleton (1-point) latitude dimension
         cube = self.cube[:, :, 0:1, :]
         weights = iris.analysis.cartography.area_weights(cube)
         assert weights.shape == cube.shape
 
-    def test_area_weights_singleton_longitude(self):
+    def test_area_weights_singleton_longitude(self):  # noqa: D102
         # singleton (1-point) longitude dimension
         cube = self.cube[:, :, :, 0:1]
         weights = iris.analysis.cartography.area_weights(cube)
         assert weights.shape == cube.shape
 
-    def test_area_weights_singletons(self):
+    def test_area_weights_singletons(self):  # noqa: D102
         # singleton (1-point) latitude and longitude dimensions
         cube = self.cube[:, :, 0:1, 0:1]
         weights = iris.analysis.cartography.area_weights(cube)
         assert weights.shape == cube.shape
 
-    def test_area_weights_normalized(self):
+    def test_area_weights_normalized(self):  # noqa: D102
         # normalized area weights must sum to one over lat/lon dimensions.
         weights = iris.analysis.cartography.area_weights(self.cube, normalize=True)
         sumweights = weights.sum(axis=3).sum(axis=2)  # sum over lon and lat
         _shared_utils.assert_array_almost_equal(sumweights, 1)
 
-    def test_area_weights_non_contiguous(self):
+    def test_area_weights_non_contiguous(self):  # noqa: D102
         # Slice the cube so that we have non-contiguous longitude
         # bounds.
         ind = (0, 1, 2, -3, -2, -1)
@@ -1373,13 +1373,13 @@ class TestAreaWeightGeneration:
         expected = iris.analysis.cartography.area_weights(self.cube)[..., ind]
         _shared_utils.assert_array_equal(weights, expected)
 
-    def test_area_weights_no_lon_bounds(self):
+    def test_area_weights_no_lon_bounds(self):  # noqa: D102
         self.cube.coord("grid_longitude").bounds = None
         msg = "Coordinates 'grid_latitude' and 'grid_longitude' must have bounds to determine the area weights."
         with pytest.raises(ValueError, match=msg):
             iris.analysis.cartography.area_weights(self.cube)
 
-    def test_area_weights_no_lat_bounds(self):
+    def test_area_weights_no_lat_bounds(self):  # noqa: D102
         self.cube.coord("grid_latitude").bounds = None
         msg = "Coordinates 'grid_latitude' and 'grid_longitude' must have bounds to determine the area weights"
         with pytest.raises(ValueError, match=msg):
@@ -1408,7 +1408,7 @@ class TestLatitudeWeightGeneration:
         self.lat1d = self.cube.coord("grid_latitude").points
         self.lat2d = self.cube.coord("latitude").points
 
-    def test_cosine_latitude_weights_range(self):
+    def test_cosine_latitude_weights_range(self):  # noqa: D102
         # check the range of returned values, needs a cube that spans the full
         # latitude range
         lat_coord = iris.coords.DimCoord(
@@ -1424,7 +1424,7 @@ class TestLatitudeWeightGeneration:
         assert weights.max() <= 1
         assert weights.min() >= 0
 
-    def test_cosine_latitude_weights_0d(self):
+    def test_cosine_latitude_weights_0d(self):  # noqa: D102
         # 0d latitude dimension (scalar coordinate)
         weights = iris.analysis.cartography.cosine_latitude_weights(
             self.cube_dim_lat[:, 0, :]
@@ -1432,14 +1432,14 @@ class TestLatitudeWeightGeneration:
         assert weights.shape == self.cube_dim_lat[:, 0, :].shape
         assert weights[0, 0] == pytest.approx(np.cos(np.deg2rad(self.lat1d[0])))
 
-    def test_cosine_latitude_weights_1d_singleton(self):
+    def test_cosine_latitude_weights_1d_singleton(self):  # noqa: D102
         # singleton (1-point) 1d latitude coordinate (time, lat, lon)
         cube = self.cube_dim_lat[:, 0:1, :]
         weights = iris.analysis.cartography.cosine_latitude_weights(cube)
         assert weights.shape == cube.shape
         assert weights[0, 0, 0] == pytest.approx(np.cos(np.deg2rad(self.lat1d[0])))
 
-    def test_cosine_latitude_weights_1d(self):
+    def test_cosine_latitude_weights_1d(self):  # noqa: D102
         # 1d latitude coordinate (time, lat, lon)
         weights = iris.analysis.cartography.cosine_latitude_weights(self.cube_dim_lat)
         assert weights.shape == self.cube.shape
@@ -1447,7 +1447,7 @@ class TestLatitudeWeightGeneration:
             weights[0, :, 0], np.cos(np.deg2rad(self.lat1d))
         )
 
-    def test_cosine_latitude_weights_1d_latitude_first(self):
+    def test_cosine_latitude_weights_1d_latitude_first(self):  # noqa: D102
         # 1d latitude coordinate with latitude first (lat, time, lon)
         order = [1, 0, 2]  # (lat, time, lon)
         self.cube_dim_lat.transpose(order)
@@ -1457,7 +1457,7 @@ class TestLatitudeWeightGeneration:
             weights[:, 0, 0], np.cos(np.deg2rad(self.lat1d))
         )
 
-    def test_cosine_latitude_weights_1d_latitude_last(self):
+    def test_cosine_latitude_weights_1d_latitude_last(self):  # noqa: D102
         # 1d latitude coordinate with latitude last (time, lon, lat)
         order = [0, 2, 1]  # (time, lon, lat)
         self.cube_dim_lat.transpose(order)
@@ -1467,7 +1467,7 @@ class TestLatitudeWeightGeneration:
             weights[0, 0, :], np.cos(np.deg2rad(self.lat1d))
         )
 
-    def test_cosine_latitude_weights_2d_singleton1(self):
+    def test_cosine_latitude_weights_2d_singleton1(self):  # noqa: D102
         # 2d latitude coordinate with first dimension singleton
         cube = self.cube_aux_lat[:, 0:1, :]
         weights = iris.analysis.cartography.cosine_latitude_weights(cube)
@@ -1476,7 +1476,7 @@ class TestLatitudeWeightGeneration:
             weights[0, :, :], np.cos(np.deg2rad(self.lat2d[0:1, :]))
         )
 
-    def test_cosine_latitude_weights_2d_singleton2(self):
+    def test_cosine_latitude_weights_2d_singleton2(self):  # noqa: D102
         # 2d latitude coordinate with second dimension singleton
         cube = self.cube_aux_lat[:, :, 0:1]
         weights = iris.analysis.cartography.cosine_latitude_weights(cube)
@@ -1485,7 +1485,7 @@ class TestLatitudeWeightGeneration:
             weights[0, :, :], np.cos(np.deg2rad(self.lat2d[:, 0:1]))
         )
 
-    def test_cosine_latitude_weights_2d_singleton3(self):
+    def test_cosine_latitude_weights_2d_singleton3(self):  # noqa: D102
         # 2d latitude coordinate with both dimensions singleton
         cube = self.cube_aux_lat[:, 0:1, 0:1]
         weights = iris.analysis.cartography.cosine_latitude_weights(cube)
@@ -1494,7 +1494,7 @@ class TestLatitudeWeightGeneration:
             weights[0, :, :], np.cos(np.deg2rad(self.lat2d[0:1, 0:1]))
         )
 
-    def test_cosine_latitude_weights_2d(self):
+    def test_cosine_latitude_weights_2d(self):  # noqa: D102
         # 2d latitude coordinate (time, lat, lon)
         weights = iris.analysis.cartography.cosine_latitude_weights(self.cube_aux_lat)
         assert weights.shape == self.cube_aux_lat.shape
@@ -1502,7 +1502,7 @@ class TestLatitudeWeightGeneration:
             weights[0, :, :], np.cos(np.deg2rad(self.lat2d))
         )
 
-    def test_cosine_latitude_weights_2d_latitude_first(self):
+    def test_cosine_latitude_weights_2d_latitude_first(self):  # noqa: D102
         # 2d latitude coordinate with latitude first (lat, time, lon)
         order = [1, 0, 2]  # (lat, time, lon)
         self.cube_aux_lat.transpose(order)
@@ -1512,7 +1512,7 @@ class TestLatitudeWeightGeneration:
             weights[:, 0, :], np.cos(np.deg2rad(self.lat2d))
         )
 
-    def test_cosine_latitude_weights_2d_latitude_last(self):
+    def test_cosine_latitude_weights_2d_latitude_last(self):  # noqa: D102
         # 2d latitude coordinate with latitude last (time, lon, lat)
         order = [0, 2, 1]  # (time, lon, lat)
         self.cube_aux_lat.transpose(order)
@@ -1522,14 +1522,14 @@ class TestLatitudeWeightGeneration:
             weights[0, :, :], np.cos(np.deg2rad(self.lat2d.T))
         )
 
-    def test_cosine_latitude_weights_no_latitude(self):
+    def test_cosine_latitude_weights_no_latitude(self):  # noqa: D102
         # no coordinate identified as latitude
         self.cube_dim_lat.remove_coord("grid_latitude")
         msg = "Cannot get latitude coordinate from cube 'precipitation_flux'."
         with pytest.raises(ValueError, match=msg):
             _ = iris.analysis.cartography.cosine_latitude_weights(self.cube_dim_lat)
 
-    def test_cosine_latitude_weights_multiple_latitude(self):
+    def test_cosine_latitude_weights_multiple_latitude(self):  # noqa: D102
         # two coordinates identified as latitude
         msg = "Multiple latitude coords are currently disallowed."
         with pytest.raises(ValueError, match=msg):
@@ -1567,14 +1567,14 @@ class TestRollingWindow:
 
         self.cube = cube
 
-    def test_non_mean_operator(self):
+    def test_non_mean_operator(self):  # noqa: D102
         res_cube = self.cube.rolling_window("longitude", iris.analysis.MAX, window=2)
         expected_result = np.array(
             [[10, 12, 18], [12, 14, 20], [18, 12, 10]], dtype=np.float64
         )
         _shared_utils.assert_array_equal(expected_result, res_cube.data)
 
-    def test_longitude_simple(self):
+    def test_longitude_simple(self):  # noqa: D102
         res_cube = self.cube.rolling_window("longitude", iris.analysis.MEAN, window=2)
 
         expected_result = np.array(
@@ -1598,7 +1598,7 @@ class TestRollingWindow:
             window=0,
         )
 
-    def test_longitude_masked(self):
+    def test_longitude_masked(self):  # noqa: D102
         self.cube.data = ma.array(
             self.cube.data,
             mask=[
@@ -1621,7 +1621,7 @@ class TestRollingWindow:
 
         _shared_utils.assert_masked_array_almost_equal(expected_result, res_cube.data)
 
-    def test_longitude_circular(self):
+    def test_longitude_circular(self):  # noqa: D102
         cube = self.cube
         cube.coord("longitude").circular = True
         pytest.raises(
@@ -1632,7 +1632,7 @@ class TestRollingWindow:
             window=0,
         )
 
-    def test_different_length_windows(self):
+    def test_different_length_windows(self):  # noqa: D102
         res_cube = self.cube.rolling_window("longitude", iris.analysis.MEAN, window=4)
 
         expected_result = np.array([[11.5], [13.5], [11.5]], dtype=np.float64)
@@ -1662,7 +1662,7 @@ class TestRollingWindow:
             window=0,
         )
 
-    def test_bad_coordinate(self):
+    def test_bad_coordinate(self):  # noqa: D102
         pytest.raises(
             KeyError,
             self.cube.rolling_window,
@@ -1671,7 +1671,7 @@ class TestRollingWindow:
             window=0,
         )
 
-    def test_latitude_simple(self):
+    def test_latitude_simple(self):  # noqa: D102
         res_cube = self.cube.rolling_window("latitude", iris.analysis.MEAN, window=2)
 
         expected_result = np.array(
@@ -1687,7 +1687,7 @@ class TestRollingWindow:
             ("analysis", "rolling_window", "simple_latitude.cml"),
         )
 
-    def test_mean_with_weights_consistency(self):
+    def test_mean_with_weights_consistency(self):  # noqa: D102
         # equal weights should be the same as the mean with no weights
         wts = np.array([0.5, 0.5], dtype=np.float64)
         res_cube = self.cube.rolling_window(
@@ -1698,7 +1698,7 @@ class TestRollingWindow:
         )
         _shared_utils.assert_array_equal(expected_result.data, res_cube.data)
 
-    def test_mean_with_weights(self):
+    def test_mean_with_weights(self):  # noqa: D102
         # rolling window mean with weights
         wts = np.array([0.1, 0.6, 0.3], dtype=np.float64)
         res_cube = self.cube.rolling_window(
@@ -1714,10 +1714,10 @@ class TestRollingWindow:
 class TestCreateWeightedAggregatorFn:
     """Test reateWeightedAggregatorFn."""
     @staticmethod
-    def aggregator_fn(data, axis, **kwargs):
+    def aggregator_fn(data, axis, **kwargs):  # noqa: D102
         return (data, axis, kwargs)
 
-    def test_no_weights_supplied(self):
+    def test_no_weights_supplied(self):  # noqa: D102
         aggregator_fn = iris.analysis.create_weighted_aggregator_fn(
             self.aggregator_fn, 42, test_kwarg="test"
         )
@@ -1727,7 +1727,7 @@ class TestCreateWeightedAggregatorFn:
         assert output[1] == 42
         assert output[2] == {"test_kwarg": "test"}
 
-    def test_weights_supplied(self):
+    def test_weights_supplied(self):  # noqa: D102
         aggregator_fn = iris.analysis.create_weighted_aggregator_fn(
             self.aggregator_fn, 42, test_kwarg="test"
         )
@@ -1737,7 +1737,7 @@ class TestCreateWeightedAggregatorFn:
         assert output[1] == 42
         assert output[2] == {"test_kwarg": "test", "weights": "w"}
 
-    def test_weights_in_kwargs(self):
+    def test_weights_in_kwargs(self):  # noqa: D102
         kwargs = {"test_kwarg": "test", "weights": "ignored"}
         aggregator_fn = iris.analysis.create_weighted_aggregator_fn(
             self.aggregator_fn, 42, **kwargs
@@ -1765,7 +1765,7 @@ class TestWeights:
             self.chunks = None
         self.create_test_data()
 
-    def create_test_data(self):
+    def create_test_data(self):  # noqa: D102
         self.data = self.array_lib.arange(6).reshape(2, 3)
         if self.chunks is not None:
             self.data = self.data.rechunk(self.chunks)
@@ -1798,7 +1798,7 @@ class TestWeights:
             ancillary_variables_and_dims=[(self.ancillary_variable, 1)],
         )
 
-    def test_init_with_array(self):
+    def test_init_with_array(self):  # noqa: D102
         weights = _Weights(self.data, self.cube)
         assert isinstance(weights.array, self.target_type)
         assert isinstance(weights.units, cf_units.Unit)
@@ -1807,7 +1807,7 @@ class TestWeights:
         if self.chunks is not None:
             assert weights.array.chunks == self.chunks
 
-    def test_init_with_cube(self):
+    def test_init_with_cube(self):  # noqa: D102
         weights = _Weights(self.cube, self.cube)
         assert isinstance(weights.array, self.target_type)
         assert isinstance(weights.units, cf_units.Unit)
@@ -1816,7 +1816,7 @@ class TestWeights:
         if self.chunks is not None:
             assert weights.array.chunks == self.chunks
 
-    def test_init_with_str_dim_coord(self):
+    def test_init_with_str_dim_coord(self):  # noqa: D102
         weights = _Weights("latitude", self.cube)
         # DimCoord always realizes points
         assert isinstance(weights.array, np.ndarray)
@@ -1824,7 +1824,7 @@ class TestWeights:
         _shared_utils.assert_array_equal(weights.array, [[0, 0, 0], [1, 1, 1]])
         assert weights.units == "degrees"
 
-    def test_init_with_str_aux_coord(self):
+    def test_init_with_str_aux_coord(self):  # noqa: D102
         weights = _Weights("auxcoord", self.cube)
         assert isinstance(weights.array, self.target_type)
         assert isinstance(weights.units, cf_units.Unit)
@@ -1833,7 +1833,7 @@ class TestWeights:
         if self.chunks is not None:
             assert weights.array.chunks == self.chunks
 
-    def test_init_with_str_ancillary_variable(self):
+    def test_init_with_str_ancillary_variable(self):  # noqa: D102
         weights = _Weights("ancvar", self.cube)
         assert isinstance(weights.array, self.target_type)
         assert isinstance(weights.units, cf_units.Unit)
@@ -1844,7 +1844,7 @@ class TestWeights:
         if self.chunks is not None:
             assert weights.array.chunks == ((2,), (3,))
 
-    def test_init_with_str_cell_measure(self):
+    def test_init_with_str_cell_measure(self):  # noqa: D102
         weights = _Weights("cell_area", self.cube)
         assert isinstance(weights.array, self.target_type)
         assert isinstance(weights.units, cf_units.Unit)
@@ -1853,7 +1853,7 @@ class TestWeights:
         if self.chunks is not None:
             assert weights.array.chunks == self.chunks
 
-    def test_init_with_dim_coord(self):
+    def test_init_with_dim_coord(self):  # noqa: D102
         weights = _Weights(self.lat, self.cube)
         # DimCoord always realizes points
         assert isinstance(weights.array, np.ndarray)
@@ -1861,7 +1861,7 @@ class TestWeights:
         _shared_utils.assert_array_equal(weights.array, [[0, 0, 0], [1, 1, 1]])
         assert weights.units == "degrees"
 
-    def test_init_with_aux_coord(self):
+    def test_init_with_aux_coord(self):  # noqa: D102
         weights = _Weights(self.aux_coord, self.cube)
         assert isinstance(weights.array, self.target_type)
         assert isinstance(weights.units, cf_units.Unit)
@@ -1870,7 +1870,7 @@ class TestWeights:
         if self.chunks is not None:
             assert weights.array.chunks == self.chunks
 
-    def test_init_with_ancillary_variable(self):
+    def test_init_with_ancillary_variable(self):  # noqa: D102
         weights = _Weights(self.ancillary_variable, self.cube)
         assert isinstance(weights.array, self.target_type)
         assert isinstance(weights.units, cf_units.Unit)
@@ -1881,7 +1881,7 @@ class TestWeights:
         if self.chunks is not None:
             assert weights.array.chunks == ((2,), (3,))
 
-    def test_init_with_cell_measure(self):
+    def test_init_with_cell_measure(self):  # noqa: D102
         weights = _Weights(self.cell_measure, self.cube)
         assert isinstance(weights.array, self.target_type)
         assert isinstance(weights.units, cf_units.Unit)
@@ -1890,7 +1890,7 @@ class TestWeights:
         if self.chunks is not None:
             assert weights.array.chunks == self.chunks
 
-    def test_init_with_list(self):
+    def test_init_with_list(self):  # noqa: D102
         list_in = [0, 1, 2]
         weights = _Weights(list_in, self.cube)
         assert isinstance(weights.array, list)

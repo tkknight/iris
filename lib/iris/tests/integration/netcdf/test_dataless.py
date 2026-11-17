@@ -37,7 +37,7 @@ class TestDataless:
         for co in reloaded_cube.coords():
             co.var_name = None
 
-    def test_dataless_save(self):
+    def test_dataless_save(self):  # noqa: D102
         # Check that we can save a dataless cube, and what that looks like in the file.
         iris.save(self.testcube, self.test_path)
         assert Saver._DATALESS_ATTRNAME not in self.testcube.attributes
@@ -50,7 +50,7 @@ class TestDataless:
         assert var._FillValue == Saver._DATALESS_FILLVALUE
         assert np.all(np.ma.getmaskarray(var[:]) == True)  # noqa: E712
 
-    def test_dataless_load(self):
+    def test_dataless_load(self):  # noqa: D102
         # Check that we can load a saved dataless cube, and it matches the original.
         iris.save(self.testcube, self.test_path)
 
@@ -65,7 +65,7 @@ class TestDataless:
         # Result now == original
         assert result_cube == self.testcube
 
-    def test_mixture_saveload(self):
+    def test_mixture_saveload(self):  # noqa: D102
         # Check that a mixture of dataless and "normal" cubes can be saved + loaded back
         dataless = self.testcube
         ny = dataless.shape[0]
@@ -87,7 +87,7 @@ class TestDataless:
         assert read_dataless == dataless
         assert read_dataful == dataful
 
-    def test_nodata_size(self):
+    def test_nodata_size(self):  # noqa: D102
         # Check that a file saved with a large dataless cube does *not* occupy a large
         # amount of diskspace.
         ny, nx = 10000, 10000

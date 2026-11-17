@@ -22,17 +22,17 @@ class Test:
             kwarg1=mocker.sentinel.kwarg1, kwarg2=mocker.sentinel.kwarg2
         )
 
-    def test_args_too_many(self):
+    def test_args_too_many(self):  # noqa: D102
         emsg = "Invalid lenient service arguments, expecting 1"
         with pytest.raises(AssertionError, match=emsg):
             _lenient_service(None, None)
 
-    def test_args_not_callable(self):
+    def test_args_not_callable(self):  # noqa: D102
         emsg = "Invalid lenient service argument, expecting a callable"
         with pytest.raises(AssertionError, match=emsg):
             _lenient_service(None)
 
-    def test_call_naked(self):
+    def test_call_naked(self):  # noqa: D102
         @_lenient_service
         def myservice():
             return _LENIENT.__dict__.copy()
@@ -45,7 +45,7 @@ class Test:
         assert qualname_service in result
         assert result[qualname_service]
 
-    def test_call_naked_alternative(self):
+    def test_call_naked_alternative(self):  # noqa: D102
         def myservice():
             return _LENIENT.__dict__.copy()
 
@@ -54,7 +54,7 @@ class Test:
         assert qualname_service in result
         assert result[qualname_service]
 
-    def test_call_naked_service_args_kwargs(self):
+    def test_call_naked_service_args_kwargs(self):  # noqa: D102
         @_lenient_service
         def myservice(*args, **kwargs):
             return args, kwargs
@@ -63,14 +63,14 @@ class Test:
         assert args_out == self.args_in
         assert kwargs_out == self.kwargs_in
 
-    def test_call_naked_doc(self):
+    def test_call_naked_doc(self):  # noqa: D102
         @_lenient_service
         def myservice():
             """Myservice doc-string."""
 
         assert myservice.__doc__ == "Myservice doc-string."
 
-    def test_call(self):
+    def test_call(self):  # noqa: D102
         @_lenient_service()
         def myservice():
             return _LENIENT.__dict__.copy()
@@ -83,7 +83,7 @@ class Test:
         assert qualname_service in result
         assert result[qualname_service]
 
-    def test_call_alternative(self):
+    def test_call_alternative(self):  # noqa: D102
         def myservice():
             return _LENIENT.__dict__.copy()
 
@@ -92,7 +92,7 @@ class Test:
         assert qualname_service in result
         assert result[qualname_service]
 
-    def test_call_service_args_kwargs(self):
+    def test_call_service_args_kwargs(self):  # noqa: D102
         @_lenient_service()
         def myservice(*args, **kwargs):
             return args, kwargs
@@ -101,7 +101,7 @@ class Test:
         assert args_out == self.args_in
         assert kwargs_out == self.kwargs_in
 
-    def test_call_doc(self):
+    def test_call_doc(self):  # noqa: D102
         @_lenient_service()
         def myservice():
             """Myservice doc-string."""

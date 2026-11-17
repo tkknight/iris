@@ -33,7 +33,7 @@ class TestPPLoadCustom:
         )
         return cube
 
-    def test_lbtim_2(self):
+    def test_lbtim_2(self):  # noqa: D102
         for delta in range(10):
             field = self.template.copy()
             field.lbtim = 2
@@ -62,14 +62,14 @@ class TestPPLoadCustom:
             cube = self._field_to_cube(field)
             self.subcubes.append(cube)
 
-    def test_ocean_depth(self):
+    def test_ocean_depth(self):  # noqa: D102
         self._ocean_depth()
         cube = self.subcubes.merge()[0]
         _shared_utils.assert_CML(
             self.request, cube, ("pp_load_rules", "ocean_depth.cml")
         )
 
-    def test_ocean_depth_bounded(self):
+    def test_ocean_depth_bounded(self):  # noqa: D102
         self._ocean_depth(bounded=True)
         cube = self.subcubes.merge()[0]
         _shared_utils.assert_CML(
@@ -86,14 +86,14 @@ class TestReferences:
         self.target = target
         self.ref = target.copy()
 
-    def test_regrid_missing_coord(self):
+    def test_regrid_missing_coord(self):  # noqa: D102
         # If the target cube is missing one of the source dimension
         # coords, ensure the re-grid fails nicely - i.e. returns None.
         self.target.remove_coord("bar")
         new_ref, _ = iris.fileformats.rules._ensure_aligned({}, self.ref, self.target)
         assert new_ref is None
 
-    def test_regrid_codimension(self):
+    def test_regrid_codimension(self):  # noqa: D102
         # If the target cube has two of the source dimension coords
         # sharing the same dimension (e.g. a trajectory) then ensure
         # the re-grid fails nicely - i.e. returns None.
@@ -104,7 +104,7 @@ class TestReferences:
         new_ref, _ = iris.fileformats.rules._ensure_aligned({}, self.ref, self.target)
         assert new_ref is None
 
-    def test_regrid_identity(self):
+    def test_regrid_identity(self):  # noqa: D102
         new_ref, _ = iris.fileformats.rules._ensure_aligned({}, self.ref, self.target)
         # Bounds don't make it through the re-grid process
         self.ref.coord("bar").bounds = None
@@ -115,7 +115,7 @@ class TestReferences:
 @_shared_utils.skip_data
 class TestPPLoading:
     """Test PLoading."""
-    def test_simple(self, request):
+    def test_simple(self, request):  # noqa: D102
         cube = iris.tests.stock.simple_pp()
         _shared_utils.assert_CML(request, cube, ("cube_io", "pp", "load", "global.cml"))
 
@@ -127,7 +127,7 @@ class TestPPLoadRules:
     def _setup(self, request):
         self.request = request
 
-    def test_pp_load_rules(self):
+    def test_pp_load_rules(self):  # noqa: D102
         # Test PP loading and rule evaluation.
 
         cube = iris.tests.stock.simple_pp()
@@ -139,7 +139,7 @@ class TestPPLoadRules:
             self.request, cube, ("pp_load_rules", "rotated_uk.cml")
         )
 
-    def test_lbproc(self):
+    def test_lbproc(self):  # noqa: D102
         data_path = _shared_utils.get_data_path(
             ("PP", "meanMaxMin", "200806081200__qwpb.T24.pp")
         )
@@ -151,7 +151,7 @@ class TestPPLoadRules:
             self.request, cubes, ("pp_load_rules", "lbproc_mean_max_min.cml")
         )
 
-    def test_cell_methods(self, tmp_path):
+    def test_cell_methods(self, tmp_path):  # noqa: D102
         # Test cell methods are created for correct values of lbproc
         orig_file = _shared_utils.get_data_path(("PP", "aPPglob1", "global.pp"))
 
@@ -191,7 +191,7 @@ class TestPPLoadRules:
                 # Check no cell method was created for values other than 128, 4096, 8192
                 assert len(cube.cell_methods) == 0
 
-    def test_process_flags(self, tmp_path):
+    def test_process_flags(self, tmp_path):  # noqa: D102
         # Test that process flags are created for correct values of lbproc
         orig_file = _shared_utils.get_data_path(("PP", "aPPglob1", "global.pp"))
 

@@ -25,7 +25,7 @@ class TestDotPath:
         # that can potentially break subsequent 'normal' behaviour.
         mocker.patch("iris.fileformats.dot._DOT_EXECUTABLE_PATH", _DOT_EXECUTABLE_PATH)
 
-    def test_valid_absolute_path(self, mocker):
+    def test_valid_absolute_path(self, mocker):  # noqa: D102
         # Override the configuration value for System.dot_path
         real_path = Path(__file__).absolute()
         assert real_path.exists()
@@ -34,7 +34,7 @@ class TestDotPath:
         result = _dot_path()
         assert result == real_path
 
-    def test_invalid_absolute_path(self, mocker):
+    def test_invalid_absolute_path(self, mocker):  # noqa: D102
         # Override the configuration value for System.dot_path
         dummy_path = Path("/not_a_real_path" * 10)
         assert not dummy_path.exists()
@@ -42,7 +42,7 @@ class TestDotPath:
         result = _dot_path()
         assert result is None
 
-    def test_valid_relative_path(self, mocker):
+    def test_valid_relative_path(self, mocker):  # noqa: D102
         # Override the configuration value for System.dot_path
         dummy_path = Path("not_a_real_path" * 10)
         assert not dummy_path.exists()
@@ -52,7 +52,7 @@ class TestDotPath:
         result = _dot_path()
         assert result == dummy_path
 
-    def test_valid_relative_path_broken_install(self, mocker):
+    def test_valid_relative_path_broken_install(self, mocker):  # noqa: D102
         # Override the configuration value for System.dot_path
         dummy_path = Path("not_a_real_path" * 10)
         assert not dummy_path.exists()

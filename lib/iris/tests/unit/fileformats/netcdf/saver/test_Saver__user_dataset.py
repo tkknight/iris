@@ -70,7 +70,7 @@ def cube():
 class TestRealDataset:
     """A dataset the caller opened, and closes themselves."""
 
-    def test_save_into_an_open_dataset(self, cube, tmp_path):
+    def test_save_into_an_open_dataset(self, cube, tmp_path):  # noqa: D102
         path = tmp_path / "user.nc"
         dataset = threadsafe_nc.DatasetWrapper(path, mode="w", format="NETCDF4")
         delayed = inetcdf.save(cube, dataset, compute=False)
@@ -88,7 +88,7 @@ class TestRealDataset:
             "longitude",
         ]
 
-    def test_saver_does_not_close_what_it_was_given(self, cube, tmp_path):
+    def test_saver_does_not_close_what_it_was_given(self, cube, tmp_path):  # noqa: D102
         path = tmp_path / "user.nc"
         dataset = threadsafe_nc.DatasetWrapper(path, mode="w", format="NETCDF4")
         inetcdf.save(cube, dataset, compute=False)
@@ -121,7 +121,7 @@ class TestRealDataset:
         assert result.dtype.kind == "U"
         np.testing.assert_array_equal(result.data, strings)
 
-    def test_compute_true_is_refused(self, cube, tmp_path):
+    def test_compute_true_is_refused(self, cube, tmp_path):  # noqa: D102
         path = tmp_path / "user.nc"
         dataset = threadsafe_nc.DatasetWrapper(path, mode="w", format="NETCDF4")
         with pytest.raises(ValueError, match="Cannot save to a user-provided dataset"):
@@ -241,21 +241,21 @@ class TestEmulatedDataset:
     """An object that only looks like a dataset, as ncdata supplies."""
 
     @pytest.fixture
-    def written(self, cube):
+    def written(self, cube):  # noqa: D102
         dataset = _EmulatedDataset()
         inetcdf.save(cube, dataset, compute=False)
         return dataset
 
-    def test_variables_are_created(self, written):
+    def test_variables_are_created(self, written):  # noqa: D102
         assert sorted(written.variables) == ["air", "latitude", "longitude"]
 
-    def test_dimensions_are_created(self, written):
+    def test_dimensions_are_created(self, written):  # noqa: D102
         assert {name: len(dim) for name, dim in written.dimensions.items()} == {
             "latitude": 2,
             "longitude": 3,
         }
 
-    def test_attributes_reach_the_emulator_as_bytes(self, written):
+    def test_attributes_reach_the_emulator_as_bytes(self, written):  # noqa: D102
         # _bytes_if_ascii: an ASCII string attribute is offered as bytes, so
         # that netCDF4 gives it type NC_CHAR. An emulator sees the same.
         assert written.variables["air"]._attrs == {
@@ -264,10 +264,10 @@ class TestEmulatedDataset:
         }
         assert written._attrs == {"Conventions": b"CF-1.7"}
 
-    def test_data_arrives_as_a_data_array(self, written, cube):
+    def test_data_arrives_as_a_data_array(self, written, cube):  # noqa: D102
         # Not via __setitem__, which the emulated variable refuses.
         assert np.array_equal(written.variables["air"]._data_array, cube.data)
         assert np.array_equal(written.variables["latitude"]._data_array, np.arange(2.0))
 
-    def test_dimensions_are_recorded_on_the_variable(self, written):
+    def test_dimensions_are_recorded_on_the_variable(self, written):  # noqa: D102
         assert written.variables["air"].dimensions == ("latitude", "longitude")

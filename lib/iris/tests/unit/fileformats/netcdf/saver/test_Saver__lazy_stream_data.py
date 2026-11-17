@@ -24,7 +24,7 @@ class Test__lazy_stream_data:
     """Test  lazy stream data."""
     @staticmethod
     @pytest.fixture(autouse=True)
-    def saver_patch(mocker):
+    def saver_patch(mocker):  # noqa: D102
         # Install patches, so we can create a Saver without opening a real output file.
         # Mock just enough of Dataset behaviour to allow a 'Saver.complete()' call.
         mock_dataset = mocker.MagicMock()
@@ -43,23 +43,23 @@ class Test__lazy_stream_data:
     # should make ***no difference to any of these tests***.
     @staticmethod
     @pytest.fixture(params=[False, True], ids=["nocompute", "compute"])
-    def compute(request) -> Iterator[bool]:
+    def compute(request) -> Iterator[bool]:  # noqa: D102
         return request.param
 
     # A fixture to parametrise tests over real and lazy-type data.
     @staticmethod
     @pytest.fixture(params=["realdata", "lazydata", "emulateddata"])
-    def data_form(request) -> Iterator[bool]:
+    def data_form(request) -> Iterator[bool]:  # noqa: D102
         return request.param
 
     @staticmethod
-    def saver(compute, data_form, tmp_path) -> Saver:
+    def saver(compute, data_form, tmp_path) -> Saver:  # noqa: D102
         # Create a test Saver object
         filepath = tmp_path / f"tmp_{compute}_{data_form}.nc"
         return Saver(filename=filepath, netcdf_format="NETCDF4", compute=compute)
 
     @staticmethod
-    def mock_var(shape, with_data_array, mocker, dtype=np.dtype(np.float32)):
+    def mock_var(shape, with_data_array, mocker, dtype=np.dtype(np.float32)):  # noqa: D102
         # Create a test cf_var object.
         # 'is_emulated' is now a declared property rather than the presence of
         # a '_data_array' member, so it can simply be set.

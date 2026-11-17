@@ -28,7 +28,7 @@ class TestAreaWeighted:
         )
         self.template_cube = iris.load_cube(template_file_path)
 
-    def test_regrid_area_w_lazy(self, tmp_path):
+    def test_regrid_area_w_lazy(self, tmp_path):  # noqa: D102
         # Regrid the cube onto the template.
         out = self.cube.regrid(self.template_cube, AreaWeighted())
         # Check data is still lazy
@@ -38,7 +38,7 @@ class TestAreaWeighted:
         fname = tmp_path / "test.nc"
         iris.save(out, fname)
 
-    def test_regrid_area_w_lazy_chunked(self, tmp_path):
+    def test_regrid_area_w_lazy_chunked(self, tmp_path):  # noqa: D102
         # Chunked data makes the regridder run repeatedly
         self.cube.data = self.cube.lazy_data().rechunk((1, -1, -1))
         # Regrid the cube onto the template.
@@ -50,7 +50,7 @@ class TestAreaWeighted:
         fname = tmp_path / "test.nc"
         iris.save(out, fname)
 
-    def test_regrid_area_w_real_save(self, tmp_path):
+    def test_regrid_area_w_real_save(self, tmp_path):  # noqa: D102
         real_cube = self.cube.copy()
         real_cube.data
         # Regrid the cube onto the template.
@@ -61,7 +61,7 @@ class TestAreaWeighted:
         fname = tmp_path / "test.nc"
         iris.save(out, fname)
 
-    def test_regrid_area_w_real_start(self, tmp_path):
+    def test_regrid_area_w_real_start(self, tmp_path):  # noqa: D102
         real_cube = self.cube.copy()
         real_cube.data
         # Regrid the cube onto the template.

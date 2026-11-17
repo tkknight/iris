@@ -54,14 +54,14 @@ class Test___init__:
         assert resolve.prepared_factories is None
         assert resolve._broadcast_shape is None
 
-    def test_lhs_rhs_default(self):
+    def test_lhs_rhs_default(self):  # noqa: D102
         resolve = Resolve()
         assert resolve.lhs_cube is None
         assert resolve.rhs_cube is None
         self._assert_members_none(resolve)
         assert self.m_call.call_count == 0
 
-    def test_lhs_rhs_provided(self, mocker):
+    def test_lhs_rhs_provided(self, mocker):  # noqa: D102
         m_lhs = mocker.sentinel.lhs
         m_rhs = mocker.sentinel.rhs
         resolve = Resolve(lhs=m_lhs, rhs=m_rhs)
@@ -92,12 +92,12 @@ class Test___call__:
         method = target.format(method="_metadata_prepare")
         self.m_metadata_prepare = mocker.patch(method)
 
-    def test_lhs_not_cube(self):
+    def test_lhs_not_cube(self):  # noqa: D102
         emsg = "'LHS' argument to be a 'Cube'"
         with pytest.raises(TypeError, match=emsg):
             _ = Resolve(rhs=self.m_rhs)
 
-    def test_rhs_not_cube(self):
+    def test_rhs_not_cube(self):  # noqa: D102
         emsg = "'RHS' argument to be a 'Cube'"
         with pytest.raises(TypeError, match=emsg):
             _ = Resolve(lhs=self.m_lhs)
@@ -113,7 +113,7 @@ class Test___call__:
         assert self.m_metadata_prepare.call_count == 1
         assert self.m_metadata_prepare.call_args == call_args
 
-    def test_map_rhs_to_lhs__less_than(self):
+    def test_map_rhs_to_lhs__less_than(self):  # noqa: D102
         self.m_lhs.ndim = 2
         self.m_rhs.ndim = 1
         resolve = Resolve(lhs=self.m_lhs, rhs=self.m_rhs)
@@ -122,7 +122,7 @@ class Test___call__:
         assert resolve.map_rhs_to_lhs
         self._assert_called_metadata_methods()
 
-    def test_map_rhs_to_lhs__equal(self):
+    def test_map_rhs_to_lhs__equal(self):  # noqa: D102
         self.m_lhs.ndim = 2
         self.m_rhs.ndim = 2
         resolve = Resolve(lhs=self.m_lhs, rhs=self.m_rhs)
@@ -131,7 +131,7 @@ class Test___call__:
         assert resolve.map_rhs_to_lhs
         self._assert_called_metadata_methods()
 
-    def test_map_lhs_to_rhs(self):
+    def test_map_lhs_to_rhs(self):  # noqa: D102
         self.m_lhs.ndim = 2
         self.m_rhs.ndim = 3
         resolve = Resolve(lhs=self.m_lhs, rhs=self.m_rhs)
@@ -170,7 +170,7 @@ class Test__categorise_items:
             coord_dims=func,
         )
 
-    def test(self):
+    def test(self):  # noqa: D102
         result = Resolve._categorise_items(self.cube)
         assert isinstance(result, _CategoryItems)
         assert len(result.items_dim) == 1
@@ -223,7 +223,7 @@ class Test__metadata_resolve:
             result.append(item)
         return result
 
-    def test_metadata_same(self, mocker):
+    def test_metadata_same(self, mocker):  # noqa: D102
         category = _CategoryItems(items_dim=[], items_aux=[], items_scalar=[])
         # configure dim coords
         pairs = [(mocker.sentinel.dim_metadata1, mocker.sentinel.dims1)]
@@ -270,7 +270,7 @@ class Test__metadata_resolve:
         assert resolve.rhs_cube_category_local == expected
         assert resolve.category_common == category
 
-    def test_metadata_overlap(self, mocker):
+    def test_metadata_overlap(self, mocker):  # noqa: D102
         # configure the lhs cube category
         category_lhs = _CategoryItems(items_dim=[], items_aux=[], items_scalar=[])
         # configure dim coords
@@ -355,7 +355,7 @@ class Test__metadata_resolve:
         )
         assert resolve.category_common == expected
 
-    def test_metadata_different(self, mocker):
+    def test_metadata_different(self, mocker):  # noqa: D102
         # configure the lhs cube category
         category_lhs = _CategoryItems(items_dim=[], items_aux=[], items_scalar=[])
         # configure dim coords
@@ -447,7 +447,7 @@ class Test__dim_coverage:
             item = _Item(metadata=metadata, coord=coord, dims=dims)
             self.items.append(item)
 
-    def test_coverage_no_local_no_common_all_free(self):
+    def test_coverage_no_local_no_common_all_free(self):  # noqa: D102
         items = []
         common = []
         result = Resolve._dim_coverage(self.cube, items, common)
@@ -461,7 +461,7 @@ class Test__dim_coverage:
         expected = list(range(self.ndim))
         assert result.dims_free == expected
 
-    def test_coverage_all_local_no_common_no_free(self):
+    def test_coverage_all_local_no_common_no_free(self):  # noqa: D102
         common = []
         result = Resolve._dim_coverage(self.cube, self.items, common)
         assert isinstance(result, _DimCoverage)
@@ -472,7 +472,7 @@ class Test__dim_coverage:
         assert result.dims_local == self.dims
         assert result.dims_free == []
 
-    def test_coverage_no_local_all_common_no_free(self):
+    def test_coverage_no_local_all_common_no_free(self):  # noqa: D102
         result = Resolve._dim_coverage(self.cube, self.items, self.metadata)
         assert isinstance(result, _DimCoverage)
         assert result.cube == self.cube
@@ -482,7 +482,7 @@ class Test__dim_coverage:
         assert result.dims_local == []
         assert result.dims_free == []
 
-    def test_coverage_mixed(self, mocker):
+    def test_coverage_mixed(self, mocker):  # noqa: D102
         common = [self.items[1].metadata, self.items[2].metadata]
         self.items.pop(0)
         self.items.pop(-1)
@@ -544,7 +544,7 @@ class Test__aux_coverage:
             item = _Item(metadata=metadata, coord=coord, dims=dims)
             self.items_scalar.append(item)
 
-    def test_coverage_no_local_no_common_all_free(self):
+    def test_coverage_no_local_no_common_all_free(self):  # noqa: D102
         items_aux, items_scalar = [], []
         common_aux, common_scalar = [], []
         result = Resolve._aux_coverage(
@@ -561,7 +561,7 @@ class Test__aux_coverage:
         expected = list(range(self.ndim))
         assert result.dims_free == expected
 
-    def test_coverage_all_local_no_common_no_free(self):
+    def test_coverage_all_local_no_common_no_free(self):  # noqa: D102
         common_aux, common_scalar = [], []
         result = Resolve._aux_coverage(
             self.cube,
@@ -581,7 +581,7 @@ class Test__aux_coverage:
         assert result.dims_local == expected
         assert result.dims_free == []
 
-    def test_coverage_no_local_all_common_no_free(self):
+    def test_coverage_no_local_all_common_no_free(self):  # noqa: D102
         result = Resolve._aux_coverage(
             self.cube,
             self.items_aux,
@@ -600,7 +600,7 @@ class Test__aux_coverage:
         assert result.dims_local == []
         assert result.dims_free == []
 
-    def test_coverage_mixed(self):
+    def test_coverage_mixed(self):  # noqa: D102
         common_aux = [self.items_aux[-1].metadata]
         common_scalar = [self.items_scalar[1].metadata]
         self.items_aux.pop(1)
@@ -672,7 +672,7 @@ class Test__metadata_coverage:
         )
         self.mocker_aux_coverage = mocker.patch(target, side_effect=side_effect)
 
-    def test(self, mocker):
+    def test(self, mocker):  # noqa: D102
         self.resolve._metadata_coverage()
         assert self.mocker_dim_coverage.call_count == 2
         calls = [
@@ -738,13 +738,13 @@ class Test__dim_mapping:
             mocker.sentinel.dummy_2,
         ]
 
-    def test_no_mapping(self):
+    def test_no_mapping(self):  # noqa: D102
         self.src_coverage.metadata.extend(self.metadata)
         self.tgt_coverage.metadata.extend(self.dummy)
         result = Resolve._dim_mapping(self.src_coverage, self.tgt_coverage)
         assert result == {}
 
-    def test_full_mapping(self):
+    def test_full_mapping(self):  # noqa: D102
         self.src_coverage.metadata.extend(self.metadata)
         self.tgt_coverage.metadata.extend(self.metadata)
         dims_common = list(range(self.ndim))
@@ -753,7 +753,7 @@ class Test__dim_mapping:
         expected = {0: 0, 1: 1, 2: 2}
         assert result == expected
 
-    def test_transpose_mapping(self):
+    def test_transpose_mapping(self):  # noqa: D102
         self.src_coverage.metadata.extend(self.metadata[::-1])
         self.tgt_coverage.metadata.extend(self.metadata)
         dims_common = list(range(self.ndim))
@@ -762,7 +762,7 @@ class Test__dim_mapping:
         expected = {0: 2, 1: 1, 2: 0}
         assert result == expected
 
-    def test_partial_mapping__transposed(self, mocker):
+    def test_partial_mapping__transposed(self, mocker):  # noqa: D102
         self.src_coverage.metadata.extend(self.metadata)
         self.metadata[1] = mocker.sentinel.nope
         self.tgt_coverage.metadata.extend(self.metadata[::-1])
@@ -772,7 +772,7 @@ class Test__dim_mapping:
         expected = {0: 2, 2: 0}
         assert result == expected
 
-    def test_bad_metadata_mapping(self, mocker):
+    def test_bad_metadata_mapping(self, mocker):  # noqa: D102
         self.src_coverage.metadata.extend(self.metadata)
         self.metadata[0] = mocker.sentinel.bad
         self.tgt_coverage.metadata.extend(self.metadata)
@@ -828,18 +828,18 @@ class Test__aux_mapping:
             ),
         ]
 
-    def test_no_mapping(self):
+    def test_no_mapping(self):  # noqa: D102
         result = Resolve._aux_mapping(self.src_coverage, self.tgt_coverage)
         assert result == {}
 
-    def test_full_mapping(self):
+    def test_full_mapping(self):  # noqa: D102
         self.src_coverage.common_items_aux.extend(self.items)
         self.tgt_coverage.common_items_aux.extend(self.items)
         result = Resolve._aux_mapping(self.src_coverage, self.tgt_coverage)
         expected = {0: 0, 1: 1, 2: 2}
         assert result == expected
 
-    def test_transpose_mapping(self):
+    def test_transpose_mapping(self):  # noqa: D102
         self.src_coverage.common_items_aux.extend(self.items)
         items = deepcopy(self.items)
         items[0].dims[0] = 2
@@ -849,7 +849,7 @@ class Test__aux_mapping:
         expected = {0: 2, 1: 1, 2: 0}
         assert result == expected
 
-    def test_partial_mapping__transposed(self):
+    def test_partial_mapping__transposed(self):  # noqa: D102
         _ = self.items.pop(1)
         self.src_coverage.common_items_aux.extend(self.items)
         items = deepcopy(self.items)
@@ -860,7 +860,7 @@ class Test__aux_mapping:
         expected = {0: 2, 2: 0}
         assert result == expected
 
-    def test_mapping__match_multiple_src_metadata(self):
+    def test_mapping__match_multiple_src_metadata(self):  # noqa: D102
         items = deepcopy(self.items)
         _ = self.items.pop(1)
         self.src_coverage.common_items_aux.extend(self.items)
@@ -870,7 +870,7 @@ class Test__aux_mapping:
         expected = {0: 0, 2: 2}
         assert result == expected
 
-    def test_mapping__skip_match_multiple_src_metadata(self):
+    def test_mapping__skip_match_multiple_src_metadata(self):  # noqa: D102
         items = deepcopy(self.items)
         _ = self.items.pop(1)
         self.tgt_coverage.common_items_aux.extend(self.items)
@@ -880,7 +880,7 @@ class Test__aux_mapping:
         expected = {2: 2}
         assert result == expected
 
-    def test_mapping__skip_different_rank(self):
+    def test_mapping__skip_different_rank(self):  # noqa: D102
         items = deepcopy(self.items)
         self.src_coverage.common_items_aux.extend(self.items)
         items[2] = items[2]._replace(dims=[1, 2])
@@ -889,7 +889,7 @@ class Test__aux_mapping:
         expected = {0: 0, 1: 1}
         assert result == expected
 
-    def test_bad_metadata_mapping(self, mocker):
+    def test_bad_metadata_mapping(self, mocker):  # noqa: D102
         self.src_coverage.common_items_aux.extend(self.items)
         items = deepcopy(self.items)
         items[0] = items[0]._replace(metadata=mocker.sentinel.bad)
@@ -901,12 +901,12 @@ class Test__aux_mapping:
 
 class Test_mapped:
     """Test mapped."""
-    def test_mapping_none(self):
+    def test_mapping_none(self):  # noqa: D102
         resolve = Resolve()
         assert resolve.mapping is None
         assert resolve.mapped is None
 
-    def test_mapped__src_cube_lhs(self, mocker):
+    def test_mapped__src_cube_lhs(self, mocker):  # noqa: D102
         resolve = Resolve()
         lhs = mocker.Mock(ndim=2)
         rhs = mocker.Mock(ndim=3)
@@ -916,7 +916,7 @@ class Test_mapped:
         resolve.mapping = {0: 0, 1: 1}
         assert resolve.mapped
 
-    def test_mapped__src_cube_rhs(self, mocker):
+    def test_mapped__src_cube_rhs(self, mocker):  # noqa: D102
         resolve = Resolve()
         lhs = mocker.Mock(ndim=3)
         rhs = mocker.Mock(ndim=2)
@@ -926,7 +926,7 @@ class Test_mapped:
         resolve.mapping = {0: 0, 1: 1}
         assert resolve.mapped
 
-    def test_partial_mapping(self, mocker):
+    def test_partial_mapping(self, mocker):  # noqa: D102
         resolve = Resolve()
         lhs = mocker.Mock(ndim=3)
         rhs = mocker.Mock(ndim=2)
@@ -975,7 +975,7 @@ class Test__free_mapping:
         )
         return args
 
-    def test_mapping_no_dims_free(self):
+    def test_mapping_no_dims_free(self):  # noqa: D102
         ndim = 4
         shape = tuple(range(ndim))
         cube = self.Cube(name=lambda: "name", ndim=ndim, shape=shape)
@@ -1000,7 +1000,7 @@ class Test__free_mapping:
         aux_coverage["cube"] = cube
         aux_coverage["dims_free"].extend(dims_free)
 
-    def test_mapping_src_free_to_tgt_local(self):
+    def test_mapping_src_free_to_tgt_local(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1025,7 +1025,7 @@ class Test__free_mapping:
         expected = {0: 3, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_src_free_to_tgt_local__broadcast_src_first(self):
+    def test_mapping_src_free_to_tgt_local__broadcast_src_first(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1051,7 +1051,7 @@ class Test__free_mapping:
         expected = {0: 3, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_src_free_to_tgt_local__broadcast_src_last(self):
+    def test_mapping_src_free_to_tgt_local__broadcast_src_last(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1077,7 +1077,7 @@ class Test__free_mapping:
         expected = {0: 3, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_src_free_to_tgt_local__broadcast_src_both(self):
+    def test_mapping_src_free_to_tgt_local__broadcast_src_both(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1103,7 +1103,7 @@ class Test__free_mapping:
         expected = {0: 1, 1: 2, 2: 3}
         assert self.resolve.mapping == expected
 
-    def test_mapping_src_free_to_tgt_free(self):
+    def test_mapping_src_free_to_tgt_free(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1128,7 +1128,7 @@ class Test__free_mapping:
         expected = {0: 0, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_src_free_to_tgt_free__broadcast_src_first(self):
+    def test_mapping_src_free_to_tgt_free__broadcast_src_first(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1154,7 +1154,7 @@ class Test__free_mapping:
         expected = {0: 0, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_src_free_to_tgt_free__broadcast_src_last(self):
+    def test_mapping_src_free_to_tgt_free__broadcast_src_last(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1180,7 +1180,7 @@ class Test__free_mapping:
         expected = {0: 0, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_src_free_to_tgt_free__broadcast_src_both(self):
+    def test_mapping_src_free_to_tgt_free__broadcast_src_both(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1206,7 +1206,7 @@ class Test__free_mapping:
         expected = {0: 0, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_src_free_to_tgt__fail(self):
+    def test_mapping_src_free_to_tgt__fail(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1232,7 +1232,7 @@ class Test__free_mapping:
         with pytest.raises(ValueError, match=emsg):
             self.resolve._free_mapping(**args)
 
-    def test_mapping_tgt_free_to_src_local(self):
+    def test_mapping_tgt_free_to_src_local(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1257,7 +1257,7 @@ class Test__free_mapping:
         expected = {0: 3, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_tgt_free_to_src_local__broadcast_tgt_first(self):
+    def test_mapping_tgt_free_to_src_local__broadcast_tgt_first(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1283,7 +1283,7 @@ class Test__free_mapping:
         expected = {0: 3, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_tgt_free_to_src_local__broadcast_tgt_last(self):
+    def test_mapping_tgt_free_to_src_local__broadcast_tgt_last(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1309,7 +1309,7 @@ class Test__free_mapping:
         expected = {0: 3, 1: 2, 2: 1}
         assert self.resolve.mapping == expected
 
-    def test_mapping_tgt_free_to_src_local__broadcast_tgt_both(self):
+    def test_mapping_tgt_free_to_src_local__broadcast_tgt_both(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1335,7 +1335,7 @@ class Test__free_mapping:
         expected = {0: 1, 1: 2, 2: 3}
         assert self.resolve.mapping == expected
 
-    def test_mapping_tgt_free_to_src_no_free__fail(self):
+    def test_mapping_tgt_free_to_src_no_free__fail(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1369,17 +1369,17 @@ class Test__src_cube:
         self.resolve = Resolve()
         self.expected = mocker.sentinel.cube
 
-    def test_rhs_cube(self):
+    def test_rhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         self.resolve.rhs_cube = self.expected
         assert self.resolve._src_cube == self.expected
 
-    def test_lhs_cube(self):
+    def test_lhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         self.resolve.lhs_cube = self.expected
         assert self.resolve._src_cube == self.expected
 
-    def test_fail__no_map_rhs_to_lhs(self):
+    def test_fail__no_map_rhs_to_lhs(self):  # noqa: D102
         with pytest.raises(AssertionError):
             self.resolve._src_cube
 
@@ -1390,15 +1390,15 @@ class Test__src_cube_position:
     def _setup(self):
         self.resolve = Resolve()
 
-    def test_rhs_cube(self):
+    def test_rhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         assert self.resolve._src_cube_position == "RHS"
 
-    def test_lhs_cube(self):
+    def test_lhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         assert self.resolve._src_cube_position == "LHS"
 
-    def test_fail__no_map_rhs_to_lhs(self):
+    def test_fail__no_map_rhs_to_lhs(self):  # noqa: D102
         with pytest.raises(AssertionError):
             self.resolve._src_cube_position
 
@@ -1410,17 +1410,17 @@ class Test__src_cube_resolved__getter:
         self.resolve = Resolve()
         self.expected = mocker.sentinel.cube
 
-    def test_rhs_cube(self):
+    def test_rhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         self.resolve.rhs_cube_resolved = self.expected
         assert self.resolve._src_cube_resolved == self.expected
 
-    def test_lhs_cube(self):
+    def test_lhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         self.resolve.lhs_cube_resolved = self.expected
         assert self.resolve._src_cube_resolved == self.expected
 
-    def test_fail__no_map_rhs_to_lhs(self):
+    def test_fail__no_map_rhs_to_lhs(self):  # noqa: D102
         with pytest.raises(AssertionError):
             self.resolve._src_cube_resolved
 
@@ -1432,17 +1432,17 @@ class Test__src_cube_resolved__setter:
         self.resolve = Resolve()
         self.expected = mocker.sentinel.cube
 
-    def test_rhs_cube(self):
+    def test_rhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         self.resolve._src_cube_resolved = self.expected
         assert self.resolve.rhs_cube_resolved == self.expected
 
-    def test_lhs_cube(self):
+    def test_lhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         self.resolve._src_cube_resolved = self.expected
         assert self.resolve.lhs_cube_resolved == self.expected
 
-    def test_fail__no_map_rhs_to_lhs(self):
+    def test_fail__no_map_rhs_to_lhs(self):  # noqa: D102
         with pytest.raises(AssertionError):
             self.resolve._src_cube_resolved = self.expected
 
@@ -1454,17 +1454,17 @@ class Test__tgt_cube:
         self.resolve = Resolve()
         self.expected = mocker.sentinel.cube
 
-    def test_rhs_cube(self):
+    def test_rhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         self.resolve.rhs_cube = self.expected
         assert self.resolve._tgt_cube == self.expected
 
-    def test_lhs_cube(self):
+    def test_lhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         self.resolve.lhs_cube = self.expected
         assert self.resolve._tgt_cube == self.expected
 
-    def test_fail__no_map_rhs_to_lhs(self):
+    def test_fail__no_map_rhs_to_lhs(self):  # noqa: D102
         with pytest.raises(AssertionError):
             self.resolve._tgt_cube
 
@@ -1475,15 +1475,15 @@ class Test__tgt_cube_position:
     def _setup(self):
         self.resolve = Resolve()
 
-    def test_rhs_cube(self):
+    def test_rhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         assert self.resolve._tgt_cube_position == "RHS"
 
-    def test_lhs_cube(self):
+    def test_lhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         assert self.resolve._tgt_cube_position == "LHS"
 
-    def test_fail__no_map_rhs_to_lhs(self):
+    def test_fail__no_map_rhs_to_lhs(self):  # noqa: D102
         with pytest.raises(AssertionError):
             self.resolve._tgt_cube_position
 
@@ -1495,17 +1495,17 @@ class Test__tgt_cube_resolved__getter:
         self.resolve = Resolve()
         self.expected = mocker.sentinel.cube
 
-    def test_rhs_cube(self):
+    def test_rhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         self.resolve.rhs_cube_resolved = self.expected
         assert self.resolve._tgt_cube_resolved == self.expected
 
-    def test_lhs_cube(self):
+    def test_lhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         self.resolve.lhs_cube_resolved = self.expected
         assert self.resolve._tgt_cube_resolved == self.expected
 
-    def test_fail__no_map_rhs_to_lhs(self):
+    def test_fail__no_map_rhs_to_lhs(self):  # noqa: D102
         with pytest.raises(AssertionError):
             self.resolve._tgt_cube_resolved
 
@@ -1517,17 +1517,17 @@ class Test__tgt_cube_resolved__setter:
         self.resolve = Resolve()
         self.expected = mocker.sentinel.cube
 
-    def test_rhs_cube(self):
+    def test_rhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         self.resolve._tgt_cube_resolved = self.expected
         assert self.resolve.rhs_cube_resolved == self.expected
 
-    def test_lhs_cube(self):
+    def test_lhs_cube(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         self.resolve._tgt_cube_resolved = self.expected
         assert self.resolve.lhs_cube_resolved == self.expected
 
-    def test_fail__no_map_rhs_to_lhs(self):
+    def test_fail__no_map_rhs_to_lhs(self):  # noqa: D102
         with pytest.raises(AssertionError):
             self.resolve._tgt_cube_resolved = self.expected
 
@@ -1538,10 +1538,10 @@ class Test_shape:
     def _setup(self):
         self.resolve = Resolve()
 
-    def test_no_shape(self):
+    def test_no_shape(self):  # noqa: D102
         assert self.resolve.shape is None
 
-    def test_shape(self, mocker):
+    def test_shape(self, mocker):  # noqa: D102
         expected = mocker.sentinel.shape
         self.resolve._broadcast_shape = expected
         assert self.resolve.shape == expected
@@ -1611,7 +1611,7 @@ class Test__as_compatible_cubes:
             cube = self.Cube(**self.args)
             self.resolve.lhs_cube = cube
 
-    def test_incomplete_src_to_tgt_mapping__fail(self):
+    def test_incomplete_src_to_tgt_mapping__fail(self):  # noqa: D102
         src_shape = (1, 2)
         self._make_cube("src", src_shape)
         tgt_shape = (3, 4)
@@ -1619,7 +1619,7 @@ class Test__as_compatible_cubes:
         with pytest.raises(AssertionError):
             self.resolve._as_compatible_cubes()
 
-    def test_incompatible_shapes__fail(self):
+    def test_incompatible_shapes__fail(self):  # noqa: D102
         # key: (state) c=common, f=free
         #
         # tgt:            <- src:
@@ -1639,7 +1639,7 @@ class Test__as_compatible_cubes:
         with pytest.raises(ValueError, match=emsg):
             self.resolve._as_compatible_cubes()
 
-    def test_incompatible_shapes__fail_broadcast(self):
+    def test_incompatible_shapes__fail_broadcast(self):  # noqa: D102
         # key: (state) c=common, f=free
         #
         # tgt:            <- src:
@@ -1681,7 +1681,7 @@ class Test__as_compatible_cubes:
         assert self.cube.add_aux_factory.call_count == 1
         assert self.cube.add_aux_factory.call_args_list == [mock.call(self.aux_factory)]
 
-    def test_compatible(self, mocker):
+    def test_compatible(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1703,7 +1703,7 @@ class Test__as_compatible_cubes:
         self._check_compatible(broadcast_shape=tgt_shape)
         assert self.mocker.call_args_list == [mocker.call(self.data)]
 
-    def test_compatible__transpose(self, mocker):
+    def test_compatible__transpose(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1727,7 +1727,7 @@ class Test__as_compatible_cubes:
         assert self.data.transpose.call_args_list == [mocker.call([2, 1, 0])]
         assert self.mocker.call_args_list == [mocker.call(self.transpose)]
 
-    def test_compatible__reshape(self, mocker):
+    def test_compatible__reshape(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1751,7 +1751,7 @@ class Test__as_compatible_cubes:
         assert self.data.reshape.call_args_list == [mocker.call((1,) + src_shape)]
         assert self.mocker.call_args_list == [mocker.call(self.reshape)]
 
-    def test_compatible__transpose_reshape(self, mocker):
+    def test_compatible__transpose_reshape(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1778,7 +1778,7 @@ class Test__as_compatible_cubes:
         assert self.data.reshape.call_args_list == [mocker.call((1,) + transpose_shape)]
         assert self.mocker.call_args_list == [mocker.call(self.reshape)]
 
-    def test_compatible__broadcast(self, mocker):
+    def test_compatible__broadcast(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1801,7 +1801,7 @@ class Test__as_compatible_cubes:
         self._check_compatible(broadcast_shape=(4, 3, 2))
         assert self.mocker.call_args_list == [mocker.call(self.data)]
 
-    def test_compatible__broadcast_transpose_reshape(self, mocker):
+    def test_compatible__broadcast_transpose_reshape(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1867,7 +1867,7 @@ class Test__metadata_mapping:
         )
         self.mapping = {0: 1, 1: 2, 2: 3}
 
-    def test_mapped__dim_coords(self, mocker):
+    def test_mapped__dim_coords(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1890,7 +1890,7 @@ class Test__metadata_mapping:
         assert self.m_free_mapping.call_count == 0
         assert self.m_as_compatible_cubes.call_count == 1
 
-    def test_mapped__aux_coords(self, mocker):
+    def test_mapped__aux_coords(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1915,7 +1915,7 @@ class Test__metadata_mapping:
         assert self.m_free_mapping.call_count == 0
         assert self.m_as_compatible_cubes.call_count == 1
 
-    def test_mapped__dim_and_aux_coords(self, mocker):
+    def test_mapped__dim_and_aux_coords(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -1943,7 +1943,7 @@ class Test__metadata_mapping:
         assert self.m_free_mapping.call_count == 0
         assert self.m_as_compatible_cubes.call_count == 1
 
-    def test_mapped__dim_coords_and_free_dims(self, mocker):
+    def test_mapped__dim_coords_and_free_dims(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -1981,7 +1981,7 @@ class Test__metadata_mapping:
         assert self.m_free_mapping.call_args_list == expected
         assert self.m_as_compatible_cubes.call_count == 1
 
-    def test_mapped__dim_coords_with_broadcast_flip(self, mocker):
+    def test_mapped__dim_coords_with_broadcast_flip(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) a=aux, d=dim
         #
@@ -2011,7 +2011,7 @@ class Test__metadata_mapping:
         assert self.m_as_compatible_cubes.call_count == 2
         assert self.resolve.map_rhs_to_lhs != self.map_rhs_to_lhs
 
-    def test_mapped__dim_coords_free_flip_with_free_flip(self, mocker):
+    def test_mapped__dim_coords_free_flip_with_free_flip(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) a=aux, d=dim
         #
@@ -2239,16 +2239,16 @@ class Test__prepare_common_dim_payload:
             expected = [mock.call(metadata) for metadata in self.tgt_metadata[1:]]
             assert self.src_metadata.combine.call_args_list == expected
 
-    def test__default_ignore_mismatch(self):
+    def test__default_ignore_mismatch(self):  # noqa: D102
         self._check()
 
-    def test__not_ignore_mismatch(self):
+    def test__not_ignore_mismatch(self):  # noqa: D102
         self._check(ignore_mismatch=False)
 
-    def test__ignore_mismatch(self):
+    def test__ignore_mismatch(self):  # noqa: D102
         self._check(ignore_mismatch=True)
 
-    def test__bad_points(self):
+    def test__bad_points(self):  # noqa: D102
         side_effect = [(None, None)] * len(self.mapping)
         self.m_prepare_points_and_bounds.side_effect = side_effect
         self._check(bad_points=True)
@@ -2431,21 +2431,21 @@ class Test__prepare_common_aux_payload:
                 expected = [mock.call(tgt_metadata)]
                 assert src_metadata.combine.call_args_list == expected
 
-    def test__default_ignore_mismatch(self):
+    def test__default_ignore_mismatch(self):  # noqa: D102
         self._check()
 
-    def test__not_ignore_mismatch(self):
+    def test__not_ignore_mismatch(self):  # noqa: D102
         self._check(ignore_mismatch=False)
 
-    def test__ignore_mismatch(self):
+    def test__ignore_mismatch(self):  # noqa: D102
         self._check(ignore_mismatch=True)
 
-    def test__bad_points(self):
+    def test__bad_points(self):  # noqa: D102
         side_effect = [(None, None)] * len(self.mapping)
         self.m_prepare_points_and_bounds.side_effect = side_effect
         self._check(bad_points=True)
 
-    def test__no_tgt_metadata_match(self):
+    def test__no_tgt_metadata_match(self):  # noqa: D102
         item = self.tgt_common_items[0]
         tgt_common_items = [item] * len(self.tgt_common_items)
         prepared_items = []
@@ -2454,7 +2454,7 @@ class Test__prepare_common_aux_payload:
         )
         assert len(prepared_items) == 0
 
-    def test__multi_tgt_metadata_match(self):
+    def test__multi_tgt_metadata_match(self):  # noqa: D102
         item = self.tgt_common_items[1]
         tgt_common_items = [item] * len(self.tgt_common_items)
         prepared_items = []
@@ -2513,7 +2513,7 @@ class Test__prepare_points_and_bounds:
             "iris.util.array_equal", side_effect=(True, True)
         )
 
-    def test_coord_ndim_unequal__tgt_ndim_greater(self):
+    def test_coord_ndim_unequal__tgt_ndim_greater(self):  # noqa: D102
         self.src_items["ndim"] = 1
         src_coord = self.Coord(**self.src_items)
         self.tgt_items["ndim"] = 10
@@ -2524,7 +2524,7 @@ class Test__prepare_points_and_bounds:
         assert points == self.tgt_points
         assert bounds == self.tgt_bounds
 
-    def test_coord_ndim_unequal__src_ndim_greater(self):
+    def test_coord_ndim_unequal__src_ndim_greater(self):  # noqa: D102
         self.src_items["ndim"] = 10
         src_coord = self.Coord(**self.src_items)
         self.tgt_items["ndim"] = 1
@@ -2535,7 +2535,7 @@ class Test__prepare_points_and_bounds:
         assert points == self.src_points
         assert bounds == self.src_bounds
 
-    def test_coord_ndim_equal__shape_unequal_with_src_broadcasting(self):
+    def test_coord_ndim_equal__shape_unequal_with_src_broadcasting(self):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) x=coord
         #
@@ -2571,7 +2571,7 @@ class Test__prepare_points_and_bounds:
         assert points == self.tgt_points
         assert bounds == self.tgt_bounds
 
-    def test_coord_ndim_equal__shape_unequal_with_tgt_broadcasting(self):
+    def test_coord_ndim_equal__shape_unequal_with_tgt_broadcasting(self):  # noqa: D102
         # key: (state) c=common, f=free
         #      (coord) x=coord
         #
@@ -2607,7 +2607,7 @@ class Test__prepare_points_and_bounds:
         assert points == self.src_points
         assert bounds == self.src_bounds
 
-    def test_coord_ndim_equal__shape_unequal_with_unsupported_broadcasting(
+    def test_coord_ndim_equal__shape_unequal_with_unsupported_broadcasting(  # noqa: D102
         self,
         mocker,
     ):
@@ -2695,7 +2695,7 @@ class Test__prepare_points_and_bounds:
         )
         return args
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_no_bounds(self, mocker):
+    def test_coord_ndim_and_shape_equal__points_equal_with_no_bounds(self, mocker):  # noqa: D102
         args = self._populate(self.src_points, self.src_points)
         points, bounds = self.resolve._prepare_points_and_bounds(**args)
         assert points == self.src_points
@@ -2704,7 +2704,7 @@ class Test__prepare_points_and_bounds:
         expected = [mocker.call(self.src_points, self.src_points, withnans=True)]
         assert self.m_array_equal.call_args_list == expected
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_src_bounds_only(
+    def test_coord_ndim_and_shape_equal__points_equal_with_src_bounds_only(  # noqa: D102
         self,
         mocker,
     ):
@@ -2718,7 +2718,7 @@ class Test__prepare_points_and_bounds:
         expected = [mocker.call(self.src_points, self.src_points, withnans=True)]
         assert self.m_array_equal.call_args_list == expected
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_tgt_bounds_only(
+    def test_coord_ndim_and_shape_equal__points_equal_with_tgt_bounds_only(  # noqa: D102
         self,
         mocker,
     ):
@@ -2732,7 +2732,7 @@ class Test__prepare_points_and_bounds:
         expected = [mocker.call(self.src_points, self.src_points, withnans=True)]
         assert self.m_array_equal.call_args_list == expected
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_src_bounds_only_strict(
+    def test_coord_ndim_and_shape_equal__points_equal_with_src_bounds_only_strict(  # noqa: D102
         self,
     ):
         args = self._populate(
@@ -2743,7 +2743,7 @@ class Test__prepare_points_and_bounds:
             with pytest.raises(ValueError, match=emsg):
                 _ = self.resolve._prepare_points_and_bounds(**args)
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_tgt_bounds_only_strict(
+    def test_coord_ndim_and_shape_equal__points_equal_with_tgt_bounds_only_strict(  # noqa: D102
         self,
     ):
         args = self._populate(
@@ -2754,7 +2754,7 @@ class Test__prepare_points_and_bounds:
             with pytest.raises(ValueError, match=emsg):
                 _ = self.resolve._prepare_points_and_bounds(**args)
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_bounds_equal(self, mocker):
+    def test_coord_ndim_and_shape_equal__points_equal_with_bounds_equal(self, mocker):  # noqa: D102
         args = self._populate(
             self.src_points,
             self.src_points,
@@ -2771,7 +2771,7 @@ class Test__prepare_points_and_bounds:
         ]
         assert self.m_array_equal.call_args_list == expected
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_bounds_different(
+    def test_coord_ndim_and_shape_equal__points_equal_with_bounds_different(  # noqa: D102
         self,
     ):
         self.m_array_equal.side_effect = (True, False)
@@ -2785,7 +2785,7 @@ class Test__prepare_points_and_bounds:
         with pytest.raises(ValueError, match=emsg):
             _ = self.resolve._prepare_points_and_bounds(**args)
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_bounds_different_ignore_mismatch(
+    def test_coord_ndim_and_shape_equal__points_equal_with_bounds_different_ignore_mismatch(  # noqa: D102
         self,
         mocker,
     ):
@@ -2808,7 +2808,7 @@ class Test__prepare_points_and_bounds:
         ]
         assert self.m_array_equal.call_args_list == expected
 
-    def test_coord_ndim_and_shape_equal__points_equal_with_bounds_different_strict(
+    def test_coord_ndim_and_shape_equal__points_equal_with_bounds_different_strict(  # noqa: D102
         self,
     ):
         self.m_array_equal.side_effect = (True, False)
@@ -2823,14 +2823,14 @@ class Test__prepare_points_and_bounds:
             with pytest.raises(ValueError, match=emsg):
                 _ = self.resolve._prepare_points_and_bounds(**args)
 
-    def test_coord_ndim_and_shape_equal__points_different(self):
+    def test_coord_ndim_and_shape_equal__points_different(self):  # noqa: D102
         self.m_array_equal.side_effect = (False,)
         args = self._populate(self.src_points, self.tgt_points)
         emsg = f"Coordinate {self.src_name} has different points"
         with pytest.raises(ValueError, match=emsg):
             _ = self.resolve._prepare_points_and_bounds(**args)
 
-    def test_coord_ndim_and_shape_equal__points_different_ignore_mismatch(
+    def test_coord_ndim_and_shape_equal__points_different_ignore_mismatch(  # noqa: D102
         self,
     ):
         self.m_array_equal.side_effect = (False,)
@@ -2841,7 +2841,7 @@ class Test__prepare_points_and_bounds:
         assert points is None
         assert bounds is None
 
-    def test_coord_ndim_and_shape_equal__points_different_strict(self):
+    def test_coord_ndim_and_shape_equal__points_different_strict(self):  # noqa: D102
         self.m_array_equal.side_effect = (False,)
         args = self._populate(self.src_points, self.tgt_points)
         with LENIENT.context(maths=False):
@@ -2887,16 +2887,16 @@ class Test__create_prepared_item:
         assert result.dims == (dims,)
         assert result.container == self.container
 
-    def test__no_metadata(self):
+    def test__no_metadata(self):  # noqa: D102
         self._check()
 
-    def test__src_metadata_only(self):
+    def test__src_metadata_only(self):  # noqa: D102
         self._check(src=self.src)
 
-    def test__tgt_metadata_only(self):
+    def test__tgt_metadata_only(self):  # noqa: D102
         self._check(tgt=self.tgt)
 
-    def test__combine_metadata(self):
+    def test__combine_metadata(self):  # noqa: D102
         self._check(src=self.src, tgt=self.tgt)
 
 
@@ -2925,7 +2925,7 @@ class Test__prepare_local_payload_dim:
             return_value=self.prepared_item,
         )
 
-    def test_src_no_local_with_tgt_no_local(self):
+    def test_src_no_local_with_tgt_no_local(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -2945,7 +2945,7 @@ class Test__prepare_local_payload_dim:
         self.resolve._prepare_local_payload_dim(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_dim) == 0
 
-    def test_src_no_local_with_tgt_no_local__strict(self):
+    def test_src_no_local_with_tgt_no_local__strict(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -2966,7 +2966,7 @@ class Test__prepare_local_payload_dim:
             self.resolve._prepare_local_payload_dim(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_dim) == 0
 
-    def test_src_local_with_tgt_local(self):
+    def test_src_local_with_tgt_local(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -2988,7 +2988,7 @@ class Test__prepare_local_payload_dim:
         self.resolve._prepare_local_payload_dim(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_dim) == 0
 
-    def test_src_local_with_tgt_local__strict(self):
+    def test_src_local_with_tgt_local__strict(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3011,7 +3011,7 @@ class Test__prepare_local_payload_dim:
             self.resolve._prepare_local_payload_dim(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_dim) == 0
 
-    def test_src_local_with_tgt_free(self, mocker):
+    def test_src_local_with_tgt_free(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3041,7 +3041,7 @@ class Test__prepare_local_payload_dim:
         expected = [mocker.call(src_coord, mapping[src_dim], src_metadata=src_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_local_with_tgt_free__strict(self, mocker):
+    def test_src_local_with_tgt_free__strict(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3068,7 +3068,7 @@ class Test__prepare_local_payload_dim:
             self.resolve._prepare_local_payload_dim(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_dim) == 0
 
-    def test_src_free_with_tgt_local(self, mocker):
+    def test_src_free_with_tgt_local(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3098,7 +3098,7 @@ class Test__prepare_local_payload_dim:
         expected = [mocker.call(tgt_coord, tgt_dim, tgt_metadata=tgt_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_free_with_tgt_local__strict(self, mocker):
+    def test_src_free_with_tgt_local__strict(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3125,7 +3125,7 @@ class Test__prepare_local_payload_dim:
             self.resolve._prepare_local_payload_dim(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_dim) == 0
 
-    def test_src_no_local_with_tgt_local__extra_dims(self, mocker):
+    def test_src_no_local_with_tgt_local__extra_dims(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3155,7 +3155,7 @@ class Test__prepare_local_payload_dim:
         expected = [mocker.call(tgt_coord, tgt_dim, tgt_metadata=tgt_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_no_local_with_tgt_local__extra_dims_strict(self, mocker):
+    def test_src_no_local_with_tgt_local__extra_dims_strict(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3215,7 +3215,7 @@ class Test__prepare_local_payload_aux:
             side_effect=(self.src_prepared_item, self.tgt_prepared_item),
         )
 
-    def test_src_no_local_with_tgt_no_local(self):
+    def test_src_no_local_with_tgt_no_local(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3235,7 +3235,7 @@ class Test__prepare_local_payload_aux:
         self.resolve._prepare_local_payload_aux(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_aux) == 0
 
-    def test_src_no_local_with_tgt_no_local__strict(self):
+    def test_src_no_local_with_tgt_no_local__strict(self):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3256,7 +3256,7 @@ class Test__prepare_local_payload_aux:
             self.resolve._prepare_local_payload_aux(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_aux) == 0
 
-    def test_src_local_with_tgt_local(self, mocker):
+    def test_src_local_with_tgt_local(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3293,7 +3293,7 @@ class Test__prepare_local_payload_aux:
         ]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_local_with_tgt_local__strict(self, mocker):
+    def test_src_local_with_tgt_local__strict(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3324,7 +3324,7 @@ class Test__prepare_local_payload_aux:
             self.resolve._prepare_local_payload_aux(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_aux) == 0
 
-    def test_src_local_with_tgt_free(self, mocker):
+    def test_src_local_with_tgt_free(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3354,7 +3354,7 @@ class Test__prepare_local_payload_aux:
         expected = [mocker.call(src_coord, src_dims, src_metadata=src_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_local_with_tgt_free__strict(self, mocker):
+    def test_src_local_with_tgt_free__strict(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3381,7 +3381,7 @@ class Test__prepare_local_payload_aux:
             self.resolve._prepare_local_payload_aux(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_aux) == 0
 
-    def test_src_free_with_tgt_local(self, mocker):
+    def test_src_free_with_tgt_local(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3412,7 +3412,7 @@ class Test__prepare_local_payload_aux:
         expected = [mocker.call(tgt_coord, tgt_dims, tgt_metadata=tgt_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_free_with_tgt_local__strict(self, mocker):
+    def test_src_free_with_tgt_local__strict(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3440,7 +3440,7 @@ class Test__prepare_local_payload_aux:
             self.resolve._prepare_local_payload_aux(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_aux) == 0
 
-    def test_src_no_local_with_tgt_local__extra_dims(self, mocker):
+    def test_src_no_local_with_tgt_local__extra_dims(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3471,7 +3471,7 @@ class Test__prepare_local_payload_aux:
         expected = [mocker.call(tgt_coord, tgt_dims, tgt_metadata=tgt_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_no_local_with_tgt_local__extra_dims_strict(self, mocker):
+    def test_src_no_local_with_tgt_local__extra_dims_strict(self, mocker):  # noqa: D102
         # key: (state) c=common, f=free, l=local
         #      (coord) d=dim
         #
@@ -3533,7 +3533,7 @@ class Test__prepare_local_payload_scalar:
         self.src_dims = ()
         self.tgt_dims = ()
 
-    def test_src_no_local_with_tgt_no_local(self):
+    def test_src_no_local_with_tgt_no_local(self):  # noqa: D102
         ndim = 2
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_coverage = _AuxCoverage(**self.src_coverage)
@@ -3541,7 +3541,7 @@ class Test__prepare_local_payload_scalar:
         self.resolve._prepare_local_payload_scalar(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_scalar) == 0
 
-    def test_src_no_local_with_tgt_no_local__strict(self):
+    def test_src_no_local_with_tgt_no_local__strict(self):  # noqa: D102
         ndim = 2
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_coverage = _AuxCoverage(**self.src_coverage)
@@ -3550,7 +3550,7 @@ class Test__prepare_local_payload_scalar:
             self.resolve._prepare_local_payload_scalar(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_scalar) == 0
 
-    def test_src_no_local_with_tgt_no_local__src_scalar_cube(self):
+    def test_src_no_local_with_tgt_no_local__src_scalar_cube(self):  # noqa: D102
         ndim = 0
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_coverage = _AuxCoverage(**self.src_coverage)
@@ -3558,7 +3558,7 @@ class Test__prepare_local_payload_scalar:
         self.resolve._prepare_local_payload_scalar(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_scalar) == 0
 
-    def test_src_no_local_with_tgt_no_local__src_scalar_cube_strict(self):
+    def test_src_no_local_with_tgt_no_local__src_scalar_cube_strict(self):  # noqa: D102
         ndim = 0
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_coverage = _AuxCoverage(**self.src_coverage)
@@ -3567,7 +3567,7 @@ class Test__prepare_local_payload_scalar:
             self.resolve._prepare_local_payload_scalar(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_scalar) == 0
 
-    def test_src_local_with_tgt_no_local(self, mocker):
+    def test_src_local_with_tgt_no_local(self, mocker):  # noqa: D102
         ndim = 2
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_metadata = mocker.sentinel.src_metadata
@@ -3583,7 +3583,7 @@ class Test__prepare_local_payload_scalar:
         expected = [mocker.call(src_coord, self.src_dims, src_metadata=src_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_local_with_tgt_no_local__strict(self, mocker):
+    def test_src_local_with_tgt_no_local__strict(self, mocker):  # noqa: D102
         ndim = 2
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_metadata = mocker.sentinel.src_metadata
@@ -3596,7 +3596,7 @@ class Test__prepare_local_payload_scalar:
             self.resolve._prepare_local_payload_scalar(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_scalar) == 0
 
-    def test_src_local_with_tgt_no_local__src_scalar_cube(self, mocker):
+    def test_src_local_with_tgt_no_local__src_scalar_cube(self, mocker):  # noqa: D102
         ndim = 0
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_metadata = mocker.sentinel.src_metadata
@@ -3612,7 +3612,7 @@ class Test__prepare_local_payload_scalar:
         expected = [mocker.call(src_coord, self.src_dims, src_metadata=src_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_local_with_tgt_no_local__src_scalar_cube_strict(self, mocker):
+    def test_src_local_with_tgt_no_local__src_scalar_cube_strict(self, mocker):  # noqa: D102
         ndim = 0
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_metadata = mocker.sentinel.src_metadata
@@ -3625,7 +3625,7 @@ class Test__prepare_local_payload_scalar:
             self.resolve._prepare_local_payload_scalar(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_scalar) == 0
 
-    def test_src_no_local_with_tgt_local(self, mocker):
+    def test_src_no_local_with_tgt_local(self, mocker):  # noqa: D102
         self.m_create_prepared_item.side_effect = (self.tgt_prepared_item,)
         ndim = 2
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
@@ -3642,7 +3642,7 @@ class Test__prepare_local_payload_scalar:
         expected = [mocker.call(tgt_coord, self.tgt_dims, tgt_metadata=tgt_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_no_local_with_tgt_local__strict(self, mocker):
+    def test_src_no_local_with_tgt_local__strict(self, mocker):  # noqa: D102
         self.m_create_prepared_item.side_effect = (self.tgt_prepared_item,)
         ndim = 2
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
@@ -3656,7 +3656,7 @@ class Test__prepare_local_payload_scalar:
             self.resolve._prepare_local_payload_scalar(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_scalar) == 0
 
-    def test_src_no_local_with_tgt_local__src_scalar_cube(self, mocker):
+    def test_src_no_local_with_tgt_local__src_scalar_cube(self, mocker):  # noqa: D102
         self.m_create_prepared_item.side_effect = (self.tgt_prepared_item,)
         ndim = 0
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
@@ -3673,7 +3673,7 @@ class Test__prepare_local_payload_scalar:
         expected = [mocker.call(tgt_coord, self.tgt_dims, tgt_metadata=tgt_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_no_local_with_tgt_local__src_scalar_cube_strict(self, mocker):
+    def test_src_no_local_with_tgt_local__src_scalar_cube_strict(self, mocker):  # noqa: D102
         self.m_create_prepared_item.side_effect = (self.tgt_prepared_item,)
         ndim = 0
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
@@ -3691,7 +3691,7 @@ class Test__prepare_local_payload_scalar:
         expected = [mocker.call(tgt_coord, self.tgt_dims, tgt_metadata=tgt_metadata)]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_local_with_tgt_local(self, mocker):
+    def test_src_local_with_tgt_local(self, mocker):  # noqa: D102
         ndim = 2
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_metadata = mocker.sentinel.src_metadata
@@ -3714,7 +3714,7 @@ class Test__prepare_local_payload_scalar:
         ]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_local_with_tgt_local__strict(self, mocker):
+    def test_src_local_with_tgt_local__strict(self, mocker):  # noqa: D102
         ndim = 2
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_metadata = mocker.sentinel.src_metadata
@@ -3731,7 +3731,7 @@ class Test__prepare_local_payload_scalar:
             self.resolve._prepare_local_payload_scalar(src_coverage, tgt_coverage)
         assert len(self.resolve.prepared_category.items_scalar) == 0
 
-    def test_src_local_with_tgt_local__src_scalar_cube(self, mocker):
+    def test_src_local_with_tgt_local__src_scalar_cube(self, mocker):  # noqa: D102
         ndim = 0
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_metadata = mocker.sentinel.src_metadata
@@ -3754,7 +3754,7 @@ class Test__prepare_local_payload_scalar:
         ]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_src_local_with_tgt_local__src_scalar_cube_strict(self, mocker):
+    def test_src_local_with_tgt_local__src_scalar_cube_strict(self, mocker):  # noqa: D102
         ndim = 0
         self.src_coverage["cube"] = self.Cube(ndim=ndim)
         src_metadata = mocker.sentinel.src_metadata
@@ -3774,7 +3774,7 @@ class Test__prepare_local_payload_scalar:
 
 class Test__prepare_local_payload:
     """Test  prepare local payload."""
-    def test(self, mocker):
+    def test(self, mocker):  # noqa: D102
         src_dim_coverage = mocker.sentinel.src_dim_coverage
         src_aux_coverage = mocker.sentinel.src_aux_coverage
         tgt_dim_coverage = mocker.sentinel.tgt_dim_coverage
@@ -3874,7 +3874,7 @@ class Test__metadata_prepare:
         ]
         assert self.m_prepare_factory_payload.call_args_list == expected
 
-    def test_map_rhs_to_lhs__true(self):
+    def test_map_rhs_to_lhs__true(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = True
         self.resolve.rhs_cube = self.src_cube
         self.resolve.rhs_cube_category_local = self.src_category_local
@@ -3886,7 +3886,7 @@ class Test__metadata_prepare:
         self.resolve.lhs_cube_aux_coverage = self.tgt_aux_coverage
         self._check()
 
-    def test_map_rhs_to_lhs__false(self):
+    def test_map_rhs_to_lhs__false(self):  # noqa: D102
         self.resolve.map_rhs_to_lhs = False
         self.resolve.lhs_cube = self.src_cube
         self.resolve.lhs_cube_category_local = self.src_category_local
@@ -3922,12 +3922,12 @@ class Test__prepare_factory_payload:
         self.category_local = mocker.sentinel.category_local
         self.from_src = mocker.sentinel.from_src
 
-    def test_no_factory(self):
+    def test_no_factory(self):  # noqa: D102
         cube = self.Cube(aux_factories=[])
         self.resolve._prepare_factory_payload(cube, self.category_local)
         assert len(self.resolve.prepared_factories) == 0
 
-    def test_skip_factory__already_prepared(self):
+    def test_skip_factory__already_prepared(self):  # noqa: D102
         aux_factory = self.Factory_T1(dependencies=None)
         aux_factories = [aux_factory]
         cube = self.Cube(aux_factories=aux_factories)
@@ -3939,7 +3939,7 @@ class Test__prepare_factory_payload:
         self.resolve._prepare_factory_payload(cube, self.category_local)
         assert self.resolve.prepared_factories == prepared_factories
 
-    def test_factory__dependency_already_prepared(self, mocker):
+    def test_factory__dependency_already_prepared(self, mocker):  # noqa: D102
         coord_a = self.Coord(metadata=mocker.sentinel.coord_a_metadata)
         coord_b = self.Coord(metadata=mocker.sentinel.coord_b_metadata)
         coord_c = self.Coord(metadata=mocker.sentinel.coord_c_metadata)
@@ -3972,7 +3972,7 @@ class Test__prepare_factory_payload:
         for call in expected:
             assert call in actual
 
-    def test_factory__dependency_local_not_prepared(self, mocker):
+    def test_factory__dependency_local_not_prepared(self, mocker):  # noqa: D102
         coord_a = self.Coord(metadata=mocker.sentinel.coord_a_metadata)
         coord_b = self.Coord(metadata=mocker.sentinel.coord_b_metadata)
         coord_c = self.Coord(metadata=mocker.sentinel.coord_c_metadata)
@@ -4023,7 +4023,7 @@ class Test__prepare_factory_payload:
         for call in expected:
             assert call in actual
 
-    def test_factory__dependency_not_found(self, mocker):
+    def test_factory__dependency_not_found(self, mocker):  # noqa: D102
         coord_a = self.Coord(metadata=mocker.sentinel.coord_a_metadata)
         coord_b = self.Coord(metadata=mocker.sentinel.coord_b_metadata)
         coord_c = self.Coord(metadata=mocker.sentinel.coord_c_metadata)
@@ -4134,13 +4134,13 @@ class Test__get_prepared_item:
             items_scalar=[self.local_items_scalar],
         )
 
-    def test_missing_prepared_coord__from_src(self, mocker):
+    def test_missing_prepared_coord__from_src(self, mocker):  # noqa: D102
         metadata = mocker.sentinel.missing
         category_local = None
         result = self.resolve._get_prepared_item(metadata, category_local)
         assert result is None
 
-    def test_missing_prepared_coord__from_tgt(self, mocker):
+    def test_missing_prepared_coord__from_tgt(self, mocker):  # noqa: D102
         metadata = mocker.sentinel.missing
         category_local = None
         result = self.resolve._get_prepared_item(
@@ -4148,13 +4148,13 @@ class Test__get_prepared_item:
         )
         assert result is None
 
-    def test_get_prepared_dim_coord__from_src(self):
+    def test_get_prepared_dim_coord__from_src(self):  # noqa: D102
         metadata = self.prepared_dim_metadata_src
         category_local = None
         result = self.resolve._get_prepared_item(metadata, category_local)
         assert result == self.prepared_items_dim
 
-    def test_get_prepared_dim_coord__from_tgt(self):
+    def test_get_prepared_dim_coord__from_tgt(self):  # noqa: D102
         metadata = self.prepared_dim_metadata_tgt
         category_local = None
         result = self.resolve._get_prepared_item(
@@ -4162,13 +4162,13 @@ class Test__get_prepared_item:
         )
         assert result == self.prepared_items_dim
 
-    def test_get_prepared_aux_coord__from_src(self):
+    def test_get_prepared_aux_coord__from_src(self):  # noqa: D102
         metadata = self.prepared_aux_metadata_src
         category_local = None
         result = self.resolve._get_prepared_item(metadata, category_local)
         assert result == self.prepared_items_aux
 
-    def test_get_prepared_aux_coord__from_tgt(self):
+    def test_get_prepared_aux_coord__from_tgt(self):  # noqa: D102
         metadata = self.prepared_aux_metadata_tgt
         category_local = None
         result = self.resolve._get_prepared_item(
@@ -4176,13 +4176,13 @@ class Test__get_prepared_item:
         )
         assert result == self.prepared_items_aux
 
-    def test_get_prepared_scalar_coord__from_src(self):
+    def test_get_prepared_scalar_coord__from_src(self):  # noqa: D102
         metadata = self.prepared_scalar_metadata_src
         category_local = None
         result = self.resolve._get_prepared_item(metadata, category_local)
         assert result == self.prepared_items_scalar
 
-    def test_get_prepared_scalar_coord__from_tgt(self):
+    def test_get_prepared_scalar_coord__from_tgt(self):  # noqa: D102
         metadata = self.prepared_scalar_metadata_tgt
         category_local = None
         result = self.resolve._get_prepared_item(
@@ -4190,21 +4190,21 @@ class Test__get_prepared_item:
         )
         assert result == self.prepared_items_scalar
 
-    def test_missing_local_coord__from_src(self, mocker):
+    def test_missing_local_coord__from_src(self, mocker):  # noqa: D102
         metadata = mocker.sentinel.missing
         result = self.resolve._get_prepared_item(
             metadata, self.category_local, from_local=True
         )
         assert result is None
 
-    def test_missing_local_coord__from_tgt(self, mocker):
+    def test_missing_local_coord__from_tgt(self, mocker):  # noqa: D102
         metadata = mocker.sentinel.missing
         result = self.resolve._get_prepared_item(
             metadata, self.category_local, from_src=False, from_local=True
         )
         assert result is None
 
-    def test_get_local_dim_coord__from_src(self, mocker):
+    def test_get_local_dim_coord__from_src(self, mocker):  # noqa: D102
         created_local_item = mocker.sentinel.created_local_item
         self.m_create_prepared_item.return_value = created_local_item
         metadata = self.local_dim_metadata
@@ -4227,7 +4227,7 @@ class Test__get_prepared_item:
         ]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_get_local_dim_coord__from_tgt(self, mocker):
+    def test_get_local_dim_coord__from_tgt(self, mocker):  # noqa: D102
         created_local_item = mocker.sentinel.created_local_item
         self.m_create_prepared_item.return_value = created_local_item
         metadata = self.local_dim_metadata
@@ -4250,7 +4250,7 @@ class Test__get_prepared_item:
         ]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_get_local_aux_coord__from_src(self, mocker):
+    def test_get_local_aux_coord__from_src(self, mocker):  # noqa: D102
         created_local_item = mocker.sentinel.created_local_item
         self.m_create_prepared_item.return_value = created_local_item
         metadata = self.local_aux_metadata
@@ -4273,7 +4273,7 @@ class Test__get_prepared_item:
         ]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_get_local_aux_coord__from_tgt(self, mocker):
+    def test_get_local_aux_coord__from_tgt(self, mocker):  # noqa: D102
         created_local_item = mocker.sentinel.created_local_item
         self.m_create_prepared_item.return_value = created_local_item
         metadata = self.local_aux_metadata
@@ -4296,7 +4296,7 @@ class Test__get_prepared_item:
         ]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_get_local_scalar_coord__from_src(self, mocker):
+    def test_get_local_scalar_coord__from_src(self, mocker):  # noqa: D102
         created_local_item = mocker.sentinel.created_local_item
         self.m_create_prepared_item.return_value = created_local_item
         metadata = self.local_scalar_metadata
@@ -4319,7 +4319,7 @@ class Test__get_prepared_item:
         ]
         assert self.m_create_prepared_item.call_args_list == expected
 
-    def test_get_local_scalar_coord__from_tgt(self, mocker):
+    def test_get_local_scalar_coord__from_tgt(self, mocker):  # noqa: D102
         created_local_item = mocker.sentinel.created_local_item
         self.m_create_prepared_item.return_value = created_local_item
         metadata = self.local_scalar_metadata
@@ -4545,19 +4545,19 @@ class Test_cube:
         # Required to stop mock 'containers' failing in an 'issubclass' call.
         mocker.patch("iris.common.resolve.issubclass", mocker.Mock(return_value=False))
 
-    def test_no_resolved_shape(self):
+    def test_no_resolved_shape(self):  # noqa: D102
         self.resolve._broadcast_shape = None
         data = None
         emsg = "Cannot resolve resultant cube, as no candidate cubes have been provided"
         with pytest.raises(ValueError, match=emsg):
             _ = self.resolve.cube(data)
 
-    def test_bad_data_shape(self):
+    def test_bad_data_shape(self):  # noqa: D102
         emsg = "Cannot resolve resultant cube, as the provided data must have shape"
         with pytest.raises(ValueError, match=emsg):
             _ = self.resolve.cube(self.bad_data)
 
-    def test_bad_data_shape__inplace(self):
+    def test_bad_data_shape__inplace(self):  # noqa: D102
         self.resolve.lhs_cube = Cube(self.bad_data)
         emsg = "Cannot resolve resultant cube in-place"
         with pytest.raises(ValueError, match=emsg):
@@ -4669,13 +4669,13 @@ class Test_cube:
         ]
         assert self.m_coord.call_args_list == expected
 
-    def test_resolve(self):
+    def test_resolve(self):  # noqa: D102
         result = self.resolve.cube(self.data)
         assert result.metadata == self.cube_metadata
         self._check()
         assert self.resolve.lhs_cube is not result
 
-    def test_resolve__inplace(self):
+    def test_resolve__inplace(self):  # noqa: D102
         result = self.resolve.cube(self.data, in_place=True)
         assert result.metadata == self.cube_metadata
         self._check()

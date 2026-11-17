@@ -137,7 +137,7 @@ class Test_translate__global_attributes:
             return_value=dataset,
         )
 
-    def test_create_global_attributes(self, mocker):
+    def test_create_global_attributes(self, mocker):  # noqa: D102
         global_attrs = CFReader("dummy").cf_group.global_attributes
         assert global_attrs["dimensions"] == "something something_else"
 
@@ -211,7 +211,7 @@ class Test_translate__formula_terms:
             return_value=self.dataset,
         )
 
-    def test_create_formula_terms(self, mocker):
+    def test_create_formula_terms(self, mocker):  # noqa: D102
         cf_group = CFReader("dummy").cf_group
         assert len(cf_group) == len(self.variables)
         # Check there is a singular data variable.
@@ -320,7 +320,7 @@ class Test_build_cf_groups__formula_terms:
 
         self.wibble = netcdf_variable(mocker, "wibble", "lat wibble", np.float64)
 
-    def test_associate_formula_terms_with_data_variable(self, mocker):
+    def test_associate_formula_terms_with_data_variable(self, mocker):  # noqa: D102
         cf_group = CFReader("dummy").cf_group
         assert len(cf_group) == len(self.variables)
         # Check the cf-group associated with the data variable.
@@ -361,7 +361,7 @@ class Test_build_cf_groups__formula_terms:
                 self, name_bnds
             )
 
-    def test_promote_reference(self):
+    def test_promote_reference(self):  # noqa: D102
         cf_group = CFReader("dummy").cf_group
         assert len(cf_group) == len(self.variables)
         # Check the number of data variables.
@@ -378,7 +378,7 @@ class Test_build_cf_groups__formula_terms:
         for name in coordinates:
             assert group[name].cf_data.variable is getattr(self, name)
 
-    def test_formula_terms_ignore(self):
+    def test_formula_terms_ignore(self):  # noqa: D102
         self.orography.dimensions = ["lat", "wibble"]
         with pytest.warns(match="Ignoring formula terms variable"):
             cf_group = CFReader("dummy").cf_group
@@ -386,7 +386,7 @@ class Test_build_cf_groups__formula_terms:
         assert list(group.keys()) == ["orography"]
         assert group["orography"].cf_data.variable is self.orography
 
-    def test_auxiliary_ignore(self):
+    def test_auxiliary_ignore(self):  # noqa: D102
         self.x.dimensions = ["lat", "wibble"]
         with pytest.warns(match=r"Ignoring variable x"):
             cf_group = CFReader("dummy").cf_group
@@ -396,7 +396,7 @@ class Test_build_cf_groups__formula_terms:
         for name in promoted:
             assert group[name].cf_data.variable is getattr(self, name)
 
-    def test_promoted_auxiliary_ignore(self, mocker):
+    def test_promoted_auxiliary_ignore(self, mocker):  # noqa: D102
         self.variables["wibble"] = self.wibble
         # "coordinates" must be set at construction - see the module-level
         # comment on netcdf_variable().
@@ -481,7 +481,7 @@ class Test_build_cf_groups__ugrid:
         cf_reader = CFReader("dummy")
         self.cf_group = cf_reader.cf_group
 
-    def test_inherited(self):
+    def test_inherited(self):  # noqa: D102
         for expected_var, collection in (
             [CFCoordinateVariable("levels", self.levels), "coordinates"],
             [CFDataVariable("data", self.data), "data_variables"],
@@ -489,17 +489,17 @@ class Test_build_cf_groups__ugrid:
             expected = {expected_var.cf_name: expected_var}
             assert getattr(self.cf_group, collection) == expected
 
-    def test_connectivities(self):
+    def test_connectivities(self):  # noqa: D102
         expected_var = CFUGridConnectivityVariable("face_nodes", self.face_nodes)
         expected = {expected_var.cf_name: expected_var}
         assert self.cf_group.connectivities == expected
 
-    def test_mesh(self):
+    def test_mesh(self):  # noqa: D102
         expected_var = CFUGridMeshVariable("mesh", self.mesh)
         expected = {expected_var.cf_name: expected_var}
         assert self.cf_group.meshes == expected
 
-    def test_ugrid_coords(self):
+    def test_ugrid_coords(self):  # noqa: D102
         names = [f"{loc}_{ax}" for loc in ("node", "face") for ax in ("x", "y")]
         expected = {
             name: CFUGridAuxiliaryCoordinateVariable(name, getattr(self, name))
@@ -507,7 +507,7 @@ class Test_build_cf_groups__ugrid:
         }
         assert self.cf_group.ugrid_coords == expected
 
-    def test_is_cf_ugrid_group(self):
+    def test_is_cf_ugrid_group(self):  # noqa: D102
         assert isinstance(self.cf_group, CFGroup)
 
 
@@ -549,12 +549,12 @@ class Test_build_cf_groups__nczarr_scalar_grid_mapping:
         )
         self.cf_group = CFReader("dummy").cf_group
 
-    def test_nczarr_scalar_grid_mapping_retains_type(self):
+    def test_nczarr_scalar_grid_mapping_retains_type(self):  # noqa: D102
         expected_var = CFGridMappingVariable("crs", self.crs)
         assert self.cf_group.grid_mappings == {"crs": expected_var}
         assert "crs" not in self.cf_group.data_variables
 
-    def test_nczarr_scalar_grid_mapping_spans_data_var(self):
+    def test_nczarr_scalar_grid_mapping_spans_data_var(self):  # noqa: D102
         temp_cf_group = self.cf_group["temp"].cf_group
         assert "crs" in temp_cf_group.grid_mappings
 
@@ -605,7 +605,7 @@ class Test_init_and_lifecycle:
         mocker.patch("iris.fileformats.cf.CFReader._build_cf_groups")
         mocker.patch("iris.fileformats.cf.CFReader._reset")
 
-    def test_init_with_url_source_preserves_filename_string(self):
+    def test_init_with_url_source_preserves_filename_string(self):  # noqa: D102
         url = "https://example.com/some/file.nc"
         reader = CFReader(url)
 
@@ -613,7 +613,7 @@ class Test_init_and_lifecycle:
         assert reader.filename == url
         assert repr(reader) == f"CFReader('{url}')"
 
-    def test_init_uses_dataset_wrapper_when_string_decode_disabled(self, mocker):
+    def test_init_uses_dataset_wrapper_when_string_decode_disabled(self, mocker):  # noqa: D102
         mocker.patch(
             "iris.fileformats.netcdf._bytecoding_datasets.DECODE_TO_STRINGS_ON_READ",
             False,
@@ -629,20 +629,20 @@ class Test_init_and_lifecycle:
         wrapper_ds.assert_called_once()
         self.encoded_ds.assert_not_called()
 
-    def test_init_with_open_dataset_does_not_close_on_context_exit(self):
+    def test_init_with_open_dataset_does_not_close_on_context_exit(self):  # noqa: D102
         with CFReader(self.dataset) as reader:
             assert reader is not None
             assert reader.filename == "in-memory.nc"
 
         self.dataset.close.assert_not_called()
 
-    def test_init_warns_for_netcdf3_when_requested(self):
+    def test_init_warns_for_netcdf3_when_requested(self):  # noqa: D102
         self.dataset.file_format = "NETCDF3_CLASSIC"
 
         with pytest.warns(iris.warnings.IrisLoadWarning, match="Optimise CF-netCDF"):
             CFReader("dummy.nc", warn=True)
 
-    def test_init_warns_for_netcdf3_when_requested_for_a_borrowed_dataset(self):
+    def test_init_warns_for_netcdf3_when_requested_for_a_borrowed_dataset(self):  # noqa: D102
         # The owned-path equivalent above pins CFReader passing warn= through
         # to NetCDFDataset; this pins the same wiring on the from_existing
         # branch, which is a separate call site in __init__.
@@ -651,7 +651,7 @@ class Test_init_and_lifecycle:
         with pytest.warns(iris.warnings.IrisLoadWarning, match="Optimise CF-netCDF"):
             CFReader(self.dataset, warn=True)
 
-    def test_init_with_no_meshes_trims_ugrid_variable_types(self, mocker):
+    def test_init_with_no_meshes_trims_ugrid_variable_types(self, mocker):  # noqa: D102
         self.dataset.variables = {
             "a": netcdf_variable(mocker, "a", "x", np.float64),
             "b": netcdf_variable(mocker, "b", "x", np.float64, mesh="my_mesh"),
@@ -705,7 +705,7 @@ class Test_translate__grid_mapping_parse_errors:
             side_effect=iris.exceptions.CFParseError("failed to parse"),
         )
 
-    def test_parse_failure_warns_and_reader_continues(self):
+    def test_parse_failure_warns_and_reader_continues(self):  # noqa: D102
         with pytest.warns(
             iris.warnings.IrisCfWarning,
             match=r"Error parsing `grid_mapping` attribute for temp: failed to parse",
@@ -760,14 +760,14 @@ class Test_translate__formula_terms_derived_bounds:
         )
 
     @pytest.fixture(params=[True, False], ids=["FUTURE", "not_FUTURE"])
-    def future_context(self, request):
+    def future_context(self, request):  # noqa: D102
         if request.param:
             result = iris.FUTURE.context(derived_bounds=True)
         else:
             result = contextlib.nullcontext()
         return result
 
-    def test_derived_bounds_term(self, mocker, future_context):
+    def test_derived_bounds_term(self, mocker, future_context):  # noqa: D102
         self._patch_encoded_dataset(mocker)
 
         with future_context:
@@ -776,7 +776,7 @@ class Test_translate__formula_terms_derived_bounds:
         assert "term" in cf_group.formula_terms
         assert isinstance(cf_group["term"], CFAuxiliaryCoordinateVariable)
 
-    def test_derived_bounds_skips_when_term_missing(self, mocker, future_context):
+    def test_derived_bounds_skips_when_term_missing(self, mocker, future_context):  # noqa: D102
         # "formula_terms" must be set at construction - see the module-level
         # comment on netcdf_variable().
         self.root_bnds = netcdf_variable(
@@ -791,7 +791,7 @@ class Test_translate__formula_terms_derived_bounds:
         assert "term" in cf_group.formula_terms
         assert isinstance(cf_group["term"], CFAuxiliaryCoordinateVariable)
 
-    def test_promotes_non_formula_root_bounds_to_data(self, mocker):
+    def test_promotes_non_formula_root_bounds_to_data(self, mocker):  # noqa: D102
         self.root_bnds = netcdf_variable(mocker, "z_bnds", "_scalar_", np.float64)
         # With valid formula terms, the variable would instead be recorded
         #  correctly as a bounds variable.
@@ -804,7 +804,7 @@ class Test_translate__formula_terms_derived_bounds:
         assert "z_bnds" in cf_group.promoted
         assert cf_group["z"].bounds is None
 
-    def test_reclassifies_formula_term_bounds_variable(self, mocker, future_context):
+    def test_reclassifies_formula_term_bounds_variable(self, mocker, future_context):  # noqa: D102
         # If not referenced by any formula terms, the bounds variable is
         #  promoted to a data variable.
         # Referenced
@@ -857,7 +857,7 @@ class Test_translate__formula_terms_derived_bounds:
         assert cf_group["delta"].bounds == "delta_bnds"
         assert cf_group["sigma"].bounds == "sigma_bnds"
 
-    def test_formula_term_already_in_group_uses_existing_variable(
+    def test_formula_term_already_in_group_uses_existing_variable(  # noqa: D102
         self, mocker, future_context
     ):
         self.root = netcdf_variable(
@@ -884,7 +884,7 @@ class Test_translate__formula_terms_derived_bounds:
     @pytest.mark.parametrize(
         "standard_name", [False, True], ids=["no_standard_name", "with_standard_name"]
     )
-    def test_derived_bounds_promotes_reference_terms(
+    def test_derived_bounds_promotes_reference_terms(  # noqa: D102
         self, mocker, future_context, standard_name
     ):
         if not standard_name and isinstance(future_context, contextlib.nullcontext):
@@ -923,7 +923,7 @@ class Test_translate__formula_terms_derived_bounds:
             # Promotion step is skipped if standard_name is absent.
             assert "pressure" not in cf_group.promoted
 
-    def test_promotes_using_long_name_when_standard_name_empty(self, mocker):
+    def test_promotes_using_long_name_when_standard_name_empty(self, mocker):  # noqa: D102
         # A present-but-empty standard_name is falsy, so the "or" in
         # _reader.py's formula_terms promotion loop falls through to long_name.
         self.root = netcdf_variable(
@@ -948,7 +948,7 @@ class Test_translate__formula_terms_derived_bounds:
 
         assert "pressure" in cf_group.promoted
 
-    def test_raises_when_standard_name_empty_and_long_name_absent(self, mocker):
+    def test_raises_when_standard_name_empty_and_long_name_absent(self, mocker):  # noqa: D102
         # The one case ``.get("long_name")`` would survive: standard_name
         # present-but-falsy forces the "or" to evaluate long_name, and with
         # no long_name at all the subscript must raise KeyError.
@@ -986,7 +986,7 @@ class Test_translate__global_attributes_missing:
         mocker.patch("iris.fileformats.cf.CFReader._build_cf_groups")
         mocker.patch("iris.fileformats.cf.CFReader._reset")
 
-    def test_translate_global_attr_missing_falls_back_to_default(self):
+    def test_translate_global_attr_missing_falls_back_to_default(self):  # noqa: D102
         cf_group = CFReader("dummy.nc").cf_group
 
         assert cf_group.global_attributes["history"] == ""
@@ -1006,7 +1006,7 @@ class Test_build_cf_groups__private_edge_cases:
         self.reader._coord_system_mappings = {}
         self.reader.cf_group = CFGroup()
 
-    def test_derived_bounds_relinks_spanning_bounds(self, mocker):
+    def test_derived_bounds_relinks_spanning_bounds(self, mocker):  # noqa: D102
         data = netcdf_variable(
             mocker,
             "temp",
@@ -1035,7 +1035,7 @@ class Test_build_cf_groups__private_edge_cases:
         assert "temp_bnds" in self.reader.cf_group["temp"].cf_group.bounds
 
     @pytest.mark.parametrize("guard_fires", [False, True])
-    def test_derived_bounds_boundary_guard_continue_branch(self, mocker, guard_fires):
+    def test_derived_bounds_boundary_guard_continue_branch(self, mocker, guard_fires):  # noqa: D102
         # The branch under test is dead in production - see
         # https://github.com/SciTools/iris/issues/7296 - so it can only be
         # reached by patching the name the identity check compares against.
@@ -1094,7 +1094,7 @@ class TestSynthesisedBoundsLink:
     which fails three ways if either write is removed.
     """
 
-    def test_a_written_bounds_link_is_visible_to_a_reader(self, mocker):
+    def test_a_written_bounds_link_is_visible_to_a_reader(self, mocker):  # noqa: D102
         nc_var = mocker.MagicMock()
         nc_var.attributes = {"units": "m"}
         nc_var.dimensions = ("model_level_number",)
@@ -1107,7 +1107,7 @@ class TestSynthesisedBoundsLink:
         assert "bounds" in cf_var.attributes
         assert cf_var.bounds == "a_bnds"
 
-    def test_a_written_bounds_link_overrides_the_file(self, mocker):
+    def test_a_written_bounds_link_overrides_the_file(self, mocker):  # noqa: D102
         nc_var = mocker.MagicMock()
         nc_var.attributes = {"bounds": "from_file"}
         nc_var.dimensions = ("model_level_number",)
@@ -1116,7 +1116,7 @@ class TestSynthesisedBoundsLink:
         cf_var.attributes["bounds"] = "synthesised"
         assert cf_var.bounds == "synthesised"
 
-    def test_a_bounds_link_set_to_none_still_reads_as_present(self, mocker):
+    def test_a_bounds_link_set_to_none_still_reads_as_present(self, mocker):  # noqa: D102
         # CFReader._translate invalidates a broken link by setting it to None
         # rather than deleting it, and the reads downstream check presence
         # before value.

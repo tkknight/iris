@@ -61,7 +61,7 @@ class TestDecodeUri:
             ),
         ],
     )
-    def test_decode_uri__str(self, uri, expected):
+    def test_decode_uri__str(self, uri, expected):  # noqa: D102
         assert iris.io.decode_uri(uri) == expected
 
     @pytest.mark.parametrize(
@@ -81,7 +81,7 @@ class TestDecodeUri:
             ),
         ],
     )
-    def test_decode_uri__path(self, uri, expected):
+    def test_decode_uri__path(self, uri, expected):  # noqa: D102
         assert iris.io.decode_uri(Path(uri)) == expected
 
 
@@ -118,10 +118,10 @@ class TestCategoriseUri:
             ),
         ],
     )
-    def test_categorise_uri(self, uri, expected):
+    def test_categorise_uri(self, uri, expected):  # noqa: D102
         assert iris.io._categorise_uri(uri) == expected
 
-    def test_an_nczarr_fragment_outranks_its_scheme(self):
+    def test_an_nczarr_fragment_outranks_its_scheme(self):  # noqa: D102
         # The whole reason the category is not simply the scheme: these two
         # share one and need different handlers.
         plain = iris.io._categorise_uri("file:///data/forecast.zarr")
@@ -129,7 +129,7 @@ class TestCategoriseUri:
         assert plain[1] == nczarr[1] == "file"
         assert plain[0] != nczarr[0]
 
-    def test_the_fragment_is_folded_back_into_the_part(self):
+    def test_the_fragment_is_folded_back_into_the_part(self):  # noqa: D102
         # A handler is handed a URI to reopen, so it needs the fragment.
         _category, _scheme, part = iris.io._categorise_uri(
             "file:///data/forecast.zarr#mode=nczarr,file"
@@ -139,7 +139,7 @@ class TestCategoriseUri:
 
 class TestFileFormatPicker:
     """Test ileFormatPicker."""
-    def test_known_formats(self, request):
+    def test_known_formats(self, request):  # noqa: D102
         _shared_utils.assert_string(
             request,
             str(iff.FORMAT_AGENT),
@@ -199,7 +199,7 @@ class TestFileFormatPicker:
         #                ['NAME', '20100509_18Z_variablesource_12Z_VAAC',
         #                 'Fields_grid1_201005110000.txt']),
     )
-    def test_format_picker(self, expected_format_name, file_spec):
+    def test_format_picker(self, expected_format_name, file_spec):  # noqa: D102
         # test that each filespec is identified as the expected format
         test_path = _shared_utils.get_data_path(file_spec)
         with open(test_path, "rb") as test_file:
@@ -207,7 +207,7 @@ class TestFileFormatPicker:
             assert a.name == expected_format_name
 
     @pytest.mark.parametrize("header_length", [21, 80, 41, 42])
-    def test_format_picker_nodata(self, header_length):
+    def test_format_picker_nodata(self, header_length):  # noqa: D102
         # The following is to replace the above at some point as no real files
         # are required.
         # (Used binascii.unhexlify() to convert from hex to binary)
@@ -221,7 +221,7 @@ class TestFileFormatPicker:
             a = iff.FORMAT_AGENT.get_spec(bh.name, bh)
         assert a.name == "GRIB"
 
-    def test_open_dap(self):
+    def test_open_dap(self):  # noqa: D102
         # tests that *ANY* http or https URL is seen as an OPeNDAP service.
         # This may need to change in the future if other protocols are
         # supported.
@@ -229,7 +229,7 @@ class TestFileFormatPicker:
         a = iff.FORMAT_AGENT.get_spec(DAP_URI, None)
         assert a.name == "NetCDF OPeNDAP"
 
-    def test_nczarr_url_without_zarr_suffix(self):
+    def test_nczarr_url_without_zarr_suffix(self):  # noqa: D102
         uri = "file:////data/users/joe.bloggs/air_pressure#mode=nczarr,file"
         a = iff.FORMAT_AGENT.get_spec(uri, None)
         assert a.name == "NcZarr"

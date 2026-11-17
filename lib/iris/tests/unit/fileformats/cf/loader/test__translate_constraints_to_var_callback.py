@@ -37,7 +37,7 @@ class Test:
             _data_variable(mocker, "var1"),
         ]
 
-    def test_multiple_constraints(self):
+    def test_multiple_constraints(self):  # noqa: D102
         constrs = [
             iris.NameConstraint(standard_name="x_wind"),
             iris.NameConstraint(var_name="var2"),
@@ -46,7 +46,7 @@ class Test:
         result = [callback(var) for var in self.data_variables]
         _shared_utils.assert_array_equal(result, [True, True, True, True, True])
 
-    def test_multiple_constraints_invalid(self):
+    def test_multiple_constraints_invalid(self):  # noqa: D102
         constrs = [
             iris.NameConstraint(standard_name="x_wind"),
             iris.NameConstraint(var_name="var1", STASH="m01s00i024"),
@@ -54,7 +54,7 @@ class Test:
         result = _translate_constraints_to_var_callback(constrs)
         assert result is None
 
-    def test_multiple_constraints__multiname(self, mocker):
+    def test_multiple_constraints__multiname(self, mocker):  # noqa: D102
         # Modify the first constraint to require BOTH var-name and std-name match
         constrs = [
             iris.NameConstraint(standard_name="x_wind", var_name="var1"),
@@ -71,27 +71,27 @@ class Test:
             result, [True, True, True, True, True, True, False]
         )
 
-    def test_non_name_constraint(self):
+    def test_non_name_constraint(self):  # noqa: D102
         constr = iris.AttributeConstraint(STASH="m01s00i002")
         result = _translate_constraints_to_var_callback(constr)
         assert result is None
 
-    def test_str_constraint(self):
+    def test_str_constraint(self):  # noqa: D102
         result = _translate_constraints_to_var_callback("x_wind")
         assert result is None
 
-    def test_constaint_with_name(self):
+    def test_constaint_with_name(self):  # noqa: D102
         constr = iris.Constraint(name="x_wind")
         result = _translate_constraints_to_var_callback(constr)
         assert result is None
 
-    def test_name_constraint_standard_name(self):
+    def test_name_constraint_standard_name(self):  # noqa: D102
         constr = iris.NameConstraint(standard_name="x_wind")
         callback = _translate_constraints_to_var_callback(constr)
         result = [callback(var) for var in self.data_variables]
         _shared_utils.assert_array_equal(result, [True, False, True, True, True])
 
-    def test_name_constraint_long_name(self, mocker):
+    def test_name_constraint_long_name(self, mocker):  # noqa: D102
         constr = iris.NameConstraint(long_name="x component of wind")
         callback = _translate_constraints_to_var_callback(constr)
         # The shared vars either match long_name or omit it, and omission is
@@ -103,19 +103,19 @@ class Test:
         result = [callback(var) for var in vars]
         _shared_utils.assert_array_equal(result, [True, True, True, True, True, False])
 
-    def test_name_constraint_var_name(self):
+    def test_name_constraint_var_name(self):  # noqa: D102
         constr = iris.NameConstraint(var_name="var1")
         callback = _translate_constraints_to_var_callback(constr)
         result = [callback(var) for var in self.data_variables]
         _shared_utils.assert_array_equal(result, [True, False, True, True, True])
 
-    def test_name_constraint_standard_name_var_name(self):
+    def test_name_constraint_standard_name_var_name(self):  # noqa: D102
         constr = iris.NameConstraint(standard_name="x_wind", var_name="var1")
         callback = _translate_constraints_to_var_callback(constr)
         result = [callback(var) for var in self.data_variables]
         _shared_utils.assert_array_equal(result, [True, False, True, True, True])
 
-    def test_name_constraint_standard_name_long_name_var_name(self):
+    def test_name_constraint_standard_name_long_name_var_name(self):  # noqa: D102
         constr = iris.NameConstraint(
             standard_name="x_wind",
             long_name="x component of wind",
@@ -125,12 +125,12 @@ class Test:
         result = [callback(var) for var in self.data_variables]
         _shared_utils.assert_array_equal(result, [True, False, True, True, True])
 
-    def test_name_constraint_with_stash(self):
+    def test_name_constraint_with_stash(self):  # noqa: D102
         constr = iris.NameConstraint(standard_name="x_wind", STASH="m01s00i024")
         result = _translate_constraints_to_var_callback(constr)
         assert result is None
 
-    def test_no_constraints(self):
+    def test_no_constraints(self):  # noqa: D102
         constrs = []
         result = _translate_constraints_to_var_callback(constrs)
         assert result is None

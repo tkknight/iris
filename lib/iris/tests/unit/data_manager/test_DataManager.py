@@ -21,17 +21,17 @@ class Test__init__:
     def _setup(self):
         self.data = np.array([1])
 
-    def test_data_same_shape(self):
+    def test_data_same_shape(self):  # noqa: D102
         msg = '"shape" should only be provided if "data" is None'
         with pytest.raises(ValueError, match=msg):
             DataManager(self.data, self.data.shape)
 
-    def test_data_conflicting_shape(self):
+    def test_data_conflicting_shape(self):  # noqa: D102
         msg = '"shape" should only be provided if "data" is None'
         with pytest.raises(ValueError, match=msg):
             DataManager(self.data, ())
 
-    def test_no_data_no_shape(self):
+    def test_no_data_no_shape(self):  # noqa: D102
         msg = 'one of "shape" or "data" should be provided; both are None'
         with pytest.raises(ValueError, match=msg):
             DataManager(None, None)
@@ -39,7 +39,7 @@ class Test__init__:
 
 class Test___copy__:
     """Test   copy  ."""
-    def test(self):
+    def test(self):  # noqa: D102
         dm = DataManager(np.array(0))
         emsg = "Shallow-copy of {!r} is not permitted."
         name = type(dm).__name__
@@ -49,7 +49,7 @@ class Test___copy__:
 
 class Test___deepcopy__:
     """Test   deepcopy  ."""
-    def test(self, mocker):
+    def test(self, mocker):  # noqa: D102
         dm = DataManager(np.array(0))
         method = "iris._data_manager.DataManager._deepcopy"
         return_value = mocker.sentinel.return_value
@@ -74,58 +74,58 @@ class Test___eq__:
         self.size = np.prod(self.shape)
         self.real_array = np.arange(self.size, dtype=float).reshape(self.shape)
 
-    def test_real_with_real(self):
+    def test_real_with_real(self):  # noqa: D102
         dm1 = DataManager(self.real_array)
         dm2 = DataManager(self.real_array.copy())
         assert dm1 == dm2
 
-    def test_real_with_real_failure(self):
+    def test_real_with_real_failure(self):  # noqa: D102
         dm1 = DataManager(self.real_array)
         dm2 = DataManager(np.ones(self.shape))
         assert not dm1 == dm2
 
-    def test_real_with_real__dtype_failure(self):
+    def test_real_with_real__dtype_failure(self):  # noqa: D102
         dm1 = DataManager(self.real_array)
         dm2 = DataManager(self.real_array.astype(int))
         assert not dm1 == dm2
 
-    def test_real_with_lazy_failure(self):
+    def test_real_with_lazy_failure(self):  # noqa: D102
         dm1 = DataManager(self.real_array)
         dm2 = DataManager(as_lazy_data(self.real_array))
         assert not dm1 == dm2
         assert not dm2 == dm1
 
-    def test_lazy_with_lazy(self):
+    def test_lazy_with_lazy(self):  # noqa: D102
         dm1 = DataManager(as_lazy_data(self.real_array))
         dm2 = DataManager(as_lazy_data(self.real_array))
         assert dm1 == dm2
 
-    def test_lazy_with_lazy_failure(self):
+    def test_lazy_with_lazy_failure(self):  # noqa: D102
         dm1 = DataManager(as_lazy_data(self.real_array))
         dm2 = DataManager(as_lazy_data(self.real_array) * 10)
         assert not dm1 == dm2
 
-    def test_lazy_with_lazy__dtype_failure(self):
+    def test_lazy_with_lazy__dtype_failure(self):  # noqa: D102
         dm1 = DataManager(as_lazy_data(self.real_array))
         dm2 = DataManager(as_lazy_data(self.real_array).astype(int))
         assert not dm1 == dm2
 
-    def test_dataless(self):
+    def test_dataless(self):  # noqa: D102
         dm1 = DataManager(data=None, shape=(1,))
         dm2 = DataManager(data=None, shape=(1,))
         assert dm1 == dm2
 
-    def test_dataless_failure(self):
+    def test_dataless_failure(self):  # noqa: D102
         dm1 = DataManager(data=None, shape=(1,))
         dm2 = DataManager(data=None, shape=(2,))
         assert dm1 != dm2
 
-    def test_dataless_with_real(self):
+    def test_dataless_with_real(self):  # noqa: D102
         dm1 = DataManager(data=None, shape=(1,))
         dm2 = DataManager(self.real_array)
         assert not dm1 == dm2
 
-    def test_non_data_manager_failure(self):
+    def test_non_data_manager_failure(self):  # noqa: D102
         dm = DataManager(np.array(0))
         assert not dm == 0
 
@@ -138,43 +138,43 @@ class Test___ne__:
         self.size = np.prod(self.shape)
         self.real_array = np.arange(self.size, dtype=float).reshape(self.shape)
 
-    def test_real_with_real(self):
+    def test_real_with_real(self):  # noqa: D102
         dm1 = DataManager(self.real_array)
         dm2 = DataManager(np.ones(self.shape))
         assert dm1 != dm2
 
-    def test_real_with_real_failure(self):
+    def test_real_with_real_failure(self):  # noqa: D102
         dm1 = DataManager(self.real_array)
         dm2 = DataManager(self.real_array.copy())
         assert not dm1 != dm2
 
-    def test_real_with_real__dtype(self):
+    def test_real_with_real__dtype(self):  # noqa: D102
         dm1 = DataManager(self.real_array)
         dm2 = DataManager(self.real_array.astype(int))
         assert dm1 != dm2
 
-    def test_real_with_lazy(self):
+    def test_real_with_lazy(self):  # noqa: D102
         dm1 = DataManager(self.real_array)
         dm2 = DataManager(as_lazy_data(self.real_array))
         assert dm1 != dm2
         assert dm2 != dm1
 
-    def test_lazy_with_lazy(self):
+    def test_lazy_with_lazy(self):  # noqa: D102
         dm1 = DataManager(as_lazy_data(self.real_array))
         dm2 = DataManager(as_lazy_data(self.real_array) * 10)
         assert dm1 != dm2
 
-    def test_lazy_with_lazy_failure(self):
+    def test_lazy_with_lazy_failure(self):  # noqa: D102
         dm1 = DataManager(as_lazy_data(self.real_array))
         dm2 = DataManager(as_lazy_data(self.real_array))
         assert not dm1 != dm2
 
-    def test_lazy_with_lazy__dtype(self):
+    def test_lazy_with_lazy__dtype(self):  # noqa: D102
         dm1 = DataManager(as_lazy_data(self.real_array))
         dm2 = DataManager(as_lazy_data(self.real_array).astype(int))
         assert dm1 != dm2
 
-    def test_non_data_manager(self):
+    def test_non_data_manager(self):  # noqa: D102
         dm = DataManager(np.array(0))
         assert dm != 0
 
@@ -188,19 +188,19 @@ class Test___repr__:
         self.lazy_array = as_lazy_data(masked_array)
         self.name = DataManager.__name__
 
-    def test_real(self):
+    def test_real(self):  # noqa: D102
         dm = DataManager(self.real_array)
         result = repr(dm)
         expected = "{}({!r})".format(self.name, self.real_array)
         assert result == expected
 
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         dm = DataManager(self.lazy_array)
         result = repr(dm)
         expected = "{}({!r})".format(self.name, self.lazy_array)
         assert result == expected
 
-    def test_dataless(self):
+    def test_dataless(self):  # noqa: D102
         dm = DataManager(None, self.real_array.shape)
         result = repr(dm)
         expected = "{}({!r}), shape={}".format(self.name, None, self.real_array.shape)
@@ -215,14 +215,14 @@ class Test__assert_axioms:
         self.lazy_array = as_lazy_data(self.real_array)
         self.dm = DataManager(self.real_array)
 
-    def test_array_none(self):
+    def test_array_none(self):  # noqa: D102
         self.dm._real_array = None
         self.dm._shape = None
         emsg = "Unexpected data state, got no lazy or real data, and no shape."
         with pytest.raises(ValueError, match=emsg):
             self.dm._assert_axioms()
 
-    def test_array_all(self):
+    def test_array_all(self):  # noqa: D102
         self.dm._lazy_array = self.lazy_array
         emsg = "Unexpected data state, got both lazy and real data."
         with pytest.raises(ValueError, match=emsg):
@@ -238,17 +238,17 @@ class Test__deepcopy:
         self.real_array = np.arange(self.size, dtype=float).reshape(self.shape)
         self.memo = dict()
 
-    def test_real(self):
+    def test_real(self):  # noqa: D102
         dm = DataManager(self.real_array)
         result = dm._deepcopy(self.memo)
         assert dm == result
 
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         dm = DataManager(as_lazy_data(self.real_array))
         result = dm._deepcopy(self.memo)
         assert dm == result
 
-    def test_real_with_real(self):
+    def test_real_with_real(self):  # noqa: D102
         dm = DataManager(self.real_array)
         data = self.real_array.copy() * 10
         result = dm._deepcopy(self.memo, data=data)
@@ -256,7 +256,7 @@ class Test__deepcopy:
         assert result == expected
         assert result._real_array is data
 
-    def test_real_with_lazy(self):
+    def test_real_with_lazy(self):  # noqa: D102
         dm = DataManager(self.real_array)
         data = as_lazy_data(self.real_array) * 10
         result = dm._deepcopy(self.memo, data=data)
@@ -264,7 +264,7 @@ class Test__deepcopy:
         assert result == expected
         assert result._lazy_array is data
 
-    def test_lazy_with_real(self):
+    def test_lazy_with_real(self):  # noqa: D102
         dm = DataManager(as_lazy_data(self.real_array))
         data = self.real_array.copy() * 10
         result = dm._deepcopy(self.memo, data=data)
@@ -272,7 +272,7 @@ class Test__deepcopy:
         assert result == expected
         assert result._real_array is data
 
-    def test_lazy_with_lazy(self):
+    def test_lazy_with_lazy(self):  # noqa: D102
         dm = DataManager(as_lazy_data(self.real_array))
         data = as_lazy_data(self.real_array) * 10
         result = dm._deepcopy(self.memo, data=data)
@@ -280,25 +280,25 @@ class Test__deepcopy:
         assert result == expected
         assert result._lazy_array is data
 
-    def test_real_with_real_failure(self):
+    def test_real_with_real_failure(self):  # noqa: D102
         dm = DataManager(self.real_array)
         emsg = "Cannot copy"
         with pytest.raises(ValueError, match=emsg):
             dm._deepcopy(self.memo, data=np.array(0))
 
-    def test_real_with_lazy_failure(self):
+    def test_real_with_lazy_failure(self):  # noqa: D102
         dm = DataManager(self.real_array)
         emsg = "Cannot copy"
         with pytest.raises(ValueError, match=emsg):
             dm._deepcopy(self.memo, data=as_lazy_data(np.array(0)))
 
-    def test_lazy_with_real_failure(self):
+    def test_lazy_with_real_failure(self):  # noqa: D102
         dm = DataManager(as_lazy_data(self.real_array))
         emsg = "Cannot copy"
         with pytest.raises(ValueError, match=emsg):
             dm._deepcopy(self.memo, data=np.array(0))
 
-    def test_lazy_with_lazy_failure(self):
+    def test_lazy_with_lazy_failure(self):  # noqa: D102
         dm = DataManager(as_lazy_data(self.real_array))
         emsg = "Cannot copy"
         with pytest.raises(ValueError, match=emsg):
@@ -321,14 +321,14 @@ class Test_data__getter:
         self.lazy_mask_array = as_lazy_data(self.mask_array)
         self.lazy_mask_array_masked = as_lazy_data(self.mask_array_masked)
 
-    def test_with_real_array(self):
+    def test_with_real_array(self):  # noqa: D102
         dm = DataManager(self.real_array)
         assert not dm.has_lazy_data()
         result = dm.data
         assert not dm.has_lazy_data()
         assert result is self.real_array
 
-    def test_with_lazy_array(self):
+    def test_with_lazy_array(self):  # noqa: D102
         dm = DataManager(self.lazy_array)
         assert dm.has_lazy_data()
         result = dm.data
@@ -336,7 +336,7 @@ class Test_data__getter:
         _shared_utils.assert_array_equal(result, self.lazy_array)
         _shared_utils.assert_array_equal(result, self.real_array)
 
-    def test_with_lazy_mask_array__not_masked(self):
+    def test_with_lazy_mask_array__not_masked(self):  # noqa: D102
         dm = DataManager(self.lazy_mask_array)
         assert dm.has_lazy_data()
         result = dm.data
@@ -346,7 +346,7 @@ class Test_data__getter:
         assert result.fill_value == self.fill_value
         _shared_utils.assert_array_equal(result, self.real_array)
 
-    def test_with_lazy_mask_array__masked(self):
+    def test_with_lazy_mask_array__masked(self):  # noqa: D102
         dm = DataManager(self.lazy_mask_array_masked)
         assert dm.has_lazy_data()
         result = dm.data
@@ -356,7 +356,7 @@ class Test_data__getter:
         assert result.fill_value == self.fill_value
         _shared_utils.assert_array_equal(result, self.mask_array_masked)
 
-    def test_with_real_masked_constant(self):
+    def test_with_real_masked_constant(self):  # noqa: D102
         masked_data = ma.masked_array([666], mask=True, dtype=np.dtype("f8"))
         masked_constant = masked_data[0]
         dm = DataManager(masked_constant)
@@ -366,7 +366,7 @@ class Test_data__getter:
         assert not isinstance(result, ma.core.MaskedConstant)
         _shared_utils.assert_masked_array_equal(result, masked_data)
 
-    def test_with_lazy_masked_constant(self):
+    def test_with_lazy_masked_constant(self):  # noqa: D102
         masked_data = ma.masked_array([666], mask=True)
         masked_constant = masked_data[0]
         lazy_masked_constant = as_lazy_data(masked_constant)
@@ -380,7 +380,7 @@ class Test_data__getter:
 
 class Test_data__setter:
     """Test data  setter."""
-    def test_zero_ndim_real_with_scalar_int(self):
+    def test_zero_ndim_real_with_scalar_int(self):  # noqa: D102
         value = 456
         dm = DataManager(np.array(123))
         assert not dm.has_lazy_data()
@@ -388,7 +388,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, np.array(value))
 
-    def test_zero_ndim_real_with_scalar_float(self):
+    def test_zero_ndim_real_with_scalar_float(self):  # noqa: D102
         value = 456.0
         dm = DataManager(np.array(123))
         assert not dm.has_lazy_data()
@@ -396,7 +396,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, np.array(value))
 
-    def test_zero_ndim_real_with_zero_ndim_real(self):
+    def test_zero_ndim_real_with_zero_ndim_real(self):  # noqa: D102
         real_array = np.array(456)
         dm = DataManager(np.array(123))
         assert not dm.has_lazy_data()
@@ -404,7 +404,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, real_array)
 
-    def test_zero_ndim_real_with_zero_ndim_lazy(self):
+    def test_zero_ndim_real_with_zero_ndim_lazy(self):  # noqa: D102
         lazy_array = as_lazy_data(np.array(456))
         dm = DataManager(np.array(123))
         assert not dm.has_lazy_data()
@@ -412,7 +412,7 @@ class Test_data__setter:
         assert dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, lazy_array.compute())
 
-    def test_zero_ndim_lazy_with_zero_ndim_real(self):
+    def test_zero_ndim_lazy_with_zero_ndim_real(self):  # noqa: D102
         real_array = np.array(456)
         dm = DataManager(as_lazy_data(np.array(123)))
         assert dm.has_lazy_data()
@@ -420,7 +420,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, real_array)
 
-    def test_zero_ndim_lazy_with_zero_ndim_lazy(self):
+    def test_zero_ndim_lazy_with_zero_ndim_lazy(self):  # noqa: D102
         lazy_array = as_lazy_data(np.array(456))
         dm = DataManager(as_lazy_data(np.array(123)))
         assert dm.has_lazy_data()
@@ -428,7 +428,7 @@ class Test_data__setter:
         assert dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, lazy_array.compute())
 
-    def test_zero_ndim_real_to_scalar_1d_real_promote(self):
+    def test_zero_ndim_real_to_scalar_1d_real_promote(self):  # noqa: D102
         real_array = np.array([456])
         dm = DataManager(np.array(123))
         assert not dm.has_lazy_data()
@@ -436,7 +436,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, real_array)
 
-    def test_zero_ndim_real_to_scalar_1d_lazy_promote(self):
+    def test_zero_ndim_real_to_scalar_1d_lazy_promote(self):  # noqa: D102
         lazy_array = as_lazy_data(np.array([456]))
         dm = DataManager(np.array(123))
         assert not dm.has_lazy_data()
@@ -444,7 +444,7 @@ class Test_data__setter:
         assert dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, lazy_array.compute())
 
-    def test_zero_ndim_lazy_to_scalar_1d_real_promote(self):
+    def test_zero_ndim_lazy_to_scalar_1d_real_promote(self):  # noqa: D102
         real_array = np.array([456])
         dm = DataManager(as_lazy_data(np.array(123)))
         assert dm.has_lazy_data()
@@ -452,7 +452,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, real_array)
 
-    def test_zero_ndim_lazy_to_scalar_1d_lazy_promote(self):
+    def test_zero_ndim_lazy_to_scalar_1d_lazy_promote(self):  # noqa: D102
         lazy_array = as_lazy_data(np.array([456]))
         dm = DataManager(as_lazy_data(np.array(123)))
         assert dm.has_lazy_data()
@@ -460,13 +460,13 @@ class Test_data__setter:
         assert dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, lazy_array.compute())
 
-    def test_scalar_1d_to_zero_ndim_fail(self):
+    def test_scalar_1d_to_zero_ndim_fail(self):  # noqa: D102
         dm = DataManager(np.array([123]))
         emsg = r"Require data with shape \(1,\), got \(\)."
         with pytest.raises(ValueError, match=emsg):
             dm.data = 456
 
-    def test_nd_real_to_nd_real(self):
+    def test_nd_real_to_nd_real(self):  # noqa: D102
         shape = (2, 3, 4)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -476,7 +476,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, real_array)
 
-    def test_nd_real_to_nd_lazy(self):
+    def test_nd_real_to_nd_lazy(self):  # noqa: D102
         shape = (2, 3, 4)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -487,7 +487,7 @@ class Test_data__setter:
         assert dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, lazy_array.compute())
 
-    def test_nd_lazy_to_nd_real(self):
+    def test_nd_lazy_to_nd_real(self):  # noqa: D102
         shape = (2, 3, 4)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -498,7 +498,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, real_array)
 
-    def test_nd_lazy_to_nd_lazy(self):
+    def test_nd_lazy_to_nd_lazy(self):  # noqa: D102
         shape = (2, 3, 4)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -509,7 +509,7 @@ class Test_data__setter:
         assert dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, lazy_array.compute())
 
-    def test_nd_lazy_to_dataless(self):
+    def test_nd_lazy_to_dataless(self):  # noqa: D102
         shape = (2, 3, 4)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -519,7 +519,7 @@ class Test_data__setter:
         dm.data = None
         assert dm.core_data() is None
 
-    def test_nd_real_to_dataless(self):
+    def test_nd_real_to_dataless(self):  # noqa: D102
         shape = (2, 3, 4)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -528,7 +528,7 @@ class Test_data__setter:
         dm.data = None
         assert dm.core_data() is None
 
-    def test_dataless_to_nd_lazy(self):
+    def test_dataless_to_nd_lazy(self):  # noqa: D102
         shape = (2, 3, 4)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -539,7 +539,7 @@ class Test_data__setter:
         assert dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, lazy_array.compute())
 
-    def test_dataless_to_nd_real(self):
+    def test_dataless_to_nd_real(self):  # noqa: D102
         shape = (2, 3, 4)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -549,7 +549,7 @@ class Test_data__setter:
         assert not dm.has_lazy_data()
         _shared_utils.assert_array_equal(dm.data, real_array)
 
-    def test_coerce_to_ndarray(self):
+    def test_coerce_to_ndarray(self):  # noqa: D102
         shape = (2, 3)
         size = np.prod(shape)
         real_array = np.arange(size).reshape(shape)
@@ -560,7 +560,7 @@ class Test_data__setter:
         assert isinstance(dm.data, np.core.ndarray)
         _shared_utils.assert_array_equal(dm.data, real_array)
 
-    def test_real_masked_constant_to_array(self):
+    def test_real_masked_constant_to_array(self):  # noqa: D102
         masked_data = ma.masked_array([666], mask=True, dtype=np.dtype("f8"))
         masked_constant = masked_data[0]
         dm = DataManager(masked_constant)
@@ -578,18 +578,18 @@ class Test_dtype:
         self.real_array = np.array(0, dtype=np.dtype("int64"))
         self.lazy_array = as_lazy_data(np.array(0, dtype=np.dtype("float64")))
 
-    def test_real_array(self):
+    def test_real_array(self):  # noqa: D102
         dm = DataManager(self.real_array)
         assert dm.dtype == np.dtype("int64")
 
-    def test_lazy_array(self):
+    def test_lazy_array(self):  # noqa: D102
         dm = DataManager(self.lazy_array)
         assert dm.dtype == np.dtype("float64")
 
 
 class Test_ndim:
     """Test ndim."""
-    def test_ndim_0(self):
+    def test_ndim_0(self):  # noqa: D102
         real_array = np.array(0)
         dm = DataManager(real_array)
         assert dm.ndim == 0
@@ -597,7 +597,7 @@ class Test_ndim:
         dm = DataManager(lazy_array)
         assert dm.ndim == 0
 
-    def test_ndim_nd(self):
+    def test_ndim_nd(self):  # noqa: D102
         shape = (2, 3, 4)
         real_array = np.arange(24).reshape(shape)
         dm = DataManager(real_array)
@@ -609,7 +609,7 @@ class Test_ndim:
 
 class Test_shape:
     """Test shape."""
-    def test_shape_scalar(self):
+    def test_shape_scalar(self):  # noqa: D102
         real_array = np.array(0)
         dm = DataManager(real_array)
         assert dm.shape == ()
@@ -617,7 +617,7 @@ class Test_shape:
         dm = DataManager(lazy_array)
         assert dm.shape == ()
 
-    def test_shape_nd(self):
+    def test_shape_nd(self):  # noqa: D102
         shape = (2, 3, 4)
         real_array = np.arange(24).reshape(shape)
         dm = DataManager(real_array)
@@ -626,7 +626,7 @@ class Test_shape:
         dm = DataManager(lazy_array)
         assert dm.shape == shape
 
-    def test_shape_data_to_dataless(self):
+    def test_shape_data_to_dataless(self):  # noqa: D102
         shape = (2, 3, 4)
         real_array = np.arange(24).reshape(shape)
         dm = DataManager(None, shape)
@@ -634,7 +634,7 @@ class Test_shape:
         dm.data = real_array
         assert dm.shape == shape
 
-    def test_shape_dataless_to_data(self):
+    def test_shape_dataless_to_data(self):  # noqa: D102
         shape = (2, 3, 4)
         real_array = np.arange(24).reshape(shape)
         dm = DataManager(real_array)
@@ -652,7 +652,7 @@ class Test_copy:
         self.return_value = mocker.sentinel.return_value
         self.memo = {}
 
-    def test(self, mocker):
+    def test(self, mocker):  # noqa: D102
         dm = DataManager(np.array(0))
         kwargs = dict(data=self.data)
         mocked = mocker.patch(self.method)
@@ -664,12 +664,12 @@ class Test_copy:
 
 class Test_core_data:
     """Test core data."""
-    def test_real_array(self):
+    def test_real_array(self):  # noqa: D102
         real_array = np.array(0)
         dm = DataManager(real_array)
         assert dm.core_data() is real_array
 
-    def test_lazy_array(self):
+    def test_lazy_array(self):  # noqa: D102
         lazy_array = as_lazy_data(np.array(0))
         dm = DataManager(lazy_array)
         assert dm.core_data() is lazy_array
@@ -682,11 +682,11 @@ class Test_has_lazy_data:
         self.real_array = np.array(0)
         self.lazy_array = as_lazy_data(self.real_array)
 
-    def test_with_lazy_array(self):
+    def test_with_lazy_array(self):  # noqa: D102
         dm = DataManager(self.lazy_array)
         assert dm.has_lazy_data()
 
-    def test_with_real_array(self):
+    def test_with_real_array(self):  # noqa: D102
         dm = DataManager(self.real_array)
         assert not dm.has_lazy_data()
 
@@ -698,7 +698,7 @@ class Test_lazy_data:
         self.real_array = np.array(0)
         self.lazy_array = as_lazy_data(self.real_array)
 
-    def test_with_real_array(self):
+    def test_with_real_array(self):  # noqa: D102
         dm = DataManager(self.real_array)
         assert not dm.has_lazy_data()
         result = dm.lazy_data()
@@ -706,7 +706,7 @@ class Test_lazy_data:
         assert result == self.lazy_array
         assert not dm.has_lazy_data()
 
-    def test_with_lazy_array(self):
+    def test_with_lazy_array(self):  # noqa: D102
         dm = DataManager(self.lazy_array)
         assert dm.has_lazy_data()
         result = dm.lazy_data()
@@ -721,10 +721,10 @@ class Test_is_dataless:
         self.data = np.array(0)
         self.shape = (0,)
 
-    def test_with_data(self):
+    def test_with_data(self):  # noqa: D102
         dm = DataManager(self.data)
         assert not dm.is_dataless()
 
-    def test_without_data(self):
+    def test_without_data(self):  # noqa: D102
         dm = DataManager(None, self.shape)
         assert dm.is_dataless()

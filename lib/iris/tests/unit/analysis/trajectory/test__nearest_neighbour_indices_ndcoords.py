@@ -17,7 +17,7 @@ from iris.cube import Cube
 
 class Test2d:
     """Test d."""
-    def test_nonlatlon_simple_2d(self):
+    def test_nonlatlon_simple_2d(self):  # noqa: D102
         co_y = DimCoord([10.0, 20.0], long_name="y")
         co_x = DimCoord([1.0, 2.0, 3.0], long_name="x")
         cube = Cube(np.zeros((2, 3)))
@@ -27,7 +27,7 @@ class Test2d:
         result = nn_ndinds(cube, sample_point)
         assert result == [(1, 2)]
 
-    def test_nonlatlon_multiple_2d(self):
+    def test_nonlatlon_multiple_2d(self):  # noqa: D102
         co_y = DimCoord([10.0, 20.0], long_name="y")
         co_x = DimCoord([1.0, 2.0, 3.0], long_name="x")
         cube = Cube(np.zeros((2, 3)))
@@ -37,7 +37,7 @@ class Test2d:
         result = nn_ndinds(cube, sample_points)
         assert result == [(1, 2), (0, 0), (0, 1)]
 
-    def test_latlon_simple_2d(self):
+    def test_latlon_simple_2d(self):  # noqa: D102
         co_y = DimCoord([10.0, 20.0], standard_name="latitude", units="degrees")
         co_x = DimCoord([1.0, 2.0, 3.0], standard_name="longitude", units="degrees")
         cube = Cube(np.zeros((2, 3)))
@@ -47,7 +47,7 @@ class Test2d:
         result = nn_ndinds(cube, sample_point)
         assert result == [(1, 2)]
 
-    def test_latlon_multiple_2d(self):
+    def test_latlon_multiple_2d(self):  # noqa: D102
         co_y = DimCoord([10.0, 20.0], standard_name="latitude", units="degrees")
         co_x = DimCoord([1.0, 2.0, 3.0], standard_name="longitude", units="degrees")
         cube = Cube(np.zeros((2, 3)))
@@ -64,7 +64,7 @@ class Test2d:
 
 class Test1d:
     """Test d."""
-    def test_nonlatlon_simple_1d(self):
+    def test_nonlatlon_simple_1d(self):  # noqa: D102
         co_x = AuxCoord([1.0, 2.0, 3.0, 1.0, 2.0, 3.0], long_name="x")
         co_y = AuxCoord([10.0, 10.0, 10.0, 20.0, 20.0, 20.0], long_name="y")
         cube = Cube(np.zeros(6))
@@ -74,7 +74,7 @@ class Test1d:
         result = nn_ndinds(cube, sample_point)
         assert result == [(5,)]
 
-    def test_latlon_simple_1d(self):
+    def test_latlon_simple_1d(self):  # noqa: D102
         cube = Cube([11.0, 12.0, 13.0, 21.0, 22.0, 23.0])
         co_x = AuxCoord(
             [1.0, 2.0, 3.0, 1.0, 2.0, 3.0],
@@ -103,7 +103,7 @@ class TestApiExtras:
         self.co_y = DimCoord([10.0, 20.0], long_name="y")
         self.cube = Cube(np.zeros((2, 3)))
 
-    def test_no_y_dim(self):
+    def test_no_y_dim(self):  # noqa: D102
         # Operate in X only, returned slice should be [:, ix].
 
         self.cube.add_dim_coord(self.co_y, 0)
@@ -112,7 +112,7 @@ class TestApiExtras:
         result = nn_ndinds(self.cube, sample_point)
         assert result == [(slice(None), 2)]
 
-    def test_no_x_dim(self):
+    def test_no_x_dim(self):  # noqa: D102
         # Operate in Y only, returned slice should be [iy, :].
 
         self.cube.add_dim_coord(self.co_y, 0)
@@ -121,7 +121,7 @@ class TestApiExtras:
         result = nn_ndinds(self.cube, sample_point)
         assert result == [(1, slice(None))]
 
-    def test_sample_dictionary(self):
+    def test_sample_dictionary(self):  # noqa: D102
         # Pass sample_point arg as a dictionary: this usage mode is deprecated.
 
         self.cube.add_aux_coord(self.co_y, 0)
@@ -148,7 +148,7 @@ class TestLatlon:
         result = nn_ndinds(cube, sample_point)
         assert result == [(expect,)]
 
-    def test_lat_scaling(self):
+    def test_lat_scaling(self):  # noqa: D102
         # Check that (88, 25) is closer to (88, 0) than to (87, 25)
         self._check_latlon_1d(
             lats=[88, 87],
@@ -157,7 +157,7 @@ class TestLatlon:
             expect=0,
         )
 
-    def test_alternate_latlon_names_okay(self):
+    def test_alternate_latlon_names_okay(self):  # noqa: D102
         # Check that (88, 25) is **STILL** closer to (88, 0) than to (87, 25)
         # ... when coords have odd, but still recognisable, latlon names.
         cube = self._testcube_latlon_1d(lats=[88, 87], lons=[0, 25])
@@ -167,7 +167,7 @@ class TestLatlon:
         result = nn_ndinds(cube, sample_point)
         assert result == [(0,)]
 
-    def test_alternate_nonlatlon_names_different(self):
+    def test_alternate_nonlatlon_names_different(self):  # noqa: D102
         # Check that (88, 25) is **NOT** closer to (88, 0) than to (87, 25)
         # ... by plain XY euclidean-distance, if coords have non-latlon names.
         cube = self._testcube_latlon_1d(lats=[88, 87], lons=[0, 25])
@@ -177,7 +177,7 @@ class TestLatlon:
         result = nn_ndinds(cube, sample_point)
         assert result == [(1,)]
 
-    def test_lons_wrap_359_0(self):
+    def test_lons_wrap_359_0(self):  # noqa: D102
         # Check that (0, 359) is closer to (0, 0) than to (0, 350)
         self._check_latlon_1d(
             lats=[0, 0],
@@ -186,7 +186,7 @@ class TestLatlon:
             expect=0,
         )
 
-    def test_lons_wrap_359_neg1(self):
+    def test_lons_wrap_359_neg1(self):  # noqa: D102
         # Check that (0, 359) is closer to (0, -1) than to (0, 350)
         self._check_latlon_1d(
             lats=[0, 0],
@@ -195,7 +195,7 @@ class TestLatlon:
             expect=1,
         )
 
-    def test_lons_wrap_neg179_plus179(self):
+    def test_lons_wrap_neg179_plus179(self):  # noqa: D102
         # Check that (0, -179) is closer to (0, 179) than to (0, -170)
         self._check_latlon_1d(
             lats=[0, 0],
@@ -204,7 +204,7 @@ class TestLatlon:
             expect=1,
         )
 
-    def test_lons_over_pole(self):
+    def test_lons_over_pole(self):  # noqa: D102
         # Check that (89, 0) is closer to (89, 180) than to (85, 0)
         self._check_latlon_1d(
             lats=[85, 89],

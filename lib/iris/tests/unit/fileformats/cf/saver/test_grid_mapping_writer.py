@@ -64,7 +64,7 @@ def fake_cf_var():
 
 class TestTheBaseWriter:
     """Test heBaseWriter."""
-    def test_it_writes_into_the_attributes_mapping(self, tmp_path):
+    def test_it_writes_into_the_attributes_mapping(self, tmp_path):  # noqa: D102
         pytest.importorskip("zarr", minversion="3.1.0")
         from iris.fileformats.zarr.saver import Saver
 
@@ -82,7 +82,7 @@ class TestTheBaseWriter:
 
 class TestTheNetCDFOverride:
     """Test heNetCDFOverride."""
-    def test_it_writes_onto_the_netcdf4_variable(self, tmp_path):
+    def test_it_writes_onto_the_netcdf4_variable(self, tmp_path):  # noqa: D102
         # Not just "writes the same values": it must bypass `.attributes`,
         # whose ASCII-to-bytes coercion would change how netCDF types each
         # parameter in the file.
@@ -99,7 +99,7 @@ class TestTheNetCDFOverride:
 
 class TestTheFileIsUnchanged:
     """Test heFileIsUnchanged."""
-    def test_grid_mapping_attributes_land_where_they_did(self, tmp_path, cube):
+    def test_grid_mapping_attributes_land_where_they_did(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.nc"
         iris.save(cube, path)
 

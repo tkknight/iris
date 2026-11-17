@@ -106,7 +106,7 @@ def check_result(input_cubes, loadfunc_name, result, expected_results):
 
 class TestLoadFunctions:
     """Test oadFunctions."""
-    def test_mergeable(self, loadfunc_name):
+    def test_mergeable(self, loadfunc_name):  # noqa: D102
         _cube = cu(t=(0, 1), z=(0, 1))
         input_cubes = [cu(t=i_t, z=i_z) for i_t in (0, 1) for i_z in (0, 1)]
         expected_results = {
@@ -117,7 +117,7 @@ class TestLoadFunctions:
         result = run_testcase(input_cubes, loadfunc_name)
         check_result(input_cubes, loadfunc_name, result, expected_results)
 
-    def test_multiple(self, loadfunc_name):
+    def test_multiple(self, loadfunc_name):  # noqa: D102
         input_cubes = [cu(), cu(n="b")]
         expected_results = {
             "load": [cu(), cu(n="b")],
@@ -127,7 +127,7 @@ class TestLoadFunctions:
         result = run_testcase(input_cubes, loadfunc_name)
         check_result(input_cubes, loadfunc_name, result, expected_results)
 
-    def test_multiple_constrained(self, loadfunc_name):
+    def test_multiple_constrained(self, loadfunc_name):  # noqa: D102
         cube, cube_b = cu(), cu(n="b")
         input_cubes = [cube, cube_b]
         constraint = "a"
@@ -140,7 +140,7 @@ class TestLoadFunctions:
         result = run_testcase(input_cubes, loadfunc_name, constraints=constraint)
         check_result(input_cubes, loadfunc_name, result, expected_results)
 
-    def test_multiple_multi_constraints(self, loadfunc_name):
+    def test_multiple_multi_constraints(self, loadfunc_name):  # noqa: D102
         ca, cb, cc = cu(), cu(n="b"), cu(n="c")
         input_cubes = [ca, cb, cc]
         constraints = ["c", "a"]
@@ -153,7 +153,7 @@ class TestLoadFunctions:
         result = run_testcase(input_cubes, loadfunc_name, constraints=constraints)
         check_result(input_cubes, loadfunc_name, result, expected_results)
 
-    def test_nonmergeable_part_missing(self, loadfunc_name):
+    def test_nonmergeable_part_missing(self, loadfunc_name):  # noqa: D102
         c1, c2, c3, c4 = [cu(t=i_t, z=i_z) for i_t in (0, 1) for i_z in (0, 1)]
         input_cubes = [c1, c2, c4]
 
@@ -172,7 +172,7 @@ class TestLoadFunctions:
         result = run_testcase(input_cubes, loadfunc_name)
         check_result(input_cubes, loadfunc_name, result, expected_results)
 
-    def test_nonmergeable_part_extra(self, loadfunc_name):
+    def test_nonmergeable_part_extra(self, loadfunc_name):  # noqa: D102
         c1, c2, c3, c4 = [cu(t=i_t, z=i_z) for i_t in (0, 1) for i_z in (0, 1)]
         c5 = cu(t=5)
         input_cubes = [c1, c2, c5, c4, c3]  # scramble order, just to test
@@ -194,7 +194,7 @@ class TestLoadFunctions:
         result = run_testcase(input_cubes, loadfunc_name)
         check_result(input_cubes, loadfunc_name, result, expected_results)
 
-    def test_constraint_overlap(self, loadfunc_name):
+    def test_constraint_overlap(self, loadfunc_name):  # noqa: D102
         c1, c2, c3, c4, c5, c6 = (cu(z=ind) for ind in (1, 2, 3, 4, 5, 6))
         input_cubes = [c1, c2, c3, c4, c5, c6]
         constraints = [
@@ -212,7 +212,7 @@ class TestLoadFunctions:
         result = run_testcase(input_cubes, loadfunc_name, constraints=constraints)
         check_result(input_cubes, loadfunc_name, result, expected_results)
 
-    def test_multiple_match(self, loadfunc_name):
+    def test_multiple_match(self, loadfunc_name):  # noqa: D102
         c1 = cu(z=1)
         c2 = cu(z=2)
         c3 = cu(n="b", z=1)

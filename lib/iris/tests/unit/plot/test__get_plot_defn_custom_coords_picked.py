@@ -19,7 +19,7 @@ if _shared_utils.MPL_AVAILABLE:
 @_shared_utils.skip_plot
 class Test_get_plot_defn_custom_coords_picked:
     """Test get plot defn custom coords picked."""
-    def test_1d_coords(self):
+    def test_1d_coords(self):  # noqa: D102
         cube = simple_2d()
         defn = iplt._get_plot_defn_custom_coords_picked(
             cube, ("foo", "bar"), POINT_MODE
@@ -27,7 +27,7 @@ class Test_get_plot_defn_custom_coords_picked:
         assert [coord.name() for coord in defn.coords] == ["bar", "foo"]
         assert not defn.transpose
 
-    def test_1d_coords_swapped(self):
+    def test_1d_coords_swapped(self):  # noqa: D102
         cube = simple_2d()
         defn = iplt._get_plot_defn_custom_coords_picked(
             cube, ("bar", "foo"), POINT_MODE
@@ -35,19 +35,19 @@ class Test_get_plot_defn_custom_coords_picked:
         assert [coord.name() for coord in defn.coords] == ["foo", "bar"]
         assert defn.transpose
 
-    def test_1d_coords_as_integers(self):
+    def test_1d_coords_as_integers(self):  # noqa: D102
         cube = simple_2d()
         defn = iplt._get_plot_defn_custom_coords_picked(cube, (1, 0), POINT_MODE)
         assert [coord for coord in defn.coords] == [0, 1]
         assert not defn.transpose
 
-    def test_1d_coords_as_integers_swapped(self):
+    def test_1d_coords_as_integers_swapped(self):  # noqa: D102
         cube = simple_2d()
         defn = iplt._get_plot_defn_custom_coords_picked(cube, (0, 1), POINT_MODE)
         assert [coord for coord in defn.coords] == [1, 0]
         assert defn.transpose
 
-    def test_2d_coords(self):
+    def test_2d_coords(self):  # noqa: D102
         cube = simple_2d_w_multidim_coords()
         defn = iplt._get_plot_defn_custom_coords_picked(
             cube, ("foo", "bar"), BOUND_MODE
@@ -55,13 +55,13 @@ class Test_get_plot_defn_custom_coords_picked:
         assert [coord.name() for coord in defn.coords] == ["bar", "foo"]
         assert not defn.transpose
 
-    def test_2d_coords_as_integers(self):
+    def test_2d_coords_as_integers(self):  # noqa: D102
         cube = simple_2d_w_multidim_coords()
         defn = iplt._get_plot_defn_custom_coords_picked(cube, (0, 1), BOUND_MODE)
         assert [coord for coord in defn.coords] == [1, 0]
         assert defn.transpose
 
-    def test_span_check(self):
+    def test_span_check(self):  # noqa: D102
         cube = hybrid_height()
         emsg = "don't span the 2 data dimensions"
         with pytest.raises(ValueError, match=emsg):

@@ -29,14 +29,14 @@ class Test_multidim_lazy_stack:
         result = as_concrete_data(result)
         assert_array_all_close(result, expected)
 
-    def test_0d_lazy_stack(self):
+    def test_0d_lazy_stack(self):  # noqa: D102
         shape = ()
         self._check(shape)
 
-    def test_1d_lazy_stack(self):
+    def test_1d_lazy_stack(self):  # noqa: D102
         shape = (2,)
         self._check(shape)
 
-    def test_2d_lazy_stack(self):
+    def test_2d_lazy_stack(self):  # noqa: D102
         shape = (3, 2)
         self._check(shape)

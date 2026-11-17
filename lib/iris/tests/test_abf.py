@@ -18,7 +18,7 @@ class TestAbfLoad:
     def _setup(self):
         self.path = _shared_utils.get_data_path(("abf", "AVHRRBUVI01.1985apra.abf"))
 
-    def test_load(self, request):
+    def test_load(self, request):  # noqa: D102
         cubes = iris.load(self.path)
         # On a 32-bit platform the time coordinate will have 32-bit integers.
         # We force them to 64-bit to ensure consistent test results.
@@ -30,7 +30,7 @@ class TestAbfLoad:
         cubes[0].data = cubes[0].data.copy(order="C")
         _shared_utils.assert_CML(request, cubes, ("abf", "load.cml"))
 
-    def test_fill_value(self):
+    def test_fill_value(self):  # noqa: D102
         field = iris.fileformats.abf.ABFField(self.path)
         # Make sure the fill value is appropriate. It must avoid the
         # data range (0 to 100 inclusive) but still fit within the dtype

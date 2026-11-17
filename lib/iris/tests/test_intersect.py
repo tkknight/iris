@@ -15,7 +15,7 @@ from iris.tests import _shared_utils
 
 class TestCubeIntersectTheoretical:
     """Test ubeIntersectTheoretical."""
-    def test_simple_intersect(self, request):
+    def test_simple_intersect(self, request):  # noqa: D102
         cube = iris.cube.Cube(
             np.array(
                 [
@@ -99,7 +99,7 @@ class TestCubeIntersectTheoretical:
 
 class TestCoordIntersect:
     """Test oordIntersect."""
-    def test_commutative(self):
+    def test_commutative(self):  # noqa: D102
         step = 4.0
         c1 = iris.coords.DimCoord(np.arange(100) * step)
         offset_points = c1.points.copy()

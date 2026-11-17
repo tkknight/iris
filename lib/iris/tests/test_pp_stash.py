@@ -16,7 +16,7 @@ import iris.util
 class TestPPStash:
     """Test PStash."""
     @_shared_utils.skip_data
-    def test_cube_attributes(self):
+    def test_cube_attributes(self):  # noqa: D102
         cube = iris.tests.stock.simple_pp()
         assert "m01s16i203" == cube.attributes["STASH"]
         assert "m01s16i999" != cube.attributes["STASH"]
@@ -25,7 +25,7 @@ class TestPPStash:
         assert cube.attributes["STASH"] != "m01s16i999"
 
     @_shared_utils.skip_data
-    def test_ppfield(self):
+    def test_ppfield(self):  # noqa: D102
         data_path = _shared_utils.get_data_path(("PP", "simple_pp", "global.pp"))
         pps = iris.fileformats.pp.load(data_path)
         for pp in pps:
@@ -35,18 +35,18 @@ class TestPPStash:
             assert pp.stash == "m01s16i203"
             assert pp.stash != "m01s16i999"
 
-    def test_stash_against_stash(self):
+    def test_stash_against_stash(self):  # noqa: D102
         assert iris.fileformats.pp.STASH(1, 2, 3) == iris.fileformats.pp.STASH(1, 2, 3)
         assert iris.fileformats.pp.STASH(1, 2, 3) != iris.fileformats.pp.STASH(2, 3, 4)
 
-    def test_stash_against_str(self):
+    def test_stash_against_str(self):  # noqa: D102
         # Also exercise iris.fileformats.pp.STASH eq and ne methods.
         assert iris.fileformats.pp.STASH(1, 2, 3) == "m01s02i003"
         assert "m01s02i003" == iris.fileformats.pp.STASH(1, 2, 3)
         assert iris.fileformats.pp.STASH(1, 2, 3) != "m02s03i004"
         assert "m02s03i004" != iris.fileformats.pp.STASH(1, 2, 3)
 
-    def test_irregular_stash_str(self):
+    def test_irregular_stash_str(self):  # noqa: D102
         # Also exercise iris.fileformats.pp.STASH eq and ne methods.
         assert iris.fileformats.pp.STASH(1, 2, 3) == "m01s02i0000000003"
         assert iris.fileformats.pp.STASH(1, 2, 3) == "m01s02i3"
@@ -71,7 +71,7 @@ class TestPPStash:
         assert iris.fileformats.pp.STASH.from_msi("M01s02i003") == "m01s02i003"
         assert "m01s02i003" == iris.fileformats.pp.STASH.from_msi("M01s02i003")
 
-    def test_illegal_stash_str_range(self):
+    def test_illegal_stash_str_range(self):  # noqa: D102
         # Also exercise iris.fileformats.pp.STASH eq and ne methods.
         assert iris.fileformats.pp.STASH(0, 2, 3) == "m??s02i003"
         assert iris.fileformats.pp.STASH(0, 2, 3) != "m01s02i003"
@@ -89,7 +89,7 @@ class TestPPStash:
         assert "m??s02i003" == iris.fileformats.pp.STASH(100, 2, 3)
         assert "m100s02i003" == iris.fileformats.pp.STASH(100, 2, 3)
 
-    def test_illegal_stash_stash_range(self):
+    def test_illegal_stash_stash_range(self):  # noqa: D102
         assert iris.fileformats.pp.STASH(0, 2, 3) == iris.fileformats.pp.STASH(0, 2, 3)
         assert iris.fileformats.pp.STASH(100, 2, 3) == iris.fileformats.pp.STASH(
             100, 2, 3
@@ -98,7 +98,7 @@ class TestPPStash:
             999, 2, 3
         )
 
-    def test_illegal_stash_format(self):
+    def test_illegal_stash_format(self):  # noqa: D102
         test_values = (
             ("abc", (1, 2, 3)),
             ("mlotstmin", (1, 2, 3)),
@@ -112,7 +112,7 @@ class TestPPStash:
             with pytest.raises(ValueError, match=msg):
                 iris.fileformats.pp.STASH(*reference) == test_value
 
-    def test_illegal_stash_type(self):
+    def test_illegal_stash_type(self):  # noqa: D102
         test_values = (
             (102003, "m01s02i003"),
             (["m01s02i003"], "m01s02i003"),
@@ -125,7 +125,7 @@ class TestPPStash:
             with pytest.raises(TypeError, match=msg):
                 reference == iris.fileformats.pp.STASH.from_msi(test_value)
 
-    def test_stash_lbuser(self):
+    def test_stash_lbuser(self):  # noqa: D102
         stash = iris.fileformats.pp.STASH(2, 32, 456)
         assert stash.lbuser6() == 2
         assert stash.lbuser3() == 32456

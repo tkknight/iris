@@ -23,7 +23,7 @@ class Test_settings:
     sets of cubes sensitive to those choices.
     """
 
-    def test_mergeable(self, settings):
+    def test_mergeable(self, settings):  # noqa: D102
         c1, c2 = cu(t=1), cu(t=2)
         c12 = cu(t=(1, 2))
         input_cubes = [c1, c2]
@@ -31,7 +31,7 @@ class Test_settings:
         expected = [c12]  # same in all cases
         assert result == expected
 
-    def test_catable(self, settings):
+    def test_catable(self, settings):  # noqa: D102
         c1, c2 = cu(t=(1, 2)), cu(t=(3, 4))
         c12 = cu(t=(1, 2, 3, 4))
         input_cubes = [c1, c2]
@@ -44,7 +44,7 @@ class Test_settings:
         }[settings]
         assert result == expected
 
-    def test_cat_enables_merge(self, settings):
+    def test_cat_enables_merge(self, settings):  # noqa: D102
         c1, c2 = cu(t=(1, 2), z=1), cu(t=(3, 4, 5), z=1)
         c3, c4 = cu(t=(1, 2, 3), z=2), cu(t=(4, 5), z=2)
         c1234 = cu(t=(1, 2, 3, 4, 5), z=(1, 2))
@@ -60,13 +60,13 @@ class Test_settings:
         }[settings]
         assert result == expected
 
-    def test_nocombine_overlapping(self, settings):
+    def test_nocombine_overlapping(self, settings):  # noqa: D102
         c1, c2 = cu(t=(1, 3)), cu(t=(2, 4))
         input_cubes = [c1, c2]
         result = combine_cubes(input_cubes, settings)
         assert result == input_cubes  # same in all cases : can't do this
 
-    def test_nocombine_dim_scalar(self, settings):
+    def test_nocombine_dim_scalar(self, settings):  # noqa: D102
         c1, c2 = cu(t=(1,)), cu(t=2)
         input_cubes = [c1, c2]
         result = combine_cubes(input_cubes, settings)
@@ -89,7 +89,7 @@ def test_cat_enables_merge__custom():
 class Test_options:
     """Test all the individual combine options keywords."""
 
-    def test_equalise_cubes_kwargs(self):
+    def test_equalise_cubes_kwargs(self):  # noqa: D102
         # two cubes will merge ..
         cubes = [cu(t=1), cu(t=2)]
         # .. but prevent by adding an attribute on one
@@ -103,7 +103,7 @@ class Test_options:
         )
         assert len(result) == 1
 
-    def test_merge_concat_sequence(self):
+    def test_merge_concat_sequence(self):  # noqa: D102
         # cubes require concat, merge won't work
         cubes = [cu(t=[1, 2]), cu(t=[3, 4])]
         result = combine_cubes(cubes)
@@ -112,7 +112,7 @@ class Test_options:
         result = combine_cubes(cubes, merge_concat_sequence="c")
         assert len(result) == 1
 
-    def test_merge_unique(self):
+    def test_merge_unique(self):  # noqa: D102
         # two identical cubes
         cubes = [cu("myname"), cu("myname")]
         # the combine call (with merge) is OK if we *don't* insist on unique cubes
@@ -122,7 +122,7 @@ class Test_options:
         with pytest.raises(DuplicateDataError, match=msg):
             combine_cubes(cubes, merge_unique=True)
 
-    def test_repeat_until_unchanged(self):
+    def test_repeat_until_unchanged(self):  # noqa: D102
         # construct a case that will only merge once it was previously concatenated
         cubes = [
             cu(t=[1, 2, 3], z=1),

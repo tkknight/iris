@@ -104,11 +104,11 @@ except ImportError as exception:
 
 class Test__MISSING_MESSAGE:
     """Test  MISSING MESSAGE."""
-    def test_it_names_the_package_and_the_version_floor(self):
+    def test_it_names_the_package_and_the_version_floor(self):  # noqa: D102
         assert "zarr" in _MISSING_MESSAGE
         assert "3.1.0" in _MISSING_MESSAGE
 
-    def test_it_covers_saving_as_well_as_loading(self):
+    def test_it_covers_saving_as_well_as_loading(self):  # noqa: D102
         # `iris.save` raises this one too, so it cannot be worded as a
         # loading failure: a user who was saving would be told about the
         # wrong half of the package.
@@ -117,7 +117,7 @@ class Test__MISSING_MESSAGE:
 
 class Test_zarr_is_missing:
     """Test zarr is missing."""
-    def test_iris_load_reports_it(self, tmp_path):
+    def test_iris_load_reports_it(self, tmp_path):  # noqa: D102
         store = tmp_path / "s.zarr"
         store.mkdir()
         (store / "zarr.json").write_text("{}")
@@ -125,14 +125,14 @@ class Test_zarr_is_missing:
         probe = _BLOCK_ZARR + _LOAD_PROBE.format(location=str(store))
         assert _run(probe) == _MISSING_MESSAGE
 
-    def test_load_cubes_reports_it(self, tmp_path):
+    def test_load_cubes_reports_it(self, tmp_path):  # noqa: D102
         store = tmp_path / "s.zarr"
         store.mkdir()
 
         probe = _BLOCK_ZARR + _LOAD_CUBES_PROBE.format(location=str(store))
         assert _run(probe) == _MISSING_MESSAGE
 
-    def test_iris_save_reports_it(self, tmp_path):
+    def test_iris_save_reports_it(self, tmp_path):  # noqa: D102
         probe = _BLOCK_ZARR + _SAVE_PROBE.format(location=str(tmp_path / "out.zarr"))
         assert _run(probe) == _MISSING_MESSAGE
 
@@ -167,7 +167,7 @@ class Test_the_floor_itself:
         return report
 
     @pytest.mark.parametrize("version", ["3.0.8", "3.0.10"])
-    def test_a_3_0_release_is_below_it(self, mocker, version):
+    def test_a_3_0_release_is_below_it(self, mocker, version):  # noqa: D102
         # 3.0.x returns a `DataType` enum from `Array.metadata.to_dict()`,
         # which `cache_key` cannot serialise, so every lazy read fails.
         mocker.patch.object(
@@ -178,7 +178,7 @@ class Test_the_floor_itself:
         assert str(excinfo.value) == _MISSING_MESSAGE
 
     @pytest.mark.parametrize("version", ["3.1.0", "3.1.6", "3.4.1"])
-    def test_a_3_1_or_later_release_is_at_or_above_it(self, mocker, version):
+    def test_a_3_1_or_later_release_is_at_or_above_it(self, mocker, version):  # noqa: D102
         mocker.patch.object(
             zarr_package.importlib.metadata, "version", self._reporting(version)
         )
@@ -206,7 +206,7 @@ class Test_zarr_is_too_old:
             iris.load(str(store))
         assert str(excinfo.value) == _MISSING_MESSAGE
 
-    def test_load_cubes_reports_it(self, mocker):
+    def test_load_cubes_reports_it(self, mocker):  # noqa: D102
         mocker.patch.object(
             zarr_package.importlib.metadata, "version", _report_old_zarr
         )

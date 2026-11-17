@@ -16,7 +16,7 @@ from iris.tests import _shared_utils
 class Test_aggregated_by:
     """Test aggregated by."""
     @_shared_utils.skip_data
-    def test_agg_by_aux_coord(self, mocker):
+    def test_agg_by_aux_coord(self, mocker):  # noqa: D102
         problem_test_file = _shared_utils.get_data_path(
             ("NetCDF", "testing", "small_theta_colpex.nc")
         )
@@ -44,13 +44,13 @@ class Test_aggregated_by:
 
 class TestDataFillValue:
     """Test ataFillValue."""
-    def test_real(self):
+    def test_real(self):  # noqa: D102
         data = np.ma.masked_array([1, 2, 3], [0, 1, 0], fill_value=10)
         cube = Cube(data)
         cube.data.fill_value = 20
         assert cube.data.fill_value == 20
 
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         data = np.ma.masked_array([1, 2, 3], [0, 1, 0], fill_value=10)
         data = as_lazy_data(data)
         cube = Cube(data)

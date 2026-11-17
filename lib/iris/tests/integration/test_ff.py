@@ -22,7 +22,7 @@ class TestLBC:
         # Select the second cube for detailed checks (the first is orography).
         self.test_cube = self.all_cubes[1]
 
-    def test_various_cubes_shapes(self):
+    def test_various_cubes_shapes(self):  # noqa: D102
         # Check a few aspects of the loaded cubes.
         cubes = self.all_cubes
         assert len(cubes) == 10
@@ -30,7 +30,7 @@ class TestLBC:
         assert cubes[1].shape == (2, 4, 16, 16)
         assert cubes[3].shape == (2, 5, 16, 16)
 
-    def test_cube_coords(self):
+    def test_cube_coords(self):  # noqa: D102
         # Check coordinates of one cube.
         cube = self.test_cube
         assert len(cube.coords()) == 8
@@ -55,7 +55,7 @@ class TestLBC:
                 )
             )
 
-    def test_cube_data(self):
+    def test_cube_data(self):  # noqa: D102
         # Check just a few points of the data.
         cube = self.test_cube
         _shared_utils.assert_array_all_close(
@@ -64,7 +64,7 @@ class TestLBC:
             atol=1.0e-6,
         )
 
-    def test_cube_mask(self):
+    def test_cube_mask(self):  # noqa: D102
         # Check the data mask : should be just the centre 6x2 section.
         cube = self.test_cube
         mask = np.zeros((2, 4, 16, 16), dtype=bool)
@@ -75,7 +75,7 @@ class TestLBC:
 @_shared_utils.skip_data
 class TestSkipField:
     """Test kipField."""
-    def test_missing_lbrel(self, mocker):
+    def test_missing_lbrel(self, mocker):  # noqa: D102
         warn_msg = (
             "Input field skipped as PPField creation failed : .*"
             "error = 'Unsupported header release number: -32768'"

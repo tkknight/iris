@@ -33,7 +33,7 @@ class TestBasicSave:
             name: path for name, path in zip(example_names, example_paths)
         }
 
-    def test_example_result_cdls(self, request):
+    def test_example_result_cdls(self, request):  # noqa: D102
         # Snapshot the result of saving the example cases.
         for ex_name, cdl_path in self.example_names_paths.items():
             # Create a test netcdf file.
@@ -54,7 +54,7 @@ class TestBasicSave:
                 request, resave_ncfile_path, reference_filename=reffile_path
             )
 
-    def test_example_roundtrips(self):
+    def test_example_roundtrips(self):  # noqa: D102
         # Check that save-and-loadback leaves Iris data unchanged,
         # for data derived from each UGRID example CDL.
         for ex_name, cdl_path in self.example_names_paths.items():

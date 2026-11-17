@@ -19,7 +19,7 @@ CF_IDENTITY = "mesh"
 
 class TestIdentify:
     """Test dentify."""
-    def test_cf_role(self):
+    def test_cf_role(self):  # noqa: D102
         # Test that mesh variables can be identified by having `cf_role="mesh_topology"`.
         match_name = "match"
         match = _NetCDFVar(match_name)
@@ -36,7 +36,7 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all)
         assert result == expected
 
-    def test_cf_identity(self):
+    def test_cf_identity(self):  # noqa: D102
         # Test that mesh variables can be identified by being another variable's
         #  `mesh` attribute.
         subject_name = "ref_subject"
@@ -54,7 +54,7 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all)
         assert result == expected
 
-    def test_cf_role_and_identity(self):
+    def test_cf_role_and_identity(self):  # noqa: D102
         # Test that identification can successfully handle a combination of
         #  mesh variables having `cf_role="mesh_topology"` AND being referenced as
         #  another variable's `mesh` attribute.
@@ -85,7 +85,7 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all)
         assert result == expected
 
-    def test_duplicate_refs(self):
+    def test_duplicate_refs(self):  # noqa: D102
         subject_name = "ref_subject"
         ref_subject = _NetCDFVar(subject_name)
         ref_source_vars = {
@@ -106,7 +106,7 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all)
         assert result == expected
 
-    def test_two_refs(self):
+    def test_two_refs(self):  # noqa: D102
         subject_names = ("ref_subject_1", "ref_subject_2")
         ref_subject_vars = {name: _NetCDFVar(name) for name in subject_names}
 
@@ -129,7 +129,7 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all)
         assert result == expected
 
-    def test_two_part_ref_ignored(self):
+    def test_two_part_ref_ignored(self):  # noqa: D102
         # Not expected to handle more than one variable for a mesh
         # cf role - invalid UGRID.
         subject_name = "ref_subject"
@@ -144,7 +144,7 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all)
         assert result == {}
 
-    def test_string_type_ignored(self):
+    def test_string_type_ignored(self):  # noqa: D102
         subject_name = "ref_subject"
         ref_source = _NetCDFVar("ref_source")
         setattr(ref_source, CF_IDENTITY, subject_name)
@@ -157,7 +157,7 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all)
         assert result == {}
 
-    def test_ignore(self):
+    def test_ignore(self):  # noqa: D102
         subject_names = ("ref_subject_1", "ref_subject_2")
         ref_subject_vars = {name: _NetCDFVar(name) for name in subject_names}
 
@@ -182,7 +182,7 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all, ignore=subject_names[1])
         assert result == expected
 
-    def test_target(self):
+    def test_target(self):  # noqa: D102
         subject_names = ("ref_subject_1", "ref_subject_2")
         ref_subject_vars = {name: _NetCDFVar(name) for name in subject_names}
 
@@ -206,21 +206,21 @@ class TestIdentify:
         result = CFUGridMeshVariable.identify(vars_all, target=source_names[0])
         assert result == expected
 
-    def test_target_unknown_raises(self):
+    def test_target_unknown_raises(self):  # noqa: D102
         vars_all = {"ref_source": _NetCDFVar("ref_source")}
 
         message = "Cannot identify unknown target CF-netCDF variable 'unknown'"
         with pytest.raises(ValueError, match=message):
             CFUGridMeshVariable.identify(vars_all, target="unknown")
 
-    def test_target_wrong_type_raises(self):
+    def test_target_wrong_type_raises(self):  # noqa: D102
         vars_all = {"ref_source": _NetCDFVar("ref_source")}
 
         message = "Expect a target CF-netCDF variable name"
         with pytest.raises(TypeError, match=message):
             CFUGridMeshVariable.identify(vars_all, target=object())
 
-    def test_warn(self):
+    def test_warn(self):  # noqa: D102
         subject_name = "ref_subject"
         ref_source = _NetCDFVar("ref_source")
         setattr(ref_source, CF_IDENTITY, subject_name)

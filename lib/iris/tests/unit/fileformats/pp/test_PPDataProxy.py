@@ -9,13 +9,13 @@ from iris.fileformats.pp import PPDataProxy, SplittableInt
 
 class Test_lbpack:
     """Test lbpack."""
-    def test_lbpack_splittable_int(self, mocker):
+    def test_lbpack_splittable_int(self, mocker):  # noqa: D102
         lbpack = mocker.Mock(spec_set=SplittableInt)
         proxy = PPDataProxy(None, None, None, None, None, lbpack, None, None)
         assert proxy.lbpack == lbpack
         assert proxy.lbpack is lbpack
 
-    def test_lbpack_raw(self):
+    def test_lbpack_raw(self):  # noqa: D102
         lbpack = 4321
         proxy = PPDataProxy(None, None, None, None, None, lbpack, None, None)
         assert proxy.lbpack == lbpack

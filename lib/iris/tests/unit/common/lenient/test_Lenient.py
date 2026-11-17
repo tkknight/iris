@@ -22,16 +22,16 @@ def lenient():
 
 class Test___init__:
     """Test   init  ."""
-    def test_default(self, lenient):
+    def test_default(self, lenient):  # noqa: D102
         expected = dict(maths=True)
         assert lenient.__dict__ == expected
 
-    def test_kwargs(self, lenient):
+    def test_kwargs(self, lenient):  # noqa: D102
         actual = Lenient(maths=False)
         expected = dict(maths=False)
         assert actual.__dict__ == expected
 
-    def test_kwargs_invalid(self, lenient):
+    def test_kwargs_invalid(self, lenient):  # noqa: D102
         emsg = "Invalid .* option, got 'merge'."
         with pytest.raises(KeyError, match=emsg):
             _ = Lenient(merge=True)
@@ -39,19 +39,19 @@ class Test___init__:
 
 class Test___contains__:
     """Test   contains  ."""
-    def test_in(self, lenient):
+    def test_in(self, lenient):  # noqa: D102
         assert "maths" in lenient
 
-    def test_not_in(self, lenient):
+    def test_not_in(self, lenient):  # noqa: D102
         assert "concatenate" not in lenient
 
 
 class Test___getitem__:
     """Test   getitem  ."""
-    def test_in(self, lenient):
+    def test_in(self, lenient):  # noqa: D102
         assert bool(lenient["maths"]) is True
 
-    def test_not_in(self, lenient):
+    def test_not_in(self, lenient):  # noqa: D102
         emsg = "Invalid .* option, got 'MATHS'."
         with pytest.raises(KeyError, match=emsg):
             _ = lenient["MATHS"]
@@ -59,44 +59,44 @@ class Test___getitem__:
 
 class Test___repr__:
     """Test   repr  ."""
-    def test(self, lenient):
+    def test(self, lenient):  # noqa: D102
         expected = "Lenient(maths=True)"
         assert repr(lenient) == expected
 
 
 class Test___setitem__:
     """Test   setitem  ."""
-    def test_key_invalid(self, lenient):
+    def test_key_invalid(self, lenient):  # noqa: D102
         emsg = "Invalid .* option, got 'MATHS."
         with pytest.raises(KeyError, match=emsg):
             lenient["MATHS"] = False
 
-    def test_maths_value_invalid(self, mocker, lenient):
+    def test_maths_value_invalid(self, mocker, lenient):  # noqa: D102
         value = mocker.sentinel.value
         emsg = f"Invalid .* option 'maths' value, got {value!r}."
         with pytest.raises(ValueError, match=emsg):
             lenient["maths"] = value
 
-    def test_maths_disable__lenient_enable_true(self, lenient):
+    def test_maths_disable__lenient_enable_true(self, lenient):  # noqa: D102
         assert bool(_LENIENT.enable) is True
         lenient["maths"] = False
         assert bool(lenient.__dict__["maths"]) is False
         assert bool(_LENIENT.enable) is False
 
-    def test_maths_disable__lenient_enable_false(self, lenient):
+    def test_maths_disable__lenient_enable_false(self, lenient):  # noqa: D102
         _LENIENT.__dict__["enable"] = False
         assert bool(_LENIENT.enable) is False
         lenient["maths"] = False
         assert bool(lenient.__dict__["maths"]) is False
         assert bool(_LENIENT.enable) is False
 
-    def test_maths_enable__lenient_enable_true(self, lenient):
+    def test_maths_enable__lenient_enable_true(self, lenient):  # noqa: D102
         assert bool(_LENIENT.enable) is True
         lenient["maths"] = True
         assert bool(lenient.__dict__["maths"]) is True
         assert bool(_LENIENT.enable) is True
 
-    def test_maths_enable__lenient_enable_false(self, lenient):
+    def test_maths_enable__lenient_enable_false(self, lenient):  # noqa: D102
         _LENIENT.__dict__["enable"] = False
         assert bool(_LENIENT.enable) is False
         lenient["maths"] = True
@@ -106,7 +106,7 @@ class Test___setitem__:
 
 class Test_context:
     """Test context."""
-    def test_nop(self, lenient):
+    def test_nop(self, lenient):  # noqa: D102
         assert bool(lenient["maths"]) is True
 
         with lenient.context():
@@ -114,7 +114,7 @@ class Test_context:
 
         assert bool(lenient["maths"]) is True
 
-    def test_maths_disable__lenient_true(self, lenient):
+    def test_maths_disable__lenient_true(self, lenient):  # noqa: D102
         # synchronised
         assert bool(_LENIENT.enable) is True
         assert bool(lenient["maths"]) is True
@@ -128,7 +128,7 @@ class Test_context:
         assert bool(_LENIENT.enable) is True
         assert bool(lenient["maths"]) is True
 
-    def test_maths_disable__lenient_false(self, lenient):
+    def test_maths_disable__lenient_false(self, lenient):  # noqa: D102
         # not synchronised
         _LENIENT.__dict__["enable"] = False
         assert bool(_LENIENT.enable) is False
@@ -143,7 +143,7 @@ class Test_context:
         assert bool(_LENIENT.enable) is True
         assert bool(lenient["maths"]) is True
 
-    def test_maths_enable__lenient_true(self, lenient):
+    def test_maths_enable__lenient_true(self, lenient):  # noqa: D102
         # not synchronised
         assert bool(_LENIENT.enable) is True
         lenient.__dict__["maths"] = False
@@ -158,7 +158,7 @@ class Test_context:
         assert bool(_LENIENT.enable) is False
         assert bool(lenient["maths"]) is False
 
-    def test_maths_enable__lenient_false(self, lenient):
+    def test_maths_enable__lenient_false(self, lenient):  # noqa: D102
         # synchronised
         _LENIENT.__dict__["enable"] = False
         assert bool(_LENIENT.enable) is False

@@ -30,7 +30,7 @@ def simple_cube_w_2d_coords():
 @_shared_utils.skip_data
 class Test(_shared_utils.GraphicsTest):
     """Test ."""
-    def test_2d_coord_bounds_platecarree(self):
+    def test_2d_coord_bounds_platecarree(self):  # noqa: D102
         # To avoid a problem with Cartopy smearing the data where the
         #  longitude wraps, we set the central_longitude.
         #  SciTools/cartopy#1421
@@ -46,7 +46,7 @@ class Test(_shared_utils.GraphicsTest):
         ax.coastlines(resolution="110m", color="red")
         self.check_graphic()
 
-    def test_2d_coord_bounds_northpolarstereo(self):
+    def test_2d_coord_bounds_northpolarstereo(self):  # noqa: D102
         cube = simple_cube_w_2d_coords()[0, 0]
         ax = plt.axes(projection=ccrs.NorthPolarStereo())
         qplt.pcolormesh(cube)
@@ -57,7 +57,7 @@ class Test(_shared_utils.GraphicsTest):
 @_shared_utils.skip_plot
 class Test2dContour(_shared_utils.GraphicsTest):
     """Test dContour."""
-    def test_2d_coords_contour(self):
+    def test_2d_coords_contour(self):  # noqa: D102
         ny, nx = 4, 6
         x1 = np.linspace(-20, 70, nx)
         y1 = np.linspace(10, 60, ny)

@@ -24,7 +24,7 @@ _DATA_LEN_WORD = struct.pack(">L", 4)
 class TestFieldGen:
     """Test ieldGen."""
     @pytest.fixture
-    def mock_for_field_gen(self, mocker):
+    def mock_for_field_gen(self, mocker):  # noqa: D102
         @contextlib.contextmanager
         def _mock_for_field_gen(fields):
             side_effect_fields = list(fields)[:]
@@ -58,11 +58,11 @@ class TestFieldGen:
 
         return _mock_for_field_gen
 
-    def gen_fields(self, fields, mock_for_field_gen):
+    def gen_fields(self, fields, mock_for_field_gen):  # noqa: D102
         with mock_for_field_gen(fields):
             return list(pp._field_gen("mocked", "mocked"))
 
-    def test_lblrec_invalid(self, mocker, mock_for_field_gen):
+    def test_lblrec_invalid(self, mocker, mock_for_field_gen):  # noqa: D102
         pp_field = mocker.Mock(lblrec=2, lbext=0)
         wmsg = (
             "LBLREC has a different value to the .* the header in the "
@@ -72,7 +72,7 @@ class TestFieldGen:
             self.gen_fields([pp_field], mock_for_field_gen)
         assert len(warn) == 1
 
-    def test_read_headers_call(self, mocker, mock_for_field_gen):
+    def test_read_headers_call(self, mocker, mock_for_field_gen):  # noqa: D102
         # Checks that the file is read in a single call of _HEADER_BYTES and
         # that np.frombuffer is used to parse longs and floats from that buffer.
         pp_field = mocker.Mock(lblrec=1, lbext=0, lbuser=[0])
@@ -91,7 +91,7 @@ class TestFieldGen:
         assert calls[1].kwargs["count"] == pp.NUM_FLOAT_HEADERS
         assert calls[1].kwargs["dtype"] == np.dtype(">f4")
 
-    def test_read_data_call(self, mocker, mock_for_field_gen):
+    def test_read_data_call(self, mocker, mock_for_field_gen):  # noqa: D102
         # Checks that data is read if read_data is True.
         pp_field = mocker.Mock(lblrec=1, lbext=0, lbuser=[0])
         with mock_for_field_gen([pp_field]) as mock_file:
@@ -102,7 +102,7 @@ class TestFieldGen:
         assert data_read_call == mocker.call(4)
         assert isinstance(pp_field.data, pp.LoadedArrayBytes)
 
-    def test_invalid_header_release(self, tmp_path):
+    def test_invalid_header_release(self, tmp_path):  # noqa: D102
         # Check that an unknown LBREL value just results in a warning
         # and the end of the file iteration instead of raising an error.
         temp_path = tmp_path / "temp"

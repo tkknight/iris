@@ -32,18 +32,18 @@ class Test__lazy_stream_data:
     # Ensure all saves are done with split-atttribute saving,
     # -- because some of these tests are sensitive to unexpected warnings.
     @pytest.fixture(autouse=True)
-    def all_saves_with_split_attrs(self):
+    def all_saves_with_split_attrs(self):  # noqa: D102
         with iris.FUTURE.context(save_split_attrs=True):
             yield
 
     @pytest.fixture(autouse=True)
-    def output_path(self, tmp_path):
+    def output_path(self, tmp_path):  # noqa: D102
         # A temporary output netcdf-file path, **unique to each test call**.
         self.temp_output_filepath = tmp_path / "tmp.nc"
         return self.temp_output_filepath
 
     @pytest.fixture(autouse=True, scope="module")
-    def all_vars_lazy(self):
+    def all_vars_lazy(self):  # noqa: D102
         # For the operation of these tests, we want to force all netcdf variables
         # to load as lazy data, i.e. **don't** use real data for 'small' ones.
         old_value = iris.fileformats.cf.loader._LAZYVAR_MIN_BYTES
@@ -53,11 +53,11 @@ class Test__lazy_stream_data:
 
     @staticmethod
     @pytest.fixture(params=[False, True], ids=["SaveImmediate", "SaveDelayed"])
-    def save_is_delayed(request):
+    def save_is_delayed(request):  # noqa: D102
         return request.param
 
     @staticmethod
-    def make_testcube(
+    def make_testcube(  # noqa: D102
         include_lazy_content=True,
         ensure_fillvalue_collision=False,
         data_is_maskedbytes=False,
@@ -120,7 +120,7 @@ class Test__lazy_stream_data:
             cube.add_cell_measure(cm, cm_dims)
         return cube
 
-    def test_realfile_loadsave_equivalence(self, save_is_delayed, output_path, request):
+    def test_realfile_loadsave_equivalence(self, save_is_delayed, output_path, request):  # noqa: D102
         input_filepath = _shared_utils.get_data_path(
             ["NetCDF", "global", "xyz_t", "GEMS_CO2_Apr2006.nc"]
         )
@@ -153,7 +153,7 @@ class Test__lazy_stream_data:
             "SingleThreadScheduler",
         ]
     )
-    def scheduler_type(request):
+    def scheduler_type(request):  # noqa: D102
         sched_typename = request.param
         if sched_typename == "ThreadedScheduler":
             config_name = "threads"
@@ -172,7 +172,7 @@ class Test__lazy_stream_data:
         if config_name == "distributed":
             _distributed_client.close()
 
-    def test_scheduler_types(self, output_path, scheduler_type, save_is_delayed):
+    def test_scheduler_types(self, output_path, scheduler_type, save_is_delayed):  # noqa: D102
         # Check operation works and behaves the same with different schedulers,
         # especially including distributed.
 
@@ -198,7 +198,7 @@ class Test__lazy_stream_data:
         else:
             assert are_dask_collections(result)
 
-    def test_time_of_writing(self, save_is_delayed, output_path, scheduler_type):
+    def test_time_of_writing(self, save_is_delayed, output_path, scheduler_type):  # noqa: D102
         # Check when lazy data is *actually* written :
         #  - in 'immediate' mode, on initial file write
         #  - in 'delayed' mode, only when the delayed-write is computed.
@@ -269,7 +269,7 @@ class Test__lazy_stream_data:
             assert np.all(~ancil_mask)
             assert np.all(~cm_mask)
 
-    def test_no_delayed_writes(self, output_path):
+    def test_no_delayed_writes(self, output_path):  # noqa: D102
         # Just check that a delayed save returns a usable 'delayed' object, even when
         # there is no lazy content = no delayed writes to perform.
         cube = self.make_testcube(include_lazy_content=False)

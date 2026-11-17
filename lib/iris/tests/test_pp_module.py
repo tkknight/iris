@@ -24,28 +24,28 @@ class TestPPCopy:
     def _setup(self):
         self.filename = _shared_utils.get_data_path(("PP", "aPPglob1", "global.pp"))
 
-    def test_copy_field_deferred(self):
+    def test_copy_field_deferred(self):  # noqa: D102
         field = next(pp.load(self.filename))
         clone = field.copy()
         assert field == clone
         clone.lbyr = 666
         assert field != clone
 
-    def test_deepcopy_field_deferred(self):
+    def test_deepcopy_field_deferred(self):  # noqa: D102
         field = next(pp.load(self.filename))
         clone = deepcopy(field)
         assert field == clone
         clone.lbyr = 666
         assert field != clone
 
-    def test_copy_field_non_deferred(self):
+    def test_copy_field_non_deferred(self):  # noqa: D102
         field = next(pp.load(self.filename, True))
         clone = field.copy()
         assert field == clone
         clone.data[0][0] = 666
         assert field != clone
 
-    def test_deepcopy_field_non_deferred(self):
+    def test_deepcopy_field_non_deferred(self):  # noqa: D102
         field = next(pp.load(self.filename, True))
         clone = deepcopy(field)
         assert field == clone
@@ -93,14 +93,14 @@ class TestPPHeaderDerived:
         self.pp.lbtim = 11
         self.pp.lbproc = 65539
 
-    def test_standard_access(self):
+    def test_standard_access(self):  # noqa: D102
         assert self.pp.lbtim == 11
 
-    def test_lbtim_access(self):
+    def test_lbtim_access(self):  # noqa: D102
         assert self.pp.lbtim[0] == 1
         assert self.pp.lbtim.ic == 1
 
-    def test_lbtim_setter(self):
+    def test_lbtim_setter(self):  # noqa: D102
         self.pp.lbtim[4] = 4
         self.pp.lbtim[0] = 4
         assert self.pp.lbtim[0] == 4
@@ -110,7 +110,7 @@ class TestPPHeaderDerived:
         assert self.pp.lbtim.ib == 9
         assert self.pp.lbtim[1] == 9
 
-    def test_set_lbuser(self):
+    def test_set_lbuser(self):  # noqa: D102
         self.pp.stash = "m02s12i003"
         assert self.pp.stash == pp.STASH(2, 12, 3)
         self.pp.lbuser[6] = 5
@@ -118,7 +118,7 @@ class TestPPHeaderDerived:
         self.pp.lbuser[3] = 4321
         assert self.pp.stash == pp.STASH(5, 4, 321)
 
-    def test_set_stash(self):
+    def test_set_stash(self):  # noqa: D102
         self.pp.stash = "m02s12i003"
         assert self.pp.stash == pp.STASH(2, 12, 3)
 
@@ -131,7 +131,7 @@ class TestPPHeaderDerived:
         with pytest.raises(ValueError, match=msg):
             self.pp.stash = (4, 15, 5)
 
-    def test_lbproc_bad_access(self):
+    def test_lbproc_bad_access(self):  # noqa: D102
         try:
             print(self.pp.lbproc.flag65537)
         except AttributeError:
@@ -150,14 +150,14 @@ class TestPPField_GlobalTemperature(IrisPPTest):
         )
         self.r = list(pp.load(self.original_pp_filepath))
 
-    def test_full_file(self):
+    def test_full_file(self):  # noqa: D102
         self.check_pp(self.r[0:10], ("PP", "global_test.pp.txt"))
 
-    def test_lbtim_access(self):
+    def test_lbtim_access(self):  # noqa: D102
         assert self.r[0].lbtim[0] == 2
         assert self.r[0].lbtim.ic == 2
 
-    def test_t1_t2_access(self):
+    def test_t1_t2_access(self):  # noqa: D102
         field = self.r[0]
         calendar = "360_day"
         assert (
@@ -165,7 +165,7 @@ class TestPPField_GlobalTemperature(IrisPPTest):
             == cftime.datetime(1994, 12, 1, 0, 0, calendar=calendar).timetuple()
         )
 
-    def test_save_single(self, tmp_path):
+    def test_save_single(self, tmp_path):  # noqa: D102
         temp_filename = tmp_path / "foo.pp"
         with open(temp_filename, "wb") as temp_fh:
             self.r[0].save(temp_fh)
@@ -173,7 +173,7 @@ class TestPPField_GlobalTemperature(IrisPPTest):
             temp_filename
         ) == _shared_utils.file_checksum(self.original_pp_filepath)
 
-    def test_save_api(self, tmp_path):
+    def test_save_api(self, tmp_path):  # noqa: D102
         filepath = self.original_pp_filepath
 
         f = next(pp.load(filepath))
@@ -190,7 +190,7 @@ class TestPPField_GlobalTemperature(IrisPPTest):
 @_shared_utils.skip_data
 class TestPackedPP(IrisPPTest):
     """Test ackedPP."""
-    def test_wgdos(self, mocker, tmp_path):
+    def test_wgdos(self, mocker, tmp_path):  # noqa: D102
         filepath = _shared_utils.get_data_path(
             ("PP", "wgdos_packed", "nae.20100104-06_0001.pp")
         )
@@ -212,7 +212,7 @@ class TestPackedPP(IrisPPTest):
                 r[0].save(temp_fh)
 
     @pytest.mark.skipif(pp.mo_pack is None, reason="Requires mo_pack.")
-    def test_wgdos_mo_pack(self, tmp_path):
+    def test_wgdos_mo_pack(self, tmp_path):  # noqa: D102
         filepath = _shared_utils.get_data_path(
             ("PP", "wgdos_packed", "nae.20100104-06_0001.pp")
         )
@@ -225,7 +225,7 @@ class TestPackedPP(IrisPPTest):
         for orig_field, saved_field in zip(orig_fields, saved_fields):
             assert_array_equal(orig_field.data, saved_field.data)
 
-    def test_rle(self, tmp_path):
+    def test_rle(self, tmp_path):  # noqa: D102
         r = pp.load(_shared_utils.get_data_path(("PP", "ocean_rle", "ocean_rle.pp")))
 
         # Check that the result is a generator and convert to a list so that we
@@ -246,7 +246,7 @@ class TestPackedPP(IrisPPTest):
 @_shared_utils.skip_data
 class TestPPFile(IrisPPTest):
     """Test PFile."""
-    def test_lots_of_extra_data(self):
+    def test_lots_of_extra_data(self):  # noqa: D102
         r = pp.load(
             _shared_utils.get_data_path(
                 ("PP", "cf_processing", "HadCM2_ts_SAT_ann_18602100.b.pp")
@@ -269,10 +269,10 @@ class TestPPFileExtraXData(IrisPPTest):
         )
         self.r = list(pp.load(self.original_pp_filepath))[0:5]
 
-    def test_full_file(self):
+    def test_full_file(self):  # noqa: D102
         self.check_pp(self.r, ("PP", "extra_x_data.pp.txt"))
 
-    def test_save_single(self, tmp_path):
+    def test_save_single(self, tmp_path):  # noqa: D102
         filepath = _shared_utils.get_data_path(
             ("PP", "ukV1", "ukVpmslont_first_field.pp")
         )
@@ -313,20 +313,20 @@ class TestPPFileWithExtraCharacterData(IrisPPTest):
         assert isinstance(self.r_loaded_data, GeneratorType)
         self.r_loaded_data = list(self.r_loaded_data)
 
-    def test_extra_field_title(self):
+    def test_extra_field_title(self):  # noqa: D102
         assert (
             self.r[0].field_title
             == "AJHQA Time mean  !C Atmos u compnt of wind after timestep at 9.998 metres !C 01/12/2007 00:00 -> 01/01/2008 00:00"
         )
 
-    def test_full_file(self):
+    def test_full_file(self):  # noqa: D102
         self.check_pp(self.r[0:10], ("PP", "extra_char_data.pp.txt"))
         self.check_pp(
             self.r_loaded_data[0:10],
             ("PP", "extra_char_data.w_data_loaded.pp.txt"),
         )
 
-    def test_save_single(self, tmp_path):
+    def test_save_single(self, tmp_path):  # noqa: D102
         filepath = _shared_utils.get_data_path(
             ("PP", "model_comp", "dec_first_field.pp")
         )
@@ -351,11 +351,11 @@ class TestPPFileWithExtraCharacterData(IrisPPTest):
 
 class TestSplittableInt:
     """Test plittableInt."""
-    def test_3(self):
+    def test_3(self):  # noqa: D102
         t = pp.SplittableInt(3)
         assert t[0] == 3
 
-    def test_grow_str_list(self):
+    def test_grow_str_list(self):  # noqa: D102
         t = pp.SplittableInt(3)
         t[1] = 3
         assert t[1] == 3
@@ -381,7 +381,7 @@ class TestSplittableInt:
         assert t < 400034
         assert not t < 400032
 
-    def test_name_mapping(self):
+    def test_name_mapping(self):  # noqa: D102
         t = pp.SplittableInt(33214, {"ones": 0, "tens": 1, "hundreds": 2})
         assert t.ones == 4
         assert t.tens == 1
@@ -395,7 +395,7 @@ class TestSplittableInt:
         assert t.tens == 4
         assert t.hundreds == 0
 
-    def test_name_mapping_multi_index(self):
+    def test_name_mapping_multi_index(self):  # noqa: D102
         t = pp.SplittableInt(
             33214,
             {
@@ -433,7 +433,7 @@ class TestSplittableInt:
         assert t.ix == 4
         assert t.iy == 0
 
-    def test_33214(self):
+    def test_33214(self):  # noqa: D102
         t = pp.SplittableInt(33214)
         assert t[4] == 3
         assert t[3] == 3
@@ -445,7 +445,7 @@ class TestSplittableInt:
         for i in range(5, 100):
             assert t[i] == 0
 
-    def test_negative_number(self):
+    def test_negative_number(self):  # noqa: D102
         with pytest.raises(
             ValueError,
             match="Negative numbers not supported with splittable integers object",
@@ -455,7 +455,7 @@ class TestSplittableInt:
 
 class TestSplittableIntEquality:
     """Test plittableIntEquality."""
-    def test_not_implemented(self):
+    def test_not_implemented(self):  # noqa: D102
         class Terry:
             pass
 
@@ -466,7 +466,7 @@ class TestSplittableIntEquality:
 
 class TestPPDataProxyEquality:
     """Test PDataProxyEquality."""
-    def test_not_implemented(self):
+    def test_not_implemented(self):  # noqa: D102
         class Terry:
             pass
 
@@ -486,7 +486,7 @@ class TestPPDataProxyEquality:
 
 class TestPPFieldEquality:
     """Test PFieldEquality."""
-    def test_not_implemented(self):
+    def test_not_implemented(self):  # noqa: D102
         class Terry:
             pass
 

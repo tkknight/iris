@@ -31,7 +31,7 @@ class SampleData:
 class Test__coordinate_dim_metadata_equality:
     """Test  coordinate dim metadata equality."""
     @pytest.fixture
-    def sample_data(self) -> SampleData:
+    def sample_data(self) -> SampleData:  # noqa: D102
         # Return a standard set of test items, wrapped in a data object
 
         data = SampleData()
@@ -62,30 +62,30 @@ class Test__coordinate_dim_metadata_equality:
         data.scalar_cube = cube
         return data
 
-    def test_scalar_non_common_axis(self, sample_data):
+    def test_scalar_non_common_axis(self, sample_data):  # noqa: D102
         scalar = CubeSignature(sample_data.scalar_cube)
         assert sample_data.series_inc.dim_metadata != scalar.dim_metadata
         assert sample_data.series_dec.dim_metadata != scalar.dim_metadata
 
-    def test_1d_single_value_common_axis(self, sample_data):
+    def test_1d_single_value_common_axis(self, sample_data):  # noqa: D102
         # Manually promote scalar time cube to be a 1d cube.
         single = CubeSignature(new_axis(sample_data.scalar_cube, "time"))
         assert sample_data.series_inc.dim_metadata == single.dim_metadata
         assert sample_data.series_dec.dim_metadata == single.dim_metadata
 
-    def test_increasing_common_axis(self, sample_data):
+    def test_increasing_common_axis(self, sample_data):  # noqa: D102
         series_inc = sample_data.series_inc
         series_dec = sample_data.series_dec
         assert series_inc.dim_metadata == series_inc.dim_metadata
         assert series_inc.dim_metadata != series_dec.dim_metadata
 
-    def test_decreasing_common_axis(self, sample_data):
+    def test_decreasing_common_axis(self, sample_data):  # noqa: D102
         series_inc = sample_data.series_inc
         series_dec = sample_data.series_dec
         assert series_dec.dim_metadata != series_inc.dim_metadata
         assert series_dec.dim_metadata == series_dec.dim_metadata
 
-    def test_circular(self, sample_data):
+    def test_circular(self, sample_data):  # noqa: D102
         series_inc = sample_data.series_inc
         circular_cube = sample_data.series_inc_cube.copy()
         circular_cube.coord("time").circular = True

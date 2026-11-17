@@ -28,7 +28,7 @@ class TestArgs(test_ObliqueMercator.TestArgs):
         globe=None,
     )
 
-    def make_instance(self) -> RotatedMercator:
+    def make_instance(self) -> RotatedMercator:  # noqa: D102
         kwargs = self.class_kwargs
         kwargs.pop("azimuth_of_central_line", None)
         return RotatedMercator(**kwargs)

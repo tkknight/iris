@@ -13,31 +13,31 @@ from iris.warnings import IrisLoadWarning
 
 class Tests:
     """Test ."""
-    def test_name_ii_average(self):
+    def test_name_ii_average(self):  # noqa: D102
         av_or_int = ["something average ob bla"]
         coord_name = "foo"
         res = _build_cell_methods(av_or_int, coord_name)
         assert res == [iris.coords.CellMethod("mean", "foo")]
 
-    def test_name_iii_averaged(self):
+    def test_name_iii_averaged(self):  # noqa: D102
         av_or_int = ["something averaged ob bla"]
         coord_name = "bar"
         res = _build_cell_methods(av_or_int, coord_name)
         assert res == [iris.coords.CellMethod("mean", "bar")]
 
-    def test_name_ii_integral(self):
+    def test_name_ii_integral(self):  # noqa: D102
         av_or_int = ["something integral ob bla"]
         coord_name = "ensemble"
         res = _build_cell_methods(av_or_int, coord_name)
         assert res == [iris.coords.CellMethod("sum", "ensemble")]
 
-    def test_name_iii_integrated(self):
+    def test_name_iii_integrated(self):  # noqa: D102
         av_or_int = ["something integrated ob bla"]
         coord_name = "time"
         res = _build_cell_methods(av_or_int, coord_name)
         assert res == [iris.coords.CellMethod("sum", "time")]
 
-    def test_no_averaging(self):
+    def test_no_averaging(self):  # noqa: D102
         av_or_int = [
             "No foo averaging",
             "No bar averaging",
@@ -50,7 +50,7 @@ class Tests:
         res = _build_cell_methods(av_or_int, coord_name)
         assert res == [None] * len(av_or_int)
 
-    def test_name_ii_mixed(self):
+    def test_name_ii_mixed(self):  # noqa: D102
         av_or_int = [
             "something integral ob bla",
             "no averaging",
@@ -64,7 +64,7 @@ class Tests:
             iris.coords.CellMethod("mean", "ensemble"),
         ]
 
-    def test_name_iii_mixed(self):
+    def test_name_iii_mixed(self):  # noqa: D102
         av_or_int = [
             "something integrated ob bla",
             "no averaging",
@@ -78,7 +78,7 @@ class Tests:
             iris.coords.CellMethod("mean", "ensemble"),
         ]
 
-    def test_unrecognised(self):
+    def test_unrecognised(self):  # noqa: D102
         unrecognised_heading = "bla else"
         av_or_int = [
             "something average",
@@ -94,7 +94,7 @@ class Tests:
         with pytest.warns(IrisLoadWarning, match=expected_msg):
             _ = _build_cell_methods(av_or_int, coord_name)
 
-    def test_unrecognised_similar_to_no_averaging(self):
+    def test_unrecognised_similar_to_no_averaging(self):  # noqa: D102
         unrecognised_headings = [
             "not averaging",
             "this is not a valid no",

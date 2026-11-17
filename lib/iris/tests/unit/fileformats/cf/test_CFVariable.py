@@ -21,7 +21,7 @@ from .identify_mixins import _NetCDFVarWithDimensions
 class CFVariableSub(cf.CFVariable):
     """A subclass of CFVariable for testing purposes."""
 
-    def identify(self, variables, ignore=None, target=None, warn=True):
+    def identify(self, variables, ignore=None, target=None, warn=True):  # noqa: D102
         return super().identify(variables, ignore=ignore, target=target, warn=warn)
 
 
@@ -60,7 +60,7 @@ def nc_vars(mocker):
 
 class TestInit:
     """Test nit."""
-    def test_records_filename_from_the_variables_location(self, nc_var):
+    def test_records_filename_from_the_variables_location(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         assert cf_var.filename == "/tmp/file.nc"
@@ -70,7 +70,7 @@ class TestInit:
         assert cf_var.cf_terms_by_root == {}
         assert cf_var._to_be_promoted is False
 
-    def test_falls_back_to_unknown_filename_without_a_location(
+    def test_falls_back_to_unknown_filename_without_a_location(  # noqa: D102
         self, nc_var_without_location
     ):
         cf_var = CFVariableSub("foo", nc_var_without_location)
@@ -80,7 +80,7 @@ class TestInit:
 
 class TestIdentifyCommon:
     """Test dentifyCommon."""
-    def test_handles_defaults_and_target_selection(self):
+    def test_handles_defaults_and_target_selection(self):  # noqa: D102
         variables = {"a": object(), "b": object()}
 
         ignore, target = CFVariableSub._identify_common(variables, None, None)
@@ -91,18 +91,18 @@ class TestIdentifyCommon:
         assert ignore == ["a"]
         assert target == {"b": variables["b"]}
 
-    def test_raises_for_unknown_target(self):
+    def test_raises_for_unknown_target(self):  # noqa: D102
         with pytest.raises(ValueError, match="Cannot identify unknown target"):
             CFVariableSub._identify_common({"a": object()}, None, "missing")
 
-    def test_raises_for_invalid_target_type(self):
+    def test_raises_for_invalid_target_type(self):  # noqa: D102
         with pytest.raises(TypeError, match="Expect a target CF-netCDF variable name"):
             CFVariableSub._identify_common({"a": object()}, None, object())
 
 
 class TestSpans:
     """Test pans."""
-    def test_scalar_dimension_always_true(self, mocker, nc_var):
+    def test_scalar_dimension_always_true(self, mocker, nc_var):  # noqa: D102
         nc_var.dimensions = (_variables._NCZARR_SCALAR_DIMENSION,)
         cf_var = CFVariableSub("scalar", nc_var)
 
@@ -111,7 +111,7 @@ class TestSpans:
 
         assert cf_var.spans(other)
 
-    def test_is_subset_check(self):
+    def test_is_subset_check(self):  # noqa: D102
         # `spans()` now reads `shape` as well as `dimensions` on both sides of
         # the comparison, so a bare `mocker.MagicMock()` collaborator will not
         # do here: `_dimension_identities()` reads both off an unconfigured
@@ -127,7 +127,7 @@ class TestSpans:
         )
         assert not other.spans(rhs)
 
-    def test_scalar_dimension_with_others_is_not_scalar(self):
+    def test_scalar_dimension_with_others_is_not_scalar(self):  # noqa: D102
         # _scalar_ means "this variable is scalar", which a variable with a
         # second dimension is not. It is not a wildcard.
         cf_var = CFVariableSub(
@@ -140,7 +140,7 @@ class TestSpans:
 
         assert not cf_var.spans(other)
 
-    def test_no_dimensions_always_spans(self, mocker, nc_var):
+    def test_no_dimensions_always_spans(self, mocker, nc_var):  # noqa: D102
         nc_var.dimensions = ()
         cf_var = CFVariableSub("scalar", nc_var)
 
@@ -157,25 +157,25 @@ class TestIsScalar:
     is tested directly and not only through spans().
     """
 
-    def test_no_dimensions_is_scalar(self, nc_var):
+    def test_no_dimensions_is_scalar(self, nc_var):  # noqa: D102
         nc_var.dimensions = ()
         cf_var = CFVariableSub("scalar", nc_var)
 
         assert cf_var._is_scalar()
 
-    def test_nczarr_scalar_dimension_is_scalar(self, nc_var):
+    def test_nczarr_scalar_dimension_is_scalar(self, nc_var):  # noqa: D102
         nc_var.dimensions = (_variables._NCZARR_SCALAR_DIMENSION,)
         cf_var = CFVariableSub("scalar", nc_var)
 
         assert cf_var._is_scalar()
 
-    def test_nczarr_scalar_dimension_with_another_is_not_scalar(self, nc_var):
+    def test_nczarr_scalar_dimension_with_another_is_not_scalar(self, nc_var):  # noqa: D102
         nc_var.dimensions = (_variables._NCZARR_SCALAR_DIMENSION, "bnds")
         cf_var = CFVariableSub("not_scalar", nc_var)
 
         assert not cf_var._is_scalar()
 
-    def test_ordinary_dimensions_are_not_scalar(self, nc_var):
+    def test_ordinary_dimensions_are_not_scalar(self, nc_var):  # noqa: D102
         nc_var.dimensions = ("time", "lat")
         cf_var = CFVariableSub("not_scalar", nc_var)
 
@@ -184,7 +184,7 @@ class TestIsScalar:
 
 class TestComparisonAndRepresentation:
     """Test omparisonAndRepresentation."""
-    def test_equality_inequality_and_hash_by_name(self, nc_vars):
+    def test_equality_inequality_and_hash_by_name(self, nc_vars):  # noqa: D102
         first, second, third = nc_vars
         one = CFVariableSub("same", first)
         two = CFVariableSub("same", second)
@@ -195,7 +195,7 @@ class TestComparisonAndRepresentation:
         assert hash(one) == hash(two)
         assert hash(one) != hash(other)
 
-    def test_repr_contains_class_name_name_and_data_repr(self, nc_var):
+    def test_repr_contains_class_name_name_and_data_repr(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         assert repr(cf_var) == f"CFVariableSub('foo', {nc_var!r})"
@@ -203,7 +203,7 @@ class TestComparisonAndRepresentation:
 
 class TestAttributeAccess:
     """Test ttributeAccess."""
-    def test_reads_are_not_cached_on_the_instance(self, nc_var):
+    def test_reads_are_not_cached_on_the_instance(self, nc_var):  # noqa: D102
         # The setattr cache is gone. It made a re-read after cf_attrs_reset()
         # invisible to attribute tracking, which decided which attributes
         # reached the cube - see TestReadAfterReset below.
@@ -215,7 +215,7 @@ class TestAttributeAccess:
         assert cf_var.coordinates == "x y"
         assert "coordinates" not in cf_var.__dict__
 
-    def test_attributes_are_a_snapshot_taken_at_construction(self, nc_var):
+    def test_attributes_are_a_snapshot_taken_at_construction(self, nc_var):  # noqa: D102
         # Copied, not wrapped: the storage object's mapping writes through
         # to the file, and CFReader synthesises a "bounds" link on a file it
         # opened read-only.
@@ -227,7 +227,7 @@ class TestAttributeAccess:
         cf_var.attributes["bounds"] = "foo_bnds"
         assert "bounds" not in nc_var.attributes
 
-    def test_getattr_of_a_non_attribute_reaches_the_variable(self, nc_var):
+    def test_getattr_of_a_non_attribute_reaches_the_variable(self, nc_var):  # noqa: D102
         # The one-release compatibility route, now delegated to the storage
         # object - which is also what warns.
         nc_var.deprecated_netcdf_member.return_value = 42
@@ -241,7 +241,7 @@ class TestAttributeAccess:
         assert "not_an_ncattr" not in dict(cf_var.cf_attrs())
         assert "not_an_ncattr" not in dict(cf_var.cf_attrs_used())
 
-    def test_getattr_of_nothing_at_all_raises_attribute_error(self, nc_var):
+    def test_getattr_of_nothing_at_all_raises_attribute_error(self, nc_var):  # noqa: D102
         nc_var.deprecated_netcdf_member.side_effect = AttributeError("nonesuch")
         cf_var = CFVariableSub("foo", nc_var)
 
@@ -263,7 +263,7 @@ class TestAttributeAccess:
         assert excinfo.value.__cause__ is None
         assert excinfo.value.__context__ is None
 
-    def test_getitem_and_len_delegate_to_underlying_variable(self, nc_var):
+    def test_getitem_and_len_delegate_to_underlying_variable(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         assert len(cf_var) == 4
@@ -271,7 +271,7 @@ class TestAttributeAccess:
         nc_var.__len__.assert_called_once_with()
         nc_var.__getitem__.assert_called_once_with(0)
 
-    def test_cf_attrs_access_helpers_and_reset(self, nc_var):
+    def test_cf_attrs_access_helpers_and_reset(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         assert cf_var.cf_attrs() == (
@@ -295,7 +295,7 @@ class TestAttributeAccess:
 
 class TestFormulaTerms:
     """Test ormulaTerms."""
-    def test_registration_and_presence(self, nc_var):
+    def test_registration_and_presence(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         assert not cf_var.has_formula_terms()
@@ -306,7 +306,7 @@ class TestFormulaTerms:
 
 class TestIdentify:
     """Test dentify."""
-    def test_subclass_stub_returns_none(self, nc_var):
+    def test_subclass_stub_returns_none(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         assert cf_var.identify({}) is None
@@ -314,7 +314,7 @@ class TestIdentify:
 
 class TestAttributesMapping:
     """Test ttributesMapping."""
-    def test_attributes_contents(self, nc_var):
+    def test_attributes_contents(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         assert dict(cf_var.attributes) == {
@@ -323,7 +323,7 @@ class TestAttributesMapping:
             "_FillValue": -999,
         }
 
-    def test_getattr_and_mapping_are_the_same_read(self, nc_var):
+    def test_getattr_and_mapping_are_the_same_read(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         _ = cf_var.coordinates
@@ -333,7 +333,7 @@ class TestAttributesMapping:
         _ = cf_var.attributes["coordinates"]
         assert cf_var.attributes.read == frozenset(["_FillValue", "coordinates"])
 
-    def test_untracked_read_is_not_recorded(self, nc_var):
+    def test_untracked_read_is_not_recorded(self, nc_var):  # noqa: D102
         # What helpers.py's flag-attribute probe needs: a look that does not
         # count, so the attribute still reaches the cube.
         cf_var = CFVariableSub("foo", nc_var)
@@ -344,11 +344,11 @@ class TestAttributesMapping:
 
 class TestTypedProperties:
     """Test ypedProperties."""
-    def test_dimensions_is_a_tuple(self, nc_var):
+    def test_dimensions_is_a_tuple(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
         assert cf_var.dimensions == ("time", "lat")
 
-    def test_shape_ndim_dtype_size(self, mocker, nc_var):
+    def test_shape_ndim_dtype_size(self, mocker, nc_var):  # noqa: D102
         nc_var.shape = (3, 4)
         nc_var.dtype = np.dtype("f4")
         nc_var.size = 12
@@ -369,7 +369,7 @@ class TestTypedProperties:
     }
 
     @pytest.mark.parametrize("name", list(TYPED_PROPERTIES))
-    def test_a_file_attribute_colliding_with_a_typed_property(self, nc_var, name):
+    def test_a_file_attribute_colliding_with_a_typed_property(self, nc_var, name):  # noqa: D102
         # A deliberate change in #7303. Before it, __getattr__ recorded the
         # name as read, so _add_unused_attributes dropped a legitimate user
         # attribute from the cube - though the value returned was never the
@@ -402,13 +402,13 @@ class TestShadowedAttributeNames:
     """
 
     @pytest.fixture
-    def shadowing(self, nc_var):
+    def shadowing(self, nc_var):  # noqa: D102
         nc_var.attributes = {
             name: f"file value of {name}" for name in SHADOWED_NAMES
         } | {"units": "K"}
         return CFVariableSub("foo", nc_var)
 
-    def test_the_class_member_wins(self, nc_var, shadowing):
+    def test_the_class_member_wins(self, nc_var, shadowing):  # noqa: D102
         # Each member's own value, not merely "not the file value": that
         # weaker form passes against a member returning None or another
         # member's value, and is trivially true of attributes and cf_data,
@@ -429,21 +429,21 @@ class TestShadowedAttributeNames:
         }
 
     @pytest.mark.parametrize("name", SHADOWED_NAMES)
-    def test_the_file_value_is_still_reachable(self, shadowing, name):
+    def test_the_file_value_is_still_reachable(self, shadowing, name):  # noqa: D102
         assert shadowing.attributes[name] == f"file value of {name}"
 
     @pytest.mark.parametrize("name", SHADOWED_NAMES)
-    def test_reading_it_through_the_mapping_marks_it_used(self, shadowing, name):
+    def test_reading_it_through_the_mapping_marks_it_used(self, shadowing, name):  # noqa: D102
         assert name in dict(shadowing.cf_attrs_unused())
         _ = shadowing.attributes[name]
         assert name in dict(shadowing.cf_attrs_used())
         assert name not in dict(shadowing.cf_attrs_unused())
 
     @pytest.mark.parametrize("name", SHADOWED_NAMES)
-    def test_it_is_listed_among_the_variables_attributes(self, shadowing, name):
+    def test_it_is_listed_among_the_variables_attributes(self, shadowing, name):  # noqa: D102
         assert name in dict(shadowing.cf_attrs())
 
-    def test_a_shadowing_name_does_not_disturb_its_neighbours(self, shadowing):
+    def test_a_shadowing_name_does_not_disturb_its_neighbours(self, shadowing):  # noqa: D102
         assert shadowing.units == "K"
         assert dict(shadowing.cf_attrs_used())["units"] == "K"
 
@@ -451,17 +451,17 @@ class TestShadowedAttributeNames:
 class TestGetattrAndHasattr:
     """The two call shapes the loading rules actually use."""
 
-    def test_getattr_with_a_default_finds_the_attribute(self, nc_var):
+    def test_getattr_with_a_default_finds_the_attribute(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
         assert getattr(cf_var, "coordinates", None) == "x y"
 
-    def test_getattr_with_a_default_returns_the_default(self, nc_var):
+    def test_getattr_with_a_default_returns_the_default(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
         cf_var.cf_data = object()
         assert getattr(cf_var, "nonesuch", None) is None
         assert getattr(cf_var, "nonesuch", "fallback") == "fallback"
 
-    def test_a_missing_attribute_raises_attribute_error_not_key_error(self, nc_var):
+    def test_a_missing_attribute_raises_attribute_error_not_key_error(self, nc_var):  # noqa: D102
         # getattr(..., default) only swallows AttributeError. A KeyError from
         # the mapping would escape and abort the load.
         cf_var = CFVariableSub("foo", nc_var)
@@ -469,26 +469,26 @@ class TestGetattrAndHasattr:
         with pytest.raises(AttributeError):
             cf_var.nonesuch
 
-    def test_getattr_of_a_default_does_not_record_a_read(self, nc_var):
+    def test_getattr_of_a_default_does_not_record_a_read(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
         cf_var.cf_data = object()
         _ = getattr(cf_var, "nonesuch", None)
         assert cf_var.cf_attrs_used() == (("_FillValue", -999),)
 
-    def test_hasattr_true_marks_the_attribute_used(self, nc_var):
+    def test_hasattr_true_marks_the_attribute_used(self, nc_var):  # noqa: D102
         # Parity with the old behaviour: hasattr went through __getattr__,
         # which added the name to the used set.
         cf_var = CFVariableSub("foo", nc_var)
         assert hasattr(cf_var, "coordinates")
         assert "coordinates" in dict(cf_var.cf_attrs_used())
 
-    def test_hasattr_false_marks_nothing(self, nc_var):
+    def test_hasattr_false_marks_nothing(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
         cf_var.cf_data = object()
         assert not hasattr(cf_var, "nonesuch")
         assert cf_var.cf_attrs_used() == (("_FillValue", -999),)
 
-    def test_dunder_probes_do_not_reach_the_file(self, nc_var):
+    def test_dunder_probes_do_not_reach_the_file(self, nc_var):  # noqa: D102
         # copy, pickle and numpy all probe for dunders. Answering one from
         # file data would make a CFVariable behave as whatever the file says.
         nc_var.attributes = {"__array__": "nonsense"}
@@ -502,7 +502,7 @@ class TestGetattrAndHasattr:
         assert cf_var.attributes.untracked["__array__"] == "nonsense"
 
     @pytest.mark.parametrize("name", ["attributes", "cf_data"])
-    def test_the_recursion_guard_holds_before_init_completes(self, name):
+    def test_the_recursion_guard_holds_before_init_completes(self, name):  # noqa: D102
         # An instance whose __init__ never ran - what copy and pickle build -
         # must raise, not recurse until the stack is gone.
         cf_var = CFVariableSub.__new__(CFVariableSub)
@@ -517,7 +517,7 @@ class TestDeprecatedAttributeAccess:
     spelling that cannot be type-checked is deprecated. Spec section 4.3.
     """
 
-    def test_reading_a_cf_attribute_warns(self, nc_var):
+    def test_reading_a_cf_attribute_warns(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         with pytest.warns(IrisDeprecation) as record:
@@ -525,7 +525,7 @@ class TestDeprecatedAttributeAccess:
 
         assert len(record) == 1
 
-    def test_the_warning_names_the_mapping_and_the_key(self, nc_var):
+    def test_the_warning_names_the_mapping_and_the_key(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         with pytest.warns(
@@ -533,7 +533,7 @@ class TestDeprecatedAttributeAccess:
         ):
             _ = cf_var.coordinates
 
-    def test_the_warning_points_at_the_caller(self, nc_var):
+    def test_the_warning_points_at_the_caller(self, nc_var):  # noqa: D102
         # stacklevel: a warning reported against _variables.py tells the
         # reader nothing about which of their lines to change.
         cf_var = CFVariableSub("foo", nc_var)
@@ -543,7 +543,7 @@ class TestDeprecatedAttributeAccess:
 
         assert record[0].filename == __file__
 
-    def test_a_warned_read_is_still_recorded(self, nc_var):
+    def test_a_warned_read_is_still_recorded(self, nc_var):  # noqa: D102
         # The warning is additional to the read, not instead of it. What was
         # read decides what reaches the cube.
         cf_var = CFVariableSub("foo", nc_var)
@@ -554,7 +554,7 @@ class TestDeprecatedAttributeAccess:
         assert "coordinates" in dict(cf_var.cf_attrs_used())
         assert "coordinates" not in dict(cf_var.cf_attrs_unused())
 
-    def test_every_read_warns(self, nc_var):
+    def test_every_read_warns(self, nc_var):  # noqa: D102
         # There is no instance cache to suppress the second one, and a test
         # expecting one warning would pass only through __warningregistry__.
         cf_var = CFVariableSub("foo", nc_var)
@@ -567,14 +567,14 @@ class TestDeprecatedAttributeAccess:
         deprecations = [w for w in record if issubclass(w.category, IrisDeprecation)]
         assert len(deprecations) == 2
 
-    def test_the_mapping_does_not_warn(self, nc_var):
+    def test_the_mapping_does_not_warn(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         with warnings.catch_warnings():
             warnings.simplefilter("error", IrisDeprecation)
             assert cf_var.attributes["coordinates"] == "x y"
 
-    def test_a_declared_property_does_not_warn(self, nc_var):
+    def test_a_declared_property_does_not_warn(self, nc_var):  # noqa: D102
         # A declared property short-circuits __getattr__ entirely.
         cf_var = CFVariableSub("foo", nc_var)
 
@@ -583,7 +583,7 @@ class TestDeprecatedAttributeAccess:
             assert cf_var.dimensions == ("time", "lat")
             assert cf_var.cf_name == "foo"
 
-    def test_a_missing_attribute_does_not_warn(self, nc_var):
+    def test_a_missing_attribute_does_not_warn(self, nc_var):  # noqa: D102
         # getattr(cf_var, "bounds", None) is a deliberate idiom throughout the
         # loading rules. A miss must stay silent and keep its default.
         cf_var = CFVariableSub("foo", nc_var)
@@ -594,13 +594,13 @@ class TestDeprecatedAttributeAccess:
             assert getattr(cf_var, "nonesuch", None) is None
             assert not hasattr(cf_var, "nonesuch")
 
-    def test_hasattr_warns_on_a_hit(self, nc_var):
+    def test_hasattr_warns_on_a_hit(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         with pytest.warns(IrisDeprecation):
             assert hasattr(cf_var, "coordinates")
 
-    def test_dunder_probes_do_not_warn(self, nc_var):
+    def test_dunder_probes_do_not_warn(self, nc_var):  # noqa: D102
         # copy, pickle and numpy all probe for dunders, and the file here
         # really does carry one.
         nc_var.attributes = {"__array__": "nonsense"}
@@ -612,7 +612,7 @@ class TestDeprecatedAttributeAccess:
             assert not hasattr(cf_var, "__array__")
             _ = copy.copy(cf_var)
 
-    def test_the_netcdf_fallback_keeps_its_own_message(self, nc_var):
+    def test_the_netcdf_fallback_keeps_its_own_message(self, nc_var):  # noqa: D102
         # Reaching a netCDF4 member is a different deprecation, worded for a
         # different fix, and issued by the storage object.
         nc_var.deprecated_netcdf_member.return_value = 42
@@ -629,7 +629,7 @@ class TestReadAfterReset:
     test_CFReader__dataset.py pins the same behaviour on a real file.
     """
 
-    def test_a_re_read_after_reset_counts_again(self, nc_var):
+    def test_a_re_read_after_reset_counts_again(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
 
         # As CFReader does: read while parsing structure, then reset.
@@ -643,7 +643,7 @@ class TestReadAfterReset:
         assert "coordinates" in dict(cf_var.cf_attrs_used())
         assert "coordinates" not in dict(cf_var.cf_attrs_unused())
 
-    def test_the_same_holds_through_hasattr(self, nc_var):
+    def test_the_same_holds_through_hasattr(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
         _ = cf_var.coordinates
         cf_var.cf_attrs_reset()
@@ -651,7 +651,7 @@ class TestReadAfterReset:
         assert hasattr(cf_var, "coordinates")
         assert "coordinates" in dict(cf_var.cf_attrs_used())
 
-    def test_reset_restores_the_ignored_names_only(self, nc_var):
+    def test_reset_restores_the_ignored_names_only(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
         _ = cf_var.coordinates
         _ = cf_var.standard_name
@@ -663,7 +663,7 @@ class TestReadAfterReset:
             ("standard_name", "air_temperature"),
         )
 
-    def test_values_are_unchanged_by_any_of_this(self, nc_var):
+    def test_values_are_unchanged_by_any_of_this(self, nc_var):  # noqa: D102
         cf_var = CFVariableSub("foo", nc_var)
         for _ in range(3):
             assert cf_var.coordinates == "x y"

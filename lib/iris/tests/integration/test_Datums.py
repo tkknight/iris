@@ -21,7 +21,7 @@ class TestDatumTransformation:
 
         self.start_crs = ccrs.OSGB(False)
 
-    def test_transform_points_datum(self):
+    def test_transform_points_datum(self):  # noqa: D102
         # Iris version
         wgs84 = GeogCS.from_datum("WGS84")
         iris_cs = LambertConformal(

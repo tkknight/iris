@@ -15,7 +15,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import CFVariableStandIn
 
 class TestBuildMercatorCoordinateSystem:
     """Test uildMercatorCoordinateSystem."""
-    def test_valid(self, mocker):
+    def test_valid(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=-90,
             semi_major_axis=6377563.396,
@@ -34,7 +34,7 @@ class TestBuildMercatorCoordinateSystem:
         )
         assert cs == expected
 
-    def test_inverse_flattening(self, mocker):
+    def test_inverse_flattening(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=-90,
             semi_major_axis=6377563.396,
@@ -54,7 +54,7 @@ class TestBuildMercatorCoordinateSystem:
         )
         assert cs == expected
 
-    def test_longitude_missing(self, mocker):
+    def test_longitude_missing(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             semi_major_axis=6377563.396,
             inverse_flattening=299.3249646,
@@ -72,7 +72,7 @@ class TestBuildMercatorCoordinateSystem:
         )
         assert cs == expected
 
-    def test_standard_parallel_missing(self, mocker):
+    def test_standard_parallel_missing(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=-90,
             semi_major_axis=6377563.396,
@@ -89,7 +89,7 @@ class TestBuildMercatorCoordinateSystem:
         )
         assert cs == expected
 
-    def test_scale_factor_at_projection_origin(self, mocker):
+    def test_scale_factor_at_projection_origin(self, mocker):  # noqa: D102
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=-90,
             semi_major_axis=6377563.396,

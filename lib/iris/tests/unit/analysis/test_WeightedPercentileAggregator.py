@@ -15,7 +15,7 @@ from iris.tests import _shared_utils
 
 class Test:
     """Test ."""
-    def test_init(self, mocker):
+    def test_init(self, mocker):  # noqa: D102
         name = "weighted_percentile"
         call_func = _weighted_percentile
         units_func = mocker.sentinel.units_func
@@ -49,7 +49,7 @@ class Test_post_process:
         self.cube_multi.add_dim_coord(self.coord_multi_1, 1)
         self.weights_multi = np.ones(shape, dtype=float)
 
-    def test_missing_mandatory_kwarg(self):
+    def test_missing_mandatory_kwarg(self):  # noqa: D102
         aggregator = WeightedPercentileAggregator()
         emsg = "weighted_percentile aggregator requires .* keyword argument 'percent'"
         with pytest.raises(ValueError, match=emsg):
@@ -58,7 +58,7 @@ class Test_post_process:
         with pytest.raises(ValueError, match=emsg):
             aggregator.aggregate("dummy", axis=0, percent=50)
 
-    def test_simple_single_point(self):
+    def test_simple_single_point(self):  # noqa: D102
         aggregator = WeightedPercentileAggregator()
         percent = 50
         kwargs = dict(percent=percent, weights=self.weights_simple)
@@ -72,7 +72,7 @@ class Test_post_process:
         expected = AuxCoord(percent, long_name=name, units="percent")
         assert coord == expected
 
-    def test_simple_multiple_points(self):
+    def test_simple_multiple_points(self):  # noqa: D102
         aggregator = WeightedPercentileAggregator()
         percent = np.array([10, 20, 50, 90])
         kwargs = dict(percent=percent, weights=self.weights_simple, returned=True)
@@ -93,7 +93,7 @@ class Test_post_process:
         expected = AuxCoord(percent, long_name=name, units="percent")
         assert coord == expected
 
-    def test_multi_single_point(self):
+    def test_multi_single_point(self):  # noqa: D102
         aggregator = WeightedPercentileAggregator()
         percent = 70
         kwargs = dict(percent=percent, weights=self.weights_multi)
@@ -107,7 +107,7 @@ class Test_post_process:
         expected = AuxCoord(percent, long_name=name, units="percent")
         assert coord == expected
 
-    def test_multi_multiple_points(self):
+    def test_multi_multiple_points(self):  # noqa: D102
         aggregator = WeightedPercentileAggregator()
         percent = np.array([17, 29, 81])
         kwargs = dict(percent=percent, weights=self.weights_multi)

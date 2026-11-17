@@ -10,7 +10,7 @@ from iris.tests._shared_utils import assert_array_equal
 
 class TestCellMethods:
     """Test ellMethods."""
-    def test_float(self):
+    def test_float(self):  # noqa: D102
         column_headings = {
             "X": ["X = -.100 Lat-Long", "X = -1.600 Lat-Long"],
             "Y": ["Y = 52.450 Lat-Long", "Y = 51. Lat-Long"],
@@ -25,7 +25,7 @@ class TestCellMethods:
         assert_array_equal(lat.values, [52.45, 51.0])
         assert_array_equal(lon.values, [-0.1, -1.6])
 
-    def test_int(self):
+    def test_int(self):  # noqa: D102
         column_headings = {
             "X": ["X = -1 Lat-Long", "X = -2 Lat-Long"],
             "Y": ["Y = 52 Lat-Long", "Y = 51 Lat-Long"],

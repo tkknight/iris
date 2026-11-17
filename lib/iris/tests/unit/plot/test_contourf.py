@@ -19,15 +19,15 @@ if _shared_utils.MPL_AVAILABLE:
 @_shared_utils.skip_plot
 class TestStringCoordPlot(TestGraphicStringCoord):
     """Test tringCoordPlot."""
-    def test_yaxis_labels(self):
+    def test_yaxis_labels(self):  # noqa: D102
         iplt.contourf(self.cube, coords=("bar", "str_coord"))
         self.assert_points_tick_labels("yaxis")
 
-    def test_xaxis_labels(self):
+    def test_xaxis_labels(self):  # noqa: D102
         iplt.contourf(self.cube, coords=("str_coord", "bar"))
         self.assert_points_tick_labels("xaxis")
 
-    def test_yaxis_labels_with_axes(self):
+    def test_yaxis_labels_with_axes(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -36,7 +36,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         plt.close(fig)
         self.assert_points_tick_labels("yaxis", ax)
 
-    def test_xaxis_labels_with_axes(self):
+    def test_xaxis_labels_with_axes(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -45,7 +45,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
         plt.close(fig)
         self.assert_points_tick_labels("xaxis", ax)
 
-    def test_geoaxes_exception(self):
+    def test_geoaxes_exception(self):  # noqa: D102
         import matplotlib.pyplot as plt
 
         fig = plt.figure()
@@ -80,7 +80,7 @@ class TestAntialias:
         yield
         plt.close(self.fig)
 
-    def test_skip_contour(self, mocker):
+    def test_skip_contour(self, mocker):  # noqa: D102
         # Contours should not be added if data is all below second level.  See #4086.
         cube = simple_2d()
 
@@ -92,7 +92,7 @@ class TestAntialias:
 
         mocked_contour.assert_not_called()
 
-    def test_apply_contour_nans(self, mocker):
+    def test_apply_contour_nans(self, mocker):  # noqa: D102
         # Presence of nans should not prevent contours being added.
         cube = simple_2d()
         cube.data = cube.data.astype(np.float64)

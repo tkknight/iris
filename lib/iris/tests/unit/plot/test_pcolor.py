@@ -21,14 +21,14 @@ if _shared_utils.MPL_AVAILABLE:
 @_shared_utils.skip_plot
 class TestStringCoordPlot(MixinStringCoordPlot, TestGraphicStringCoord):
     """Test tringCoordPlot."""
-    def blockplot_func(self):
+    def blockplot_func(self):  # noqa: D102
         return PLOT_FUNCTION_TO_TEST
 
 
 @_shared_utils.skip_plot
 class Test2dCoords(Mixin2dCoordsPlot):
     """Test dCoords."""
-    def blockplot_func(self):
+    def blockplot_func(self):  # noqa: D102
         return PLOT_FUNCTION_TO_TEST
 
 
@@ -38,5 +38,5 @@ class Test2dContigTol(Mixin2dCoordsContigTol):
     # Extra call kwargs expected.
     additional_kwargs = dict(antialiased=True, snap=False)
 
-    def blockplot_func(self):
+    def blockplot_func(self):  # noqa: D102
         return PLOT_FUNCTION_TO_TEST

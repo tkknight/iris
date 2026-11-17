@@ -32,7 +32,7 @@ class Test_as_cartopy_crs:
             ellipsoid=self.ellipsoid,
         )
 
-    def test_crs_creation(self):
+    def test_crs_creation(self):  # noqa: D102
         res = self.aea_cs.as_cartopy_crs()
         globe = ccrs.Globe(
             semimajor_axis=self.semi_major_axis,
@@ -49,12 +49,12 @@ class Test_as_cartopy_crs:
         )
         assert res == expected
 
-    def test_fail_too_few_parallels(self):
+    def test_fail_too_few_parallels(self):  # noqa: D102
         emsg = "parallels"
         with pytest.raises(ValueError, match=emsg):
             AlbersEqualArea(standard_parallels=())
 
-    def test_fail_too_many_parallels(self):
+    def test_fail_too_many_parallels(self):  # noqa: D102
         emsg = "parallels"
         with pytest.raises(ValueError, match=emsg):
             AlbersEqualArea(standard_parallels=(1, 2, 3))
@@ -81,7 +81,7 @@ class Test_as_cartopy_projection:
             ellipsoid=self.ellipsoid,
         )
 
-    def test_projection_creation(self):
+    def test_projection_creation(self):  # noqa: D102
         res = self.aea_cs.as_cartopy_projection()
         globe = ccrs.Globe(
             semimajor_axis=self.semi_major_axis,
@@ -101,7 +101,7 @@ class Test_as_cartopy_projection:
 
 class Test_init_defaults:
     """Test init defaults."""
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting optional arguments works as expected.
         crs = AlbersEqualArea(
             longitude_of_central_meridian=123,
@@ -130,12 +130,12 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.standard_parallels[0], 20.0)
         _shared_utils.assert_equal_and_kind(crs.standard_parallels[1], 50.0)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = AlbersEqualArea()
         self._check_crs_defaults(crs)
 
-    def test_optional_args_none(self):
+    def test_optional_args_none(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = AlbersEqualArea(
             longitude_of_central_meridian=None,

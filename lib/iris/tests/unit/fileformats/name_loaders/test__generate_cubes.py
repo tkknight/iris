@@ -15,7 +15,7 @@ from iris.tests._shared_utils import assert_array_equal
 
 class TestCellMethods:
     """Test ellMethods."""
-    def test_cell_methods(self, mocker):
+    def test_cell_methods(self, mocker):  # noqa: D102
         header = mock.MagicMock()
         column_headings = {
             "Species": [1, 2, 3],
@@ -59,7 +59,7 @@ class TestCircularLongitudes:
         cubes = list(_generate_cubes(header, column_headings, coords, data_arrays))
         return cubes
 
-    def test_non_circular(self, mocker):
+    def test_non_circular(self, mocker):  # noqa: D102
         results = self._simulate_with_coords(
             mocker, names=["longitude"], values=[[1, 7, 23]], dimensions=[0]
         )
@@ -69,7 +69,7 @@ class TestCircularLongitudes:
         coord = add_coord_calls[0][0][0]
         assert coord.circular is False
 
-    def test_circular(self, mocker):
+    def test_circular(self, mocker):  # noqa: D102
         results = self._simulate_with_coords(
             mocker,
             names=["longitude"],
@@ -82,7 +82,7 @@ class TestCircularLongitudes:
         coord = add_coord_calls[0][0][0]
         assert coord.circular is True
 
-    def test_lat_lon_byname(self, mocker):
+    def test_lat_lon_byname(self, mocker):  # noqa: D102
         results = self._simulate_with_coords(
             mocker,
             names=["longitude", "latitude"],
@@ -120,7 +120,7 @@ class TestTimeCoord:
         cubes = list(_generate_cubes(header, column_headings, coords, data_arrays))
         return cubes
 
-    def test_time_dim(self, mocker):
+    def test_time_dim(self, mocker):  # noqa: D102
         results = self._simulate_with_coords(
             mocker,
             names=["longitude", "latitude", "time"],
@@ -141,7 +141,7 @@ class TestTimeCoord:
         assert_array_equal(t_coord.bounds[0], [398208, 398232])
         assert_array_equal(t_coord.bounds[-1], [398232, 398256])
 
-    def test_time_scalar(self, mocker):
+    def test_time_scalar(self, mocker):  # noqa: D102
         results = self._simulate_with_coords(
             mocker,
             names=["longitude", "latitude", "time"],

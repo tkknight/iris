@@ -690,7 +690,7 @@ class TestRoundtrip(MixinAttrsTesting):
 
     # Parametrise all tests over split/unsplit saving.
     @pytest.fixture(params=_SPLIT_PARAM_VALUES, ids=_SPLIT_PARAM_IDS, autouse=True)
-    def do_split(self, request):
+    def do_split(self, request):  # noqa: D102
         do_split = request.param
         self.save_split_attrs = do_split
         return do_split
@@ -750,13 +750,13 @@ class TestRoundtrip(MixinAttrsTesting):
     # a name which is *not* recognised in the netCDF or CF conventions.
     #
 
-    def test_01_userstyle_single_global(self):
+    def test_01_userstyle_single_global(self):  # noqa: D102
         self.run_roundtrip_testcase(attr_name="myname", values=["single-value", None])
         # Default behaviour for a general global user-attribute.
         # It simply remains global.
         self.check_roundtrip_results(["single-value", None])
 
-    def test_02_userstyle_single_local(self, do_split):
+    def test_02_userstyle_single_local(self, do_split):  # noqa: D102
         # Default behaviour for a general local user-attribute.
         # It results in a "promoted" global attribute.
         self.run_roundtrip_testcase(
@@ -769,7 +769,7 @@ class TestRoundtrip(MixinAttrsTesting):
             expected = ["single-value", None]
         self.check_roundtrip_results(expected)
 
-    def test_03_userstyle_multiple_different(self, do_split):
+    def test_03_userstyle_multiple_different(self, do_split):  # noqa: D102
         # Default behaviour for general user-attributes.
         # The global attribute is lost because there are local ones.
         self.run_roundtrip_testcase(
@@ -786,7 +786,7 @@ class TestRoundtrip(MixinAttrsTesting):
         # just check they are all there and distinct
         self.check_roundtrip_results(expected_result)
 
-    def test_04_userstyle_matching_promoted(self, do_split):
+    def test_04_userstyle_matching_promoted(self, do_split):  # noqa: D102
         # matching local user-attributes are "promoted" to a global one.
         # (but not when saving split attributes)
         input_values = ["global_file1", "same-value", "same-value"]
@@ -800,7 +800,7 @@ class TestRoundtrip(MixinAttrsTesting):
             expected = ["same-value", None, None]
         self.check_roundtrip_results(expected)
 
-    def test_05_userstyle_matching_crossfile_promoted(self, do_split):
+    def test_05_userstyle_matching_crossfile_promoted(self, do_split):  # noqa: D102
         # matching user-attributes are promoted, even across input files.
         # (but not when saving split attributes)
         self.run_roundtrip_testcase(
@@ -832,7 +832,7 @@ class TestRoundtrip(MixinAttrsTesting):
 
         self.check_roundtrip_results(expected_result, expected_warnings)
 
-    def test_06_userstyle_nonmatching_remainlocal(self, do_split):
+    def test_06_userstyle_nonmatching_remainlocal(self, do_split):  # noqa: D102
         # Non-matching user attributes remain 'local' to the individual variables.
         input_values = ["global_file1", "value-1", "value-2"]
         if do_split:
@@ -854,7 +854,7 @@ class TestRoundtrip(MixinAttrsTesting):
     # test what that does, though it's inclusion might simply be a mistake.
     #
 
-    def test_07_conventions_var_local(self):
+    def test_07_conventions_var_local(self):  # noqa: D102
         # What happens if 'Conventions' appears as a variable-local attribute.
         # N.B. this is not good CF, but we'll see what happens anyway.
         self.run_roundtrip_testcase(
@@ -863,7 +863,7 @@ class TestRoundtrip(MixinAttrsTesting):
         )
         self.check_roundtrip_results(["CF-1.7", None])
 
-    def test_08_conventions_var_both(self):
+    def test_08_conventions_var_both(self):  # noqa: D102
         # What happens if 'Conventions' appears as both global + local attribute.
         self.run_roundtrip_testcase(
             attr_name="Conventions",
@@ -876,7 +876,7 @@ class TestRoundtrip(MixinAttrsTesting):
     # Tests on "global" style attributes
     #  = those specific ones which 'ought' only to be global (except on collisions)
     #
-    def test_09_globalstyle__global(self, global_attr):
+    def test_09_globalstyle__global(self, global_attr):  # noqa: D102
         attr_content = f"Global tracked {global_attr}"
         self.run_roundtrip_testcase(
             attr_name=global_attr,
@@ -884,7 +884,7 @@ class TestRoundtrip(MixinAttrsTesting):
         )
         self.check_roundtrip_results([attr_content, None])
 
-    def test_10_globalstyle__local(self, global_attr, do_split):
+    def test_10_globalstyle__local(self, global_attr, do_split):  # noqa: D102
         # Strictly, not correct CF, but let's see what it does with it.
         attr_content = f"Local tracked {global_attr}"
         input_values = [None, attr_content]
@@ -902,7 +902,7 @@ class TestRoundtrip(MixinAttrsTesting):
             expected_warning = None
         self.check_roundtrip_results(expected_result, expected_warning)
 
-    def test_11_globalstyle__both(self, global_attr, do_split):
+    def test_11_globalstyle__both(self, global_attr, do_split):  # noqa: D102
         attr_global = f"Global-{global_attr}"
         attr_local = f"Local-{global_attr}"
         input_values = [attr_global, attr_local]
@@ -920,7 +920,7 @@ class TestRoundtrip(MixinAttrsTesting):
             expected_warning = None
         self.check_roundtrip_results(expected_result, expected_warning)
 
-    def test_12_globalstyle__multivar_different(self, global_attr):
+    def test_12_globalstyle__multivar_different(self, global_attr):  # noqa: D102
         # Multiple *different* local settings are retained, not promoted
         attr_1 = f"Local-{global_attr}-1"
         attr_2 = f"Local-{global_attr}-2"
@@ -932,7 +932,7 @@ class TestRoundtrip(MixinAttrsTesting):
         )
         self.check_roundtrip_results([None, attr_1, attr_2], expect_warning)
 
-    def test_13_globalstyle__multivar_same(self, global_attr, do_split):
+    def test_13_globalstyle__multivar_same(self, global_attr, do_split):  # noqa: D102
         # Multiple *same* local settings are promoted to a common global one
         attrval = f"Locally-defined-{global_attr}"
         input_values = [None, attrval, attrval]
@@ -950,7 +950,7 @@ class TestRoundtrip(MixinAttrsTesting):
             expected_result = [attrval, None, None]
         self.check_roundtrip_results(expected_result, expected_warning)
 
-    def test_14_globalstyle__multifile_different(self, global_attr, do_split):
+    def test_14_globalstyle__multifile_different(self, global_attr, do_split):  # noqa: D102
         # Different global attributes from multiple files are retained as local ones
         attr_1 = f"Global-{global_attr}-1"
         attr_2 = f"Global-{global_attr}-2"
@@ -965,7 +965,7 @@ class TestRoundtrip(MixinAttrsTesting):
             expected_warnings = ["Saving.* as local"] + expected_warnings
         self.check_roundtrip_results([None, attr_1, attr_2], expected_warnings)
 
-    def test_15_globalstyle__multifile_same(self, global_attr):
+    def test_15_globalstyle__multifile_same(self, global_attr):  # noqa: D102
         # Matching global-type attributes in multiple files are retained as global
         attrval = f"Global-{global_attr}"
         self.run_roundtrip_testcase(
@@ -980,7 +980,7 @@ class TestRoundtrip(MixinAttrsTesting):
     #
 
     @pytest.mark.parametrize("origin_style", ["input_global", "input_local"])
-    def test_16_localstyle(self, local_attr, origin_style, do_split):
+    def test_16_localstyle(self, local_attr, origin_style, do_split):  # noqa: D102
         # local-style attributes should *not* get 'promoted' to global ones
         # Set the name extension to avoid tests with different 'style' params having
         # collisions over identical testfile names
@@ -1039,7 +1039,7 @@ class TestRoundtrip(MixinAttrsTesting):
 
     @pytest.mark.parametrize("testcase", _MATRIX_TESTCASES[:max_param_attrs])
     @pytest.mark.parametrize("attrname", _MATRIX_ATTRNAMES)
-    def test_roundtrip_matrix(self, testcase, attrname, matrix_results, do_split):
+    def test_roundtrip_matrix(self, testcase, attrname, matrix_results, do_split):  # noqa: D102
         do_saves, matrix_results = matrix_results
         split_param = "split" if do_split else "unsplit"
         testcase_spec = matrix_results["roundtrip"][testcase]
@@ -1072,12 +1072,12 @@ class TestLoad(MixinAttrsTesting):
 
     """
 
-    def run_load_testcase(self, attr_name, values):
+    def run_load_testcase(self, attr_name, values):  # noqa: D102
         self.run_testcase(
             attr_name=attr_name, values=values, create_cubes_or_files="files"
         )
 
-    def check_load_results(self, expected, oldstyle_combined=False):
+    def check_load_results(self, expected, oldstyle_combined=False):  # noqa: D102
         if not _SPLIT_SAVE_SUPPORTED and not oldstyle_combined:
             # Don't check "newstyle" in the old world -- just skip it.
             return
@@ -1097,7 +1097,7 @@ class TestLoad(MixinAttrsTesting):
     # a name which is *not* recognised in the netCDF or CF conventions.
     #
 
-    def test_01_userstyle_single_global(self):
+    def test_01_userstyle_single_global(self):  # noqa: D102
         self.run_load_testcase(attr_name="myname", values=["single_value", None, None])
         # Legacy-equivalent result check (single attributes dict per cube)
         self.check_load_results(
@@ -1107,7 +1107,7 @@ class TestLoad(MixinAttrsTesting):
         # Full new-style results check
         self.check_load_results(["single_value", None, None])
 
-    def test_02_userstyle_single_local(self):
+    def test_02_userstyle_single_local(self):  # noqa: D102
         # Default behaviour for a general local user-attribute.
         # It is attached to only the specific cube.
         self.run_load_testcase(
@@ -1117,7 +1117,7 @@ class TestLoad(MixinAttrsTesting):
         self.check_load_results([None, "single-value", None], oldstyle_combined=True)
         self.check_load_results([None, "single-value", None])
 
-    def test_03_userstyle_multiple_different(self):
+    def test_03_userstyle_multiple_different(self):  # noqa: D102
         # Default behaviour for differing local user-attributes.
         # The global attribute is simply lost, because there are local ones.
         self.run_load_testcase(
@@ -1135,7 +1135,7 @@ class TestLoad(MixinAttrsTesting):
             [["global_file1", "f1v1", "f1v2"], ["global_file2", "x1", "x2"]]
         )
 
-    def test_04_userstyle_multiple_same(self):
+    def test_04_userstyle_multiple_same(self):  # noqa: D102
         # Nothing special to note in this case
         # TODO: ??remove??
         self.run_load_testcase(
@@ -1157,7 +1157,7 @@ class TestLoad(MixinAttrsTesting):
     # test what that does, though it's inclusion might simply be a mistake.
     #
 
-    def test_07_conventions_var_local(self):
+    def test_07_conventions_var_local(self):  # noqa: D102
         # What happens if 'Conventions' appears as a variable-local attribute.
         # N.B. this is not good CF, but we'll see what happens anyway.
         self.run_load_testcase(
@@ -1169,7 +1169,7 @@ class TestLoad(MixinAttrsTesting):
         # Newstyle result
         self.check_load_results([None, "user_set"])
 
-    def test_08_conventions_var_both(self):
+    def test_08_conventions_var_both(self):  # noqa: D102
         # What happens if 'Conventions' appears as both global + local attribute.
         self.run_load_testcase(
             attr_name="Conventions",
@@ -1185,7 +1185,7 @@ class TestLoad(MixinAttrsTesting):
     #  = those specific ones which 'ought' only to be global (except on collisions)
     #
 
-    def test_09_globalstyle__global(self, global_attr):
+    def test_09_globalstyle__global(self, global_attr):  # noqa: D102
         attr_content = f"Global tracked {global_attr}"
         self.run_load_testcase(attr_name=global_attr, values=[attr_content, None])
         # (#1) legacy
@@ -1193,7 +1193,7 @@ class TestLoad(MixinAttrsTesting):
         # (#2) newstyle : global status preserved.
         self.check_load_results([attr_content, None])
 
-    def test_10_globalstyle__local(self, global_attr):
+    def test_10_globalstyle__local(self, global_attr):  # noqa: D102
         # Strictly, not correct CF, but let's see what it does with it.
         attr_content = f"Local tracked {global_attr}"
         self.run_load_testcase(
@@ -1207,7 +1207,7 @@ class TestLoad(MixinAttrsTesting):
             [None, attr_content],
         )
 
-    def test_11_globalstyle__both(self, global_attr):
+    def test_11_globalstyle__both(self, global_attr):  # noqa: D102
         attr_global = f"Global-{global_attr}"
         attr_local = f"Local-{global_attr}"
         self.run_load_testcase(
@@ -1219,7 +1219,7 @@ class TestLoad(MixinAttrsTesting):
         # (#2) newstyle result : both retained
         self.check_load_results([attr_global, attr_local])
 
-    def test_12_globalstyle__multivar_different(self, global_attr):
+    def test_12_globalstyle__multivar_different(self, global_attr):  # noqa: D102
         # Multiple *different* local settings are retained
         attr_1 = f"Local-{global_attr}-1"
         attr_2 = f"Local-{global_attr}-2"
@@ -1232,7 +1232,7 @@ class TestLoad(MixinAttrsTesting):
         # (#2): exact results, with newstyle "split" cube attrs
         self.check_load_results([None, attr_1, attr_2])
 
-    def test_14_globalstyle__multifile_different(self, global_attr):
+    def test_14_globalstyle__multifile_different(self, global_attr):  # noqa: D102
         # Different global attributes from multiple files
         attr_1 = f"Global-{global_attr}-1"
         attr_2 = f"Global-{global_attr}-2"
@@ -1254,7 +1254,7 @@ class TestLoad(MixinAttrsTesting):
     #
 
     @pytest.mark.parametrize("origin_style", ["input_global", "input_local"])
-    def test_16_localstyle(self, local_attr, origin_style):
+    def test_16_localstyle(self, local_attr, origin_style):  # noqa: D102
         # local-style attributes should *not* get 'promoted' to global ones
         # Set the name extension to avoid tests with different 'style' params having
         # collisions over identical testfile names
@@ -1308,7 +1308,7 @@ class TestLoad(MixinAttrsTesting):
     @pytest.mark.parametrize("testcase", _MATRIX_TESTCASES[:max_param_attrs])
     @pytest.mark.parametrize("attrname", _MATRIX_ATTRNAMES)
     @pytest.mark.parametrize("resultstyle", _MATRIX_LOAD_RESULTSTYLES)
-    def test_load_matrix(self, testcase, attrname, matrix_results, resultstyle):
+    def test_load_matrix(self, testcase, attrname, matrix_results, resultstyle):  # noqa: D102
         do_saves, matrix_results = matrix_results
         testcase_spec = matrix_results["load"][testcase]
         input_spec = testcase_spec["input"]
@@ -1335,12 +1335,12 @@ class TestSave(MixinAttrsTesting):
 
     # Parametrise all tests over split/unsplit saving.
     @pytest.fixture(params=_SPLIT_PARAM_VALUES, ids=_SPLIT_PARAM_IDS, autouse=True)
-    def do_split(self, request):
+    def do_split(self, request):  # noqa: D102
         do_split = request.param
         self.save_split_attrs = do_split
         return do_split
 
-    def run_save_testcase(self, attr_name: str, values: list):
+    def run_save_testcase(self, attr_name: str, values: list):  # noqa: D102
         # Create input cubes.
         self.run_testcase(
             attr_name=attr_name,
@@ -1372,7 +1372,7 @@ class TestSave(MixinAttrsTesting):
 
         self.run_save_testcase(attr_name, [None] + values)
 
-    def check_save_results(
+    def check_save_results(  # noqa: D102
         self, expected: list, expected_warnings: List[str] | None = None
     ):
         results = self.fetch_results(filepath=self.result_filepath)
@@ -1384,7 +1384,7 @@ class TestSave(MixinAttrsTesting):
             allow_possible_legacy_warning=not self.save_split_attrs,
         )
 
-    def test_userstyle__single(self, do_split):
+    def test_userstyle__single(self, do_split):  # noqa: D102
         self.run_save_testcase_legacytype("random", "value-x")
         if do_split:
             # result as input values
@@ -1394,7 +1394,7 @@ class TestSave(MixinAttrsTesting):
             expected_result = ["value-x", None]
         self.check_save_results(expected_result)
 
-    def test_userstyle__multiple_same(self, do_split):
+    def test_userstyle__multiple_same(self, do_split):  # noqa: D102
         self.run_save_testcase_legacytype("random", ["value-x", "value-x"])
         if do_split:
             # result as input values
@@ -1404,12 +1404,12 @@ class TestSave(MixinAttrsTesting):
             expected_result = ["value-x", None, None]
         self.check_save_results(expected_result)
 
-    def test_userstyle__multiple_different(self):
+    def test_userstyle__multiple_different(self):  # noqa: D102
         # Clashing values are stored as locals on the individual variables.
         self.run_save_testcase_legacytype("random", ["value-A", "value-B"])
         self.check_save_results([None, "value-A", "value-B"])
 
-    def test_userstyle__multiple_onemissing(self):
+    def test_userstyle__multiple_onemissing(self):  # noqa: D102
         # Multiple user-type, with one missing, behave like different values.
         self.run_save_testcase_legacytype(
             "random",
@@ -1418,22 +1418,22 @@ class TestSave(MixinAttrsTesting):
         # Stored as locals when there are differing values.
         self.check_save_results([None, "value", None])
 
-    def test_Conventions__single(self):
+    def test_Conventions__single(self):  # noqa: D102
         self.run_save_testcase_legacytype("Conventions", "x")
         # Always discarded + replaced by a single global setting.
         self.check_save_results(["CF-1.7", None])
 
-    def test_Conventions__multiple_same(self):
+    def test_Conventions__multiple_same(self):  # noqa: D102
         self.run_save_testcase_legacytype("Conventions", ["same-value", "same-value"])
         # Always discarded + replaced by a single global setting.
         self.check_save_results(["CF-1.7", None, None])
 
-    def test_Conventions__multiple_different(self):
+    def test_Conventions__multiple_different(self):  # noqa: D102
         self.run_save_testcase_legacytype("Conventions", ["value-A", "value-B"])
         # Always discarded + replaced by a single global setting.
         self.check_save_results(["CF-1.7", None, None])
 
-    def test_globalstyle__single(self, global_attr, do_split):
+    def test_globalstyle__single(self, global_attr, do_split):  # noqa: D102
         self.run_save_testcase_legacytype(global_attr, ["value"])
         if do_split:
             # result as input values
@@ -1445,7 +1445,7 @@ class TestSave(MixinAttrsTesting):
             expected_result = ["value", None]
         self.check_save_results(expected_result, expected_warning)
 
-    def test_globalstyle__multiple_same(self, global_attr, do_split):
+    def test_globalstyle__multiple_same(self, global_attr, do_split):  # noqa: D102
         # Multiple global-type with same values are made global.
         self.run_save_testcase_legacytype(
             global_attr,
@@ -1461,7 +1461,7 @@ class TestSave(MixinAttrsTesting):
             expected_warning = None
         self.check_save_results(expected_result, expected_warning)
 
-    def test_globalstyle__multiple_different(self, global_attr):
+    def test_globalstyle__multiple_different(self, global_attr):  # noqa: D102
         # Multiple global-type with different values become local, with warning.
         self.run_save_testcase_legacytype(global_attr, ["value-A", "value-B"])
         # *Only* stored as locals when there are differing values.
@@ -1473,7 +1473,7 @@ class TestSave(MixinAttrsTesting):
             [None, "value-A", "value-B"], expected_warnings=msg_regexp
         )
 
-    def test_globalstyle__multiple_onemissing(self, global_attr):
+    def test_globalstyle__multiple_onemissing(self, global_attr):  # noqa: D102
         # Multiple global-type, with one missing, behave like different values.
         self.run_save_testcase_legacytype(global_attr, ["value", "value", None])
         # Stored as locals when there are differing values.
@@ -1490,7 +1490,7 @@ class TestSave(MixinAttrsTesting):
             value = f"m01s02i{213 + offset}"
         return value
 
-    def test_localstyle__single(self, local_attr):
+    def test_localstyle__single(self, local_attr):  # noqa: D102
         value_single = self._teststr_safevalue(local_attr, "value-single")
         self.run_save_testcase_legacytype(local_attr, [value_single])
 
@@ -1503,7 +1503,7 @@ class TestSave(MixinAttrsTesting):
 
         self.check_save_results(expected_results)
 
-    def test_localstyle__multiple_same(self, local_attr):
+    def test_localstyle__multiple_same(self, local_attr):  # noqa: D102
         value_same = self._teststr_safevalue(local_attr, "value-same")
         self.run_save_testcase_legacytype(local_attr, [value_same, value_same])
 
@@ -1515,7 +1515,7 @@ class TestSave(MixinAttrsTesting):
 
         self.check_save_results(expected_results)
 
-    def test_localstyle__multiple_different(self, local_attr):
+    def test_localstyle__multiple_different(self, local_attr):  # noqa: D102
         value_a = self._teststr_safevalue(local_attr, "value-A", 1)
         value_b = self._teststr_safevalue(local_attr, "value-B", 2)
         self.run_save_testcase_legacytype(local_attr, [value_a, value_b])
@@ -1529,7 +1529,7 @@ class TestSave(MixinAttrsTesting):
     #
     # Test handling of newstyle independent global+local cube attributes.
     #
-    def test_globallocal_clashing(self, do_split):
+    def test_globallocal_clashing(self, do_split):  # noqa: D102
         # A cube has clashing local + global attrs.
         original_values = ["valueA", "valueB"]
         self.run_save_testcase("userattr", original_values)
@@ -1540,7 +1540,7 @@ class TestSave(MixinAttrsTesting):
             expected_result[1] = None
         self.check_save_results(expected_result)
 
-    def test_globallocal_oneeach_same(self, do_split):
+    def test_globallocal_oneeach_same(self, do_split):  # noqa: D102
         # One cube with global attr, another with identical local one.
         self.run_save_testcase("userattr", values=[[None, "value"], ["value", None]])
         if do_split:
@@ -1555,7 +1555,7 @@ class TestSave(MixinAttrsTesting):
 
         self.check_save_results(expected, expected_warning)
 
-    def test_globallocal_oneeach_different(self, do_split):
+    def test_globallocal_oneeach_different(self, do_split):  # noqa: D102
         # One cube with global attr, another with a *different* local one.
         self.run_save_testcase("userattr", [[None, "valueA"], ["valueB", None]])
         if do_split:
@@ -1565,7 +1565,7 @@ class TestSave(MixinAttrsTesting):
             warning = None
         self.check_save_results([None, "valueA", "valueB"], warning)
 
-    def test_globallocal_one_other_clashingglobals(self, do_split):
+    def test_globallocal_one_other_clashingglobals(self, do_split):  # noqa: D102
         # Two cubes with both, second cube has a clashing global attribute.
         self.run_save_testcase(
             "userattr",
@@ -1584,7 +1584,7 @@ class TestSave(MixinAttrsTesting):
             expected_warnings = None
         self.check_save_results(expected, expected_warnings)
 
-    def test_globallocal_one_other_clashinglocals(self, do_split):
+    def test_globallocal_one_other_clashinglocals(self, do_split):  # noqa: D102
         # Two cubes with both, second cube has a clashing local attribute.
         inputs = [["valueA", "valueB"], ["valueA", "valueXXX"]]
         if do_split:
@@ -1597,7 +1597,7 @@ class TestSave(MixinAttrsTesting):
 
     @pytest.mark.parametrize("testcase", _MATRIX_TESTCASES[:max_param_attrs])
     @pytest.mark.parametrize("attrname", _MATRIX_ATTRNAMES)
-    def test_save_matrix(self, testcase, attrname, matrix_results, do_split):
+    def test_save_matrix(self, testcase, attrname, matrix_results, do_split):  # noqa: D102
         do_saves, matrix_results = matrix_results
         split_param = "split" if do_split else "unsplit"
         testcase_spec = matrix_results["save"][testcase]

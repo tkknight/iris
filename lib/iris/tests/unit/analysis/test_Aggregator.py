@@ -31,7 +31,7 @@ class Test_aggregate:
         self.expected_result_axis0 = ma.array([1, 2, 3], mask=None)
         self.expected_result_axis1 = ma.array([4, 5], mask=None)
 
-    def test_masked_notol(self, mocker):
+    def test_masked_notol(self, mocker):  # noqa: D102
         # Providing masked array with no tolerance keyword (mdtol) provided.
         axis = 0
         mock_return = self.expected_result_axis0.copy()
@@ -51,7 +51,7 @@ class Test_aggregate:
         _shared_utils.assert_masked_array_equal(result, self.expected_result_axis1)
         mock_method.assert_called_once_with(self.array, axis=axis)
 
-    def test_masked_above_tol(self, mocker):
+    def test_masked_above_tol(self, mocker):  # noqa: D102
         # Providing masked array with a high tolerance (mdtol) provided.
         axis = 0
         mock_return = self.expected_result_axis0.copy()
@@ -71,7 +71,7 @@ class Test_aggregate:
         _shared_utils.assert_masked_array_equal(result, self.expected_result_axis1)
         mock_method.assert_called_once_with(self.array, axis=axis)
 
-    def test_masked_below_tol(self, mocker):
+    def test_masked_below_tol(self, mocker):  # noqa: D102
         # Providing masked array with a tolerance on missing values, low
         # enough to modify the resulting mask for axis 0.
         axis = 0
@@ -94,7 +94,7 @@ class Test_aggregate:
         _shared_utils.assert_masked_array_equal(result, self.expected_result_axis1)
         mock_method.assert_called_once_with(self.array, axis=axis)
 
-    def test_masked_below_tol_alt(self, mocker):
+    def test_masked_below_tol_alt(self, mocker):  # noqa: D102
         # Providing masked array with a tolerance on missing values, low
         # enough to modify the resulting mask for axis 1.
         axis = 1
@@ -108,7 +108,7 @@ class Test_aggregate:
         _shared_utils.assert_masked_array_almost_equal(result, result_axis_1)
         mock_method.assert_called_once_with(self.array, axis=axis)
 
-    def test_unmasked_with_mdtol(self, mocker):
+    def test_unmasked_with_mdtol(self, mocker):  # noqa: D102
         # Providing aggregator with an unmasked array and tolerance specified
         # for missing data - ensure that result is unaffected.
         data = self.array.data
@@ -131,7 +131,7 @@ class Test_aggregate:
         _shared_utils.assert_array_almost_equal(result, mock_return.copy())
         mock_method.assert_called_once_with(data, axis=axis)
 
-    def test_unmasked(self, mocker):
+    def test_unmasked(self, mocker):  # noqa: D102
         # Providing aggregator with an unmasked array and no additional keyword
         # arguments ensure that result is unaffected.
         data = self.array.data
@@ -154,7 +154,7 @@ class Test_aggregate:
         _shared_utils.assert_array_almost_equal(result, mock_return.copy())
         mock_method.assert_called_once_with(data, axis=axis)
 
-    def test_allmasked_1_d_with_mdtol(self, mocker):
+    def test_allmasked_1_d_with_mdtol(self, mocker):  # noqa: D102
         data = ma.masked_all((3,))
         axis = 0
         mdtol = 0.5
@@ -167,7 +167,7 @@ class Test_aggregate:
         assert result is mock_return
         mock_method.assert_called_once_with(data, axis=axis)
 
-    def test_returning_scalar_mdtol(self, mocker):
+    def test_returning_scalar_mdtol(self, mocker):  # noqa: D102
         # Test the case when the data aggregation function returns a scalar and
         # turns it into a masked array.
         axis = -1
@@ -180,7 +180,7 @@ class Test_aggregate:
         _shared_utils.assert_masked_array_equal(result, ma.array(2, mask=False))
         mock_method.assert_called_once_with(data, axis=axis)
 
-    def test_returning_scalar_mdtol_alt(self, mocker):
+    def test_returning_scalar_mdtol_alt(self, mocker):  # noqa: D102
         # Test the case when the data aggregation function returns a scalar
         # with no tolerance for missing data values and turns it into a masked
         # array.
@@ -194,7 +194,7 @@ class Test_aggregate:
         _shared_utils.assert_masked_array_equal(result, ma.array(2, mask=True))
         mock_method.assert_called_once_with(data, axis=axis)
 
-    def test_returning_non_masked_array_from_masked_array(self, mocker):
+    def test_returning_non_masked_array_from_masked_array(self, mocker):  # noqa: D102
         # Providing a masked array, call_func returning a non-masked array,
         # resulting in a masked array output.
         axis = 0
@@ -216,7 +216,7 @@ class Test_aggregate:
         _shared_utils.assert_masked_array_equal(result, self.expected_result_axis1)
         mock_method.assert_called_once_with(self.array, axis=axis)
 
-    def test_kwarg_pass_through_no_kwargs(self, mocker):
+    def test_kwarg_pass_through_no_kwargs(self, mocker):  # noqa: D102
         call_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis
@@ -224,7 +224,7 @@ class Test_aggregate:
         aggregator.aggregate(data, axis)
         call_func.assert_called_once_with(data, axis=axis)
 
-    def test_kwarg_pass_through_call_kwargs(self, mocker):
+    def test_kwarg_pass_through_call_kwargs(self, mocker):  # noqa: D102
         call_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis
@@ -233,7 +233,7 @@ class Test_aggregate:
         aggregator.aggregate(data, axis, **kwargs)
         call_func.assert_called_once_with(data, axis=axis, **kwargs)
 
-    def test_kwarg_pass_through_init_kwargs(self, mocker):
+    def test_kwarg_pass_through_init_kwargs(self, mocker):  # noqa: D102
         call_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis
@@ -242,7 +242,7 @@ class Test_aggregate:
         aggregator.aggregate(data, axis)
         call_func.assert_called_once_with(data, axis=axis, **kwargs)
 
-    def test_kwarg_pass_through_combined_kwargs(self, mocker):
+    def test_kwarg_pass_through_combined_kwargs(self, mocker):  # noqa: D102
         call_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis
@@ -254,7 +254,7 @@ class Test_aggregate:
         expected_kwargs.update(call_kwargs)
         call_func.assert_called_once_with(data, axis=axis, **expected_kwargs)
 
-    def test_mdtol_intercept(self, mocker):
+    def test_mdtol_intercept(self, mocker):  # noqa: D102
         call_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis
@@ -262,7 +262,7 @@ class Test_aggregate:
         aggregator.aggregate(data, axis, wibble="wobble", mdtol=0.8)
         call_func.assert_called_once_with(data, axis=axis, wibble="wobble")
 
-    def test_no_lazy_func(self):
+    def test_no_lazy_func(self):  # noqa: D102
         dummy_agg = Aggregator("custom_op", lambda x: 1)
         expected = "custom_op aggregator does not support lazy operation"
         with pytest.raises(LazyAggregatorError, match=expected):
@@ -271,7 +271,7 @@ class Test_aggregate:
 
 class Test_update_metadata:
     """Test update metadata."""
-    def test_no_units_change(self, mocker):
+    def test_no_units_change(self, mocker):  # noqa: D102
         # If the Aggregator has no units_func then the units should be
         # left unchanged.
         aggregator = Aggregator("", None)
@@ -279,7 +279,7 @@ class Test_update_metadata:
         aggregator.update_metadata(cube, [])
         assert cube.units is mocker.sentinel.units
 
-    def test_units_change(self, mocker):
+    def test_units_change(self, mocker):  # noqa: D102
         # If the Aggregator has a units_func then the new units should
         # be defined by its return value.
         units_func = mocker.Mock(return_value=mocker.sentinel.new_units)
@@ -289,7 +289,7 @@ class Test_update_metadata:
         units_func.assert_called_once_with(mocker.sentinel.units, kw1=1, kw2=2)
         assert cube.units == mocker.sentinel.new_units
 
-    def test_units_func_no_kwargs(self):
+    def test_units_func_no_kwargs(self):  # noqa: D102
         # To ensure backwards-compatibility, Aggregator also supports
         # units_func that accept the single argument `units`
         def units_func(units):
@@ -300,7 +300,7 @@ class Test_update_metadata:
         aggregator.update_metadata(cube, [], kw1=1, kw2=2)
         assert cube.units == "s2"
 
-    def test_units_func_kwargs(self):
+    def test_units_func_kwargs(self):  # noqa: D102
         def units_func(units, **kwargs):
             return units**2
 
@@ -312,7 +312,7 @@ class Test_update_metadata:
 
 class Test_lazy_aggregate:
     """Test lazy aggregate."""
-    def test_kwarg_pass_through_no_kwargs(self, mocker):
+    def test_kwarg_pass_through_no_kwargs(self, mocker):  # noqa: D102
         lazy_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis
@@ -320,7 +320,7 @@ class Test_lazy_aggregate:
         aggregator.lazy_aggregate(data, axis)
         lazy_func.assert_called_once_with(data, axis=axis)
 
-    def test_kwarg_pass_through_call_kwargs(self, mocker):
+    def test_kwarg_pass_through_call_kwargs(self, mocker):  # noqa: D102
         lazy_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis
@@ -329,7 +329,7 @@ class Test_lazy_aggregate:
         aggregator.lazy_aggregate(data, axis, **kwargs)
         lazy_func.assert_called_once_with(data, axis=axis, **kwargs)
 
-    def test_kwarg_pass_through_init_kwargs(self, mocker):
+    def test_kwarg_pass_through_init_kwargs(self, mocker):  # noqa: D102
         lazy_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis
@@ -338,7 +338,7 @@ class Test_lazy_aggregate:
         aggregator.lazy_aggregate(data, axis)
         lazy_func.assert_called_once_with(data, axis=axis, **kwargs)
 
-    def test_kwarg_pass_through_combined_kwargs(self, mocker):
+    def test_kwarg_pass_through_combined_kwargs(self, mocker):  # noqa: D102
         lazy_func = mocker.Mock()
         data = mocker.sentinel.data
         axis = mocker.sentinel.axis

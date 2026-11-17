@@ -13,7 +13,7 @@ import iris.tests.stock
 
 class TestPeakAggregator:
     """Test eakAggregator."""
-    def test_peak_coord_length_1(self):
+    def test_peak_coord_length_1(self):  # noqa: D102
         # Coordinate contains a single point.
         latitude = iris.coords.DimCoord(
             np.array([0]), standard_name="latitude", units="degrees"
@@ -28,7 +28,7 @@ class TestPeakAggregator:
             collapsed_cube.data, np.array([1], dtype=np.float32)
         )
 
-    def test_peak_coord_length_2(self):
+    def test_peak_coord_length_2(self):  # noqa: D102
         # Coordinate contains 2 points.
         latitude = iris.coords.DimCoord(
             np.arange(0, 2, 1), standard_name="latitude", units="degrees"
@@ -43,7 +43,7 @@ class TestPeakAggregator:
             collapsed_cube.data, np.array([2], dtype=np.float32)
         )
 
-    def test_peak_coord_length_3(self):
+    def test_peak_coord_length_3(self):  # noqa: D102
         # Coordinate contains 3 points.
         latitude = iris.coords.DimCoord(
             np.arange(0, 3, 1), standard_name="latitude", units="degrees"
@@ -60,7 +60,7 @@ class TestPeakAggregator:
             collapsed_cube.data, np.array([2], dtype=np.float32)
         )
 
-    def test_peak_1d(self):
+    def test_peak_1d(self):  # noqa: D102
         # Collapse a 1d cube.
         latitude = iris.coords.DimCoord(
             np.arange(0, 11, 1), standard_name="latitude", units="degrees"
@@ -77,7 +77,7 @@ class TestPeakAggregator:
             collapsed_cube.data, np.array([6], dtype=np.float32)
         )
 
-    def test_peak_duplicate_coords(self):
+    def test_peak_duplicate_coords(self):  # noqa: D102
         # Collapse cube along 2 coordinates (both the same).
         latitude = iris.coords.DimCoord(
             np.arange(0, 4, 1), standard_name="latitude", units="degrees"
@@ -99,7 +99,7 @@ class TestPeakAggregator:
             collapsed_cube.data, np.array([3], dtype=np.float32)
         )
 
-    def test_peak_2d(self):
+    def test_peak_2d(self):  # noqa: D102
         # Collapse a 2d cube.
         longitude = iris.coords.DimCoord(
             np.arange(0, 4, 1), standard_name="longitude", units="degrees"
@@ -137,7 +137,7 @@ class TestPeakAggregator:
             collapsed_cube.data, np.array([7.041629], dtype=np.float32)
         )
 
-    def test_peak_without_peak_value(self):
+    def test_peak_without_peak_value(self):  # noqa: D102
         # No peak in column (values equal).
         latitude = iris.coords.DimCoord(
             np.arange(0, 4, 1), standard_name="latitude", units="degrees"
@@ -154,7 +154,7 @@ class TestPeakAggregator:
             collapsed_cube.data, np.array([1], dtype=np.float32)
         )
 
-    def test_peak_with_nan(self):
+    def test_peak_with_nan(self):  # noqa: D102
         # Single nan in column.
         latitude = iris.coords.DimCoord(
             np.arange(0, 5, 1), standard_name="latitude", units="degrees"
@@ -181,7 +181,7 @@ class TestPeakAggregator:
         assert np.isnan(collapsed_cube.data).all()
         assert collapsed_cube.data.shape == (1,)
 
-    def test_peak_with_mask(self):
+    def test_peak_with_mask(self):  # noqa: D102
         # Single value in column masked.
         latitude = iris.coords.DimCoord(
             np.arange(0, 5, 1), standard_name="latitude", units="degrees"
@@ -211,7 +211,7 @@ class TestPeakAggregator:
         assert ma.isMaskedArray(collapsed_cube.data)
         assert collapsed_cube.data.shape == (1,)
 
-    def test_peak_with_nan_and_mask(self):
+    def test_peak_with_nan_and_mask(self):  # noqa: D102
         # Single nan in column with single value masked.
         latitude = iris.coords.DimCoord(
             np.arange(0, 5, 1), standard_name="latitude", units="degrees"
@@ -241,7 +241,7 @@ class TestPeakAggregator:
         assert ma.isMaskedArray(collapsed_cube.data)
         assert collapsed_cube.data.shape == (1,)
 
-    def test_peak_against_max(self):
+    def test_peak_against_max(self):  # noqa: D102
         # Cube with data that infers a peak value greater than the column max.
         latitude = iris.coords.DimCoord(
             np.arange(0, 7, 1), standard_name="latitude", units="degrees"

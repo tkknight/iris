@@ -25,7 +25,7 @@ class Test__instantiation:
         self.cube = stock.simple_3d()
         self.representer = CubeRepresentation(self.cube)
 
-    def test_cube_attributes(self):
+    def test_cube_attributes(self):  # noqa: D102
         assert id(self.cube) == self.representer.cube_id
 
 
@@ -38,18 +38,18 @@ class Test__get_dim_names:
         self.dim_names = [c.name() for c in self.cube.coords(dim_coords=True)]
         self.representer = CubeRepresentation(self.cube)
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         result_names = self.representer._get_dim_names()
         assert result_names == self.dim_names
 
-    def test_one_anonymous_dim(self):
+    def test_one_anonymous_dim(self):  # noqa: D102
         self.cube.remove_coord("time")
         expected_names = ["--"]
         expected_names.extend(self.dim_names[1:])
         result_names = self.representer._get_dim_names()
         assert result_names == expected_names
 
-    def test_anonymous_dims(self):
+    def test_anonymous_dims(self):  # noqa: D102
         target_dims = [1, 3]
         # Replicate this here as we're about to modify it.
         expected_names = [c.name() for c in self.cube.coords(dim_coords=True)]
@@ -74,13 +74,13 @@ class Test__summary_content:
         self.cube.units = "1e11 e/m^3"
         self.representer = CubeRepresentation(self.cube)
 
-    def test_name(self):
+    def test_name(self):  # noqa: D102
         # Check the cube name is being set and formatted correctly.
         expected = escape(self.cube.name().replace("_", " ").title())
         result = self.representer.name
         assert expected == result
 
-    def test_names(self):
+    def test_names(self):  # noqa: D102
         # Check the dimension names used as column headings are split out and
         # formatted correctly.
         expected_coord_names = [
@@ -90,20 +90,20 @@ class Test__summary_content:
         for result in result_coord_names:
             assert result in expected_coord_names
 
-    def test_units(self):
+    def test_units(self):  # noqa: D102
         # Check the units is being set correctly.
         expected = self.cube.units
         result = self.representer.units
         assert expected == result
 
-    def test_shapes(self):
+    def test_shapes(self):  # noqa: D102
         # Check cube dim lengths are split out correctly from the
         # summary string.
         expected = self.cube.shape
         result = self.representer.shapes
         assert expected == result
 
-    def test_ndims(self):
+    def test_ndims(self):  # noqa: D102
         expected = self.cube.ndim
         result = self.representer.ndims
         assert expected == result
@@ -291,7 +291,7 @@ class Test__make_header:
         self.representer = CubeRepresentation(self.cube)
         self.header_emts = self.representer._make_header().split("\n")
 
-    def test_name_and_units(self):
+    def test_name_and_units(self):  # noqa: D102
         # Check the correct name and units are being written into the top-left
         # table cell.
         # This is found in the first cell after the `<th>` is defined.
@@ -301,14 +301,14 @@ class Test__make_header:
         )
         assert expected.lower() in name_and_units_cell.lower()
 
-    def test_number_of_columns(self):
+    def test_number_of_columns(self):  # noqa: D102
         # There should be one headings column, plus a column per dimension.
         # Ignore opening and closing <tr> tags.
         result_cols = self.header_emts[1:-1]
         expected = self.cube.ndim + 1
         assert len(result_cols) == expected
 
-    def test_row_headings(self):
+    def test_row_headings(self):  # noqa: D102
         # Get only the dimension heading cells and not the headings column.
         dim_coord_names = [c.name() for c in self.cube.coords(dim_coords=True)]
         dim_col_headings = self.header_emts[2:-1]
@@ -325,11 +325,11 @@ class Test__make_shapes_row:
         self.representer = CubeRepresentation(self.cube)
         self.result = self.representer._make_shapes_row().split("\n")
 
-    def test_row_title(self):
+    def test_row_title(self):  # noqa: D102
         title_cell = self.result[1]
         assert "Shape" in title_cell
 
-    def test_shapes(self):
+    def test_shapes(self):  # noqa: D102
         expected_shapes = self.cube.shape
         result_shapes = self.result[2:-1]
         for expected, result in zip(expected_shapes, result_shapes):
@@ -346,7 +346,7 @@ class Test__make_row:
         self.cube.add_cell_method(cm)
         self.representer = CubeRepresentation(self.cube)
 
-    def test__title_row(self):
+    def test__title_row(self):  # noqa: D102
         title = "Wibble:"
         row = self.representer._make_row(title)
         # A cell for the title, an empty cell for each cube dimension, plus row
@@ -359,7 +359,7 @@ class Test__make_row:
         expected_html_class = "iris-title"
         assert expected_html_class in row_str
 
-    def test__inclusion_row(self):
+    def test__inclusion_row(self):  # noqa: D102
         # An inclusion row has x/- to indicate whether a coordinate describes
         # a dimension.
         title = "time"
@@ -381,7 +381,7 @@ class Test__make_row:
         # We do not expect a colspan to be set.
         assert "colspan" not in row_str
 
-    def test__attribute_row(self):
+    def test__attribute_row(self):  # noqa: D102
         # An attribute row does not contain inclusion indicators.
         title = "source"
         body = "Iris test case"
@@ -432,21 +432,21 @@ class Test__make_content:
         self.mesh_representer = CubeRepresentation(self.mesh_cube)
         self.mesh_result = self.mesh_representer._make_content()
 
-    def test_included(self):
+    def test_included(self):  # noqa: D102
         included = "Dimension coordinates"
         assert included in self.result
         dim_coord_names = [c.name() for c in self.cube.dim_coords]
         for coord_name in dim_coord_names:
             assert coord_name in self.result
 
-    def test_not_included(self):
+    def test_not_included(self):  # noqa: D102
         # `stock.simple_3d()` only contains the `Dimension coordinates` attr.
         not_included = list(self.sections_keys)
         not_included.pop(not_included.index("Dimension coordinates:"))
         for heading in not_included:
             assert heading not in self.result
 
-    def test_mesh_included(self):
+    def test_mesh_included(self):  # noqa: D102
         # self.mesh_cube contains a `Mesh coordinates` section.
         assert (
             '<td class="iris-title iris-word-cell">Mesh coordinates</td>'
@@ -458,14 +458,14 @@ class Test__make_content:
         for coord_name in mesh_coord_names:
             assert coord_name in self.result
 
-    def test_mesh_not_included(self):
+    def test_mesh_not_included(self):  # noqa: D102
         # self.mesh_cube _only_ contains a `Mesh coordinates` section.
         not_included = list(self.sections_keys)
         not_included.pop(not_included.index("Mesh coordinates:"))
         for heading in not_included:
             assert heading not in self.result
 
-    def test_mesh_result(self, request):
+    def test_mesh_result(self, request):  # noqa: D102
         # A plain snapshot of a simple meshcube case.
         _shared_utils.assert_string(request, self.mesh_result)
 
@@ -488,26 +488,26 @@ class Test__make_content__string_attrs:
         result = representer._make_content()
         return result
 
-    def test_simple_string_attribute(self, request):
+    def test_simple_string_attribute(self, request):  # noqa: D102
         html = self._cube_stringattribute_html("single-string", "single string")
         _shared_utils.assert_string(request, html)
 
-    def test_long_string_attribute(self, request):
+    def test_long_string_attribute(self, request):  # noqa: D102
         attr = "long string.. " * 20
         html = self._cube_stringattribute_html("long-string", attr)
         _shared_utils.assert_string(request, html)
 
-    def test_embedded_newlines_string_attribute(self, request):
+    def test_embedded_newlines_string_attribute(self, request):  # noqa: D102
         attr = "string\nwith\nnewlines"
         html = self._cube_stringattribute_html("newlines-string", attr)
         _shared_utils.assert_string(request, html)
 
-    def test_multi_string_attribute(self, request):
+    def test_multi_string_attribute(self, request):  # noqa: D102
         attr = ["vector", "of", "strings"]
         html = self._cube_stringattribute_html("multi-string", attr)
         _shared_utils.assert_string(request, html)
 
-    def test_coord_distinguishing_attributes(self):
+    def test_coord_distinguishing_attributes(self):  # noqa: D102
         # Printout of differing attributes to differentiate same-named coords.
         # include : vector + scalar
         cube = Cube([0, 1], long_name="name", units=1)
@@ -552,7 +552,7 @@ class Test__make_content__string_attrs:
         )
         assert result == expected
 
-    def test_coord_extra_attributes__array(self):
+    def test_coord_extra_attributes__array(self):  # noqa: D102
         cube = Cube(0, long_name="name", units=1)
         # Add a pair of vector coords with same name but different attributes.
         array1 = np.arange(0, 3)
@@ -583,7 +583,7 @@ class Test__make_content__string_attrs:
         )
         assert result == expected
 
-    def test_coord_extra_attributes__array__long(self):
+    def test_coord_extra_attributes__array__long(self):  # noqa: D102
         # Also test with a long array representation.
         array = 10 + np.arange(24.0).reshape((2, 3, 4))
         cube = Cube(0, long_name="name", units=1)
@@ -611,7 +611,7 @@ class Test__make_content__string_attrs:
         )
         assert result == expected
 
-    def test_coord_extra_attributes__string_escaped(self):
+    def test_coord_extra_attributes__string_escaped(self):  # noqa: D102
         cube = Cube(0, long_name="name", units=1)
         cube.add_aux_coord(AuxCoord([1], long_name="co"))
         cube.add_aux_coord(
@@ -650,7 +650,7 @@ class Test_repr_html:
         representer = CubeRepresentation(self.cube)
         self.result = representer.repr_html()
 
-    def test_contents_added(self):
+    def test_contents_added(self):  # noqa: D102
         included = "Dimension coordinates"
         assert included in self.result
         not_included = "Auxiliary coordinates"

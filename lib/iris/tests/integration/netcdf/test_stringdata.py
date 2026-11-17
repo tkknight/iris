@@ -216,7 +216,7 @@ class TestReadEncodings:
         return
 
     @pytest.fixture(params=["coordsSameDim", "coordsOwnDim"])
-    def use_separate_dims(self, request):
+    def use_separate_dims(self, request):  # noqa: D102
         return request.param == "coordsOwnDim"
 
     @pytest.fixture
@@ -251,10 +251,10 @@ class TestReadEncodings:
         return testdata
 
     @pytest.fixture(params=["strings", "bytes"])
-    def readmode(self, request):
+    def readmode(self, request):  # noqa: D102
         return request.param
 
-    def test_valid_encodings(
+    def test_valid_encodings(  # noqa: D102
         self, encoding, readtest_data: SamplefileDetails, readmode, use_separate_dims
     ):
         (
@@ -403,14 +403,14 @@ class TestWriteEncodings:
     """
 
     @pytest.fixture(params=["allLazy", "smallReal"])
-    def lazy_data(self, request, mocker):
+    def lazy_data(self, request, mocker):  # noqa: D102
         is_lazy = request.param == "allLazy"
         if is_lazy:
             mocker.patch("iris.fileformats.cf.loader._LAZYVAR_MIN_BYTES", 0)
         return is_lazy
 
     @pytest.fixture(params=["dataAsStrings", "dataAsBytes"])
-    def write_bytes(self, request):
+    def write_bytes(self, request):  # noqa: D102
         return request.param == "dataAsBytes"
 
     @pytest.fixture
@@ -444,7 +444,7 @@ class TestWriteEncodings:
         iris.save(cube, writetest_path)
         return cube_info
 
-    def test_valid_encodings(self, encoding, writetest_data, write_bytes):
+    def test_valid_encodings(self, encoding, writetest_data, write_bytes):  # noqa: D102
         cube_info = writetest_data
         cube, path = cube_info.cube, cube_info.save_path
 
@@ -483,20 +483,20 @@ class TestWriteEncodings:
 
 class TestStringCubeBehaviour:
     """Test tringCubeBehaviour."""
-    def test_create(self):
+    def test_create(self):  # noqa: D102
         cube = Cube(["this", "that", "cliché"])
         assert isinstance(cube.core_data(), np.ndarray)
         assert cube.shape == (3,)
         assert cube.dtype == np.dtype("U6")
 
-    def test_scalar_extract(self):
+    def test_scalar_extract(self):  # noqa: D102
         cube = Cube(["one", "two", "thirteen"])
         cube = cube[0]
         assert isinstance(cube.core_data(), np.ndarray)
         assert cube.shape == ()
         assert cube.dtype == np.dtype("U3")
 
-    def test_scalar_create(self):
+    def test_scalar_create(self):  # noqa: D102
         cube = Cube("éclair")
         assert isinstance(cube.core_data(), np.ndarray)
         assert cube.shape == ()
@@ -511,7 +511,7 @@ class TestWriteReadMixedEncodings:
     Checks that multiple cubes with different encodings save correctly.
     """
 
-    def test_mixed(self, tmp_path):
+    def test_mixed(self, tmp_path):  # noqa: D102
         # Save a mixture of string + numeric cubes, 1-D and scalar
         # Ensure that they save, and read back correctly.
         c1 = Cube(["test-string"], var_name="c1")
@@ -538,7 +538,7 @@ class TestWriteReadScalarStringCubes:
     so they are not actually "scalar" in the file.
     """
 
-    def test_save_scalar_ascii__ok(self, tmp_path):
+    def test_save_scalar_ascii__ok(self, tmp_path):  # noqa: D102
         # We can save a scalar cube containing a *single ascii character*
         scalar_char_cube = Cube(
             np.array("x"),
@@ -560,7 +560,7 @@ class TestWriteReadScalarStringCubes:
         result.attributes.pop("Conventions", None)
         assert result == scalar_char_cube
 
-    def test_save_scalar_unicode__fail(self, tmp_path):
+    def test_save_scalar_unicode__fail(self, tmp_path):  # noqa: D102
         # You *can't* save a scalar cube containing a non-ascii character
         # *without an explicitly lengthened dtype*,
         # because it doesn't convert to a single "char".
@@ -576,7 +576,7 @@ class TestWriteReadScalarStringCubes:
         with pytest.raises(iris.exceptions.TranslationError, match=msg):
             iris.save(scalar_char_bad, filepath)
 
-    def test_save_single_unicode__okay(self, tmp_path):
+    def test_save_single_unicode__okay(self, tmp_path):  # noqa: D102
         # You *can* save a scalar cube containing a non-ascii character,
         # *if* the dtype is extended to allow for multiple encoded bytes.
         scalar_char_cube = Cube(
@@ -601,7 +601,7 @@ class TestWriteReadScalarStringCubes:
 class TestReadParticularCases:
     """Test eadParticularCases."""
     @pytest.mark.parametrize("data_encoding", ["utf8", "utf16", "utf32"])
-    def test_read_no_encoding(self, tmp_path, data_encoding):
+    def test_read_no_encoding(self, tmp_path, data_encoding):  # noqa: D102
         # Check that we can read UTF-8 encoded data, even with no _Encoding attribute.
         # This is a common case in the wild, and now accepted by CF as a default.
         # However, other encodings will FAIL to decode.
@@ -622,7 +622,7 @@ class TestReadParticularCases:
             with pytest.raises(ValueError, match=msg):
                 cube.data
 
-    def test_read_wrong_encoding__fail(self, tmp_path):
+    def test_read_wrong_encoding__fail(self, tmp_path):  # noqa: D102
         filepath = tmp_path / "read_wrong_encoding.nc"
         testdata = make_testfile(
             testfile_path=filepath,
@@ -638,7 +638,7 @@ class TestReadParticularCases:
 
 class TestWriteParticularCases:
     """Test riteParticularCases."""
-    def test_write_unicode_no_encoding(self, tmp_path):
+    def test_write_unicode_no_encoding(self, tmp_path):  # noqa: D102
         cube = Cube(np.array(["bun", "éclair"], dtype="U10"))
         filepath = tmp_path / "write_unicode_no_encoding.nc"
         # This now "just works", since default is UTF-8
@@ -650,7 +650,7 @@ class TestWriteParticularCases:
         assert rb_data.shape == orig_data.shape
         assert list(rb_data) == list(orig_data)
 
-    def test_write_encoded_overlength__fail(self, tmp_path):
+    def test_write_encoded_overlength__fail(self, tmp_path):  # noqa: D102
         cube = Cube(np.array("éclair"), attributes={"_Encoding": "utf8"})
         filepath = tmp_path / "write_encoded_overlength.nc"
         msg = (
@@ -663,7 +663,7 @@ class TestWriteParticularCases:
         with pytest.raises(iris.exceptions.TranslationError, match=msg):
             iris.save(cube, filepath)
 
-    def test_write_multibytes__fail(self, tmp_path):
+    def test_write_multibytes__fail(self, tmp_path):  # noqa: D102
         encoded_bytes = "éclair".encode("utf8")
         byte_array = np.array(encoded_bytes)
         cube = Cube(byte_array, attributes={"_Encoding": "utf8"})
@@ -676,7 +676,7 @@ class TestWriteParticularCases:
         with pytest.raises(ValueError, match=msg):
             iris.save(cube, filepath)
 
-    def test_write_stringobjects__fail(self, tmp_path):
+    def test_write_stringobjects__fail(self, tmp_path):  # noqa: D102
         string_array = np.array(["one", "four"], dtype="O")
         cube = Cube(string_array)
         filepath = tmp_path / "write_stringobjects.nc"
@@ -688,7 +688,7 @@ class TestWriteParticularCases:
         with pytest.raises(ValueError, match=msg):
             iris.save(cube, filepath)
 
-    def test_write_unexpected_dtype_itemsize(self, mocker, tmp_path):
+    def test_write_unexpected_dtype_itemsize(self, mocker, tmp_path):  # noqa: D102
         # Test unexpected form of numpy character data.  Not clear if this can actually
         #  happen, but we do have a runtime test for it, so this just exercises that.
         mock_dtype = mocker.Mock(spec=np.dtype, kind="U", itemsize=3)
@@ -706,7 +706,7 @@ class TestWriteParticularCases:
 
 class TestSaveloadBadUnicodeAsBytes:
     """Test aveloadBadUnicodeAsBytes."""
-    def test_save_load_bad_unicode(self, tmp_path):
+    def test_save_load_bad_unicode(self, tmp_path):  # noqa: D102
         filepath = tmp_path / "bad_unicode_utf8.nc"
         test_string = "marré"
         bytes_array = test_string.encode("utf8")
@@ -739,7 +739,7 @@ class TestChunkedCharData:
             ["NetCDF", "testing", "chunked_char_data.nc"]
         )
 
-    def test_load(self):
+    def test_load(self):  # noqa: D102
         # Here is how the char variable is defined raw in the file:
         ds = _thread_safe_nc.DatasetWrapper(self.file_path)
         var = ds.variables["field_status"]

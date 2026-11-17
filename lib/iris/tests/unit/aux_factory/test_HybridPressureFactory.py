@@ -34,7 +34,7 @@ class Test___init__:
     def _setup(self):
         create_default_sample_parts(self)
 
-    def test_insufficient_coords(self):
+    def test_insufficient_coords(self):  # noqa: D102
         msg = "Unable to construct hybrid pressure coordinate factory due to insufficient source coordinates."
         with pytest.raises(ValueError, match=msg):
             HybridPressureFactory()
@@ -49,7 +49,7 @@ class Test___init__:
                 surface_air_pressure=self.surface_air_pressure,
             )
 
-    def test_incompatible_delta_units(self):
+    def test_incompatible_delta_units(self):  # noqa: D102
         self.delta.units = cf_units.Unit("m")
         msg = "Incompatible units: delta and surface_air_pressure must have the same units."
         with pytest.raises(ValueError, match=msg):
@@ -59,7 +59,7 @@ class Test___init__:
                 surface_air_pressure=self.surface_air_pressure,
             )
 
-    def test_incompatible_sigma_units(self):
+    def test_incompatible_sigma_units(self):  # noqa: D102
         self.sigma.units = cf_units.Unit("Pa")
         msg = "Invalid units: sigma must be dimensionless."
         with pytest.raises(ValueError, match=msg):
@@ -69,7 +69,7 @@ class Test___init__:
                 surface_air_pressure=self.surface_air_pressure,
             )
 
-    def test_incompatible_surface_air_pressure_units(self):
+    def test_incompatible_surface_air_pressure_units(self):  # noqa: D102
         self.surface_air_pressure.units = cf_units.Unit("unknown")
         msg = "Incompatible units: delta and surface_air_pressure must have the same units."
         with pytest.raises(ValueError, match=msg):
@@ -79,7 +79,7 @@ class Test___init__:
                 surface_air_pressure=self.surface_air_pressure,
             )
 
-    def test_different_pressure_units(self):
+    def test_different_pressure_units(self):  # noqa: D102
         self.delta.units = cf_units.Unit("hPa")
         self.surface_air_pressure.units = cf_units.Unit("Pa")
         msg = "Incompatible units: delta and surface_air_pressure must have the same units."
@@ -90,7 +90,7 @@ class Test___init__:
                 surface_air_pressure=self.surface_air_pressure,
             )
 
-    def test_too_many_delta_bounds(self):
+    def test_too_many_delta_bounds(self):  # noqa: D102
         self.delta.nbounds = 4
         msg = "Invalid delta coordinate: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
@@ -100,7 +100,7 @@ class Test___init__:
                 surface_air_pressure=self.surface_air_pressure,
             )
 
-    def test_too_many_sigma_bounds(self):
+    def test_too_many_sigma_bounds(self):  # noqa: D102
         self.sigma.nbounds = 4
         msg = "Invalid sigma coordinate: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
@@ -110,7 +110,7 @@ class Test___init__:
                 surface_air_pressure=self.surface_air_pressure,
             )
 
-    def test_factory_metadata(self):
+    def test_factory_metadata(self):  # noqa: D102
         factory = HybridPressureFactory(
             delta=self.delta,
             sigma=self.sigma,
@@ -124,7 +124,7 @@ class Test___init__:
         assert factory.coord_system is None
         assert factory.attributes == {}
 
-    def test_promote_sigma_units_unknown_to_dimensionless(self):
+    def test_promote_sigma_units_unknown_to_dimensionless(self):  # noqa: D102
         sigma = Mock(units=cf_units.Unit("unknown"), nbounds=0)
         factory = HybridPressureFactory(
             delta=self.delta,
@@ -140,7 +140,7 @@ class Test_dependencies:
     def _setup(self):
         create_default_sample_parts(self)
 
-    def test_value(self):
+    def test_value(self):  # noqa: D102
         kwargs = dict(
             delta=self.delta,
             sigma=self.sigma,
@@ -153,7 +153,7 @@ class Test_dependencies:
 class Test_make_coord:
     """Test make coord."""
     @staticmethod
-    def coords_dims_func(coord):
+    def coords_dims_func(coord):  # noqa: D102
         mapping = dict(level_pressure=(0,), sigma=(0,), surface_air_pressure=(1, 2))
         return mapping[coord.name()]
 
@@ -168,7 +168,7 @@ class Test_make_coord:
             np.arange(4).reshape(2, 2), "surface_air_pressure", units="Pa"
         )
 
-    def test_points_only(self):
+    def test_points_only(self):  # noqa: D102
         # Determine expected coord by manually broadcasting coord points
         # knowing the dimension mapping.
         delta_pts = self.delta.points[..., np.newaxis, np.newaxis]
@@ -186,7 +186,7 @@ class Test_make_coord:
         derived_coord = factory.make_coord(self.coords_dims_func)
         assert derived_coord == expected_coord
 
-    def test_none_delta(self):
+    def test_none_delta(self):  # noqa: D102
         delta_pts = 0
         sigma_pts = self.sigma.points[..., np.newaxis, np.newaxis]
         surf_pts = self.surface_air_pressure.points[np.newaxis, ...]
@@ -201,7 +201,7 @@ class Test_make_coord:
         derived_coord = factory.make_coord(self.coords_dims_func)
         assert derived_coord == expected_coord
 
-    def test_none_sigma(self):
+    def test_none_sigma(self):  # noqa: D102
         delta_pts = self.delta.points[..., np.newaxis, np.newaxis]
         sigma_pts = 0
         surf_pts = self.surface_air_pressure.points[np.newaxis, ...]
@@ -216,7 +216,7 @@ class Test_make_coord:
         derived_coord = factory.make_coord(self.coords_dims_func)
         assert derived_coord == expected_coord
 
-    def test_none_surface_air_pressure(self):
+    def test_none_surface_air_pressure(self):  # noqa: D102
         # Note absence of broadcasting as multidimensional coord
         # is not present.
         expected_points = self.delta.points
@@ -227,7 +227,7 @@ class Test_make_coord:
         derived_coord = factory.make_coord(self.coords_dims_func)
         assert derived_coord == expected_coord
 
-    def test_with_bounds(self):
+    def test_with_bounds(self):  # noqa: D102
         self.delta.guess_bounds(0)
         self.sigma.guess_bounds(0.5)
         # Determine expected coord by manually broadcasting coord points
@@ -261,50 +261,50 @@ class Test_update:
     def _setup(self):
         create_default_sample_parts(self)
 
-    def test_good_delta(self):
+    def test_good_delta(self):  # noqa: D102
         new_delta_coord = Mock(units=cf_units.Unit("Pa"), nbounds=0)
         self.factory.update(self.delta, new_delta_coord)
         assert self.factory.delta is new_delta_coord
 
-    def test_bad_delta(self):
+    def test_bad_delta(self):  # noqa: D102
         new_delta_coord = Mock(units=cf_units.Unit("1"), nbounds=0)
         msg = "Failed to update dependencies. Incompatible units: delta and surface_air_pressure must have the same units."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.delta, new_delta_coord)
 
-    def test_alternative_bad_delta(self):
+    def test_alternative_bad_delta(self):  # noqa: D102
         new_delta_coord = Mock(units=cf_units.Unit("Pa"), nbounds=4)
         msg = "Failed to update dependencies. Invalid delta coordinate: must have either 0 or 2 bounds."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.delta, new_delta_coord)
 
-    def test_good_surface_air_pressure(self):
+    def test_good_surface_air_pressure(self):  # noqa: D102
         new_surface_p_coord = Mock(units=cf_units.Unit("Pa"), nbounds=0)
         self.factory.update(self.surface_air_pressure, new_surface_p_coord)
         assert self.factory.surface_air_pressure is new_surface_p_coord
 
-    def test_bad_surface_air_pressure(self):
+    def test_bad_surface_air_pressure(self):  # noqa: D102
         new_surface_p_coord = Mock(units=cf_units.Unit("km"), nbounds=0)
         msg = "Failed to update dependencies. Incompatible units: delta and surface_air_pressure must have the same units."
         with pytest.raises(ValueError, match=msg):
             self.factory.update(self.surface_air_pressure, new_surface_p_coord)
 
-    def test_non_dependency(self):
+    def test_non_dependency(self):  # noqa: D102
         old_coord = Mock()
         new_coord = Mock()
         orig_dependencies = self.factory.dependencies
         self.factory.update(old_coord, new_coord)
         assert self.factory.dependencies == orig_dependencies
 
-    def test_none_delta(self):
+    def test_none_delta(self):  # noqa: D102
         self.factory.update(self.delta, None)
         assert self.factory.delta is None
 
-    def test_none_sigma(self):
+    def test_none_sigma(self):  # noqa: D102
         self.factory.update(self.sigma, None)
         assert self.factory.sigma is None
 
-    def test_insufficient_coords(self):
+    def test_insufficient_coords(self):  # noqa: D102
         self.factory.update(self.delta, None)
         msg = "Failed to update dependencies. Unable to construct hybrid pressure coordinate factory due to insufficient source coordinates."
         with pytest.raises(ValueError, match=msg):

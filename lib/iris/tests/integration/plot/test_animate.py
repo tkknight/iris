@@ -45,7 +45,7 @@ class IntegrationTest(_shared_utils.GraphicsTest):
         cube.add_dim_coord(coord, 2)
         self.cube = cube
 
-    def test_cube_animation(self):
+    def test_cube_animation(self):  # noqa: D102
         # This follows :meth:`~matplotlib.animation.FuncAnimation.save`
         # to ensure that each frame corresponds to known accepted frames for
         # the animation.

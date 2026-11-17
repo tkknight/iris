@@ -65,11 +65,11 @@ class TestBuildTransverseMercatorCoordinateSystem(MockerMixin):
 
         assert cs == expected
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         self._test()
 
-    def test_inverse_flattening(self):
+    def test_inverse_flattening(self):  # noqa: D102
         self._test(inverse_flattening=True)
 
-    def test_missing_optionals(self):
+    def test_missing_optionals(self):  # noqa: D102
         self._test(no_options=True)

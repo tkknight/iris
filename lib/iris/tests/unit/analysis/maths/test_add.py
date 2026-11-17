@@ -22,34 +22,34 @@ from iris.tests.unit.analysis.maths import (
 class TestBroadcasting(CubeArithmeticBroadcastingTestMixin):
     """Test roadcasting."""
     @property
-    def data_op(self):
+    def data_op(self):  # noqa: D102
         return operator.add
 
     @property
-    def cube_func(self):
+    def cube_func(self):  # noqa: D102
         return add
 
 
 class TestMasking(CubeArithmeticMaskingTestMixin):
     """Test asking."""
     @property
-    def data_op(self):
+    def data_op(self):  # noqa: D102
         return operator.add
 
     @property
-    def cube_func(self):
+    def cube_func(self):  # noqa: D102
         return add
 
 
 class TestCoordMatch(CubeArithmeticCoordsTest):
     """Test oordMatch."""
-    def test_no_match(self):
+    def test_no_match(self):  # noqa: D102
         cube1, cube2 = self.setup_non_matching()
         expected = "Insufficient matching coordinate metadata to resolve cubes"
         with pytest.raises(ValueError, match=expected):
             add(cube1, cube2)
 
-    def test_reversed_points(self):
+    def test_reversed_points(self):  # noqa: D102
         cube1, cube2 = self.setup_reversed()
         expected = "Coordinate '.*' has different points"
         with pytest.raises(ValueError, match=expected):
@@ -59,9 +59,9 @@ class TestCoordMatch(CubeArithmeticCoordsTest):
 class TestMaskedConstant(CubeArithmeticMaskedConstantTestMixin):
     """Test askedConstant."""
     @property
-    def data_op(self):
+    def data_op(self):  # noqa: D102
         return operator.add
 
     @property
-    def cube_func(self):
+    def cube_func(self):  # noqa: D102
         return add

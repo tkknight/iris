@@ -31,10 +31,10 @@ class MinimalVariable(CFDatasetVariable):
     def __setitem__(self, keys, values):
         raise NotImplementedError
 
-    def read_data(self, chunking_policy):
+    def read_data(self, chunking_policy):  # noqa: D102
         return self[:]
 
-    def write_handle(self):
+    def write_handle(self):  # noqa: D102
         return self
 
 
@@ -53,32 +53,32 @@ class MinimalDataset(CFDataset):
     def __init__(self):
         self.closes = 0
 
-    def create_dimension(self, name, size):
+    def create_dimension(self, name, size):  # noqa: D102
         raise NotImplementedError
 
-    def create_variable(self, name, dtype, dimensions=(), *, fill_value=None, **kw):
+    def create_variable(self, name, dtype, dimensions=(), *, fill_value=None, **kw):  # noqa: D102
         raise NotImplementedError
 
-    def supports_dtype(self, dtype):
+    def supports_dtype(self, dtype):  # noqa: D102
         return True
 
-    def sync(self):
+    def sync(self):  # noqa: D102
         pass
 
-    def finalise(self):
+    def finalise(self):  # noqa: D102
         pass
 
-    def close(self):
+    def close(self):  # noqa: D102
         self.closes += 1
 
 
 class TestAbstractness:
     """Test bstractness."""
-    def test_variable_cannot_be_instantiated(self):
+    def test_variable_cannot_be_instantiated(self):  # noqa: D102
         with pytest.raises(TypeError, match="abstract"):
             CFDatasetVariable()
 
-    def test_dataset_cannot_be_instantiated(self):
+    def test_dataset_cannot_be_instantiated(self):  # noqa: D102
         with pytest.raises(TypeError, match="abstract"):
             CFDataset()
 
@@ -103,7 +103,7 @@ class TestAbstractness:
             "write_handle",
         ],
     )
-    def test_variable_declares_member(self, name):
+    def test_variable_declares_member(self, name):  # noqa: D102
         assert name in CFDatasetVariable.__abstractmethods__ or hasattr(
             CFDatasetVariable, name
         )
@@ -127,19 +127,19 @@ class TestAbstractness:
             "close",
         ],
     )
-    def test_dataset_declares_member(self, name):
+    def test_dataset_declares_member(self, name):  # noqa: D102
         assert name in CFDataset.__abstractmethods__ or hasattr(CFDataset, name)
 
 
 class TestConcreteDefaults:
     """Test oncreteDefaults."""
-    def test_ndim(self):
+    def test_ndim(self):  # noqa: D102
         assert MinimalVariable().ndim == 2
 
-    def test_len_is_the_leading_dimension(self):
+    def test_len_is_the_leading_dimension(self):  # noqa: D102
         assert len(MinimalVariable()) == 3
 
-    def test_len_of_a_scalar_matches_netcdf4(self):
+    def test_len_of_a_scalar_matches_netcdf4(self):  # noqa: D102
         # netCDF4.Variable raises TypeError, and CFVariable.__len__ forwards
         # to it, so anything catching that keeps working.
         class Scalar(MinimalVariable):
@@ -148,20 +148,20 @@ class TestConcreteDefaults:
         with pytest.raises(TypeError, match="unsized"):
             len(Scalar())
 
-    def test_deprecated_netcdf_member_raises_attribute_error(self):
+    def test_deprecated_netcdf_member_raises_attribute_error(self):  # noqa: D102
         # A store with no backing netCDF4 object - Zarr, say - has no fallback
         # to offer, so the compatibility route simply does not apply.
         with pytest.raises(AttributeError, match="getncattr"):
             MinimalVariable().deprecated_netcdf_member("getncattr")
 
-    def test_context_manager_closes(self):
+    def test_context_manager_closes(self):  # noqa: D102
         dataset = MinimalDataset()
         with dataset as entered:
             assert entered is dataset
             assert dataset.closes == 0
         assert dataset.closes == 1
 
-    def test_context_manager_closes_on_exception(self):
+    def test_context_manager_closes_on_exception(self):  # noqa: D102
         dataset = MinimalDataset()
         with pytest.raises(ValueError, match="boom"):
             with dataset:

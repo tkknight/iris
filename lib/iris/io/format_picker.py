@@ -229,12 +229,12 @@ class FormatSpecification:
         return hash(self._file_element)
 
     @property
-    def file_element(self):
+    def file_element(self):  # noqa: D102
         # noqa D102
         return self._file_element
 
     @property
-    def file_element_value(self):
+    def file_element_value(self):  # noqa: D102
         # noqa D102
         return self._file_element_value
 
@@ -325,7 +325,7 @@ class MagicNumber(FileElement):
         self._num_bytes = num_bytes
         self._offset = offset
 
-    def get_element(self, basename, file_handle):
+    def get_element(self, basename, file_handle):  # noqa: D102
         # noqa D102
         if self._offset is not None:
             file_handle.seek(self._offset)
@@ -346,7 +346,7 @@ class MagicNumber(FileElement):
 class FileExtension(FileElement):
     """A :class:`FileElement` that returns the extension from the filename."""
 
-    def get_element(self, basename, file_handle):
+    def get_element(self, basename, file_handle):  # noqa: D102
         # noqa D102
         return Path(basename).suffix
 
@@ -354,7 +354,7 @@ class FileExtension(FileElement):
 class LeadingLine(FileElement):
     """A :class:`FileElement` that returns the first line from the file."""
 
-    def get_element(self, basename, file_handle):
+    def get_element(self, basename, file_handle):  # noqa: D102
         # noqa: D102
         return file_handle.readline()
 
@@ -370,7 +370,7 @@ class UriProtocol(FileElement):
     def __init__(self):
         FileElement.__init__(self, requires_fh=False)
 
-    def get_element(self, basename, file_handle):
+    def get_element(self, basename, file_handle):  # noqa: D102
         # noqa: D102
         from iris.io import decode_uri
 

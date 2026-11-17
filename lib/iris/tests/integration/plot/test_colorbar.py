@@ -41,7 +41,7 @@ class TestColorBarCreation(_shared_utils.GraphicsTest):
             units="degrees",
         )
 
-    def test_common_draw_functions(self):
+    def test_common_draw_functions(self):  # noqa: D102
         for draw_function in self.draw_functions:
             mappable = draw_function(self.cube)
             cbar = plt.colorbar()
@@ -49,7 +49,7 @@ class TestColorBarCreation(_shared_utils.GraphicsTest):
                 "Problem with draw function iris.plot.{}".format(draw_function.__name__)
             )
 
-    def test_common_draw_functions_specified_mappable(self):
+    def test_common_draw_functions_specified_mappable(self):  # noqa: D102
         for draw_function in self.draw_functions:
             mappable_initial = draw_function(self.cube, cmap="cool")
             _ = draw_function(self.cube)
@@ -58,23 +58,23 @@ class TestColorBarCreation(_shared_utils.GraphicsTest):
                 "Problem with draw function iris.plot.{}".format(draw_function.__name__)
             )
 
-    def test_points_with_c_kwarg(self):
+    def test_points_with_c_kwarg(self):  # noqa: D102
         mappable = points(self.cube, c=self.cube.data)
         cbar = plt.colorbar()
         assert cbar.mappable is mappable
 
-    def test_points_with_c_kwarg_specified_mappable(self):
+    def test_points_with_c_kwarg_specified_mappable(self):  # noqa: D102
         mappable_initial = points(self.cube, c=self.cube.data, cmap="cool")
         _ = points(self.cube, c=self.cube.data)
         cbar = plt.colorbar(mappable_initial)
         assert cbar.mappable is mappable_initial
 
-    def test_scatter_with_c_kwarg(self):
+    def test_scatter_with_c_kwarg(self):  # noqa: D102
         mappable = scatter(self.traj_lon, self.traj_lat, c=self.traj_lon.points)
         cbar = plt.colorbar()
         assert cbar.mappable is mappable
 
-    def test_scatter_with_c_kwarg_specified_mappable(self):
+    def test_scatter_with_c_kwarg_specified_mappable(self):  # noqa: D102
         mappable_initial = scatter(self.traj_lon, self.traj_lat, c=self.traj_lon.points)
         _ = scatter(self.traj_lon, self.traj_lat, c=self.traj_lon.points, cmap="cool")
         cbar = plt.colorbar(mappable_initial)

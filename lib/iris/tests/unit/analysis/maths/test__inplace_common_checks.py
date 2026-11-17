@@ -37,86 +37,86 @@ class Test:
         self.op = "addition"
         self.emsg = "Cannot perform inplace {}".format(self.op)
 
-    def test_float_cubes(self):
+    def test_float_cubes(self):  # noqa: D102
         result = _inplace_common_checks(self.float_cube, self.float_cube, self.op)
         assert result is None
 
-    def test_int_cubes(self):
+    def test_int_cubes(self):  # noqa: D102
         result = _inplace_common_checks(self.int_cube, self.int_cube, self.op)
         assert result is None
 
-    def test_uint_cubes(self):
+    def test_uint_cubes(self):  # noqa: D102
         result = _inplace_common_checks(self.uint_cube, self.uint_cube, self.op)
         assert result is None
 
-    def test_float_cube_int_cube(self):
+    def test_float_cube_int_cube(self):  # noqa: D102
         result = _inplace_common_checks(self.float_cube, self.int_cube, self.op)
         assert result is None
 
-    def test_float_cube_uint_cube(self):
+    def test_float_cube_uint_cube(self):  # noqa: D102
         result = _inplace_common_checks(self.float_cube, self.uint_cube, self.op)
         assert result is None
 
-    def test_int_cube_float_cube(self):
+    def test_int_cube_float_cube(self):  # noqa: D102
         with pytest.raises(ArithmeticError, match=self.emsg):
             _inplace_common_checks(self.int_cube, self.float_cube, self.op)
 
-    def test_uint_cube_float_cube(self):
+    def test_uint_cube_float_cube(self):  # noqa: D102
         with pytest.raises(ArithmeticError, match=self.emsg):
             _inplace_common_checks(self.uint_cube, self.float_cube, self.op)
 
-    def test_float_cube__scalar_int(self):
+    def test_float_cube__scalar_int(self):  # noqa: D102
         result = _inplace_common_checks(self.float_cube, self.scalar_int, self.op)
         assert result is None
 
-    def test_float_cube__scalar_float(self):
+    def test_float_cube__scalar_float(self):  # noqa: D102
         result = _inplace_common_checks(self.float_cube, self.scalar_float, self.op)
         assert result is None
 
-    def test_float_cube__int_array(self):
+    def test_float_cube__int_array(self):  # noqa: D102
         result = _inplace_common_checks(self.float_cube, self.int_data, self.op)
         assert result is None
 
-    def test_float_cube__float_array(self):
+    def test_float_cube__float_array(self):  # noqa: D102
         result = _inplace_common_checks(self.float_cube, self.float_data, self.op)
         assert result is None
 
-    def test_int_cube__scalar_int(self):
+    def test_int_cube__scalar_int(self):  # noqa: D102
         result = _inplace_common_checks(self.int_cube, self.scalar_int, self.op)
         assert result is None
 
-    def test_int_cube_uint_cube(self):
+    def test_int_cube_uint_cube(self):  # noqa: D102
         result = _inplace_common_checks(self.int_cube, self.uint_cube, self.op)
         assert result is None
 
-    def test_uint_cube_uint_cube(self):
+    def test_uint_cube_uint_cube(self):  # noqa: D102
         result = _inplace_common_checks(self.uint_cube, self.uint_cube, self.op)
         assert result is None
 
-    def test_uint_cube_int_cube(self):
+    def test_uint_cube_int_cube(self):  # noqa: D102
         with pytest.raises(ArithmeticError, match=self.emsg):
             _inplace_common_checks(self.uint_cube, self.int_cube, self.op)
 
-    def test_int_cube__scalar_float(self):
+    def test_int_cube__scalar_float(self):  # noqa: D102
         with pytest.raises(ArithmeticError, match=self.emsg):
             _inplace_common_checks(self.int_cube, self.scalar_float, self.op)
 
-    def test_int_cube__int_array(self):
+    def test_int_cube__int_array(self):  # noqa: D102
         result = _inplace_common_checks(self.int_cube, self.int_cube, self.op)
         assert result is None
 
-    def test_int_cube__float_array(self):
+    def test_int_cube__float_array(self):  # noqa: D102
         with pytest.raises(ArithmeticError, match=self.emsg):
             _inplace_common_checks(self.int_cube, self.float_data, self.op)
 
-    def test_uint_cube__scalar_float(self):
+    def test_uint_cube__scalar_float(self):  # noqa: D102
         with pytest.raises(ArithmeticError, match=self.emsg):
             _inplace_common_checks(self.uint_cube, self.scalar_float, self.op)
 
-    def test_uint_cube__int_array(self):
+    def test_uint_cube__int_array(self):  # noqa: D102
         with pytest.raises(ArithmeticError, match=self.emsg):
             _inplace_common_checks(self.uint_cube, self.int_cube, self.op)
 
-    def test_uint_cube__float_array(self):
+    def test_uint_cube__float_array(self):  # noqa: D102
         with pytest.raises(ArithmeticError, match=self.emsg):
             _inplace_common_checks(self.uint_cube, self.float_data, self.op)

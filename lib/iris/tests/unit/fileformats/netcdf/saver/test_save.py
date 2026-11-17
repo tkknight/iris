@@ -26,7 +26,7 @@ class Test_conventions:
         self.cube.attributes["Conventions"] = self.custom_conventions
         self.options = iris.config.netcdf
 
-    def test_custom_conventions__ignored(self, tmp_path):
+    def test_custom_conventions__ignored(self, tmp_path):  # noqa: D102
         # Ensure that we drop existing conventions attributes and replace with
         # CF convention.
         nc_path = tmp_path / "dummy.nc"
@@ -36,7 +36,7 @@ class Test_conventions:
         ds.close()
         assert res == CF_CONVENTIONS_VERSION
 
-    def test_custom_conventions__allowed(self, mocker, tmp_path):
+    def test_custom_conventions__allowed(self, mocker, tmp_path):  # noqa: D102
         # Ensure that existing conventions attributes are passed through if the
         # relevant Iris option is set.
         nc_path = tmp_path / "dummy.nc"
@@ -47,7 +47,7 @@ class Test_conventions:
         ds.close()
         assert res == self.custom_conventions
 
-    def test_custom_conventions__allowed__missing(self, mocker, tmp_path):
+    def test_custom_conventions__allowed__missing(self, mocker, tmp_path):  # noqa: D102
         # Ensure the default conventions attribute is set if the relevant Iris
         # option is set but there is no custom conventions attribute.
         del self.cube.attributes["Conventions"]
@@ -62,7 +62,7 @@ class Test_conventions:
 
 class Test_attributes:
     """Test attributes."""
-    def test_attributes_arrays(self, tmp_path):
+    def test_attributes_arrays(self, tmp_path):  # noqa: D102
         # Ensure that attributes containing NumPy arrays can be equality
         # checked and their cubes saved as appropriate.
         c1 = Cube([1], attributes={"bar": np.arange(2)})
@@ -75,7 +75,7 @@ class Test_attributes:
         ds.close()
         _shared_utils.assert_array_equal(res, np.arange(2))
 
-    def test_attributes_arrays_incompatible_shapes(self, tmp_path):
+    def test_attributes_arrays_incompatible_shapes(self, tmp_path):  # noqa: D102
         # Ensure successful comparison without raising a broadcast error.
         c1 = Cube([1], attributes={"bar": np.arange(2)})
         c2 = Cube([2], attributes={"bar": np.arange(3)})
@@ -90,7 +90,7 @@ class Test_attributes:
             assert isinstance(res, np.ndarray)
         ds.close()
 
-    def test_no_special_attribute_clash(self, tmp_path):
+    def test_no_special_attribute_clash(self, tmp_path):  # noqa: D102
         # Ensure that saving multiple cubes with netCDF4 protected attributes
         # works as expected.
         # Note that here we are testing variable attribute clashes only - by
@@ -111,14 +111,14 @@ class Test_attributes:
 
 class Test_unlimited_dims:
     """Test unlimited dims."""
-    def test_no_unlimited_dims(self, tmp_path):
+    def test_no_unlimited_dims(self, tmp_path):  # noqa: D102
         cube = lat_lon_cube()
         nc_out = tmp_path / "foo.nc"
         save(cube, nc_out)
         ds = _thread_safe_nc.DatasetWrapper(nc_out)
         assert not ds.dimensions["latitude"].isunlimited()
 
-    def test_unlimited_dim_latitude(self, tmp_path):
+    def test_unlimited_dim_latitude(self, tmp_path):  # noqa: D102
         cube = lat_lon_cube()
         unlim_dim_name = "latitude"
         nc_out = tmp_path / "foo.nc"
@@ -151,7 +151,7 @@ class Test_fill_value:
             for name in self.standard_names
         )
 
-    def test_none(self, mocker):
+    def test_none(self, mocker):  # noqa: D102
         # Test that when no fill_value argument is passed, the fill_value
         # argument to Saver.write is None or not present.
         cubes = self._make_cubes()
@@ -168,7 +168,7 @@ class Test_fill_value:
             if "fill_value" in kwargs:
                 assert None is kwargs["fill_value"]
 
-    def test_single(self, mocker):
+    def test_single(self, mocker):  # noqa: D102
         # Test that when a single value is passed as the fill_value argument,
         # that value is passed to each call to Saver.write
         cubes = self._make_cubes()
@@ -185,7 +185,7 @@ class Test_fill_value:
             _, _, kwargs = call
             assert fill_value == kwargs["fill_value"]
 
-    def test_multiple(self, mocker):
+    def test_multiple(self, mocker):  # noqa: D102
         # Test that when a list is passed as the fill_value argument,
         # each element is passed to separate calls to Saver.write
         cubes = self._make_cubes()
@@ -202,7 +202,7 @@ class Test_fill_value:
             _, _, kwargs = call
             assert fill_value == kwargs["fill_value"]
 
-    def test_single_string(self, mocker):
+    def test_single_string(self, mocker):  # noqa: D102
         # Test that when a string is passed as the fill_value argument,
         # that value is passed to calls to Saver.write
         cube = Cube(["abc", "def", "hij"])
@@ -218,7 +218,7 @@ class Test_fill_value:
         _, _, kwargs = write.mock_calls[0]
         assert fill_value == kwargs["fill_value"]
 
-    def test_multi_wrong_length(self, mocker):
+    def test_multi_wrong_length(self, mocker):  # noqa: D102
         # Test that when a list of a different length to the number of cubes
         # is passed as the fill_value argument, an error is raised
         cubes = self._make_cubes()
@@ -305,7 +305,7 @@ class Test_HdfSaveBug:
 
         assert clean_cube(cube1) == clean_cube(cube2)
 
-    def test_dimcoord_varname_collision(self, _check_save_and_reload):
+    def test_dimcoord_varname_collision(self, _check_save_and_reload):  # noqa: D102
         cube_2 = Cube([0, 1], var_name="cube_2")
         x_dim = DimCoord([0, 1], long_name="dim_x", var_name="dimco_name")
         cube_2.add_dim_coord(x_dim, 0)
@@ -316,7 +316,7 @@ class Test_HdfSaveBug:
         # As re-loaded, the coord will have a different varname.
         assert reload_2.coord("dim_x").var_name == "dimco_name_0"
 
-    def test_anonymous_dim_varname_collision(self, _check_save_and_reload):
+    def test_anonymous_dim_varname_collision(self, _check_save_and_reload):  # noqa: D102
         # Second cube is going to name an anonymous dim.
         cube_2 = Cube([0, 1], var_name="cube_2")
         # First cube has a varname which collides with the dim-name.
@@ -327,7 +327,7 @@ class Test_HdfSaveBug:
         # Test save + loadback
         _check_save_and_reload([cube_1, cube_2])
 
-    def test_bounds_dim_varname_collision(self, _check_save_and_reload):
+    def test_bounds_dim_varname_collision(self, _check_save_and_reload):  # noqa: D102
         cube_2 = Cube([0, 1], var_name="cube_2")
         x_dim = DimCoord([0, 1], long_name="dim_x", var_name="dimco_name")
         x_dim.guess_bounds()
@@ -337,7 +337,7 @@ class Test_HdfSaveBug:
         # Test save + loadback
         _check_save_and_reload([cube_1, cube_2])
 
-    def test_string_dim_varname_collision(self, _check_save_and_reload):
+    def test_string_dim_varname_collision(self, _check_save_and_reload):  # noqa: D102
         cube_2 = Cube([0, 1], var_name="cube_2")
         # NOTE: it *should* be possible for a cube with string data to cause
         # this collision, but cubes with string data are currently not working.
@@ -348,14 +348,14 @@ class Test_HdfSaveBug:
         # Test save + loadback
         _check_save_and_reload([cube_1, cube_2])
 
-    def test_mesh_location_dim_varname_collision(self, _check_save_and_reload):
+    def test_mesh_location_dim_varname_collision(self, _check_save_and_reload):  # noqa: D102
         cube_2 = sample_mesh_cube()
         cube_2.var_name = "cube_2"  # Make it identifiable
         cube_1 = Cube([0], long_name="cube_1", var_name="Mesh2d_node")
         # Test save + loadback
         _check_save_and_reload([cube_1, cube_2])
 
-    def test_connectivity_dim_varname_collision(self, _check_save_and_reload):
+    def test_connectivity_dim_varname_collision(self, _check_save_and_reload):  # noqa: D102
         cube_2 = sample_mesh_cube()
         cube_2.var_name = "cube_2"  # Make it identifiable
         cube_1 = Cube([0], long_name="cube_1", var_name="Mesh_2d_face_N_nodes")
@@ -373,7 +373,7 @@ class Test_compute_usage:
     # A fixture to mock out Saver object creation in a 'save' call.
     @staticmethod
     @pytest.fixture
-    def mock_saver_creation(mocker):
+    def mock_saver_creation(mocker):  # noqa: D102
         # A mock for a Saver object.
         mock_saver = mocker.MagicMock(spec=Saver)
         # make an __enter__ call return the object itself (as the real Saver does).
@@ -395,7 +395,7 @@ class Test_compute_usage:
     # A fixture to provide some mock args for 'Saver' creation.
     @staticmethod
     @pytest.fixture
-    def mock_saver_args(mocker):
+    def mock_saver_args(mocker):  # noqa: D102
         from collections import namedtuple
 
         # A special object for the cube, since cube.attributes must be indexable
@@ -408,7 +408,7 @@ class Test_compute_usage:
         )
         return args
 
-    def test_saver_creation(self, mock_saver_creation, mock_saver_args):
+    def test_saver_creation(self, mock_saver_creation, mock_saver_args):  # noqa: D102
         # Check that 'save' creates a Saver, passing the 'compute' keyword.
         mock_saver_new, mock_saver = mock_saver_creation
         args = mock_saver_args
@@ -424,7 +424,7 @@ class Test_compute_usage:
             args.filename, args.format, compute=args.compute
         )
 
-    def test_compute_true(self, mock_saver_creation, mock_saver_args):
+    def test_compute_true(self, mock_saver_creation, mock_saver_args):  # noqa: D102
         # Check operation when compute=True.
         mock_saver_new, mock_saver = mock_saver_creation
         args = mock_saver_args
@@ -439,7 +439,7 @@ class Test_compute_usage:
         # Result should be None
         assert result is None
 
-    def test_compute_false_result_delayed(self, mock_saver_creation, mock_saver_args):
+    def test_compute_false_result_delayed(self, mock_saver_creation, mock_saver_args):  # noqa: D102
         # Check operation when compute=False.
         mock_saver_new, mock_saver = mock_saver_creation
         args = mock_saver_args

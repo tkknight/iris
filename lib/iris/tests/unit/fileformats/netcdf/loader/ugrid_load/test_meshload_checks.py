@@ -37,7 +37,7 @@ class TestMeshLoad:
         return testfile_path
 
     @pytest.fixture(params=["nolocation", "badlocation", "baddim"])
-    def failnc(self, request, tmp_path_factory):
+    def failnc(self, request, tmp_path_factory):  # noqa: D102
         self.param = request.param
         kwargs = {}
         if self.param == "nolocation":
@@ -52,13 +52,13 @@ class TestMeshLoad:
         self.tmpdir = tmp_path_factory.mktemp("meshload")
         return self._create_testnc(**kwargs)
 
-    def test_extrameshvar__ok(self, tmp_path_factory):
+    def test_extrameshvar__ok(self, tmp_path_factory):  # noqa: D102
         # Check that the default cdl construction loads OK
         self.tmpdir = tmp_path_factory.mktemp("meshload")
         testnc = self._create_testnc()
         iris.load(testnc)
 
-    def test_extrameshvar__fail(self, failnc):
+    def test_extrameshvar__fail(self, failnc):  # noqa: D102
         # Check that the expected errors are raised in various cases.
         param = self.param
         if param == "nolocation":

@@ -65,17 +65,17 @@ class DummyPPField(PPField):
         return self
 
     @property
-    def t1(self):
+    def t1(self):  # noqa: D102
         return None
 
     @property
-    def t2(self):
+    def t2(self):  # noqa: D102
         return None
 
 
 class Test_save:
     """Test save."""
-    def test_float64(self, tmp_path):
+    def test_float64(self, tmp_path):  # noqa: D102
         # Tests down-casting of >f8 data to >f4.
 
         def field_checksum(data):
@@ -94,7 +94,7 @@ class Test_save:
             checksum_64 = field_checksum(data_64.astype(">f8"))
         assert checksum_32 == checksum_64
 
-    def test_masked_mdi_value_warning(self, tmp_path):
+    def test_masked_mdi_value_warning(self, tmp_path):  # noqa: D102
         # Check that an unmasked MDI value raises a warning.
         field = DummyPPField()._ready_for_save()
         # Make float32 data, as float64 default produces an extra warning.
@@ -106,7 +106,7 @@ class Test_save:
             with open(temp_filename, "wb") as pp_file:
                 field.save(pp_file)
 
-    def test_unmasked_mdi_value_warning(self, tmp_path):
+    def test_unmasked_mdi_value_warning(self, tmp_path):  # noqa: D102
         # Check that MDI in *unmasked* data raises a warning.
         field = DummyPPField()._ready_for_save()
         field.bmdi = -123.4
@@ -118,7 +118,7 @@ class Test_save:
             with open(temp_filename, "wb") as pp_file:
                 field.save(pp_file)
 
-    def test_mdi_masked_value_nowarning(self, tmp_path):
+    def test_mdi_masked_value_nowarning(self, tmp_path):  # noqa: D102
         # Check that a *masked* MDI value does not raise a warning.
         field = DummyPPField()._ready_for_save()
         field.bmdi = -123.4
@@ -137,17 +137,17 @@ class Test_save:
 
 class Test_calendar:
     """Test calendar."""
-    def test_greg(self):
+    def test_greg(self):  # noqa: D102
         field = DummyPPField()
         field.lbtim = SplittableInt(1, {"ia": 2, "ib": 1, "ic": 0})
         assert field.calendar == "standard"
 
-    def test_360(self):
+    def test_360(self):  # noqa: D102
         field = DummyPPField()
         field.lbtim = SplittableInt(2, {"ia": 2, "ib": 1, "ic": 0})
         assert field.calendar == "360_day"
 
-    def test_365(self):
+    def test_365(self):  # noqa: D102
         field = DummyPPField()
         field.lbtim = SplittableInt(4, {"ia": 2, "ib": 1, "ic": 0})
         assert field.calendar == "365_day"
@@ -174,19 +174,19 @@ class Test_coord_system(MockerMixin):
                 bplat, bplon, ellipsoid=mock_cs_mod.GeogCS()
             )
 
-    def test_normal_unrotated(self):
+    def test_normal_unrotated(self):  # noqa: D102
         # Check that 'normal' BPLAT,BPLON=90,0 produces an unrotated system.
         self._check_cs(bplat=90, bplon=0, rotated=False)
 
-    def test_bplon_180_unrotated(self):
+    def test_bplon_180_unrotated(self):  # noqa: D102
         # Check that BPLAT,BPLON=90,180 behaves the same as 90,0.
         self._check_cs(bplat=90, bplon=180, rotated=False)
 
-    def test_odd_bplat_rotated(self):
+    def test_odd_bplat_rotated(self):  # noqa: D102
         # Show that BPLAT != 90 produces a rotated field.
         self._check_cs(bplat=75, bplon=180, rotated=True)
 
-    def test_odd_bplon_rotated(self):
+    def test_odd_bplon_rotated(self):  # noqa: D102
         # Show that BPLON != 0 or 180 produces a rotated field.
         self._check_cs(bplat=90, bplon=123.45, rotated=True)
 
@@ -199,26 +199,26 @@ class Test__init__:
         header_floats = np.zeros(pp.NUM_FLOAT_HEADERS, dtype=np.float64)
         self.header = list(header_longs) + list(header_floats)
 
-    def test_no_headers(self):
+    def test_no_headers(self):  # noqa: D102
         field = DummyPPField()
         assert field._raw_header is None
         assert field.raw_lbtim is None
         assert field.raw_lbpack is None
 
-    def test_lbtim_lookup(self):
+    def test_lbtim_lookup(self):  # noqa: D102
         assert DummyPPField.HEADER_DICT["lbtim"] == (12,)
 
-    def test_lbpack_lookup(self):
+    def test_lbpack_lookup(self):  # noqa: D102
         assert DummyPPField.HEADER_DICT["lbpack"] == (20,)
 
-    def test_raw_lbtim(self):
+    def test_raw_lbtim(self):  # noqa: D102
         raw_lbtim = 4321
         (loc,) = DummyPPField.HEADER_DICT["lbtim"]
         self.header[loc] = raw_lbtim
         field = DummyPPField(header=self.header)
         assert field.raw_lbtim == raw_lbtim
 
-    def test_raw_lbpack(self):
+    def test_raw_lbpack(self):  # noqa: D102
         raw_lbpack = 4321
         (loc,) = DummyPPField.HEADER_DICT["lbpack"]
         self.header[loc] = raw_lbpack
@@ -234,28 +234,28 @@ class Test__getattr__:
         header_floats = np.zeros(pp.NUM_FLOAT_HEADERS, dtype=np.float64)
         self.header = list(header_longs) + list(header_floats)
 
-    def test_attr_singular_long(self):
+    def test_attr_singular_long(self):  # noqa: D102
         lbrow = 1234
         (loc,) = DummyPPField.HEADER_DICT["lbrow"]
         self.header[loc] = lbrow
         field = DummyPPField(header=self.header)
         assert field.lbrow == lbrow
 
-    def test_attr_multi_long(self):
+    def test_attr_multi_long(self):  # noqa: D102
         lbuser = (100, 101, 102, 103, 104, 105, 106)
         loc = DummyPPField.HEADER_DICT["lbuser"]
         self.header[loc[0] : loc[-1] + 1] = lbuser
         field = DummyPPField(header=self.header)
         assert field.lbuser == lbuser
 
-    def test_attr_singular_float(self):
+    def test_attr_singular_float(self):  # noqa: D102
         bdatum = 1234
         (loc,) = DummyPPField.HEADER_DICT["bdatum"]
         self.header[loc] = bdatum
         field = DummyPPField(header=self.header)
         assert field.bdatum == bdatum
 
-    def test_attr_multi_float(self):
+    def test_attr_multi_float(self):  # noqa: D102
         brsvd = (100, 101, 102, 103)
         loc = DummyPPField.HEADER_DICT["brsvd"]
         start = loc[0]
@@ -264,7 +264,7 @@ class Test__getattr__:
         field = DummyPPField(header=self.header)
         assert field.brsvd == brsvd
 
-    def test_attr_lbtim(self):
+    def test_attr_lbtim(self):  # noqa: D102
         raw_lbtim = 4321
         (loc,) = DummyPPField.HEADER_DICT["lbtim"]
         self.header[loc] = raw_lbtim
@@ -276,7 +276,7 @@ class Test__getattr__:
         assert result == raw_lbtim
         assert isinstance(result, SplittableInt)
 
-    def test_attr_lbpack(self):
+    def test_attr_lbpack(self):  # noqa: D102
         raw_lbpack = 4321
         (loc,) = DummyPPField.HEADER_DICT["lbpack"]
         self.header[loc] = raw_lbpack
@@ -288,7 +288,7 @@ class Test__getattr__:
         assert result == raw_lbpack
         assert isinstance(result, SplittableInt)
 
-    def test_attr_raw_lbtim_assign(self):
+    def test_attr_raw_lbtim_assign(self):  # noqa: D102
         field = DummyPPField(header=self.header)
         assert field.raw_lbpack == 0
         assert field.lbtim == 0
@@ -297,7 +297,7 @@ class Test__getattr__:
         assert field.raw_lbtim == raw_lbtim
         assert not isinstance(field.raw_lbtim, SplittableInt)
 
-    def test_attr_raw_lbpack_assign(self):
+    def test_attr_raw_lbpack_assign(self):  # noqa: D102
         field = DummyPPField(header=self.header)
         assert field.raw_lbpack == 0
         assert field.lbpack == 0
@@ -306,7 +306,7 @@ class Test__getattr__:
         assert field.raw_lbpack == raw_lbpack
         assert not isinstance(field.raw_lbpack, SplittableInt)
 
-    def test_attr_unknown(self):
+    def test_attr_unknown(self):  # noqa: D102
         with pytest.raises(
             AttributeError, match="'DummyPPField' object has no attribute 'x'"
         ):
@@ -315,7 +315,7 @@ class Test__getattr__:
 
 class Test_lbtim:
     """Test lbtim."""
-    def test_get_splittable(self):
+    def test_get_splittable(self):  # noqa: D102
         headers = [0] * 64
         headers[12] = 12345
         field = DummyPPField(headers)
@@ -324,7 +324,7 @@ class Test_lbtim:
         assert field.lbtim.ib == 4
         assert field.lbtim.ic == 5
 
-    def test_set_int(self):
+    def test_set_int(self):  # noqa: D102
         headers = [0] * 64
         headers[12] = 12345
         field = DummyPPField(headers)
@@ -335,7 +335,7 @@ class Test_lbtim:
         assert field.lbtim.ic == 7
         assert field.raw_lbtim == 34567
 
-    def test_set_splittable(self):
+    def test_set_splittable(self):  # noqa: D102
         # Check that assigning a SplittableInt to lbtim uses the integer
         # value. In other words, check that you can't assign an
         # arbitrary SplittableInt with crazy named attributes.

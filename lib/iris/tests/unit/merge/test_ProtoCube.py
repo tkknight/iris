@@ -33,34 +33,34 @@ def example_cube():
 class Mixin_register(metaclass=ABCMeta):
     """Mixin_register."""
     @property
-    def cube1(self):
+    def cube1(self):  # noqa: D102
         return example_cube()
 
     @property
     @abstractmethod
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         pass
 
     @property
     @abstractmethod
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         pass
 
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         # Test what happens when we call:
         #   ProtoCube.register(cube)
         proto_cube = ProtoCube(self.cube1)
         result = proto_cube.register(self.cube2)
         assert result != self.fragments
 
-    def test_no_error(self):
+    def test_no_error(self):  # noqa: D102
         # Test what happens when we call:
         #   ProtoCube.register(cube, error_on_mismatch=False)
         proto_cube = ProtoCube(self.cube1)
         result = proto_cube.register(self.cube2, error_on_mismatch=False)
         assert result != self.fragments
 
-    def test_error(self):
+    def test_error(self):  # noqa: D102
         # Test what happens when we call:
         #   ProtoCube.register(cube, error_on_mismatch=True)
         proto_cube = ProtoCube(self.cube1)
@@ -78,22 +78,22 @@ class Mixin_register(metaclass=ABCMeta):
 class Test_register__match(Mixin_register):
     """Test register  match."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return []
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         return example_cube()
 
 
 class Test_register__standard_name(Mixin_register):
     """Test register  standard name."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.standard_name", "air_temperature", "air_density"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.standard_name = "air_density"
         return cube
@@ -102,11 +102,11 @@ class Test_register__standard_name(Mixin_register):
 class Test_register__long_name(Mixin_register):
     """Test register  long name."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.long_name", "screen_air_temp", "Belling"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.long_name = "Belling"
         return cube
@@ -115,11 +115,11 @@ class Test_register__long_name(Mixin_register):
 class Test_register__var_name(Mixin_register):
     """Test register  var name."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.var_name", "'airtemp'", "'airtemp2'"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.var_name = "airtemp2"
         return cube
@@ -128,11 +128,11 @@ class Test_register__var_name(Mixin_register):
 class Test_register__units(Mixin_register):
     """Test register  units."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.units", "'K'", "'C'"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.units = "C"
         return cube
@@ -141,11 +141,11 @@ class Test_register__units(Mixin_register):
 class Test_register__attributes_unequal(Mixin_register):
     """Test register  attributes unequal."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.attributes", "'mint'"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.attributes["mint"] = "waffer-thin"
         return cube
@@ -154,17 +154,17 @@ class Test_register__attributes_unequal(Mixin_register):
 class Test_register__attributes_unequal_array(Mixin_register):
     """Test register  attributes unequal array."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.attributes", "'mint'"]
 
     @property
-    def cube1(self):
+    def cube1(self):  # noqa: D102
         cube = example_cube()
         cube.attributes["mint"] = np.arange(3)
         return cube
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.attributes["mint"] = np.arange(3) + 1
         return cube
@@ -173,11 +173,11 @@ class Test_register__attributes_unequal_array(Mixin_register):
 class Test_register__attributes_superset(Mixin_register):
     """Test register  attributes superset."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.attributes", "'stuffed'"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.attributes["stuffed"] = "yes"
         return cube
@@ -186,11 +186,11 @@ class Test_register__attributes_superset(Mixin_register):
 class Test_register__attributes_multi_diff(Mixin_register):
     """Test register  attributes multi diff."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.attributes", "'sam'", "'mint'"]
 
     @property
-    def cube1(self):
+    def cube1(self):  # noqa: D102
         cube = example_cube()
         cube.attributes["ralph"] = 1
         cube.attributes["sam"] = 2
@@ -198,7 +198,7 @@ class Test_register__attributes_multi_diff(Mixin_register):
         return cube
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.attributes["ralph"] = 1
         cube.attributes["sam"] = "mug"
@@ -210,11 +210,11 @@ class Test_register__attributes_multi_diff(Mixin_register):
 class Test_register__cell_method(Mixin_register):
     """Test register  cell method."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.cell_methods"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.add_cell_method(iris.coords.CellMethod("monty", ("python",)))
         return cube
@@ -223,11 +223,11 @@ class Test_register__cell_method(Mixin_register):
 class Test_register__data_shape(Mixin_register):
     """Test register  data shape."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube.shape", "(2,)", "(3,)"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube = cube[1:]
         return cube
@@ -236,11 +236,11 @@ class Test_register__data_shape(Mixin_register):
 class Test_register__data_dtype(Mixin_register):
     """Test register  data dtype."""
     @property
-    def fragments(self):
+    def fragments(self):  # noqa: D102
         return ["cube data dtype", "int32", "int8"]
 
     @property
-    def cube2(self):
+    def cube2(self):  # noqa: D102
         cube = example_cube()
         cube.data = cube.data.astype(np.int8)
         return cube
@@ -282,7 +282,7 @@ class Test_register__CubeSig(_MergeTest):
         )
         self.cube2 = self.cube1.copy()
 
-    def test_noise(self, request):
+    def test_noise(self, request):  # noqa: D102
         # Test a massive set of all defn diffs to make sure it's not noise.
         self.cube1.var_name = "Arthur"
         cube2 = self.cube1[1:]
@@ -311,43 +311,43 @@ class Test_register__CoordSig_general(_MergeTest):
         self.cube1 = iris.cube.Cube(np.zeros((3, 3, 3)))
         self.cube2 = self.cube1.copy()
 
-    def test_scalar_defns_one_extra(self):
+    def test_scalar_defns_one_extra(self):  # noqa: D102
         self.cube2.add_aux_coord(DimCoord([1], standard_name="latitude"))
         self.check_fail("aux_coords (scalar)", "latitude")
 
-    def test_scalar_defns_both_extra(self):
+    def test_scalar_defns_both_extra(self):  # noqa: D102
         self.cube2.add_aux_coord(DimCoord([1], standard_name="latitude"))
         self.cube1.add_aux_coord(DimCoord([1], standard_name="longitude"))
         self.check_fail("aux_coords (scalar)", "latitude", "longitude")
 
-    def test_vector_dim_coords_and_dims_one_extra(self):
+    def test_vector_dim_coords_and_dims_one_extra(self):  # noqa: D102
         self.cube2.add_dim_coord(DimCoord([1, 2, 3], standard_name="latitude"), 0)
         self.check_fail("dim_coords", "latitude")
 
-    def test_vector_dim_coords_and_dims_both_extra(self):
+    def test_vector_dim_coords_and_dims_both_extra(self):  # noqa: D102
         self.cube2.add_dim_coord(DimCoord([1, 2, 3], standard_name="latitude"), 0)
         self.cube1.add_dim_coord(DimCoord([1, 2, 3], standard_name="longitude"), 0)
         self.check_fail("dim_coords", "latitude", "longitude")
 
-    def test_vector_aux_coords_and_dims_one_extra(self):
+    def test_vector_aux_coords_and_dims_one_extra(self):  # noqa: D102
         self.cube2.add_aux_coord(DimCoord([1, 2, 3], standard_name="latitude"), 0)
         self.check_fail("aux_coords (non-scalar)", "latitude")
 
-    def test_vector_aux_coords_and_dims_both_extra(self):
+    def test_vector_aux_coords_and_dims_both_extra(self):  # noqa: D102
         self.cube2.add_aux_coord(DimCoord([1, 2, 3], standard_name="latitude"), 0)
         self.cube1.add_aux_coord(DimCoord([1, 2, 3], standard_name="longitude"), 0)
         self.check_fail("aux_coords (non-scalar)", "latitude", "longitude")
 
-    def test_factory_defns_one_extra(self, mocker):
+    def test_factory_defns_one_extra(self, mocker):  # noqa: D102
         self.cube2.add_aux_factory(mocker.MagicMock(spec=HybridHeightFactory))
         self.check_fail("cube.aux_factories", "differ")
 
-    def test_factory_defns_both_extra(self, mocker):
+    def test_factory_defns_both_extra(self, mocker):  # noqa: D102
         self.cube2.add_aux_factory(mocker.MagicMock(spec=HybridHeightFactory))
         self.cube1.add_aux_factory(mocker.MagicMock(spec=HybridPressureFactory))
         self.check_fail("cube.aux_factories", "differ")
 
-    def test_factory_defns_one_missing_term(self, mocker):
+    def test_factory_defns_one_missing_term(self, mocker):  # noqa: D102
         self.cube1.add_aux_factory(mocker.MagicMock(spec=HybridPressureFactory))
         no_delta_factory = mocker.MagicMock(spec=HybridPressureFactory)
         no_delta_factory.delta = None
@@ -355,7 +355,7 @@ class Test_register__CoordSig_general(_MergeTest):
 
         self.check_fail("cube.aux_factories", "differ")
 
-    def test_noise(self, request, mocker):
+    def test_noise(self, request, mocker):  # noqa: D102
         cube2 = self.cube2
 
         # scalar
@@ -507,7 +507,7 @@ class Test_register__CoordSig_dim(_MergeTest_coordprops_vect):
         self.coord_to_change = self.cube1.coord("air_temperature")
         self.cube2 = self.cube1.copy()
 
-    def test_circular(self):
+    def test_circular(self):  # noqa: D102
         # Extra failure mode that only applies to dim coords
         self.coord_to_change.circular = True
         self.check_fail(self._mergetest_type, "air_temperature")

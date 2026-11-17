@@ -22,7 +22,7 @@ class TestGuessCoord:
             ("projection_y_coordinate", "Y"),
         ],
     )
-    def test_coord(self, coordinate, axis, sample_coord):
+    def test_coord(self, coordinate, axis, sample_coord):  # noqa: D102
         sample_coord.standard_name = coordinate
         assert guess_coord_axis(sample_coord) == axis
 
@@ -33,7 +33,7 @@ class TestGuessCoord:
             ("days since 1970-01-01 00:00:00", "T"),
         ],
     )
-    def test_units(self, units, axis, sample_coord):
+    def test_units(self, units, axis, sample_coord):  # noqa: D102
         sample_coord.units = units
         assert guess_coord_axis(sample_coord) == axis
 
@@ -44,7 +44,7 @@ class TestGuessCoord:
             (False, "X"),
         ],
     )
-    def test_ignore_axis(self, ignore_axis, result, sample_coord):
+    def test_ignore_axis(self, ignore_axis, result, sample_coord):  # noqa: D102
         sample_coord.standard_name = "longitude"
         sample_coord.ignore_axis = ignore_axis
 

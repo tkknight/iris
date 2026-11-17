@@ -64,14 +64,14 @@ class TestClimatology:
     ###############################################################################
     # Round-trip tests
 
-    def test_cube_to_cube(self):
+    def test_cube_to_cube(self):  # noqa: D102
         # Save reference cube to file, load cube from same file, test against
         # reference cube.
         iris.save(self.cube_ref, self.path_temp_nc)
         cube = self._load_sanitised_cube(self.path_temp_nc)
         assert cube == self.cube_ref
 
-    def test_file_to_file(self, request):
+    def test_file_to_file(self, request):  # noqa: D102
         # Load cube from reference file, save same cube to file, test against
         # reference CDL.
         cube = iris.load_cube(self.path_ref_nc)
@@ -90,7 +90,7 @@ class TestClimatology:
     # The loading half has no equivalent dedicated location, so is tested
     # here as test_load_from_file.
 
-    def test_load_from_file(self):
+    def test_load_from_file(self):  # noqa: D102
         # Create cube from file, test against reference cube.
         cube = self._load_sanitised_cube(self.path_ref_nc)
         assert cube == self.cube_ref

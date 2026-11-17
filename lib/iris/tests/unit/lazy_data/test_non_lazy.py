@@ -12,18 +12,18 @@ from iris.tests._shared_utils import assert_array_equal
 
 class Test_non_lazy:
     """Test non lazy."""
-    def setup_method(self):
+    def setup_method(self):  # noqa: D102
         self.array = np.arange(8).reshape(2, 4)
         self.lazy_array = as_lazy_data(self.array)
         self.func = non_lazy(lambda array: array.sum(axis=0))
         self.func_result = [4, 6, 8, 10]
 
-    def test_lazy_input(self):
+    def test_lazy_input(self):  # noqa: D102
         result = self.func(self.lazy_array)
         assert not is_lazy_data(result)
         assert_array_equal(result, self.func_result)
 
-    def test_non_lazy_input(self):
+    def test_non_lazy_input(self):  # noqa: D102
         # Check that a non-lazy input doesn't trip up the functionality.
         result = self.func(self.array)
         assert not is_lazy_data(result)

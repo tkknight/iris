@@ -266,22 +266,22 @@ def concatenate(cubes, order=None):
 
 class TestSimple:
     """Test imple."""
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         cubes = iris.cube.CubeList()
         assert concatenate(cubes) == iris.cube.CubeList()
 
-    def test_single(self):
+    def test_single(self):  # noqa: D102
         cubes = [stock.simple_2d()]
         assert concatenate(cubes) == cubes
 
-    def test_multi_equal(self):
+    def test_multi_equal(self):  # noqa: D102
         cubes = [stock.simple_2d()] * 2
         assert concatenate(cubes) == cubes
 
 
 class TestNoConcat:
     """Test oConcat."""
-    def test_one_cube_has_anon_dim(self, request):
+    def test_one_cube_has_anon_dim(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1))
@@ -297,7 +297,7 @@ class TestNoConcat:
         assert result[0].shape == (2, 4)
         assert result[1].shape == (2, 2)
 
-    def test_points_overlap_increasing(self):
+    def test_points_overlap_increasing(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1))
@@ -309,7 +309,7 @@ class TestNoConcat:
             result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_points_overlap_decreasing(self):
+    def test_points_overlap_decreasing(self):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (3, 0, -1), 1))
@@ -321,7 +321,7 @@ class TestNoConcat:
             result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_bounds_overlap_increasing(self):
+    def test_bounds_overlap_increasing(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1))
@@ -335,7 +335,7 @@ class TestNoConcat:
             result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_bounds_overlap_decreasing(self):
+    def test_bounds_overlap_decreasing(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((3, 1, -1), y, 1))
@@ -349,7 +349,7 @@ class TestNoConcat:
             result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_scalar_difference(self):
+    def test_scalar_difference(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1, scalar=10))
@@ -357,14 +357,14 @@ class TestNoConcat:
         result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_uncommon(self):
+    def test_uncommon(self):  # noqa: D102
         cubes = []
         cubes.append(_make_cube((0, 2), (0, 2), 1))
         cubes.append(_make_cube((2, 4), (2, 4), 2))
         result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_order_difference(self):
+    def test_order_difference(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1))
@@ -372,7 +372,7 @@ class TestNoConcat:
         result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_cell_measure_missing(self):
+    def test_cell_measure_missing(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1, cell_measure="x"))
@@ -380,7 +380,7 @@ class TestNoConcat:
         result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_ancil_missing(self):
+    def test_ancil_missing(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1, ancil="x"))
@@ -388,7 +388,7 @@ class TestNoConcat:
         result = concatenate(cubes)
         assert len(result) == 2
 
-    def test_derived_coord_missing(self):
+    def test_derived_coord_missing(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1, derived="x"))
@@ -399,7 +399,7 @@ class TestNoConcat:
 
 class Test2D:
     """Test D."""
-    def test_masked_and_unmasked(self):
+    def test_masked_and_unmasked(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cube = _make_cube((2, 4), y, 2)
@@ -409,7 +409,7 @@ class Test2D:
         result = concatenate(cubes)
         assert len(result) == 1
 
-    def test_unmasked_and_masked(self):
+    def test_unmasked_and_masked(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1))
@@ -419,7 +419,7 @@ class Test2D:
         result = concatenate(cubes)
         assert len(result) == 1
 
-    def test_masked_fill_value(self):
+    def test_masked_fill_value(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cube = _make_cube((0, 2), y, 1)
@@ -433,7 +433,7 @@ class Test2D:
         result = concatenate(cubes)
         assert len(result) == 1
 
-    def test_concat_masked_2x2d(self, request):
+    def test_concat_masked_2x2d(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cube = _make_cube((0, 2), y, 1)
@@ -456,7 +456,7 @@ class Test2D:
         )
         _shared_utils.assert_array_equal(result[0].data.mask, mask)
 
-    def test_concat_masked_2y2d(self, request):
+    def test_concat_masked_2y2d(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cube = _make_cube(x, (0, 2), 1)
@@ -479,7 +479,7 @@ class Test2D:
         )
         _shared_utils.assert_array_equal(result[0].data.mask, mask)
 
-    def test_concat_masked_2y2d_with_concrete_and_lazy(self, request):
+    def test_concat_masked_2y2d_with_concrete_and_lazy(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cube = _make_cube(x, (0, 2), 1)
@@ -503,7 +503,7 @@ class Test2D:
         )
         _shared_utils.assert_array_equal(result[0].data.mask, mask)
 
-    def test_concat_masked_2y2d_with_lazy_and_concrete(self, request):
+    def test_concat_masked_2y2d_with_lazy_and_concrete(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cube = _make_cube(x, (0, 2), 1)
@@ -527,7 +527,7 @@ class Test2D:
         )
         _shared_utils.assert_array_equal(result[0].data.mask, mask)
 
-    def test_concat_2x2d(self, request):
+    def test_concat_2x2d(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 4), y, 1))
@@ -537,7 +537,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2y2d(self, request):
+    def test_concat_2y2d(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1))
@@ -547,7 +547,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (6, 2)
 
-    def test_concat_2x2d_aux_x(self, request):
+    def test_concat_2x2d_aux_x(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 4), y, 1, aux="x"))
@@ -559,7 +559,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2y2d_aux_x(self, request):
+    def test_concat_2y2d_aux_x(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, aux="x"))
@@ -571,7 +571,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (6, 2)
 
-    def test_concat_2x2d_aux_y(self, request):
+    def test_concat_2x2d_aux_y(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 4), y, 1, aux="y"))
@@ -583,7 +583,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2y2d_aux_y(self, request):
+    def test_concat_2y2d_aux_y(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, aux="y"))
@@ -595,7 +595,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (6, 2)
 
-    def test_concat_2x2d_aux_x_y(self, request):
+    def test_concat_2x2d_aux_x_y(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 4), y, 1, aux="x,y"))
@@ -607,7 +607,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2y2d_aux_x_y(self, request):
+    def test_concat_2y2d_aux_x_y(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, aux="x,y"))
@@ -619,7 +619,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (6, 2)
 
-    def test_concat_2x2d_aux_xy(self, request):
+    def test_concat_2x2d_aux_xy(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 4), y, 1, aux="xy"))
@@ -631,7 +631,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2y2d_aux_xy(self, request):
+    def test_concat_2y2d_aux_xy(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, aux="xy"))
@@ -643,7 +643,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (6, 2)
 
-    def test_concat_2x2d_aux_x_xy(self, request):
+    def test_concat_2x2d_aux_x_xy(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 4), y, 1, aux="x,xy"))
@@ -655,7 +655,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2y2d_aux_x_xy(self, request):
+    def test_concat_2y2d_aux_x_xy(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, aux="x,xy"))
@@ -667,7 +667,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (6, 2)
 
-    def test_concat_2x2d_aux_y_xy(self, request):
+    def test_concat_2x2d_aux_y_xy(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 4), y, 1, aux="y,xy"))
@@ -679,7 +679,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2y2d_aux_y_xy(self, request):
+    def test_concat_2y2d_aux_y_xy(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, aux="y,xy"))
@@ -691,7 +691,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (6, 2)
 
-    def test_concat_2x2d_aux_x_y_xy(self, request):
+    def test_concat_2x2d_aux_x_y_xy(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 4), y, 1, aux="x,y,xy"))
@@ -703,7 +703,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2y2d_aux_x_y_xy(self, request):
+    def test_concat_2y2d_aux_x_y_xy(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, aux="x,y,xy"))
@@ -715,7 +715,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (6, 2)
 
-    def test_concat_2x2d_aux_x_bounds(self, request):
+    def test_concat_2x2d_aux_x_bounds(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cube = _make_cube((0, 4), y, 1, aux="x")
@@ -731,7 +731,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 6)
 
-    def test_concat_2x2d_aux_xy_bounds(self, request):
+    def test_concat_2x2d_aux_xy_bounds(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cube = _make_cube((0, 2), y, 1, aux="xy", offset=1)
@@ -787,7 +787,7 @@ class Test2D:
         assert len(result) == 1
         assert result[0].shape == (2, 4)
 
-    def test_concat_2y2d_cell_measure_x_y_xy(self):
+    def test_concat_2y2d_cell_measure_x_y_xy(self):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, cell_measure="x,y,xy"))
@@ -798,7 +798,7 @@ class Test2D:
         assert result[0].shape == (6, 2)
         assert result[0] == com
 
-    def test_concat_2y2d_ancil_x_y_xy(self):
+    def test_concat_2y2d_ancil_x_y_xy(self):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, ancil="x,y,xy"))
@@ -809,7 +809,7 @@ class Test2D:
         assert result[0].shape == (6, 2)
         assert result[0] == com
 
-    def test_concat_2y2d_derived_x_y_xy(self):
+    def test_concat_2y2d_derived_x_y_xy(self):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 4), 1, derived="x,y,xy"))
@@ -820,7 +820,7 @@ class Test2D:
         assert result[0].shape == (6, 2)
         assert result[0] == com
 
-    def test_concat_lazy_aux_coords(self):
+    def test_concat_lazy_aux_coords(self):  # noqa: D102
         cubes = []
         y = (0, 2)
         cube = _make_cube((2, 4), y, 2, aux="xy")
@@ -847,7 +847,7 @@ class Test2D:
 
 class TestMulti2D:
     """Test ulti2D."""
-    def test_concat_4x2d_aux_xy(self, request):
+    def test_concat_4x2d_aux_xy(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1, aux="xy", offset=1))
@@ -862,7 +862,7 @@ class TestMulti2D:
         assert len(result) == 1
         assert result[0].shape == (4, 4)
 
-    def test_concat_4y2d_aux_xy(self, request):
+    def test_concat_4y2d_aux_xy(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 2), 1, aux="xy", offset=1))
@@ -877,7 +877,7 @@ class TestMulti2D:
         assert len(result) == 1
         assert result[0].shape == (4, 4)
 
-    def test_concat_4mix2d_aux_xy(self, request):
+    def test_concat_4mix2d_aux_xy(self, request):  # noqa: D102
         cubes = []
         cubes.append(_make_cube((0, 2), (0, 2), 1, aux="xy", offset=1))
         cubes.append(_make_cube((2, 4), (2, 4), 2, aux="xy", offset=2))
@@ -890,7 +890,7 @@ class TestMulti2D:
         assert len(result) == 1
         assert result[0].shape == (4, 4)
 
-    def test_concat_9x2d_aux_xy(self, request):
+    def test_concat_9x2d_aux_xy(self, request):  # noqa: D102
         cubes = []
         y = (0, 2)
         cubes.append(_make_cube((0, 2), y, 1, aux="xy", offset=1))
@@ -911,7 +911,7 @@ class TestMulti2D:
         assert len(result) == 1
         assert result[0].shape == (6, 6)
 
-    def test_concat_9y2d_aux_xy(self, request):
+    def test_concat_9y2d_aux_xy(self, request):  # noqa: D102
         cubes = []
         x = (0, 2)
         cubes.append(_make_cube(x, (0, 2), 1, aux="xy", offset=1))
@@ -932,7 +932,7 @@ class TestMulti2D:
         assert len(result) == 1
         assert result[0].shape == (6, 6)
 
-    def test_concat_9mix2d_aux_xy(self, request):
+    def test_concat_9mix2d_aux_xy(self, request):  # noqa: D102
         cubes = []
         cubes.append(_make_cube((0, 2), (0, 2), 1, aux="xy", offset=1))
         cubes.append(_make_cube((2, 4), (2, 4), 2, aux="xy", offset=2))
@@ -953,7 +953,7 @@ class TestMulti2D:
 
 class TestMulti2DScalar:
     """Test ulti2DScalar."""
-    def test_concat_scalar_4x2d_aux_xy(self, request):
+    def test_concat_scalar_4x2d_aux_xy(self, request):  # noqa: D102
         cubes = iris.cube.CubeList()
         # Level 1.
         y = (0, 2)
@@ -998,7 +998,7 @@ class TestMulti2DScalar:
         assert len(result) == 1
         assert result[0].shape == (2, 4, 4)
 
-    def test_concat_scalar_4y2d_aux_xy(self, request):
+    def test_concat_scalar_4y2d_aux_xy(self, request):  # noqa: D102
         cubes = iris.cube.CubeList()
         # Level 1.
         x = (0, 2)
@@ -1043,7 +1043,7 @@ class TestMulti2DScalar:
         )
         assert result[0].shape == (2, 4, 4)
 
-    def test_concat_scalar_4mix2d_aux_xy(self, request):
+    def test_concat_scalar_4mix2d_aux_xy(self, request):  # noqa: D102
         cubes = iris.cube.CubeList()
         cubes.append(_make_cube((0, 2), (0, 2), 1, aux="xy", offset=1, scalar=10))
         cubes.append(_make_cube((2, 4), (2, 4), 8, aux="xy", offset=4, scalar=20))
@@ -1169,7 +1169,7 @@ class Test3D:
 
         return cubes
 
-    def test_concat_3d_simple(self, request):
+    def test_concat_3d_simple(self, request):  # noqa: D102
         cubes = self._make_group()
         result = concatenate(cubes)
         _shared_utils.assert_CML(
@@ -1178,7 +1178,7 @@ class Test3D:
         assert len(result) == 1
         assert result[0].shape == (4, 4, 4)
 
-    def test_concat_3d_mega(self):
+    def test_concat_3d_mega(self):  # noqa: D102
         cubes = []
         cubes.extend(self._make_group(xoff=0, doff=0))
         cubes.extend(self._make_group(xoff=1, doff=1))

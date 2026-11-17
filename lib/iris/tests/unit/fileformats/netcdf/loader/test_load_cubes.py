@@ -38,7 +38,7 @@ def cdl_to_nc(cdl):
 
 class Tests:
     """Test ."""
-    def test_ancillary_variables(self):
+    def test_ancillary_variables(self):  # noqa: D102
         # Note: using a CDL string as a test data reference, rather than a
         # binary file.
         ref_cdl = """
@@ -78,7 +78,7 @@ class Tests:
         )
         assert avs[0] == expected
 
-    def test_status_flags(self):
+    def test_status_flags(self):  # noqa: D102
         # Note: using a CDL string as a test data reference, rather than a binary file.
         ref_cdl = """
             netcdf cm_attr {
@@ -120,7 +120,7 @@ class Tests:
         )
         assert avs[0] == expected
 
-    def test_cell_measures(self):
+    def test_cell_measures(self):  # noqa: D102
         # Note: using a CDL string as a test data reference, rather than a binary file.
         ref_cdl = """
             netcdf cm_attr {
@@ -165,7 +165,7 @@ class Tests:
         )
         assert cms[0] == expected
 
-    def test_default_units(self):
+    def test_default_units(self):  # noqa: D102
         # Note: using a CDL string as a test data reference, rather than a binary file.
         ref_cdl = """
             netcdf cm_attr {
@@ -207,7 +207,7 @@ class Tests:
 class TestsMesh:
     """Test Mesh."""
     @classmethod
-    def setup_class(cls):
+    def setup_class(cls):  # noqa: D102
         cls.ref_cdl = """
             netcdf mesh_test {
                 dimensions:
@@ -263,11 +263,11 @@ class TestsMesh:
         #  full-scale pytest conversion.
         self.monkeypatch = pytest.MonkeyPatch()
 
-    def test_standard_dims(self):
+    def test_standard_dims(self):  # noqa: D102
         for cube in self.mesh_cubes:
             assert cube.coords("levels") is not None
 
-    def test_mesh_coord(self):
+    def test_mesh_coord(self):  # noqa: D102
         cube = [cube for cube in self.mesh_cubes if cube.var_name == "face_data"][0]
         face_x = cube.coord("longitude")
         face_y = cube.coord("latitude")
@@ -283,11 +283,11 @@ class TestsMesh:
         _shared_utils.assert_array_equal(np.ma.array([[0.0, 2.0, 1.0]]), face_x.bounds)
         _shared_utils.assert_array_equal(np.ma.array([[0.0, 0.0, 1.0]]), face_y.bounds)
 
-    def test_shared_mesh(self):
+    def test_shared_mesh(self):  # noqa: D102
         cube_meshes = [cube.coord("latitude").mesh for cube in self.mesh_cubes]
         assert cube_meshes[0] == cube_meshes[1]
 
-    def test_missing_mesh(self, caplog):
+    def test_missing_mesh(self, caplog):  # noqa: D102
         ref_cdl = self.ref_cdl.replace(
             'face_data:mesh = "mesh"', 'face_data:mesh = "mesh2"'
         )
@@ -302,7 +302,7 @@ class TestsMesh:
         ):
             _ = list(load_cubes(nc_path))
 
-    def test_mesh_coord_not_built(self):
+    def test_mesh_coord_not_built(self):  # noqa: D102
         def mock_build_mesh_coords(mesh, cf_var):
             raise RuntimeError("Mesh coords not built")
 
@@ -316,7 +316,7 @@ class TestsMesh:
         load_problem = LOAD_PROBLEMS.problems[-1]
         assert "Mesh coords not built" in "".join(load_problem.stack_trace.format())
 
-    def test_mesh_coord_not_added(self):
+    def test_mesh_coord_not_added(self):  # noqa: D102
         def mock_add_aux_coord(self, coord, data_dims=None):
             raise RuntimeError("Mesh coord not added")
 
@@ -327,7 +327,7 @@ class TestsMesh:
         load_problem = LOAD_PROBLEMS.problems[-1]
         assert "Mesh coord not added" in "".join(load_problem.stack_trace.format())
 
-    def test_mesh_coord_capture_destination(self):
+    def test_mesh_coord_capture_destination(self):  # noqa: D102
         def mock_build_mesh_coords(mesh, cf_var):
             raise RuntimeError("Mesh coords not built")
 

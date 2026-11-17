@@ -363,7 +363,7 @@ class TestAggregateBy:
             dtype=np.float64,
         )
 
-    def test_single(self):
+    def test_single(self):  # noqa: D102
         # mean group-by with single coordinate name.
         aggregateby_cube = self.cube_single.aggregated_by("height", iris.analysis.MEAN)
         _shared_utils.assert_CML(
@@ -404,7 +404,7 @@ class TestAggregateBy:
             aggregateby_cube.data, self.single_rms_expected
         )
 
-    def test_str_aggregation_single_weights_none(self):
+    def test_str_aggregation_single_weights_none(self):  # noqa: D102
         # mean group-by with single coordinate name.
         aggregateby_cube = self.cube_single.aggregated_by(
             "height", iris.analysis.MEAN, weights=None
@@ -416,7 +416,7 @@ class TestAggregateBy:
             aggregateby_cube.data, self.single_expected
         )
 
-    def test_coord_aggregation_single_weights_none(self):
+    def test_coord_aggregation_single_weights_none(self):  # noqa: D102
         # mean group-by with single coordinate.
         aggregateby_cube = self.cube_single.aggregated_by(
             self.coord_z_single, iris.analysis.MEAN, weights=None
@@ -428,7 +428,7 @@ class TestAggregateBy:
             aggregateby_cube.data, self.single_expected
         )
 
-    def test_weighted_single(self):
+    def test_weighted_single(self):  # noqa: D102
         # weighted mean group-by with single coordinate name.
         aggregateby_cube = self.cube_single.aggregated_by(
             "height",
@@ -458,7 +458,7 @@ class TestAggregateBy:
             self.weighted_single_expected,
         )
 
-    def test_single_shared(self):
+    def test_single_shared(self):  # noqa: D102
         z2_points = np.arange(36, dtype=np.int32)
         coord_z2 = iris.coords.AuxCoord(z2_points, long_name="wibble", units="1")
         self.cube_single.add_aux_coord(coord_z2, 0)
@@ -485,7 +485,7 @@ class TestAggregateBy:
             aggregateby_cube.data, self.single_expected
         )
 
-    def test_weighted_single_shared(self):
+    def test_weighted_single_shared(self):  # noqa: D102
         z2_points = np.arange(36, dtype=np.int32)
         coord_z2 = iris.coords.AuxCoord(z2_points, long_name="wibble", units="1")
         self.cube_single.add_aux_coord(coord_z2, 0)
@@ -517,7 +517,7 @@ class TestAggregateBy:
             aggregateby_cube.data, self.weighted_single_expected
         )
 
-    def test_single_shared_circular(self):
+    def test_single_shared_circular(self):  # noqa: D102
         points = np.arange(36) * 10.0
         circ_coord = iris.coords.DimCoord(
             points, long_name="circ_height", units="degrees", circular=True
@@ -544,7 +544,7 @@ class TestAggregateBy:
             aggregateby_cube.data, self.single_expected
         )
 
-    def test_weighted_single_shared_circular(self):
+    def test_weighted_single_shared_circular(self):  # noqa: D102
         points = np.arange(36) * 10.0
         circ_coord = iris.coords.DimCoord(
             points, long_name="circ_height", units="degrees", circular=True
@@ -588,7 +588,7 @@ class TestAggregateBy:
             self.weighted_single_expected,
         )
 
-    def test_multi(self):
+    def test_multi(self):  # noqa: D102
         # group-by with multiple coordinate names.
         aggregateby_cube = self.cube_multi.aggregated_by(
             ["height", "level"], iris.analysis.MEAN
@@ -625,7 +625,7 @@ class TestAggregateBy:
             aggregateby_cube.data, self.multi_expected
         )
 
-    def test_weighted_multi(self):
+    def test_weighted_multi(self):  # noqa: D102
         # weighted group-by with multiple coordinate names.
         aggregateby_cube = self.cube_multi.aggregated_by(
             ["height", "level"],
@@ -678,7 +678,7 @@ class TestAggregateBy:
             self.weighted_multi_expected,
         )
 
-    def test_multi_shared(self):
+    def test_multi_shared(self):  # noqa: D102
         z3_points = np.arange(20, dtype=np.int32)
         coord_z3 = iris.coords.AuxCoord(z3_points, long_name="sigma", units="1")
         z4_points = np.arange(19, -1, -1, dtype=np.int32)
@@ -732,7 +732,7 @@ class TestAggregateBy:
             aggregateby_cube.data, self.multi_expected
         )
 
-    def test_weighted_multi_shared(self):
+    def test_weighted_multi_shared(self):  # noqa: D102
         z3_points = np.arange(20, dtype=np.int32)
         coord_z3 = iris.coords.AuxCoord(z3_points, long_name="sigma", units="1")
         z4_points = np.arange(19, -1, -1, dtype=np.int32)
@@ -795,7 +795,7 @@ class TestAggregateBy:
             self.weighted_multi_expected,
         )
 
-    def test_easy(self):
+    def test_easy(self):  # noqa: D102
         #
         # Easy mean aggregate test by each coordinate.
         #
@@ -900,7 +900,7 @@ class TestAggregateBy:
             aggregateby_cube.data, np.array(row, dtype=np.float32)
         )
 
-    def test_weighted_easy(self):
+    def test_weighted_easy(self):  # noqa: D102
         # Use different weights for lat and lon to avoid division by zero.
         lon_weights = np.array(
             [[1, 0, 1, 1], [9, 1, 2, 0]],
@@ -1000,7 +1000,7 @@ class TestAggregateBy:
             ),
         )
 
-    def test_single_missing(self):
+    def test_single_missing(self):  # noqa: D102
         # aggregation correctly handles masked data
         single_expected = ma.masked_invalid(
             [
@@ -1059,7 +1059,7 @@ class TestAggregateBy:
             aggregateby_cube.data, single_expected
         )
 
-    def test_weighted_single_missing(self):
+    def test_weighted_single_missing(self):  # noqa: D102
         # weighted aggregation correctly handles masked data
         weighted_single_expected = ma.masked_invalid(
             [
@@ -1121,7 +1121,7 @@ class TestAggregateBy:
             weighted_single_expected,
         )
 
-    def test_multi_missing(self):
+    def test_multi_missing(self):  # noqa: D102
         # aggregation correctly handles masked data
         multi_expected = ma.masked_invalid(
             [
@@ -1185,7 +1185,7 @@ class TestAggregateBy:
             aggregateby_cube.data, multi_expected
         )
 
-    def test_weighted_multi_missing(self):
+    def test_weighted_multi_missing(self):  # noqa: D102
         # weighted aggregation correctly handles masked data
         weighted_multi_expected = ma.masked_invalid(
             [
@@ -1251,7 +1251,7 @@ class TestAggregateBy:
             weighted_multi_expected,
         )
 
-    def test_returned_true_single(self):
+    def test_returned_true_single(self):  # noqa: D102
         aggregateby_output = self.cube_single.aggregated_by(
             "height",
             iris.analysis.MEAN,
@@ -1282,7 +1282,7 @@ class TestAggregateBy:
         )
         _shared_utils.assert_array_almost_equal(aggregateby_weights, expected_weights)
 
-    def test_returned_true_multi(self):
+    def test_returned_true_multi(self):  # noqa: D102
         aggregateby_output = self.cube_multi.aggregated_by(
             ["height", "level"],
             iris.analysis.MEAN,
@@ -1314,7 +1314,7 @@ class TestAggregateBy:
         )
         _shared_utils.assert_array_almost_equal(aggregateby_weights, expected_weights)
 
-    def test_returned_fails_with_non_weighted_aggregator(self):
+    def test_returned_fails_with_non_weighted_aggregator(self):  # noqa: D102
         pytest.raises(
             TypeError,
             self.cube_single.aggregated_by,
@@ -1323,7 +1323,7 @@ class TestAggregateBy:
             returned=True,
         )
 
-    def test_weights_fail_with_non_weighted_aggregator(self):
+    def test_weights_fail_with_non_weighted_aggregator(self):  # noqa: D102
         pytest.raises(
             TypeError,
             self.cube_single.aggregated_by,
@@ -1350,7 +1350,7 @@ class TestAggregateByWeightedByCube(TestAggregateBy):
         self.weights_multi = self.cube_multi[:, 0, 0].copy(self.weights_multi)
         self.weights_multi.units = "m2"
 
-    def test_str_aggregation_weighted_sum_single(self):
+    def test_str_aggregation_weighted_sum_single(self):  # noqa: D102
         aggregateby_cube = self.cube_single.aggregated_by(
             "height",
             iris.analysis.SUM,
@@ -1358,7 +1358,7 @@ class TestAggregateByWeightedByCube(TestAggregateBy):
         )
         assert aggregateby_cube.units == "kelvin m2"
 
-    def test_coord_aggregation_weighted_sum_single(self):
+    def test_coord_aggregation_weighted_sum_single(self):  # noqa: D102
         aggregateby_cube = self.cube_single.aggregated_by(
             self.coord_z_single,
             iris.analysis.SUM,
@@ -1366,7 +1366,7 @@ class TestAggregateByWeightedByCube(TestAggregateBy):
         )
         assert aggregateby_cube.units == "kelvin m2"
 
-    def test_str_aggregation_weighted_sum_multi(self):
+    def test_str_aggregation_weighted_sum_multi(self):  # noqa: D102
         aggregateby_cube = self.cube_multi.aggregated_by(
             ["height", "level"],
             iris.analysis.SUM,
@@ -1374,7 +1374,7 @@ class TestAggregateByWeightedByCube(TestAggregateBy):
         )
         assert aggregateby_cube.units == "kelvin m2"
 
-    def test_str_aggregation_rev_order_weighted_sum_multi(self):
+    def test_str_aggregation_rev_order_weighted_sum_multi(self):  # noqa: D102
         aggregateby_cube = self.cube_multi.aggregated_by(
             ["level", "height"],
             iris.analysis.SUM,
@@ -1382,7 +1382,7 @@ class TestAggregateByWeightedByCube(TestAggregateBy):
         )
         assert aggregateby_cube.units == "kelvin m2"
 
-    def test_coord_aggregation_weighted_sum_multi(self):
+    def test_coord_aggregation_weighted_sum_multi(self):  # noqa: D102
         aggregateby_cube = self.cube_multi.aggregated_by(
             [self.coord_z1_multi, self.coord_z2_multi],
             iris.analysis.SUM,
@@ -1390,7 +1390,7 @@ class TestAggregateByWeightedByCube(TestAggregateBy):
         )
         assert aggregateby_cube.units == "kelvin m2"
 
-    def test_coord_aggregation_rev_order_weighted_sum_multi(self):
+    def test_coord_aggregation_rev_order_weighted_sum_multi(self):  # noqa: D102
         aggregateby_cube = self.cube_multi.aggregated_by(
             [self.coord_z2_multi, self.coord_z1_multi],
             iris.analysis.SUM,
@@ -1425,56 +1425,56 @@ class TestAggregateByWeightedByObj:
             ancillary_variables_and_dims=[(self.ancillary_variable, 0)],
         )
 
-    def test_weighting_with_str_dim_coord(self):
+    def test_weighting_with_str_dim_coord(self):  # noqa: D102
         res_cube = self.cube.aggregated_by(
             "auxcoord", iris.analysis.SUM, weights="latitude"
         )
         _shared_utils.assert_array_equal(res_cube.data, [0, 8])
         assert res_cube.units == "K degrees"
 
-    def test_weighting_with_str_aux_coord(self):
+    def test_weighting_with_str_aux_coord(self):  # noqa: D102
         res_cube = self.cube.aggregated_by(
             "auxcoord", iris.analysis.SUM, weights="auxcoord"
         )
         _shared_utils.assert_array_equal(res_cube.data, [0, 5])
         assert res_cube.units == "K kg"
 
-    def test_weighting_with_str_cell_measure(self):
+    def test_weighting_with_str_cell_measure(self):  # noqa: D102
         res_cube = self.cube.aggregated_by(
             "auxcoord", iris.analysis.SUM, weights="cell_area"
         )
         _shared_utils.assert_array_equal(res_cube.data, [0, 0])
         assert res_cube.units == "K m2"
 
-    def test_weighting_with_str_ancillary_variable(self):
+    def test_weighting_with_str_ancillary_variable(self):  # noqa: D102
         res_cube = self.cube.aggregated_by(
             "auxcoord", iris.analysis.SUM, weights="ancvar"
         )
         _shared_utils.assert_array_equal(res_cube.data, [1, 5])
         assert res_cube.units == "K kg"
 
-    def test_weighting_with_dim_coord(self):
+    def test_weighting_with_dim_coord(self):  # noqa: D102
         res_cube = self.cube.aggregated_by(
             "auxcoord", iris.analysis.SUM, weights=self.dim_coord
         )
         _shared_utils.assert_array_equal(res_cube.data, [0, 8])
         assert res_cube.units == "K degrees"
 
-    def test_weighting_with_aux_coord(self):
+    def test_weighting_with_aux_coord(self):  # noqa: D102
         res_cube = self.cube.aggregated_by(
             "auxcoord", iris.analysis.SUM, weights=self.aux_coord
         )
         _shared_utils.assert_array_equal(res_cube.data, [0, 5])
         assert res_cube.units == "K kg"
 
-    def test_weighting_with_cell_measure(self):
+    def test_weighting_with_cell_measure(self):  # noqa: D102
         res_cube = self.cube.aggregated_by(
             "auxcoord", iris.analysis.SUM, weights=self.cell_measure
         )
         _shared_utils.assert_array_equal(res_cube.data, [0, 0])
         assert res_cube.units == "K m2"
 
-    def test_weighting_with_ancillary_variable(self):
+    def test_weighting_with_ancillary_variable(self):  # noqa: D102
         res_cube = self.cube.aggregated_by(
             "auxcoord", iris.analysis.SUM, weights=self.ancillary_variable
         )

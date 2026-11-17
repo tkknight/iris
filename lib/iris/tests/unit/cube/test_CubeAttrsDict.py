@@ -54,25 +54,25 @@ def check_content(attrs, locals=None, globals=None, matches=None):
 
 class Test___init__:
     """Test   init  ."""
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         attrs = CubeAttrsDict()
         check_content(attrs, None, None)
 
-    def test_from_combined_dict(self):
+    def test_from_combined_dict(self):  # noqa: D102
         attrs = CubeAttrsDict({"q": 3, "history": "something"})
         check_content(attrs, locals={"q": 3}, globals={"history": "something"})
 
-    def test_from_separate_dicts(self):
+    def test_from_separate_dicts(self):  # noqa: D102
         locals = {"q": 3}
         globals = {"history": "something"}
         attrs = CubeAttrsDict(locals=locals, globals=globals)
         check_content(attrs, locals=locals, globals=globals)
 
-    def test_from_cubeattrsdict(self, sample_attrs):
+    def test_from_cubeattrsdict(self, sample_attrs):  # noqa: D102
         result = CubeAttrsDict(sample_attrs)
         check_content(result, matches=sample_attrs)
 
-    def test_from_cubeattrsdict_like(self):
+    def test_from_cubeattrsdict_like(self):  # noqa: D102
         class MyDict:
             pass
 
@@ -86,28 +86,28 @@ class Test___init__:
 
 class Test_OddMethods:
     """Test OddMethods."""
-    def test_pickle(self, sample_attrs):
+    def test_pickle(self, sample_attrs):  # noqa: D102
         bytes = pickle.dumps(sample_attrs)
         result = pickle.loads(bytes)
         check_content(result, matches=sample_attrs)
 
-    def test_clear(self, sample_attrs):
+    def test_clear(self, sample_attrs):  # noqa: D102
         sample_attrs.clear()
         check_content(sample_attrs, {}, {})
 
-    def test_del(self, sample_attrs):
+    def test_del(self, sample_attrs):  # noqa: D102
         # 'z' is in both locals+globals.  Delete removes both.
         assert "z" in sample_attrs.keys()
         del sample_attrs["z"]
         assert "z" not in sample_attrs.keys()
 
-    def test_copy(self, sample_attrs):
+    def test_copy(self, sample_attrs):  # noqa: D102
         copy = sample_attrs.copy()
         assert copy is not sample_attrs
         check_content(copy, matches=sample_attrs)
 
     @pytest.fixture(params=["regular_arg", "split_arg"])
-    def update_testcase(self, request):
+    def update_testcase(self, request):  # noqa: D102
         lhs = CubeAttrsDict(globals={"a": 1, "b": 2}, locals={"b": 3, "c": 4})
         if request.param == "split_arg":
             # A set of "update settings", with global/local-specific keys.
@@ -130,12 +130,12 @@ class Test_OddMethods:
             )
         return lhs, rhs, expected_result
 
-    def test_update(self, update_testcase):
+    def test_update(self, update_testcase):  # noqa: D102
         testval, updater, expected = update_testcase
         testval.update(updater)
         check_content(testval, matches=expected)
 
-    def test___or__(self, update_testcase):
+    def test___or__(self, update_testcase):  # noqa: D102
         testval, updater, expected = update_testcase
         original = testval.copy()
         result = testval | updater
@@ -143,12 +143,12 @@ class Test_OddMethods:
         assert testval == original
         check_content(result, matches=expected)
 
-    def test___ior__(self, update_testcase):
+    def test___ior__(self, update_testcase):  # noqa: D102
         testval, updater, expected = update_testcase
         testval |= updater
         check_content(testval, matches=expected)
 
-    def test___ror__(self):
+    def test___ror__(self):  # noqa: D102
         # Check the "or" operation, when lhs is a regular dictionary
         lhs = {"a": 1, "b": 2, "history": 3}
         rhs = CubeAttrsDict(
@@ -166,7 +166,7 @@ class Test_OddMethods:
 
     @pytest.mark.parametrize("value", [1, None])
     @pytest.mark.parametrize("inputtype", ["regular_arg", "split_arg"])
-    def test__fromkeys(self, value, inputtype):
+    def test__fromkeys(self, value, inputtype):  # noqa: D102
         if inputtype == "regular_arg":
             # Check when input is a plain iterable of key-names
             keys = ["a", "b", "history"]
@@ -188,13 +188,13 @@ class Test_OddMethods:
         result = CubeAttrsDict.fromkeys(keys, value)
         check_content(result, matches=expected)
 
-    def test_to_dict(self, sample_attrs):
+    def test_to_dict(self, sample_attrs):  # noqa: D102
         result = dict(sample_attrs)
         expected = sample_attrs.globals.copy()
         expected.update(sample_attrs.locals)
         assert result == expected
 
-    def test_array_copies(self):
+    def test_array_copies(self):  # noqa: D102
         array = np.array([3, 2, 1, 4])
         map = {"array": array}
         attrs = CubeAttrsDict(map)
@@ -203,11 +203,11 @@ class Test_OddMethods:
         assert np.all(attrs_array == array)
         assert attrs_array is not array
 
-    def test__str__(self, sample_attrs):
+    def test__str__(self, sample_attrs):  # noqa: D102
         result = str(sample_attrs)
         assert result == "{'b': 2, 'z': 'this', 'a': 1}"
 
-    def test__repr__(self, sample_attrs):
+    def test__repr__(self, sample_attrs):  # noqa: D102
         result = repr(sample_attrs)
         expected = (
             "CubeAttrsDict(globals={'b': 2, 'z': 'that'}, locals={'a': 1, 'z': 'this'})"
@@ -217,18 +217,18 @@ class Test_OddMethods:
 
 class TestEq:
     """Test q."""
-    def test_eq_empty(self):
+    def test_eq_empty(self):  # noqa: D102
         attrs_1 = CubeAttrsDict()
         attrs_2 = CubeAttrsDict()
         assert attrs_1 == attrs_2
 
-    def test_eq_nonempty(self, sample_attrs):
+    def test_eq_nonempty(self, sample_attrs):  # noqa: D102
         attrs_1 = sample_attrs
         attrs_2 = sample_attrs.copy()
         assert attrs_1 == attrs_2
 
     @pytest.mark.parametrize("aspect", ["locals", "globals"])
-    def test_ne_missing(self, sample_attrs, aspect):
+    def test_ne_missing(self, sample_attrs, aspect):  # noqa: D102
         attrs_1 = sample_attrs
         attrs_2 = sample_attrs.copy()
         del getattr(attrs_2, aspect)["z"]
@@ -236,27 +236,27 @@ class TestEq:
         assert attrs_2 != attrs_1
 
     @pytest.mark.parametrize("aspect", ["locals", "globals"])
-    def test_ne_different(self, sample_attrs, aspect):
+    def test_ne_different(self, sample_attrs, aspect):  # noqa: D102
         attrs_1 = sample_attrs
         attrs_2 = sample_attrs.copy()
         getattr(attrs_2, aspect)["z"] = 99
         assert attrs_1 != attrs_2
         assert attrs_2 != attrs_1
 
-    def test_ne_locals_vs_globals(self):
+    def test_ne_locals_vs_globals(self):  # noqa: D102
         attrs_1 = CubeAttrsDict(locals={"a": 1})
         attrs_2 = CubeAttrsDict(globals={"a": 1})
         assert attrs_1 != attrs_2
         assert attrs_2 != attrs_1
 
-    def test_eq_dict(self):
+    def test_eq_dict(self):  # noqa: D102
         # A CubeAttrsDict can be equal to a plain dictionary (which would create it)
         vals_dict = {"a": 1, "b": 2, "history": "this"}
         attrs = CubeAttrsDict(vals_dict)
         assert attrs == vals_dict
         assert vals_dict == attrs
 
-    def test_ne_dict_local_global(self):
+    def test_ne_dict_local_global(self):  # noqa: D102
         # Dictionary equivalence fails if the local/global assignments are wrong.
         # sample dictionary
         vals_dict = {"title": "b"}
@@ -265,7 +265,7 @@ class TestEq:
         assert attrs != vals_dict
         assert vals_dict != attrs
 
-    def test_empty_not_none(self):
+    def test_empty_not_none(self):  # noqa: D102
         # An empty CubeAttrsDict is not None, and does not compare to 'None'
         # N.B. this for compatibility with the LimitedAttributeDict
         attrs = CubeAttrsDict()
@@ -275,7 +275,7 @@ class TestEq:
             # N.B. not actually testing against None, as it upsets black (!)
             attrs == 0
 
-    def test_empty_eq_iterables(self):
+    def test_empty_eq_iterables(self):  # noqa: D102
         # An empty CubeAttrsDict is "equal" to various empty containers
         attrs = CubeAttrsDict()
         assert attrs == {}
@@ -285,7 +285,7 @@ class TestEq:
 
 class TestDictOrderBehaviour:
     """Test ictOrderBehaviour."""
-    def test_ordering(self):
+    def test_ordering(self):  # noqa: D102
         attrs = CubeAttrsDict({"a": 1, "b": 2})
         assert list(attrs.keys()) == ["a", "b"]
         # Remove, then reinstate 'a' : it will go to the back
@@ -293,7 +293,7 @@ class TestDictOrderBehaviour:
         attrs["a"] = 1
         assert list(attrs.keys()) == ["b", "a"]
 
-    def test_globals_locals_ordering(self):
+    def test_globals_locals_ordering(self):  # noqa: D102
         # create attrs with a global attribute set *before* a local one ..
         attrs = CubeAttrsDict()
         attrs.globals.update(dict(a=1, m=3))
@@ -301,7 +301,7 @@ class TestDictOrderBehaviour:
         # .. and check key order of combined attrs
         assert list(attrs.keys()) == ["a", "m", "f", "z"]
 
-    def test_locals_globals_nonalphabetic_order(self):
+    def test_locals_globals_nonalphabetic_order(self):  # noqa: D102
         # create the "same" thing with locals before globals, *and* different key order
         attrs = CubeAttrsDict()
         attrs.locals.update(dict(z=4, f=7))
@@ -314,50 +314,50 @@ class TestDictOrderBehaviour:
 
 class TestSettingBehaviours:
     """Test ettingBehaviours."""
-    def test_add_localtype(self):
+    def test_add_localtype(self):  # noqa: D102
         attrs = CubeAttrsDict()
         # Any attribute not recognised as global should go into 'locals'
         attrs["z"] = 3
         check_content(attrs, locals={"z": 3})
 
     @pytest.mark.parametrize("attrname", _CF_GLOBAL_ATTRS)
-    def test_add_globaltype(self, attrname):
+    def test_add_globaltype(self, attrname):  # noqa: D102
         # These specific attributes are recognised as belonging in 'globals'
         attrs = CubeAttrsDict()
         attrs[attrname] = "this"
         check_content(attrs, globals={attrname: "this"})
 
-    def test_overwrite_local(self):
+    def test_overwrite_local(self):  # noqa: D102
         attrs = CubeAttrsDict({"a": 1})
         attrs["a"] = 2
         check_content(attrs, locals={"a": 2})
 
     @pytest.mark.parametrize("attrname", _CF_GLOBAL_ATTRS)
-    def test_overwrite_global(self, attrname):
+    def test_overwrite_global(self, attrname):  # noqa: D102
         attrs = CubeAttrsDict({attrname: 1})
         attrs[attrname] = 2
         check_content(attrs, globals={attrname: 2})
 
     @pytest.mark.parametrize("global_attrname", _CF_GLOBAL_ATTRS)
-    def test_overwrite_forced_local(self, global_attrname):
+    def test_overwrite_forced_local(self, global_attrname):  # noqa: D102
         attrs = CubeAttrsDict(locals={global_attrname: 1})
         # The attr *remains* local, even though it would be created global by default
         attrs[global_attrname] = 2
         check_content(attrs, locals={global_attrname: 2})
 
-    def test_overwrite_forced_global(self):
+    def test_overwrite_forced_global(self):  # noqa: D102
         attrs = CubeAttrsDict(globals={"data": 1})
         # The attr remains global, even though it would be created local by default
         attrs["data"] = 2
         check_content(attrs, globals={"data": 2})
 
-    def test_overwrite_both(self):
+    def test_overwrite_both(self):  # noqa: D102
         attrs = CubeAttrsDict(locals={"z": 1}, globals={"z": 1})
         # Where both exist, it will always update the local one
         attrs["z"] = 2
         check_content(attrs, locals={"z": 2}, globals={"z": 1})
 
-    def test_local_global_masking(self, sample_attrs):
+    def test_local_global_masking(self, sample_attrs):  # noqa: D102
         # initially, local 'z' masks the global one
         assert sample_attrs["z"] == sample_attrs.locals["z"]
         # remove local, global will show
@@ -375,7 +375,7 @@ class TestSettingBehaviours:
         "value_type",
         ["replace", "emptylist", "emptytuple", "none", "zero", "false"],
     )
-    def test_replace_subdict(self, globals_or_locals, value_type):
+    def test_replace_subdict(self, globals_or_locals, value_type):  # noqa: D102
         # Writing to attrs.xx always replaces content with a *new* LimitedAttributeDict
         locals, globals = {"a": 1}, {"b": 2}
         attrs = CubeAttrsDict(locals=locals, globals=globals)

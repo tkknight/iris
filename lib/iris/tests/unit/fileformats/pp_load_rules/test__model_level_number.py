@@ -9,12 +9,12 @@ from iris.fileformats.pp_load_rules import _model_level_number
 
 class Test_9999:
     """Test 9999."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert _model_level_number(9999) == 0
 
 
 class Test_lblev:
     """Test lblev."""
-    def test(self):
+    def test(self):  # noqa: D102
         for val in range(9999):
             assert _model_level_number(val) == val

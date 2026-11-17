@@ -15,48 +15,48 @@ from iris.tests._shared_utils import assert_array_equal
 
 class Test:
     """Test ."""
-    def test_scalar(self):
+    def test_scalar(self):  # noqa: D102
         array = np.array(1)
         points, bounds = _collapse_degenerate_points_and_bounds(array)
         assert_array_equal(points, array)
         assert bounds is None
 
-    def test_1d_nochange(self):
+    def test_1d_nochange(self):  # noqa: D102
         array = np.array([1, 1, 3])
         result, _ = _collapse_degenerate_points_and_bounds(array)
         assert_array_equal(result, array)
 
-    def test_1d_collapse(self):
+    def test_1d_collapse(self):  # noqa: D102
         array = np.array([1, 1, 1])
         result, _ = _collapse_degenerate_points_and_bounds(array)
         assert_array_equal(result, np.array([1]))
 
-    def test_2d_nochange(self):
+    def test_2d_nochange(self):  # noqa: D102
         array = np.array([[1, 2, 3], [4, 5, 6]])
         result, _ = _collapse_degenerate_points_and_bounds(array)
         assert_array_equal(result, array)
 
-    def test_2d_collapse_dim0(self):
+    def test_2d_collapse_dim0(self):  # noqa: D102
         array = np.array([[1, 2, 3], [1, 2, 3]])
         result, _ = _collapse_degenerate_points_and_bounds(array)
         assert_array_equal(result, np.array([[1, 2, 3]]))
 
-    def test_2d_collapse_dim1(self):
+    def test_2d_collapse_dim1(self):  # noqa: D102
         array = np.array([[1, 1, 1], [2, 2, 2]])
         result, _ = _collapse_degenerate_points_and_bounds(array)
         assert_array_equal(result, np.array([[1], [2]]))
 
-    def test_2d_collapse_both(self):
+    def test_2d_collapse_both(self):  # noqa: D102
         array = np.array([[3, 3, 3], [3, 3, 3]])
         result, _ = _collapse_degenerate_points_and_bounds(array)
         assert_array_equal(result, np.array([[3]]))
 
-    def test_3d(self):
+    def test_3d(self):  # noqa: D102
         array = np.array([[[3, 3, 3], [4, 4, 4]], [[3, 3, 3], [4, 4, 4]]])
         result, _ = _collapse_degenerate_points_and_bounds(array)
         assert_array_equal(result, np.array([[[3], [4]]]))
 
-    def test_multiple_odd_dims(self):
+    def test_multiple_odd_dims(self):  # noqa: D102
         # Test to ensure multiple collapsed dimensions don't interfere.
         # make a 5-D array where dimensions 0, 2 and 3 are degenerate.
         array = np.arange(3**5).reshape([3] * 5)
@@ -68,14 +68,14 @@ class Test:
         assert result.shape == (1, 3, 1, 1, 3)
         assert np.all(result == array[0:1, :, 0:1, 0:1, :])
 
-    def test_bounds_collapse(self):
+    def test_bounds_collapse(self):  # noqa: D102
         points = np.array([1, 1, 1])
         bounds = np.array([[0, 1], [0, 1], [0, 1]])
         result_pts, result_bds = _collapse_degenerate_points_and_bounds(points, bounds)
         assert_array_equal(result_pts, np.array([1]))
         assert_array_equal(result_bds, np.array([[0, 1]]))
 
-    def test_bounds_no_collapse(self):
+    def test_bounds_no_collapse(self):  # noqa: D102
         points = np.array([1, 1, 1])
         bounds = np.array([[0, 1], [0, 1], [0, 2]])
         result_pts, result_bds = _collapse_degenerate_points_and_bounds(points, bounds)

@@ -25,78 +25,78 @@ def tracked(source):
 
 class TestWhatRecordsARead:
     """Test hatRecordsARead."""
-    def test_starts_with_only_the_present_ignored_names(self, tracked):
+    def test_starts_with_only_the_present_ignored_names(self, tracked):  # noqa: D102
         # "scale_factor" is ignored but absent, so it is not seeded.
         assert tracked.read == frozenset(["_FillValue"])
         assert tracked.unread == frozenset(["units", "standard_name"])
 
-    def test_getitem_records(self, tracked):
+    def test_getitem_records(self, tracked):  # noqa: D102
         assert tracked["units"] == "K"
         assert tracked.read == frozenset(["_FillValue", "units"])
         assert tracked.unread == frozenset(["standard_name"])
 
-    def test_get_records(self, tracked):
+    def test_get_records(self, tracked):  # noqa: D102
         assert tracked.get("units") == "K"
         assert "units" in tracked.read
 
-    def test_contains_records_a_hit(self, tracked):
+    def test_contains_records_a_hit(self, tracked):  # noqa: D102
         # hasattr(cf_var, name) goes through __getattr__ and marks the
         # attribute used; the mapping form has to do the same.
         assert "units" in tracked
         assert "units" in tracked.read
 
-    def test_contains_does_not_record_a_miss(self, tracked):
+    def test_contains_does_not_record_a_miss(self, tracked):  # noqa: D102
         assert "nonesuch" not in tracked
         assert tracked.read == frozenset(["_FillValue"])
 
-    def test_getitem_of_a_missing_key_raises_before_recording(self, tracked):
+    def test_getitem_of_a_missing_key_raises_before_recording(self, tracked):  # noqa: D102
         with pytest.raises(KeyError, match="nonesuch"):
             tracked["nonesuch"]
         assert tracked.read == frozenset(["_FillValue"])
 
-    def test_get_of_a_missing_key_records_nothing(self, tracked):
+    def test_get_of_a_missing_key_records_nothing(self, tracked):  # noqa: D102
         assert tracked.get("nonesuch") is None
         assert tracked.read == frozenset(["_FillValue"])
 
 
 class TestWhatDoesNotRecordARead:
     """Test hatDoesNotRecordARead."""
-    def test_untracked_getitem(self, tracked):
+    def test_untracked_getitem(self, tracked):  # noqa: D102
         assert tracked.untracked["units"] == "K"
         assert tracked.read == frozenset(["_FillValue"])
 
-    def test_untracked_contains(self, tracked):
+    def test_untracked_contains(self, tracked):  # noqa: D102
         # The form helpers.py needs for its deliberately-unmarked flag probe.
         assert "units" in tracked.untracked
         assert tracked.read == frozenset(["_FillValue"])
 
-    def test_untracked_is_read_only(self, tracked):
+    def test_untracked_is_read_only(self, tracked):  # noqa: D102
         with pytest.raises(TypeError):
             tracked.untracked["units"] = "m"
 
-    def test_iteration(self, tracked):
+    def test_iteration(self, tracked):  # noqa: D102
         assert sorted(tracked) == ["_FillValue", "standard_name", "units"]
         assert tracked.read == frozenset(["_FillValue"])
 
-    def test_keys_values_items(self, tracked):
+    def test_keys_values_items(self, tracked):  # noqa: D102
         assert sorted(tracked.keys()) == ["_FillValue", "standard_name", "units"]
         assert sorted(tracked.values(), key=str) == [-999, "K", "air_temperature"]
         assert dict(tracked.items())["units"] == "K"
         assert tracked.read == frozenset(["_FillValue"])
 
-    def test_len(self, tracked):
+    def test_len(self, tracked):  # noqa: D102
         assert len(tracked) == 3
         assert tracked.read == frozenset(["_FillValue"])
 
 
 class TestMutation:
     """Test utation."""
-    def test_setitem_writes_through_and_does_not_record(self, tracked, source):
+    def test_setitem_writes_through_and_does_not_record(self, tracked, source):  # noqa: D102
         tracked["comment"] = "hello"
         assert source["comment"] == "hello"
         assert tracked.read == frozenset(["_FillValue"])
 
-    def test_delitem_writes_through_and_forgets_the_read(self, tracked, source):
+    def test_delitem_writes_through_and_forgets_the_read(self, tracked, source):  # noqa: D102
         _ = tracked["units"]
         del tracked["units"]
         assert "units" not in source
@@ -105,14 +105,14 @@ class TestMutation:
 
 class TestReset:
     """Test eset."""
-    def test_reset_returns_to_the_present_ignored_names(self, tracked):
+    def test_reset_returns_to_the_present_ignored_names(self, tracked):  # noqa: D102
         _ = tracked["units"]
         _ = tracked["standard_name"]
         assert tracked.read == frozenset(["_FillValue", "units", "standard_name"])
         tracked.reset()
         assert tracked.read == frozenset(["_FillValue"])
 
-    def test_reset_sees_attributes_added_since_construction(self, tracked):
+    def test_reset_sees_attributes_added_since_construction(self, tracked):  # noqa: D102
         tracked["scale_factor"] = 2.0
         tracked.reset()
         assert tracked.read == frozenset(["_FillValue", "scale_factor"])
@@ -120,7 +120,7 @@ class TestReset:
 
 class TestEmptySource:
     """Test mptySource."""
-    def test_a_variable_with_no_attributes_is_not_an_error(self):
+    def test_a_variable_with_no_attributes_is_not_an_error(self):  # noqa: D102
         tracked = TrackedAttributes({}, ignored=IGNORED)
         assert tracked.read == frozenset()
         assert tracked.unread == frozenset()

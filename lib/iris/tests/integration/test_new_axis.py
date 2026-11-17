@@ -12,7 +12,7 @@ from iris.util import new_axis
 class Test:
     """Test ."""
     @_shared_utils.skip_data
-    def test_lazy_data(self):
+    def test_lazy_data(self):  # noqa: D102
         filename = _shared_utils.get_data_path(("PP", "globClim1", "theta.pp"))
         cube = iris.load_cube(filename)
         new_cube = new_axis(cube, "time")

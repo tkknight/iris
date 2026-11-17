@@ -16,7 +16,7 @@ from iris.tests import _shared_utils
 
 class Test:
     """Test ."""
-    def test_fastest_varying(self, mocker):
+    def test_fastest_varying(self, mocker):  # noqa: D102
         bounds_data = np.arange(24).reshape(2, 3, 4)
         cf_bounds_var = mocker.Mock(
             dimensions=("foo", "bar", "nv"), cf_name="wibble_bnds"
@@ -27,7 +27,7 @@ class Test:
         # Vertex dimension (nv) is already at the end.
         _shared_utils.assert_array_equal(res, bounds_data)
 
-    def test_slowest_varying(self, mocker):
+    def test_slowest_varying(self, mocker):  # noqa: D102
         bounds_data = np.arange(24).reshape(4, 2, 3)
         cf_bounds_var = mocker.Mock(dimensions=("nv", "foo", "bar"))
         cf_coord_var = mocker.Mock(dimensions=("foo", "bar"))
@@ -37,7 +37,7 @@ class Test:
         expected = np.rollaxis(bounds_data, 0, bounds_data.ndim)
         _shared_utils.assert_array_equal(res, expected)
 
-    def test_different_dim_names(self, mocker):
+    def test_different_dim_names(self, mocker):  # noqa: D102
         bounds_data = np.arange(24).reshape(2, 3, 4)
         cf_bounds_var = mocker.Mock(
             dimensions=("foo", "bar", "nv"), cf_name="wibble_bnds"

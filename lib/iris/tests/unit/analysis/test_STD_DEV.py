@@ -25,25 +25,25 @@ class Test_basics:
         self.lazy_cube = Cube(as_lazy_data(data))
         self.lazy_cube.add_dim_coord(coord, 0)
 
-    def test_name(self):
+    def test_name(self):  # noqa: D102
         assert STD_DEV.name() == "standard_deviation"
 
-    def test_collapse(self):
+    def test_collapse(self):  # noqa: D102
         data = STD_DEV.aggregate(self.cube.data, axis=0)
         _shared_utils.assert_array_almost_equal(data, [1.58113883])
 
-    def test_lazy(self):
+    def test_lazy(self):  # noqa: D102
         lazy_data = STD_DEV.lazy_aggregate(self.lazy_cube.lazy_data(), axis=0)
         assert is_lazy_data(lazy_data)
 
-    def test_lazy_collapse(self):
+    def test_lazy_collapse(self):  # noqa: D102
         lazy_data = STD_DEV.lazy_aggregate(self.lazy_cube.lazy_data(), axis=0)
         _shared_utils.assert_array_almost_equal(lazy_data.compute(), [1.58113883])
 
 
 class Test_lazy_aggregate:
     """Test lazy aggregate."""
-    def test_mdtol(self):
+    def test_mdtol(self):  # noqa: D102
         na = -999.888
         array = np.ma.masked_equal(
             [[1.0, 2.0, 1.0, 2.0], [1.0, 2.0, 3.0, na], [1.0, 2.0, na, na]], na
@@ -54,13 +54,13 @@ class Test_lazy_aggregate:
         masked_expected = np.ma.masked_array([0.57735, 1.0, 0.707107], mask=[0, 0, 1])
         _shared_utils.assert_masked_array_almost_equal(masked_result, masked_expected)
 
-    def test_ddof_one(self):
+    def test_ddof_one(self):  # noqa: D102
         array = as_lazy_data(np.arange(8))
         var = STD_DEV.lazy_aggregate(array, axis=0, ddof=1)
         result = as_concrete_data(var)
         _shared_utils.assert_array_almost_equal(result, np.array(2.449489))
 
-    def test_ddof_zero(self):
+    def test_ddof_zero(self):  # noqa: D102
         array = as_lazy_data(np.arange(8))
         var = STD_DEV.lazy_aggregate(array, axis=0, ddof=0)
         result = as_concrete_data(var)
@@ -69,7 +69,7 @@ class Test_lazy_aggregate:
 
 class Test_aggregate_shape:
     """Test aggregate shape."""
-    def test(self):
+    def test(self):  # noqa: D102
         shape = ()
         kwargs = dict()
         assert STD_DEV.aggregate_shape(**kwargs) == shape

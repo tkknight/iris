@@ -97,7 +97,7 @@ class Test_sample:
             result, expected_result, atol=0.005, **kwargs
         )
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         self._check_result(self.cube)
 
     def _lazy_testcube(self):
@@ -107,19 +107,19 @@ class Test_sample:
             coord.points = as_lazy_data(coord.points, coord.shape)
         return cube
 
-    def test_nonlazy_cube_has_lazy_derived(self):
+    def test_nonlazy_cube_has_lazy_derived(self):  # noqa: D102
         # Check same results when key coords are made lazy.
         cube = self.cube
         assert not cube.coord("depth").has_lazy_points()
         assert cube.coord(self.derived_coord_name).has_lazy_points()
 
-    def test_lazy_cube_same_result(self):
+    def test_lazy_cube_same_result(self):  # noqa: D102
         cube = self._lazy_testcube()
         assert cube.coord("depth").has_lazy_points()
         assert cube.coord(self.derived_coord_name).has_lazy_points()
         self._check_result(cube)
 
-    def test_transpose(self):
+    def test_transpose(self):  # noqa: D102
         # Check it works with all possible dimension orders.
         for dims_list in itertools.permutations(range(self.cube.ndim)):
             cube = self.cube.copy()
@@ -129,7 +129,7 @@ class Test_sample:
             msg = msg.format(dims_list)
             self._check_result(cube, expected, err_msg=msg)
 
-    def test_lazy_transpose(self):
+    def test_lazy_transpose(self):  # noqa: D102
         # Check lazy calc works with all possible dimension orders.
         for dims_list in itertools.permutations(range(self.cube.ndim)):
             cube = self._lazy_testcube().copy()
@@ -139,7 +139,7 @@ class Test_sample:
             msg = msg.format(dims_list)
             self._check_result(cube, expected, err_msg=msg)
 
-    def test_extra_dims(self):
+    def test_extra_dims(self):  # noqa: D102
         # Insert some extra cube dimensions + check it still works.
         cube = self.cube
         cube = iris.util.new_axis(cube)
@@ -151,7 +151,7 @@ class Test_sample:
         # Should get same original result, as derived dims are the same.
         self._check_result(cube)
 
-    def test_no_sigma(self):
+    def test_no_sigma(self):  # noqa: D102
         # Check it still works when 'sigma' is removed.
         # NOTE: the unit test for this does not cover all cases because it
         # doesn't provide a time dimension.
@@ -166,7 +166,7 @@ class Test_sample:
         cube.remove_coord("ocean_sigma_z_coordinate")
         self._check_result(cube, expected)
 
-    def test_no_eta(self):
+    def test_no_eta(self):  # noqa: D102
         # Check it still works when 'eta' is removed.
         # NOTE: the unit test for this does not cover all cases because it
         # doesn't provide a time dimension.

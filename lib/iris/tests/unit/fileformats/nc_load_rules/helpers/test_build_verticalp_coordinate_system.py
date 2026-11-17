@@ -63,13 +63,13 @@ class TestBuildVerticalPerspectiveCoordinateSystem(MockerMixin):
 
         assert cs == expected
 
-    def test_valid(self):
+    def test_valid(self):  # noqa: D102
         self._test(inverse_flattening=False)
 
-    def test_inverse_flattening(self):
+    def test_inverse_flattening(self):  # noqa: D102
         # Check when inverse_flattening is provided instead of semi_minor_axis.
         self._test(inverse_flattening=True)
 
-    def test_no_offsets(self):
+    def test_no_offsets(self):  # noqa: D102
         # Check when false_easting/northing attributes are absent.
         self._test(no_offsets=True)

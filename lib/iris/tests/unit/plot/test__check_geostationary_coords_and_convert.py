@@ -56,8 +56,8 @@ class Test__check_geostationary_coords_and_convert:
         )
         _shared_utils.assert_array_equal((x, y), target_tuple)
 
-    def test_geostationary_present(self):
+    def test_geostationary_present(self):  # noqa: D102
         self._test(geostationary=True)
 
-    def test_geostationary_absent(self):
+    def test_geostationary_absent(self):  # noqa: D102
         self._test(geostationary=False)

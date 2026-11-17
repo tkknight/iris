@@ -12,7 +12,7 @@ from iris.tests.unit.fileformats import MockerMixin
 
 class Test___init__:
     """Test   init  ."""
-    def test_attributes(self, mocker):
+    def test_attributes(self, mocker):  # noqa: D102
         # Ensure the constructor initialises all the grid's attributes
         # correctly, including unpacking values from the REAL constants.
         reals = (
@@ -56,50 +56,50 @@ class Test_vectors(MockerMixin):
         result = grid.vectors(subgrid)
         assert result == expected
 
-    def test_1(self):
+    def test_1(self):  # noqa: D102
         # Data on atmospheric theta points.
         self._test_subgrid_vectors(1, (self.xp, self.yp))
 
-    def test_2(self):
+    def test_2(self):  # noqa: D102
         # Data on atmospheric theta points, values over land only.
         self._test_subgrid_vectors(2, (self.xp, self.yp))
 
-    def test_3(self):
+    def test_3(self):  # noqa: D102
         # Data on atmospheric theta points, values over sea only.
         self._test_subgrid_vectors(3, (self.xp, self.yp))
 
-    def test_4(self):
+    def test_4(self):  # noqa: D102
         # Data on atmospheric zonal theta points.
         self._test_subgrid_vectors(4, (self.xp, self.yp))
 
-    def test_5(self):
+    def test_5(self):  # noqa: D102
         # Data on atmospheric meridional theta points.
         self._test_subgrid_vectors(5, (self.xp, self.yp))
 
-    def test_11(self):
+    def test_11(self):  # noqa: D102
         # Data on atmospheric uv points.
         self._test_subgrid_vectors(11, (self.xu, self.yv))
 
-    def test_18(self):
+    def test_18(self):  # noqa: D102
         # Data on atmospheric u points on the 'c' grid.
         self._test_subgrid_vectors(18, (self.xu, self.yp))
 
-    def test_19(self):
+    def test_19(self):  # noqa: D102
         # Data on atmospheric v points on the 'c' grid.
         self._test_subgrid_vectors(19, (self.xp, self.yv))
 
-    def test_26(self):
+    def test_26(self):  # noqa: D102
         # Lateral boundary data at atmospheric theta points.
         self._test_subgrid_vectors(26, (self.xp, self.yp))
 
-    def test_27(self):
+    def test_27(self):  # noqa: D102
         # Lateral boundary data at atmospheric u points.
         self._test_subgrid_vectors(27, (self.xu, self.yp))
 
-    def test_28(self):
+    def test_28(self):  # noqa: D102
         # Lateral boundary data at atmospheric v points.
         self._test_subgrid_vectors(28, (self.xp, self.yv))
 
-    def test_29(self):
+    def test_29(self):  # noqa: D102
         # Orography field for atmospheric LBCs.
         self._test_subgrid_vectors(29, (self.xp, self.yp))

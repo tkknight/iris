@@ -21,7 +21,7 @@ import iris.warnings
 class TestEpoch:
     """Test poch."""
     @pytest.fixture
-    def simple_1d_time_cubes(self):
+    def simple_1d_time_cubes(self):  # noqa: D102
         reftimes = [
             "hours since 1970-01-01 00:00:00",
             "hours since 1970-01-01 00:00:00",
@@ -45,7 +45,7 @@ class TestEpoch:
             cubes.append(cube)
         return cubes
 
-    def test_concat_1d_with_same_time_units(self, simple_1d_time_cubes):
+    def test_concat_1d_with_same_time_units(self, simple_1d_time_cubes):  # noqa: D102
         result = concatenate(simple_1d_time_cubes)
         assert len(result) == 1
         assert result[0].shape == (10,)
@@ -124,90 +124,90 @@ class _MessagesMixin:
 
 class TestMessages(_MessagesMixin):
     """Test essages."""
-    def test_dim_coords_same_message(self, sample_cubes):
+    def test_dim_coords_same_message(self, sample_cubes):  # noqa: D102
         exc_regexp = "Cannot find an axis to concatenate over for phenomenon *"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_definition_difference_message(self, sample_cubes):
+    def test_definition_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].units = "1"
         exc_regexp = "Cube metadata differs for phenomenon: *"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_dimensions_difference_message(self, sample_cubes):
+    def test_dimensions_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].remove_coord("latitude")
         exc_regexp = "Dimension coordinates differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_dimensions_metadata_difference_message(self, sample_cubes):
+    def test_dimensions_metadata_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].coord("latitude").long_name = "bob"
         exc_regexp = "Dimension coordinates metadata differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_aux_coords_difference_message(self, sample_cubes):
+    def test_aux_coords_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].remove_coord("foo")
         exc_regexp = "Auxiliary coordinates differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_aux_coords_metadata_difference_message(self, sample_cubes):
+    def test_aux_coords_metadata_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].coord("foo").units = "m"
         exc_regexp = "Auxiliary coordinates metadata differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_scalar_coords_difference_message(self, sample_cubes):
+    def test_scalar_coords_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].remove_coord("height")
         exc_regexp = "Scalar coordinates differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_scalar_coords_metadata_difference_message(self, sample_cubes):
+    def test_scalar_coords_metadata_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].coord("height").long_name = "alice"
         exc_regexp = "Scalar coordinates values or metadata differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_cell_measure_difference_message(self, sample_cubes):
+    def test_cell_measure_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].remove_cell_measure("bar")
         exc_regexp = "Cell measures differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_cell_measure_metadata_difference_message(self, sample_cubes):
+    def test_cell_measure_metadata_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].cell_measure("bar").units = "m"
         exc_regexp = "Cell measures metadata differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_ancillary_variable_difference_message(self, sample_cubes):
+    def test_ancillary_variable_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].remove_ancillary_variable("baz")
         exc_regexp = "Ancillary variables differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_ancillary_variable_metadata_difference_message(self, sample_cubes):
+    def test_ancillary_variable_metadata_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].ancillary_variable("baz").units = "m"
         exc_regexp = "Ancillary variables metadata differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_derived_coord_difference_message(self, sample_cubes):
+    def test_derived_coord_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].remove_aux_factory(sample_cubes[1].aux_factories[0])
         exc_regexp = "Derived coordinates differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_derived_coord_metadata_difference_message(self, sample_cubes):
+    def test_derived_coord_metadata_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].aux_factories[0].units = "km"
         exc_regexp = "Derived coordinates metadata differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_ndim_difference_message(self, sample_cubes):
+    def test_ndim_difference_message(self, sample_cubes):  # noqa: D102
         # Replace cube#2 with an entirely different thing
         sample_cubes[1] = iris.cube.Cube(
             np.arange(5, dtype=np.float32),
@@ -224,13 +224,13 @@ class TestMessages(_MessagesMixin):
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_datatype_difference_message(self, sample_cubes):
+    def test_datatype_difference_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].data.dtype = np.float64
         exc_regexp = "Data types differ: .* != .*"
         with pytest.raises(ConcatenateError, match=exc_regexp):
             _ = concatenate(sample_cubes, True)
 
-    def test_dim_coords_overlap_message(self, sample_cubes):
+    def test_dim_coords_overlap_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].coord("time").points = np.arange(1, 3, dtype=np.float32)
         exc_regexp = "Found cubes with overlap on concatenate axis"
         with pytest.raises(ConcatenateError, match=exc_regexp):
@@ -242,12 +242,12 @@ class TestNonMetadataMessages(_MessagesMixin):
     parent_cubes = _MessagesMixin.sample_cubes
 
     @pytest.fixture
-    def sample_cubes(self, parent_cubes):
+    def sample_cubes(self, parent_cubes):  # noqa: D102
         coord = parent_cubes[1].coord("time")
         parent_cubes[1].replace_coord(coord.copy(points=coord.points + 2))
         return parent_cubes
 
-    def test_aux_coords_diff_message(self, sample_cubes):
+    def test_aux_coords_diff_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].coord("foo").points = [3, 4, 5]
 
         exc_regexp = "Auxiliary coordinates are unequal for phenomenon * "
@@ -256,7 +256,7 @@ class TestNonMetadataMessages(_MessagesMixin):
         with pytest.warns(iris.warnings.IrisUserWarning, match=exc_regexp):
             _ = concatenate(sample_cubes, False)
 
-    def test_cell_measures_diff_message(self, sample_cubes):
+    def test_cell_measures_diff_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].cell_measure("bar").data = [3, 4, 5]
 
         exc_regexp = "Cell measures are unequal for phenomenon * "
@@ -265,7 +265,7 @@ class TestNonMetadataMessages(_MessagesMixin):
         with pytest.warns(iris.warnings.IrisUserWarning, match=exc_regexp):
             _ = concatenate(sample_cubes, False)
 
-    def test_ancillary_variable_diff_message(self, sample_cubes):
+    def test_ancillary_variable_diff_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].ancillary_variable("baz").data = [3, 4, 5]
 
         exc_regexp = "Ancillary variables are unequal for phenomenon * "
@@ -274,7 +274,7 @@ class TestNonMetadataMessages(_MessagesMixin):
         with pytest.warns(iris.warnings.IrisUserWarning, match=exc_regexp):
             _ = concatenate(sample_cubes, False)
 
-    def test_derived_coords_diff_message(self, sample_cubes):
+    def test_derived_coords_diff_message(self, sample_cubes):  # noqa: D102
         sample_cubes[1].aux_factories[0].update(sample_cubes[1].coord("sigma"), None)
 
         exc_regexp = "Derived coordinates are unequal for phenomenon * "
@@ -296,79 +296,79 @@ class TestOrder:
         cube.add_dim_coord(lon, 1)
         return cube
 
-    def test_asc_points(self):
+    def test_asc_points(self):  # noqa: D102
         top = self._make_cube([10, 30, 50, 70, 90])
         bottom = self._make_cube([-90, -70, -50, -30, -10])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_asc_bounds(self):
+    def test_asc_bounds(self):  # noqa: D102
         top = self._make_cube([22.5, 67.5], [[0, 45], [45, 90]])
         bottom = self._make_cube([-67.5, -22.5], [[-90, -45], [-45, 0]])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_asc_points_with_singleton_ordered(self):
+    def test_asc_points_with_singleton_ordered(self):  # noqa: D102
         top = self._make_cube([5])
         bottom = self._make_cube([15, 25])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_asc_points_with_singleton_unordered(self):
+    def test_asc_points_with_singleton_unordered(self):  # noqa: D102
         top = self._make_cube([25])
         bottom = self._make_cube([5, 15])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_asc_bounds_with_singleton_ordered(self):
+    def test_asc_bounds_with_singleton_ordered(self):  # noqa: D102
         top = self._make_cube([5], [[0, 10]])
         bottom = self._make_cube([15, 25], [[10, 20], [20, 30]])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_asc_bounds_with_singleton_unordered(self):
+    def test_asc_bounds_with_singleton_unordered(self):  # noqa: D102
         top = self._make_cube([25], [[20, 30]])
         bottom = self._make_cube([5, 15], [[0, 10], [10, 20]])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_desc_points(self):
+    def test_desc_points(self):  # noqa: D102
         top = self._make_cube([90, 70, 50, 30, 10])
         bottom = self._make_cube([-10, -30, -50, -70, -90])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_desc_bounds(self):
+    def test_desc_bounds(self):  # noqa: D102
         top = self._make_cube([67.5, 22.5], [[90, 45], [45, 0]])
         bottom = self._make_cube([-22.5, -67.5], [[0, -45], [-45, -90]])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_desc_points_with_singleton_ordered(self):
+    def test_desc_points_with_singleton_ordered(self):  # noqa: D102
         top = self._make_cube([25])
         bottom = self._make_cube([15, 5])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_desc_points_with_singleton_unordered(self):
+    def test_desc_points_with_singleton_unordered(self):  # noqa: D102
         top = self._make_cube([5])
         bottom = self._make_cube([25, 15])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_desc_bounds_with_singleton_ordered(self):
+    def test_desc_bounds_with_singleton_ordered(self):  # noqa: D102
         top = self._make_cube([25], [[30, 20]])
         bottom = self._make_cube([15, 5], [[20, 10], [10, 0]])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_desc_bounds_with_singleton_unordered(self):
+    def test_desc_bounds_with_singleton_unordered(self):  # noqa: D102
         top = self._make_cube([5], [[10, 0]])
         bottom = self._make_cube([25, 15], [[30, 20], [20, 10]])
         result = concatenate([top, bottom])
         assert len(result) == 1
 
-    def test_points_all_singleton(self):
+    def test_points_all_singleton(self):  # noqa: D102
         top = self._make_cube([5])
         bottom = self._make_cube([15])
         result1 = concatenate([top, bottom])
@@ -376,7 +376,7 @@ class TestOrder:
         assert len(result1) == 1
         assert result1 == result2
 
-    def test_asc_bounds_all_singleton(self):
+    def test_asc_bounds_all_singleton(self):  # noqa: D102
         top = self._make_cube([5], [0, 10])
         bottom = self._make_cube([15], [10, 20])
         result1 = concatenate([top, bottom])
@@ -384,7 +384,7 @@ class TestOrder:
         assert len(result1) == 1
         assert result1 == result2
 
-    def test_desc_bounds_all_singleton(self):
+    def test_desc_bounds_all_singleton(self):  # noqa: D102
         top = self._make_cube([5], [10, 0])
         bottom = self._make_cube([15], [20, 10])
         result1 = concatenate([top, bottom])
@@ -406,7 +406,7 @@ class TestStringAuxCoordWidths:
         )
         return cube
 
-    def test_different_widths(self):
+    def test_different_widths(self):  # noqa: D102
         cube_a = self._make_cube([0, 1], ["1", "2"])
         cube_b = self._make_cube([10, 11, 12], ["1", "123", "12345"])
         assert cube_a.coord("example").dtype != cube_b.coord("example").dtype
@@ -417,7 +417,7 @@ class TestStringAuxCoordWidths:
         assert coord.dtype == np.dtype("<U5")
         np.testing.assert_array_equal(coord.points, ["1", "2", "1", "123", "12345"])
 
-    def test_different_dtype_kind_still_rejected(self):
+    def test_different_dtype_kind_still_rejected(self):  # noqa: D102
         # A genuine dtype-kind difference (string vs integer) must still block
         # concatenation.
         cube_a = self._make_cube([0, 1], ["1", "2"])
@@ -430,7 +430,7 @@ class TestStringAuxCoordWidths:
 class TestConcatenate__dask:
     """Test oncatenate  dask."""
     @pytest.fixture
-    def sample_lazy_cubes(self):
+    def sample_lazy_cubes(self):  # noqa: D102
         # Make a pair of concatenatable cubes, with dim points [1, 2] and [3, 4, 5]
         def build_lazy_cube(points):
             nx = 4
@@ -448,7 +448,7 @@ class TestConcatenate__dask:
         return c1, c2
 
     @staticmethod
-    def add_sample_auxcoord(cube):
+    def add_sample_auxcoord(cube):  # noqa: D102
         # Augment a test cube by adding an aux-coord on the concatenation dimension
         n_points, nx = cube.shape
         bounds = np.arange(n_points * nx * 4).reshape(n_points, nx, 4)
@@ -460,12 +460,12 @@ class TestConcatenate__dask:
         )
         cube.add_aux_coord(aux_coord, (0, 1))
 
-    def test_lazy_concatenate(self, sample_lazy_cubes):
+    def test_lazy_concatenate(self, sample_lazy_cubes):  # noqa: D102
         (cube,) = concatenate(sample_lazy_cubes)
         assert cube.has_lazy_data()
         assert not ma.isMaskedArray(cube.data)
 
-    def test_lazy_concatenate_aux_coords(self, sample_lazy_cubes):
+    def test_lazy_concatenate_aux_coords(self, sample_lazy_cubes):  # noqa: D102
         c1, c2 = sample_lazy_cubes
         for cube in (c1, c2):
             self.add_sample_auxcoord(cube)
@@ -480,7 +480,7 @@ class TestConcatenate__dask:
         assert result.coord("aux_coord").has_lazy_points()
         assert result.coord("aux_coord").has_lazy_bounds()
 
-    def test_lazy_concatenate_masked_array_mixed_deferred(self, sample_lazy_cubes):
+    def test_lazy_concatenate_masked_array_mixed_deferred(self, sample_lazy_cubes):  # noqa: D102
         c1, c2 = sample_lazy_cubes
         c2.data = np.ma.masked_greater(c2.data, 3)
         (cube,) = concatenate([c1, c2])

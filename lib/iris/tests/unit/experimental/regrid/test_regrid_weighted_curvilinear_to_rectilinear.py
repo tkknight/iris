@@ -155,7 +155,7 @@ class Test:
                     cube.add_aux_coord(coord)
         return cube
 
-    def test_aligned_src_x(self):
+    def test_aligned_src_x(self):  # noqa: D102
         self.src.add_aux_coord(self.src_y, (0, 1))
         self.src.add_aux_coord(self.src_x_positive, (0, 1))
         self.grid.add_dim_coord(self.grid_y_inc, 0)
@@ -174,7 +174,7 @@ class Test:
         mask = np.array([[True, False], [False, False]])
         _shared_utils.assert_array_equal(result.data.mask, mask)
 
-    def test_non_latlon(self):
+    def test_non_latlon(self):  # noqa: D102
         odd_coord_system = LambertConformal()
         co_src_y = AuxCoord(
             self.src_y.points,
@@ -220,7 +220,7 @@ class Test:
         mask = np.array([[True, False], [False, False]])
         _shared_utils.assert_array_equal(result.data.mask, mask)
 
-    def test_src_xy_not_2d(self):
+    def test_src_xy_not_2d(self):  # noqa: D102
         new_shape = (2, 2, 3)
         # Reshape the source cube, including the X and Y coordinates,
         # from (3, 4) to (2, 2, 3).
@@ -260,7 +260,7 @@ class Test:
         mask = np.array([[True, False], [False, False]])
         _shared_utils.assert_array_equal(result.data.mask, mask)
 
-    def test_aligned_src_x_mask(self):
+    def test_aligned_src_x_mask(self):  # noqa: D102
         self.src.add_aux_coord(self.src_y, (0, 1))
         self.src.add_aux_coord(self.src_x_positive, (0, 1))
         self.src.data[([1, 2, 2], [3, 0, 2])] = ma.masked
@@ -280,7 +280,7 @@ class Test:
         mask = np.array([[True, False], [False, False]])
         _shared_utils.assert_array_equal(result.data.mask, mask)
 
-    def test_aligned_src_x_zero_weights(self):
+    def test_aligned_src_x_zero_weights(self):  # noqa: D102
         self.src.add_aux_coord(self.src_y, (0, 1))
         self.src.add_aux_coord(self.src_x_positive, (0, 1))
         self.grid.add_dim_coord(self.grid_y_inc, 0)
@@ -294,7 +294,7 @@ class Test:
         mask = np.array([[True, True], [True, False]])
         _shared_utils.assert_array_equal(result.data.mask, mask)
 
-    def test_aligned_tgt_dec(self):
+    def test_aligned_tgt_dec(self):  # noqa: D102
         self.src.add_aux_coord(self.src_y, (0, 1))
         self.src.add_aux_coord(self.src_x_positive, (0, 1))
         self.grid.add_dim_coord(self.grid_y_dec, 0)
@@ -313,7 +313,7 @@ class Test:
         mask = np.array([[False, False], [False, True]])
         _shared_utils.assert_array_equal(result.data.mask, mask)
 
-    def test_misaligned_src_x_negative(self):
+    def test_misaligned_src_x_negative(self):  # noqa: D102
         self.src.add_aux_coord(self.src_y, (0, 1))
         self.src.add_aux_coord(self.src_x_negative, (0, 1))
         self.grid.add_dim_coord(self.grid_y_inc, 0)
@@ -332,7 +332,7 @@ class Test:
         mask = np.array([[False, False], [False, False]])
         _shared_utils.assert_array_equal(result.data.mask, mask)
 
-    def test_misaligned_src_x_negative_mask(self):
+    def test_misaligned_src_x_negative_mask(self):  # noqa: D102
         self.src.add_aux_coord(self.src_y, (0, 1))
         self.src.add_aux_coord(self.src_x_negative, (0, 1))
         self.src.data[([0, 0, 1, 1, 2, 2], [1, 3, 1, 3, 1, 3])] = ma.masked
@@ -352,7 +352,7 @@ class Test:
         mask = np.array([[False, False], [False, False]])
         _shared_utils.assert_array_equal(result.data.mask, mask)
 
-    def test_misaligned_tgt_dec(self):
+    def test_misaligned_tgt_dec(self):  # noqa: D102
         self.src.add_aux_coord(self.src_y, (0, 1))
         self.src.add_aux_coord(self.src_x_negative, (0, 1))
         self.grid.add_dim_coord(self.grid_y_dec, 0)

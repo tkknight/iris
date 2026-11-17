@@ -52,26 +52,26 @@ class TestMdtol:
         # Create (7, 2, 9) grid cube.
         self.grid_cube = _resampled_grid(cube, 2.3, 2.4)
 
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         res = regrid(self.src_cube, self.grid_cube)
         expected_mask = np.zeros((7, 2, 9), bool)
         expected_mask[2:5, 1, 4:7] = True
         _shared_utils.assert_array_equal(res.data.mask, expected_mask)
 
-    def test_zero(self):
+    def test_zero(self):  # noqa: D102
         res = regrid(self.src_cube, self.grid_cube, mdtol=0)
         expected_mask = np.zeros((7, 2, 9), bool)
         expected_mask[2:5, 1, 4:7] = True
         _shared_utils.assert_array_equal(res.data.mask, expected_mask)
 
-    def test_one(self):
+    def test_one(self):  # noqa: D102
         res = regrid(self.src_cube, self.grid_cube, mdtol=1)
         expected_mask = np.zeros((7, 2, 9), bool)
         # Only a single cell has all contributing cells masked.
         expected_mask[3, 1, 5] = True
         _shared_utils.assert_array_equal(res.data.mask, expected_mask)
 
-    def test_fraction_below_min(self):
+    def test_fraction_below_min(self):  # noqa: D102
         # Cells in target grid that overlap with the masked src cell
         # have the following fractions (approx. due to spherical area).
         #   4      5      6      7
@@ -91,7 +91,7 @@ class TestMdtol:
         expected_mask[2:5, 1, 4:7] = True
         _shared_utils.assert_array_equal(res.data.mask, expected_mask)
 
-    def test_fraction_between_min_and_max(self):
+    def test_fraction_between_min_and_max(self):  # noqa: D102
         # Threshold between min and max fraction. See
         # test_fraction_below_min() comment for picture showing
         # the fractions of masked data.
@@ -102,17 +102,17 @@ class TestMdtol:
         expected_mask[3, 1, 6] = True
         _shared_utils.assert_array_equal(res.data.mask, expected_mask)
 
-    def test_src_not_masked_array(self):
+    def test_src_not_masked_array(self):  # noqa: D102
         self.src_cube.data = self.src_cube.data.filled(1.0)
         res = regrid(self.src_cube, self.grid_cube, mdtol=0.9)
         assert not ma.isMaskedArray(res.data)
 
-    def test_boolean_mask(self):
+    def test_boolean_mask(self):  # noqa: D102
         self.src_cube.data = np.ma.arange(24).reshape(3, 2, 4)
         res = regrid(self.src_cube, self.grid_cube, mdtol=0.9)
         assert ma.count_masked(res.data) == 0
 
-    def test_scalar_no_overlap(self):
+    def test_scalar_no_overlap(self):  # noqa: D102
         # Slice src so result collapses to a scalar.
         src_cube = self.src_cube[:, 1, :]
         # Regrid to a single cell with no overlap with masked src cells.
@@ -120,7 +120,7 @@ class TestMdtol:
         res = regrid(src_cube, grid_cube, mdtol=0.8)
         assert not ma.isMaskedArray(res.data)
 
-    def test_scalar_with_overlap_below_mdtol(self):
+    def test_scalar_with_overlap_below_mdtol(self):  # noqa: D102
         # Slice src so result collapses to a scalar.
         src_cube = self.src_cube[:, 1, :]
         # Regrid to a single cell with 50% overlap with masked src cells.
@@ -129,7 +129,7 @@ class TestMdtol:
         res = regrid(src_cube, grid_cube, mdtol=0.6)
         assert ma.count_masked(res.data) == 0
 
-    def test_scalar_with_overlap_above_mdtol(self):
+    def test_scalar_with_overlap_above_mdtol(self):  # noqa: D102
         # Slice src so result collapses to a scalar.
         src_cube = self.src_cube[:, 1, :]
         # Regrid to a single cell with 50% overlap with masked src cells.
@@ -141,7 +141,7 @@ class TestMdtol:
 
 class TestWrapAround:
     """Test rapAround."""
-    def test_float_tolerant_equality(self):
+    def test_float_tolerant_equality(self):  # noqa: D102
         # Ensure that floating point numbers are treated appropriately when
         # introducing precision difference from wrap_around.
         source = Cube([[1]])

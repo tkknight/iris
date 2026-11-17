@@ -35,10 +35,10 @@ def cube():
 
 class TestTheClass:
     """Test heClass."""
-    def test_it_is_a_cf_saver(self):
+    def test_it_is_a_cf_saver(self):  # noqa: D102
         assert issubclass(Saver, _CFSaver)
 
-    def test_it_opens_a_store(self, tmp_path, cube):
+    def test_it_opens_a_store(self, tmp_path, cube):  # noqa: D102
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(cube)
         group = zarr.open_group(store=tmp_path / "out.zarr", mode="r")
@@ -48,13 +48,13 @@ class TestTheClass:
             "longitude",
         ]
 
-    def test_the_default_mode_refuses_an_existing_store(self, tmp_path, cube):
+    def test_the_default_mode_refuses_an_existing_store(self, tmp_path, cube):  # noqa: D102
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(cube)
         with pytest.raises(FileExistsError):
             Saver(tmp_path / "out.zarr")
 
-    def test_a_group_implies_adding(self, tmp_path, cube):
+    def test_a_group_implies_adding(self, tmp_path, cube):  # noqa: D102
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(cube)
         with Saver(tmp_path / "out.zarr", group="later") as saver:
@@ -63,7 +63,7 @@ class TestTheClass:
         assert "later" in list(group.group_keys())
         assert "air_temperature" in list(group.array_keys())
 
-    def test_an_explicit_mode_beats_the_group_default(self, tmp_path, cube):
+    def test_an_explicit_mode_beats_the_group_default(self, tmp_path, cube):  # noqa: D102
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(cube)
         with pytest.raises(FileExistsError):
@@ -72,7 +72,7 @@ class TestTheClass:
 
 class TestStringVariables:
     """Test tringVariables."""
-    def test_a_label_coordinate_is_a_string_array(self, tmp_path, cube):
+    def test_a_label_coordinate_is_a_string_array(self, tmp_path, cube):  # noqa: D102
         # netCDF stores text as bytes over an extra dimension. Zarr has a
         # string type, so the extra dimension would be an invention.
         cube.add_aux_coord(AuxCoord(np.array(["north", "south"]), long_name="place"), 0)
@@ -83,7 +83,7 @@ class TestStringVariables:
         assert list(place[:]) == ["north", "south"]
         assert place.metadata.dimension_names == ("latitude",)
 
-    def test_no_string_dimension_is_invented(self, tmp_path, cube):
+    def test_no_string_dimension_is_invented(self, tmp_path, cube):  # noqa: D102
         cube.add_aux_coord(AuxCoord(np.array(["north", "south"]), long_name="place"), 0)
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(cube)
@@ -98,7 +98,7 @@ class TestStringVariables:
 
 class TestScalarCubes:
     """Test calarCubes."""
-    def test_a_scalar_cube_is_saved(self, tmp_path):
+    def test_a_scalar_cube_is_saved(self, tmp_path):  # noqa: D102
         # A scalar cube is ordinary, and saves to netCDF without complaint.
         cube = Cube(
             np.float32(3.0),
@@ -114,7 +114,7 @@ class TestScalarCubes:
 
 class TestGridMappings:
     """Test ridMappings."""
-    def test_a_coordinate_system_is_written(self, tmp_path, cube):
+    def test_a_coordinate_system_is_written(self, tmp_path, cube):  # noqa: D102
         # `_grid_mapping_writer`'s base implementation, reached for real:
         # without it the parameters would be written onto a netCDF4 object
         # that a Zarr store does not have.
@@ -133,13 +133,13 @@ class TestGridMappings:
 class TestDeferredSaving:
     """Test eferredSaving."""
     @pytest.fixture
-    def lazy_cube(self, cube):
+    def lazy_cube(self, cube):  # noqa: D102
         import dask.array as da
 
         lazy = cube.copy(da.from_array(cube.data, chunks=(1, 3)))
         return lazy
 
-    def test_compute_false_returns_a_real_delayed(self, tmp_path, lazy_cube):
+    def test_compute_false_returns_a_real_delayed(self, tmp_path, lazy_cube):  # noqa: D102
         # SciTools/iris#7291: the inherited delayed_completion() returns a
         # plain dask.array.core.Array here, never a Delayed despite its own
         # annotation, and the documented `result.compute()` raises
@@ -151,7 +151,7 @@ class TestDeferredSaving:
         result = save(lazy_cube, tmp_path / "out.zarr", compute=False)
         assert isinstance(result, Delayed)
 
-    def test_the_data_lands_when_it_is_computed(self, tmp_path, lazy_cube):
+    def test_the_data_lands_when_it_is_computed(self, tmp_path, lazy_cube):  # noqa: D102
         from iris.fileformats.zarr.saver import save
 
         result = save(lazy_cube, tmp_path / "out.zarr", compute=False)
@@ -159,7 +159,7 @@ class TestDeferredSaving:
         written = zarr.open_group(store=tmp_path / "out.zarr", mode="r")
         np.testing.assert_array_equal(written["air_temperature"][:], lazy_cube.data)
 
-    def test_consolidation_follows_the_last_chunk(self, tmp_path, lazy_cube):
+    def test_consolidation_follows_the_last_chunk(self, tmp_path, lazy_cube):  # noqa: D102
         # Spec §4.5: under compute=False the Delayed owns finalise(), so a
         # store that is never completed never claims to be.
         from iris.fileformats.zarr.saver import save
@@ -171,7 +171,7 @@ class TestDeferredSaving:
         after = zarr.open_group(store=tmp_path / "out.zarr", mode="r")
         assert after.metadata.consolidated_metadata is not None
 
-    def test_the_whole_graph_survives_a_pickle(self, tmp_path, lazy_cube):
+    def test_the_whole_graph_survives_a_pickle(self, tmp_path, lazy_cube):  # noqa: D102
         # write_handle() returns the ZarrDatasetVariable, not the zarr.Array:
         # a distributed scheduler pickles the graph, so the substitution has
         # to be re-checked.
@@ -189,7 +189,7 @@ class TestDeferredSaving:
 class TestChunksAndShards:
     """Test hunksAndShards."""
     @pytest.fixture
-    def awkward_cube(self):
+    def awkward_cube(self):  # noqa: D102
         import dask.array as da
 
         # A lazy chunking that does not divide the shard below: ordinary,
@@ -202,7 +202,7 @@ class TestChunksAndShards:
             var_name="air_temperature",
         )
 
-    def test_shards_alone_does_not_inherit_the_cubes_chunking(
+    def test_shards_alone_does_not_inherit_the_cubes_chunking(  # noqa: D102
         self, tmp_path, awkward_cube
     ):
         # `chunks` defaults to the cube's own lazy chunking, which zarr then
@@ -217,7 +217,7 @@ class TestChunksAndShards:
         assert array.shards == (64, 64)
         np.testing.assert_array_equal(array[:], np.zeros((64, 64)))
 
-    def test_chunks_still_default_to_the_cubes_own(self, tmp_path, awkward_cube):
+    def test_chunks_still_default_to_the_cubes_own(self, tmp_path, awkward_cube):  # noqa: D102
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(awkward_cube)
         array = zarr.open_group(store=tmp_path / "out.zarr", mode="r")[
@@ -225,7 +225,7 @@ class TestChunksAndShards:
         ]
         assert array.chunks == (30, 30)
 
-    def test_both_given_are_both_honoured(self, tmp_path, awkward_cube):
+    def test_both_given_are_both_honoured(self, tmp_path, awkward_cube):  # noqa: D102
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(awkward_cube, chunks=(32, 32), shards=(64, 64))
         array = zarr.open_group(store=tmp_path / "out.zarr", mode="r")[
@@ -237,7 +237,7 @@ class TestChunksAndShards:
 
 class TestMaskedSaving:
     """Test askedSaving."""
-    def test_a_masked_cube_declares_a_fill_value(self, tmp_path, cube):
+    def test_a_masked_cube_declares_a_fill_value(self, tmp_path, cube):  # noqa: D102
         # Spec §4.5: without the attribute, every masked point reads back
         # unmasked - a round trip that silently loses the mask.
         masked = cube.copy(np.ma.masked_greater(cube.data, 3.0))
@@ -248,7 +248,7 @@ class TestMaskedSaving:
         ]
         assert "_FillValue" in dict(array.attrs)
 
-    def test_a_lazy_masked_cube_declares_one_too(self, tmp_path, cube):
+    def test_a_lazy_masked_cube_declares_one_too(self, tmp_path, cube):  # noqa: D102
         import dask.array as da
 
         masked = cube.copy(da.ma.masked_greater(da.from_array(cube.data), 3.0))
@@ -259,14 +259,14 @@ class TestMaskedSaving:
         ]
         assert "_FillValue" in dict(array.attrs)
 
-    def test_the_mask_round_trips(self, tmp_path, cube):
+    def test_the_mask_round_trips(self, tmp_path, cube):  # noqa: D102
         masked = cube.copy(np.ma.masked_greater(cube.data, 3.0))
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(masked)
         loaded = iris.load_cube(tmp_path / "out.zarr")
         np.testing.assert_array_equal(loaded.data.mask, masked.data.mask)
 
-    def test_an_unmasked_cube_declares_nothing(self, tmp_path, cube):
+    def test_an_unmasked_cube_declares_nothing(self, tmp_path, cube):  # noqa: D102
         with Saver(tmp_path / "out.zarr") as saver:
             saver.write(cube)
         array = zarr.open_group(store=tmp_path / "out.zarr", mode="r")[
@@ -274,7 +274,7 @@ class TestMaskedSaving:
         ]
         assert "_FillValue" not in dict(array.attrs)
 
-    def test_a_maskless_masked_array_declares_nothing(self, tmp_path, cube):
+    def test_a_maskless_masked_array_declares_nothing(self, tmp_path, cube):  # noqa: D102
         # np.ma.isMaskedArray is true of an np.ma array with an all-False
         # mask, and Iris produces those routinely - a cube round-tripped
         # from netCDF, say. Declaring a fill value for one invents metadata
@@ -287,7 +287,7 @@ class TestMaskedSaving:
         ]
         assert "_FillValue" not in dict(array.attrs)
 
-    def test_a_masked_string_variable_is_refused(self, tmp_path, cube):
+    def test_a_masked_string_variable_is_refused(self, tmp_path, cube):  # noqa: D102
         # A Zarr string array's only candidate sentinel is the empty string,
         # and `iris.fileformats.zarr._decode` does not restore a mask from
         # one - so writing it would lose the mask in silence, which is the

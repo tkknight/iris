@@ -251,31 +251,31 @@ class TestChunksFromChunkControl:
             dimensions=dimensions,
         )
 
-    def test_as_dask_defers_everything_to_dask(self, mocker):
+    def test_as_dask_defers_everything_to_dask(self, mocker):  # noqa: D102
         cf_var = self._cf_var(mocker, chunking=None)
         with CHUNK_CONTROL.as_dask():
             assert cf_loader._chunks_from_chunk_control(cf_var) == ("auto", None)
 
-    def test_default_unchunked_uses_the_shape(self, mocker):
+    def test_default_unchunked_uses_the_shape(self, mocker):  # noqa: D102
         cf_var = self._cf_var(mocker, chunking=None)
         chunks, dims_fixed = cf_loader._chunks_from_chunk_control(cf_var)
         assert chunks == [2, 3, 4]
         assert dims_fixed == (None,)
 
-    def test_from_file_adopts_and_fixes_the_store_chunking(self, mocker):
+    def test_from_file_adopts_and_fixes_the_store_chunking(self, mocker):  # noqa: D102
         cf_var = self._cf_var(mocker, chunking=(1, 3, 4))
         with CHUNK_CONTROL.from_file():
             chunks, dims_fixed = cf_loader._chunks_from_chunk_control(cf_var)
         assert chunks == [1, 3, 4]
         assert tuple(bool(flag) for flag in dims_fixed) == (True, True, True)
 
-    def test_from_file_refuses_an_unchunked_data_variable(self, mocker):
+    def test_from_file_refuses_an_unchunked_data_variable(self, mocker):  # noqa: D102
         cf_var = self._cf_var(mocker, chunking=None)
         with CHUNK_CONTROL.from_file():
             with pytest.raises(KeyError, match="pre-existing chunk specifications"):
                 cf_loader._chunks_from_chunk_control(cf_var)
 
-    def test_from_file_accepts_an_unchunked_coordinate(self, mocker):
+    def test_from_file_accepts_an_unchunked_coordinate(self, mocker):  # noqa: D102
         # Only the cube's data variable is required to carry a chunking; an
         # auxiliary coordinate that does not is normal.
         cf_var = self._cf_var(

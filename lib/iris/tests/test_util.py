@@ -20,7 +20,7 @@ import iris.util
 
 class TestMonotonic:
     """Test onotonic."""
-    def assert_monotonic(self, array, direction=None, **kwargs):
+    def assert_monotonic(self, array, direction=None, **kwargs):  # noqa: D102
         if direction is not None:
             mono, dir = iris.util.monotonic(array, return_direction=True, **kwargs)
             if not mono:
@@ -36,12 +36,12 @@ class TestMonotonic:
             if not mono:
                 pytest.fail("Array was not monotonic:/n %r" % array)
 
-    def assert_not_monotonic(self, array, **kwargs):
+    def assert_not_monotonic(self, array, **kwargs):  # noqa: D102
         mono = iris.util.monotonic(array, **kwargs)
         if mono:
             pytest.fail("Array was monotonic when it shouldn't be:/n %r" % array)
 
-    def test_monotonic_pve(self):
+    def test_monotonic_pve(self):  # noqa: D102
         a = np.array([3, 4, 5.3])
         self.assert_monotonic(a)
         self.assert_monotonic(a, direction=1)
@@ -51,11 +51,11 @@ class TestMonotonic:
         self.assert_monotonic(a)
         self.assert_monotonic(a, direction=-1)
 
-    def test_not_monotonic(self):
+    def test_not_monotonic(self):  # noqa: D102
         b = np.array([3, 5.3, 4])
         self.assert_not_monotonic(b)
 
-    def test_monotonic_strict(self):
+    def test_monotonic_strict(self):  # noqa: D102
         b = np.array([3, 5.3, 4])
         self.assert_not_monotonic(b, strict=True)
         self.assert_not_monotonic(b)
@@ -84,7 +84,7 @@ class TestClipString:
         self.test_string = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         self.rider = "**^^**$$..--__"  # A good chance at being unique and not in the string to be tested!
 
-    def test_oversize_string(self):
+    def test_oversize_string(self):  # noqa: D102
         # Test with a clip length that means the string will be clipped
 
         clip_length = 109
@@ -99,7 +99,7 @@ class TestClipString:
         fail_message = "Rider was not added to the string when it should have been."
         assert self.rider in result, fail_message
 
-    def test_undersize_string(self):
+    def test_undersize_string(self):  # noqa: D102
         # Test with a clip length that is longer than the string
 
         clip_length = 10999
@@ -111,14 +111,14 @@ class TestClipString:
         fail_message = "Rider was adding to the string when it should not have been."
         assert self.rider not in result, fail_message
 
-    def test_invalid_clip_lengths(self):
+    def test_invalid_clip_lengths(self):  # noqa: D102
         # Clip values less than or equal to zero are not valid
         for clip_length in [0, -100]:
             result = iris.util.clip_string(self.test_string, clip_length, self.rider)
             fail_message = "String was clipped when it should not have been."
             assert len(result) == len(self.test_string), fail_message
 
-    def test_default_values(self):
+    def test_default_values(self):  # noqa: D102
         # Get the default values specified in the function
         argspec = inspect.getfullargspec(iris.util.clip_string)
         arg_dict = dict(zip(argspec.args[-2:], argspec.defaults))
@@ -132,7 +132,7 @@ class TestClipString:
         rider_returned = result[-len(arg_dict["rider"]) :]
         assert rider_returned == arg_dict["rider"], "Default rider was not applied."
 
-    def test_trim_string_with_no_spaces(self):
+    def test_trim_string_with_no_spaces(self):  # noqa: D102
         clip_length = 200
         no_space_string = "a" * 500
 
@@ -156,7 +156,7 @@ class TestDescribeDiff:
     def _setup(self, request):
         self.request = request
 
-    def test_identical(self):
+    def test_identical(self):  # noqa: D102
         test_cube_a = stock.realistic_4d()
         test_cube_b = stock.realistic_4d()
 
@@ -168,7 +168,7 @@ class TestDescribeDiff:
             self.request, return_str, "compatible_cubes.str.txt"
         )
 
-    def test_different(self):
+    def test_different(self):  # noqa: D102
         # test incompatible attributes
         test_cube_a = stock.realistic_4d()
         test_cube_b = stock.realistic_4d()
@@ -226,7 +226,7 @@ class TestDescribeDiff:
             self.request, return_str, "incompatible_meth.str.txt"
         )
 
-    def test_output_file(self, tmp_path):
+    def test_output_file(self, tmp_path):  # noqa: D102
         # test incompatible attributes
         test_cube_a = stock.realistic_4d()
         test_cube_b = stock.realistic_4d().collapsed(

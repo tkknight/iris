@@ -43,22 +43,22 @@ class Test__getter:
         self.item = CFVariableMixin()
         self.item._metadata_manager = metadata
 
-    def test_standard_name(self):
+    def test_standard_name(self):  # noqa: D102
         assert self.item.standard_name == self.standard_name
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         assert self.item.long_name == self.long_name
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         assert self.item.var_name == self.var_name
 
-    def test_units(self):
+    def test_units(self):  # noqa: D102
         assert self.item.units == self.units
 
-    def test_attributes(self):
+    def test_attributes(self):  # noqa: D102
         assert self.item.attributes == self.attributes
 
-    def test_metadata(self):
+    def test_metadata(self):  # noqa: D102
         assert self.item.metadata == self.metadata
 
 
@@ -78,54 +78,54 @@ class Test__setter:
         self.item = CFVariableMixin()
         self.item._metadata_manager = metadata
 
-    def test_standard_name__valid(self):
+    def test_standard_name__valid(self):  # noqa: D102
         standard_name = "air_temperature"
         self.item.standard_name = standard_name
         assert self.item._metadata_manager.standard_name == standard_name
 
-    def test_standard_name__none(self):
+    def test_standard_name__none(self):  # noqa: D102
         self.item.standard_name = None
         assert self.item._metadata_manager.standard_name is None
 
-    def test_standard_name__invalid(self):
+    def test_standard_name__invalid(self):  # noqa: D102
         standard_name = "nope nope"
         emsg = f"{standard_name!r} is not a valid standard_name"
         with pytest.raises(ValueError, match=emsg):
             self.item.standard_name = standard_name
 
-    def test_long_name(self):
+    def test_long_name(self):  # noqa: D102
         long_name = "long_name"
         self.item.long_name = long_name
         assert self.item._metadata_manager.long_name == long_name
 
-    def test_long_name__none(self):
+    def test_long_name__none(self):  # noqa: D102
         self.item.long_name = None
         assert self.item._metadata_manager.long_name is None
 
-    def test_var_name(self):
+    def test_var_name(self):  # noqa: D102
         var_name = "var_name"
         self.item.var_name = var_name
         assert self.item._metadata_manager.var_name == var_name
 
-    def test_var_name__none(self):
+    def test_var_name__none(self):  # noqa: D102
         self.item.var_name = None
         assert self.item._metadata_manager.var_name is None
 
-    def test_var_name__invalid_token(self):
+    def test_var_name__invalid_token(self):  # noqa: D102
         var_name = "nope nope"
         self.item._metadata_manager.token = lambda name: None
         emsg = f"{var_name!r} is not a valid NetCDF variable name."
         with pytest.raises(ValueError, match=emsg):
             self.item.var_name = var_name
 
-    def test_attributes(self):
+    def test_attributes(self):  # noqa: D102
         attributes = dict(hello="world")
         self.item.attributes = attributes
         assert self.item._metadata_manager.attributes == attributes
         assert self.item._metadata_manager.attributes is not attributes
         assert isinstance(self.item._metadata_manager.attributes, LimitedAttributeDict)
 
-    def test_attributes__none(self):
+    def test_attributes__none(self):  # noqa: D102
         self.item.attributes = None
         assert self.item._metadata_manager.attributes == {}
 
@@ -167,13 +167,13 @@ class Test__metadata_setter:
             attributes=self.attributes,
         )
 
-    def test_dict(self):
+    def test_dict(self):  # noqa: D102
         metadata = dict(**self.args)
         self.item.metadata = metadata
         assert self.item._metadata_manager.values == metadata
         assert self.item._metadata_manager.attributes is not self.attributes
 
-    def test_dict__partial(self, mocker):
+    def test_dict__partial(self, mocker):  # noqa: D102
         metadata = dict(**self.args)
         del metadata["standard_name"]
         self.item.metadata = metadata
@@ -181,13 +181,13 @@ class Test__metadata_setter:
         assert self.item._metadata_manager.values == metadata
         assert self.item._metadata_manager.attributes is not self.attributes
 
-    def test_ordereddict(self):
+    def test_ordereddict(self):  # noqa: D102
         metadata = self.args
         self.item.metadata = metadata
         assert self.item._metadata_manager.values == metadata
         assert self.item._metadata_manager.attributes is not self.attributes
 
-    def test_ordereddict__partial(self, mocker):
+    def test_ordereddict__partial(self, mocker):  # noqa: D102
         metadata = self.args
         del metadata["long_name"]
         del metadata["units"]
@@ -196,7 +196,7 @@ class Test__metadata_setter:
         metadata["units"] = mocker.sentinel.units
         assert self.item._metadata_manager.values == metadata
 
-    def test_tuple(self):
+    def test_tuple(self):  # noqa: D102
         metadata = tuple(self.args.values())
         self.item.metadata = metadata
         result = tuple(
@@ -208,14 +208,14 @@ class Test__metadata_setter:
         assert result == metadata
         assert self.item._metadata_manager.attributes is not self.attributes
 
-    def test_tuple__missing(self):
+    def test_tuple__missing(self):  # noqa: D102
         metadata = list(self.args.values())
         del metadata[2]
         emsg = "Invalid .* metadata, require .* to be specified."
         with pytest.raises(TypeError, match=emsg):
             self.item.metadata = tuple(metadata)
 
-    def test_namedtuple(self):
+    def test_namedtuple(self):  # noqa: D102
         Metadata = namedtuple(
             "Metadata",
             ("standard_name", "long_name", "var_name", "units", "attributes"),
@@ -225,7 +225,7 @@ class Test__metadata_setter:
         assert self.item._metadata_manager.values == metadata._asdict()
         assert self.item._metadata_manager.attributes is not metadata.attributes
 
-    def test_namedtuple__partial(self, mocker):
+    def test_namedtuple__partial(self, mocker):  # noqa: D102
         Metadata = namedtuple(
             "Metadata", ("standard_name", "long_name", "var_name", "units")
         )
@@ -236,19 +236,19 @@ class Test__metadata_setter:
         expected.update(dict(attributes=mocker.sentinel.attributes))
         assert self.item._metadata_manager.values == expected
 
-    def test_class_ancillaryvariablemetadata(self):
+    def test_class_ancillaryvariablemetadata(self):  # noqa: D102
         metadata = AncillaryVariableMetadata(**self.args)
         self.item.metadata = metadata
         assert self.item._metadata_manager.values == metadata._asdict()
         assert self.item._metadata_manager.attributes is not metadata.attributes
 
-    def test_class_basemetadata(self):
+    def test_class_basemetadata(self):  # noqa: D102
         metadata = BaseMetadata(**self.args)
         self.item.metadata = metadata
         assert self.item._metadata_manager.values == metadata._asdict()
         assert self.item._metadata_manager.attributes is not metadata.attributes
 
-    def test_class_cellmeasuremetadata(self):
+    def test_class_cellmeasuremetadata(self):  # noqa: D102
         self.args["measure"] = None
         metadata = CellMeasureMetadata(**self.args)
         self.item.metadata = metadata
@@ -257,7 +257,7 @@ class Test__metadata_setter:
         assert self.item._metadata_manager.values == expected
         assert self.item._metadata_manager.attributes is not metadata.attributes
 
-    def test_class_connectivitymetadata(self):
+    def test_class_connectivitymetadata(self):  # noqa: D102
         self.args.update(dict(cf_role=None, start_index=None, location_axis=None))
         metadata = ConnectivityMetadata(**self.args)
         self.item.metadata = metadata
@@ -268,7 +268,7 @@ class Test__metadata_setter:
         assert self.item._metadata_manager.values == expected
         assert self.item._metadata_manager.attributes is not metadata.attributes
 
-    def test_class_coordmetadata(self):
+    def test_class_coordmetadata(self):  # noqa: D102
         self.args.update(dict(coord_system=None, climatological=False))
         metadata = CoordMetadata(**self.args)
         self.item.metadata = metadata
@@ -278,7 +278,7 @@ class Test__metadata_setter:
         assert self.item._metadata_manager.values == expected
         assert self.item._metadata_manager.attributes is not metadata.attributes
 
-    def test_class_cubemetadata(self):
+    def test_class_cubemetadata(self):  # noqa: D102
         self.args["cell_methods"] = None
         metadata = CubeMetadata(**self.args)
         self.item.metadata = metadata
@@ -305,14 +305,14 @@ class Test_rename:
         self.item = CFVariableMixin()
         self.item._metadata_manager = metadata
 
-    def test__valid_standard_name(self):
+    def test__valid_standard_name(self):  # noqa: D102
         name = "air_temperature"
         self.item.rename(name)
         assert self.item._metadata_manager.standard_name == name
         assert self.item._metadata_manager.long_name is None
         assert self.item._metadata_manager.var_name is None
 
-    def test__invalid_standard_name(self):
+    def test__invalid_standard_name(self):  # noqa: D102
         name = "nope nope"
         self.item.rename(name)
         assert self.item._metadata_manager.standard_name is None
@@ -334,7 +334,7 @@ class Test_name:
         self.item = CFVariableMixin()
         self.item._metadata_manager = metadata
 
-    def test(self, mocker):
+    def test(self, mocker):  # noqa: D102
         default = mocker.sentinel.default
         token = mocker.sentinel.token
         result = self.item.name(default=default, token=token)

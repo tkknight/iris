@@ -46,7 +46,7 @@ class TestGetAttrUnits(MockerMixin):
         cf_var.cf_group = cf_group
         return cf_var
 
-    def test_unicode_character(self):
+    def test_unicode_character(self):  # noqa: D102
         attributes = {}
         expected_attributes = {"invalid_units": "\u266b"}
         cf_var = self._make_cf_var()
@@ -54,7 +54,7 @@ class TestGetAttrUnits(MockerMixin):
         assert attr_units == "?"
         assert attributes == expected_attributes
 
-    def test_warn(self):
+    def test_warn(self):  # noqa: D102
         attributes = {}
         expected_attributes = {"invalid_units": "\u266b"}
         cf_var = self._make_cf_var()
@@ -63,7 +63,7 @@ class TestGetAttrUnits(MockerMixin):
         assert attr_units == "?"
         assert attributes == expected_attributes
 
-    def test_capture(self):
+    def test_capture(self):  # noqa: D102
         attributes = {}
         expected_attributes = {"invalid_units": "\u266b"}
         cf_var = self._make_cf_var()

@@ -20,7 +20,7 @@ class AggregateMixin:
 
     """
 
-    def check_percentile_calc(
+    def check_percentile_calc(  # noqa: D102
         self, data, axis, percent, expected, approx=False, **kwargs
     ):
         if self.lazy:
@@ -50,21 +50,21 @@ class AggregateMixin:
         else:
             _shared_utils.assert_masked_array_equal(actual, expected)
 
-    def test_1d_single(self):
+    def test_1d_single(self):  # noqa: D102
         data = np.arange(11)
         axis = 0
         percent = 50
         expected = 5
         self.check_percentile_calc(data, axis, percent, expected)
 
-    def test_1d_multi(self):
+    def test_1d_multi(self):  # noqa: D102
         data = np.arange(11)
         percent = np.array([20, 50, 90])
         axis = 0
         expected = [2, 5, 9]
         self.check_percentile_calc(data, axis, percent, expected)
 
-    def test_2d_single(self):
+    def test_2d_single(self):  # noqa: D102
         shape = (2, 11)
         data = np.arange(np.prod(shape)).reshape(shape)
         axis = 0
@@ -72,7 +72,7 @@ class AggregateMixin:
         expected = np.arange(shape[-1]) + 5.5
         self.check_percentile_calc(data, axis, percent, expected)
 
-    def test_2d_multi(self):
+    def test_2d_multi(self):  # noqa: D102
         shape = (2, 10)
         data = np.arange(np.prod(shape)).reshape(shape)
         axis = 0
@@ -91,7 +91,7 @@ class ScipyAggregateMixin:
 
     """
 
-    def test_masked_1d_single(self):
+    def test_masked_1d_single(self):  # noqa: D102
         data = ma.arange(11)
         data[3:7] = ma.masked
         axis = 0
@@ -99,7 +99,7 @@ class ScipyAggregateMixin:
         expected = 7
         self.check_percentile_calc(data, axis, percent, expected)
 
-    def test_masked_1d_multi(self):
+    def test_masked_1d_multi(self):  # noqa: D102
         data = ma.arange(11)
         data[3:9] = ma.masked
         percent = np.array([25, 50, 75])
@@ -107,7 +107,7 @@ class ScipyAggregateMixin:
         expected = [1, 2, 9]
         self.check_percentile_calc(data, axis, percent, expected)
 
-    def test_masked_2d_single(self):
+    def test_masked_2d_single(self):  # noqa: D102
         shape = (2, 11)
         data = ma.arange(np.prod(shape)).reshape(shape)
         data[0, ::2] = ma.masked
@@ -121,7 +121,7 @@ class ScipyAggregateMixin:
         expected[::2] = data[1, ::2]
         self.check_percentile_calc(data, axis, percent, expected)
 
-    def test_masked_2d_multi(self):
+    def test_masked_2d_multi(self):  # noqa: D102
         shape = (3, 10)
         data = ma.arange(np.prod(shape)).reshape(shape)
         data[1, ::2] = ma.masked
@@ -143,7 +143,7 @@ class ScipyAggregateMixin:
             data, axis, percent, expected, mdtol=mdtol, approx=True
         )
 
-    def test_default_kwargs_passed(self, mocker):
+    def test_default_kwargs_passed(self, mocker):  # noqa: D102
         mocked_mquantiles = mocker.patch(
             "scipy.stats.mstats.mquantiles", return_value=[2, 4]
         )
@@ -160,7 +160,7 @@ class ScipyAggregateMixin:
         for key in ["alphap", "betap"]:
             assert mocked_mquantiles.call_args.kwargs[key] == 1
 
-    def test_chosen_kwargs_passed(self, mocker):
+    def test_chosen_kwargs_passed(self, mocker):  # noqa: D102
         mocked_mquantiles = mocker.patch(
             "scipy.stats.mstats.mquantiles", return_value=np.array([2, 4])
         )
@@ -189,12 +189,12 @@ class Test_aggregate(AggregateMixin, ScipyAggregateMixin):
         self.lazy = False
         self.agg_method = PERCENTILE.aggregate
 
-    def test_missing_mandatory_kwarg(self):
+    def test_missing_mandatory_kwarg(self):  # noqa: D102
         emsg = "percentile aggregator requires .* keyword argument 'percent'"
         with pytest.raises(ValueError, match=emsg):
             PERCENTILE.aggregate("dummy", axis=0)
 
-    def test_wrong_kwarg(self):
+    def test_wrong_kwarg(self):  # noqa: D102
         # Test we get an error out of scipy if we pass the numpy keyword.
         data = range(5)
         emsg = "unexpected keyword argument"
@@ -211,7 +211,7 @@ class Test_fast_aggregate(AggregateMixin):
         self.lazy = False
         self.agg_method = PERCENTILE.aggregate
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         # Using (3,11) because np.percentile returns a masked array anyway with
         # (2, 11)
         shape = (3, 11)
@@ -223,7 +223,7 @@ class Test_fast_aggregate(AggregateMixin):
         with pytest.raises(TypeError, match=emsg):
             PERCENTILE.aggregate(data, axis=0, percent=50, fast_percentile_method=True)
 
-    def test_masked_mdtol_0(self):
+    def test_masked_mdtol_0(self):  # noqa: D102
         # Using (3,11) because np.percentile returns a masked array anyway with
         # (2, 11)
         shape = (3, 11)
@@ -235,7 +235,7 @@ class Test_fast_aggregate(AggregateMixin):
         expected[::2] = ma.masked
         self.check_percentile_calc(data, axis, percent, expected, mdtol=0)
 
-    def test_numpy_percentile_called(self, mocker):
+    def test_numpy_percentile_called(self, mocker):  # noqa: D102
         mocked_percentile = mocker.patch("numpy.percentile")
         # Basic check that numpy.percentile is called.
         data = np.arange(5)
@@ -245,7 +245,7 @@ class Test_fast_aggregate(AggregateMixin):
         # Check that we left "method" keyword to numpy's default.
         assert "method" not in mocked_percentile.call_args.kwargs
 
-    def test_chosen_kwarg_passed(self, mocker):
+    def test_chosen_kwarg_passed(self, mocker):  # noqa: D102
         mocked_percentile = mocker.patch("numpy.percentile")
         data = np.arange(5)
         percent = [42, 75]
@@ -267,7 +267,7 @@ class MultiAxisMixin:
 
     """
 
-    def test_multi_axis(self):
+    def test_multi_axis(self):  # noqa: D102
         data = np.arange(24).reshape((2, 3, 4))
         collapse_axes = (0, 2)
         lazy_data = as_lazy_data(data)
@@ -287,7 +287,7 @@ class MultiAxisMixin:
                 sub_result, np.percentile(data[:, num, :], percent)
             )
 
-    def test_multi_axis_multi_percent(self):
+    def test_multi_axis_multi_percent(self):  # noqa: D102
         data = np.arange(24).reshape((2, 3, 4))
         collapse_axes = (0, 2)
         lazy_data = as_lazy_data(data)
@@ -317,7 +317,7 @@ class Test_lazy_fast_aggregate(AggregateMixin, MultiAxisMixin):
         self.lazy = True
         self.agg_method = PERCENTILE.lazy_aggregate
 
-    def test_masked(self):
+    def test_masked(self):  # noqa: D102
         shape = (2, 11)
         data = ma.arange(np.prod(shape)).reshape(shape)
         data[0, ::2] = ma.masked
@@ -331,7 +331,7 @@ class Test_lazy_fast_aggregate(AggregateMixin, MultiAxisMixin):
         with pytest.raises(TypeError, match=emsg):
             as_concrete_data(actual)
 
-    def test_masked_mdtol_0(self):
+    def test_masked_mdtol_0(self):  # noqa: D102
         # Using (3,11) because np.percentile returns a masked array anyway with
         # (2, 11)
         shape = (3, 11)
@@ -344,7 +344,7 @@ class Test_lazy_fast_aggregate(AggregateMixin, MultiAxisMixin):
         expected[::2] = ma.masked
         self.check_percentile_calc(data, axis, percent, expected, mdtol=0)
 
-    def test_numpy_percentile_called(self, mocker):
+    def test_numpy_percentile_called(self, mocker):  # noqa: D102
         mocked_percentile = mocker.patch(
             "numpy.percentile", return_value=np.array([2, 4])
         )
@@ -361,7 +361,7 @@ class Test_lazy_fast_aggregate(AggregateMixin, MultiAxisMixin):
         # Check we have left "method" keyword to numpy's default.
         assert "method" not in mocked_percentile.call_args.kwargs
 
-    def test_chosen_method_kwarg_passed(self, mocker):
+    def test_chosen_method_kwarg_passed(self, mocker):  # noqa: D102
         mocked_percentile = mocker.patch(
             "numpy.percentile", return_value=np.array([2, 4])
         )
@@ -394,13 +394,13 @@ class Test_lazy_aggregate(AggregateMixin, ScipyAggregateMixin, MultiAxisMixin):
 
 class Test_name:
     """Test name."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert PERCENTILE.name() == "percentile"
 
 
 class Test_aggregate_shape:
     """Test aggregate shape."""
-    def test_missing_mandatory_kwarg(self):
+    def test_missing_mandatory_kwarg(self):  # noqa: D102
         emsg = "percentile aggregator requires .* keyword argument 'percent'"
         with pytest.raises(ValueError, match=emsg):
             PERCENTILE.aggregate_shape()
@@ -410,13 +410,13 @@ class Test_aggregate_shape:
         with pytest.raises(ValueError, match=emsg):
             PERCENTILE.aggregate_shape(point=10)
 
-    def test_mandatory_kwarg_no_shape(self):
+    def test_mandatory_kwarg_no_shape(self):  # noqa: D102
         kwargs = dict(percent=50)
         assert PERCENTILE.aggregate_shape(**kwargs) == ()
         kwargs = dict(percent=[50])
         assert PERCENTILE.aggregate_shape(**kwargs) == ()
 
-    def test_mandatory_kwarg_shape(self):
+    def test_mandatory_kwarg_shape(self):  # noqa: D102
         kwargs = dict(percent=(10, 20))
         assert PERCENTILE.aggregate_shape(**kwargs) == (2,)
         kwargs = dict(percent=list(range(13)))
@@ -425,5 +425,5 @@ class Test_aggregate_shape:
 
 class Test_cell_method:
     """Test cell method."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert PERCENTILE.cell_method is None

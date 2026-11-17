@@ -90,7 +90,7 @@ class Test:
             in_place=in_place,
         )
 
-    def test_same_result(self):
+    def test_same_result(self):  # noqa: D102
         # Check that the result dtype is the same as the input dtypes for
         # relevant operators.
         for dtype in self.dtypes:
@@ -105,7 +105,7 @@ class Test:
                     op, dtype, dtype, result_dtype
                 )
 
-    def test_binary_float(self):
+    def test_binary_float(self):  # noqa: D102
         # Check that the result dtype is a float for relevant operators.
         # Perform checks for a selection of cases.
         cases = [
@@ -126,7 +126,7 @@ class Test:
                     op, dtype1, dtype2, expected_dtype, result_dtype
                 )
 
-    def test_unary_float(self):
+    def test_unary_float(self):  # noqa: D102
         cases = [
             (np.dtype("i2"), np.dtype("f4")),
             (np.dtype("i4"), np.dtype("f8")),
@@ -142,7 +142,7 @@ class Test:
                     op, dtype, expected_dtype, result_dtype
                 )
 
-    def test_binary_float_argument(self):
+    def test_binary_float_argument(self):  # noqa: D102
         # Check that when one argument is a float dtype, a float dtype results
         # Unary operators are covered by other tests.
         dtypes = [
@@ -168,7 +168,7 @@ class Test:
                     op, dtype, np.dtype("f2"), expected_dtype, result_dtype
                 )
 
-    def test_in_place(self):
+    def test_in_place(self):  # noqa: D102
         # Check that when the in_place argument is True, the result is always
         # the same as first operand.
         for dtype1, dtype2 in product(self.dtypes, self.dtypes):
@@ -184,7 +184,7 @@ class Test:
                     op, dtype, dtype, result_dtype, in_place=True
                 )
 
-    def test_commutative(self):
+    def test_commutative(self):  # noqa: D102
         # Check that the operation is commutative if in_place is not specified.
         for dtype1, dtype2 in product(self.dtypes, self.dtypes):
             for op in self.all_binary_ops:

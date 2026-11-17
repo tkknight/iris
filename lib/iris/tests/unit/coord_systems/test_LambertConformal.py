@@ -14,7 +14,7 @@ class Test_init_defaults:
     # module 'iris.tests.test_coordsystem'.
     # This class *only* tests the defaults for optional constructor args.
 
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         # (Except secant_latitudes, which are done separately).
         crs = LambertConformal(
@@ -28,14 +28,14 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.false_easting, 100.0)
         _shared_utils.assert_equal_and_kind(crs.false_northing, -200.0)
 
-    def test_set_one_parallel(self):
+    def test_set_one_parallel(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         # (Except secant_latitudes, which are done separately).
         crs = LambertConformal(secant_latitudes=-44)
         assert len(crs.secant_latitudes) == 1
         _shared_utils.assert_equal_and_kind(crs.secant_latitudes[0], -44.0)
 
-    def test_set_two_parallels(self):
+    def test_set_two_parallels(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         # (Except secant_latitudes, which are done separately).
         crs = LambertConformal(secant_latitudes=[43, -7])
@@ -54,12 +54,12 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.secant_latitudes[0], 33.0)
         _shared_utils.assert_equal_and_kind(crs.secant_latitudes[1], 45.0)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = LambertConformal()
         self._check_crs_defaults(crs)
 
-    def test_optional_args_none(self):
+    def test_optional_args_none(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = LambertConformal(
             central_lat=None,

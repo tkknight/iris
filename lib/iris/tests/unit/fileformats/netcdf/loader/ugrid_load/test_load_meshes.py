@@ -71,7 +71,7 @@ class TestLoadErrors:
         self.ref_cdl = _TEST_CDL_HEAD + _TEST_CDL_TAIL
         self.nc_path = cdl_to_nc(self.ref_cdl, tmp_path)
 
-    def add_second_mesh(self):
+    def add_second_mesh(self):  # noqa: D102
         second_name = "mesh2"
         cdl_extra = f"""
                      int {second_name} ;
@@ -86,7 +86,7 @@ class TestLoadErrors:
         new_cdl = self.ref_cdl[:vars_start] + cdl_extra + self.ref_cdl[vars_start:]
         return new_cdl, second_name
 
-    def test_with_data(self, tmp_path):
+    def test_with_data(self, tmp_path):  # noqa: D102
         nc_path = cdl_to_nc(self.ref_cdl, tmp_path)
         meshes = load_meshes(nc_path)
 
@@ -97,7 +97,7 @@ class TestLoadErrors:
         mesh = file_meshes[0]
         assert "mesh" == mesh.var_name
 
-    def test_no_data(self, tmp_path):
+    def test_no_data(self, tmp_path):  # noqa: D102
         cdl_lines = self.ref_cdl.split("\n")
         cdl_lines = filter(lambda line: ':mesh = "mesh"' not in line, cdl_lines)
         ref_cdl = "\n".join(cdl_lines)
@@ -112,7 +112,7 @@ class TestLoadErrors:
         mesh = file_meshes[0]
         assert "mesh" == mesh.var_name
 
-    def test_no_mesh(self, tmp_path):
+    def test_no_mesh(self, tmp_path):  # noqa: D102
         cdl_lines = self.ref_cdl.split("\n")
         cdl_lines = filter(
             lambda line: all(
@@ -127,18 +127,18 @@ class TestLoadErrors:
 
         assert {} == meshes
 
-    def test_multi_files(self, tmp_path):
+    def test_multi_files(self, tmp_path):  # noqa: D102
         files_count = 3
         nc_paths = [cdl_to_nc(self.ref_cdl, tmp_path) for _ in range(files_count)]
         meshes = load_meshes(nc_paths)
         assert files_count == len(meshes)
 
-    def test_pathlib_path(self, tmp_path):
+    def test_pathlib_path(self, tmp_path):  # noqa: D102
         nc_path = Path(cdl_to_nc(self.ref_cdl, tmp_path))
         meshes = load_meshes(nc_path)
         assert 1 == len(meshes)
 
-    def test_multi_meshes(self, tmp_path):
+    def test_multi_meshes(self, tmp_path):  # noqa: D102
         ref_cdl, second_name = self.add_second_mesh()
         nc_path = cdl_to_nc(ref_cdl, tmp_path)
         meshes = load_meshes(nc_path)
@@ -151,7 +151,7 @@ class TestLoadErrors:
         assert "mesh" in mesh_names
         assert second_name in mesh_names
 
-    def test_var_name(self, tmp_path):
+    def test_var_name(self, tmp_path):  # noqa: D102
         second_cdl, second_name = self.add_second_mesh()
         cdls = [self.ref_cdl, second_cdl]
         nc_paths = [cdl_to_nc(cdl, tmp_path) for cdl in cdls]
@@ -163,12 +163,12 @@ class TestLoadErrors:
         assert 1 == len(file_meshes)
         assert second_name == file_meshes[0].var_name
 
-    def test_invalid_scheme(self):
+    def test_invalid_scheme(self):  # noqa: D102
         with pytest.raises(ValueError, match="Iris cannot handle the URI scheme:.*"):
             _ = load_meshes("foo://bar")
 
     @_shared_utils.skip_data
-    def test_non_nc(self, caplog):
+    def test_non_nc(self, caplog):  # noqa: D102
         log_regex = r"Ignoring file of a format that holds no mesh:.*"
         with _shared_utils.assert_logs(
             caplog, logger, level="INFO", msg_regex=log_regex
@@ -178,7 +178,7 @@ class TestLoadErrors:
             )
         assert {} == meshes
 
-    def test_not_built(self, tmp_path):
+    def test_not_built(self, tmp_path):  # noqa: D102
         cdl = self.ref_cdl.replace("node_coordinates", "foo_coordinates")
         nc_path = cdl_to_nc(cdl, tmp_path)
         _ = load_meshes(nc_path)
@@ -200,12 +200,12 @@ class TestsHttp:
     def _setup(self, mocker):
         self.format_agent_mock = mocker.patch("iris.fileformats.FORMAT_AGENT.get_spec")
 
-    def test_http(self):
+    def test_http(self):  # noqa: D102
         url = "https://foo"
         _ = load_meshes(url)
         self.format_agent_mock.assert_called_with(url, None)
 
-    def test_mixed_sources(self, tmp_path):
+    def test_mixed_sources(self, tmp_path):  # noqa: D102
         url = "https://foo"
         file = tmp_path / f"{uuid4()}.nc"
         file.touch()
@@ -216,7 +216,7 @@ class TestsHttp:
         for source in (url, Path(file).name):
             assert source in file_uris
 
-    def test_file_uri(self, tmp_path):
+    def test_file_uri(self, tmp_path):  # noqa: D102
         # 'File URLs' get converted to a file path format and interpreted differently.
         file = tmp_path / f"{uuid4()}.nc"
         file.touch()
@@ -226,7 +226,7 @@ class TestsHttp:
         assert call.args[0] == file.name
 
     @pytest.mark.parametrize("scheme", ["file", "http"])
-    def test_nczarr_uri(self, scheme):
+    def test_nczarr_uri(self, scheme):  # noqa: D102
         # URL should be used regardless of file or http scheme.
         prefix = "://"
         if scheme == "file":
@@ -235,7 +235,7 @@ class TestsHttp:
         _ = load_meshes(url)
         self.format_agent_mock.assert_called_with(url, None)
 
-    def test_non_nczarr_uri(self, tmp_path):
+    def test_non_nczarr_uri(self, tmp_path):  # noqa: D102
         # Non-nczarr fragments are not interpreted, so this is treated as a
         #  file path and will fail to load.
         file = tmp_path / f"{uuid4()}.nc"

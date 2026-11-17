@@ -25,35 +25,35 @@ def reader(sample_path):
 
 class TestOpening:
     """Test pening."""
-    def test_is_a_cf_dataset(self, reader):
+    def test_is_a_cf_dataset(self, reader):  # noqa: D102
         assert isinstance(reader, CFDataset)
 
-    def test_location_is_the_string_path(self, reader, sample_location):
+    def test_location_is_the_string_path(self, reader, sample_location):  # noqa: D102
         assert reader.location == sample_location
 
-    def test_default_mode_is_read(self, reader):
+    def test_default_mode_is_read(self, reader):  # noqa: D102
         assert reader.mode == "r"
 
-    def test_starts_open(self, reader):
+    def test_starts_open(self, reader):  # noqa: D102
         assert reader.closed is False
 
-    def test_close_is_idempotent(self, sample_path):
+    def test_close_is_idempotent(self, sample_path):  # noqa: D102
         dataset = _dataset.NetCDFDataset(sample_path)
         dataset.close()
         assert dataset.closed is True
         dataset.close()
         assert dataset.closed is True
 
-    def test_context_manager_closes(self, sample_path):
+    def test_context_manager_closes(self, sample_path):  # noqa: D102
         with _dataset.NetCDFDataset(sample_path) as dataset:
             assert dataset.closed is False
         assert dataset.closed is True
 
-    def test_missing_file_raises(self, tmp_path):
+    def test_missing_file_raises(self, tmp_path):  # noqa: D102
         with pytest.raises((FileNotFoundError, OSError)):
             _dataset.NetCDFDataset(tmp_path / "nope.nc")
 
-    def test_decoding_setting_chooses_the_wrapper(self, sample_path):
+    def test_decoding_setting_chooses_the_wrapper(self, sample_path):  # noqa: D102
         with _bytecoding_datasets.DECODE_TO_STRINGS_ON_READ.context(True):
             with _dataset.NetCDFDataset(sample_path) as dataset:
                 assert isinstance(dataset.dataset, _bytecoding_datasets.EncodedDataset)
@@ -67,19 +67,19 @@ class TestOpening:
 
 class TestContents:
     """Test ontents."""
-    def test_variables(self, reader, sample_location):
+    def test_variables(self, reader, sample_location):  # noqa: D102
         assert sorted(reader.variables) == ["air_temperature", "height", "label"]
         air = reader.variables["air_temperature"]
         assert isinstance(air, _dataset.NetCDFDatasetVariable)
         assert air.name == "air_temperature"
         assert air.location == sample_location
 
-    def test_variables_are_built_once(self, reader):
+    def test_variables_are_built_once(self, reader):  # noqa: D102
         assert (
             reader.variables["air_temperature"] is reader.variables["air_temperature"]
         )
 
-    def test_variables_share_one_write_lock(self, reader):
+    def test_variables_share_one_write_lock(self, reader):  # noqa: D102
         # cf._dask_locks.get_worker_lock() returns a FRESH threading.Lock under
         # the threaded scheduler, so a per-variable call would hand out locks
         # that exclude nothing. Observed through the write handles, because
@@ -90,25 +90,25 @@ class TestContents:
         assert air.write_handle().lock is height.write_handle().lock
         assert air.write_handle().lock is reader.write_lock
 
-    def test_materialising_variables_makes_no_write_lock(self, reader):
+    def test_materialising_variables_makes_no_write_lock(self, reader):  # noqa: D102
         assert sorted(reader.variables) == ["air_temperature", "height", "label"]
         assert dict(reader.attributes) == SAMPLE_GLOBALS
         assert reader.variables["air_temperature"].attributes is not None
         assert reader._write_lock is None
 
-    def test_dimensions_are_names_and_lengths(self, reader):
+    def test_dimensions_are_names_and_lengths(self, reader):  # noqa: D102
         assert dict(reader.dimensions) == SAMPLE_DIMENSIONS
 
-    def test_unlimited_dimension_reports_its_current_length(self, reader):
+    def test_unlimited_dimension_reports_its_current_length(self, reader):  # noqa: D102
         # Nothing was written along "record", so it is zero-length - which is
         # what netCDF4 reports, and what saver.py's membership tests need.
         assert reader.dimensions["record"] == 0
         assert "record" in reader.dimensions
 
-    def test_global_attributes(self, reader):
+    def test_global_attributes(self, reader):  # noqa: D102
         assert dict(reader.attributes) == SAMPLE_GLOBALS
 
-    def test_global_attributes_are_built_once(self, reader):
+    def test_global_attributes_are_built_once(self, reader):  # noqa: D102
         assert reader.attributes is reader.attributes
 
 
@@ -134,7 +134,7 @@ class _EmulatorWithoutIsopen:
 
 class TestBorrowing:
     """Test orrowing."""
-    def test_from_existing_wraps_an_open_dataset(self, sample_path, sample_location):
+    def test_from_existing_wraps_an_open_dataset(self, sample_path, sample_location):  # noqa: D102
         raw = _bytecoding_datasets.EncodedDataset(sample_path, mode="r")
         try:
             dataset = _dataset.NetCDFDataset.from_existing(raw)
@@ -148,7 +148,7 @@ class TestBorrowing:
         finally:
             raw.close()
 
-    def test_from_existing_does_not_close_what_it_borrowed(self, sample_path):
+    def test_from_existing_does_not_close_what_it_borrowed(self, sample_path):  # noqa: D102
         raw = _bytecoding_datasets.EncodedDataset(sample_path, mode="r")
         try:
             dataset = _dataset.NetCDFDataset.from_existing(raw)
@@ -159,7 +159,7 @@ class TestBorrowing:
         finally:
             raw.close()
 
-    def test_from_existing_wraps_a_bare_netcdf4_dataset(self, sample_path):
+    def test_from_existing_wraps_a_bare_netcdf4_dataset(self, sample_path):  # noqa: D102
         # What ncdata hands iris.save / CFReader: an object with the netCDF4
         # API but no thread-safe wrapper around it.
         import netCDF4
@@ -172,7 +172,7 @@ class TestBorrowing:
         finally:
             raw.close()
 
-    def test_a_borrowed_emulator_without_isopen_reads_as_open(self):
+    def test_a_borrowed_emulator_without_isopen_reads_as_open(self):  # noqa: D102
         # NetCDFDataset.closed asks the backing object whether it is open,
         # and an emulator need not implement isopen() - ncdata's does, so
         # nothing else in the suite reaches this branch. Taken to be open:
@@ -182,7 +182,7 @@ class TestBorrowing:
         dataset.close()
         assert dataset.closed is True
 
-    def test_from_existing_mode_is_stipulated_not_observed(self, sample_path):
+    def test_from_existing_mode_is_stipulated_not_observed(self, sample_path):  # noqa: D102
         # netCDF4 exposes no public attribute recording a dataset's open
         # mode, so from_existing cannot read the mode a borrowed dataset was
         # actually opened in - it *always* reports "r+", regardless of the
@@ -203,14 +203,14 @@ class TestAutoChartostring:
     dataset it opened. The dataset now does it, so no caller has to remember.
     """
 
-    def test_turned_off_on_an_opened_dataset(self, sample_path, mocker):
+    def test_turned_off_on_an_opened_dataset(self, sample_path, mocker):  # noqa: D102
         spy = mocker.spy(_thread_safe_nc.DatasetWrapper, "set_auto_chartostring")
         with _bytecoding_datasets.DECODE_TO_STRINGS_ON_READ.context(False):
             with _dataset.NetCDFDataset(sample_path):
                 pass
         spy.assert_called_once_with(mocker.ANY, False)
 
-    def test_turned_off_on_a_borrowed_dataset(self, sample_path, mocker):
+    def test_turned_off_on_a_borrowed_dataset(self, sample_path, mocker):  # noqa: D102
         # Spied on the class, not the instance: DatasetWrapper's __setattr__
         # forwards instance-level patching to the contained netCDF4 object
         # instead of shadowing the method, so mocker.spy(raw, ...) cannot
@@ -223,7 +223,7 @@ class TestAutoChartostring:
         finally:
             raw.close()
 
-    def test_an_encoded_dataset_blocks_it_rather_than_forwarding(self, sample_path):
+    def test_an_encoded_dataset_blocks_it_rather_than_forwarding(self, sample_path):  # noqa: D102
         # EncodedDataset does its own decoding, so the call is inert there -
         # which is why making it unconditionally is safe.
         with _dataset.NetCDFDataset(sample_path) as dataset:
@@ -234,26 +234,26 @@ class TestAutoChartostring:
 
 class TestLegacyFormatWarning:
     """Test egacyFormatWarning."""
-    def test_silent_by_default(self, tmp_path, sample_path):
+    def test_silent_by_default(self, tmp_path, sample_path):  # noqa: D102
         legacy = _write_netcdf3(tmp_path)
         with warnings.catch_warnings():
             warnings.simplefilter("error")
             with _dataset.NetCDFDataset(legacy):
                 pass
 
-    def test_warns_when_asked(self, tmp_path):
+    def test_warns_when_asked(self, tmp_path):  # noqa: D102
         legacy = _write_netcdf3(tmp_path)
         with pytest.warns(IrisLoadWarning, match="nccopy"):
             with _dataset.NetCDFDataset(legacy, warn_legacy_format=True):
                 pass
 
-    def test_does_not_warn_for_netcdf4(self, sample_path):
+    def test_does_not_warn_for_netcdf4(self, sample_path):  # noqa: D102
         with warnings.catch_warnings():
             warnings.simplefilter("error")
             with _dataset.NetCDFDataset(sample_path, warn_legacy_format=True):
                 pass
 
-    def test_warns_for_a_borrowed_dataset_when_asked(self, tmp_path):
+    def test_warns_for_a_borrowed_dataset_when_asked(self, tmp_path):  # noqa: D102
         legacy = _write_netcdf3(tmp_path)
         raw = _thread_safe_nc.DatasetWrapper(legacy, mode="r")
         try:
@@ -286,7 +286,7 @@ class TestFormat:
             ("NETCDF3_64BIT", "NETCDF3_64BIT_OFFSET"),
         ],
     )
-    def test_format_is_what_netcdf4_reports(self, tmp_path, netcdf_format, reported):
+    def test_format_is_what_netcdf4_reports(self, tmp_path, netcdf_format, reported):  # noqa: D102
         path = tmp_path / "formatted.nc"
         with NetCDFDataset(path, mode="w", netcdf_format=netcdf_format) as dataset:
             assert dataset.format == reported
@@ -295,14 +295,14 @@ class TestFormat:
 class TestSupportsDtype:
     """Test upportsDtype."""
     @pytest.fixture
-    def dataset(self, tmp_path, request):
+    def dataset(self, tmp_path, request):  # noqa: D102
         path = tmp_path / "typed.nc"
         with NetCDFDataset(path, mode="w", netcdf_format=request.param) as dataset:
             yield dataset
 
     @pytest.mark.parametrize("dataset", ["NETCDF4"], indirect=True)
     @pytest.mark.parametrize("dtype", ["i8", "u1", "u4", "f4", "f8", "i2", "i4"])
-    def test_netcdf4_holds_everything(self, dataset, dtype):
+    def test_netcdf4_holds_everything(self, dataset, dtype):  # noqa: D102
         assert dataset.supports_dtype(np.dtype(dtype)) is True
 
     @pytest.mark.parametrize(
@@ -311,7 +311,7 @@ class TestSupportsDtype:
         indirect=True,
     )
     @pytest.mark.parametrize("dtype", ["i8", "u1", "u4"])
-    def test_the_restricted_formats_refuse_wide_and_unsigned_integers(
+    def test_the_restricted_formats_refuse_wide_and_unsigned_integers(  # noqa: D102
         self, dataset, dtype
     ):
         # "NETCDF3_64BIT" is here because netCDF4 reports it under a second
@@ -324,5 +324,5 @@ class TestSupportsDtype:
         indirect=True,
     )
     @pytest.mark.parametrize("dtype", ["f4", "f8", "i2", "i4"])
-    def test_every_format_holds_the_dtypes_the_saver_writes(self, dataset, dtype):
+    def test_every_format_holds_the_dtypes_the_saver_writes(self, dataset, dtype):  # noqa: D102
         assert dataset.supports_dtype(np.dtype(dtype)) is True

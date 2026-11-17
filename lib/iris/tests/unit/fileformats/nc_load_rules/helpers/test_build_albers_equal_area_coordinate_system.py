@@ -71,13 +71,13 @@ class TestBuildAlbersEqualAreaCoordinateSystem(MockerMixin):
 
         assert cs == expected
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         self._test()
 
-    def test_inverse_flattening(self):
+    def test_inverse_flattening(self):  # noqa: D102
         # Check when inverse_flattening is provided instead of semi_minor_axis.
         self._test(inverse_flattening=True)
 
-    def test_no_optionals(self):
+    def test_no_optionals(self):  # noqa: D102
         # Check defaults, when all optional attributes are absent.
         self._test(no_optionals=True)

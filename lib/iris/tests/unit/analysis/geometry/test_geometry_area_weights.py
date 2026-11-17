@@ -27,23 +27,23 @@ class Test:
         self.cube = Cube(self.data, dim_coords_and_dims=dim_coords_and_dims)
         self.geometry = shapely.geometry.Polygon([(3, 3), (3, 50), (50, 50), (50, 3)])
 
-    def test_no_overlap(self):
+    def test_no_overlap(self):  # noqa: D102
         geometry = shapely.geometry.Polygon([(4, 4), (4, 6), (6, 6), (6, 4)])
         weights = geometry_area_weights(self.cube, geometry)
         assert np.sum(weights) == 0
 
-    def test_overlap(self):
+    def test_overlap(self):  # noqa: D102
         weights = geometry_area_weights(self.cube, self.geometry)
         expected = np.repeat([[[0.0, 0.0], [0.0, 1.0]]], self.data.shape[0], axis=0)
         _shared_utils.assert_array_equal(weights, expected)
 
-    def test_overlap_normalize(self):
+    def test_overlap_normalize(self):  # noqa: D102
         weights = geometry_area_weights(self.cube, self.geometry, normalize=True)
         expected = np.repeat([[[0.0, 0.0], [0.0, 0.25]]], self.data.shape[0], axis=0)
         _shared_utils.assert_array_equal(weights, expected)
 
     @_shared_utils.skip_data
-    def test_distinct_xy(self):
+    def test_distinct_xy(self):  # noqa: D102
         cube = stock.simple_pp()
         cube = cube[:4, :4]
         lon = cube.coord("longitude")
@@ -71,7 +71,7 @@ class Test:
         _shared_utils.assert_array_all_close(weights, target)
 
     @_shared_utils.skip_data
-    def test_distinct_xy_bounds(self):
+    def test_distinct_xy_bounds(self):  # noqa: D102
         # cases where geometry bnds are outside cube bnds correctly handled?
         cube = stock.simple_pp()
         cube = cube[:4, :4]
@@ -105,7 +105,7 @@ class Test:
         _shared_utils.assert_array_all_close(weights_overshoot, target, rtol=1e-05)
 
     @_shared_utils.skip_data
-    def test_distinct_xy_bounds_pole(self):
+    def test_distinct_xy_bounds_pole(self):  # noqa: D102
         # is UserWarning issued for out-of-bounds? results will be unexpected!
         cube = stock.simple_pp()
         cube = cube[:4, :4]
@@ -136,7 +136,7 @@ class Test:
         )
         _shared_utils.assert_array_all_close(weights, target)
 
-    def test_shared_xy(self):
+    def test_shared_xy(self):  # noqa: D102
         cube = stock.track_1d()
         geometry = shapely.geometry.box(1, 4, 3.5, 7)
         weights = geometry_area_weights(cube, geometry)

@@ -36,7 +36,7 @@ class TestGeoTiffExport:
                 content = im.tag[key]
                 assert content == value, msg_badval.format(key, content, value)
 
-    def check_tiff(self, cube, header_keys, header_items, tmp_fn):
+    def check_tiff(self, cube, header_keys, header_items, tmp_fn):  # noqa: D102
         # Check that the cube saves correctly to TIFF :
         #   * the header contains expected keys and (some) values
         #   * the data array retrieves correctly
@@ -142,14 +142,14 @@ class TestGeoTiffExport:
 
         self.check_tiff(cube, tif_header_keys, tif_header_entries, tmp_fn)
 
-    def test_unmasked(self, tmp_path):
+    def test_unmasked(self, tmp_path):  # noqa: D102
         fn = tmp_path / "unmasked.tif"
         self._check_tiff_export(masked=False, tmp_fn=fn)
 
-    def test_masked(self, tmp_path):
+    def test_masked(self, tmp_path):  # noqa: D102
         fn = tmp_path / "masked.tif"
         self._check_tiff_export(masked=True, tmp_fn=fn)
 
-    def test_inverted(self, tmp_path):
+    def test_inverted(self, tmp_path):  # noqa: D102
         fn = tmp_path / "inverted.tif"
         self._check_tiff_export(masked=False, inverted=True, tmp_fn=fn)

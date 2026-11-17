@@ -12,7 +12,7 @@ import iris.tests.graphics as graphics
 @_shared_utils.skip_data
 class TestImageFile:
     """Test mageFile."""
-    def test_json(self):
+    def test_json(self):  # noqa: D102
         # get test names from json
         repo_names = [*graphics.read_repo_json().keys()]
         # get file names from test data

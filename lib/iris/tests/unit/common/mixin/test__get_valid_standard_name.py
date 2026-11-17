@@ -15,50 +15,50 @@ class Test:
     def _setup(self):
         self.emsg = "'{}' is not a valid standard_name"
 
-    def test_pass_thru_none(self):
+    def test_pass_thru_none(self):  # noqa: D102
         name = None
         assert _get_valid_standard_name(name) == name
 
-    def test_pass_thru_empty(self):
+    def test_pass_thru_empty(self):  # noqa: D102
         name = ""
         assert _get_valid_standard_name(name) == name
 
-    def test_pass_thru_whitespace(self):
+    def test_pass_thru_whitespace(self):  # noqa: D102
         name = "       "
         assert _get_valid_standard_name(name) == name
 
-    def test_valid_standard_name(self):
+    def test_valid_standard_name(self):  # noqa: D102
         name = "air_temperature"
         assert _get_valid_standard_name(name) == name
 
-    def test_standard_name_alias(self):
+    def test_standard_name_alias(self):  # noqa: D102
         name = "atmosphere_optical_thickness_due_to_pm1_ambient_aerosol"
         assert _get_valid_standard_name(name) == name
 
-    def test_invalid_standard_name(self):
+    def test_invalid_standard_name(self):  # noqa: D102
         name = "not_a_standard_name"
         with pytest.raises(ValueError, match=self.emsg.format(name)):
             _get_valid_standard_name(name)
 
-    def test_valid_standard_name_valid_modifier(self):
+    def test_valid_standard_name_valid_modifier(self):  # noqa: D102
         name = "air_temperature standard_error"
         assert _get_valid_standard_name(name) == name
 
-    def test_valid_standard_name_valid_modifier_extra_spaces(self):
+    def test_valid_standard_name_valid_modifier_extra_spaces(self):  # noqa: D102
         name = "air_temperature      standard_error"
         assert _get_valid_standard_name(name) == name
 
-    def test_invalid_standard_name_valid_modifier(self):
+    def test_invalid_standard_name_valid_modifier(self):  # noqa: D102
         name = "not_a_standard_name standard_error"
         with pytest.raises(ValueError, match=self.emsg.format(name)):
             _get_valid_standard_name(name)
 
-    def test_valid_standard_invalid_name_modifier(self):
+    def test_valid_standard_invalid_name_modifier(self):  # noqa: D102
         name = "air_temperature extra_names standard_error"
         with pytest.raises(ValueError, match=self.emsg.format(name)):
             _get_valid_standard_name(name)
 
-    def test_valid_standard_valid_name_modifier_extra_names(self):
+    def test_valid_standard_valid_name_modifier_extra_names(self):  # noqa: D102
         name = "air_temperature standard_error extra words"
         with pytest.raises(ValueError, match=self.emsg.format(name)):
             _get_valid_standard_name(name)

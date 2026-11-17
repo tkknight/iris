@@ -15,7 +15,7 @@ from iris.warnings import IrisCfLoadWarning
 
 class Test:
     """Test ."""
-    def test_simple(self):
+    def test_simple(self):  # noqa: D102
         cell_method_strings = [
             "time: mean",
             "time:mean",
@@ -26,7 +26,7 @@ class Test:
             res = parse_cell_methods(cell_method_str)
             assert res == expected
 
-    def test_with_interval(self):
+    def test_with_interval(self):  # noqa: D102
         cell_method_strings = [
             "time: variance (interval: 1 hr)",
             "time : variance (interval: 1 hr)",
@@ -36,7 +36,7 @@ class Test:
             res = parse_cell_methods(cell_method_str)
             assert res == expected
 
-    def test_multiple_axes(self):
+    def test_multiple_axes(self):  # noqa: D102
         cell_method_strings = [
             "lat: lon: standard_deviation",
             "lat: lon : standard_deviation",
@@ -48,7 +48,7 @@ class Test:
             res = parse_cell_methods(cell_method_str)
             assert res == expected
 
-    def test_multiple(self):
+    def test_multiple(self):  # noqa: D102
         cell_method_strings = [
             "time: maximum (interval: 1 hr) time: mean (interval: 1 day)",
             "time : maximum (interval: 1 hr) time: mean (interval: 1 day)",
@@ -63,7 +63,7 @@ class Test:
             res = parse_cell_methods(cell_method_str)
             assert res == expected
 
-    def test_comment(self):
+    def test_comment(self):  # noqa: D102
         cell_method_strings = [
             "time: maximum (interval: 1 hr comment: first bit) time: mean (interval: 1 day comment: second bit)",
             "time : maximum (interval: 1 hr comment: first bit) time: mean (interval: 1 day comment: second bit)",
@@ -88,7 +88,7 @@ class Test:
             res = parse_cell_methods(cell_method_str)
             assert res == expected
 
-    def test_comment_brackets(self):
+    def test_comment_brackets(self):  # noqa: D102
         cell_method_strings = [
             "time: minimum within days (comment: 18h(day-1)-18h)",
             "time : minimum within days (comment: 18h(day-1)-18h)",
@@ -105,7 +105,7 @@ class Test:
             res = parse_cell_methods(cell_method_str)
             assert res == expected
 
-    def test_comment_bracket_mismatch_warning(self):
+    def test_comment_bracket_mismatch_warning(self):  # noqa: D102
         cell_method_strings = [
             "time: minimum within days (comment: 18h day-1)-18h)",
             "time : minimum within days (comment: 18h day-1)-18h)",
@@ -117,7 +117,7 @@ class Test:
             ):
                 _ = parse_cell_methods(cell_method_str)
 
-    def test_badly_formatted_warning(self):
+    def test_badly_formatted_warning(self):  # noqa: D102
         cell_method_strings = [
             # "time: maximum (interval: 1 hr comment: first bit "
             # "time: mean (interval: 1 day comment: second bit)",
@@ -135,7 +135,7 @@ class Test:
             ):
                 _ = parse_cell_methods(cell_method_str)
 
-    def test_portions_of_cells(self):
+    def test_portions_of_cells(self):  # noqa: D102
         cell_method_strings = [
             "area: mean where sea_ice over sea",
             "area : mean where sea_ice over sea",
@@ -145,7 +145,7 @@ class Test:
             res = parse_cell_methods(cell_method_str)
             assert res == expected
 
-    def test_climatology(self):
+    def test_climatology(self):  # noqa: D102
         cell_method_strings = [
             "time: minimum within days time: mean over days",
             "time : minimum within days time: mean over days",
@@ -160,7 +160,7 @@ class Test:
             res = parse_cell_methods(cell_method_str)
             assert res == expected
 
-    def test_climatology_with_unknown_method(self, mocker):
+    def test_climatology_with_unknown_method(self, mocker):  # noqa: D102
         cell_method_strings = [
             "time: min within days time: mean over days",
             "time : min within days time: mean over days",

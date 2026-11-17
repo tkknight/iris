@@ -147,7 +147,7 @@ class TestAreaWeightedRegrid:
         self.simple_cube.coord("latitude").guess_bounds(0.0)
         self.simple_cube.coord("longitude").guess_bounds(0.0)
 
-    def test_no_bounds(self):
+    def test_no_bounds(self):  # noqa: D102
         emsg = (
             "The horizontal grid coordinates of both the source "
             "and grid cubes must have contiguous bounds."
@@ -174,7 +174,7 @@ class TestAreaWeightedRegrid:
         with pytest.raises(ValueError, match=emsg):
             regrid_area_weighted(src, dest)
 
-    def test_non_contiguous_bounds(self):
+    def test_non_contiguous_bounds(self):  # noqa: D102
         emsg = (
             "The horizontal grid coordinates of both the source "
             "and grid cubes must have contiguous bounds."
@@ -195,7 +195,7 @@ class TestAreaWeightedRegrid:
         with pytest.raises(ValueError, match=emsg):
             regrid_area_weighted(src, dest)
 
-    def test_missing_coords(self):
+    def test_missing_coords(self):  # noqa: D102
         emsg = r"Cube 'unknown' must contain a single 1D . coordinate\."
         dest = self.simple_cube.copy()
         # Missing src_x.
@@ -221,7 +221,7 @@ class TestAreaWeightedRegrid:
         with pytest.raises(ValueError, match=emsg):
             regrid_area_weighted(src, dest)
 
-    def test_different_cs(self):
+    def test_different_cs(self):  # noqa: D102
         emsg = (
             "The horizontal grid coordinates of both the source "
             "and grid cubes must have the same coordinate system."
@@ -239,7 +239,7 @@ class TestAreaWeightedRegrid:
         with pytest.raises(ValueError, match=emsg):
             regrid_area_weighted(src, dest)
 
-    def test_regrid_to_same_grid(self, request):
+    def test_regrid_to_same_grid(self, request):  # noqa: D102
         src = self.simple_cube
         res = regrid_area_weighted(src, src)
         assert res == src
@@ -247,7 +247,7 @@ class TestAreaWeightedRegrid:
             request, res, RESULT_DIR + ("simple.cml",), approx_data=True
         )
 
-    def test_equal_area_numbers(self):
+    def test_equal_area_numbers(self):  # noqa: D102
         # Remove coords system and units so it is no longer spherical.
         self.simple_cube.coord("latitude").coord_system = None
         self.simple_cube.coord("latitude").units = None
@@ -284,7 +284,7 @@ class TestAreaWeightedRegrid:
         expected_val_right = np.mean(src.data[:, 1:4])
         assert expected_val_right == pytest.approx(res.data[1])
 
-    def test_unqeual_area_numbers(self):
+    def test_unqeual_area_numbers(self):  # noqa: D102
         # Remove coords system and units so it is no longer spherical.
         self.simple_cube.coord("latitude").coord_system = None
         self.simple_cube.coord("latitude").units = None
@@ -319,7 +319,7 @@ class TestAreaWeightedRegrid:
         )
         assert expected_val == pytest.approx(res.data)
 
-    def test_regrid_latlon_reduced_res(self, request):
+    def test_regrid_latlon_reduced_res(self, request):  # noqa: D102
         src = self.simple_cube
         # Reduce from (3, 4) to (2, 2).
         dest = _subsampled_grid(src, 2, 2)
@@ -328,7 +328,7 @@ class TestAreaWeightedRegrid:
             request, res, RESULT_DIR + ("latlonreduced.cml",), approx_data=True
         )
 
-    def test_regrid_reorder_axis(self):
+    def test_regrid_reorder_axis(self):  # noqa: D102
         src = self.realistic_cube[0, :4, :3, :2]
         z = src.coord("model_level_number")
         lat = src.coord("grid_latitude")
@@ -359,7 +359,7 @@ class TestAreaWeightedRegrid:
         _shared_utils.assert_array_shape_stats(src, (3, 2, 4), 288.08868, 0.008262919)
         _shared_utils.assert_array_shape_stats(res, (9, 6, 4), 288.0886, 0.008271061)
 
-    def test_regrid_lon_to_half_res(self, request):
+    def test_regrid_lon_to_half_res(self, request):  # noqa: D102
         src = self.simple_cube
         dest = _resampled_grid(src, 0.5, 1.0)
         res = regrid_area_weighted(src, dest)
@@ -367,7 +367,7 @@ class TestAreaWeightedRegrid:
             request, res, RESULT_DIR + ("lonhalved.cml",), approx_data=True
         )
 
-    def test_regrid_to_non_int_frac(self, request):
+    def test_regrid_to_non_int_frac(self, request):  # noqa: D102
         # Create dest such that bounds do not line up
         # with src: src.shape = (3, 4), dest.shape = (2, 3)
         src = self.simple_cube
@@ -377,7 +377,7 @@ class TestAreaWeightedRegrid:
             request, res, RESULT_DIR + ("lower.cml",), approx_data=True
         )
 
-    def test_regrid_to_higher_res(self, request):
+    def test_regrid_to_higher_res(self, request):  # noqa: D102
         src = self.simple_cube
         frac = 3.5
         dest = _resampled_grid(src, frac, frac)
@@ -386,7 +386,7 @@ class TestAreaWeightedRegrid:
             request, res, RESULT_DIR + ("higher.cml",), approx_data=True
         )
 
-    def test_hybrid_height(self, request):
+    def test_hybrid_height(self, request):  # noqa: D102
         src = self.realistic_cube
         dest = _resampled_grid(src, 0.7, 0.8)
         res = regrid_area_weighted(src, dest)
@@ -394,7 +394,7 @@ class TestAreaWeightedRegrid:
             request, res, RESULT_DIR + ("hybridheight.cml",), approx_data=True
         )
 
-    def test_missing_data(self):
+    def test_missing_data(self):  # noqa: D102
         src = self.simple_cube.copy()
         src.data = ma.masked_array(src.data, fill_value=999)
         src.data[1, 2] = ma.masked
@@ -405,7 +405,7 @@ class TestAreaWeightedRegrid:
         _shared_utils.assert_array_equal(res.data.mask, mask)
         _shared_utils.assert_array_equal(res.data.fill_value, 999)
 
-    def test_masked_data_all_false(self):
+    def test_masked_data_all_false(self):  # noqa: D102
         src = self.simple_cube.copy()
         src.data = ma.masked_array(src.data, mask=False, fill_value=999)
         dest = _resampled_grid(self.simple_cube, 2.3, 2.4)
@@ -413,7 +413,7 @@ class TestAreaWeightedRegrid:
         _shared_utils.assert_array_equal(res.data.mask, False)
         _shared_utils.assert_array_equal(res.data.fill_value, 999)
 
-    def test_no_x_overlap(self):
+    def test_no_x_overlap(self):  # noqa: D102
         src = self.simple_cube
         dest = _scaled_and_offset_grid(
             src,
@@ -428,7 +428,7 @@ class TestAreaWeightedRegrid:
         res = regrid_area_weighted(src, dest)
         assert res.data.mask.all()
 
-    def test_no_y_overlap(self):
+    def test_no_y_overlap(self):  # noqa: D102
         src = self.simple_cube
         dest = _scaled_and_offset_grid(
             src,
@@ -443,7 +443,7 @@ class TestAreaWeightedRegrid:
         res = regrid_area_weighted(src, dest)
         assert res.data.mask.all()
 
-    def test_scalar(self):
+    def test_scalar(self):  # noqa: D102
         src = self.realistic_cube
         i = 2
         j = 3
@@ -451,7 +451,7 @@ class TestAreaWeightedRegrid:
         res = regrid_area_weighted(src, dest)
         assert res == src[:, :, i, j]
 
-    def test_one_point(self):
+    def test_one_point(self):  # noqa: D102
         src = self.simple_cube.copy()
         for n in range(10):
             i = random.randint(0, src.shape[0] - 1)
@@ -461,7 +461,7 @@ class TestAreaWeightedRegrid:
             res = regrid_area_weighted(src, dest)
             assert res, src[indices]
 
-    def test_ten_by_ten_subset(self):
+    def test_ten_by_ten_subset(self):  # noqa: D102
         src = _resampled_grid(self.simple_cube, 20, 20)
         for n in range(10):
             i = random.randint(0, src.shape[0] - 10)
@@ -471,14 +471,14 @@ class TestAreaWeightedRegrid:
             res = regrid_area_weighted(src, dest)
             assert res == src[indices]
 
-    def test_lazy_nop(self):
+    def test_lazy_nop(self):  # noqa: D102
         src = self.realistic_cube[:2, :3, :10, :10]
         src.data = da.asarray(src.data, chunks=((1, 1), (2, 1), (10,), (10,)))
         res = regrid_area_weighted(src, src)
         assert res.has_lazy_data()
         assert res == src
 
-    def test_cross_section(self, request):
+    def test_cross_section(self, request):  # noqa: D102
         # Slice to get a cross section.
         # Constant latitude
         src = self.realistic_cube[0, :, 10, :]
@@ -540,7 +540,7 @@ class TestAreaWeightedRegrid:
             approx_data=True,
         )
 
-    def test_scalar_source_cube(self):
+    def test_scalar_source_cube(self):  # noqa: D102
         src = self.simple_cube[1, 2]
         # Extend dest beyond src grid
         dest = src.copy()
@@ -555,7 +555,7 @@ class TestAreaWeightedRegrid:
         assert res.data == src.data
 
     @_shared_utils.skip_data
-    def test_global_data_reduce_res(self):
+    def test_global_data_reduce_res(self):  # noqa: D102
         src = iris.tests.stock.global_pp()
         src.coord("latitude").guess_bounds()
         src.coord("longitude").guess_bounds()
@@ -564,7 +564,7 @@ class TestAreaWeightedRegrid:
         _shared_utils.assert_array_shape_stats(res, (21, 38), 280.484932, 15.831545)
 
     @_shared_utils.skip_data
-    def test_global_data_increase_res(self):
+    def test_global_data_increase_res(self):  # noqa: D102
         src = iris.tests.stock.global_pp()
         src.coord("latitude").guess_bounds()
         src.coord("longitude").guess_bounds()
@@ -573,7 +573,7 @@ class TestAreaWeightedRegrid:
         _shared_utils.assert_array_shape_stats(res, (109, 144), 280.349625, 16.073397)
 
     @_shared_utils.skip_data
-    def test_global_data_same_res(self):
+    def test_global_data_same_res(self):  # noqa: D102
         src = iris.tests.stock.global_pp()
         src.coord("latitude").guess_bounds()
         src.coord("longitude").guess_bounds()
@@ -581,7 +581,7 @@ class TestAreaWeightedRegrid:
         _shared_utils.assert_array_shape_stats(res, (73, 96), 279.945160, 16.345842)
 
     @_shared_utils.skip_data
-    def test_global_data_subset(self):
+    def test_global_data_subset(self):  # noqa: D102
         src = iris.tests.stock.global_pp()
         src.coord("latitude").guess_bounds()
         src.coord("longitude").guess_bounds()
@@ -603,7 +603,7 @@ class TestAreaWeightedRegrid:
         _shared_utils.assert_array_shape_stats(res, (40, 30), 280.979310, 16.640421)
 
     @_shared_utils.skip_data
-    def test_circular_subset(self):
+    def test_circular_subset(self):  # noqa: D102
         src = iris.tests.stock.global_pp()
         src.coord("latitude").guess_bounds()
         src.coord("longitude").guess_bounds()

@@ -54,46 +54,46 @@ def height(raw, sample_location):
 
 class TestStorageProperties:
     """Test torageProperties."""
-    def test_is_a_cf_dataset_variable(self, air):
+    def test_is_a_cf_dataset_variable(self, air):  # noqa: D102
         assert isinstance(air, CFDatasetVariable)
 
-    def test_name(self, air):
+    def test_name(self, air):  # noqa: D102
         assert air.name == "air_temperature"
 
-    def test_location(self, air, sample_location):
+    def test_location(self, air, sample_location):  # noqa: D102
         assert air.location == sample_location
 
-    def test_dimensions_are_a_tuple(self, air):
+    def test_dimensions_are_a_tuple(self, air):  # noqa: D102
         # netCDF4 answers with a tuple already, but the contract says tuple
         # and CFVariable.spans does set arithmetic on it, so pin it.
         assert air.dimensions == ("time", "lat")
         assert isinstance(air.dimensions, tuple)
 
-    def test_shape_dtype_size_ndim(self, air):
+    def test_shape_dtype_size_ndim(self, air):  # noqa: D102
         assert air.shape == (3, 4)
         assert air.dtype == np.dtype("f4")
         assert air.size == 12
         assert air.ndim == 2
 
-    def test_len(self, air):
+    def test_len(self, air):  # noqa: D102
         assert len(air) == 3
 
-    def test_scalar_has_no_len(self, height):
+    def test_scalar_has_no_len(self, height):  # noqa: D102
         assert height.shape == ()
         with pytest.raises(TypeError, match="unsized"):
             len(height)
 
-    def test_fill_value(self, air):
+    def test_fill_value(self, air):  # noqa: D102
         assert air.fill_value == -999.0
 
-    def test_no_fill_value_is_none(self, height):
+    def test_no_fill_value_is_none(self, height):  # noqa: D102
         assert height.fill_value is None
 
-    def test_chunking_is_a_tuple(self, air):
+    def test_chunking_is_a_tuple(self, air):  # noqa: D102
         # netCDF4 answers with a list; the contract says a shape.
         assert air.chunking == (1, 4)
 
-    def test_contiguous_chunking_is_none(self, height):
+    def test_contiguous_chunking_is_none(self, height):  # noqa: D102
         # netCDF4 answers "contiguous" here, and loader.py already treats
         # that and None identically, so both collapse to None.
         assert height.chunking is None
@@ -101,22 +101,22 @@ class TestStorageProperties:
 
 class TestData:
     """Test ata."""
-    def test_getitem(self, air):
+    def test_getitem(self, air):  # noqa: D102
         np.testing.assert_array_equal(air[:], SAMPLE_AIR)
 
-    def test_getitem_indexed(self, air):
+    def test_getitem_indexed(self, air):  # noqa: D102
         np.testing.assert_array_equal(air[0], SAMPLE_AIR[0])
 
 
 class TestAttributes:
     """Test ttributes."""
-    def test_is_a_plain_mutable_mapping(self, air):
+    def test_is_a_plain_mutable_mapping(self, air):  # noqa: D102
         # Tracking belongs to CFVariable, not here: a CFDatasetVariable can
         # have two CFVariables promoted over it.
         assert isinstance(air.attributes, MutableMapping)
         assert not hasattr(air.attributes, "read")
 
-    def test_contents(self, air):
+    def test_contents(self, air):  # noqa: D102
         assert dict(air.attributes) == {
             "_FillValue": -999.0,
             "units": "K",
@@ -124,10 +124,10 @@ class TestAttributes:
             "coordinates": "height",
         }
 
-    def test_is_built_once(self, air):
+    def test_is_built_once(self, air):  # noqa: D102
         assert air.attributes is air.attributes
 
-    def test_values_are_read_once(self, mocker, sample_location):
+    def test_values_are_read_once(self, mocker, sample_location):  # noqa: D102
         # Pins the contract _NetCDFAttributes's own docstring states: values
         # are read once, at construction, because the interface promises a
         # mapping whose keys/items cost nothing. test_is_built_once above
@@ -143,11 +143,11 @@ class TestAttributes:
         assert variable.ncattrs.call_count == 1
         assert variable.getncattr.call_count == 1
 
-    def test_missing_key_raises_key_error(self, air):
+    def test_missing_key_raises_key_error(self, air):  # noqa: D102
         with pytest.raises(KeyError, match="nonesuch"):
             air.attributes["nonesuch"]
 
-    def test_unreadable_attribute_becomes_empty_string(self, mocker, sample_location):
+    def test_unreadable_attribute_becomes_empty_string(self, mocker, sample_location):  # noqa: D102
         # ncattrs() can list a name that getncattr then refuses. _getncattr in
         # cf/_reader.py tolerated exactly this with a "" default, and that
         # tolerance has to survive the move.
@@ -185,7 +185,7 @@ class _EmulatedVariable:
 
 class TestNetCDFOnlyMembers:
     """Test etCDFOnlyMembers."""
-    def test_variable_exposes_the_backing_wrapper(self, raw, sample_location):
+    def test_variable_exposes_the_backing_wrapper(self, raw, sample_location):  # noqa: D102
         # raw.variables constructs a fresh VariableWrapper on every access,
         # so the check has to compare against the one instance actually
         # passed in, not a second, independently fetched wrapper.
@@ -193,17 +193,17 @@ class TestNetCDFOnlyMembers:
         wrapped = _dataset.NetCDFDatasetVariable(variable, sample_location, "NETCDF4")
         assert wrapped.variable is variable
 
-    def test_not_variable_length(self, air):
+    def test_not_variable_length(self, air):  # noqa: D102
         assert air.is_variable_length is False
 
-    def test_not_emulated(self, air):
+    def test_not_emulated(self, air):  # noqa: D102
         assert air.is_emulated is False
 
-    def test_emulated_data_array_raises_when_not_emulated(self, air):
+    def test_emulated_data_array_raises_when_not_emulated(self, air):  # noqa: D102
         with pytest.raises(AttributeError, match="_data_array"):
             air.emulated_data_array
 
-    def test_setting_emulated_data_array_raises_when_not_emulated(self, air):
+    def test_setting_emulated_data_array_raises_when_not_emulated(self, air):  # noqa: D102
         # The setter refuses for the same reason the getter does, and the
         # consequence of not refusing is worse: VariableWrapper.__setattr__
         # forwards to the contained object, so the set would write a file
@@ -212,7 +212,7 @@ class TestNetCDFOnlyMembers:
             air.emulated_data_array = np.ones(3)
         assert "_data_array" not in air.variable.ncattrs()
 
-    def test_emulated_round_trip(self, sample_location):
+    def test_emulated_round_trip(self, sample_location):  # noqa: D102
         # The emulation hook ncdata uses (issue #4994): an emulating variable
         # carries its own array instead of file storage.
         variable = _EmulatedVariable()
@@ -230,25 +230,25 @@ def _unreachable_policy():
 
 class TestReadData:
     """Test eadData."""
-    def test_small_variable_is_real(self, air):
+    def test_small_variable_is_real(self, air):  # noqa: D102
         result = air.read_data(_unreachable_policy)
         assert isinstance(result, np.ndarray)
         np.testing.assert_array_equal(result, SAMPLE_AIR)
 
-    def test_large_variable_is_lazy(self, air, mocker):
+    def test_large_variable_is_lazy(self, air, mocker):  # noqa: D102
         mocker.patch("iris.fileformats.cf.loader._LAZYVAR_MIN_BYTES", 0)
         result = air.read_data(lambda: ([1, 4], (False, False)))
         assert isinstance(result, da.Array)
         np.testing.assert_array_equal(result.compute(), SAMPLE_AIR)
 
-    def test_cache_key_is_the_proxy_repr(self, air, mocker):
+    def test_cache_key_is_the_proxy_repr(self, air, mocker):  # noqa: D102
         mocker.patch("iris.fileformats.cf.loader._LAZYVAR_MIN_BYTES", 0)
         as_lazy_data = mocker.patch("iris.fileformats.netcdf._dataset.as_lazy_data")
         air.read_data(lambda: ([1, 4], (False, False)))
         (proxy,) = as_lazy_data.call_args.args
         assert as_lazy_data.call_args.kwargs["cache_key"] == repr(proxy)
 
-    def test_emulated_array_is_returned_as_it_stands(self, sample_location, mocker):
+    def test_emulated_array_is_returned_as_it_stands(self, sample_location, mocker):  # noqa: D102
         # The ncdata emulation hook, issue #4994: the emulating object's own
         # array is the answer, with no reading and no proxy.
         # The cutoff goes to zero so that the policy's unreachability is the
@@ -260,7 +260,7 @@ class TestReadData:
         result = wrapped.read_data(_unreachable_policy)
         assert result is variable._data_array
 
-    def test_emulated_array_builds_no_proxy(self, sample_location, mocker):
+    def test_emulated_array_builds_no_proxy(self, sample_location, mocker):  # noqa: D102
         # As above, the cutoff goes to zero so that reaching no proxy is the
         # emulation branch's doing, not the array merely being small.
         mocker.patch("iris.fileformats.cf.loader._LAZYVAR_MIN_BYTES", 0)
@@ -271,7 +271,7 @@ class TestReadData:
         wrapped.read_data(_unreachable_policy)
         assert proxy_class.call_count == 0
 
-    def test_reading_data_changes_no_attribute_tracking(self, tmp_path, mocker):
+    def test_reading_data_changes_no_attribute_tracking(self, tmp_path, mocker):  # noqa: D102
         # Which file attributes survive onto a cube is decided by which ones
         # the loading rules did *not* read. read_data reads three CF-reserved
         # names off the untracked storage mapping; this is only safe because
@@ -306,7 +306,7 @@ class TestReadData:
 
 class TestDeprecatedNetcdfMember:
     """Test eprecatedNetcdfMember."""
-    def test_a_reach_through_warns(self, air):
+    def test_a_reach_through_warns(self, air):  # noqa: D102
         with pytest.warns(IrisDeprecation, match="ncattrs"):
             names = air.deprecated_netcdf_member("ncattrs")()
         assert sorted(names) == [
@@ -316,7 +316,7 @@ class TestDeprecatedNetcdfMember:
             "units",
         ]
 
-    def test_a_missing_name_raises_and_does_not_warn(self, air):
+    def test_a_missing_name_raises_and_does_not_warn(self, air):  # noqa: D102
         # hasattr() probes land here, and a probe that comes back False is
         # not a use of anything - warning about it would be noise. The
         # underlying netCDF4 variable raises its own AttributeError, which
@@ -385,13 +385,13 @@ class TestDeprecatedNetcdfMember:
 
 class TestCharacterData:
     """Test haracterData."""
-    def test_raw_wrapper_sees_the_char_dimension(self, raw, sample_location):
+    def test_raw_wrapper_sees_the_char_dimension(self, raw, sample_location):  # noqa: D102
         label = wrap(raw, "label", sample_location)
         assert label.dimensions == ("time", "nchars")
         assert label.shape == (3, 8)
         assert label.dtype == np.dtype("S1")
 
-    def test_encoded_wrapper_sees_strings(self, encoded, sample_location):
+    def test_encoded_wrapper_sees_strings(self, encoded, sample_location):  # noqa: D102
         # EncodedVariable drops the trailing char dimension and reports a
         # string dtype. The CFDatasetVariable must pass that through, not
         # reach around it to the contained netCDF4 variable.

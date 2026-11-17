@@ -74,39 +74,39 @@ class Test_assert_masked_array_equal(_MaskedArrayEquality):
 
 class Test_assert_masked_array_equal__Nonmaasked:
     """Test assert masked array equal  Nonmaasked."""
-    def test_nonmasked_same(self):
+    def test_nonmasked_same(self):  # noqa: D102
         # Masked test can be used on non-masked arrays.
         arr1 = np.array([1, 2])
         _shared_utils.assert_masked_array_equal(arr1, arr1)
 
-    def test_masked_nonmasked_same(self):
+    def test_masked_nonmasked_same(self):  # noqa: D102
         # Masked test can be used between masked + non-masked arrays, and will
         # consider them equal, when mask=None.
         arr1 = np.ma.masked_array([1, 2])
         arr2 = np.array([1, 2])
         _shared_utils.assert_masked_array_equal(arr1, arr2)
 
-    def test_masked_nonmasked_different(self):
+    def test_masked_nonmasked_different(self):  # noqa: D102
         arr1 = np.ma.masked_array([1, 2])
         arr2 = np.array([1, 3])
         with pytest.raises(AssertionError, match="Arrays are not equal"):
             _shared_utils.assert_masked_array_equal(arr1, arr2)
 
-    def test_nonmasked_masked_same(self):
+    def test_nonmasked_masked_same(self):  # noqa: D102
         # Masked test can be used between masked + non-masked arrays, and will
         # consider them equal, when mask=None.
         arr1 = np.array([1, 2])
         arr2 = np.ma.masked_array([1, 2])
         _shared_utils.assert_masked_array_equal(arr1, arr2)
 
-    def test_masked_nonmasked_same_falsemask(self):
+    def test_masked_nonmasked_same_falsemask(self):  # noqa: D102
         # Masked test can be used between masked + non-masked arrays, and will
         # consider them equal, when mask=False.
         arr1 = np.ma.masked_array([1, 2], mask=False)
         arr2 = np.array([1, 2])
         _shared_utils.assert_masked_array_equal(arr1, arr2)
 
-    def test_masked_nonmasked_same_emptymask(self):
+    def test_masked_nonmasked_same_emptymask(self):  # noqa: D102
         # Masked test can be used between masked + non-masked arrays, and will
         # consider them equal, when mask=zeros.
         arr1 = np.ma.masked_array([1, 2], mask=[False, False])
@@ -120,7 +120,7 @@ class Test_assert_masked_array_almost_equal(_MaskedArrayEquality):
     def _func(self):
         return _shared_utils.assert_masked_array_almost_equal
 
-    def test_decimal(self):
+    def test_decimal(self):  # noqa: D102
         emsg = r"Arrays are not almost equal to 3 decimals"
         arr1, arr2 = np.ma.array([100.0]), np.ma.array([100.003])
         _shared_utils.assert_masked_array_almost_equal(arr1, arr2, decimal=2)

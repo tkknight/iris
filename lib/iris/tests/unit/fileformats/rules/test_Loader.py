@@ -10,7 +10,7 @@ from iris.tests._shared_utils import assert_no_warnings_regexp
 
 class Test___init__:
     """Test   init  ."""
-    def test_normal(self, mocker):
+    def test_normal(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             loader = Loader(
                 mocker.sentinel.GEN_FUNC,
@@ -21,7 +21,7 @@ class Test___init__:
         assert loader.field_generator_kwargs is mocker.sentinel.GEN_FUNC_KWARGS
         assert loader.converter is mocker.sentinel.CONVERTER
 
-    def test_normal_with_explicit_none(self, mocker):
+    def test_normal_with_explicit_none(self, mocker):  # noqa: D102
         with assert_no_warnings_regexp():
             loader = Loader(
                 mocker.sentinel.GEN_FUNC,

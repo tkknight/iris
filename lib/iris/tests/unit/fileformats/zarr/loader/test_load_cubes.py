@@ -471,23 +471,23 @@ class TestMesh:
     """
 
     @pytest.fixture
-    def cube(self, tmp_path):
+    def cube(self, tmp_path):  # noqa: D102
         location = stores.make_mesh_store(tmp_path / "mesh.zarr")
         return list(load_cubes(location))[0]
 
-    def test_the_cube_carries_a_mesh(self, cube):
+    def test_the_cube_carries_a_mesh(self, cube):  # noqa: D102
         assert cube.mesh is not None
         assert cube.mesh.var_name == "mesh"
         assert cube.mesh.topology_dimension == 2
 
-    def test_the_mesh_is_on_the_right_dimension(self, cube):
+    def test_the_mesh_is_on_the_right_dimension(self, cube):  # noqa: D102
         assert cube.mesh_dim() == cube.coord_dims("time")[0] + 1
 
-    def test_the_mesh_coords_are_attached(self, cube):
+    def test_the_mesh_coords_are_attached(self, cube):  # noqa: D102
         names = sorted(coord.name() for coord in cube.coords(mesh_coords=True))
         assert names == ["latitude", "longitude"]
 
-    def test_the_connectivity_is_read(self, cube):
+    def test_the_connectivity_is_read(self, cube):  # noqa: D102
         connectivity = cube.mesh.face_node_connectivity
         np.testing.assert_array_equal(
             connectivity.indices, stores.MESH_ARRAYS["face_nodes"][0]
@@ -503,7 +503,7 @@ class TestMesh:
         assert "mesh" not in cube.attributes
         assert "location" not in cube.attributes
 
-    def test_a_version_2_store_gives_the_same_mesh(self, tmp_path):
+    def test_a_version_2_store_gives_the_same_mesh(self, tmp_path):  # noqa: D102
         v3 = list(load_cubes(stores.make_mesh_store(tmp_path / "v3.zarr")))[0]
         v2 = list(
             load_cubes(stores.make_mesh_store(tmp_path / "v2.zarr", zarr_format=2))

@@ -96,10 +96,10 @@ class TestCoordMatchWithMesh(CubeArithmeticCoordsTest):
         with pytest.raises(ValueError, match=expected):
             add(cube1, cube2)
 
-    def test_no_match_dim0(self):
+    def test_no_match_dim0(self):  # noqa: D102
         self._check_no_match(0)
 
-    def test_no_match_dim1(self):
+    def test_no_match_dim1(self):  # noqa: D102
         self._check_no_match(1)
 
     def _check_reversed_points(self, dim):
@@ -110,17 +110,17 @@ class TestCoordMatchWithMesh(CubeArithmeticCoordsTest):
         with pytest.raises(ValueError, match=expected):
             add(cube1, cube2)
 
-    def test_reversed_points_dim0(self):
+    def test_reversed_points_dim0(self):  # noqa: D102
         self._check_reversed_points(0)
 
-    def test_reversed_points_dim1(self):
+    def test_reversed_points_dim1(self):  # noqa: D102
         self._check_reversed_points(1)
 
 
 class TestBasicMeshOperation:
     """Some very basic standalone tests, in an easier-to-comprehend form."""
 
-    def test_meshcube_same_mesh(self):
+    def test_meshcube_same_mesh(self):  # noqa: D102
         # Two similar cubes on a common mesh add to a third on the same mesh.
         mesh = sample_mesh()
         cube1 = sample_mesh_cube(mesh=mesh)
@@ -132,7 +132,7 @@ class TestBasicMeshOperation:
         assert result.shape == cube1.shape
         assert result.mesh is mesh
 
-    def test_meshcube_different_equal_mesh(self):
+    def test_meshcube_different_equal_mesh(self):  # noqa: D102
         # Two similar cubes on identical but different meshes.
         cube1 = sample_mesh_cube()
         cube2 = sample_mesh_cube()
@@ -144,7 +144,7 @@ class TestBasicMeshOperation:
         assert result.mesh == cube1.mesh
         assert result.mesh is cube1.mesh or result.mesh is cube2.mesh
 
-    def test_fail_meshcube_nonequal_mesh(self):
+    def test_fail_meshcube_nonequal_mesh(self):  # noqa: D102
         # Cubes on similar but different meshes -- should *not* combine.
         mesh1 = sample_mesh()
         mesh2 = sample_mesh(n_edges=0)
@@ -156,7 +156,7 @@ class TestBasicMeshOperation:
         with pytest.raises(ValueError, match=msg):
             cube1 + cube2
 
-    def test_meshcube_meshcoord(self):
+    def test_meshcube_meshcoord(self):  # noqa: D102
         # Combining a meshcube and meshcoord.
         cube = sample_mesh_cube()
         cube_coord = cube.coord("latitude")

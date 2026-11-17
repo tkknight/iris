@@ -18,40 +18,40 @@ def create_scheme(mode=None):
 
 class Test_extrapolation_mode:
     """Test extrapolation mode."""
-    def check_mode(self, mode):
+    def check_mode(self, mode):  # noqa: D102
         linear = create_scheme(mode)
         assert linear.extrapolation_mode == mode
 
-    def test_default(self):
+    def test_default(self):  # noqa: D102
         linear = Linear()
         assert linear.extrapolation_mode == "linear"
 
-    def test_extrapolate(self):
+    def test_extrapolate(self):  # noqa: D102
         self.check_mode("extrapolate")
 
-    def test_linear(self):
+    def test_linear(self):  # noqa: D102
         self.check_mode("linear")
 
-    def test_nan(self):
+    def test_nan(self):  # noqa: D102
         self.check_mode("nan")
 
-    def test_error(self):
+    def test_error(self):  # noqa: D102
         self.check_mode("error")
 
-    def test_mask(self):
+    def test_mask(self):  # noqa: D102
         self.check_mode("mask")
 
-    def test_nanmask(self):
+    def test_nanmask(self):  # noqa: D102
         self.check_mode("nanmask")
 
-    def test_invalid(self):
+    def test_invalid(self):  # noqa: D102
         with pytest.raises(ValueError, match="Extrapolation mode"):
             Linear("bogus")
 
 
 class Test_interpolator:
     """Test interpolator."""
-    def check_mode(self, mocker, mode=None):
+    def check_mode(self, mocker, mode=None):  # noqa: D102
         linear = create_scheme(mode)
 
         # Check that calling `linear.interpolator(...)` returns an
@@ -71,31 +71,31 @@ class Test_interpolator:
         )
         assert interpolator is mocker.sentinel.interpolator
 
-    def test_default(self, mocker):
+    def test_default(self, mocker):  # noqa: D102
         self.check_mode(mocker)
 
-    def test_extrapolate(self, mocker):
+    def test_extrapolate(self, mocker):  # noqa: D102
         self.check_mode(mocker, "extrapolate")
 
-    def test_linear(self, mocker):
+    def test_linear(self, mocker):  # noqa: D102
         self.check_mode(mocker, "linear")
 
-    def test_nan(self, mocker):
+    def test_nan(self, mocker):  # noqa: D102
         self.check_mode(mocker, "nan")
 
-    def test_error(self, mocker):
+    def test_error(self, mocker):  # noqa: D102
         self.check_mode(mocker, "error")
 
-    def test_mask(self, mocker):
+    def test_mask(self, mocker):  # noqa: D102
         self.check_mode(mocker, "mask")
 
-    def test_nanmask(self, mocker):
+    def test_nanmask(self, mocker):  # noqa: D102
         self.check_mode(mocker, "nanmask")
 
 
 class Test_regridder:
     """Test regridder."""
-    def check_mode(self, mocker, mode=None):
+    def check_mode(self, mocker, mode=None):  # noqa: D102
         linear = create_scheme(mode)
 
         # Check that calling `linear.regridder(...)` returns an instance
@@ -115,23 +115,23 @@ class Test_regridder:
         )
         assert regridder is mocker.sentinel.regridder
 
-    def test_default(self, mocker):
+    def test_default(self, mocker):  # noqa: D102
         self.check_mode(mocker)
 
-    def test_extrapolate(self, mocker):
+    def test_extrapolate(self, mocker):  # noqa: D102
         self.check_mode(mocker, "extrapolate")
 
-    def test_linear(self, mocker):
+    def test_linear(self, mocker):  # noqa: D102
         self.check_mode(mocker, "linear")
 
-    def test_nan(self, mocker):
+    def test_nan(self, mocker):  # noqa: D102
         self.check_mode(mocker, "nan")
 
-    def test_error(self, mocker):
+    def test_error(self, mocker):  # noqa: D102
         self.check_mode(mocker, "error")
 
-    def test_mask(self, mocker):
+    def test_mask(self, mocker):  # noqa: D102
         self.check_mode(mocker, "mask")
 
-    def test_nanmask(self, mocker):
+    def test_nanmask(self, mocker):  # noqa: D102
         self.check_mode(mocker, "nanmask")

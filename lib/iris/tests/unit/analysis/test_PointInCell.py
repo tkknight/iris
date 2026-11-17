@@ -9,7 +9,7 @@ from iris.analysis import PointInCell
 
 class Test_regridder:
     """Test regridder."""
-    def test(self, mocker):
+    def test(self, mocker):  # noqa: D102
         point_in_cell = PointInCell(mocker.sentinel.weights)
 
         ecr = mocker.patch(

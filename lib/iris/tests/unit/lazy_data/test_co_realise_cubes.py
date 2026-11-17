@@ -28,18 +28,18 @@ class ArrayAccessCounter:
 
 class Test_co_realise_cubes:
     """Test co realise cubes."""
-    def test_empty(self):
+    def test_empty(self):  # noqa: D102
         # Ensure that 'no args' case does not raise an error.
         co_realise_cubes()
 
-    def test_basic(self):
+    def test_basic(self):  # noqa: D102
         real_data = np.arange(3.0)
         cube = Cube(as_lazy_data(real_data))
         co_realise_cubes(cube)
         assert not cube.has_lazy_data()
         assert_array_all_close(cube.core_data(), real_data)
 
-    def test_multi(self):
+    def test_multi(self):  # noqa: D102
         real_data = np.arange(3.0)
         cube_base = Cube(as_lazy_data(real_data))
         cube_inner = cube_base + 1
@@ -53,7 +53,7 @@ class Test_co_realise_cubes:
         assert cube_base.has_lazy_data()
         assert cube_inner.has_lazy_data()
 
-    def test_combined_access(self):
+    def test_combined_access(self):  # noqa: D102
         wrapped_array = ArrayAccessCounter(np.arange(3.0))
         lazy_array = as_lazy_data(wrapped_array, meta=wrapped_array.meta)
         derived_a = lazy_array + 1

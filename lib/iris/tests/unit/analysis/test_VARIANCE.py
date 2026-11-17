@@ -17,7 +17,7 @@ from iris.tests import _shared_utils
 
 class Test_units_func:
     """Test units func."""
-    def test(self, mocker):
+    def test(self, mocker):  # noqa: D102
         assert VARIANCE.units_func is not None
         mul = mocker.Mock(return_value=mocker.sentinel.new_unit)
         units = mocker.Mock(__mul__=mul)
@@ -34,13 +34,13 @@ class Test_masked:
         self.cube = iris.cube.Cube(ma.masked_equal([1, 2, 3, 4, 5], 3))
         self.cube.add_dim_coord(DimCoord([6, 7, 8, 9, 10], long_name="foo"), 0)
 
-    def test_ma_ddof0(self):
+    def test_ma_ddof0(self):  # noqa: D102
         cube = self.cube.collapsed("foo", VARIANCE, ddof=0)
         expected = 10 / 4.0
         _shared_utils.assert_array_equal(np.var(self.cube.data, ddof=0), expected)
         _shared_utils.assert_array_almost_equal(cube.data, expected)
 
-    def test_ma_ddof1(self):
+    def test_ma_ddof1(self):  # noqa: D102
         cube = self.cube.collapsed("foo", VARIANCE, ddof=1)
         expected = 10 / 3.0
         _shared_utils.assert_array_equal(np.var(self.cube.data, ddof=1), expected)
@@ -53,13 +53,13 @@ class Test_masked:
 
 class Test_lazy_aggregate:
     """Test lazy aggregate."""
-    def test_ddof_one(self):
+    def test_ddof_one(self):  # noqa: D102
         array = as_lazy_data(np.arange(8))
         var = VARIANCE.lazy_aggregate(array, axis=0, ddof=1)
         result = as_concrete_data(var)
         _shared_utils.assert_array_almost_equal(result, np.array(6.0))
 
-    def test_ddof_zero(self):
+    def test_ddof_zero(self):  # noqa: D102
         array = as_lazy_data(np.arange(8))
         var = VARIANCE.lazy_aggregate(array, axis=0, ddof=0)
         result = as_concrete_data(var)
@@ -68,13 +68,13 @@ class Test_lazy_aggregate:
 
 class Test_name:
     """Test name."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert VARIANCE.name() == "variance"
 
 
 class Test_aggregate_shape:
     """Test aggregate shape."""
-    def test(self):
+    def test(self):  # noqa: D102
         shape = ()
         kwargs = dict()
         assert VARIANCE.aggregate_shape(**kwargs) == shape

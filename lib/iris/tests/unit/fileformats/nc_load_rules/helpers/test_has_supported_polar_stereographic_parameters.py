@@ -28,7 +28,7 @@ class _EngineMixin(MockerMixin):
 
 class TestHasSupportedPolarStereographicParameters(_EngineMixin):
     """Test asSupportedPolarStereographicParameters."""
-    def test_valid_base_north(self, mocker):
+    def test_valid_base_north(self, mocker):  # noqa: D102
         cf_name = "polar_stereographic"
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
@@ -45,7 +45,7 @@ class TestHasSupportedPolarStereographicParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_valid_base_south(self, mocker):
+    def test_valid_base_south(self, mocker):  # noqa: D102
         cf_name = "polar_stereographic"
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
@@ -62,7 +62,7 @@ class TestHasSupportedPolarStereographicParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_valid_straight_vertical_longitude(self, mocker):
+    def test_valid_straight_vertical_longitude(self, mocker):  # noqa: D102
         cf_name = "polar_stereographic"
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=30,
@@ -79,7 +79,7 @@ class TestHasSupportedPolarStereographicParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_valid_false_easting_northing(self, mocker):
+    def test_valid_false_easting_northing(self, mocker):  # noqa: D102
         cf_name = "polar_stereographic"
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
@@ -96,7 +96,7 @@ class TestHasSupportedPolarStereographicParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_valid_standard_parallel(self, mocker):
+    def test_valid_standard_parallel(self, mocker):  # noqa: D102
         cf_name = "polar_stereographic"
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
@@ -113,7 +113,7 @@ class TestHasSupportedPolarStereographicParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_valid_scale_factor(self, mocker):
+    def test_valid_scale_factor(self, mocker):  # noqa: D102
         cf_name = "polar_stereographic"
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,
@@ -130,7 +130,7 @@ class TestHasSupportedPolarStereographicParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_invalid_scale_factor_and_standard_parallel(self, mocker):
+    def test_invalid_scale_factor_and_standard_parallel(self, mocker):  # noqa: D102
         # Scale factor and standard parallel cannot both be specified for
         # Polar Stereographic projections
         cf_name = "polar_stereographic"
@@ -158,7 +158,7 @@ class TestHasSupportedPolarStereographicParameters(_EngineMixin):
         )
         assert re.search(msg, str(warns[0]))
 
-    def test_absent_scale_factor_and_standard_parallel(self, mocker):
+    def test_absent_scale_factor_and_standard_parallel(self, mocker):  # noqa: D102
         # Scale factor and standard parallel cannot both be specified for
         # Polar Stereographic projections
         cf_name = "polar_stereographic"
@@ -184,7 +184,7 @@ class TestHasSupportedPolarStereographicParameters(_EngineMixin):
         )
         assert re.search(msg, str(warns[0]))
 
-    def test_invalid_latitude_of_projection_origin(self, mocker):
+    def test_invalid_latitude_of_projection_origin(self, mocker):  # noqa: D102
         # Scale factor and standard parallel cannot both be specified for
         # Polar Stereographic projections
         cf_name = "polar_stereographic"

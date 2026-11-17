@@ -27,7 +27,7 @@ from iris.tests.unit.coords import (
 class AuxCoordTestMixin(CoordTestMixin):
     """AuxCoordTestMixin."""
     # Define a 2-D default array shape.
-    def setup_test_arrays(self, shape=(2, 3), masked=False):
+    def setup_test_arrays(self, shape=(2, 3), masked=False):  # noqa: D102
         super().setup_test_arrays(shape, masked=masked)
 
 
@@ -40,7 +40,7 @@ class Test__init__(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays(masked=True)
 
-    def test_lazyness_and_dtype_combinations(self):
+    def test_lazyness_and_dtype_combinations(self):  # noqa: D102
         for (
             coord,
             points_type_name,
@@ -96,7 +96,7 @@ class Test__init__(AuxCoordTestMixin):
                 target_dtype = coord.bounds_dtype
                 assert coord.bounds.dtype == target_dtype
 
-    def test_fail_bounds_shape_mismatch(self):
+    def test_fail_bounds_shape_mismatch(self):  # noqa: D102
         bds_shape = list(self.bds_real.shape)
         bds_shape[0] += 1
         bds_wrong = np.zeros(bds_shape)
@@ -104,7 +104,7 @@ class Test__init__(AuxCoordTestMixin):
         with pytest.raises(ValueError, match=msg):
             AuxCoord(self.pts_real, bounds=bds_wrong)
 
-    def test_no_masked_pts_real(self):
+    def test_no_masked_pts_real(self):  # noqa: D102
         data = self.no_masked_pts_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data) == 0
@@ -113,7 +113,7 @@ class Test__init__(AuxCoordTestMixin):
         assert ma.isMaskedArray(coord.points)
         assert ma.count_masked(coord.points) == 0
 
-    def test_no_masked_pts_lazy(self):
+    def test_no_masked_pts_lazy(self):  # noqa: D102
         data = self.no_masked_pts_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -123,7 +123,7 @@ class Test__init__(AuxCoordTestMixin):
         assert ma.isMaskedArray(coord.points)
         assert ma.count_masked(coord.points) == 0
 
-    def test_masked_pts_real(self):
+    def test_masked_pts_real(self):  # noqa: D102
         data = self.masked_pts_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data)
@@ -132,7 +132,7 @@ class Test__init__(AuxCoordTestMixin):
         assert ma.isMaskedArray(coord.points)
         assert ma.count_masked(coord.points)
 
-    def test_masked_pts_lazy(self):
+    def test_masked_pts_lazy(self):  # noqa: D102
         data = self.masked_pts_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -142,7 +142,7 @@ class Test__init__(AuxCoordTestMixin):
         assert ma.isMaskedArray(coord.points)
         assert ma.count_masked(coord.points)
 
-    def test_no_masked_bds_real(self):
+    def test_no_masked_bds_real(self):  # noqa: D102
         data = self.no_masked_bds_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data) == 0
@@ -151,7 +151,7 @@ class Test__init__(AuxCoordTestMixin):
         assert ma.isMaskedArray(coord.bounds)
         assert ma.count_masked(coord.bounds) == 0
 
-    def test_no_masked_bds_lazy(self):
+    def test_no_masked_bds_lazy(self):  # noqa: D102
         data = self.no_masked_bds_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -161,7 +161,7 @@ class Test__init__(AuxCoordTestMixin):
         assert ma.isMaskedArray(coord.bounds)
         assert ma.count_masked(coord.bounds) == 0
 
-    def test_masked_bds_real(self):
+    def test_masked_bds_real(self):  # noqa: D102
         data = self.masked_bds_real
         assert ma.isMaskedArray(data)
         assert ma.count_masked(data)
@@ -170,7 +170,7 @@ class Test__init__(AuxCoordTestMixin):
         assert ma.isMaskedArray(coord.bounds)
         assert ma.count_masked(coord.bounds)
 
-    def test_masked_bds_lazy(self):
+    def test_masked_bds_lazy(self):  # noqa: D102
         data = self.masked_bds_lazy
         computed = data.compute()
         assert ma.isMaskedArray(computed)
@@ -188,7 +188,7 @@ class Test_core_points(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_points(self):
+    def test_real_points(self):  # noqa: D102
         coord = AuxCoord(self.pts_real)
         result = coord.core_points()
         self.assert_arrays_share_data(
@@ -197,12 +197,12 @@ class Test_core_points(AuxCoordTestMixin):
             "core_points() do not share data with the internal array.",
         )
 
-    def test_lazy_points(self):
+    def test_lazy_points(self):  # noqa: D102
         coord = AuxCoord(self.pts_lazy)
         result = coord.core_points()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.pts_lazy)
 
-    def test_lazy_points_realise(self):
+    def test_lazy_points_realise(self):  # noqa: D102
         coord = AuxCoord(self.pts_lazy)
         real_points = coord.points
         result = coord.core_points()
@@ -216,12 +216,12 @@ class Test_core_bounds(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_no_bounds(self):
+    def test_no_bounds(self):  # noqa: D102
         coord = AuxCoord(self.pts_real)
         result = coord.core_bounds()
         assert result is None
 
-    def test_real_bounds(self):
+    def test_real_bounds(self):  # noqa: D102
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         result = coord.core_bounds()
         self.assert_arrays_share_data(
@@ -230,12 +230,12 @@ class Test_core_bounds(AuxCoordTestMixin):
             "core_bounds() do not share data with the internal array.",
         )
 
-    def test_lazy_bounds(self):
+    def test_lazy_bounds(self):  # noqa: D102
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
         result = coord.core_bounds()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.bds_lazy)
 
-    def test_lazy_bounds_realise(self):
+    def test_lazy_bounds_realise(self):  # noqa: D102
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
         real_bounds = coord.bounds
         result = coord.core_bounds()
@@ -248,12 +248,12 @@ class Test_lazy_points(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         coord = AuxCoord(self.pts_real)
         result = coord.lazy_points()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.pts_lazy)
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         coord = AuxCoord(self.pts_lazy)
         result = coord.lazy_points()
         assert result is self.pts_lazy
@@ -265,17 +265,17 @@ class Test_lazy_bounds(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_no_bounds(self):
+    def test_no_bounds(self):  # noqa: D102
         coord = AuxCoord(self.pts_real)
         result = coord.lazy_bounds()
         assert result is None
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         result = coord.lazy_bounds()
         self.assert_equal_lazy_arrays_and_dtypes(result, self.bds_lazy)
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
         result = coord.lazy_bounds()
         assert result is self.bds_lazy
@@ -287,17 +287,17 @@ class Test_has_lazy_points(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         coord = AuxCoord(self.pts_real)
         result = coord.has_lazy_points()
         assert not result
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         coord = AuxCoord(self.pts_lazy)
         result = coord.has_lazy_points()
         assert result
 
-    def test_lazy_core_realise(self):
+    def test_lazy_core_realise(self):  # noqa: D102
         coord = AuxCoord(self.pts_lazy)
         coord.points
         result = coord.has_lazy_points()
@@ -310,17 +310,17 @@ class Test_has_lazy_bounds(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_core(self):
+    def test_real_core(self):  # noqa: D102
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         result = coord.has_lazy_bounds()
         assert not result
 
-    def test_lazy_core(self):
+    def test_lazy_core(self):  # noqa: D102
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
         result = coord.has_lazy_bounds()
         assert result
 
-    def test_lazy_core_realise(self):
+    def test_lazy_core_realise(self):  # noqa: D102
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
         coord.bounds
         result = coord.has_lazy_bounds()
@@ -329,19 +329,19 @@ class Test_has_lazy_bounds(AuxCoordTestMixin):
 
 class Test_bounds_dtype(AuxCoordTestMixin):
     """Test bounds dtype."""
-    def test_i16(self):
+    def test_i16(self):  # noqa: D102
         test_dtype = np.int16
         coord = AuxCoord([1], bounds=np.array([[0, 4]], dtype=test_dtype))
         result = coord.bounds_dtype
         assert result == test_dtype
 
-    def test_u16(self):
+    def test_u16(self):  # noqa: D102
         test_dtype = np.uint16
         coord = AuxCoord([1], bounds=np.array([[0, 4]], dtype=test_dtype))
         result = coord.bounds_dtype
         assert result == test_dtype
 
-    def test_f16(self):
+    def test_f16(self):  # noqa: D102
         test_dtype = np.float16
         coord = AuxCoord([1], bounds=np.array([[0, 4]], dtype=test_dtype))
         result = coord.bounds_dtype
@@ -355,21 +355,21 @@ class Test__getitem__(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_partial_slice_data_copy(self):
+    def test_partial_slice_data_copy(self):  # noqa: D102
         parent_coord = AuxCoord([1.0, 2.0, 3.0])
         sub_coord = parent_coord[:1]
         values_before_change = sub_coord.points.copy()
         parent_coord.points[:] = -999.9
         _shared_utils.assert_array_equal(sub_coord.points, values_before_change)
 
-    def test_full_slice_data_copy(self):
+    def test_full_slice_data_copy(self):  # noqa: D102
         parent_coord = AuxCoord([1.0, 2.0, 3.0])
         sub_coord = parent_coord[:]
         values_before_change = sub_coord.points.copy()
         parent_coord.points[:] = -999.9
         _shared_utils.assert_array_equal(sub_coord.points, values_before_change)
 
-    def test_dtypes(self):
+    def test_dtypes(self):  # noqa: D102
         # Index coords with all combinations of real+lazy points+bounds, and
         # either an int or floating dtype.
         # Check that dtypes remain the same in all cases, taking the dtypes
@@ -408,7 +408,7 @@ class Test__getitem__(AuxCoordTestMixin):
                     sub_bounds.dtype,
                 )
 
-    def test_lazyness(self):
+    def test_lazyness(self):  # noqa: D102
         # Index coords with all combinations of real+lazy points+bounds, and
         # either an int or floating dtype.
         # Check that lazy data stays lazy and real stays real, in all cases.
@@ -446,7 +446,7 @@ class Test__getitem__(AuxCoordTestMixin):
                     sub_bounds_lazy,
                 )
 
-    def test_real_data_copies(self):
+    def test_real_data_copies(self):  # noqa: D102
         # Index coords with all combinations of real+lazy points+bounds.
         # In all cases, check that any real arrays are copied by the indexing.
         for (
@@ -490,7 +490,7 @@ class Test_copy(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_lazyness(self):
+    def test_lazyness(self):  # noqa: D102
         # Copy coords with all combinations of real+lazy points+bounds, and
         # either an int or floating dtype.
         # Check that lazy data stays lazy and real stays real, in all cases.
@@ -529,7 +529,7 @@ class Test_copy(AuxCoordTestMixin):
                     copied_bds_lazy,
                 )
 
-    def test_realdata_copies(self):
+    def test_realdata_copies(self):  # noqa: D102
         # Copy coords with all combinations of real+lazy points+bounds.
         # In all cases, check that any real arrays are copies, not views.
         for (
@@ -571,7 +571,7 @@ class Test_points__getter(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_mutable_real_points(self):
+    def test_mutable_real_points(self):  # noqa: D102
         # Check that coord.points returns a modifiable array, and changes to it
         # are reflected to the coord.
         data = np.array([1.0, 2.0, 3.0, 4.0])
@@ -581,7 +581,7 @@ class Test_points__getter(AuxCoordTestMixin):
         result = coord.points
         assert not np.all(result == initial_values)
 
-    def test_real_points(self):
+    def test_real_points(self):  # noqa: D102
         # Getting real points does not change or copy them.
         coord = AuxCoord(self.pts_real)
         result = coord.points
@@ -591,7 +591,7 @@ class Test_points__getter(AuxCoordTestMixin):
             "Points do not share data with the provided array.",
         )
 
-    def test_lazy_points(self):
+    def test_lazy_points(self):  # noqa: D102
         # Getting lazy points realises them.
         coord = AuxCoord(self.pts_lazy)
         assert coord.has_lazy_points()
@@ -599,7 +599,7 @@ class Test_points__getter(AuxCoordTestMixin):
         assert not coord.has_lazy_points()
         self.assert_equal_real_arrays_and_dtypes(result, self.pts_real)
 
-    def test_real_points_with_real_bounds(self):
+    def test_real_points_with_real_bounds(self):  # noqa: D102
         # Getting real points does not change real bounds.
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         coord.points
@@ -610,20 +610,20 @@ class Test_points__getter(AuxCoordTestMixin):
             "Bounds do not share data with the provided array.",
         )
 
-    def test_real_points_with_lazy_bounds(self):
+    def test_real_points_with_lazy_bounds(self):  # noqa: D102
         # Getting real points does not touch lazy bounds.
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
         coord.points
         assert coord.has_lazy_bounds()
 
-    def test_lazy_points_with_real_bounds(self):
+    def test_lazy_points_with_real_bounds(self):  # noqa: D102
         # Getting lazy points does not affect real bounds.
         coord = AuxCoord(self.pts_lazy, bounds=self.bds_real)
         coord.points
         result = coord.core_bounds()
         self.assert_equal_real_arrays_and_dtypes(result, self.bds_real)
 
-    def test_lazy_points_with_lazy_bounds(self):
+    def test_lazy_points_with_lazy_bounds(self):  # noqa: D102
         # Getting lazy points does not touch lazy bounds.
         coord = AuxCoord(self.pts_lazy, bounds=self.bds_lazy)
         coord.points
@@ -636,7 +636,7 @@ class Test_points__setter(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_real_set_real(self):
+    def test_real_set_real(self):  # noqa: D102
         # Setting new real points does not make a copy.
         coord = AuxCoord(self.pts_real)
         new_pts = self.pts_real + 102.3
@@ -648,14 +648,14 @@ class Test_points__setter(AuxCoordTestMixin):
             "Points do not share data with the assigned array.",
         )
 
-    def test_fail_bad_shape(self):
+    def test_fail_bad_shape(self):  # noqa: D102
         # Setting real points requires matching shape.
         coord = AuxCoord([1.0, 2.0])
         msg = r"Require data with shape \(2,\), got \(3,\)"
         with pytest.raises(ValueError, match=msg):
             coord.points = np.array([1.0, 2.0, 3.0])
 
-    def test_real_set_lazy(self):
+    def test_real_set_lazy(self):  # noqa: D102
         # Setting new lazy points does not make a copy.
         coord = AuxCoord(self.pts_real)
         new_pts = self.pts_lazy + 102.3
@@ -663,7 +663,7 @@ class Test_points__setter(AuxCoordTestMixin):
         result = coord.core_points()
         self.assert_equal_lazy_arrays_and_dtypes(result, new_pts)
 
-    def test_set_points_with_lazy_bounds(self):
+    def test_set_points_with_lazy_bounds(self):  # noqa: D102
         # Setting points does not touch lazy bounds.
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
         new_pts = self.pts_real + 102.3
@@ -678,7 +678,7 @@ class Test_bounds__getter(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_mutable_real_bounds(self):
+    def test_mutable_real_bounds(self):  # noqa: D102
         # Check that coord.bounds returns a modifiable array, and changes to it
         # are reflected to the coord.
         pts_data = np.array([1.5, 2.5])
@@ -689,7 +689,7 @@ class Test_bounds__getter(AuxCoordTestMixin):
         result = coord.bounds
         assert not np.all(result == initial_values)
 
-    def test_real_bounds(self):
+    def test_real_bounds(self):  # noqa: D102
         # Getting real bounds does not change or copy them.
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         result = coord.bounds
@@ -699,7 +699,7 @@ class Test_bounds__getter(AuxCoordTestMixin):
             "Bounds do not share data with the provided array.",
         )
 
-    def test_lazy_bounds(self):
+    def test_lazy_bounds(self):  # noqa: D102
         # Getting lazy bounds realises them.
         coord = AuxCoord(self.pts_real, bounds=self.bds_lazy)
         assert coord.has_lazy_bounds()
@@ -707,7 +707,7 @@ class Test_bounds__getter(AuxCoordTestMixin):
         assert not coord.has_lazy_bounds()
         self.assert_equal_real_arrays_and_dtypes(result, self.bds_real)
 
-    def test_lazy_bounds_with_lazy_points(self):
+    def test_lazy_bounds_with_lazy_points(self):  # noqa: D102
         # Getting lazy bounds does not fetch the points.
         coord = AuxCoord(self.pts_lazy, bounds=self.bds_lazy)
         coord.bounds
@@ -720,7 +720,7 @@ class Test_bounds__setter(AuxCoordTestMixin):
     def _setup(self):
         self.setup_test_arrays()
 
-    def test_set_real_bounds(self):
+    def test_set_real_bounds(self):  # noqa: D102
         # Setting new real bounds does not make a copy.
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         new_bounds = self.bds_real + 102.3
@@ -732,14 +732,14 @@ class Test_bounds__setter(AuxCoordTestMixin):
             "Bounds do not share data with the assigned array.",
         )
 
-    def test_fail_bad_shape(self):
+    def test_fail_bad_shape(self):  # noqa: D102
         # Setting real points requires matching shape.
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         msg = "must be compatible with points shape"
         with pytest.raises(ValueError, match=msg):
             coord.bounds = np.array([1.0, 2.0, 3.0])
 
-    def test_set_lazy_bounds(self):
+    def test_set_lazy_bounds(self):  # noqa: D102
         # Setting new lazy bounds.
         coord = AuxCoord(self.pts_real, bounds=self.bds_real)
         new_bounds = self.bds_lazy + 102.3
@@ -747,7 +747,7 @@ class Test_bounds__setter(AuxCoordTestMixin):
         result = coord.core_bounds()
         self.assert_equal_lazy_arrays_and_dtypes(result, new_bounds)
 
-    def test_set_bounds_with_lazy_points(self):
+    def test_set_bounds_with_lazy_points(self):  # noqa: D102
         # Setting bounds does not change lazy points.
         coord = AuxCoord(self.pts_lazy, bounds=self.bds_real)
         new_bounds = self.bds_real + 102.3
@@ -757,7 +757,7 @@ class Test_bounds__setter(AuxCoordTestMixin):
 
 class Test_convert_units:
     """Test convert units."""
-    def test_preserves_lazy(self):
+    def test_preserves_lazy(self):  # noqa: D102
         test_bounds = np.array(
             [
                 [[11.0, 12.0], [12.0, 13.0], [13.0, 14.0]],
@@ -779,15 +779,15 @@ class Test_convert_units:
 
 class TestEquality:
     """Test quality."""
-    def test_nanpoints_eq_self(self):
+    def test_nanpoints_eq_self(self):  # noqa: D102
         co1 = AuxCoord([1.0, np.nan, 2.0])
         assert co1 == co1
 
-    def test_nanpoints_eq_copy(self):
+    def test_nanpoints_eq_copy(self):  # noqa: D102
         co1 = AuxCoord([1.0, np.nan, 2.0])
         co2 = co1.copy()
         assert co1 == co2
 
-    def test_nanbounds_eq_self(self):
+    def test_nanbounds_eq_self(self):  # noqa: D102
         co1 = AuxCoord([15.0, 25.0], bounds=[[14.0, 16.0], [24.0, np.nan]])
         assert co1 == co1

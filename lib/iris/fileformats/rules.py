@@ -38,10 +38,10 @@ class ConcreteReferenceTarget:
         self._src_cubes = iris.cube.CubeList()
         self._final_cube = None
 
-    def add_cube(self, cube):
+    def add_cube(self, cube):  # noqa: D102
         self._src_cubes.append(cube)
 
-    def as_cube(self):
+    def as_cube(self):  # noqa: D102
         if self._final_cube is None:
             src_cubes = self._src_cubes
             if len(src_cubes) > 1:

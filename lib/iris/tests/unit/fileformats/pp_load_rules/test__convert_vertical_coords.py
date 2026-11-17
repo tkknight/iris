@@ -90,20 +90,20 @@ class TestLBVC001_Height:
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
         assert factories == []
 
-    def test_normal_height__present(self):
+    def test_normal_height__present(self):  # noqa: D102
         self._check_height(blev=12.3, stash=STASH(1, 1, 1))
 
-    def test_normal_height__present_vector(self):
+    def test_normal_height__present_vector(self):  # noqa: D102
         data = [12.3, 123.4, 1234.5]
         dim = 0
         for blev in [data, np.asarray(data)]:
             for dim_i in [dim, (dim,)]:
                 self._check_height(blev=blev, stash=STASH(1, 1, 1), dim=dim_i)
 
-    def test_normal_height__absent(self):
+    def test_normal_height__absent(self):  # noqa: D102
         self._check_height(blev=-1, stash=STASH(1, 1, 1), expect_normal=False)
 
-    def test_normal_height__absent_vector(self):
+    def test_normal_height__absent_vector(self):  # noqa: D102
         data = [-1, -1, -1]
         dim = 1
         for blev in [data, np.asarray(data)]:
@@ -115,7 +115,7 @@ class TestLBVC001_Height:
                     dim=dim_i,
                 )
 
-    def test_normal_height__absent_mixed_vector(self):
+    def test_normal_height__absent_mixed_vector(self):  # noqa: D102
         data = [-1, 12.3, -1, 123.4]
         dim = 2
         for blev in [data, np.asarray(data)]:
@@ -127,7 +127,7 @@ class TestLBVC001_Height:
                     dim=dim_i,
                 )
 
-    def test_implied_height_1m5(self):
+    def test_implied_height_1m5(self):  # noqa: D102
         self._check_height(
             blev=75.2,
             stash=STASH(1, 3, 236),
@@ -135,7 +135,7 @@ class TestLBVC001_Height:
             expect_fixed_height=1.5,
         )
 
-    def test_implied_height_1m5__vector(self):
+    def test_implied_height_1m5__vector(self):  # noqa: D102
         data = [1, 2, 3, 4]
         dim = 3
         for blev in [data, np.asarray(data)]:
@@ -148,7 +148,7 @@ class TestLBVC001_Height:
                     dim=dim_i,
                 )
 
-    def test_implied_height_10m(self):
+    def test_implied_height_10m(self):  # noqa: D102
         self._check_height(
             blev=75.2,
             stash=STASH(1, 3, 225),
@@ -156,7 +156,7 @@ class TestLBVC001_Height:
             expect_fixed_height=10.0,
         )
 
-    def test_implied_height_10m__vector(self):
+    def test_implied_height_10m__vector(self):  # noqa: D102
         data = list(range(10))
         dim = 4
         for blev in [data, np.asarray(data)]:
@@ -250,10 +250,10 @@ class TestLBVC002_Depth:
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
         assert factories == []
 
-    def test_unbounded(self):
+    def test_unbounded(self):  # noqa: D102
         self._check_depth(_lbcode(1), lblev=23.0, expect_bounds=False)
 
-    def test_unbounded__vector(self):
+    def test_unbounded__vector(self):  # noqa: D102
         lblev = [1, 2, 3]
         blev = [10, 20, 30]
         brsvd1 = [5, 15, 25]
@@ -268,7 +268,7 @@ class TestLBVC002_Depth:
             dim=1,
         )
 
-    def test_unbounded__vector_no_depth(self):
+    def test_unbounded__vector_no_depth(self):  # noqa: D102
         lblev = [1, 2, 3]
         blev = [10, 20, 30]
         brsvd1 = [5, 15, 25]
@@ -283,7 +283,7 @@ class TestLBVC002_Depth:
             dim=0,
         )
 
-    def test_unbounded_incompatible_vectors(self):
+    def test_unbounded_incompatible_vectors(self):  # noqa: D102
         # Confirm this is not vulnerable to the non-broadcastable error.
         lblev = [1, 2, 3]
         blev = [10, 20, 30]
@@ -306,12 +306,12 @@ class TestLBVC002_Depth:
                 pytest.fail(message)
             pass
 
-    def test_bounded(self):
+    def test_bounded(self):  # noqa: D102
         self._check_depth(
             _lbcode(1), lblev=23.0, brlev=22.5, brsvd1=23.5, expect_bounds=True
         )
 
-    def test_bounded__vector(self):
+    def test_bounded__vector(self):  # noqa: D102
         lblev = [1, 2, 3]
         blev = [10, 20, 30]
         brsvd1 = [5, 15, 25]
@@ -326,7 +326,7 @@ class TestLBVC002_Depth:
             dim=1,
         )
 
-    def test_bounded_incompatible_vectors(self):
+    def test_bounded_incompatible_vectors(self):  # noqa: D102
         # Confirm this is not vulnerable to the non-broadcastable error.
         lblev = [1, 2, 3]
         blev = [10, 20, 30]
@@ -349,10 +349,10 @@ class TestLBVC002_Depth:
                 pytest.fail(message)
             pass
 
-    def test_cross_section(self):
+    def test_cross_section(self):  # noqa: D102
         self._check_depth(_lbcode(ix=1, iy=2), lblev=23.0, expect_match=False)
 
-    def test_cross_section__vector(self):
+    def test_cross_section__vector(self):  # noqa: D102
         lblev = [1, 2, 3]
         blev = [10, 20, 30]
         brsvd1 = [5, 15, 25]
@@ -403,14 +403,14 @@ class TestLBVC006_SoilLevel:
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
         assert factories == []
 
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         self._check_soil_level(_lbcode(0))
 
-    def test_normal__vector(self):
+    def test_normal__vector(self):  # noqa: D102
         lblev = np.arange(10)
         self._check_soil_level(_lbcode(0), lblev=lblev, dim=0)
 
-    def test_normal_incompatible_vectors(self):
+    def test_normal_incompatible_vectors(self):  # noqa: D102
         # Confirm this is not vulnerable to the non-broadcastable error.
         lbvc = 6
         stash = STASH(1, 1, 1)
@@ -441,10 +441,10 @@ class TestLBVC006_SoilLevel:
                 pytest.fail(message)
             pass
 
-    def test_cross_section(self):
+    def test_cross_section(self):  # noqa: D102
         self._check_soil_level(_lbcode(ix=1, iy=2), expect_match=False)
 
-    def test_cross_section__vector(self):
+    def test_cross_section__vector(self):  # noqa: D102
         lblev = np.arange(10)
         self._check_soil_level(
             _lbcode(ix=1, iy=2), lblev=lblev, expect_match=False, dim=0
@@ -491,16 +491,16 @@ class TestLBVC006_SoilDepth:
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
         assert factories == []
 
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         self._check_soil_depth(_lbcode(0))
 
-    def test_normal__vector(self):
+    def test_normal__vector(self):  # noqa: D102
         points = np.arange(10)
         self._check_soil_depth(
             _lbcode(0), blev=points, brsvd1=points - 1, brlev=points + 1, dim=0
         )
 
-    def test_bad_bounds(self):
+    def test_bad_bounds(self):  # noqa: D102
         points = [-0.5, 0.5]
         lower = [-1, 1]
         upper = [-1, 1]
@@ -513,10 +513,10 @@ class TestLBVC006_SoilDepth:
             expect_match=False,
         )
 
-    def test_cross_section(self):
+    def test_cross_section(self):  # noqa: D102
         self._check_soil_depth(_lbcode(ix=1, iy=2), expect_match=False)
 
-    def test_cross_section__vector(self):
+    def test_cross_section__vector(self):  # noqa: D102
         points = np.arange(10)
         self._check_soil_depth(
             _lbcode(ix=1, iy=2),
@@ -561,24 +561,24 @@ class TestLBVC008_Pressure:
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
         assert factories == []
 
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         self._check_pressure(_lbcode(0))
 
-    def test_normal__vector(self):
+    def test_normal__vector(self):  # noqa: D102
         blev = [10, 100, 1000, 10000]
         self._check_pressure(_lbcode(0), blev=blev, dim=2)
 
-    def test_non_pressure_cross_section(self):
+    def test_non_pressure_cross_section(self):  # noqa: D102
         self._check_pressure(_lbcode(ix=10, iy=11))
 
-    def test_non_pressure_cross_section__vector(self):
+    def test_non_pressure_cross_section__vector(self):  # noqa: D102
         blev = np.arange(10)
         self._check_pressure(_lbcode(ix=10, iy=11), blev=blev, dim=0)
 
-    def test_pressure_cross_section(self):
+    def test_pressure_cross_section(self):  # noqa: D102
         self._check_pressure(_lbcode(ix=10, iy=1), expect_match=False)
 
-    def test_pressure_cross_section__vector(self):
+    def test_pressure_cross_section__vector(self):  # noqa: D102
         blev = np.arange(10)
         self._check_pressure(_lbcode(ix=10, iy=1), blev=blev, dim=1, expect_match=False)
 
@@ -626,17 +626,17 @@ class TestLBVC019_PotentialTemperature:
         assert_coords_and_dims_lists_match(coords_and_dims, expect_result)
         assert factories == []
 
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         self._check_potm(_lbcode(0))
 
-    def test_normal__vector(self):
+    def test_normal__vector(self):  # noqa: D102
         blev = list(range(10))
         self._check_potm(_lbcode(0), blev=blev, dim=0)
 
-    def test_cross_section(self):
+    def test_cross_section(self):  # noqa: D102
         self._check_potm(_lbcode(ix=10, iy=11), expect_match=False)
 
-    def test_cross_section__vector(self):
+    def test_cross_section__vector(self):  # noqa: D102
         blev = np.arange(5) + 100
         self._check_potm(_lbcode(ix=10, iy=11), blev=blev, dim=1, expect_match=False)
 
@@ -722,10 +722,10 @@ class TestLBVC009_HybridPressure:
         assert_coords_and_dims_lists_match(coords_and_dims, expect_coords_and_dims)
         assert factories == expect_factories
 
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         self._check()
 
-    def test_normal__vector(self):
+    def test_normal__vector(self):  # noqa: D102
         lblev = list(range(3))
         bhlev = [10, 20, 30]
         bhrlev = [5, 15, 25]
@@ -825,10 +825,10 @@ class TestLBVC065_HybridHeight:
         assert_coords_and_dims_lists_match(coords_and_dims, expect_coords_and_dims)
         assert factories == expect_factories
 
-    def test_normal(self):
+    def test_normal(self):  # noqa: D102
         self._check()
 
-    def test_normal__vector(self):
+    def test_normal__vector(self):  # noqa: D102
         npts = 5
         lblev = np.arange(npts)
         blev = np.arange(npts) + 10
@@ -851,7 +851,7 @@ class TestLBVC065_HybridHeight:
 
 class TestLBVCxxx_Unhandled:
     """Test BVCxxx Unhandled."""
-    def test_unknown_lbvc(self):
+    def test_unknown_lbvc(self):  # noqa: D102
         lbvc = 999
         blev, lblev, bhlev, bhrlev, brsvd1, brsvd2, brlev = (
             None,

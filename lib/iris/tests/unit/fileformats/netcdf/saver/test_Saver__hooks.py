@@ -25,14 +25,14 @@ class TestStringVariables:
     """Unicode data becomes a char variable over a string dimension."""
 
     @pytest.fixture
-    def labelled_cube(self):
+    def labelled_cube(self):  # noqa: D102
         cube = Cube(np.arange(3.0), var_name="payload")
         cube.add_aux_coord(
             AuxCoord(np.array(["alpha", "beta", "gamma"]), var_name="label"), 0
         )
         return cube
 
-    def test_a_string_dimension_is_created_for_the_label(self, labelled_cube, tmp_path):
+    def test_a_string_dimension_is_created_for_the_label(self, labelled_cube, tmp_path):  # noqa: D102
         path = tmp_path / "labelled.nc"
         iris.save(labelled_cube, path)
         with NetCDFDataset(path) as dataset:
@@ -40,7 +40,7 @@ class TestStringVariables:
             # width, and exists only because netCDF has no unicode type.
             assert dataset.dimensions["string5"] == 5
 
-    def test_the_label_round_trips(self, labelled_cube, tmp_path):
+    def test_the_label_round_trips(self, labelled_cube, tmp_path):  # noqa: D102
         path = tmp_path / "labelled.nc"
         iris.save(labelled_cube, path)
         loaded = iris.load_cube(path)
@@ -50,7 +50,7 @@ class TestStringVariables:
 class TestNCZarrWrites:
     """NCZarr cannot be reopened, so lazy data is written before the close."""
 
-    def test_lazy_data_reaches_an_nczarr_target(self, tmp_path):
+    def test_lazy_data_reaches_an_nczarr_target(self, tmp_path):  # noqa: D102
         cube = Cube(da.arange(6.0, chunks=3).reshape(2, 3), long_name="payload")
         assert cube.has_lazy_data()
         uri = (tmp_path / "out.zarr").as_uri() + "#mode=nczarr,file"
@@ -63,7 +63,7 @@ class TestNCZarrWrites:
 class TestCFPatch:
     """The site-configuration hook is documented as receiving netCDF4 objects."""
 
-    def test_cf_patch_receives_raw_netcdf4_objects(self, mocker, tmp_path):
+    def test_cf_patch_receives_raw_netcdf4_objects(self, mocker, tmp_path):  # noqa: D102
         seen = {}
 
         def record(profile, dataset, variable):

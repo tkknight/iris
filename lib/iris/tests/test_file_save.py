@@ -77,7 +77,7 @@ class TestSavePP(TestSaveMethods):
 
     ext = ".pp"
 
-    def test_filename(self):
+    def test_filename(self):  # noqa: D102
         # Save using iris.save and pp.save
         save_by_filename(self.temp_filename1, self.temp_filename2, self.cube1, pp.save)
 
@@ -88,7 +88,7 @@ class TestSavePP(TestSaveMethods):
             self.ext
         )
 
-    def test_filename_path_object(self):
+    def test_filename_path_object(self):  # noqa: D102
         # Save using iris.save and pp.save, passing filename for
         # iris.save as pathlib.Path
         save_by_filename(
@@ -105,7 +105,7 @@ class TestSavePP(TestSaveMethods):
             self.ext
         )
 
-    def test_filehandle(self):
+    def test_filehandle(self):  # noqa: D102
         # Save using iris.save and pp.save
         save_by_filehandle(
             self.temp_filename1,
@@ -138,7 +138,7 @@ class TestSaveDot(TestSaveMethods):
 
     ext = ".dot"
 
-    def test_filename(self):
+    def test_filename(self):  # noqa: D102
         # Save using iris.save and dot.save
         save_by_filename(self.temp_filename1, self.temp_filename2, self.cube1, dot.save)
 
@@ -149,7 +149,7 @@ class TestSaveDot(TestSaveMethods):
             self.ext
         )
 
-    def test_filehandle(self):
+    def test_filehandle(self):  # noqa: D102
         # Save using iris.save and dot.save
         save_by_filehandle(
             self.temp_filename1,
@@ -176,7 +176,7 @@ class TestSaveDot(TestSaveMethods):
                 binary_mode=True,
             )
 
-    def test_bytesio(self):
+    def test_bytesio(self):  # noqa: D102
         sio = StringIO()
 
         # Save from dot direct
@@ -200,7 +200,7 @@ class TestSavePng(TestSaveMethods):
 
     ext = ".dotpng"
 
-    def test_filename(self):
+    def test_filename(self):  # noqa: D102
         # Save using iris.save and dot.save_png
         save_by_filename(
             self.temp_filename1, self.temp_filename2, self.cube1, dot.save_png
@@ -213,7 +213,7 @@ class TestSavePng(TestSaveMethods):
             self.ext
         )
 
-    def test_filehandle(self):
+    def test_filehandle(self):  # noqa: D102
         # Save using iris.save and dot.save_png
         save_by_filehandle(
             self.temp_filename1,
@@ -246,7 +246,7 @@ class TestSaver(TestSaveMethods):
 
     ext = ".spam"
 
-    def test_pp(self):
+    def test_pp(self):  # noqa: D102
         # Make our own saver
         pp_saver = iris.io.find_saver("PP")
         save_by_filename(
@@ -264,7 +264,7 @@ class TestSaver(TestSaveMethods):
             self.ext
         )
 
-    def test_dot(self):
+    def test_dot(self):  # noqa: D102
         # Make our own saver
         dot_saver = iris.io.find_saver("DOT")
         save_by_filename(
@@ -283,7 +283,7 @@ class TestSaver(TestSaveMethods):
         )
 
     @skip_dotpng
-    def test_png(self):
+    def test_png(self):  # noqa: D102
         # Make our own saver
         png_saver = iris.io.find_saver("DOTPNG")
         save_by_filename(
@@ -307,7 +307,7 @@ class TestSaveInvalid(TestSaveMethods):
 
     ext = ".invalid"
 
-    def test_filename(self):
+    def test_filename(self):  # noqa: D102
         # Check we can't save a file with an unhandled extension
         with pytest.raises(ValueError, match="no saver"):
             iris.save(self.cube1, self.temp_filename2)

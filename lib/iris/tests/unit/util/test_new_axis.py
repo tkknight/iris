@@ -20,7 +20,7 @@ from iris.util import new_axis
 class Test:
     """Test ."""
     @pytest.fixture
-    def stock_cube(self):
+    def stock_cube(self):  # noqa: D102
         cube = stock.simple_2d_w_cell_measure_ancil_var()
         time = iris.coords.DimCoord([1], standard_name="time")
         cube.add_aux_coord(time, None)
@@ -44,7 +44,7 @@ class Test:
         for factory_a, factory_b in zip(cube_a.aux_factories, cube_b.aux_factories):
             assert factory_a is not factory_b
 
-    def test_promote_no_coord(self, stock_cube):
+    def test_promote_no_coord(self, stock_cube):  # noqa: D102
         # Providing no coordinate to promote.
         result = new_axis(stock_cube)
         expected = iris.cube.Cube(
@@ -62,7 +62,7 @@ class Test:
         assert result == expected
         self._assert_cube_notis(result, stock_cube)
 
-    def test_promote_scalar_dimcoord(self, stock_cube):
+    def test_promote_scalar_dimcoord(self, stock_cube):  # noqa: D102
         # Providing a scalar coordinate to promote.
         result = new_axis(stock_cube, "time")
         expected = iris.cube.Cube(
@@ -83,7 +83,7 @@ class Test:
         assert result.coord("time") in [item[0] for item in result._dim_coords_and_dims]
         self._assert_cube_notis(result, stock_cube)
 
-    def test_promote_scalar_auxcoord(self, stock_cube):
+    def test_promote_scalar_auxcoord(self, stock_cube):  # noqa: D102
         # Providing a scalar coordinate to promote.
         result = new_axis(stock_cube, "wibble")
         expected = iris.cube.Cube(
@@ -106,7 +106,7 @@ class Test:
         ]
         self._assert_cube_notis(result, stock_cube)
 
-    def test_existing_dim_coord(self, stock_cube):
+    def test_existing_dim_coord(self, stock_cube):  # noqa: D102
         # Provide an existing dimensional coordinate
         coord = iris.coords.DimCoord(1, long_name="dim")
         stock_cube.add_aux_coord(coord)
@@ -115,13 +115,13 @@ class Test:
         with pytest.raises(ValueError, match="is already a dimension coordinate."):
             iris.util.new_axis(new_cube, coord)
 
-    def test_promote_non_scalar(self, stock_cube):
+    def test_promote_non_scalar(self, stock_cube):  # noqa: D102
         # Provide a dimensional coordinate which is not scalar
         iris.util.demote_dim_coord_to_aux_coord(stock_cube, "foo")
         with pytest.raises(ValueError, match="is not a scalar coordinate."):
             new_axis(stock_cube, "foo")
 
-    def test_maint_factory(self):
+    def test_maint_factory(self):  # noqa: D102
         # Ensure that aux factory persists.
         data = np.arange(12, dtype="i8").reshape((3, 4))
 
@@ -183,14 +183,14 @@ class Test:
             coord_name = dep_coord.name()
             assert dep_coord is res.coord(coord_name)
 
-    def test_lazy_cube_data(self, stock_cube):
+    def test_lazy_cube_data(self, stock_cube):  # noqa: D102
         stock_cube.data = as_lazy_data(stock_cube.data)
         res = new_axis(stock_cube)
         assert stock_cube.has_lazy_data()
         assert res.has_lazy_data()
         assert res.shape == (1,) + stock_cube.shape
 
-    def test_masked_unit_array(self):
+    def test_masked_unit_array(self):  # noqa: D102
         cube = stock.simple_3d_mask()
         test_cube = cube[0, 0, 0]
         test_cube = new_axis(test_cube, "longitude")
@@ -199,7 +199,7 @@ class Test:
         mask_shape = test_cube.data.mask.shape
         assert data_shape == mask_shape
 
-    def test_expand_scalar_coord(self, stock_cube):
+    def test_expand_scalar_coord(self, stock_cube):  # noqa: D102
         result = new_axis(stock_cube, "time", expand_extras=["wibble"])
 
         expected = iris.cube.Cube(
@@ -217,7 +217,7 @@ class Test:
         assert result == expected
         self._assert_cube_notis(result, stock_cube)
 
-    def test_expand_scalar_coord_lazy_points(self, stock_cube):
+    def test_expand_scalar_coord_lazy_points(self, stock_cube):  # noqa: D102
         stock_cube.coord("wibble").points = as_lazy_data(
             stock_cube.coord("wibble").points
         )
@@ -229,7 +229,7 @@ class Test:
             == stock_cube.coord("wibble").points.shape
         )
 
-    def test_expand_scalar_coord_lazy_bounds(self, stock_cube):
+    def test_expand_scalar_coord_lazy_bounds(self, stock_cube):  # noqa: D102
         stock_cube.coord("wibble").bounds = as_lazy_data(np.array([[0, 2]]))
         result = new_axis(stock_cube, "time", expand_extras=["wibble"])
         assert stock_cube.coord("wibble").has_lazy_bounds()
@@ -239,7 +239,7 @@ class Test:
             == stock_cube.coord("wibble").bounds.shape
         )
 
-    def test_expand_cell_measure(self, stock_cube):
+    def test_expand_cell_measure(self, stock_cube):  # noqa: D102
         result = new_axis(stock_cube, "time", expand_extras=["cell_area"])
 
         expected = iris.cube.Cube(
@@ -262,7 +262,7 @@ class Test:
         assert result == expected
         self._assert_cube_notis(result, stock_cube)
 
-    def test_expand_ancil_var(self, stock_cube):
+    def test_expand_ancil_var(self, stock_cube):  # noqa: D102
         result = new_axis(stock_cube, "time", expand_extras=["quality_flag"])
 
         expected = iris.cube.Cube(
@@ -284,7 +284,7 @@ class Test:
         assert result == expected
         self._assert_cube_notis(result, stock_cube)
 
-    def test_expand_multiple(self, stock_cube):
+    def test_expand_multiple(self, stock_cube):  # noqa: D102
         result = new_axis(stock_cube, "time", expand_extras=["wibble", "cell_area"])
 
         expected = iris.cube.Cube(

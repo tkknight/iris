@@ -25,7 +25,7 @@ AUX_COORDS_INDEX = 7
 
 class TestCellMethods:
     """Test ellMethods."""
-    def test_time_mean(self, mocker):
+    def test_time_mean(self, mocker):  # noqa: D102
         # lbproc = 128 -> mean
         # lbtim.ib = 2 -> simple t1 to t2 interval.
         field = mocker.MagicMock(lbproc=128, lbtim=mocker.Mock(ia=0, ib=2, ic=3))
@@ -33,34 +33,34 @@ class TestCellMethods:
         expected = [CellMethod("mean", "time")]
         assert res == expected
 
-    def test_hourly_mean(self, mocker):
+    def test_hourly_mean(self, mocker):  # noqa: D102
         # lbtim.ia = 1 -> hourly
         field = mocker.MagicMock(lbproc=128, lbtim=mocker.Mock(ia=1, ib=2, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
         expected = [CellMethod("mean", "time", "1 hour")]
         assert res == expected
 
-    def test_daily_mean(self, mocker):
+    def test_daily_mean(self, mocker):  # noqa: D102
         # lbtim.ia = 24 -> daily
         field = mocker.MagicMock(lbproc=128, lbtim=mocker.Mock(ia=24, ib=2, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
         expected = [CellMethod("mean", "time", "24 hour")]
         assert res == expected
 
-    def test_custom_max(self, mocker):
+    def test_custom_max(self, mocker):  # noqa: D102
         field = mocker.MagicMock(lbproc=8192, lbtim=mocker.Mock(ia=47, ib=2, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
         expected = [CellMethod("maximum", "time", "47 hour")]
         assert res == expected
 
-    def test_daily_min(self, mocker):
+    def test_daily_min(self, mocker):  # noqa: D102
         # lbproc = 4096 -> min
         field = mocker.MagicMock(lbproc=4096, lbtim=mocker.Mock(ia=24, ib=2, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
         expected = [CellMethod("minimum", "time", "24 hour")]
         assert res == expected
 
-    def test_time_mean_over_multiple_years(self, mocker):
+    def test_time_mean_over_multiple_years(self, mocker):  # noqa: D102
         # lbtim.ib = 3 -> interval within a year, over multiple years.
         field = mocker.MagicMock(lbproc=128, lbtim=mocker.Mock(ia=0, ib=3, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
@@ -70,7 +70,7 @@ class TestCellMethods:
         ]
         assert res == expected
 
-    def test_hourly_mean_over_multiple_years(self, mocker):
+    def test_hourly_mean_over_multiple_years(self, mocker):  # noqa: D102
         field = mocker.MagicMock(lbproc=128, lbtim=mocker.Mock(ia=1, ib=3, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
         expected = [
@@ -79,26 +79,26 @@ class TestCellMethods:
         ]
         assert res == expected
 
-    def test_climatology_max(self, mocker):
+    def test_climatology_max(self, mocker):  # noqa: D102
         field = mocker.MagicMock(lbproc=8192, lbtim=mocker.Mock(ia=24, ib=3, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
         expected = [CellMethod("maximum", "time")]
         assert res == expected
 
-    def test_climatology_min(self, mocker):
+    def test_climatology_min(self, mocker):  # noqa: D102
         field = mocker.MagicMock(lbproc=4096, lbtim=mocker.Mock(ia=24, ib=3, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
         expected = [CellMethod("minimum", "time")]
         assert res == expected
 
-    def test_other_lbtim_ib(self, mocker):
+    def test_other_lbtim_ib(self, mocker):  # noqa: D102
         # lbtim.ib = 5 -> non-specific aggregation
         field = mocker.MagicMock(lbproc=4096, lbtim=mocker.Mock(ia=24, ib=5, ic=3))
         res = _all_other_rules(field)[CELL_METHODS_INDEX]
         expected = [CellMethod("minimum", "time")]
         assert res == expected
 
-    def test_multiple_unordered_lbprocs(self, mocker):
+    def test_multiple_unordered_lbprocs(self, mocker):  # noqa: D102
         field = mocker.MagicMock(
             lbproc=192,
             bzx=0,
@@ -121,7 +121,7 @@ class TestCellMethods:
         ]
         assert res == expected
 
-    def test_multiple_unordered_rotated_lbprocs(self, mocker):
+    def test_multiple_unordered_rotated_lbprocs(self, mocker):  # noqa: D102
         field = mocker.MagicMock(
             lbproc=192,
             bzx=0,
@@ -147,7 +147,7 @@ class TestCellMethods:
 
 class TestCrossSectionalTime:
     """Test rossSectionalTime."""
-    def test_lbcode3x23(self, mocker):
+    def test_lbcode3x23(self, mocker):  # noqa: D102
         time_bounds = np.array(
             [[0.875, 1.125], [1.125, 1.375], [1.375, 1.625], [1.625, 1.875]]
         )
@@ -260,7 +260,7 @@ class TestLBTIMx2x_ZeroYears:
             lbcode=lbcode,
         )
 
-    def test_month_coord(self):
+    def test_month_coord(self):  # noqa: D102
         field = self._make_field()
         field.mock_add_spec(self._spec)
         res = _all_other_rules(field)[AUX_COORDS_INDEX]
@@ -279,21 +279,21 @@ class TestLBTIMx2x_ZeroYears:
         ]
         assert_coords_and_dims_lists_match(res, expected)
 
-    def test_diff_month(self):
+    def test_diff_month(self):  # noqa: D102
         field = self._make_field(lbmon=3, lbmond=4)
         field.mock_add_spec(self._spec)
         res = _all_other_rules(field)[AUX_COORDS_INDEX]
 
         assert_coords_and_dims_lists_match(res, [])
 
-    def test_nonzero_year(self):
+    def test_nonzero_year(self):  # noqa: D102
         field = self._make_field(lbyr=1)
         field.mock_add_spec(self._spec)
         res = _all_other_rules(field)[AUX_COORDS_INDEX]
 
         assert_coords_and_dims_lists_match(res, [])
 
-    def test_nonzero_yeard(self):
+    def test_nonzero_yeard(self):  # noqa: D102
         field = self._make_field(lbyrd=1)
         field.mock_add_spec(self._spec)
         res = _all_other_rules(field)[AUX_COORDS_INDEX]

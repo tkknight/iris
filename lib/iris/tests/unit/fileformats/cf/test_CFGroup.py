@@ -95,7 +95,7 @@ def cf_group_populated(cf_group, mock_variables_all) -> cf.CFGroup:
 
 class TestProperties:
     """Test roperties."""
-    def test_common(self, cf_group, mock_variables):
+    def test_common(self, cf_group, mock_variables):  # noqa: D102
         class_, variables = mock_variables
         for mocked in variables:
             cf_group[mocked.cf_name] = mocked
@@ -107,7 +107,7 @@ class TestProperties:
         for expected_name in expected_names:
             assert expected_name in result
 
-    def test_non_data_names(self, cf_group_populated, mock_variables_all):
+    def test_non_data_names(self, cf_group_populated, mock_variables_all):  # noqa: D102
         expected = {
             mocked.cf_name
             for mocked in mock_variables_all
@@ -125,15 +125,15 @@ class TestReturns:
         self.variables = mock_variables_all
         self.cf_group = cf_group_populated
 
-    def test_keys(self):
+    def test_keys(self):  # noqa: D102
         expected_names = {mocked.cf_name for mocked in self.variables}
         assert set(self.cf_group.keys()) == expected_names
 
-    def test_len(self):
+    def test_len(self):  # noqa: D102
         expected_names = {mocked.cf_name for mocked in self.variables}
         assert len(self.cf_group) == len(expected_names)
 
-    def test_iter(self):
+    def test_iter(self):  # noqa: D102
         expected_names = {mocked.cf_name for mocked in self.variables}
         actual_names = set()
         for name in self.cf_group:
@@ -141,7 +141,7 @@ class TestReturns:
 
         assert actual_names == expected_names
 
-    def test_getitem(self):
+    def test_getitem(self):  # noqa: D102
         expected_by_name = {}
         for mocked in self.variables:
             expected_by_name[mocked.cf_name] = mocked
@@ -152,7 +152,7 @@ class TestReturns:
         with pytest.raises(KeyError, match="Cannot get unknown CF-netCDF variable"):
             _ = self.cf_group["unknown_name"]
 
-    def test_repr(self):
+    def test_repr(self):  # noqa: D102
         self.cf_group.global_attributes["global_attr"] = "value"
         self.cf_group.promoted["promoted_var"] = self.variables[0]
 
@@ -168,7 +168,7 @@ class TestReturns:
 
 class TestMutations:
     """Test utations."""
-    def test_setitem(self, cf_group, mock_variables_all):
+    def test_setitem(self, cf_group, mock_variables_all):  # noqa: D102
         mocked = mock_variables_all[0]
 
         cf_group[mocked.cf_name] = mocked
@@ -180,7 +180,7 @@ class TestMutations:
         with pytest.raises(ValueError, match="Mismatch between key name"):
             cf_group[f"{mocked.cf_name}_mismatch"] = mocked
 
-    def test_delitem(self, cf_group_populated, mock_variables_all):
+    def test_delitem(self, cf_group_populated, mock_variables_all):  # noqa: D102
         expected_names = {mocked.cf_name for mocked in mock_variables_all}
         name_to_delete = next(iter(expected_names))
 

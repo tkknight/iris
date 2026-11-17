@@ -16,28 +16,28 @@ class TestSqueeze:
     def _setup(self):
         self.cube = stock.simple_2d_w_multidim_and_scalars()
 
-    def test_no_change(self):
+    def test_no_change(self):  # noqa: D102
         assert self.cube == iris.util.squeeze(self.cube)
 
-    def test_squeeze_one_dim(self):
+    def test_squeeze_one_dim(self):  # noqa: D102
         cube_3d = iris.util.new_axis(self.cube, scalar_coord="an_other")
         cube_2d = iris.util.squeeze(cube_3d)
 
         assert self.cube == cube_2d
 
-    def test_squeeze_two_dims(self):
+    def test_squeeze_two_dims(self):  # noqa: D102
         cube_3d = iris.util.new_axis(self.cube, scalar_coord="an_other")
         cube_4d = iris.util.new_axis(cube_3d, scalar_coord="air_temperature")
 
         assert self.cube == iris.util.squeeze(cube_4d)
 
-    def test_squeeze_one_anonymous_dim(self):
+    def test_squeeze_one_anonymous_dim(self):  # noqa: D102
         cube_3d = iris.util.new_axis(self.cube)
         cube_2d = iris.util.squeeze(cube_3d)
 
         assert self.cube == cube_2d
 
-    def test_squeeze_to_scalar_cube(self):
+    def test_squeeze_to_scalar_cube(self):  # noqa: D102
         cube_scalar = self.cube[0, 0]
         cube_1d = iris.util.new_axis(cube_scalar)
 

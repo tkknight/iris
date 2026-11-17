@@ -76,15 +76,15 @@ SAVER_METHODS = [
 @pytest.mark.parametrize("name", RELOCATED)
 class TestFromTheSaverModule:
     """Test romTheSaverModule."""
-    def test_resolves_to_the_same_object(self, name):
+    def test_resolves_to_the_same_object(self, name):  # noqa: D102
         with pytest.warns(IrisDeprecation):
             assert getattr(netcdf_saver, name) is getattr(cf_saver, name)
 
-    def test_the_warning_names_the_new_home(self, name):
+    def test_the_warning_names_the_new_home(self, name):  # noqa: D102
         with pytest.warns(IrisDeprecation, match=f"iris.fileformats.cf.saver.{name}"):
             getattr(netcdf_saver, name)
 
-    def test_is_discoverable(self, name):
+    def test_is_discoverable(self, name):  # noqa: D102
         # PEP 562 forwards the read but not dir(), so the module says so itself.
         assert name in dir(netcdf_saver)
 
@@ -92,23 +92,23 @@ class TestFromTheSaverModule:
 @pytest.mark.parametrize("name", RELOCATED)
 class TestFromThePackage:
     """Test romThePackage."""
-    def test_resolves_to_the_same_object(self, name):
+    def test_resolves_to_the_same_object(self, name):  # noqa: D102
         with pytest.warns(IrisDeprecation):
             assert getattr(netcdf, name) is getattr(cf_saver, name)
 
-    def test_is_discoverable(self, name):
+    def test_is_discoverable(self, name):  # noqa: D102
         assert name in dir(netcdf)
 
 
 class TestNamesThatDoNotMove:
     """Test amesThatDoNotMove."""
     @pytest.mark.parametrize("name", ["Saver", "save", "save_mesh"])
-    def test_the_saver_module_still_defines_it(self, name):
+    def test_the_saver_module_still_defines_it(self, name):  # noqa: D102
         # Spec section 4.8: netCDF API, and it stays that way. Defined here,
         # not forwarded, so reading it must not warn.
         assert name in vars(netcdf_saver)
 
-    def test_an_unknown_name_raises_quietly(self, recwarn):
+    def test_an_unknown_name_raises_quietly(self, recwarn):  # noqa: D102
         with pytest.raises(AttributeError, match="no attribute"):
             netcdf_saver.not_a_real_name
         assert recwarn.list == []
@@ -117,13 +117,13 @@ class TestNamesThatDoNotMove:
 class TestSaverMethods:
     """Test averMethods."""
     @pytest.mark.parametrize("name", SAVER_METHODS)
-    def test_the_netcdf_saver_still_answers_to_it(self, name):
+    def test_the_netcdf_saver_still_answers_to_it(self, name):  # noqa: D102
         assert callable(getattr(netcdf_saver.Saver, name, None))
 
-    def test_the_netcdf_saver_is_a_cf_saver(self):
+    def test_the_netcdf_saver_is_a_cf_saver(self):  # noqa: D102
         assert issubclass(netcdf_saver.Saver, cf_saver._CFSaver)
 
-    def test_write_keeps_its_signature(self):
+    def test_write_keeps_its_signature(self):  # noqa: D102
         # Documented API with defaults users rely on, and save() passes some
         # of them by position.
         parameters = inspect.signature(netcdf_saver.Saver.write).parameters
@@ -156,7 +156,7 @@ class TestNothingInsideIrisUsesTheOldNames:
     repository.
     """
 
-    def test_a_save_emits_no_deprecation(self, tmp_path):
+    def test_a_save_emits_no_deprecation(self, tmp_path):  # noqa: D102
         # The aliases are for code outside Iris. A save that trips one means a
         # reader inside Iris was left pointing at the old home. Promoting to an
         # error is safe here: iris.save has no equivalent of LOAD_PROBLEMS, so
@@ -172,7 +172,7 @@ class TestNothingInsideIrisUsesTheOldNames:
                     Cube(np.arange(3.0), var_name="payload"), tmp_path / "quiet.nc"
                 )
 
-    def test_a_load_emits_no_deprecation(self, tmp_path):
+    def test_a_load_emits_no_deprecation(self, tmp_path):  # noqa: D102
         # Recorded rather than promoted to an error, for the reason
         # SciTools/iris#7333 found: iris.load captures an exception raised
         # while building a cube into iris.loading.LOAD_PROBLEMS, so a filter of

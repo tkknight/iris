@@ -42,7 +42,7 @@ _DummyBoundaryPacking = collections.namedtuple(
 
 class Test____iter__(MockerMixin):
     """Test    iter  ."""
-    def test_call_structure(self, mocker):
+    def test_call_structure(self, mocker):  # noqa: D102
         # Check that the iter method calls the two necessary utility
         # functions
         _FFHeader = mocker.patch("iris.fileformats._ff.FFHeader")
@@ -106,7 +106,7 @@ class Test__extract_field__LBC_format(MockerMixin):
         # Return a mock with just those properties pre-defined.
         return self.mocker.Mock(**field_kwargs)
 
-    def test_LBC_header(self):
+    def test_LBC_header(self):  # noqa: D102
         bzx, bzy = -10, 15
         # stash m01s00i001
         lbuser = [None, None, 121416, 1, None, None, 1]
@@ -137,7 +137,7 @@ class Test__extract_field__LBC_format(MockerMixin):
         assert field.bzy == bzy - boundary_packing.y_halo * field.bdy
         assert field.bzx == bzx - boundary_packing.x_halo * field.bdx
 
-    def check_non_trivial_coordinate_warning(self, field):
+    def check_non_trivial_coordinate_warning(self, field):  # noqa: D102
         field.lbegin = 0
         field.lbrow = 10
         field.lbnpt = 12
@@ -161,7 +161,7 @@ class Test__extract_field__LBC_format(MockerMixin):
         assert field.bdy == orig_bdy
         assert field.bdx == orig_bdx
 
-    def test_LBC_header_non_trivial_coords_both(self):
+    def test_LBC_header_non_trivial_coords_both(self):  # noqa: D102
         # Check a warning is raised when both bdx and bdy are bad.
         field = self._mock_lbc(bdx=0, bdy=0, bzx=10, bzy=10)
         self.check_non_trivial_coordinate_warning(field)
@@ -169,7 +169,7 @@ class Test__extract_field__LBC_format(MockerMixin):
         field.bdy = field.bdx = field.bmdi
         self.check_non_trivial_coordinate_warning(field)
 
-    def test_LBC_header_non_trivial_coords_x(self):
+    def test_LBC_header_non_trivial_coords_x(self):  # noqa: D102
         # Check a warning is raised when bdx is bad.
         field = self._mock_lbc(bdx=0, bdy=10, bzx=10, bzy=10)
         self.check_non_trivial_coordinate_warning(field)
@@ -177,7 +177,7 @@ class Test__extract_field__LBC_format(MockerMixin):
         field.bdx = field.bmdi
         self.check_non_trivial_coordinate_warning(field)
 
-    def test_LBC_header_non_trivial_coords_y(self):
+    def test_LBC_header_non_trivial_coords_y(self):  # noqa: D102
         # Check a warning is raised when bdy is bad.
         field = self._mock_lbc(bdx=10, bdy=0, bzx=10, bzy=10)
         self.check_non_trivial_coordinate_warning(field)
@@ -185,7 +185,7 @@ class Test__extract_field__LBC_format(MockerMixin):
         field.bdy = field.bmdi
         self.check_non_trivial_coordinate_warning(field)
 
-    def test_negative_bdy(self):
+    def test_negative_bdy(self):  # noqa: D102
         # Check a warning is raised when bdy is negative,
         # we don't yet know what "north" means in this case.
         field = self._mock_lbc(
@@ -229,7 +229,7 @@ class Test__payload(MockerMixin):
             assert data_depth == expected_depth
             assert data_dtype == expected_dtype
 
-    def test_unpacked_real(self):
+    def test_unpacked_real(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=0,
             lblrec=100,
@@ -240,7 +240,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 800, ">f8")
 
-    def test_unpacked_real_ext(self):
+    def test_unpacked_real_ext(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=5,
             lblrec=100,
@@ -251,7 +251,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 760, ">f8")
 
-    def test_unpacked_integer(self):
+    def test_unpacked_integer(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=0,
             lblrec=200,
@@ -262,7 +262,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 1600, ">i8")
 
-    def test_unpacked_integer_ext(self):
+    def test_unpacked_integer_ext(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=10,
             lblrec=200,
@@ -273,7 +273,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 1520, ">i8")
 
-    def test_unpacked_real_ext_different_word_depth(self):
+    def test_unpacked_real_ext_different_word_depth(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=5,
             lblrec=100,
@@ -284,7 +284,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 380, ">f4", word_depth=4)
 
-    def test_wgdos_real(self):
+    def test_wgdos_real(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=0,
             lblrec=-1,
@@ -295,7 +295,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 800, ">f4")
 
-    def test_wgdos_real_ext(self):
+    def test_wgdos_real_ext(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=5,
             lblrec=-1,
@@ -306,7 +306,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 800, ">f4")
 
-    def test_wgdos_integer(self):
+    def test_wgdos_integer(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=0,
             lblrec=-1,
@@ -317,7 +317,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 1600, ">i4")
 
-    def test_wgdos_integer_ext(self):
+    def test_wgdos_integer_ext(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=10,
             lblrec=-1,
@@ -328,7 +328,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 1600, ">i4")
 
-    def test_cray_real(self):
+    def test_cray_real(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=0,
             lblrec=100,
@@ -339,7 +339,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 400, ">f4")
 
-    def test_cray_real_ext(self):
+    def test_cray_real_ext(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=5,
             lblrec=100,
@@ -350,7 +350,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 380, ">f4")
 
-    def test_cray_integer(self):
+    def test_cray_integer(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=0,
             lblrec=200,
@@ -361,7 +361,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 800, ">i4")
 
-    def test_cray_integer_ext(self):
+    def test_cray_integer_ext(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=10,
             lblrec=200,
@@ -372,7 +372,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, 760, ">i4")
 
-    def test_lbpack_unsupported(self):
+    def test_lbpack_unsupported(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=10,
             lblrec=200,
@@ -387,7 +387,7 @@ class Test__payload(MockerMixin):
         ):
             self._test(mock_field, None, None)
 
-    def test_lbc_unpacked(self):
+    def test_lbc_unpacked(self):  # noqa: D102
         boundary_packing = _DummyBoundaryPacking(x_halo=11, y_halo=7, rim_width=3)
         mock_field = _DummyFieldWithSize(
             lbext=10,
@@ -401,7 +401,7 @@ class Test__payload(MockerMixin):
         )
         self._test(mock_field, ((47 * 34) - (19 * 14)) * 8, ">f8")
 
-    def test_lbc_wgdos_unsupported(self):
+    def test_lbc_wgdos_unsupported(self):  # noqa: D102
         mock_field = _DummyField(
             lbext=5,
             lblrec=-1,
@@ -414,7 +414,7 @@ class Test__payload(MockerMixin):
         with pytest.raises(ValueError, match="packed LBC data is not supported"):
             self._test(mock_field, None, None)
 
-    def test_lbc_cray(self):
+    def test_lbc_cray(self):  # noqa: D102
         boundary_packing = _DummyBoundaryPacking(x_halo=11, y_halo=7, rim_width=3)
         mock_field = _DummyFieldWithSize(
             lbext=10,
@@ -436,7 +436,7 @@ class Test__det_border:
         _FFH_patch = mocker.patch("iris.fileformats._ff.FFHeader")
         _FFH_patch.start()
 
-    def test_unequal_spacing_eitherside(self, mocker):
+    def test_unequal_spacing_eitherside(self, mocker):  # noqa: D102
         # Ensure that we do not interpret the case where there is not the same
         # spacing on the lower edge as the upper edge.
         ff2pp = FF2PP("dummy")
@@ -452,7 +452,7 @@ class Test__det_border:
             result = ff2pp._det_border(field_x, None)
         assert result is field_x
 
-    def test_increasing_field_values(self):
+    def test_increasing_field_values(self):  # noqa: D102
         # Field where its values a increasing.
         ff2pp = FF2PP("dummy")
         field_x = np.array([1, 2, 3])
@@ -460,7 +460,7 @@ class Test__det_border:
         result = ff2pp._det_border(field_x, 1)
         _shared_utils.assert_array_equal(result, com)
 
-    def test_decreasing_field_values(self):
+    def test_decreasing_field_values(self):  # noqa: D102
         # Field where its values a decreasing.
         ff2pp = FF2PP("dummy")
         field_x = np.array([3, 2, 1])
@@ -496,7 +496,7 @@ class Test__adjust_field_for_lbc:
         field.bdy = 1.0
         field.bzy = 0.0
 
-    def test__basic(self):
+    def test__basic(self):  # noqa: D102
         ff2pp = FF2PP("dummy_filename")
         field = self.mock_field
         ff2pp._adjust_field_for_lbc(field)
@@ -508,13 +508,13 @@ class Test__adjust_field_for_lbc:
         assert field.lbnpt == 1009
         assert field.lbrow == 2011
 
-    def test__bad_lbtim(self):
+    def test__bad_lbtim(self):  # noqa: D102
         self.mock_field.lbtim = 717
         ff2pp = FF2PP("dummy_filename")
         with pytest.raises(ValueError, match="LBTIM of 717, expected only 0 or 11"):
             ff2pp._adjust_field_for_lbc(self.mock_field)
 
-    def test__bad_lbvc(self):
+    def test__bad_lbvc(self):  # noqa: D102
         self.mock_field.lbvc = 312
         ff2pp = FF2PP("dummy_filename")
         with pytest.raises(ValueError, match="LBVC of 312, expected only 0 or 65"):
@@ -551,20 +551,20 @@ class Test__fields_over_all_levels:
             assert len(results) == n_levels
             assert [fld.lblev for fld in results] == list(range(n_levels))
 
-    def test__is_lbc(self):
+    def test__is_lbc(self):  # noqa: D102
         ff2pp = FF2PP("dummy_filename")
         field = self.mock_field
         results = list(ff2pp._fields_over_all_levels(field))
         self._check_expected_levels(results, 3)
 
-    def test__lbhem_too_small(self):
+    def test__lbhem_too_small(self):  # noqa: D102
         ff2pp = FF2PP("dummy_filename")
         field = self.mock_field
         field.lbhem = 100
         with pytest.raises(ValueError, match="hence >= 101"):
             _ = list(ff2pp._fields_over_all_levels(field))
 
-    def test__lbhem_too_large(self):
+    def test__lbhem_too_large(self):  # noqa: D102
         ff2pp = FF2PP("dummy_filename")
         field = self.mock_field
         field.lbhem = 105

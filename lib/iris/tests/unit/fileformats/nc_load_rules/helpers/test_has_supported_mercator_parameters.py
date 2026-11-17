@@ -26,7 +26,7 @@ class _EngineMixin(MockerMixin):
 
 class TestHasSupportedMercatorParameters(_EngineMixin):
     """Test asSupportedMercatorParameters."""
-    def test_valid_base(self, mocker):
+    def test_valid_base(self, mocker):  # noqa: D102
         cf_name = "mercator"
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=-90,
@@ -42,7 +42,7 @@ class TestHasSupportedMercatorParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_valid_false_easting_northing(self, mocker):
+    def test_valid_false_easting_northing(self, mocker):  # noqa: D102
         cf_name = "mercator"
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=-90,
@@ -58,7 +58,7 @@ class TestHasSupportedMercatorParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_valid_standard_parallel(self, mocker):
+    def test_valid_standard_parallel(self, mocker):  # noqa: D102
         cf_name = "mercator"
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=-90,
@@ -74,7 +74,7 @@ class TestHasSupportedMercatorParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_valid_scale_factor(self, mocker):
+    def test_valid_scale_factor(self, mocker):  # noqa: D102
         cf_name = "mercator"
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=0,
@@ -90,7 +90,7 @@ class TestHasSupportedMercatorParameters(_EngineMixin):
 
         assert is_valid
 
-    def test_invalid_scale_factor_and_standard_parallel(self, mocker):
+    def test_invalid_scale_factor_and_standard_parallel(self, mocker):  # noqa: D102
         # Scale factor and standard parallel cannot both be specified for
         # Mercator projections
         cf_name = "mercator"

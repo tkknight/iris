@@ -22,10 +22,10 @@ class TestStringCoordPlot(TestGraphicStringCoord):
     def _setup(self, parent_setup):
         self.cube = self.cube[0, :]
 
-    def test_xaxis_labels(self):
+    def test_xaxis_labels(self):  # noqa: D102
         qplt.scatter(self.cube.coord("str_coord"), self.cube)
         self.assert_bounds_tick_labels("xaxis")
 
-    def test_yaxis_labels(self):
+    def test_yaxis_labels(self):  # noqa: D102
         qplt.scatter(self.cube, self.cube.coord("str_coord"))
         self.assert_bounds_tick_labels("yaxis")

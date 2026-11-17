@@ -23,28 +23,28 @@ from iris.util import unify_time_units
 
 class Test_DerivedCoordAndDims:
     """Test DerivedCoordAndDims."""
-    def test_equal(self):
+    def test_equal(self):  # noqa: D102
         assert _DerivedCoordAndDims(
             "coord", "dims", "aux_factory"
         ) == _DerivedCoordAndDims("coord", "dims", "aux_factory")
 
-    def test_non_equal_coord(self):
+    def test_non_equal_coord(self):  # noqa: D102
         assert _DerivedCoordAndDims(
             "coord_0", "dims", "aux_factory"
         ) != _DerivedCoordAndDims("coord_1", "dims", "aux_factory")
 
-    def test_non_equal_dims(self):
+    def test_non_equal_dims(self):  # noqa: D102
         assert _DerivedCoordAndDims(
             "coord", "dims_0", "aux_factory"
         ) != _DerivedCoordAndDims("coord", "dims_1", "aux_factory")
 
-    def test_non_equal_aux_factory(self):
+    def test_non_equal_aux_factory(self):  # noqa: D102
         # Note: aux factories are not taken into account for equality!
         assert _DerivedCoordAndDims(
             "coord", "dims", "aux_factory_0"
         ) == _DerivedCoordAndDims("coord", "dims", "aux_factory_1")
 
-    def test_non_equal_types(self):
+    def test_non_equal_types(self):  # noqa: D102
         assert (
             _DerivedCoordAndDims("coord", "dims", "aux_factory")
             != "I am not a _DerivedCoordAndDims"
@@ -53,7 +53,7 @@ class Test_DerivedCoordAndDims:
 
 class Test_concatenate__epoch:
     """Test concatenate  epoch."""
-    def simple_1d_time_cubes(self, reftimes, coords_points):
+    def simple_1d_time_cubes(self, reftimes, coords_points):  # noqa: D102
         cubes = []
         data_points = [273, 275, 278, 277, 274]
         for reftime, coord_points in zip(reftimes, coords_points):
@@ -72,7 +72,7 @@ class Test_concatenate__epoch:
             cubes.append(cube)
         return cubes
 
-    def test_concat_1d_with_differing_time_units(self):
+    def test_concat_1d_with_differing_time_units(self):  # noqa: D102
         reftimes = [
             "hours since 1970-01-01 00:00:00",
             "hours since 1970-01-02 00:00:00",
@@ -87,7 +87,7 @@ class Test_concatenate__epoch:
 
 class Test_cubes_with_aux_coord:
     """Test cubes with aux coord."""
-    def create_cube(self):
+    def create_cube(self):  # noqa: D102
         data = np.arange(4).reshape(2, 2)
 
         lat = iris.coords.DimCoord([0, 30], standard_name="latitude", units="degrees")
@@ -103,7 +103,7 @@ class Test_cubes_with_aux_coord:
         cube.add_aux_coord(height)
         return cube
 
-    def test_diff_aux_coord(self):
+    def test_diff_aux_coord(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_b = cube_a.copy()
         cube_b.coord("time").points = [12, 18]
@@ -112,7 +112,7 @@ class Test_cubes_with_aux_coord:
         result = concatenate([cube_a, cube_b])
         assert len(result) == 2
 
-    def test_diff_aux_coord_anonymous_dim(self):
+    def test_diff_aux_coord_anonymous_dim(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_a.remove_coord("latitude")
         cube_b = cube_a.copy()[:, :1]
@@ -121,7 +121,7 @@ class Test_cubes_with_aux_coord:
         result = concatenate([cube_a, cube_b])
         assert len(result) == 2
 
-    def test_ignore_diff_aux_coord(self):
+    def test_ignore_diff_aux_coord(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_b = cube_a.copy()
         cube_b.coord("time").points = [12, 18]
@@ -134,7 +134,7 @@ class Test_cubes_with_aux_coord:
 
 class Test_cubes_with_cell_measure:
     """Test cubes with cell measure."""
-    def create_cube(self):
+    def create_cube(self):  # noqa: D102
         data = np.arange(4).reshape(2, 2)
 
         lat = iris.coords.DimCoord([0, 30], standard_name="latitude", units="degrees")
@@ -150,7 +150,7 @@ class Test_cubes_with_cell_measure:
         cube.add_cell_measure(area)
         return cube
 
-    def test_diff_cell_measure(self):
+    def test_diff_cell_measure(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_b = cube_a.copy()
         cube_b.coord("time").points = [12, 18]
@@ -159,7 +159,7 @@ class Test_cubes_with_cell_measure:
         result = concatenate([cube_a, cube_b])
         assert len(result) == 2
 
-    def test_ignore_diff_cell_measure(self):
+    def test_ignore_diff_cell_measure(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_b = cube_a.copy()
         cube_b.coord("time").points = [12, 18]
@@ -169,7 +169,7 @@ class Test_cubes_with_cell_measure:
         assert len(result) == 1
         assert result[0].shape == (4, 2)
 
-    def test_lazy_cell_measure(self):
+    def test_lazy_cell_measure(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_a.cell_measure("volume").data = da.array([0, 15])
         cube_b = cube_a.copy()
@@ -182,7 +182,7 @@ class Test_cubes_with_cell_measure:
 
 class Test_cubes_with_ancillary_variables:
     """Test cubes with ancillary variables."""
-    def create_cube(self):
+    def create_cube(self):  # noqa: D102
         data = np.arange(4).reshape(2, 2)
 
         lat = iris.coords.DimCoord([0, 30], standard_name="latitude", units="degrees")
@@ -198,7 +198,7 @@ class Test_cubes_with_ancillary_variables:
         cube.add_ancillary_variable(height)
         return cube
 
-    def test_diff_ancillary_variables(self):
+    def test_diff_ancillary_variables(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_b = cube_a.copy()
         cube_b.coord("time").points = [12, 18]
@@ -207,7 +207,7 @@ class Test_cubes_with_ancillary_variables:
         result = concatenate([cube_a, cube_b])
         assert len(result) == 2
 
-    def test_ignore_diff_ancillary_variables(self):
+    def test_ignore_diff_ancillary_variables(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_b = cube_a.copy()
         cube_b.coord("time").points = [12, 18]
@@ -217,7 +217,7 @@ class Test_cubes_with_ancillary_variables:
         assert len(result) == 1
         assert result[0].shape == (4, 2)
 
-    def test_lazy_ancillary_variables(self):
+    def test_lazy_ancillary_variables(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_a.ancillary_variable("quality").data = da.array([0, 15])
         cube_b = cube_a.copy()
@@ -230,7 +230,7 @@ class Test_cubes_with_ancillary_variables:
 
 class Test_cubes_with_derived_coord:
     """Test cubes with derived coord."""
-    def create_cube(self):
+    def create_cube(self):  # noqa: D102
         data = np.arange(4).reshape(2, 2)
         aux_factories = []
 
@@ -269,7 +269,7 @@ class Test_cubes_with_derived_coord:
         )
         return cube
 
-    def test_equal_derived_coords(self):
+    def test_equal_derived_coords(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_b = cube_a.copy()
         cube_b.coord("time").points = [12, 18]
@@ -297,7 +297,7 @@ class Test_cubes_with_derived_coord:
                 assert id(coord) != id(cube_a.coord(coord.name()))
                 assert id(coord) != id(cube_b.coord(coord.name()))
 
-    def test_equal_derived_coords_with_bounds(self):
+    def test_equal_derived_coords_with_bounds(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_a.coord("sigma").bounds = [[0.0, 5.0], [5.0, 20.0]]
         cube_b = cube_a.copy()
@@ -338,7 +338,7 @@ class Test_cubes_with_derived_coord:
         result = concatenate([cube_a, cube_b], check_aux_coords=False)
         assert len(result) == 2
 
-    def test_ignore_diff_air_pressure(self):
+    def test_ignore_diff_air_pressure(self):  # noqa: D102
         cube_a = self.create_cube()
         cube_b = cube_a.copy()
         cube_b.coord("time").points = [12, 18]
@@ -385,7 +385,7 @@ class Test_anonymous_dims:
             [0, 30, 15], standard_name="latitude", units="degrees"
         )
 
-    def test_matching_2d_longitudes(self):
+    def test_matching_2d_longitudes(self):  # noqa: D102
         cube1 = self.cube
         cube1.add_dim_coord(self.y_coord, 1)
         cube1.add_aux_coord(self.x_coord_2D, (1, 2))
@@ -395,7 +395,7 @@ class Test_anonymous_dims:
         result = concatenate([cube1, cube2])
         assert len(result) == 1
 
-    def test_differing_2d_longitudes(self):
+    def test_differing_2d_longitudes(self):  # noqa: D102
         cube1 = self.cube
         cube1.add_aux_coord(self.y_coord, 1)
         cube1.add_aux_coord(self.x_coord_2D, (1, 2))
@@ -407,7 +407,7 @@ class Test_anonymous_dims:
         result = concatenate([cube1, cube2])
         assert len(result) == 2
 
-    def test_matching_non_monotonic_latitudes(self):
+    def test_matching_non_monotonic_latitudes(self):  # noqa: D102
         cube1 = self.cube
         cube1.add_aux_coord(self.y_coord_non_monotonic, 1)
         cube1.add_aux_coord(self.x_coord, 2)
@@ -418,7 +418,7 @@ class Test_anonymous_dims:
         result = concatenate([cube1, cube2])
         assert len(result) == 1
 
-    def test_differing_non_monotonic_latitudes(self):
+    def test_differing_non_monotonic_latitudes(self):  # noqa: D102
         cube1 = self.cube
         cube1.add_aux_coord(self.y_coord_non_monotonic, 1)
         cube1.add_aux_coord(self.x_coord, 2)
@@ -430,7 +430,7 @@ class Test_anonymous_dims:
         result = concatenate([cube1, cube2])
         assert len(result) == 2
 
-    def test_concatenate_along_anon_dim(self):
+    def test_concatenate_along_anon_dim(self):  # noqa: D102
         cube1 = self.cube
         cube1.add_aux_coord(self.y_coord_non_monotonic, 1)
         cube1.add_aux_coord(self.x_coord, 2)
@@ -453,7 +453,7 @@ class Test_anonymous_dims_alternate_mapping:
         self.cube.remove_coord(coord)
         self.cube.add_aux_coord(coord, 0)
 
-    def test_concatenate_anom_1st_dim(self):
+    def test_concatenate_anom_1st_dim(self):  # noqa: D102
         # Check that concatenation along a non anonymous dimension is
         # insensitive to the dimension which is anonymous.
         # Concatenate along longitude.
@@ -464,7 +464,7 @@ class Test_anonymous_dims_alternate_mapping:
         result = concatenate([cube1, cube2])
         assert len(result) == 1
 
-    def test_concatenate_anom_2nd_dim(self):
+    def test_concatenate_anom_2nd_dim(self):  # noqa: D102
         # Check that concatenation along a non anonymous dimension is
         # insensitive to the dimension which is anonymous.
         # Concatenate along longitude.
@@ -477,7 +477,7 @@ class Test_anonymous_dims_alternate_mapping:
         result = concatenate([cube1, cube2])
         assert len(result) == 1
 
-    def test_concatenate_anom_3rd_dim(self):
+    def test_concatenate_anom_3rd_dim(self):  # noqa: D102
         # Check that concatenation along a non anonymous dimension is
         # insensitive to the dimension which is anonymous.
         # Concatenate along longitude.

@@ -35,11 +35,11 @@ class TestPickle:
         # comparison checks.
         return as_concrete_data(cube.core_data())
 
-    def assert_cube_data(self, cube1, cube2):
+    def assert_cube_data(self, cube1, cube2):  # noqa: D102
         _shared_utils.assert_array_equal(self._real_data(cube1), self._real_data(cube2))
 
     @_shared_utils.skip_data
-    def test_cube_pickle(self, request):
+    def test_cube_pickle(self, request):  # noqa: D102
         cube = iris.load_cube(
             _shared_utils.get_data_path(("PP", "globClim1", "theta.pp"))
         )
@@ -59,7 +59,7 @@ class TestPickle:
             self.assert_cube_data(cube, recon_cube)
 
     @_shared_utils.skip_data
-    def test_cube_with_coord_points(self):
+    def test_cube_with_coord_points(self):  # noqa: D102
         filename = _shared_utils.get_data_path(
             ("NetCDF", "rotated", "xy", "rotPole_landAreaFraction.nc")
         )
@@ -69,7 +69,7 @@ class TestPickle:
         _, recon_cube = next(self.pickle_then_unpickle(cube))
         assert recon_cube == cube
 
-    def test_cube_with_deferred_unit_conversion(self):
+    def test_cube_with_deferred_unit_conversion(self):  # noqa: D102
         real_data = np.arange(12.0).reshape((3, 4))
         lazy_data = as_lazy_data(real_data)
         cube = iris.cube.Cube(lazy_data, units="m")
@@ -78,7 +78,7 @@ class TestPickle:
         assert recon_cube == cube
 
     @_shared_utils.skip_data
-    def test_cubelist_pickle(self, request):
+    def test_cubelist_pickle(self, request):  # noqa: D102
         cubelist = iris.load(
             _shared_utils.get_data_path(("PP", "COLPEX", "theta_and_orog_subset.pp"))
         )
@@ -105,7 +105,7 @@ class TestPickle:
                 _shared_utils.assert_array_equal(cube_orig.data, cube_reconstruct.data)
                 assert cube_orig == cube_reconstruct
 
-    def test_picking_equality_misc(self):
+    def test_picking_equality_misc(self):  # noqa: D102
         items_to_test = [
             cf_units.Unit(
                 "hours since 2007-01-15 12:06:00",

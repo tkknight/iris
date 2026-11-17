@@ -46,7 +46,7 @@ def _make_coord_var(name, data, dtype=float):
 
 class TestIdentify:
     """Test dentify."""
-    def test_valid_coordinate_identified(self):
+    def test_valid_coordinate_identified(self):  # noqa: D102
         nc_var = _make_coord_var("lat", [1.0, 2.0, 3.0])
         vars_all = {"lat": nc_var}
 
@@ -54,7 +54,7 @@ class TestIdentify:
         assert "lat" in result
         assert isinstance(result["lat"], CFCoordinateVariable)
 
-    def test_string_dtype_rejected(self):
+    def test_string_dtype_rejected(self):  # noqa: D102
         nc_var = _CoordVariableStub(
             name="lat", dimensions=("lat",), data=["a", "b"], dtype=np.bytes_
         )
@@ -63,7 +63,7 @@ class TestIdentify:
         result = CFCoordinateVariable.identify(vars_all)
         assert result == {}
 
-    def test_ndim_not_one_rejected(self):
+    def test_ndim_not_one_rejected(self):  # noqa: D102
         stub = _CoordVariableStub(
             name="lat", dimensions=("lat", "lon"), data=[[1.0, 2.0]], dtype=float
         )
@@ -74,7 +74,7 @@ class TestIdentify:
         result = CFCoordinateVariable.identify(vars_all)
         assert result == {}
 
-    def test_name_not_in_dimensions_rejected(self):
+    def test_name_not_in_dimensions_rejected(self):  # noqa: D102
         stub = _CoordVariableStub(
             name="lat", dimensions=("x",), data=[1.0, 2.0], dtype=float
         )
@@ -83,14 +83,14 @@ class TestIdentify:
         result = CFCoordinateVariable.identify(vars_all)
         assert result == {}
 
-    def test_ignored_name_excluded(self):
+    def test_ignored_name_excluded(self):  # noqa: D102
         nc_var = _make_coord_var("lat", [1.0, 2.0, 3.0])
         vars_all = {"lat": nc_var}
 
         result = CFCoordinateVariable.identify(vars_all, ignore=["lat"])
         assert result == {}
 
-    def test_target_filters_to_named_var(self):
+    def test_target_filters_to_named_var(self):  # noqa: D102
         lat = _make_coord_var("lat", [1.0, 2.0])
         lon = _make_coord_var("lon", [10.0, 20.0])
         vars_all = {"lat": lat, "lon": lon}
@@ -99,14 +99,14 @@ class TestIdentify:
         assert "lat" in result
         assert "lon" not in result
 
-    def test_target_unknown_raises(self):
+    def test_target_unknown_raises(self):  # noqa: D102
         vars_all = {"lat": _make_coord_var("lat", [1.0])}
 
         message = "Cannot identify unknown target CF-netCDF variable 'unknown'"
         with pytest.raises(ValueError, match=message):
             CFCoordinateVariable.identify(vars_all, target="unknown")
 
-    def test_target_wrong_type_raises(self):
+    def test_target_wrong_type_raises(self):  # noqa: D102
         vars_all = {"lat": _make_coord_var("lat", [1.0])}
 
         message = "Expect a target CF-netCDF variable name"
@@ -116,21 +116,21 @@ class TestIdentify:
 
 class TestIdentifyMonotonic:
     """Test dentifyMonotonic."""
-    def test_monotonic_increasing_accepted(self):
+    def test_monotonic_increasing_accepted(self):  # noqa: D102
         nc_var = _make_coord_var("lat", np.array([1.0, 2.0, 3.0]))
         vars_all = {"lat": nc_var}
 
         result = CFCoordinateVariable.identify(vars_all, monotonic=True)
         assert "lat" in result
 
-    def test_monotonic_decreasing_accepted(self):
+    def test_monotonic_decreasing_accepted(self):  # noqa: D102
         nc_var = _make_coord_var("lat", np.array([3.0, 2.0, 1.0]))
         vars_all = {"lat": nc_var}
 
         result = CFCoordinateVariable.identify(vars_all, monotonic=True)
         assert "lat" in result
 
-    def test_non_monotonic_rejected(self):
+    def test_non_monotonic_rejected(self):  # noqa: D102
         nc_var = _make_coord_var("lat", np.array([1.0, 3.0, 2.0]))
         vars_all = {"lat": nc_var}
 

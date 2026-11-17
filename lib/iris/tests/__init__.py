@@ -363,7 +363,7 @@ class IrisTest(unittest.TestCase):
         )
         return result
 
-    def assertCMLApproxData(self, cubes, reference_filename=None, **kwargs):
+    def assertCMLApproxData(self, cubes, reference_filename=None, **kwargs):  # noqa: D102
         # passes args and kwargs on to approx equal
         if isinstance(cubes, iris.cube.Cube):
             cubes = [cubes]
@@ -500,7 +500,7 @@ class IrisTest(unittest.TestCase):
                 % (desc, reference_filename, diff)
             )
 
-    def assertDataAlmostEqual(self, data, reference_filename, **kwargs):
+    def assertDataAlmostEqual(self, data, reference_filename, **kwargs):  # noqa: D102
         reference_path = self.get_result_path(reference_filename)
         if self._check_reference_file(reference_path):
             kwargs.setdefault("err_msg", "Reference file %s" % reference_path)
@@ -540,7 +540,7 @@ class IrisTest(unittest.TestCase):
             with open(reference_path, "w") as reference_file:
                 reference_file.write(json.dumps(stats))
 
-    def assertFilesEqual(self, test_filename, reference_filename):
+    def assertFilesEqual(self, test_filename, reference_filename):  # noqa: D102
         reference_path = self.get_result_path(reference_filename)
         if self._check_reference_file(reference_path):
             fmt = "test file {!r} does not match reference {!r}."
@@ -575,7 +575,7 @@ class IrisTest(unittest.TestCase):
             reference_path = self.get_result_path(reference_filename)
         self._check_same(string, reference_path, type_comparison_name="Strings")
 
-    def assertRepr(self, obj, reference_filename):
+    def assertRepr(self, obj, reference_filename):  # noqa: D102
         self.assertString(repr(obj), reference_filename)
 
     def _check_same(self, item, reference_path, type_comparison_name="CML"):
@@ -600,7 +600,7 @@ class IrisTest(unittest.TestCase):
         reference_path = self.get_result_path(reference_filename)
         self._check_same(pretty_xml, reference_path, type_comparison_name="XML")
 
-    def assertArrayEqual(self, a, b, err_msg=""):
+    def assertArrayEqual(self, a, b, err_msg=""):  # noqa: D102
         np.testing.assert_array_equal(a, b, err_msg=err_msg)
 
     @contextlib.contextmanager
@@ -650,7 +650,7 @@ class IrisTest(unittest.TestCase):
             self.assertRegex(rec.msg, msg_regex)
 
     @contextlib.contextmanager
-    def assertNoWarningsRegexp(self, expected_regexp=""):
+    def assertNoWarningsRegexp(self, expected_regexp=""):  # noqa: D102
         # Check that no warning matching the given expression is raised.
         with self._recordWarningMatches(expected_regexp) as matches:
             yield
@@ -661,7 +661,7 @@ class IrisTest(unittest.TestCase):
 
     assertMaskedArrayEqual = staticmethod(assert_masked_array_equal)
 
-    def assertArrayAlmostEqual(self, a, b, decimal=6):
+    def assertArrayAlmostEqual(self, a, b, decimal=6):  # noqa: D102
         np.testing.assert_array_almost_equal(a, b, decimal=decimal)
 
     assertMaskedArrayAlmostEqual = staticmethod(assert_masked_array_almost_equal)
@@ -722,7 +722,7 @@ class IrisTest(unittest.TestCase):
             raise AssertionError(msg)
 
     @contextlib.contextmanager
-    def temp_filename(self, suffix=""):
+    def temp_filename(self, suffix=""):  # noqa: D102
         filename = iris.util.create_temp_filename(suffix)
         try:
             yield filename
@@ -925,7 +925,7 @@ class IrisTest(unittest.TestCase):
                     )
                     raise AssertionError(emsg)
 
-    def assertEqualAndKind(self, value, expected):
+    def assertEqualAndKind(self, value, expected):  # noqa: D102
         # Check a value, and also its type 'kind' = float/integer/string.
         self.assertEqual(value, expected)
         self.assertEqual(np.array(value).dtype.kind, np.array(expected).dtype.kind)

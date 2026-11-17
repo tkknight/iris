@@ -18,7 +18,7 @@ CF_IDENTITY = "formula_terms"
 
 class TestIdentify:
     """Test dentify."""
-    def test_single_formula_term(self):
+    def test_single_formula_term(self):  # noqa: D102
         subject_name = "ref_sigma"
         ref_subject = _NetCDFVar(subject_name)
         ref_source = _NetCDFVar("ref_source")
@@ -33,7 +33,7 @@ class TestIdentify:
         assert subject_name in result
         assert result[subject_name].cf_terms_by_root == {"ref_source": "sigma"}
 
-    def test_multiple_terms_one_source(self):
+    def test_multiple_terms_one_source(self):  # noqa: D102
         subject_names = ("ref_sigma", "ref_ps")
         ref_subject_vars = {name: _NetCDFVar(name) for name in subject_names}
         ref_source = _NetCDFVar("ref_source")
@@ -90,7 +90,7 @@ class TestIdentify:
         assert terms.get("ref_source_1") == "sigma"
         assert terms.get("ref_source_2") == "eta"
 
-    def test_ignore(self):
+    def test_ignore(self):  # noqa: D102
         subject_names = ("ref_sigma", "ref_ps")
         ref_subject_vars = {name: _NetCDFVar(name) for name in subject_names}
 
@@ -109,7 +109,7 @@ class TestIdentify:
         assert subject_names[0] in result
         assert subject_names[1] not in result
 
-    def test_target(self):
+    def test_target(self):  # noqa: D102
         subject_names = ("ref_sigma", "ref_ps")
         ref_subject_vars = {name: _NetCDFVar(name) for name in subject_names}
 
@@ -127,21 +127,21 @@ class TestIdentify:
         assert subject_names[0] in result
         assert subject_names[1] not in result
 
-    def test_target_unknown_raises(self):
+    def test_target_unknown_raises(self):  # noqa: D102
         vars_all = {"ref_source": _NetCDFVar("ref_source")}
 
         message = "Cannot identify unknown target CF-netCDF variable 'unknown'"
         with pytest.raises(ValueError, match=message):
             _CFFormulaTermsVariable.identify(vars_all, target="unknown")
 
-    def test_target_wrong_type_raises(self):
+    def test_target_wrong_type_raises(self):  # noqa: D102
         vars_all = {"ref_source": _NetCDFVar("ref_source")}
 
         message = "Expect a target CF-netCDF variable name"
         with pytest.raises(TypeError, match=message):
             _CFFormulaTermsVariable.identify(vars_all, target=object())
 
-    def test_warn(self):
+    def test_warn(self):  # noqa: D102
         subject_name = "ref_sigma"
         ref_source = _NetCDFVar("ref_source")
         setattr(ref_source, CF_IDENTITY, f"sigma: {subject_name}")
@@ -165,7 +165,7 @@ class TestIdentify:
 
 class TestRepr:
     """Test epr."""
-    def test_repr_contains_terms_by_root(self):
+    def test_repr_contains_terms_by_root(self):  # noqa: D102
         subject_name = "ref_sigma"
         ref_subject = _NetCDFVar(subject_name)
         ref_source = _NetCDFVar("ref_source")

@@ -34,10 +34,10 @@ class Test_basics:
     def _setup(self):
         self.data = _get_data()
 
-    def test_name(self):
+    def test_name(self):  # noqa: D102
         assert MEDIAN.name() == "median"
 
-    def test_collapse(self):
+    def test_collapse(self):  # noqa: D102
         data = MEDIAN.aggregate(self.data, axis=(0, 1))
         _shared_utils.assert_array_equal(data, [7.5])
 
@@ -48,11 +48,11 @@ class Test_masked:
     def _setup(self):
         self.data = _get_data(masked=True)
 
-    def test_output_is_masked(self):
+    def test_output_is_masked(self):  # noqa: D102
         result = MEDIAN.aggregate(self.data, axis=1)
         assert ma.isMaskedArray(result)
 
-    def test_median_is_mask_aware(self):
+    def test_median_is_mask_aware(self):  # noqa: D102
         # the median computed along one axis differs if the array is masked
         axis = 1
         result = MEDIAN.aggregate(self.data, axis=axis)
@@ -70,15 +70,15 @@ class Test_lazy:
     def _setup(self):
         self.data = _get_data(lazy=True)
 
-    def test_output_is_lazy(self):
+    def test_output_is_lazy(self):  # noqa: D102
         result = MEDIAN.lazy_aggregate(self.data, axis=(0, 1))
         assert is_lazy_data(result)
 
-    def test_shape(self):
+    def test_shape(self):  # noqa: D102
         result = MEDIAN.lazy_aggregate(self.data, axis=1)
         assert result.shape == (4,)
 
-    def test_result_values(self):
+    def test_result_values(self):  # noqa: D102
         axis = 1
         result = MEDIAN.lazy_aggregate(self.data, axis=axis)
         expected = np.median(as_concrete_data(self.data), axis=axis)
@@ -91,11 +91,11 @@ class Test_lazy_masked:
     def _setup(self):
         self.data = _get_data(lazy=True, masked=True)
 
-    def test_output_is_lazy_and_masked(self):
+    def test_output_is_lazy_and_masked(self):  # noqa: D102
         result = MEDIAN.lazy_aggregate(self.data, axis=1)
         assert is_lazy_masked_data(result)
 
-    def test_result_values(self):
+    def test_result_values(self):  # noqa: D102
         axis = 1
         result = MEDIAN.lazy_aggregate(self.data, axis=axis)
         expected = ma.median(as_concrete_data(self.data), axis=axis)

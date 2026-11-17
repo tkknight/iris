@@ -47,32 +47,32 @@ class ParentClass:
     MOCKED_OPERATION: ClassVar[str]
 
     @pytest.fixture
-    def expected(self):
+    def expected(self):  # noqa: D102
         pass
 
     @pytest.fixture
-    def operation(self):
+    def operation(self):  # noqa: D102
         pass
 
     @pytest.fixture
-    def cube(self):
+    def cube(self):  # noqa: D102
         pass
 
     @pytest.fixture
-    def cube_with_crs(self, default_cs, cube):
+    def cube_with_crs(self, default_cs, cube):  # noqa: D102
         cube_crs = cube.copy()
         for coord in cube_crs.coords():
             coord.coord_system = default_cs
         return cube_crs
 
     @pytest.fixture
-    def mocked_operation(self, mocker):
+    def mocked_operation(self, mocker):  # noqa: D102
         target = f"geovista.Transform.{self.MOCKED_OPERATION}"
         mocking = mocker.patch(target, mocker.Mock())
         return mocking
 
     @staticmethod
-    def test_to_poly(expected, mocked_operation, cube):
+    def test_to_poly(expected, mocked_operation, cube):  # noqa: D102
         cube_to_polydata(cube)
         actual = mocked_operation.call_args.kwargs
         for key, expected_value in expected.items():
@@ -82,13 +82,13 @@ class ParentClass:
                 assert actual[key] == expected_value
 
     @staticmethod
-    def test_to_poly_crs(mocked_operation, default_cs, cube_with_crs):
+    def test_to_poly_crs(mocked_operation, default_cs, cube_with_crs):  # noqa: D102
         cube_to_polydata(cube_with_crs)
         actual = mocked_operation.call_args.kwargs
         assert actual["crs"] == default_cs.as_cartopy_crs().proj4_init
 
     @staticmethod
-    def test_to_poly_kwargs(mocked_operation, cube):
+    def test_to_poly_kwargs(mocked_operation, cube):  # noqa: D102
         kwargs = {"test": "test"}
         cube_to_polydata(cube, **kwargs)
         actual = mocked_operation.call_args.kwargs
@@ -100,7 +100,7 @@ class Test2dToPoly(ParentClass):
     MOCKED_OPERATION = "from_2d"
 
     @pytest.fixture
-    def expected(self, cube_2d):
+    def expected(self, cube_2d):  # noqa: D102
         return {
             "xs": cube_2d.coord(axis="X").contiguous_bounds(),
             "ys": cube_2d.coord(axis="Y").contiguous_bounds(),
@@ -109,7 +109,7 @@ class Test2dToPoly(ParentClass):
         }
 
     @pytest.fixture
-    def cube(self, cube_2d):
+    def cube(self, cube_2d):  # noqa: D102
         return cube_2d
 
 
@@ -118,7 +118,7 @@ class Test1dToPoly(ParentClass):
     MOCKED_OPERATION = "from_1d"
 
     @pytest.fixture
-    def expected(self, cube_1d):
+    def expected(self, cube_1d):  # noqa: D102
         return {
             "xs": cube_1d.coord(axis="X").contiguous_bounds(),
             "ys": cube_1d.coord(axis="Y").contiguous_bounds(),
@@ -127,7 +127,7 @@ class Test1dToPoly(ParentClass):
         }
 
     @pytest.fixture
-    def cube(self, cube_1d):
+    def cube(self, cube_1d):  # noqa: D102
         return cube_1d
 
 
@@ -136,7 +136,7 @@ class TestMeshToPoly(ParentClass):
     MOCKED_OPERATION = "from_unstructured"
 
     @pytest.fixture
-    def expected(self, cube_mesh):
+    def expected(self, cube_mesh):  # noqa: D102
         return {
             "xs": cube_mesh.mesh.node_coords[0].points,
             "ys": cube_mesh.mesh.node_coords[1].points,
@@ -146,7 +146,7 @@ class TestMeshToPoly(ParentClass):
             "start_index": 0,
         }
 
-    def test_if_1d(self, cube_mesh):
+    def test_if_1d(self, cube_mesh):  # noqa: D102
         with pytest.raises(
             NotImplementedError,
             match=r"Cubes with a mesh must be one dimensional",
@@ -154,22 +154,22 @@ class TestMeshToPoly(ParentClass):
             cube_to_polydata(cube_mesh)
 
     @pytest.fixture
-    def operation(self):
+    def operation(self):  # noqa: D102
         return "from_unstructured"
 
     @pytest.fixture
-    def cube(self, cube_mesh):
+    def cube(self, cube_mesh):  # noqa: D102
         return cube_mesh[0]
 
     @pytest.mark.skip(reason="Meshes do not support crs currently")
-    def test_to_poly_crs(self, expected, actual):
+    def test_to_poly_crs(self, expected, actual):  # noqa: D102
         return NotImplemented
 
 
 class TestExtras:
     """Test xtras."""
     @pytest.fixture
-    def cube_1d_2d(self, cube_2d):
+    def cube_1d_2d(self, cube_2d):  # noqa: D102
         my_cube = cube_2d.copy()
         lat_coord = my_cube.aux_coords[0]
         lat_coord_small = lat_coord[0]
@@ -179,14 +179,14 @@ class TestExtras:
         my_cube.add_aux_coord(lat_coord_small, 1)
         return my_cube
 
-    def test_not_1d_or_2d(self, cube_1d_2d):
+    def test_not_1d_or_2d(self, cube_1d_2d):  # noqa: D102
         with pytest.raises(
             NotImplementedError,
             match=r"Only 1D and 2D coordinates are supported",
         ):
             cube_to_polydata(cube_1d_2d)
 
-    def test_no_mesh_or_2d(self, cube_1d):
+    def test_no_mesh_or_2d(self, cube_1d):  # noqa: D102
         cube = cube_1d[0]
         with pytest.raises(
             NotImplementedError,

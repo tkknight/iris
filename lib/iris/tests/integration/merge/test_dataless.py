@@ -26,7 +26,7 @@ class TestMergeDataless:
             cube.data = None
         return cube
 
-    def test_mixed_passthrough(self):
+    def test_mixed_passthrough(self):  # noqa: D102
         # Check that normal merge can handle dataless alongside dataful cubes.
         cube_normal = self._testcube(name="this", dataless=False)
         cube_dataless = self._testcube(name="that", dataless=True)
@@ -39,7 +39,7 @@ class TestMergeDataless:
         assert not cube1.is_dataless()
         assert cube2.is_dataless()
 
-    def test_dataless_merge(self):
+    def test_dataless_merge(self):  # noqa: D102
         # Check that dataless cubes can be merged.
         cube_1 = self._testcube(z=1, dataless=True)
         cube_2 = self._testcube(z=2, dataless=True)
@@ -50,7 +50,7 @@ class TestMergeDataless:
         assert cube.is_dataless()
         assert np.all(cube.coord("z").points == [1, 2])
 
-    def test_dataless_dataful_merge(self):
+    def test_dataless_dataful_merge(self):  # noqa: D102
         # Check that dataless cubes can merge **with** regular ones.
         # Include checking that laziness is preserved.
         cube_normal = self._testcube(z=1, dataless=False, lazy=True)

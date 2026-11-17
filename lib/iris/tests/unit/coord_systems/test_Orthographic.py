@@ -26,7 +26,7 @@ class Test_as_cartopy_crs:
             ellipsoid=self.ellipsoid,
         )
 
-    def test_crs_creation(self):
+    def test_crs_creation(self):  # noqa: D102
         res = self.ortho_cs.as_cartopy_crs()
         globe = ccrs.Globe(
             semimajor_axis=self.semi_major_axis,
@@ -56,7 +56,7 @@ class Test_as_cartopy_projection:
             ellipsoid=self.ellipsoid,
         )
 
-    def test_projection_creation(self):
+    def test_projection_creation(self):  # noqa: D102
         res = self.ortho_cs.as_cartopy_projection()
         globe = ccrs.Globe(
             semimajor_axis=self.semi_major_axis,
@@ -76,7 +76,7 @@ class Test_init_defaults:
     # NOTE: most of the testing for Orthographic.__init__ is elsewhere.
     # This class *only* tests the defaults for optional constructor args.
 
-    def test_set_optional_args(self):
+    def test_set_optional_args(self):  # noqa: D102
         # Check that setting the optional (non-ellipse) args works.
         crs = Orthographic(0, 0, false_easting=100, false_northing=-203.7)
         _shared_utils.assert_equal_and_kind(crs.false_easting, 100.0)
@@ -88,12 +88,12 @@ class Test_init_defaults:
         _shared_utils.assert_equal_and_kind(crs.false_easting, 0.0)
         _shared_utils.assert_equal_and_kind(crs.false_northing, 0.0)
 
-    def test_no_optional_args(self):
+    def test_no_optional_args(self):  # noqa: D102
         # Check expected defaults with no optional args.
         crs = Orthographic(0, 0)
         self._check_crs_defaults(crs)
 
-    def test_optional_args_none(self):
+    def test_optional_args_none(self):  # noqa: D102
         # Check expected defaults with optional args=None.
         crs = Orthographic(0, 0, false_easting=None, false_northing=None)
         self._check_crs_defaults(crs)

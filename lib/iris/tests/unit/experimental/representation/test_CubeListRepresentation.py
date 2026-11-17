@@ -22,7 +22,7 @@ class Test__instantiation:
         self.cubes = CubeList([stock.simple_3d()])
         self.representer = CubeListRepresentation(self.cubes)
 
-    def test_ids(self):
+    def test_ids(self):  # noqa: D102
         assert id(self.cubes) == self.representer.cubelist_id
 
 
@@ -36,16 +36,16 @@ class Test_make_content:
         self.representer = CubeListRepresentation(self.cubes)
         self.content = self.representer.make_content()
 
-    def test_repr_len(self):
+    def test_repr_len(self):  # noqa: D102
         assert len(self.cubes) == len(self.content)
 
-    def test_summary_lines(self):
+    def test_summary_lines(self):  # noqa: D102
         names = [c.name() for c in self.cubes]
         for name, content in zip(names, self.content):
             name = escape(name)
             assert name in content
 
-    def test__cube_name_summary_consistency(self):
+    def test__cube_name_summary_consistency(self):  # noqa: D102
         # Just check the first cube in the CubeList.
         single_cube_html = self.content[0]
         # Get a "prettified" cube name, as it should be in the cubelist repr.
@@ -63,7 +63,7 @@ class Test_repr_html:
         self.cubes = CubeList([stock.simple_3d(), stock.lat_lon_cube()])
         self.representer = CubeListRepresentation(self.cubes)
 
-    def test_html_length(self):
+    def test_html_length(self):  # noqa: D102
         html = self.representer.repr_html()
         n_html_elems = html.count("<button")  # One <button> tag per cube.
         assert len(self.cubes) == n_html_elems

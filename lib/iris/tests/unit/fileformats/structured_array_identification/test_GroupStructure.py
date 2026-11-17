@@ -30,13 +30,13 @@ def regular_array_structures(shape, names="abcdefg"):
 
 class TestGroupStructure_from_component_arrays:
     """Test roupStructure from component arrays."""
-    def test_different_sizes(self):
+    def test_different_sizes(self):  # noqa: D102
         arrays = {"a": np.arange(6), "b": np.arange(5)}
         msg = "All array elements must have the same size."
         with pytest.raises(ValueError, match=msg):
             GroupStructure.from_component_arrays(arrays)
 
-    def test_structure_creation(self):
+    def test_structure_creation(self):  # noqa: D102
         # Test that the appropriate dictionary containing ArrayStructures is
         # computed when constructing a GroupStructure from_component_arrays.
         array = np.arange(6)
@@ -50,7 +50,7 @@ class TestGroupStructure_from_component_arrays:
 
 class TestGroupStructure_possible_structures:
     """Test roupStructure possible structures."""
-    def test_simple_3d_structure(self):
+    def test_simple_3d_structure(self):  # noqa: D102
         # Construct a structure representing a (3, 2, 4) group and assert
         # that the result is of the expected form.
         array_structures = {
@@ -68,7 +68,7 @@ class TestGroupStructure_possible_structures:
         )
         assert structure.possible_structures() == expected
 
-    def assert_potentials(self, length, array_structures, expected):
+    def assert_potentials(self, length, array_structures, expected):  # noqa: D102
         structure = GroupStructure(length, array_structures, array_order="f")
         allowed = structure.possible_structures()
         names = [
@@ -76,7 +76,7 @@ class TestGroupStructure_possible_structures:
         ]
         assert names == expected
 
-    def test_multiple_potentials(self):
+    def test_multiple_potentials(self):  # noqa: D102
         # More than one potential dimension for dim 1.
         array_structures = regular_array_structures((4, 2, 3))
         array_structures["shared b"] = ArrayStructure(4, [-10, 4])
@@ -84,13 +84,13 @@ class TestGroupStructure_possible_structures:
             24, array_structures, [["a", "b", "c"], ["a", "shared b", "c"]]
         )
 
-    def test_alternate_potentials(self):
+    def test_alternate_potentials(self):  # noqa: D102
         # More than one potential dimension for dim 1.
         array_structures = regular_array_structures((4, 2, 3))
         array_structures.update(regular_array_structures((6, 4), names="xy"))
         self.assert_potentials(24, array_structures, [["x", "y"], ["a", "b", "c"]])
 
-    def test_shared_first_dimension(self):
+    def test_shared_first_dimension(self):  # noqa: D102
         # One 2d potential as well as one 3d, using the same first dimension.
         array_structures = regular_array_structures((4, 2, 3))
         array_structures["bc combined"] = ArrayStructure(4, np.arange(6))
@@ -98,14 +98,14 @@ class TestGroupStructure_possible_structures:
             24, array_structures, [["a", "bc combined"], ["a", "b", "c"]]
         )
 
-    def test_non_viable_element(self):
+    def test_non_viable_element(self):  # noqa: D102
         # One 2d potential as well as one 3d, using the same first dimension.
         array_structures = regular_array_structures((4, 2, 3))
         array_structures.pop("c")
         array_structures["strange_length"] = ArrayStructure(4, np.arange(5))
         self.assert_potentials(24, array_structures, [])
 
-    def test_completely_unstructured_element(self):
+    def test_completely_unstructured_element(self):  # noqa: D102
         # One of the arrays is entirely unstructured.
         array_structures = regular_array_structures((4, 2, 3))
         array_structures["unstructured"] = None
@@ -114,13 +114,13 @@ class TestGroupStructure_possible_structures:
 
 class TestGroupStructure_build_arrays:
     """Test roupStructure build arrays."""
-    def assert_built_array(self, name, result, expected):
+    def assert_built_array(self, name, result, expected):  # noqa: D102
         ex_arr, ex_dims = expected
         re_arr, re_dims = result[name]
         assert ex_dims == re_dims
         assert_array_equal(ex_arr, re_arr)
 
-    def test_build_arrays_regular_f_order(self):
+    def test_build_arrays_regular_f_order(self):  # noqa: D102
         # Construct simple orthogonal 1d array structures, adding a trailing
         # dimension to the second, and assert the result of build_arrays
         # produces the required result.
@@ -137,14 +137,14 @@ class TestGroupStructure_build_arrays:
         self.assert_built_array("a", result, ([0, 1], (0,)))
         self.assert_built_array("b", result, ([[0, 100], [1, 101], [2, 102]], (1,)))
 
-    def test_build_arrays_unstructured(self):
+    def test_build_arrays_unstructured(self):  # noqa: D102
         # Check that an unstructured array gets reshaped appropriately.
         grp = GroupStructure(6, {"a": None}, array_order="c")
         orig = np.array([1, 2, 3, 4, 5, 6]).reshape(2, 3)
         r = grp.build_arrays((2, 3), {"a": orig.flatten(order="c")})
         self.assert_built_array("a", r, (orig, (0, 1)))
 
-    def test_build_arrays_unstructured_ndim_f_order(self):
+    def test_build_arrays_unstructured_ndim_f_order(self):  # noqa: D102
         # Passing an unstructured array to build_arrays, should result in the
         # appropriately shaped array, plus any trailing dimensions.
         grp = GroupStructure(6, {"a": None}, array_order="f")
@@ -153,7 +153,7 @@ class TestGroupStructure_build_arrays:
         r = grp.build_arrays((2, 3), {"a": orig.reshape((-1, 2), order="f")})
         self.assert_built_array("a", r, (orig, (0, 1)))
 
-    def test_build_arrays_unstructured_ndim_c_order(self):
+    def test_build_arrays_unstructured_ndim_c_order(self):  # noqa: D102
         # Passing an unstructured array to build_arrays, should result in the
         # appropriately shaped array, plus any trailing dimensions.
         grp = GroupStructure(6, {"a": None}, array_order="c")
@@ -162,7 +162,7 @@ class TestGroupStructure_build_arrays:
         r = grp.build_arrays((2, 3), {"a": orig.reshape((-1, 2), order="c")})
         self.assert_built_array("a", r, (orig, (0, 1)))
 
-    def test_structured_array_not_applicable(self):
+    def test_structured_array_not_applicable(self):  # noqa: D102
         # Just because an array has a possible structure, does not mean it
         # gets used. Check that 'd' which would make a good 1D array, doesn't
         # get used in a specific shape.

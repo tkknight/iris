@@ -285,7 +285,7 @@ class Mixin__singlecoord__tests(Mixin__timecoords__common):
     # ( these are repeated for both 'time' and 'time_period' )
     #
 
-    def test_dimension(self):
+    def test_dimension(self):  # noqa: D102
         # Coord is a normal dimension --> dimcoord
         #
         # Rules Triggered:
@@ -295,7 +295,7 @@ class Mixin__singlecoord__tests(Mixin__timecoords__common):
         result = self.run_testcase()
         self.check_result(result, "dim")
 
-    def test_dimension_in_phenom_coords(self):
+    def test_dimension_in_phenom_coords(self):  # noqa: D102
         # Dimension coord also present in phenom:coords.
         # Strictly wrong but a common error in datafiles : must tolerate.
         #
@@ -306,7 +306,7 @@ class Mixin__singlecoord__tests(Mixin__timecoords__common):
         result = self.run_testcase(in_phenomvar_coords=True)
         self.check_result(result, "dim")
 
-    def test_dim_nonmonotonic(self):
+    def test_dim_nonmonotonic(self):  # noqa: D102
         # Coord has all-zero values, which prevents it being a dimcoord.
         # The rule has a special way of treating it as an aux coord
         # -- even though it doesn't appear in the phenom coords.
@@ -323,7 +323,7 @@ class Mixin__singlecoord__tests(Mixin__timecoords__common):
         )
         self.check_result(result, "aux", load_problems_regex=msg)
 
-    def test_dim_fails_typeident(self):
+    def test_dim_fails_typeident(self):  # noqa: D102
         # Provide a coord variable, identified as a CFDimensionCoordinate by
         # cf.py, but with the "wrong" units for a time or period coord.
         # This causes it to fail both 'is_time' and 'is_period' tests and so,
@@ -343,7 +343,7 @@ class Mixin__singlecoord__tests(Mixin__timecoords__common):
         result = self.run_testcase(units="1")
         self.check_result(result, "dim")
 
-    def test_aux(self):
+    def test_aux(self):  # noqa: D102
         # time/period is installed as an auxiliary coord.
         # For this, rename both DIMENSIONS, so that the generated coords are
         # not actually CF coordinates.
@@ -359,7 +359,7 @@ class Mixin__singlecoord__tests(Mixin__timecoords__common):
         )
         self.check_result(result, "aux")
 
-    def test_aux_not_in_phenom_coords(self):
+    def test_aux_not_in_phenom_coords(self):  # noqa: D102
         # time/period is installed as an auxiliary coord,
         # but we DIDN'T list it in phenom:coords  -- otherwise as previous.
         # Should have no result at all.
@@ -373,7 +373,7 @@ class Mixin__singlecoord__tests(Mixin__timecoords__common):
         )  # "should" be True for an aux-coord
         self.check_result(result, "missing")
 
-    def test_aux_fails_typeident(self):
+    def test_aux_fails_typeident(self):  # noqa: D102
         # We provide a non-dimension coord variable, identified as a
         # CFAuxiliaryCoordinate by cf.py, but we also give it "wrong" units,
         # unsuitable for a time or period coord.
@@ -416,7 +416,7 @@ class Test__dualcoord(Mixin__timecoords__common):
     # Not strictly necessary, as handling is independent, but a handy check
     # on typical usage.
 
-    def test_time_and_period(self):
+    def test_time_and_period(self):  # noqa: D102
         # Test case with both 'time' and 'period', with separate dims.
         # Rules Triggered:
         #     001 : fc_default
@@ -427,7 +427,7 @@ class Test__dualcoord(Mixin__timecoords__common):
         result = self.run_testcase(time_opts={}, period_opts={})
         self.check_result(result, time_is="dim", period_is="dim")
 
-    def test_time_dim_period_aux(self):
+    def test_time_dim_period_aux(self):  # noqa: D102
         # Test case with both 'time' and 'period' sharing a dim.
         #     Rules Triggered:
         #     001 : fc_default

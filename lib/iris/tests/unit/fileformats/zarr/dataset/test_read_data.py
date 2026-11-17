@@ -56,16 +56,16 @@ class CountingStore(zarr.storage.WrapperStore):
     def _with_store(self, store):
         return type(self)(store, self.tally)
 
-    def with_read_only(self, read_only=False):
+    def with_read_only(self, read_only=False):  # noqa: D102
         return self._with_store(self._store.with_read_only(read_only))
 
-    async def get(self, key, prototype, byte_range=None):
+    async def get(self, key, prototype, byte_range=None):  # noqa: D102
         buffer = await self._store.get(key, prototype, byte_range)
         if buffer is not None:
             self.tally.append(len(buffer))
         return buffer
 
-    async def get_partial_values(self, prototype, key_ranges):
+    async def get_partial_values(self, prototype, key_ranges):  # noqa: D102
         buffers = await self._store.get_partial_values(prototype, key_ranges)
         self.tally.extend(len(b) for b in buffers if b is not None)
         return buffers
@@ -103,7 +103,7 @@ def packed_store(tmp_path, shape, chunks):
 
 class Test_laziness:
     """Test laziness."""
-    def test_a_small_variable_is_read_whole(self, tmp_path):
+    def test_a_small_variable_is_read_whole(self, tmp_path):  # noqa: D102
         location = stores.make_store(tmp_path / "s.zarr")
         result = variable(location).read_data(policy)
         assert not isinstance(result, da.Array)
@@ -122,14 +122,14 @@ class Test_laziness:
         location = stores.make_store(tmp_path / "s.zarr")
         variable(location).read_data(raising_policy)
 
-    def test_a_large_variable_is_lazy(self, tmp_path, mocker):
+    def test_a_large_variable_is_lazy(self, tmp_path, mocker):  # noqa: D102
         mocker.patch.object(cf_loader, "_LAZYVAR_MIN_BYTES", 1)
         location = stores.make_store(tmp_path / "s.zarr")
         result = variable(location).read_data(policy)
         assert isinstance(result, da.Array)
         np.testing.assert_array_equal(result.compute(), stores.DATA)
 
-    def test_a_plain_array_gets_an_unmasked_meta(self, tmp_path, mocker):
+    def test_a_plain_array_gets_an_unmasked_meta(self, tmp_path, mocker):  # noqa: D102
         # No decode layer, so no masked meta: a masked meta with nothing beneath
         # it is a meta that lies about its own graph.
         mocker.patch.object(cf_loader, "_LAZYVAR_MIN_BYTES", 1)
@@ -137,7 +137,7 @@ class Test_laziness:
         result = variable(location).read_data(policy)
         assert not isinstance(result._meta, np.ma.MaskedArray)
 
-    def test_a_decoded_array_gets_a_masked_meta(self, tmp_path, mocker):
+    def test_a_decoded_array_gets_a_masked_meta(self, tmp_path, mocker):  # noqa: D102
         mocker.patch.object(cf_loader, "_LAZYVAR_MIN_BYTES", 1)
         group = zarr.open_group(store=tmp_path / "m.zarr", mode="w", zarr_format=3)
         array = stores.make_array(
@@ -159,7 +159,7 @@ class Test_laziness:
 
 class Test_cache_key:
     """Test cache key."""
-    def test_the_key_is_stable_across_a_reopen(self, tmp_path):
+    def test_the_key_is_stable_across_a_reopen(self, tmp_path):  # noqa: D102
         group = zarr.open_group(store=tmp_path / "k.zarr", mode="w", zarr_format=3)
         stores.make_array(group, "v", (4,), "i4", 3, dimensions=("t",))
         location = str(tmp_path / "k.zarr")
@@ -189,7 +189,7 @@ class Test_cache_key:
         )
         assert key_of(location) != before
 
-    def test_the_key_changes_when_the_fill_value_does(self, tmp_path):
+    def test_the_key_changes_when_the_fill_value_does(self, tmp_path):  # noqa: D102
         location = str(tmp_path / "k.zarr")
         group = zarr.open_group(store=location, mode="w", zarr_format=3)
         group.create_array("v", shape=(4,), dtype="i4", fill_value=-1)
@@ -234,7 +234,7 @@ class Test_cache_key:
         group.create_array("v", **{**base, **change}, overwrite=True)
         assert key_of(location) != before
 
-    def test_the_key_is_sensitive_to_attributes(self, tmp_path):
+    def test_the_key_is_sensitive_to_attributes(self, tmp_path):  # noqa: D102
         location = str(tmp_path / "k.zarr")
         group = zarr.open_group(store=location, mode="w", zarr_format=3)
         array = group.create_array("v", shape=(4,), dtype="i4")

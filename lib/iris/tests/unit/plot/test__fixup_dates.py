@@ -16,7 +16,7 @@ from iris.tests import _shared_utils
 
 class Test:
     """Test ."""
-    def test_standard_calendar(self):
+    def test_standard_calendar(self):  # noqa: D102
         unit = Unit("hours since 2000-04-13 00:00:00", calendar="standard")
         coord = AuxCoord([1, 3, 6], "time", units=unit)
         result = _fixup_dates(coord, coord.points)
@@ -28,7 +28,7 @@ class Test:
         ]
         _shared_utils.assert_array_equal(result, expected)
 
-    def test_standard_calendar_sub_second(self):
+    def test_standard_calendar_sub_second(self):  # noqa: D102
         unit = Unit("seconds since 2000-04-13 00:00:00", calendar="standard")
         coord = AuxCoord([1, 1.25, 1.5], "time", units=unit)
         result = _fixup_dates(coord, coord.points)
@@ -41,7 +41,7 @@ class Test:
         _shared_utils.assert_array_equal(result, expected)
 
     @_shared_utils.skip_nc_time_axis
-    def test_360_day_calendar(self):
+    def test_360_day_calendar(self):  # noqa: D102
         calendar = "360_day"
         unit = Unit("days since 2000-02-25 00:00:00", calendar=calendar)
         coord = AuxCoord([3, 4, 5], "time", units=unit)
@@ -54,7 +54,7 @@ class Test:
         _shared_utils.assert_array_equal(result, expected_datetimes)
 
     @_shared_utils.skip_nc_time_axis
-    def test_365_day_calendar(self):
+    def test_365_day_calendar(self):  # noqa: D102
         calendar = "365_day"
         unit = Unit("minutes since 2000-02-25 00:00:00", calendar=calendar)
         coord = AuxCoord([30, 60, 150], "time", units=unit)
@@ -67,7 +67,7 @@ class Test:
         _shared_utils.assert_array_equal(result, expected_datetimes)
 
     @_shared_utils.skip_nc_time_axis
-    def test_360_day_calendar_attribute(self):
+    def test_360_day_calendar_attribute(self):  # noqa: D102
         calendar = "360_day"
         unit = Unit("days since 2000-02-01 00:00:00", calendar=calendar)
         coord = AuxCoord([0, 3, 6], "time", units=unit)

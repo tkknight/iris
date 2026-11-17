@@ -251,7 +251,7 @@ class GraphicsTestMixin:
         "Please use `_check_graphic_caller()` instead."
     )
 
-    def setUp(self) -> None:
+    def setUp(self) -> None:  # noqa: D102
         # Acquire threading non re-entrant blocking lock to ensure
         # thread-safe plotting.
         _lock.acquire()
@@ -260,7 +260,7 @@ class GraphicsTestMixin:
         if MPL_AVAILABLE:
             plt.close("all")
 
-    def tearDown(self) -> None:
+    def tearDown(self) -> None:  # noqa: D102
         # If a plotting test bombs out it can leave the current figure
         # in an odd state, so we make sure it's been disposed of.
         if MPL_AVAILABLE:

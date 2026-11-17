@@ -83,7 +83,7 @@ class Test__data_bytes_to_shaped_array__lateral_boundary_compression:
         buf.seek(0)
         self.data_payload_bytes = buf.read()
 
-    def test_boundary_decompression(self, mocker):
+    def test_boundary_decompression(self, mocker):  # noqa: D102
         boundary_packing = mocker.Mock(rim_width=4, x_halo=3, y_halo=2)
         lbpack = mocker.Mock(n1=0)
         r = pp._data_bytes_to_shaped_array(
@@ -128,11 +128,11 @@ class Test__data_bytes_to_shaped_array__land_packed(MockerMixin):
             data=self.land, lbrow=self.land.shape[0], lbnpt=self.land.shape[1]
         )
 
-    def create_lbpack(self, value):
+    def create_lbpack(self, value):  # noqa: D102
         name_mapping = dict(n5=slice(4, None), n4=3, n3=2, n2=1, n1=0)
         return pp.SplittableInt(value, name_mapping)
 
-    def test_no_land_mask(self, mocker):
+    def test_no_land_mask(self, mocker):  # noqa: D102
         # Check that without a mask, it returns the raw (compressed) data.
         with mocker.patch("numpy.frombuffer", return_value=np.arange(3)):
             result = pp._data_bytes_to_shaped_array(
@@ -146,37 +146,37 @@ class Test__data_bytes_to_shaped_array__land_packed(MockerMixin):
             )
             _shared_utils.assert_array_all_close(result, np.arange(3))
 
-    def test_land_mask(self):
+    def test_land_mask(self):  # noqa: D102
         # Check basic land unpacking.
         field_data = self.land_masked_data
         result = self.check_read_data(field_data, 120, self.land_mask)
         _shared_utils.assert_masked_array_equal(result, self.decomp_land_data)
 
-    def test_land_masked_data_too_long(self):
+    def test_land_masked_data_too_long(self):  # noqa: D102
         # Check land unpacking with field data that is larger than the mask.
         field_data = np.tile(self.land_masked_data, 2)
         result = self.check_read_data(field_data, 120, self.land_mask)
         _shared_utils.assert_masked_array_equal(result, self.decomp_land_data)
 
-    def test_sea_mask(self):
+    def test_sea_mask(self):  # noqa: D102
         # Check basic land unpacking.
         field_data = self.sea_masked_data
         result = self.check_read_data(field_data, 220, self.land_mask)
         _shared_utils.assert_masked_array_equal(result, self.decomp_sea_data)
 
-    def test_sea_masked_data_too_long(self):
+    def test_sea_masked_data_too_long(self):  # noqa: D102
         # Check sea unpacking with field data that is larger than the mask.
         field_data = np.tile(self.sea_masked_data, 2)
         result = self.check_read_data(field_data, 220, self.land_mask)
         _shared_utils.assert_masked_array_equal(result, self.decomp_sea_data)
 
-    def test_bad_lbpack(self):
+    def test_bad_lbpack(self):  # noqa: D102
         # Check basic land unpacking.
         field_data = self.sea_masked_data
         with pytest.raises(ValueError, match="Unsupported mask compression."):
             self.check_read_data(field_data, 320, self.land_mask)
 
-    def check_read_data(self, field_data, lbpack, mask):
+    def check_read_data(self, field_data, lbpack, mask):  # noqa: D102
         # Calls pp._data_bytes_to_shaped_array with the necessary mocked
         # items, an lbpack instance, the correct data shape and mask instance.
         with self.mocker.patch("numpy.frombuffer", return_value=field_data):

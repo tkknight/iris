@@ -35,7 +35,7 @@ from iris.tests.stock.netcdf import ncgen_from_cdl
 class TestLazySave:
     """Test azySave."""
     @_shared_utils.skip_data
-    def test_lazy_preserved_save(self, mocker, tmp_path):
+    def test_lazy_preserved_save(self, mocker, tmp_path):  # noqa: D102
         fpath = _shared_utils.get_data_path(
             ("NetCDF", "label_and_climate", "small_FC_167_mon_19601101.nc")
         )
@@ -62,24 +62,24 @@ class TestCellMeasures:
     def _setup(self):
         self.fname = _shared_utils.get_data_path(("NetCDF", "ORCA2", "votemper.nc"))
 
-    def test_load_raw(self):
+    def test_load_raw(self):  # noqa: D102
         (cube,) = iris.load_raw(self.fname)
         assert len(cube.cell_measures()) == 1
         assert cube.cell_measures()[0].measure == "area"
 
-    def test_load(self):
+    def test_load(self):  # noqa: D102
         cube = iris.load_cube(self.fname)
         assert len(cube.cell_measures()) == 1
         assert cube.cell_measures()[0].measure == "area"
 
-    def test_merge_cell_measure_aware(self):
+    def test_merge_cell_measure_aware(self):  # noqa: D102
         (cube1,) = iris.load_raw(self.fname)
         (cube2,) = iris.load_raw(self.fname)
         cube2._cell_measures_and_dims[0][0].var_name = "not_areat"
         cubes = CubeList([cube1, cube2]).merge()
         assert len(cubes) == 2
 
-    def test_concatenate_cell_measure_aware(self):
+    def test_concatenate_cell_measure_aware(self):  # noqa: D102
         (cube1,) = iris.load_raw(self.fname)
         cube1 = cube1[:, :, 0, 0]
         cm_and_dims = cube1._cell_measures_and_dims
@@ -91,7 +91,7 @@ class TestCellMeasures:
         assert cubes[0]._cell_measures_and_dims == cm_and_dims
         assert len(cubes) == 2
 
-    def test_concatenate_cell_measure_match(self):
+    def test_concatenate_cell_measure_match(self):  # noqa: D102
         (cube1,) = iris.load_raw(self.fname)
         cube1 = cube1[:, :, 0, 0]
         cm_and_dims = cube1._cell_measures_and_dims
@@ -102,7 +102,7 @@ class TestCellMeasures:
         assert cubes[0]._cell_measures_and_dims == cm_and_dims
         assert len(cubes) == 1
 
-    def test_round_trip(self, tmp_path):
+    def test_round_trip(self, tmp_path):  # noqa: D102
         (cube,) = iris.load(self.fname)
         filename = tmp_path / "tmp.nc"
         iris.save(cube, filename, unlimited_dimensions=[])
@@ -110,7 +110,7 @@ class TestCellMeasures:
         assert len(round_cube.cell_measures()) == 1
         assert round_cube.cell_measures()[0].measure == "area"
 
-    def test_print(self):
+    def test_print(self):  # noqa: D102
         cube = iris.load_cube(self.fname)
         printed = cube.__str__()
         assert (
@@ -122,7 +122,7 @@ class TestCellMeasures:
 
 class TestCellMethod_unknown:
     """Test ellMethod unknown."""
-    def test_unknown_method(self, tmp_path_factory):
+    def test_unknown_method(self, tmp_path_factory):  # noqa: D102
         cube = Cube([1, 2], long_name="odd_phenomenon")
         cube.add_cell_method(CellMethod(method="oddity", coords=("x",)))
         temp_dirpath = tmp_path_factory.mktemp("test")
@@ -293,7 +293,7 @@ class TestPackedData:
 
 class TestScalarCube:
     """Test calarCube."""
-    def test_scalar_cube_save_load(self, tmp_path):
+    def test_scalar_cube_save_load(self, tmp_path):  # noqa: D102
         cube = iris.cube.Cube(1, long_name="scalar_cube")
         fout = tmp_path / "scalar_cube.nc"
         iris.save(cube, fout)
@@ -308,20 +308,20 @@ class TestConstrainedLoad:
         ("NetCDF", "label_and_climate", "A1B-99999a-river-sep-2070-2099.nc")
     )
 
-    def test_netcdf_with_NameConstraint(self):
+    def test_netcdf_with_NameConstraint(self):  # noqa: D102
         constr = iris.NameConstraint(var_name="cdf_temp_dmax_tmean_abs")
         cubes = iris.load(self.filename, constr)
         assert len(cubes) == 1
         assert cubes[0].var_name == "cdf_temp_dmax_tmean_abs"
 
-    def test_netcdf_with_2_NameConstraints(self):
+    def test_netcdf_with_2_NameConstraints(self):  # noqa: D102
         var_names = ["cdf_temp_dmax_tmean_abs", "temp_dmax_tmean_abs"]
         constrs = [iris.NameConstraint(var_name=var_name) for var_name in var_names]
         cubes = iris.load(self.filename, constrs)
         assert len(cubes) == 2
         assert sorted([cube.var_name for cube in cubes]) == var_names
 
-    def test_netcdf_with_no_constraint(self):
+    def test_netcdf_with_no_constraint(self):  # noqa: D102
         cubes = iris.load(self.filename)
         assert len(cubes) == 3
 
@@ -353,7 +353,7 @@ data:
     """
 
     @pytest.fixture(autouse=True)
-    def create_nc_file(self, tmp_path):
+    def create_nc_file(self, tmp_path):  # noqa: D102
         file_name = "dim_mismatch"
         cdl = f"netcdf {file_name}" + "{\n" + self.cdl_core + "\n}"
         self.nc_path = (tmp_path / file_name).with_suffix(".nc")
@@ -365,7 +365,7 @@ data:
         yield
         self.nc_path.unlink()
 
-    def test_lat_not_loaded(self):
+    def test_lat_not_loaded(self):  # noqa: D102
         with pytest.warns(match="Not all file objects were parsed correctly"):
             cube = iris.load_cube(self.nc_path)
         msg = "Expected to find exactly 1"
@@ -389,7 +389,7 @@ class TestDatasetAndPathLoads:
         cls.phenom_id = "Carbon Dioxide"
         cls.expected = iris.load_cube(cls.filepath, cls.phenom_id)
 
-    def test_basic_load(self):
+    def test_basic_load(self):  # noqa: D102
         # test loading from an open Dataset, in place of a filepath spec.
         ds = nc.Dataset(self.filepath)
         result = iris.load_cube(ds, self.phenom_id)
@@ -400,7 +400,7 @@ class TestDatasetAndPathLoads:
         # Check that result is just the same as a 'direct' load.
         assert self.expected == result
 
-    def test_path_string_load_same(self):
+    def test_path_string_load_same(self):  # noqa: D102
         # Check that loading from a Path is the same as passing a filepath string.
         # Apart from general utility, checks that we won't mistake a Path for a Dataset.
         path = Path(self.filepath)
@@ -425,7 +425,7 @@ class TestDatasetAndPathSaves:
         testdata = sorted(testdata, key=lambda cube: cube.name())
         cls.testdata = testdata
 
-    def test_basic_save(self, request):
+    def test_basic_save(self, request):  # noqa: D102
         # test saving to a Dataset, in place of a filepath spec.
         # NOTE that this requires 'compute=False', as delayed saves can only operate on
         # a closed file.
@@ -472,7 +472,7 @@ class TestDatasetAndPathSaves:
             assert np.all(ds.variables[cube.var_name][:] == cube.data)
         ds.close()
 
-    def test_computed_delayed_save__fail(self):
+    def test_computed_delayed_save__fail(self):  # noqa: D102
         # Call as above 'test_basic_save' but with "compute=True" : this should raise
         # an error.
         filepath_indirect = f"{self.temp_dir}/tmp_indirect_complete.nc"
@@ -483,7 +483,7 @@ class TestDatasetAndPathSaves:
         with pytest.raises(ValueError, match=msg):
             iris.save(self.testdata, nc_dataset, saver="nc")
 
-    def test_path_string_save_same(self, request):
+    def test_path_string_save_same(self, request):  # noqa: D102
         # Ensure that save to a Path is the same as passing a filepath string.
         # Apart from general utility, checks that we won't mistake a Path for a Dataset.
         tempfile_fromstr = f"{self.temp_dir}/tmp_fromstr.nc"

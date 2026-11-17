@@ -16,12 +16,12 @@ class TestAsFields:
     def _setup(self):
         self.cube = stock.realistic_3d()
 
-    def test_cube_only(self):
+    def test_cube_only(self):  # noqa: D102
         fields = pp.as_fields(self.cube)
         for field in fields:
             assert field.lbcode == 101
 
-    def test_field_coords(self):
+    def test_field_coords(self):  # noqa: D102
         fields = pp.as_fields(
             self.cube, field_coords=["grid_longitude", "grid_latitude"]
         )

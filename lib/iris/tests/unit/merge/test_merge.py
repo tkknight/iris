@@ -107,7 +107,7 @@ class TestDataMergeCombos:
         self.combos = itertools.product(self.lazy_combos, fill_combos)
         self.mixed_combos = itertools.product(self.lazy_combos, single_fill_combos)
 
-    def test__ndarray_ndarray(self):
+    def test__ndarray_ndarray(self):  # noqa: D102
         for lazy0, lazy1 in self.lazy_combos:
             cubes = iris.cube.CubeList()
             cubes.append(self._make_cube(0, dtype=self.dtype, lazy=lazy0))
@@ -118,7 +118,7 @@ class TestDataMergeCombos:
             assert result.dtype == self.dtype
             self._check_fill_value(result)
 
-    def test__masked_masked(self):
+    def test__masked_masked(self):  # noqa: D102
         for (lazy0, lazy1), (fill0, fill1) in self.combos:
             cubes = iris.cube.CubeList()
             mask = ((0,), (0,))
@@ -154,7 +154,7 @@ class TestDataMergeCombos:
             assert result.dtype == self.dtype
             self._check_fill_value(result, fill0, fill1)
 
-    def test__ndarray_masked(self):
+    def test__ndarray_masked(self):  # noqa: D102
         for (lazy0, lazy1), (fill,) in self.mixed_combos:
             cubes = iris.cube.CubeList()
             cubes.append(self._make_cube(0, lazy=lazy0, dtype=self.dtype))
@@ -177,7 +177,7 @@ class TestDataMergeCombos:
             assert result.dtype == self.dtype
             self._check_fill_value(result, fill1=fill)
 
-    def test__masked_ndarray(self):
+    def test__masked_ndarray(self):  # noqa: D102
         for (lazy0, lazy1), (fill,) in self.mixed_combos:
             cubes = iris.cube.CubeList()
             mask = [(0, 1), (0, 1)]
@@ -200,7 +200,7 @@ class TestDataMergeCombos:
             assert result.dtype == self.dtype
             self._check_fill_value(result, fill0=fill)
 
-    def test_maksed_array_preserved(self):
+    def test_maksed_array_preserved(self):  # noqa: D102
         for (lazy0, lazy1), (fill,) in self.mixed_combos:
             cubes = iris.cube.CubeList()
             mask = False
@@ -224,21 +224,21 @@ class TestDataMergeCombos:
             assert result.dtype == self.dtype
             self._check_fill_value(result, fill0=fill)
 
-    def test_fill_value_invariant_to_order__same_non_none(self):
+    def test_fill_value_invariant_to_order__same_non_none(self):  # noqa: D102
         fill_value = 1234
         cubes = [self._make_cube(i, mask=True, fill_value=fill_value) for i in range(3)]
         for combo in itertools.permutations(cubes):
             result = iris.cube.CubeList(combo).merge_cube()
             assert result.data.fill_value == fill_value
 
-    def test_fill_value_invariant_to_order__all_none(self):
+    def test_fill_value_invariant_to_order__all_none(self):  # noqa: D102
         cubes = [self._make_cube(i, mask=True, fill_value=None) for i in range(3)]
         for combo in itertools.permutations(cubes):
             result = iris.cube.CubeList(combo).merge_cube()
             np_fill_value = ma.masked_array(0, dtype=result.dtype).fill_value
             assert result.data.fill_value == np_fill_value
 
-    def test_fill_value_invariant_to_order__different_non_none(self):
+    def test_fill_value_invariant_to_order__different_non_none(self):  # noqa: D102
         cubes = [self._make_cube(0, mask=True, fill_value=1234)]
         cubes.append(self._make_cube(1, mask=True, fill_value=2341))
         cubes.append(self._make_cube(2, mask=True, fill_value=3412))
@@ -248,7 +248,7 @@ class TestDataMergeCombos:
             np_fill_value = ma.masked_array(0, dtype=result.dtype).fill_value
             assert result.data.fill_value == np_fill_value
 
-    def test_fill_value_invariant_to_order__mixed(self):
+    def test_fill_value_invariant_to_order__mixed(self):  # noqa: D102
         cubes = [self._make_cube(0, mask=True, fill_value=None)]
         cubes.append(self._make_cube(1, mask=True, fill_value=1234))
         cubes.append(self._make_cube(2, mask=True, fill_value=4321))
@@ -272,26 +272,26 @@ class TestCubeMergeWithAncils:
             )
         return cube
 
-    def test_fail_missing_cell_measure(self):
+    def test_fail_missing_cell_measure(self):  # noqa: D102
         cube1 = self._makecube(0, cm=True)
         cube2 = self._makecube(1)
         cubes = iris.cube.CubeList([cube1, cube2]).merge()
         assert len(cubes) == 2
 
-    def test_fail_missing_ancillary_variable(self):
+    def test_fail_missing_ancillary_variable(self):  # noqa: D102
         cube1 = self._makecube(0, av=True)
         cube2 = self._makecube(1)
         cubes = iris.cube.CubeList([cube1, cube2]).merge()
         assert len(cubes) == 2
 
-    def test_fail_different_cell_measure(self):
+    def test_fail_different_cell_measure(self):  # noqa: D102
         cube1 = self._makecube(0, cm=True)
         cube2 = self._makecube(1)
         cube2.add_cell_measure(iris.coords.CellMeasure([2, 2], long_name="foo"), 0)
         cubes = iris.cube.CubeList([cube1, cube2]).merge()
         assert len(cubes) == 2
 
-    def test_fail_different_ancillary_variable(self):
+    def test_fail_different_ancillary_variable(self):  # noqa: D102
         cube1 = self._makecube(0, av=True)
         cube2 = self._makecube(1)
         cube2.add_ancillary_variable(
@@ -300,7 +300,7 @@ class TestCubeMergeWithAncils:
         cubes = iris.cube.CubeList([cube1, cube2]).merge()
         assert len(cubes) == 2
 
-    def test_merge_with_cell_measure(self):
+    def test_merge_with_cell_measure(self):  # noqa: D102
         cube1 = self._makecube(0, cm=True)
         cube2 = self._makecube(1, cm=True)
         cube3 = self._makecube(2, cm=True)
@@ -311,7 +311,7 @@ class TestCubeMergeWithAncils:
         (cm,) = cube1.cell_measures()
         assert cubes[0].cell_measure_dims(cm) == (1,)
 
-    def test_merge_with_ancillary_variable(self):
+    def test_merge_with_ancillary_variable(self):  # noqa: D102
         cube1 = self._makecube(0, av=True)
         cube2 = self._makecube(1, av=True)
         cube3 = self._makecube(2, av=True)
@@ -322,14 +322,14 @@ class TestCubeMergeWithAncils:
         (av,) = cube1.ancillary_variables()
         assert cubes[0].ancillary_variable_dims(av) == (1,)
 
-    def test_cell_measure_error_msg(self):
+    def test_cell_measure_error_msg(self):  # noqa: D102
         msg = "cube.cell_measures differ"
         cube1 = self._makecube(0, cm=True)
         cube2 = self._makecube(1)
         with pytest.raises(iris.exceptions.MergeError, match=msg):
             _ = iris.cube.CubeList([cube1, cube2]).merge_cube()
 
-    def test_ancillary_variable_error_msg(self):
+    def test_ancillary_variable_error_msg(self):  # noqa: D102
         msg = "cube.ancillary_variables differ"
         cube1 = self._makecube(0, av=True)
         cube2 = self._makecube(1)
@@ -365,7 +365,7 @@ class TestCubeMerge__split_attributes__error_messages:
         with pytest.raises(iris.exceptions.MergeError, match=expected_message):
             iris.cube.CubeList([cube_1, cube_2]).merge_cube()
 
-    def test_keys_differ__single(self):
+    def test_keys_differ__single(self):  # noqa: D102
         self._check_merge_error(
             attrs_1=dict(a=1, b=2),
             attrs_2=dict(a=1),
@@ -373,28 +373,28 @@ class TestCubeMerge__split_attributes__error_messages:
             expected_message="cube.attributes keys differ: 'b'",
         )
 
-    def test_keys_differ__multiple(self):
+    def test_keys_differ__multiple(self):  # noqa: D102
         self._check_merge_error(
             attrs_1=dict(a=1, b=2),
             attrs_2=dict(a=1, c=2),
             expected_message="cube.attributes keys differ: 'b', 'c'",
         )
 
-    def test_values_differ__single(self):
+    def test_values_differ__single(self):  # noqa: D102
         self._check_merge_error(
             attrs_1=dict(a=1, b=2),  # Note: matching key 'a' does not appear
             attrs_2=dict(a=1, b=3),
             expected_message="cube.attributes values differ for keys: 'b'",
         )
 
-    def test_values_differ__multiple(self):
+    def test_values_differ__multiple(self):  # noqa: D102
         self._check_merge_error(
             attrs_1=dict(a=1, b=2),
             attrs_2=dict(a=12, b=22),
             expected_message="cube.attributes values differ for keys: 'a', 'b'",
         )
 
-    def test_splitattrs_keys_local_global_mismatch(self):
+    def test_splitattrs_keys_local_global_mismatch(self):  # noqa: D102
         # Since Cube.attributes is now a "split-attributes" dictionary, it is now
         # possible to have "cube1.attributes != cube1.attributes", but also
         # "set(cube1.attributes.keys()) == set(cube2.attributes.keys())".
@@ -406,7 +406,7 @@ class TestCubeMerge__split_attributes__error_messages:
             expected_message="cube.attributes keys differ: 'a', 'b'",
         )
 
-    def test_splitattrs_keys_local_match_masks_global_mismatch(self):
+    def test_splitattrs_keys_local_match_masks_global_mismatch(self):  # noqa: D102
         self._check_merge_error(
             attrs_1=CubeAttrsDict(globals=dict(a=1), locals=dict(a=3)),
             attrs_2=CubeAttrsDict(globals=dict(a=2), locals=dict(a=3)),

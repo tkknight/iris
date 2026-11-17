@@ -15,7 +15,7 @@ from iris.tests import _shared_utils
 
 class Test_units_func:
     """Test units func."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert PROPORTION.units_func is not None
         new_units = PROPORTION.units_func(None)
         assert new_units == 1
@@ -29,11 +29,11 @@ class Test_masked:
         self.cube.add_dim_coord(DimCoord([6, 7, 8, 9, 10], long_name="foo"), 0)
         self.func = lambda x: x >= 3
 
-    def test_ma(self):
+    def test_ma(self):  # noqa: D102
         cube = self.cube.collapsed("foo", PROPORTION, function=self.func)
         _shared_utils.assert_array_equal(cube.data, [0.5])
 
-    def test_false_mask(self):
+    def test_false_mask(self):  # noqa: D102
         # Test corner case where mask is returned as boolean value rather
         # than boolean array when the mask is unspecified on construction.
         masked_cube = iris.cube.Cube(ma.array([1, 2, 3, 4, 5]))
@@ -44,13 +44,13 @@ class Test_masked:
 
 class Test_name:
     """Test name."""
-    def test(self):
+    def test(self):  # noqa: D102
         assert PROPORTION.name() == "proportion"
 
 
 class Test_aggregate_shape:
     """Test aggregate shape."""
-    def test(self):
+    def test(self):  # noqa: D102
         shape = ()
         kwargs = dict()
         assert PROPORTION.aggregate_shape(**kwargs) == shape

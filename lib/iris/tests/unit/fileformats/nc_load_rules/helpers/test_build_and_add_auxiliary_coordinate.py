@@ -153,15 +153,15 @@ class TestBoundsVertexDim(MockerMixin):
         expected_list = [(self.expected_coord, self.cf_coord_var.cf_name)]
         assert self.engine.cube_parts["coordinates"] == expected_list
 
-    def test_fastest_varying_vertex_dim__normalise_bounds(self):
+    def test_fastest_varying_vertex_dim__normalise_bounds(self):  # noqa: D102
         # The usual order.
         self._check_case(dimension_names=("foo", "bar", "nv"))
 
-    def test_slowest_varying_vertex_dim__normalise_bounds(self):
+    def test_slowest_varying_vertex_dim__normalise_bounds(self):  # noqa: D102
         # Bounds in the first (slowest varying) dimension.
         self._check_case(dimension_names=("nv", "foo", "bar"), rollaxis=True)
 
-    def test_fastest_with_different_dim_names__normalise_bounds(self):
+    def test_fastest_with_different_dim_names__normalise_bounds(self):  # noqa: D102
         # Despite the dimension names ('x', and 'y') differing from the coord's
         # which are 'foo' and 'bar' (as permitted by the cf spec),
         # this should still work because the vertex dim is the fastest varying.
@@ -221,7 +221,7 @@ class TestDtype(MockerMixin):
         )
 
     @contextlib.contextmanager
-    def deferred_load_patch(self):
+    def deferred_load_patch(self):  # noqa: D102
         def patched__getitem__(proxy_self, keys):
             if proxy_self.variable_name == self.cf_coord_var.cf_name:
                 return self.cf_coord_var[keys]
@@ -236,7 +236,7 @@ class TestDtype(MockerMixin):
         self.mocker.patch("iris.fileformats.cf.loader._LAZYVAR_MIN_BYTES", 0)
         yield
 
-    def test_scale_factor_add_offset_int(self):
+    def test_scale_factor_add_offset_int(self):  # noqa: D102
         self.cf_coord_var.attributes["scale_factor"] = 3
         self.cf_coord_var.attributes["add_offset"] = 5
 
@@ -245,7 +245,7 @@ class TestDtype(MockerMixin):
         coord, _ = self.engine.cube_parts["coordinates"][0]
         assert coord.dtype.kind == "i"
 
-    def test_scale_factor_float(self):
+    def test_scale_factor_float(self):  # noqa: D102
         self.cf_coord_var.attributes["scale_factor"] = 3.0
 
         with self.deferred_load_patch():
@@ -254,7 +254,7 @@ class TestDtype(MockerMixin):
         coord, _ = self.engine.cube_parts["coordinates"][0]
         assert coord.dtype.kind == "f"
 
-    def test_add_offset_float(self):
+    def test_add_offset_float(self):  # noqa: D102
         self.cf_coord_var.attributes["add_offset"] = 5.0
 
         with self.deferred_load_patch():
@@ -342,7 +342,7 @@ class TestCoordConstruction:
         #  typical practice in pure pytest) allows this transitional state.
         self.monkeypatch = pytest.MonkeyPatch()
 
-    def check_case_aux_coord_construction(self, climatology=False):
+    def check_case_aux_coord_construction(self, climatology=False):  # noqa: D102
         # Test a generic auxiliary coordinate, with or without
         # a climatological coord.
         self.use_climatology_bounds = climatology
@@ -361,13 +361,13 @@ class TestCoordConstruction:
         # Test that expected coord is built and added to cube.
         self.engine.cube.add_aux_coord.assert_called_with(expected_coord, [0])
 
-    def test_aux_coord_construction(self):
+    def test_aux_coord_construction(self):  # noqa: D102
         self.check_case_aux_coord_construction(climatology=False)
 
-    def test_aux_coord_construction__climatology(self):
+    def test_aux_coord_construction__climatology(self):  # noqa: D102
         self.check_case_aux_coord_construction(climatology=True)
 
-    def test_with_coord_system(self):
+    def test_with_coord_system(self):  # noqa: D102
         coord_system = RotatedGeogCS(
             grid_north_pole_latitude=45.0, grid_north_pole_longitude=45.0
         )
@@ -388,7 +388,7 @@ class TestCoordConstruction:
         # Test that expected coord is built and added to cube.
         self.engine.cube.add_aux_coord.assert_called_with(expected_coord, [0])
 
-    def test_bad_coord_system(self, mocker):
+    def test_bad_coord_system(self, mocker):  # noqa: D102
         coord_system = RotatedGeogCS(
             grid_north_pole_latitude=45.0, grid_north_pole_longitude=45.0
         )
@@ -413,7 +413,7 @@ class TestCoordConstruction:
         load_problem = LOAD_PROBLEMS.problems[-1]
         assert "test_bad_coord_system" in "".join(load_problem.stack_trace.format())
 
-    def test_not_added(self):
+    def test_not_added(self):  # noqa: D102
         # Confirm that the coord will be skipped if a CannotAddError is raised
         #  when attempting to add.
         def mock_add_aux_coord(_, __):
@@ -428,7 +428,7 @@ class TestCoordConstruction:
 
         assert self.engine.cube_parts["coordinates"] == []
 
-    def test_unhandlable_error(self):
+    def test_unhandlable_error(self):  # noqa: D102
         # Confirm that the code can redirect an error to LOAD_PROBLEMS even
         #  when there is no specific handling code for it.
         with self.monkeypatch.context() as m:
@@ -439,7 +439,7 @@ class TestCoordConstruction:
 
         assert self.engine.cube_parts["coordinates"] == []
 
-    def test_problem_destination(self):
+    def test_problem_destination(self):  # noqa: D102
         # Confirm that the destination of the problem is set correctly.
         with self.monkeypatch.context() as m:
             m.setattr(self.engine, "cube", "foo")

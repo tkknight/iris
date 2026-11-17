@@ -26,7 +26,7 @@ class TestCMIP6VolcelloLoad:
             )
         )
 
-    def test_cmip6_volcello_load_issue_3367(self):
+    def test_cmip6_volcello_load_issue_3367(self):  # noqa: D102
         # Ensure that reading a file which references itself in
         # `cell_measures` can be read. At the same time, ensure that we
         # still receive a warning about other variables mentioned in
@@ -90,7 +90,7 @@ class TestSelfReferencingVarLoad:
 
         dataset.close()
 
-    def test_self_referencing_load_issue_3367(self):
+    def test_self_referencing_load_issue_3367(self):  # noqa: D102
         # Ensure that reading a file which references itself in
         # `cell_measures` can be read. At the same time, ensure that we
         # still receive a warning about other variables mentioned in

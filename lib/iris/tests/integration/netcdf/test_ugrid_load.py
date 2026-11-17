@@ -45,7 +45,7 @@ def ugrid_load(uris, constraints=None, callback=None):
 @_shared_utils.skip_data
 class TestBasic:
     """Test asic."""
-    def common_test(self, request, load_filename, assert_filename):
+    def common_test(self, request, load_filename, assert_filename):  # noqa: D102
         cube_list = ugrid_load(
             _shared_utils.get_data_path(["NetCDF", "unstructured_grid", load_filename]),
         )
@@ -53,63 +53,63 @@ class TestBasic:
         cube = cube_list[0]
         _shared_utils.assert_CML(request, cube, ["mesh", assert_filename])
 
-    def test_2_d_1t_face_half_levels(self, request):
+    def test_2_d_1t_face_half_levels(self, request):  # noqa: D102
         self.common_test(
             request,
             "lfric_ngvat_2D_1t_face_half_levels_main_conv_rain.nc",
             "2D_1t_face_half_levels.cml",
         )
 
-    def test_3_d_1t_face_half_levels(self, request):
+    def test_3_d_1t_face_half_levels(self, request):  # noqa: D102
         self.common_test(
             request,
             "lfric_ngvat_3D_1t_half_level_face_grid_derived_theta_in_w3.nc",
             "3D_1t_face_half_levels.cml",
         )
 
-    def test_3_d_1t_face_full_levels(self, request):
+    def test_3_d_1t_face_full_levels(self, request):  # noqa: D102
         self.common_test(
             request,
             "lfric_ngvat_3D_1t_full_level_face_grid_main_area_fraction_unit1.nc",
             "3D_1t_face_full_levels.cml",
         )
 
-    def test_2_d_72t_face_half_levels(self, request):
+    def test_2_d_72t_face_half_levels(self, request):  # noqa: D102
         self.common_test(
             request,
             "lfric_ngvat_2D_72t_face_half_levels_main_conv_rain.nc",
             "2D_72t_face_half_levels.cml",
         )
 
-    def test_3_d_snow_pseudo_levels(self, request):
+    def test_3_d_snow_pseudo_levels(self, request):  # noqa: D102
         self.common_test(
             request,
             "lfric_ngvat_3D_snow_pseudo_levels_1t_face_half_levels_main_snow_layer_temp.nc",
             "3D_snow_pseudo_levels.cml",
         )
 
-    def test_3_d_soil_pseudo_levels(self, request):
+    def test_3_d_soil_pseudo_levels(self, request):  # noqa: D102
         self.common_test(
             request,
             "lfric_ngvat_3D_soil_pseudo_levels_1t_face_half_levels_main_soil_temperature.nc",
             "3D_soil_pseudo_levels.cml",
         )
 
-    def test_3_d_tile_pseudo_levels(self, request):
+    def test_3_d_tile_pseudo_levels(self, request):  # noqa: D102
         self.common_test(
             request,
             "lfric_ngvat_3D_tile_pseudo_levels_1t_face_half_levels_main_sw_up_tile.nc",
             "3D_tile_pseudo_levels.cml",
         )
 
-    def test_3_d_veg_pseudo_levels(self, request):
+    def test_3_d_veg_pseudo_levels(self, request):  # noqa: D102
         self.common_test(
             request,
             "lfric_ngvat_3D_veg_pseudo_levels_1t_face_half_levels_main_snowpack_density.nc",
             "3D_veg_pseudo_levels.cml",
         )
 
-    def test_no_mesh(self):
+    def test_no_mesh(self):  # noqa: D102
         cube_list = load(
             _shared_utils.get_data_path(
                 ["NetCDF", "unstructured_grid", "theta_nodal_not_ugrid.nc"]
@@ -121,7 +121,7 @@ class TestBasic:
 @_shared_utils.skip_data
 class TestMultiplePhenomena:
     """Test ultiplePhenomena."""
-    def test_multiple_phenomena(self, request):
+    def test_multiple_phenomena(self, request):  # noqa: D102
         cube_list = ugrid_load(
             _shared_utils.get_data_path(
                 ["NetCDF", "unstructured_grid", "lfric_surface_mean.nc"]
@@ -137,7 +137,7 @@ class TestTolerantLoading(XIOSFileMixin):
 
     # Create a testfile according to testcase-specific arguments.
     # NOTE: with this, parent "create_synthetic_test_cube" can load a cube.
-    def create_synthetic_file(self, **create_kwargs):
+    def create_synthetic_file(self, **create_kwargs):  # noqa: D102
         template_name = create_kwargs["template"]  # required kwarg
         temp_dir = create_kwargs["temp_file_dir"]  # required kwarg
         testfile_name = "tmp_netcdf"
@@ -152,7 +152,7 @@ class TestTolerantLoading(XIOSFileMixin):
         )
         return str(filepath)  # N.B. Path object not usable in iris.load
 
-    def test_mesh_bad_topology_dimension(self, tmp_path):
+    def test_mesh_bad_topology_dimension(self, tmp_path):  # noqa: D102
         # Check that the load generates a suitable warning.
         template = "minimal_bad_topology_dim"
         dim_line = "mesh_var:topology_dimension = 1 ;"  # which is wrong !
@@ -167,7 +167,7 @@ class TestTolerantLoading(XIOSFileMixin):
         # Check that the result has topology-dimension of 2 (not 1).
         assert cube.mesh.topology_dimension == 2
 
-    def test_mesh_no_topology_dimension(self, tmp_path):
+    def test_mesh_no_topology_dimension(self, tmp_path):  # noqa: D102
         # Check that the load generates a suitable warning.
         template = "minimal_bad_topology_dim"
         dim_line = ""  # don't create ANY topology_dimension property
@@ -182,7 +182,7 @@ class TestTolerantLoading(XIOSFileMixin):
         # Check that the result has the correct topology-dimension value.
         assert cube.mesh.topology_dimension == 2
 
-    def test_mesh_bad_cf_role(self, tmp_path):
+    def test_mesh_bad_cf_role(self, tmp_path):  # noqa: D102
         # Check that the load generates a suitable warning.
         template = "minimal_bad_mesh_cf_role"
         dim_line = 'mesh_var:cf_role = "foo" ;'
@@ -194,7 +194,7 @@ class TestTolerantLoading(XIOSFileMixin):
                 subs=dict(CF_ROLE_DEFINITION=dim_line),
             )
 
-    def test_mesh_no_cf_role(self, tmp_path):
+    def test_mesh_no_cf_role(self, tmp_path):  # noqa: D102
         # Check that the load generates a suitable warning.
         template = "minimal_bad_mesh_cf_role"
         dim_line = ""
@@ -210,7 +210,7 @@ class TestTolerantLoading(XIOSFileMixin):
 @_shared_utils.skip_data
 class Test_load_mesh:
     """Test load mesh."""
-    def common_test(self, file_name, mesh_var_name):
+    def common_test(self, file_name, mesh_var_name):  # noqa: D102
         mesh = load_mesh(
             _shared_utils.get_data_path(["NetCDF", "unstructured_grid", file_name])
         )
@@ -218,16 +218,16 @@ class Test_load_mesh:
         assert isinstance(mesh, MeshXY)
         assert mesh.var_name == mesh_var_name
 
-    def test_full_file(self):
+    def test_full_file(self):  # noqa: D102
         self.common_test(
             "lfric_ngvat_2D_1t_face_half_levels_main_conv_rain.nc",
             "Mesh2d_half_levels",
         )
 
-    def test_mesh_file(self):
+    def test_mesh_file(self):  # noqa: D102
         self.common_test("mesh_C12.nc", "dynamics")
 
-    def test_no_mesh(self):
+    def test_no_mesh(self):  # noqa: D102
         meshes = load_meshes(
             _shared_utils.get_data_path(
                 ["NetCDF", "unstructured_grid", "theta_nodal_not_ugrid.nc"]

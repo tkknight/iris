@@ -59,7 +59,7 @@ Index = Indexer()
 
 class MixinIndexingTest:
     """MixinIndexingTest."""
-    def check(
+    def check(  # noqa: D102
         self, shape, keys, expect_call_keys=None, expect_map=None, dataless=False
     ):
         if not dataless:
@@ -99,17 +99,17 @@ class Test_indexing(MixinIndexingTest):
     """Test indexing."""
     # Check the indexing operations performed for various requested keys.
 
-    def test_0d_nokeys(self, dataless):
+    def test_0d_nokeys(self, dataless):  # noqa: D102
         # Performs *no* underlying indexing operation.
         self.check((), Index[()], [], dataless=dataless)
 
-    def test_1d_int(self, dataless):
+    def test_1d_int(self, dataless):  # noqa: D102
         self.check((4,), Index[2], [(2,)], dataless=dataless)
 
-    def test_1d_all(self, dataless):
+    def test_1d_all(self, dataless):  # noqa: D102
         self.check((3,), Index[:], [(slice(None),)], dataless=dataless)
 
-    def test_1d_tuple(self, dataless):
+    def test_1d_tuple(self, dataless):  # noqa: D102
         # The call makes tuples into 1-D arrays, and a trailing Ellipsis is
         # added (for the 1-D case only).
         self.check(
@@ -119,17 +119,17 @@ class Test_indexing(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_fail_1d_2keys(self, dataless):
+    def test_fail_1d_2keys(self, dataless):  # noqa: D102
         msg = "More slices .* than dimensions"
         with pytest.raises(IndexError, match=msg):
             self.check((3,), Index[1, 2], dataless=dataless)
 
-    def test_fail_empty_slice(self, dataless):
+    def test_fail_empty_slice(self, dataless):  # noqa: D102
         msg = "Cannot index with zero length slice"
         with pytest.raises(IndexError, match=msg):
             self.check((3,), Index[1:1], dataless=dataless)
 
-    def test_2d_tuple(self, dataless):
+    def test_2d_tuple(self, dataless):  # noqa: D102
         # Like the above, but there is an extra no-op at the start and no
         # trailing Ellipsis is generated.
         self.check(
@@ -139,7 +139,7 @@ class Test_indexing(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_2d_two_tuples(self, dataless):
+    def test_2d_two_tuples(self, dataless):  # noqa: D102
         # Could be treated as fancy indexing, but must not be !
         # Two separate 2-D indexing operations.
         self.check(
@@ -152,7 +152,7 @@ class Test_indexing(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_2d_tuple_and_value(self, dataless):
+    def test_2d_tuple_and_value(self, dataless):  # noqa: D102
         # The two keys are applied in separate operations, and in the reverse
         # order (?) :  The second op is then slicing a 1-D array, not 2-D.
         self.check(
@@ -162,21 +162,21 @@ class Test_indexing(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_2d_single_int(self, dataless):
+    def test_2d_single_int(self, dataless):  # noqa: D102
         self.check((3, 4), Index[2], [(2, slice(None))], dataless=dataless)
 
-    def test_2d_multiple_int(self, dataless):
+    def test_2d_multiple_int(self, dataless):  # noqa: D102
         self.check((3, 4), Index[2, 1:3], [(2, slice(1, 3))], dataless=dataless)
 
-    def test_3d_1int(self, dataless):
+    def test_3d_1int(self, dataless):  # noqa: D102
         self.check(
             (3, 4, 5), Index[2], [(2, slice(None), slice(None))], dataless=dataless
         )
 
-    def test_3d_2int(self, dataless):
+    def test_3d_2int(self, dataless):  # noqa: D102
         self.check((3, 4, 5), Index[2, 3], [(2, 3, slice(None))], dataless=dataless)
 
-    def test_3d_tuple_and_value(self, dataless):
+    def test_3d_tuple_and_value(self, dataless):  # noqa: D102
         # The two keys are applied in separate operations, and in the reverse
         # order (?) : The second op is slicing a 2-D array, not 3-D.
         self.check(
@@ -189,22 +189,22 @@ class Test_indexing(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_3d_ellipsis_last(self, dataless):
+    def test_3d_ellipsis_last(self, dataless):  # noqa: D102
         self.check(
             (3, 4, 5), Index[2, ...], [(2, slice(None), slice(None))], dataless=dataless
         )
 
-    def test_3d_ellipsis_first_1int(self, dataless):
+    def test_3d_ellipsis_first_1int(self, dataless):  # noqa: D102
         self.check(
             (3, 4, 5), Index[..., 2], [(slice(None), slice(None), 2)], dataless=dataless
         )
 
-    def test_3d_ellipsis_first_2int(self, dataless):
+    def test_3d_ellipsis_first_2int(self, dataless):  # noqa: D102
         self.check(
             (3, 4, 5), Index[..., 2, 3], [(slice(None), 2, 3)], dataless=dataless
         )
 
-    def test_3d_multiple_tuples(self, dataless):
+    def test_3d_multiple_tuples(self, dataless):  # noqa: D102
         # Where there are TWO or more tuple keys, this could be misinterpreted
         # as 'fancy' indexing :  It should resolve into multiple calls.
         self.check(
@@ -226,13 +226,13 @@ class Test_dimensions_mapping(MixinIndexingTest):
     """Test dimensions mapping."""
     # Check the dimensions map returned for various requested keys.
 
-    def test_1d_nochange(self, dataless):
+    def test_1d_nochange(self, dataless):  # noqa: D102
         self.check((3,), Index[1:2], expect_map={None: None, 0: 0}, dataless=dataless)
 
-    def test_1d_1int_losedim0(self, dataless):
+    def test_1d_1int_losedim0(self, dataless):  # noqa: D102
         self.check((3,), Index[1], expect_map={None: None, 0: None}, dataless=dataless)
 
-    def test_1d_tuple_nochange(self, dataless):
+    def test_1d_tuple_nochange(self, dataless):  # noqa: D102
         # A selection index leaves the dimension intact.
         self.check(
             (3,),
@@ -241,23 +241,23 @@ class Test_dimensions_mapping(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_1d_1tuple_nochange(self, dataless):
+    def test_1d_1tuple_nochange(self, dataless):  # noqa: D102
         # A selection index with only one value in it *still* leaves the
         # dimension intact.
         self.check(
             (3,), Index[((2,),)], expect_map={None: None, 0: 0}, dataless=dataless
         )
 
-    def test_1d_slice_nochange(self, dataless):
+    def test_1d_slice_nochange(self, dataless):  # noqa: D102
         # A slice leaves the dimension intact.
         self.check((3,), Index[1:7], expect_map={None: None, 0: 0}, dataless=dataless)
 
-    def test_2d_nochange(self, dataless):
+    def test_2d_nochange(self, dataless):  # noqa: D102
         self.check(
             (3, 4), Index[:, :], expect_map={None: None, 0: 0, 1: 1}, dataless=dataless
         )
 
-    def test_2d_losedim0(self, dataless):
+    def test_2d_losedim0(self, dataless):  # noqa: D102
         self.check(
             (3, 4),
             Index[1, :],
@@ -265,7 +265,7 @@ class Test_dimensions_mapping(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_2d_losedim1(self, dataless):
+    def test_2d_losedim1(self, dataless):  # noqa: D102
         self.check(
             (3, 4),
             Index[1:4, 2],
@@ -273,7 +273,7 @@ class Test_dimensions_mapping(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_2d_loseboth(self, dataless):
+    def test_2d_loseboth(self, dataless):  # noqa: D102
         # Two indices give scalar result.
         self.check(
             (3, 4),
@@ -282,7 +282,7 @@ class Test_dimensions_mapping(MixinIndexingTest):
             dataless=dataless,
         )
 
-    def test_3d_losedim1(self, dataless):
+    def test_3d_losedim1(self, dataless):  # noqa: D102
         # Cutting out the middle dim.
         self.check(
             (3, 4, 2),
@@ -298,7 +298,7 @@ class TestResults:
     # Integration-style test, exercising (mostly) the same cases as above,
     # but checking actual results, for both real and lazy array inputs.
 
-    def check(self, real_data, keys, expect_result, expect_map, dataless):
+    def check(self, real_data, keys, expect_result, expect_map, dataless):  # noqa: D102
         if dataless:
             shape = np.array(real_data).shape
             real_dim_map, real_result = _slice_data_with_keys(None, keys, shape=shape)
@@ -313,13 +313,13 @@ class TestResults:
             assert lazy_dim_map == expect_map
         assert real_dim_map == expect_map
 
-    def test_1d_int(self, dataless):
+    def test_1d_int(self, dataless):  # noqa: D102
         self.check([1, 2, 3, 4], Index[2], [3], {None: None, 0: None}, dataless)
 
-    def test_1d_all(self, dataless):
+    def test_1d_all(self, dataless):  # noqa: D102
         self.check([1, 2, 3], Index[:], [1, 2, 3], {None: None, 0: 0}, dataless)
 
-    def test_1d_tuple(self, dataless):
+    def test_1d_tuple(self, dataless):  # noqa: D102
         self.check(
             [1, 2, 3],
             Index[((2, 0, 1, 0),)],
@@ -328,17 +328,17 @@ class TestResults:
             dataless,
         )
 
-    def test_fail_1d_2keys(self, dataless):
+    def test_fail_1d_2keys(self, dataless):  # noqa: D102
         msg = "More slices .* than dimensions"
         with pytest.raises(IndexError, match=msg):
             self.check([1, 2, 3], Index[1, 2], None, None, dataless)
 
-    def test_fail_empty_slice(self, dataless):
+    def test_fail_empty_slice(self, dataless):  # noqa: D102
         msg = "Cannot index with zero length slice"
         with pytest.raises(IndexError, match=msg):
             self.check([1, 2, 3], Index[1:1], None, None, dataless)
 
-    def test_2d_tuple(self, dataless):
+    def test_2d_tuple(self, dataless):  # noqa: D102
         self.check(
             [[11, 12], [21, 22], [31, 32]],
             Index[((2, 0, 1),)],
@@ -347,7 +347,7 @@ class TestResults:
             dataless,
         )
 
-    def test_2d_two_tuples(self, dataless):
+    def test_2d_two_tuples(self, dataless):  # noqa: D102
         # Could be treated as fancy indexing, but must not be !
         # Two separate 2-D indexing operations.
         self.check(
@@ -358,7 +358,7 @@ class TestResults:
             dataless,
         )
 
-    def test_2d_tuple_and_value(self, dataless):
+    def test_2d_tuple_and_value(self, dataless):  # noqa: D102
         # The two keys are applied in separate operations, and in the reverse
         # order (?) :  The second op is then slicing a 1-D array, not 2-D.
         self.check(
@@ -369,7 +369,7 @@ class TestResults:
             dataless,
         )
 
-    def test_2d_single_int(self, dataless):
+    def test_2d_single_int(self, dataless):  # noqa: D102
         self.check(
             [[11, 12, 13], [21, 22, 23], [31, 32, 33]],
             Index[1],
@@ -378,7 +378,7 @@ class TestResults:
             dataless,
         )
 
-    def test_2d_int_slice(self, dataless):
+    def test_2d_int_slice(self, dataless):  # noqa: D102
         self.check(
             [[11, 12, 13], [21, 22, 23], [31, 32, 33]],
             Index[2, 1:3],
@@ -387,7 +387,7 @@ class TestResults:
             dataless,
         )
 
-    def test_3d_1int(self, dataless):
+    def test_3d_1int(self, dataless):  # noqa: D102
         self.check(
             [
                 [[111, 112, 113], [121, 122, 123]],
@@ -400,7 +400,7 @@ class TestResults:
             dataless,
         )
 
-    def test_3d_2int(self, dataless):
+    def test_3d_2int(self, dataless):  # noqa: D102
         self.check(
             [
                 [[111, 112, 113], [121, 122, 123], [131, 132, 133]],
@@ -412,7 +412,7 @@ class TestResults:
             dataless,
         )
 
-    def test_3d_tuple_and_value(self, dataless):
+    def test_3d_tuple_and_value(self, dataless):  # noqa: D102
         # The two keys are applied in separate operations, and in the reverse
         # order (?) : The second op is slicing a 2-D array, not 3-D.
         self.check(
@@ -427,7 +427,7 @@ class TestResults:
             dataless,
         )
 
-    def test_3d_ellipsis_last(self, dataless):
+    def test_3d_ellipsis_last(self, dataless):  # noqa: D102
         self.check(
             [
                 [[111, 112, 113], [121, 122, 123]],
@@ -440,7 +440,7 @@ class TestResults:
             dataless,
         )
 
-    def test_3d_ellipsis_first_1int(self, dataless):
+    def test_3d_ellipsis_first_1int(self, dataless):  # noqa: D102
         self.check(
             [
                 [[111, 112, 113, 114], [121, 122, 123, 124]],
@@ -453,7 +453,7 @@ class TestResults:
             dataless,
         )
 
-    def test_3d_ellipsis_mid_1int(self, dataless):
+    def test_3d_ellipsis_mid_1int(self, dataless):  # noqa: D102
         self.check(
             [
                 [[111, 112, 113], [121, 122, 123]],
@@ -466,7 +466,7 @@ class TestResults:
             dataless,
         )
 
-    def test_3d_ellipsis_first_2int(self, dataless):
+    def test_3d_ellipsis_first_2int(self, dataless):  # noqa: D102
         self.check(
             [
                 [[111, 112, 113], [121, 122, 123]],
@@ -479,7 +479,7 @@ class TestResults:
             dataless,
         )
 
-    def test_3d_multiple_tuples(self, dataless):
+    def test_3d_multiple_tuples(self, dataless):  # noqa: D102
         # Where there are TWO or more tuple keys, this could be misinterpreted
         # as 'fancy' indexing :  It should resolve into multiple calls.
         self.check(

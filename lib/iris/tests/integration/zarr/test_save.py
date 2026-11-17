@@ -38,7 +38,7 @@ def cube():
 
 class TestRoundTrip:
     """Test oundTrip."""
-    def test_the_cube_comes_back(self, tmp_path, cube):
+    def test_the_cube_comes_back(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         loaded = iris.load_cube(path, cube.name())
@@ -47,7 +47,7 @@ class TestRoundTrip:
         assert loaded.shape == cube.shape
         np.testing.assert_allclose(loaded.data, cube.data)
 
-    def test_the_coordinates_come_back(self, tmp_path, cube):
+    def test_the_coordinates_come_back(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         loaded = iris.load_cube(path, cube.name())
@@ -55,7 +55,7 @@ class TestRoundTrip:
         loaded_names = sorted(coord.name() for coord in loaded.coords())
         assert loaded_names == saved_names
 
-    def test_a_derived_coordinate_is_still_derived(self, tmp_path, cube):
+    def test_a_derived_coordinate_is_still_derived(self, tmp_path, cube):  # noqa: D102
         # `test_the_coordinates_come_back` cannot show this on its own:
         # `Cube.coords()` lists derived coordinates alongside the rest, so a
         # load that rebuilt "altitude" as an ordinary AuxCoord would give the
@@ -71,7 +71,7 @@ class TestRoundTrip:
             loaded.coord("altitude").points, cube.coord("altitude").points
         )
 
-    def test_the_bounds_come_back(self, tmp_path, cube):
+    def test_the_bounds_come_back(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         loaded = iris.load_cube(path, cube.name())
@@ -81,18 +81,18 @@ class TestRoundTrip:
                     loaded.coord(coord.name()).bounds, coord.bounds
                 )
 
-    def test_the_cell_methods_come_back(self, tmp_path, cube):
+    def test_the_cell_methods_come_back(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         assert iris.load_cube(path, cube.name()).cell_methods == cube.cell_methods
 
-    def test_the_coordinate_system_comes_back(self, tmp_path, cube):
+    def test_the_coordinate_system_comes_back(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         loaded = iris.load_cube(path, cube.name())
         assert loaded.coord_system() == cube.coord_system()
 
-    def test_attribute_values_come_back(self, tmp_path, cube):
+    def test_attribute_values_come_back(self, tmp_path, cube):  # noqa: D102
         # Values, not dtypes: spec §4.5 trades the NumPy dtype of an
         # attribute for output every Zarr consumer can read.
         path = tmp_path / "out.zarr"
@@ -103,14 +103,14 @@ class TestRoundTrip:
         assert loaded.attributes["a_number"] == 1.5
         assert list(loaded.attributes["a_list"]) == [1, 2]
 
-    def test_a_masked_cube_keeps_its_mask(self, tmp_path, cube):
+    def test_a_masked_cube_keeps_its_mask(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         masked = cube.copy(np.ma.masked_greater(cube.data, cube.data.mean()))
         iris.save(masked, path)
         loaded = iris.load_cube(path, masked.name())
         np.testing.assert_array_equal(loaded.data.mask, masked.data.mask)
 
-    def test_several_cubes_round_trip(self, tmp_path, cube):
+    def test_several_cubes_round_trip(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         other = cube[0].copy()
         other.rename("air_pressure")
@@ -124,7 +124,7 @@ class TestRoundTrip:
         assert len(loaded) == 3
         assert {one.name() for one in loaded} >= {cube.name(), other.name()}
 
-    def test_a_group_round_trips(self, tmp_path, cube):
+    def test_a_group_round_trips(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         # A different name in the group than at the root: reading the
@@ -145,7 +145,7 @@ class TestRoundTrip:
 
 class TestAddingToAnExistingStore:
     """Test ddingToAnExistingStore."""
-    def test_two_cubes_with_the_same_anonymous_dimension_both_come_back_whole(
+    def test_two_cubes_with_the_same_anonymous_dimension_both_come_back_whole(  # noqa: D102
         self, tmp_path
     ):
         # A cube dimension with no dim coord is called "dim0", so two
@@ -166,7 +166,7 @@ class TestAddingToAnExistingStore:
         np.testing.assert_array_equal(loaded.extract_cube("short").data, [0.0, 1.0])
         np.testing.assert_array_equal(loaded.extract_cube("tall").data, [0.0, 1.0, 2.0])
 
-    def test_the_shorter_cube_second_is_whole_too(self, tmp_path):
+    def test_the_shorter_cube_second_is_whole_too(self, tmp_path):  # noqa: D102
         # The other order used to raise a bare numpy broadcasting message
         # naming neither cube nor array.
         path = tmp_path / "out.zarr"
@@ -191,7 +191,7 @@ class TestGlobalAttributes:
     # caller under split-attribute saving, and computes `local_keys` for the
     # legacy mode. Both are format-agnostic cube logic, shared with the
     # netCDF saver - see §4.5 of the native Zarr I/O design.
-    def test_globals_are_written_when_split_attributes_are_enabled(self, tmp_path):
+    def test_globals_are_written_when_split_attributes_are_enabled(self, tmp_path):  # noqa: D102
         path = tmp_path / "out.zarr"
         cube = iris.cube.Cube(np.arange(3.0), long_name="a", units="1", var_name="a")
         cube.attributes.globals["title"] = "the title"
@@ -202,7 +202,7 @@ class TestGlobalAttributes:
         assert loaded.attributes.globals["title"] == "the title"
         assert loaded.attributes.globals["institution"] == "Met Office"
 
-    def test_globals_are_written_in_the_legacy_mode_too(self, tmp_path):
+    def test_globals_are_written_in_the_legacy_mode_too(self, tmp_path):  # noqa: D102
         path = tmp_path / "out.zarr"
         cube = iris.cube.Cube(np.arange(3.0), long_name="a", units="1", var_name="a")
         cube.attributes["title"] = "the title"
@@ -210,7 +210,7 @@ class TestGlobalAttributes:
             iris.save(cube, path)
         assert iris.load_cube(path).attributes["title"] == "the title"
 
-    def test_cubes_that_disagree_keep_their_own_values(self, tmp_path):
+    def test_cubes_that_disagree_keep_their_own_values(self, tmp_path):  # noqa: D102
         # One store cannot hold two values of one global attribute, so an
         # attribute the cubes disagree about becomes a local one on each
         # data variable, exactly as a netCDF save of the same list does.
@@ -229,7 +229,7 @@ class TestGlobalAttributes:
         assert loaded.extract_cube("first").attributes["title"] == "first"
         assert loaded.extract_cube("second").attributes["title"] == "second"
 
-    def test_disagreeing_globals_are_demoted_under_split_attributes(self, tmp_path):
+    def test_disagreeing_globals_are_demoted_under_split_attributes(self, tmp_path):  # noqa: D102
         path = tmp_path / "out.zarr"
         first = iris.cube.Cube(
             np.arange(3.0), long_name="first", units="1", var_name="first"
@@ -246,7 +246,7 @@ class TestGlobalAttributes:
         assert loaded.extract_cube("first").attributes.locals["title"] == "first"
         assert loaded.extract_cube("second").attributes.locals["title"] == "second"
 
-    def test_the_input_cubes_are_not_modified(self, tmp_path):
+    def test_the_input_cubes_are_not_modified(self, tmp_path):  # noqa: D102
         # The demotion above works on copies: `iris.save` must not rewrite
         # the caller's own cubes.
         path = tmp_path / "out.zarr"
@@ -269,7 +269,7 @@ class TestWhatTheFormatDoesNotPromise:
     """Test hatTheFormatDoesNotPromise."""
     # Spec §4.5: neither of these is fixable from inside Iris. They are
     # pinned so that a zarr-python release changing one fails here.
-    def test_a_missing_chunk_reads_back_filled(self, tmp_path, cube):
+    def test_a_missing_chunk_reads_back_filled(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         # The data variable's name is the cube's `var_name`, which this
@@ -292,7 +292,7 @@ class TestWhatTheFormatDoesNotPromise:
         # cube ever declared missing, and nothing said so.
         assert np.ma.count_masked(data) > original_masked
 
-    def test_consolidated_metadata_goes_stale(self, tmp_path, cube):
+    def test_consolidated_metadata_goes_stale(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         # Add a group behind Iris's back, without re-consolidating.
@@ -309,7 +309,7 @@ class TestWhatTheFormatDoesNotPromise:
 
 class TestRefusals:
     """Test efusals."""
-    def test_an_existing_store_is_not_clobbered(self, tmp_path, cube):
+    def test_an_existing_store_is_not_clobbered(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         with pytest.raises(FileExistsError, match="mode"):
@@ -317,7 +317,7 @@ class TestRefusals:
         # And the first save is still intact.
         assert iris.load_cube(path, cube.name()).shape == cube.shape
 
-    def test_adding_a_name_that_exists_is_refused(self, tmp_path, cube):
+    def test_adding_a_name_that_exists_is_refused(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "out.zarr"
         iris.save(cube, path)
         with pytest.raises(ValueError, match=cube.var_name):
@@ -326,7 +326,7 @@ class TestRefusals:
 
 class TestInputsTheDesignImplies:
     """Test nputsTheDesignImplies."""
-    def test_a_big_endian_cube_round_trips(self, tmp_path):
+    def test_a_big_endian_cube_round_trips(self, tmp_path):  # noqa: D102
         # A PP or GRIB load yields big-endian arrays, so this is an ordinary
         # cube to save rather than a corner. Zarr version 3 has no big-endian
         # data type, so the store is written in the platform's own order and
@@ -347,7 +347,7 @@ class TestInputsTheDesignImplies:
         assert loaded.dtype == np.dtype("f4")
         np.testing.assert_array_equal(loaded.data, cube.data)
 
-    def test_a_mesh_cube_writes_cf_ugrid_structure(self, tmp_path):
+    def test_a_mesh_cube_writes_cf_ugrid_structure(self, tmp_path):  # noqa: D102
         # Iris supports unstructured meshes, and a mesh cube reaching the
         # Zarr saver is ordinary: the mesh variables go through the same
         # generic path as everything else, and nothing above has proved it.
@@ -375,7 +375,7 @@ class TestInputsTheDesignImplies:
         assert mesh_cube.mesh.face_dimension not in store.array_keys()
         assert mesh_cube.mesh.node_dimension not in store.array_keys()
 
-    def test_a_mesh_cube_round_trips(self, tmp_path):
+    def test_a_mesh_cube_round_trips(self, tmp_path):  # noqa: D102
         path = tmp_path / "mesh.zarr"
         mesh_cube = stock.realistic_4d_w_everything(w_mesh=True)
         iris.save(mesh_cube, path)
@@ -384,7 +384,7 @@ class TestInputsTheDesignImplies:
         assert loaded.location == mesh_cube.location
         assert loaded.mesh.topology_dimension == mesh_cube.mesh.topology_dimension
 
-    def test_packed_data_round_trips(self, tmp_path, cube):
+    def test_packed_data_round_trips(self, tmp_path, cube):  # noqa: D102
         # `packing` writes scale_factor and add_offset and narrows the dtype.
         # Both attributes are numbers the JSON conversion touches, and the
         # read side unpacks with them.
@@ -405,7 +405,7 @@ class TestInputsTheDesignImplies:
         scale_factor = stored.attrs["scale_factor"]
         np.testing.assert_allclose(loaded.data, cube.data, atol=scale_factor, rtol=0)
 
-    def test_int64_data_survives(self, tmp_path, cube):
+    def test_int64_data_survives(self, tmp_path, cube):  # noqa: D102
         # The one dtype the saver has narrowing logic for. A Zarr store holds
         # int64, so `supports_dtype` answers True and nothing is narrowed -
         # which is a different answer from NETCDF3, and worth pinning.
@@ -414,7 +414,7 @@ class TestInputsTheDesignImplies:
         iris.save(wide, path)
         assert iris.load_cube(path, wide.name()).dtype == np.dtype("i8")
 
-    def test_a_dtype_netcdf_has_no_fill_for_still_saves(self, tmp_path):
+    def test_a_dtype_netcdf_has_no_fill_for_still_saves(self, tmp_path):  # noqa: D102
         # `ZarrDataset.supports_dtype` answers True for every NumPy dtype, so
         # nothing is narrowed on the way in. A dtype outside netCDF's
         # default-fill table must therefore reach the store intact: the fill
@@ -431,7 +431,7 @@ class TestInputsTheDesignImplies:
         assert loaded.dtype == np.dtype("f2")
         np.testing.assert_allclose(loaded.data, narrow.data)
 
-    def test_a_list_of_numpy_scalars_is_an_attribute(self, tmp_path, cube):
+    def test_a_list_of_numpy_scalars_is_an_attribute(self, tmp_path, cube):  # noqa: D102
         # `[data.min(), data.max()]` is an ordinary way to build an
         # attribute, and netCDF accepts the list it produces.
         path = tmp_path / "sequence.zarr"
@@ -440,7 +440,7 @@ class TestInputsTheDesignImplies:
         loaded = iris.load_cube(path, cube.name())
         np.testing.assert_allclose(loaded.attributes["probe"], [1.5, 2.5])
 
-    def test_masked_data_with_no_default_fill_says_what_to_pass(self, tmp_path, cube):
+    def test_masked_data_with_no_default_fill_says_what_to_pass(self, tmp_path, cube):  # noqa: D102
         # The other side of the same coin: with no netCDF default for the
         # dtype there is no sentinel to declare, and the array's own fill
         # value says only what unwritten storage reads back as - so a zero
@@ -450,14 +450,14 @@ class TestInputsTheDesignImplies:
         with pytest.raises(ValueError, match="fill_value"):
             iris.save(narrow, path)
 
-    def test_an_explicit_fill_value_saves_that_masked_data(self, tmp_path, cube):
+    def test_an_explicit_fill_value_saves_that_masked_data(self, tmp_path, cube):  # noqa: D102
         path = tmp_path / "masked16.zarr"
         narrow = cube.copy(np.ma.masked_greater(cube.data.astype(np.float16), 0.0))
         iris.save(narrow, path, fill_value=np.float16(-99.0))
         loaded = iris.load_cube(path, narrow.name())
         np.testing.assert_array_equal(loaded.data.mask, narrow.data.mask)
 
-    def test_a_non_ascii_attribute_survives(self, tmp_path, cube):
+    def test_a_non_ascii_attribute_survives(self, tmp_path, cube):  # noqa: D102
         # A degree sign in a title is ordinary, and netCDF's ASCII-or-bytes
         # coercion does not apply here: JSON is text.
         path = tmp_path / "unicode.zarr"
@@ -467,7 +467,7 @@ class TestInputsTheDesignImplies:
             "Temperature in °C, naïve grid"
         )
 
-    def test_byte_string_data_saves(self, tmp_path):
+    def test_byte_string_data_saves(self, tmp_path):  # noqa: D102
         # Iris supports a cube of fixed-width bytes, and netCDF saves one as
         # its own character type. A Zarr store holds it too, so nothing may
         # refuse it on the way in.
@@ -491,7 +491,7 @@ class TestDataless:
     # netCDF saver does not share - compare
     # `iris.tests.integration.netcdf.test_dataless`.
     @pytest.fixture
-    def dataless(self):
+    def dataless(self):  # noqa: D102
         return iris.cube.Cube(
             None,
             shape=(3, 4),
@@ -499,7 +499,7 @@ class TestDataless:
             var_name="testdata",
         )
 
-    def test_the_store_holds_the_dataless_form(self, tmp_path, dataless):
+    def test_the_store_holds_the_dataless_form(self, tmp_path, dataless):  # noqa: D102
         path = tmp_path / "dataless.zarr"
         iris.save(dataless, path)
         # The marker belongs in the store, not on the caller's cube.
@@ -513,7 +513,7 @@ class TestDataless:
             stored[...], np.full(dataless.shape, _CFSaver._DATALESS_FILLVALUE)
         )
 
-    def test_the_cube_comes_back_dataless(self, tmp_path, dataless):
+    def test_the_cube_comes_back_dataless(self, tmp_path, dataless):  # noqa: D102
         path = tmp_path / "dataless.zarr"
         iris.save(dataless, path)
         # `load_raw`, because dataless merging is not supported yet - the
@@ -525,7 +525,7 @@ class TestDataless:
         # consumes it rather than handing it back as a cube attribute.
         assert _CFSaver._DATALESS_ATTRNAME not in loaded.attributes
 
-    def test_a_dataless_cube_mixes_with_a_normal_one(self, tmp_path, dataless):
+    def test_a_dataless_cube_mixes_with_a_normal_one(self, tmp_path, dataless):  # noqa: D102
         path = tmp_path / "mixture.zarr"
         dataful = iris.cube.Cube(
             np.ones(dataless.shape),
@@ -538,7 +538,7 @@ class TestDataless:
         assert loaded.extract_cube("testdata").is_dataless()
         assert not loaded.extract_cube("other").is_dataless()
 
-    def test_a_dataless_cube_takes_almost_no_space(self, tmp_path):
+    def test_a_dataless_cube_takes_almost_no_space(self, tmp_path):  # noqa: D102
         # A dataless array has no chunks to write, so the store is metadata
         # and nothing else, however large the cube says it is.
         path = tmp_path / "big.zarr"
@@ -559,7 +559,7 @@ class TestEveryScheduler:
     # save. Modelled on `test_scheduler_types` in
     # `iris.tests.integration.netcdf.test_delayed_save`.
     @pytest.fixture(params=["threads", "single-threaded", "distributed"], scope="class")
-    def scheduler(self, request):
+    def scheduler(self, request):  # noqa: D102
         if request.param == "distributed":
             client = distributed.Client()
             with dask.config.set(scheduler="distributed"):
@@ -570,10 +570,10 @@ class TestEveryScheduler:
                 yield request.param
 
     @pytest.fixture(params=[False, True], ids=["immediate", "delayed"])
-    def save_is_delayed(self, request):
+    def save_is_delayed(self, request):  # noqa: D102
         return request.param
 
-    def test_the_data_lands_whatever_runs_the_graph(
+    def test_the_data_lands_whatever_runs_the_graph(  # noqa: D102
         self, tmp_path, scheduler, save_is_delayed
     ):
         assert dask.config.get("scheduler") == scheduler

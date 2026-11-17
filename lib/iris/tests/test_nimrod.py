@@ -23,7 +23,7 @@ def mock_nimrod_field():
 class TestLoad:
     """Test oad."""
     @_shared_utils.skip_data
-    def test_multi_field_load(self, request):
+    def test_multi_field_load(self, request):  # noqa: D102
         # load a cube with two fields
         cube = iris.load(
             _shared_utils.get_data_path(
@@ -38,7 +38,7 @@ class TestLoad:
         _shared_utils.assert_CML(request, cube, ("nimrod", "load_2flds.cml"))
 
     @_shared_utils.skip_data
-    def test_huge_field_load(self, request):
+    def test_huge_field_load(self, request):  # noqa: D102
         # load a wide range of cubes with all meta-data variations
         for datafile in {
             "u1096_ng_ek07_precip0540_accum180_18km",
@@ -95,7 +95,7 @@ class TestLoad:
                     handle_metadata_errors=False,
                 )
 
-    def test_orography(self, request):
+    def test_orography(self, request):  # noqa: D102
         # Mock an orography field we've seen.
         field = mock_nimrod_field()
         cube = iris.cube.Cube(np.arange(100).reshape(10, 10))
@@ -123,7 +123,7 @@ class TestLoad:
 
         _shared_utils.assert_CML(request, cube, ("nimrod", "mockography.cml"))
 
-    def test_levels_below_ground(self, request):
+    def test_levels_below_ground(self, request):  # noqa: D102
         # Mock a soil temperature field we've seen.
         field = mock_nimrod_field()
         cube = iris.cube.Cube(np.arange(100).reshape(10, 10))
@@ -137,7 +137,7 @@ class TestLoad:
 
         _shared_utils.assert_CML(request, cube, ("nimrod", "levels_below_ground.cml"))
 
-    def test_period_of_interest(self, request):
+    def test_period_of_interest(self, request):  # noqa: D102
         # mock a pressure field
         field = mock_nimrod_field()
         cube = iris.cube.Cube(np.arange(100).reshape(10, 10))
@@ -166,7 +166,7 @@ class TestNimrodTables:
     """Test imrodTables."""
     # Testing that the table-based load rules work as expected
 
-    def test_table_1(self):
+    def test_table_1(self):  # noqa: D102
         field = mock_nimrod_field()
         cube = iris.cube.Cube(np.arange(100).reshape(10, 10))
 
@@ -177,7 +177,7 @@ class TestNimrodTables:
 
         assert "clutter_map_number" in cube.attributes
 
-    def test_table_2(self):
+    def test_table_2(self):  # noqa: D102
         field = mock_nimrod_field()
         cube = iris.cube.Cube(np.arange(100).reshape(10, 10))
 
@@ -193,7 +193,7 @@ class TestNimrodTables:
 
         assert "Probability methods" in cube.attributes
 
-    def test_table_3(self):
+    def test_table_3(self):  # noqa: D102
         field = mock_nimrod_field()
         cube = iris.cube.Cube(np.arange(100).reshape(10, 10))
 
@@ -204,7 +204,7 @@ class TestNimrodTables:
 
         assert cube.coord("soil_type")
 
-    def test_table_4(self):
+    def test_table_4(self):  # noqa: D102
         field = mock_nimrod_field()
         cube = iris.cube.Cube(np.arange(100).reshape(10, 10))
 

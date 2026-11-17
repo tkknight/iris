@@ -118,7 +118,7 @@ class Test_write:
         cube.add_dim_coord(coord, 1)
         return cube
 
-    def test_transverse_mercator(self, request, tmp_path):
+    def test_transverse_mercator(self, request, tmp_path):  # noqa: D102
         # Create a Cube with a transverse Mercator coordinate system.
         ellipsoid = GeogCS(6377563.396, 6356256.909)
         cube = self._transverse_mercator_cube(ellipsoid)
@@ -127,7 +127,7 @@ class Test_write:
             saver.write(cube)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_transverse_mercator_no_ellipsoid(self, request, tmp_path):
+    def test_transverse_mercator_no_ellipsoid(self, request, tmp_path):  # noqa: D102
         # Create a Cube with a transverse Mercator coordinate system.
         cube = self._transverse_mercator_cube()
         nc_path = tmp_path / "temp.nc"
@@ -135,7 +135,7 @@ class Test_write:
             saver.write(cube)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_mercator(self, request, tmp_path):
+    def test_mercator(self, request, tmp_path):  # noqa: D102
         # Create a Cube with a Mercator coordinate system.
         ellipsoid = GeogCS(6377563.396, 6356256.909)
         cube = self._mercator_cube(ellipsoid)
@@ -144,7 +144,7 @@ class Test_write:
             saver.write(cube)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_stereographic(self, request, tmp_path):
+    def test_stereographic(self, request, tmp_path):  # noqa: D102
         # Create a Cube with a stereographic coordinate system.
         ellipsoid = GeogCS(6377563.396, 6356256.909)
         cube = self._stereo_cube(ellipsoid)
@@ -153,7 +153,7 @@ class Test_write:
             saver.write(cube)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_mercator_no_ellipsoid(self, request, tmp_path):
+    def test_mercator_no_ellipsoid(self, request, tmp_path):  # noqa: D102
         # Create a Cube with a Mercator coordinate system.
         cube = self._mercator_cube()
         nc_path = tmp_path / "temp.nc"
@@ -161,7 +161,7 @@ class Test_write:
             saver.write(cube)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_stereographic_no_ellipsoid(self, request, tmp_path):
+    def test_stereographic_no_ellipsoid(self, request, tmp_path):  # noqa: D102
         # Create a Cube with a stereographic coordinate system.
         cube = self._stereo_cube()
         nc_path = tmp_path / "temp.nc"
@@ -169,7 +169,7 @@ class Test_write:
             saver.write(cube)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_stereographic_scale_factor(self, request, tmp_path):
+    def test_stereographic_scale_factor(self, request, tmp_path):  # noqa: D102
         # Create a Cube with a stereographic coordinate system.
         cube = self._stereo_cube(scale_factor=1.3)
         nc_path = tmp_path / "temp.nc"
@@ -198,7 +198,7 @@ class Test_write:
         cube.add_dim_coord(coord, 0)
         return cube
 
-    def test_little_endian(self, request, tmp_path):
+    def test_little_endian(self, request, tmp_path):  # noqa: D102
         # Create a Cube with little-endian data.
         cube = self._simple_cube("<f4")
         nc_path = tmp_path / "temp.nc"
@@ -207,7 +207,7 @@ class Test_write:
         result_path = _shared_utils.result_path(request, "endian", "cdl")
         _shared_utils.assert_CDL(request, nc_path, result_path, flags="")
 
-    def test_big_endian(self, request, tmp_path):
+    def test_big_endian(self, request, tmp_path):  # noqa: D102
         # Create a Cube with big-endian data.
         cube = self._simple_cube(">f4")
         nc_path = tmp_path / "temp.nc"
@@ -216,7 +216,7 @@ class Test_write:
         result_path = _shared_utils.result_path(request, "endian", "cdl")
         _shared_utils.assert_CDL(request, nc_path, result_path, flags="")
 
-    def test_zlib(self, mocker):
+    def test_zlib(self, mocker):  # noqa: D102
         cube = self._simple_cube(">f4")
         api = mocker.patch("iris.fileformats.netcdf._dataset._bytecoding_datasets")
         # Mock the apparent dtype of mocked variables, to avoid an error.
@@ -242,7 +242,7 @@ class Test_write:
         )
         assert create_var_call in dataset.createVariable.call_args_list
 
-    def test_compression(self, mocker, tmp_path):
+    def test_compression(self, mocker, tmp_path):  # noqa: D102
         cube = self._simple_cube(">f4")
         data_dims, shape = range(cube.ndim), cube.shape
 
@@ -282,7 +282,7 @@ class Test_write:
         assert 3 == len(result)
         assert {cube.name(), aux_coord.name(), anc_coord.name()} == set(result)
 
-    def test_non_compression__shape(self, mocker, tmp_path):
+    def test_non_compression__shape(self, mocker, tmp_path):  # noqa: D102
         cube = self._simple_cube(">f4")
         data_dims, shape = (0, 1), cube.shape
 
@@ -327,7 +327,7 @@ class Test_write:
         expected = {aux_coord.name(), anc_coord.name(), "dim0", "dim0_bnds"}
         assert expected == set(result)
 
-    def test_non_compression__dtype(self, mocker, tmp_path):
+    def test_non_compression__dtype(self, mocker, tmp_path):  # noqa: D102
         cube = self._simple_cube(">f4")
         data_dims, shape = (0, 1), cube.shape
 
@@ -367,7 +367,7 @@ class Test_write:
         expected = {aux_coord.name(), "dim0", "dim0_bnds"}
         assert expected == set(result)
 
-    def test_least_significant_digit(self, tmp_path):
+    def test_least_significant_digit(self, tmp_path):  # noqa: D102
         cube = Cube(
             self.array_lib.array([1.23, 4.56, 7.89]),
             standard_name="surface_temperature",
@@ -383,7 +383,7 @@ class Test_write:
         assert not np.all(cube.data == cube_saved.data)
         _shared_utils.assert_array_all_close(cube.data, cube_saved.data, 0.1)
 
-    def test_default_unlimited_dimensions(self, tmp_path):
+    def test_default_unlimited_dimensions(self, tmp_path):  # noqa: D102
         # Default is no unlimited dimensions.
         cube = self._simple_cube(">f4")
         nc_path = tmp_path / "temp.nc"
@@ -394,7 +394,7 @@ class Test_write:
         assert not ds.dimensions["dim1"].isunlimited()
         ds.close()
 
-    def test_no_unlimited_dimensions(self, tmp_path):
+    def test_no_unlimited_dimensions(self, tmp_path):  # noqa: D102
         cube = self._simple_cube(">f4")
         nc_path = tmp_path / "temp.nc"
         with Saver(nc_path, "NETCDF4") as saver:
@@ -404,14 +404,14 @@ class Test_write:
             assert not dim.isunlimited()
         ds.close()
 
-    def test_invalid_unlimited_dimensions(self, tmp_path):
+    def test_invalid_unlimited_dimensions(self, tmp_path):  # noqa: D102
         cube = self._simple_cube(">f4")
         nc_path = tmp_path / "temp.nc"
         with Saver(nc_path, "NETCDF4") as saver:
             # should not raise an exception
             saver.write(cube, unlimited_dimensions=["not_found"])
 
-    def test_custom_unlimited_dimensions(self, tmp_path):
+    def test_custom_unlimited_dimensions(self, tmp_path):  # noqa: D102
         cube = self._transverse_mercator_cube()
         unlimited_dimensions = [
             "projection_y_coordinate",
@@ -435,7 +435,7 @@ class Test_write:
             assert ds.dimensions[dim].isunlimited()
         ds.close()
 
-    def test_reserved_attributes(self, tmp_path):
+    def test_reserved_attributes(self, tmp_path):  # noqa: D102
         cube = self._simple_cube(">f4")
         cube.attributes["dimensions"] = "something something_else"
         nc_path = tmp_path / "temp.nc"
@@ -446,14 +446,14 @@ class Test_write:
         ds.close()
         assert res == "something something_else"
 
-    def test_with_climatology(self, request, tmp_path):
+    def test_with_climatology(self, request, tmp_path):  # noqa: D102
         cube = stock.climatology_3d()
         nc_path = tmp_path / "temp.nc"
         with Saver(nc_path, "NETCDF4") as saver:
             saver.write(cube)
         _shared_utils.assert_CDL(request, nc_path)
 
-    def test_dimensional_to_scalar(self, tmp_path):
+    def test_dimensional_to_scalar(self, tmp_path):  # noqa: D102
         # Bounds for 1 point are still in a 2D array.
         scalar_bounds = self.array_lib.arange(2).reshape(1, 2)
         scalar_point = scalar_bounds.mean()
@@ -474,7 +474,7 @@ class Test__create_cf_bounds(MockerMixin):
     """Test  create cf bounds."""
     # Method is substituted in test_Saver__lazy.
     @staticmethod
-    def climatology_3d():
+    def climatology_3d():  # noqa: D102
         return stock.climatology_3d()
 
     def _check_bounds_setting(self, climatological=False):
@@ -525,10 +525,10 @@ class Test__create_cf_bounds(MockerMixin):
         )
         assert create_var_call == dataset.create_variable.call_args
 
-    def test_set_bounds_default(self):
+    def test_set_bounds_default(self):  # noqa: D102
         self._check_bounds_setting(climatological=False)
 
-    def test_set_bounds_climatology(self):
+    def test_set_bounds_climatology(self):  # noqa: D102
         self._check_bounds_setting(climatological=True)
 
 
@@ -538,7 +538,7 @@ class Test_write__valid_x_cube_attributes:
     # Attribute is substituted in test_Saver__lazy.
     array_lib: ModuleType = np
 
-    def test_valid_range_saved(self, tmp_path):
+    def test_valid_range_saved(self, tmp_path):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.data = cube.data.astype("int32")
 
@@ -551,7 +551,7 @@ class Test_write__valid_x_cube_attributes:
         _shared_utils.assert_array_equal(ds.valid_range, vrange)
         ds.close()
 
-    def test_valid_min_saved(self, tmp_path):
+    def test_valid_min_saved(self, tmp_path):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.data = cube.data.astype("int32")
 
@@ -563,7 +563,7 @@ class Test_write__valid_x_cube_attributes:
         _shared_utils.assert_array_equal(ds.valid_min, 1)
         ds.close()
 
-    def test_valid_max_saved(self, tmp_path):
+    def test_valid_max_saved(self, tmp_path):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.data = cube.data.astype("int32")
 
@@ -582,7 +582,7 @@ class Test_write__valid_x_coord_attributes:
     # Attribute is substituted in test_Saver__lazy.
     array_lib: ModuleType = np
 
-    def test_valid_range_saved(self, tmp_path):
+    def test_valid_range_saved(self, tmp_path):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.data = cube.data.astype("int32")
 
@@ -595,7 +595,7 @@ class Test_write__valid_x_coord_attributes:
         _shared_utils.assert_array_equal(ds.variables["longitude"].valid_range, vrange)
         ds.close()
 
-    def test_valid_min_saved(self, tmp_path):
+    def test_valid_min_saved(self, tmp_path):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.data = cube.data.astype("int32")
 
@@ -607,7 +607,7 @@ class Test_write__valid_x_coord_attributes:
         _shared_utils.assert_array_equal(ds.variables["longitude"].valid_min, 1)
         ds.close()
 
-    def test_valid_max_saved(self, tmp_path):
+    def test_valid_max_saved(self, tmp_path):  # noqa: D102
         cube = stock.lat_lon_cube()
         cube.data = cube.data.astype("int32")
 
@@ -660,21 +660,21 @@ class Test_write_fill_value:
 
         return netCDF_var
 
-    def test_fill_value(self, _netCDF_var):
+    def test_fill_value(self, _netCDF_var):  # noqa: D102
         # Test that a passed fill value is saved as a _FillValue attribute.
         cube = self._make_cube(">f4")
         fill_value = 12345.0
         with _netCDF_var(cube, fill_value=fill_value) as var:
             assert fill_value == var._FillValue
 
-    def test_default_fill_value(self, _netCDF_var):
+    def test_default_fill_value(self, _netCDF_var):  # noqa: D102
         # Test that if no fill value is passed then there is no _FillValue.
         # attribute.
         cube = self._make_cube(">f4")
         with _netCDF_var(cube) as var:
             assert "_FillValue" not in var.ncattrs()
 
-    def test_mask_fill_value(self, _netCDF_var):
+    def test_mask_fill_value(self, _netCDF_var):  # noqa: D102
         # Test that masked data saves correctly when given a fill value.
         index = (1, 1)
         fill_value = 12345.0
@@ -683,7 +683,7 @@ class Test_write_fill_value:
             assert fill_value == var._FillValue
             assert var[index].mask
 
-    def test_mask_default_fill_value(self, _netCDF_var):
+    def test_mask_default_fill_value(self, _netCDF_var):  # noqa: D102
         # Test that masked data saves correctly using the default fill value.
         index = (1, 1)
         cube = self._make_cube(">f4", masked_index=index)
@@ -694,22 +694,22 @@ class Test_write_fill_value:
 
 class Test_cf_valid_var_name:
     """Test cf valid var name."""
-    def test_no_replacement(self):
+    def test_no_replacement(self):  # noqa: D102
         assert Saver.cf_valid_var_name("valid_Nam3") == "valid_Nam3"
 
-    def test_special_chars(self):
+    def test_special_chars(self):  # noqa: D102
         assert Saver.cf_valid_var_name("inv?alid") == "inv_alid"
 
-    def test_leading_underscore(self):
+    def test_leading_underscore(self):  # noqa: D102
         assert Saver.cf_valid_var_name("_invalid") == "var__invalid"
 
-    def test_leading_number(self):
+    def test_leading_number(self):  # noqa: D102
         assert Saver.cf_valid_var_name("2invalid") == "var_2invalid"
 
-    def test_leading_invalid(self):
+    def test_leading_invalid(self):  # noqa: D102
         assert Saver.cf_valid_var_name("?invalid") == "var__invalid"
 
-    def test_no_hyphen(self):
+    def test_no_hyphen(self):  # noqa: D102
         # CF explicitly prohibits hyphen, even though it is fine in NetCDF.
         assert Saver.cf_valid_var_name("valid-netcdf") == "valid_netcdf"
 
@@ -754,34 +754,34 @@ class _Common__check_attribute_compliance:
 class Test_check_attribute_compliance__valid_range(_Common__check_attribute_compliance):
     """Test check attribute compliance  valid range."""
     @property
-    def attribute(self):
+    def attribute(self):  # noqa: D102
         return "valid_range"
 
-    def test_valid_range_type_coerce(self):
+    def test_valid_range_type_coerce(self):  # noqa: D102
         value = self.array_lib.array([1, 2], dtype="float")
         self.check_attribute_compliance_call(value)
         self.assert_attribute(self.data_dtype)
 
-    def test_valid_range_unsigned_int8_data_signed_range(self):
+    def test_valid_range_unsigned_int8_data_signed_range(self):  # noqa: D102
         self.data_dtype = np.dtype("uint8")
         value = self.array_lib.array([1, 2], dtype="int8")
         self.check_attribute_compliance_call(value)
         self.assert_attribute(value.dtype)
 
-    def test_valid_range_cannot_coerce(self):
+    def test_valid_range_cannot_coerce(self):  # noqa: D102
         value = self.array_lib.array([1.5, 2.5], dtype="float64")
         msg = '"valid_range" is not of a suitable value'
         with pytest.raises(ValueError, match=msg):
             self.check_attribute_compliance_call(value)
 
-    def test_valid_range_not_numpy_array(self):
+    def test_valid_range_not_numpy_array(self):  # noqa: D102
         # Ensure we handle the case when not a numpy array is provided.
         self.data_dtype = np.dtype("int8")
         value = [1, 2]
         self.check_attribute_compliance_call(value)
         self.assert_attribute(np.int64)
 
-    def test_uncastable_dtype(self):
+    def test_uncastable_dtype(self):  # noqa: D102
         self.data_dtype = np.dtype("int64")
         value = [0, np.iinfo(self.data_dtype).max]
         with pytest.raises(ValueError, match="cannot be safely cast"):
@@ -791,34 +791,34 @@ class Test_check_attribute_compliance__valid_range(_Common__check_attribute_comp
 class Test_check_attribute_compliance__valid_min(_Common__check_attribute_compliance):
     """Test check attribute compliance  valid min."""
     @property
-    def attribute(self):
+    def attribute(self):  # noqa: D102
         return "valid_min"
 
-    def test_valid_range_type_coerce(self):
+    def test_valid_range_type_coerce(self):  # noqa: D102
         value = self.array_lib.array(1, dtype="float")
         self.check_attribute_compliance_call(value)
         self.assert_attribute(self.data_dtype)
 
-    def test_valid_range_unsigned_int8_data_signed_range(self):
+    def test_valid_range_unsigned_int8_data_signed_range(self):  # noqa: D102
         self.data_dtype = np.dtype("uint8")
         value = self.array_lib.array(1, dtype="int8")
         self.check_attribute_compliance_call(value)
         self.assert_attribute(value.dtype)
 
-    def test_valid_range_cannot_coerce(self):
+    def test_valid_range_cannot_coerce(self):  # noqa: D102
         value = self.array_lib.array(1.5, dtype="float64")
         msg = '"valid_min" is not of a suitable value'
         with pytest.raises(ValueError, match=msg):
             self.check_attribute_compliance_call(value)
 
-    def test_valid_range_not_numpy_array(self):
+    def test_valid_range_not_numpy_array(self):  # noqa: D102
         # Ensure we handle the case when not a numpy array is provided.
         self.data_dtype = np.dtype("int8")
         value = 1
         self.check_attribute_compliance_call(value)
         self.assert_attribute(np.int64)
 
-    def test_uncastable_dtype(self):
+    def test_uncastable_dtype(self):  # noqa: D102
         self.data_dtype = np.dtype("int64")
         value = np.iinfo(self.data_dtype).min
         with pytest.raises(ValueError, match="cannot be safely cast"):
@@ -828,34 +828,34 @@ class Test_check_attribute_compliance__valid_min(_Common__check_attribute_compli
 class Test_check_attribute_compliance__valid_max(_Common__check_attribute_compliance):
     """Test check attribute compliance  valid max."""
     @property
-    def attribute(self):
+    def attribute(self):  # noqa: D102
         return "valid_max"
 
-    def test_valid_range_type_coerce(self):
+    def test_valid_range_type_coerce(self):  # noqa: D102
         value = self.array_lib.array(2, dtype="float")
         self.check_attribute_compliance_call(value)
         self.assert_attribute(self.data_dtype)
 
-    def test_valid_range_unsigned_int8_data_signed_range(self):
+    def test_valid_range_unsigned_int8_data_signed_range(self):  # noqa: D102
         self.data_dtype = np.dtype("uint8")
         value = self.array_lib.array(2, dtype="int8")
         self.check_attribute_compliance_call(value)
         self.assert_attribute(value.dtype)
 
-    def test_valid_range_cannot_coerce(self):
+    def test_valid_range_cannot_coerce(self):  # noqa: D102
         value = self.array_lib.array(2.5, dtype="float64")
         msg = '"valid_max" is not of a suitable value'
         with pytest.raises(ValueError, match=msg):
             self.check_attribute_compliance_call(value)
 
-    def test_valid_range_not_numpy_array(self):
+    def test_valid_range_not_numpy_array(self):  # noqa: D102
         # Ensure we handle the case when not a numpy array is provided.
         self.data_dtype = np.dtype("int8")
         value = 2
         self.check_attribute_compliance_call(value)
         self.assert_attribute(np.int64)
 
-    def test_uncastable_dtype(self):
+    def test_uncastable_dtype(self):  # noqa: D102
         self.data_dtype = np.dtype("int64")
         value = np.iinfo(self.data_dtype).max
         with pytest.raises(ValueError, match="cannot be safely cast"):
@@ -866,7 +866,7 @@ class Test_check_attribute_compliance__exception_handling(
     _Common__check_attribute_compliance
 ):
     """Test check attribute compliance  exception handling."""
-    def test_valid_range_and_valid_min_valid_max_provided(self):
+    def test_valid_range_and_valid_min_valid_max_provided(self):  # noqa: D102
         # Conflicting attributes should raise a suitable exception.
         self.data_dtype = np.dtype("int8")
         self.container.attributes["valid_range"] = [1, 2]
@@ -879,14 +879,14 @@ class Test_check_attribute_compliance__exception_handling(
 
 class Test__cf_coord_identity:
     """Test  cf coord identity."""
-    def check_call(self, coord_name, coord_system, units, expected_units):
+    def check_call(self, coord_name, coord_system, units, expected_units):  # noqa: D102
         coord = iris.coords.DimCoord(
             [30, 45], coord_name, units=units, coord_system=coord_system
         )
         result = Saver._cf_coord_standardised_units(coord)
         assert result == expected_units
 
-    def test_geogcs_latitude(self):
+    def test_geogcs_latitude(self):  # noqa: D102
         crs = iris.coord_systems.GeogCS(60, 30)
         self.check_call(
             "latitude",
@@ -895,7 +895,7 @@ class Test__cf_coord_identity:
             expected_units="degrees_north",
         )
 
-    def test_geogcs_longitude(self):
+    def test_geogcs_longitude(self):  # noqa: D102
         crs = iris.coord_systems.GeogCS(60, 30)
         self.check_call(
             "longitude",
@@ -904,7 +904,7 @@ class Test__cf_coord_identity:
             expected_units="degrees_east",
         )
 
-    def test_no_coord_system_latitude(self):
+    def test_no_coord_system_latitude(self):  # noqa: D102
         self.check_call(
             "latitude",
             coord_system=None,
@@ -912,7 +912,7 @@ class Test__cf_coord_identity:
             expected_units="degrees_north",
         )
 
-    def test_no_coord_system_longitude(self):
+    def test_no_coord_system_longitude(self):  # noqa: D102
         self.check_call(
             "longitude",
             coord_system=None,
@@ -920,7 +920,7 @@ class Test__cf_coord_identity:
             expected_units="degrees_east",
         )
 
-    def test_passthrough_units(self):
+    def test_passthrough_units(self):  # noqa: D102
         crs = iris.coord_systems.LambertConformal(0, 20)
         self.check_call(
             "projection_x_coordinate",
@@ -1110,7 +1110,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
         # Now check that the values are equivalent.
         assert actual == expected
 
-    def test_rotated_geog_cs(self, extended_grid_mapping):
+    def test_rotated_geog_cs(self, extended_grid_mapping):  # noqa: D102
         self._extended_grid_mapping = extended_grid_mapping
         coord_system = RotatedGeogCS(37.5, 177.5, ellipsoid=GeogCS(6371229.0))
 
@@ -1141,7 +1141,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
 
         self._test(coord_system, expected)
 
-    def test_spherical_geog_cs(self, extended_grid_mapping):
+    def test_spherical_geog_cs(self, extended_grid_mapping):  # noqa: D102
         self._extended_grid_mapping = extended_grid_mapping
         coord_system = GeogCS(6371229.0)
         expected = {
@@ -1161,7 +1161,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
             )
         self._test(coord_system, expected)
 
-    def test_elliptic_geog_cs(self, extended_grid_mapping):
+    def test_elliptic_geog_cs(self, extended_grid_mapping):  # noqa: D102
         self._extended_grid_mapping = extended_grid_mapping
         coord_system = GeogCS(637, 600)
         expected = {
@@ -1183,7 +1183,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
             )
         self._test(coord_system, expected)
 
-    def test_lambert_conformal(self):
+    def test_lambert_conformal(self):  # noqa: D102
         coord_system = LambertConformal(
             central_lat=44,
             central_lon=2,
@@ -1223,7 +1223,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
         }
         self._test(coord_system, expected)
 
-    def test_laea_cs(self):
+    def test_laea_cs(self):  # noqa: D102
         coord_system = LambertAzimuthalEqualArea(
             latitude_of_projection_origin=52,
             longitude_of_projection_origin=10,
@@ -1258,7 +1258,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
         }
         self._test(coord_system, expected)
 
-    def test_aea_cs(self):
+    def test_aea_cs(self):  # noqa: D102
         coord_system = AlbersEqualArea(
             latitude_of_projection_origin=52,
             longitude_of_central_meridian=10,
@@ -1299,7 +1299,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
         }
         self._test(coord_system, expected)
 
-    def test_vp_cs(self):
+    def test_vp_cs(self):  # noqa: D102
         latitude_of_projection_origin = 1.0
         longitude_of_projection_origin = 2.0
         perspective_point_height = 2000000.0
@@ -1349,7 +1349,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
         }
         self._test(coord_system, expected)
 
-    def test_geo_cs(self):
+    def test_geo_cs(self):  # noqa: D102
         latitude_of_projection_origin = 0.0
         longitude_of_projection_origin = 2.0
         perspective_point_height = 2000000.0
@@ -1401,7 +1401,7 @@ class Test_create_cf_grid_mapping(MockerMixin):
         }
         self._test(coord_system, expected)
 
-    def test_oblique_cs(self):
+    def test_oblique_cs(self):  # noqa: D102
         # Some none-default settings to confirm all parameters are being
         #  handled.
 
@@ -1490,7 +1490,7 @@ class TestNcZarr:
             "iris.fileformats.netcdf._bytecoding_datasets.EncodedDataset"
         )
 
-    def test_file_uri(self):
+    def test_file_uri(self):  # noqa: D102
         # 'File URLs' get converted to a file path format.
         url = f"file:///foo"
         saver = Saver(url, "NETCDF4")
@@ -1498,7 +1498,7 @@ class TestNcZarr:
         assert not str(saver.filepath).startswith("file:")
 
     @pytest.mark.parametrize("scheme", ["file", "http"])
-    def test_nczarr_uri(self, scheme):
+    def test_nczarr_uri(self, scheme):  # noqa: D102
         # URL should be used raw regardless of file or http scheme.
         prefix = "://"
         if scheme == "file":
@@ -1508,7 +1508,7 @@ class TestNcZarr:
         assert not isinstance(saver.filepath, Path)
         assert saver.filepath == url
 
-    def test_non_nczarr_uri(self, tmp_path):
+    def test_non_nczarr_uri(self, tmp_path):  # noqa: D102
         # Non-nczarr fragments are not interpreted, so are handled exactly the
         #  same as any other file URL.
         url = f"file:///foo#bar=baz"

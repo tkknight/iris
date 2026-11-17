@@ -86,56 +86,56 @@ class TestEqualiseAttributes:
             cube_after_noatts.attributes.clear()
             assert cube_after_noatts == cube_before_noatts
 
-    def test_no_attrs(self):
+    def test_no_attrs(self):  # noqa: D102
         cubes = [self.cube_no_attrs]
         self._test(cubes, {}, [{}])
 
-    def test_single(self):
+    def test_single(self):  # noqa: D102
         cubes = [self.cube_a1]
         self._test(cubes, {"a": 1}, [{}])
 
-    def test_identical(self):
+    def test_identical(self):  # noqa: D102
         cubes = [self.cube_a1, self.cube_a1.copy()]
         self._test(cubes, {"a": 1}, [{}, {}])
 
-    def test_one_extra(self):
+    def test_one_extra(self):  # noqa: D102
         cubes = [self.cube_a1, self.cube_a1b5.copy()]
         self._test(cubes, {"a": 1}, [{}, {"b": 5}])
 
-    def test_one_different(self):
+    def test_one_different(self):  # noqa: D102
         cubes = [self.cube_a1b5, self.cube_a1b6]
         self._test(cubes, {"a": 1}, [{"b": 5}, {"b": 6}])
 
-    def test_common_no_diffs(self):
+    def test_common_no_diffs(self):  # noqa: D102
         cubes = [self.cube_a1b5, self.cube_a1b5.copy()]
         self._test(cubes, {"a": 1, "b": 5}, [{}, {}])
 
-    def test_common_all_diffs(self):
+    def test_common_all_diffs(self):  # noqa: D102
         cubes = [self.cube_a1b5, self.cube_a2b6]
         self._test(cubes, {}, [{"a": 1, "b": 5}, {"a": 2, "b": 6}])
 
-    def test_none_common(self):
+    def test_none_common(self):  # noqa: D102
         cubes = [self.cube_a1, self.cube_b5]
         self._test(cubes, {}, [{"a": 1}, {"b": 5}])
 
-    def test_array_extra(self):
+    def test_array_extra(self):  # noqa: D102
         cubes = [self.cube_a1b6, self.cube_a1b6v1]
         self._test(cubes, {"a": 1, "b": 6}, [{}, {"v": self.v1}])
 
-    def test_array_different(self):
+    def test_array_different(self):  # noqa: D102
         cubes = [self.cube_a1b5v1, self.cube_a1b6v2]
         self._test(cubes, {"a": 1}, [{"b": 5, "v": self.v1}, {"b": 6, "v": self.v2}])
 
-    def test_array_same(self):
+    def test_array_same(self):  # noqa: D102
         cubes = [self.cube_a1b5v1, self.cube_a1b6v1]
         self._test(cubes, {"a": 1, "v": self.v1}, [{"b": 5}, {"b": 6}])
 
     @pytest.fixture
-    def make_a1b6v2_incompatible(self):
+    def make_a1b6v2_incompatible(self):  # noqa: D102
         v_array = self.cube_a1b6v2.attributes["v"]
         self.cube_a1b6v2.attributes["v"] = np.repeat(v_array, 2)
 
-    def test_array_incompatible(self, make_a1b6v2_incompatible):
+    def test_array_incompatible(self, make_a1b6v2_incompatible):  # noqa: D102
         cubes = [self.cube_a1b5v1, self.cube_a1b6v2]
         with pytest.raises(
             ValueError, match=r"Error comparing \('local', 'v'\) attributes"
@@ -143,7 +143,7 @@ class TestEqualiseAttributes:
             self._test(cubes, {}, [])
 
     @_shared_utils.skip_data
-    def test_complex_nonecommon(self):
+    def test_complex_nonecommon(self):  # noqa: D102
         # Example with cell methods and factories, but no common attributes.
         cubes = [
             iris.tests.stock.global_pp(),
@@ -153,7 +153,7 @@ class TestEqualiseAttributes:
         self._test(cubes, {}, [removed, {}])
 
     @_shared_utils.skip_data
-    def test_complex_somecommon(self):
+    def test_complex_somecommon(self):  # noqa: D102
         # Example with cell methods and factories, plus some common attributes.
         cubes = [iris.tests.stock.global_pp(), iris.tests.stock.simple_pp()]
         self._test(
@@ -187,7 +187,7 @@ class TestSplitattributes:
         return Cube([0], attributes=attrs)
 
     @staticmethod
-    def check_equalised_result(cube1, cube2):
+    def check_equalised_result(cube1, cube2):  # noqa: D102
         equalise_attributes([cube1, cube2])
         # Note: "X" represents a missing attribute, as in test_CubeMetadata
         return [
@@ -201,53 +201,53 @@ class TestSplitattributes:
             ),
         ]
 
-    def test__global_and_local__bothsame(self):
+    def test__global_and_local__bothsame(self):  # noqa: D102
         # A trivial case showing that the original globals+locals are both preserved.
         cube1 = self._sample_splitattrs_cube("AB")
         cube2 = self._sample_splitattrs_cube("AB")
         result = self.check_equalised_result(cube1, cube2)
         assert result == ["AB", "AB"]
 
-    def test__globals_different(self):
+    def test__globals_different(self):  # noqa: D102
         cube1 = self._sample_splitattrs_cube("AX")
         cube2 = self._sample_splitattrs_cube("BX")
         result = self.check_equalised_result(cube1, cube2)
         assert result == ["XX", "XX"]
 
-    def test__locals_different(self):
+    def test__locals_different(self):  # noqa: D102
         cube1 = self._sample_splitattrs_cube("XA")
         cube2 = self._sample_splitattrs_cube("XB")
         result = self.check_equalised_result(cube1, cube2)
         assert result == ["XX", "XX"]
 
-    def test__oneglobal_onelocal__different(self):
+    def test__oneglobal_onelocal__different(self):  # noqa: D102
         cube1 = self._sample_splitattrs_cube("AX")
         cube2 = self._sample_splitattrs_cube("XB")
         result = self.check_equalised_result(cube1, cube2)
         assert result == ["XX", "XX"]
 
     # This case fails without the split-attributes fix.
-    def test__oneglobal_onelocal__same(self):
+    def test__oneglobal_onelocal__same(self):  # noqa: D102
         cube1 = self._sample_splitattrs_cube("AX")
         cube2 = self._sample_splitattrs_cube("XA")
         result = self.check_equalised_result(cube1, cube2)
         assert result == ["XX", "XX"]
 
-    def test__sameglobals_onelocal__different(self):
+    def test__sameglobals_onelocal__different(self):  # noqa: D102
         cube1 = self._sample_splitattrs_cube("AB")
         cube2 = self._sample_splitattrs_cube("AX")
         result = self.check_equalised_result(cube1, cube2)
         assert result == ["XX", "XX"]
 
     # This case fails without the split-attributes fix.
-    def test__sameglobals_onelocal__same(self):
+    def test__sameglobals_onelocal__same(self):  # noqa: D102
         cube1 = self._sample_splitattrs_cube("AA")
         cube2 = self._sample_splitattrs_cube("AX")
         result = self.check_equalised_result(cube1, cube2)
         assert result == ["XX", "XX"]
 
     # This case fails without the split-attributes fix.
-    def test__differentglobals_samelocals(self):
+    def test__differentglobals_samelocals(self):  # noqa: D102
         cube1 = self._sample_splitattrs_cube("AC")
         cube2 = self._sample_splitattrs_cube("BC")
         result = self.check_equalised_result(cube1, cube2)
@@ -260,7 +260,7 @@ class TestNonCube:
     # in fact effectively, anything with a ".attributes".
     # Even though the docstring does not admit this, we test it because we put in
     # special code to preserve it when adding the split-attribute handling.
-    def test(self):
+    def test(self):  # noqa: D102
         attrs = [1, 1, 2]
         coords = [
             AuxCoord([0], attributes={"a": attr, "b": "all_the_same"}) for attr in attrs

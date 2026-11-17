@@ -58,7 +58,7 @@ def small_cube(dtype="f4", masked=False):
 class TestXarrayReadsIris:
     """Test arrayReadsIris."""
     @pytest.mark.parametrize("dtype", ["f4", "f8", "i2", "i4"])
-    def test_a_store_opens(self, tmp_path, dtype):
+    def test_a_store_opens(self, tmp_path, dtype):  # noqa: D102
         # Asserted on the open, not on the values: the failure mode is a
         # TypeError during open that takes the whole dataset with it.
         path = tmp_path / f"out_{dtype}.zarr"
@@ -67,20 +67,20 @@ class TestXarrayReadsIris:
         assert "air_temperature" in dataset.data_vars
 
     @pytest.mark.parametrize("dtype", ["f4", "f8", "i2"])
-    def test_a_masked_store_opens_and_masks(self, tmp_path, dtype):
+    def test_a_masked_store_opens_and_masks(self, tmp_path, dtype):  # noqa: D102
         path = tmp_path / f"masked_{dtype}.zarr"
         iris.save(small_cube(dtype=dtype, masked=True), path)
         values = xr.open_zarr(path)["air_temperature"].values
         assert np.isnan(values[0, 1])
         assert not np.isnan(values[0, 0])
 
-    def test_an_explicit_finite_sentinel_masks(self, tmp_path):
+    def test_an_explicit_finite_sentinel_masks(self, tmp_path):  # noqa: D102
         path = tmp_path / "sentinel.zarr"
         iris.save(small_cube(masked=True), path, fill_value=np.float32(-99.0))
         values = xr.open_zarr(path)["air_temperature"].values
         assert np.isnan(values[0, 1])
 
-    def test_a_missing_value_sentinel_masks(self, tmp_path):
+    def test_a_missing_value_sentinel_masks(self, tmp_path):  # noqa: D102
         # Not a masked array: a ``missing_value`` attribute is a CF
         # declaration about ordinary stored values, so the sentinel is
         # written as real data, and it is xarray's own read that has to
@@ -94,14 +94,14 @@ class TestXarrayReadsIris:
         assert np.isnan(values[0, 1])
         assert not np.isnan(values[0, 0])
 
-    def test_the_dimensions_and_coordinates_are_xarrays_too(self, tmp_path):
+    def test_the_dimensions_and_coordinates_are_xarrays_too(self, tmp_path):  # noqa: D102
         path = tmp_path / "dims.zarr"
         iris.save(small_cube(), path)
         dataset = xr.open_zarr(path)
         assert dataset["air_temperature"].dims == ("latitude", "longitude")
         np.testing.assert_allclose(dataset["latitude"].values, [0.0, 1.0])
 
-    def test_attributes_survive_as_values(self, tmp_path):
+    def test_attributes_survive_as_values(self, tmp_path):  # noqa: D102
         # A cube attribute not reserved for a data variable is written as a
         # Zarr group attribute, the same split the netCDF saver makes by
         # default, so this reads the dataset's own attrs rather than the
@@ -117,7 +117,7 @@ class TestXarrayReadsIris:
         assert list(attributes["a_list"]) == [1, 2]
         assert attributes["text"] == "words"
 
-    def test_a_consolidated_store_opens_consolidated(self, tmp_path):
+    def test_a_consolidated_store_opens_consolidated(self, tmp_path):  # noqa: D102
         path = tmp_path / "consolidated.zarr"
         iris.save(small_cube(), path)
         # The default: xarray uses the consolidated document when it is there.
@@ -131,7 +131,7 @@ class TestIrisReadsXarray:
         [(np.nan, "f4"), (-99.0, "f4"), (-9, "i2")],
         ids=["float32-nan", "float32-sentinel", "int16-sentinel"],
     )
-    def test_a_store_xarray_wrote_loads_masked(self, tmp_path, fill, dtype):
+    def test_a_store_xarray_wrote_loads_masked(self, tmp_path, fill, dtype):  # noqa: D102
         path = tmp_path / f"xarray_{dtype}_{fill}.zarr"
         values = np.array([[1, 2, 3], [4, 5, 6]], dtype=dtype)
         values[0, 1] = fill if fill == fill else values[0, 1]
