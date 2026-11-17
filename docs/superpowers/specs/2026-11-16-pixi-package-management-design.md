@@ -187,6 +187,11 @@ Python 3.14 environment: GeoVista was intentionally absent, and `iris_grib`
 and GDAL were not installed. Keep Task 7 in progress until the DOT mismatch is
 resolved or accepted as a known baseline issue.
 
+The DOT mismatch comes from `_coord_system_text()` serializing `cs.__dict__`.
+`GeogCS` stores `_datum` and private ellipsoid fields, while `global_pp.dot`
+expects the former public attribute names. This is serializer/fixture drift,
+not a Pixi environment failure.
+
 ```mermaid
 flowchart TD
   R1["1. Pixi workspace"] --> R2["2. Tasks and docs"]
