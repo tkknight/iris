@@ -70,6 +70,7 @@ _NO_OP_MESSAGE = "'equalise_cubes' call does nothing"
 
 
 class TestNoOperation:
+    """Test oOperation."""
     def test(self):
         # A standalone test, that a call with no operations enabled raises a warning
         with pytest.warns(IrisUserWarning, match=_NO_OP_MESSAGE):
@@ -77,6 +78,7 @@ class TestNoOperation:
 
 
 class WarnChecked:
+    """WarnChecked."""
     @pytest.fixture(autouse=True)
     def nowarn(self, usage):
         if usage == "off":
@@ -89,6 +91,7 @@ class WarnChecked:
 
 
 class TestUnifyNames(WarnChecked):
+    """Test nifyNames."""
     # Test the 'normalise_names' operation.
     def test_simple(self, usage):
         sn = "air_temperature"
@@ -145,6 +148,7 @@ class TestUnifyNames(WarnChecked):
 
 
 class TestEqualiseAttributes(WarnChecked):
+    """Test qualiseAttributes."""
     # Test the 'equalise_attributes' operation.
     def test_calling(self, usage, mocker):
         patch = mocker.patch("iris.util.equalise_attributes")
@@ -244,6 +248,7 @@ class TestEqualiseAttributes(WarnChecked):
 
 
 class TestUnifyTimeUnits(WarnChecked):
+    """Test nifyTimeUnits."""
     # Test the 'unify_time_units' operation.
     def test_calling(self, usage, mocker):
         patch = mocker.patch("iris.util.unify_time_units")

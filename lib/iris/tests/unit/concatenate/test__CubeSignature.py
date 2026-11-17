@@ -20,6 +20,7 @@ from iris.util import new_axis
 
 @dataclass
 class SampleData:
+    """SampleData."""
     series_inc: CubeSignature | None = None
     series_inc_cube: Cube | None = None
     series_dec: CubeSignature | None = None
@@ -28,6 +29,7 @@ class SampleData:
 
 
 class Test__coordinate_dim_metadata_equality:
+    """Test  coordinate dim metadata equality."""
     @pytest.fixture
     def sample_data(self) -> SampleData:
         # Return a standard set of test items, wrapped in a data object

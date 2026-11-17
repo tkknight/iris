@@ -26,6 +26,7 @@ def stores():
 
 
 class Test_load_stores:
+    """Test load stores."""
     def test_a_local_store_loads(self, stores, tmp_path):
         location = stores.make_store(tmp_path / "s.zarr")
         cubes = list(load_stores([location], None))
@@ -51,6 +52,7 @@ class Test_load_stores:
 
 
 class Test__is_remote_store_uri:
+    """Test  is remote store uri."""
     @pytest.mark.parametrize(
         ("uri", "expected"),
         [
@@ -68,6 +70,7 @@ class Test__is_remote_store_uri:
 
 
 class Test_iris_load:
+    """Test iris load."""
     def test_accepts_a_local_store(self, stores, tmp_path):
         location = stores.make_store(tmp_path / "s.zarr")
         cubes = iris.load(location)
@@ -111,6 +114,7 @@ class Test_iris_load:
 
 
 class Test_load_files:
+    """Test load files."""
     def test_still_expands_a_glob(self, tmp_path, mocker):
         """Public `load_files` keeps its promise: filenames may be globs.
 
@@ -134,6 +138,7 @@ class Test_load_files:
 
 
 class Test_saving:
+    """Test saving."""
     def test_the_zarr_saver_takes_a_cubelist_whole(self):
         """A Zarr store is opened once and holds many arrays.
 
@@ -183,6 +188,7 @@ class Test_saving:
 
 
 class Test_load_meshes:
+    """Test load meshes."""
     def test_a_store_holding_no_mesh_yields_no_meshes(self, stores, tmp_path):
         """Reaching a Zarr store is what was new here.
 

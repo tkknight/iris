@@ -11,6 +11,7 @@ from iris.tests import _shared_utils
 
 
 class TestNewDynamics:
+    """Test ewDynamics."""
     def test_class_attributes(self):
         reals = np.arange(6) + 100
         grid = NewDynamics(None, None, reals, None)
@@ -18,6 +19,7 @@ class TestNewDynamics:
 
 
 class Test__y_vectors:
+    """Test  y vectors."""
     def _test(self, row, yp, yv):
         reals = np.arange(6) + 100
         grid = NewDynamics(None, row, reals, None)

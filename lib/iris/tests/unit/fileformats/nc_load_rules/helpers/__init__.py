@@ -16,6 +16,7 @@ from iris.fileformats.cf.dataset import TrackedAttributes
 
 
 class MockerMixin:
+    """MockerMixin."""
     mocker: MockerFixture
 
     @pytest.fixture(autouse=True)

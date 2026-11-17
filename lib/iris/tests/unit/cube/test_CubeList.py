@@ -26,6 +26,7 @@ NON_ITERABLE_MSG = "object is not iterable"
 
 
 class Test_append:
+    """Test append."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cubelist = iris.cube.CubeList()
@@ -48,6 +49,7 @@ class Test_append:
 
 
 class Test_concatenate_cube:
+    """Test concatenate cube."""
     @pytest.fixture(autouse=True, params=[True, False], ids=["dataless", "with_data"])
     def _setup(self, request):
         self.units = Unit("days since 1970-01-01 00:00:00", calendar="standard")
@@ -121,6 +123,7 @@ class Test_concatenate_cube:
 
 
 class Test_extend:
+    """Test extend."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube1 = iris.cube.Cube(1, long_name="foo")
@@ -145,6 +148,7 @@ class Test_extend:
 
 
 class Test_extract_overlapping:
+    """Test extract overlapping."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         shape = (6, 14, 19)
@@ -202,6 +206,7 @@ class Test_extract_overlapping:
 
 
 class Test_iadd:
+    """Test iadd."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube1 = iris.cube.Cube(1, long_name="foo")
@@ -226,6 +231,7 @@ class Test_iadd:
 
 
 class Test_insert:
+    """Test insert."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube1 = iris.cube.Cube(1, long_name="foo")
@@ -242,6 +248,7 @@ class Test_insert:
 
 
 class Test_merge_cube:
+    """Test merge cube."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube1 = Cube([1, 2, 3], "air_temperature", units="K")
@@ -275,6 +282,7 @@ class Test_merge_cube:
 
 
 class Test_merge__time_triple:
+    """Test merge  time triple."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -376,6 +384,7 @@ class Test_merge__time_triple:
 
 
 class Test_setitem:
+    """Test setitem."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube1 = iris.cube.Cube(1, long_name="foo")
@@ -402,6 +411,7 @@ class Test_setitem:
 
 
 class Test_xml:
+    """Test xml."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cubes = CubeList([Cube(np.arange(3)), Cube(np.arange(3))])
@@ -417,6 +427,7 @@ class Test_xml:
 
 
 class Test_extract:
+    """Test extract."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.scalar_cubes = CubeList()
@@ -441,6 +452,7 @@ class Test_extract:
 
 
 class ExtractMixin:
+    """ExtractMixin."""
     # Choose "which" extract method to test.
     # Effectively "abstract" -- inheritor must define this property :
     #   method_name = 'extract_cube' / 'extract_cubes'
@@ -486,6 +498,7 @@ class ExtractMixin:
 
 
 class Test_extract_cube(ExtractMixin):
+    """Test extract cube."""
     method_name = "extract_cube"
 
     def test_empty(self):
@@ -541,6 +554,7 @@ class Test_extract_cube(ExtractMixin):
 
 
 class ExtractCubesMixin(ExtractMixin):
+    """ExtractCubesMixin."""
     method_name = "extract_cubes"
 
 
@@ -675,6 +689,7 @@ class Test_extract_cubes__multi_constraints(ExtractCubesMixin):
 
 
 class Test_iteration:
+    """Test iteration."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.scalar_cubes = CubeList()
@@ -692,6 +707,7 @@ class Test_iteration:
 
 
 class TestPrint:
+    """Test rint."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cubes = CubeList([iris.tests.stock.lat_lon_cube()])
@@ -713,6 +729,7 @@ class TestPrint:
 
 
 class TestRealiseData:
+    """Test ealiseData."""
     def test_realise_data(self, mocker):
         # Simply check that calling CubeList.realise_data is calling
         # _lazy_data.co_realise_cubes.
@@ -725,6 +742,7 @@ class TestRealiseData:
 
 
 class Test_CubeList_copy:
+    """Test CubeList copy."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube_list = iris.cube.CubeList()

@@ -29,6 +29,7 @@ def create_default_sample_parts(self):
 
 
 class Test___init__:
+    """Test   init  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         create_default_sample_parts(self)
@@ -134,6 +135,7 @@ class Test___init__:
 
 
 class Test_dependencies:
+    """Test dependencies."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         create_default_sample_parts(self)
@@ -149,6 +151,7 @@ class Test_dependencies:
 
 
 class Test_make_coord:
+    """Test make coord."""
     @staticmethod
     def coords_dims_func(coord):
         mapping = dict(level_pressure=(0,), sigma=(0,), surface_air_pressure=(1, 2))
@@ -253,6 +256,7 @@ class Test_make_coord:
 
 
 class Test_update:
+    """Test update."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         create_default_sample_parts(self)

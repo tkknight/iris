@@ -16,6 +16,7 @@ import iris.tests.stock as stock
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Load a source cube, then generate an interpolator instance, calculate

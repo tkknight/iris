@@ -45,6 +45,7 @@ def _debug_data(cube, test_id):
 
 
 class MixinCheckingCode:
+    """MixinCheckingCode."""
     def test_basic(self):
         src_x = [30.0, 40.0, 50.0]
         dst_x = [32.0, 42.0]
@@ -211,6 +212,7 @@ class MixinCheckingCode:
 
 
 class TestCubeRegridNearest(MixinCheckingCode):
+    """Test ubeRegridNearest."""
     scheme = Nearest(extrapolation_mode="extrapolate")
 
     def regrid(self, src_cube, dst_cube, **kwargs):

@@ -15,6 +15,7 @@ from iris.tests.stock.mesh import sample_meshcoord
 
 
 class Test1Dim:
+    """Test Dim."""
     @pytest.fixture(autouse=True)
     def _setup_1d(self):
         self.lon = DimCoord(
@@ -152,6 +153,7 @@ class Test1Dim:
 
 
 class Test2Dim(Test1Dim):
+    """Test Dim."""
     @pytest.fixture(autouse=True)
     def _setup_2d(self, _setup_1d):
         self.lon.bounds = [[0, 0.5, 1], [1, 1.5, 2], [2, 2.5, 3]]

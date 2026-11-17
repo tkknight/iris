@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_sample_data
 class TestIrisSampleData_path:
+    """Test risSampleData path."""
     @pytest.fixture(autouse=True)
     def _setup(self, tmp_path):
         self.sample_dir = tmp_path
@@ -64,6 +65,7 @@ class TestIrisSampleData_path:
 
 
 class TestIrisSampleDataMissing:
+    """Test risSampleDataMissing."""
     def test_no_iris_sample_data(self, mocker):
         mocker.patch("iris.iris_sample_data", None)
         with pytest.raises(ImportError, match="Please install"):

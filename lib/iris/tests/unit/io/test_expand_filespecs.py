@@ -15,6 +15,7 @@ import iris.io as iio
 
 
 class TestExpandFilespecs:
+    """Test xpandFilespecs."""
     @pytest.fixture(autouse=True)
     def _setup(self, tmp_path):
         self.tmpdir = tmp_path

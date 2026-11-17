@@ -23,6 +23,7 @@ from iris.tests._shared_utils import assert_array_all_close
 
 
 class TestEpochHours__standard:
+    """Test pochHours  standard."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.calendar = cf_units.CALENDAR_STANDARD
@@ -74,6 +75,7 @@ class TestEpochHours__standard:
 
 
 class TestEpochHours__360day:
+    """Test pochHours  360day."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.calendar = cf_units.CALENDAR_360_DAY
@@ -101,6 +103,7 @@ class TestEpochHours__360day:
 
 
 class TestEpochHours__365day:
+    """Test pochHours  365day."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.calendar = cf_units.CALENDAR_365_DAY
@@ -128,6 +131,7 @@ class TestEpochHours__365day:
 
 
 class TestEpochHours__invalid_calendar:
+    """Test pochHours  invalid calendar."""
     def test_bad_calendar(self):
         self.calendar = cf_units.CALENDAR_ALL_LEAP
         # Setup a unit with an unrecognised calendar

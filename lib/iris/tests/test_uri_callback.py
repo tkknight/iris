@@ -11,6 +11,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestCallbacks:
+    """Test allbacks."""
     def test_pp_callback(self, request):
         def pp_callback(cube, field, filename):
             cube.attributes["filename"] = Path(filename).name

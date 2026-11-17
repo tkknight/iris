@@ -9,6 +9,7 @@ from iris.tests._shared_utils import assert_no_warnings_regexp
 
 
 class Test___init__:
+    """Test   init  ."""
     def test_normal(self, mocker):
         with assert_no_warnings_regexp():
             loader = Loader(

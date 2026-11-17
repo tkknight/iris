@@ -19,6 +19,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import (
 
 
 class TestBuildTransverseMercatorCoordinateSystem(MockerMixin):
+    """Test uildTransverseMercatorCoordinateSystem."""
     def _test(self, inverse_flattening=False, no_options=False):
         test_easting = -100
         test_northing = 200

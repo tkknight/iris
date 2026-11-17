@@ -16,6 +16,7 @@ from iris.tests import MIN_PICKLE_PROTOCOL, _shared_utils
 
 
 class TestPickle:
+    """Test ickle."""
     def pickle_then_unpickle(self, obj):
         """Returns a generator of ("pickle protocol number", object) tuples."""
         for protocol in range(MIN_PICKLE_PROTOCOL, pickle.HIGHEST_PROTOCOL + 1):

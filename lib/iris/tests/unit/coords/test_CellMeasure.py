@@ -14,6 +14,7 @@ from iris.tests import _shared_utils
 
 
 class TestCellMeasure:
+    """Test ellMeasure."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.values = np.array((10.0, 12.0, 16.0, 9.0))
@@ -115,6 +116,7 @@ class TestCellMeasure:
 
 
 class Test_cube_dims:
+    """Test cube dims."""
     def test_cube_dims(self, mocker):
         # Check that "coord.cube_dims(cube)" calls "cube.coord_dims(coord)".
         mock_dims_result = mocker.sentinel.CM_DIMS

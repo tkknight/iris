@@ -9,6 +9,7 @@ from iris.fileformats.pp import STASH, _convert_constraints
 
 
 class Test_convert_constraints:
+    """Test convert constraints."""
     def _single_stash(self):
         constraint = iris.AttributeConstraint(STASH="m01s03i236")
         return _convert_constraints(constraint)

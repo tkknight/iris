@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestLoad:
+    """Test oad."""
     def test_normal(self):
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         cubes = iris.load(paths)
@@ -65,6 +66,7 @@ class TestLoad:
 
 @_shared_utils.skip_data
 class TestLoadCube:
+    """Test oadCube."""
     def test_normal(self):
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         _ = iris.load_cube(paths)
@@ -91,6 +93,7 @@ class TestLoadCube:
 
 @_shared_utils.skip_data
 class TestLoadCubes:
+    """Test oadCubes."""
     def test_normal(self):
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         cubes = iris.load_cubes(paths)
@@ -124,6 +127,7 @@ class TestLoadCubes:
 
 @_shared_utils.skip_data
 class TestLoadRaw:
+    """Test oadRaw."""
     def test_normal(self):
         paths = (_shared_utils.get_data_path(["PP", "aPPglob1", "global.pp"]),)
         cubes = iris.load_raw(paths)
@@ -138,6 +142,7 @@ class TestLoadRaw:
 
 
 class TestOPeNDAP:
+    """Test PeNDAP."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.url = "https://geoport.whoi.edu:80/thredds/dodsC/bathy/gom15"

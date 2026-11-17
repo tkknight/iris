@@ -109,6 +109,7 @@ def coords_all_dtypes_and_lazynesses(self, coord_class):
 
 
 class CoordTestMixin:
+    """CoordTestMixin."""
     def setup_test_arrays(self, shape=(3,), masked=False):
         _setup_test_arrays(self, shape=shape, masked=masked)
 

@@ -102,6 +102,7 @@ def packed_store(tmp_path, shape, chunks):
 
 
 class Test_laziness:
+    """Test laziness."""
     def test_a_small_variable_is_read_whole(self, tmp_path):
         location = stores.make_store(tmp_path / "s.zarr")
         result = variable(location).read_data(policy)
@@ -157,6 +158,7 @@ class Test_laziness:
 
 
 class Test_cache_key:
+    """Test cache key."""
     def test_the_key_is_stable_across_a_reopen(self, tmp_path):
         group = zarr.open_group(store=tmp_path / "k.zarr", mode="w", zarr_format=3)
         stores.make_array(group, "v", (4,), "i4", 3, dimensions=("t",))
@@ -344,6 +346,7 @@ class Test_cache_key:
 
 
 class Test_sharding:
+    """Test sharding."""
     def test_a_sharded_array_is_read_by_the_inner_chunk(self, tmp_path):
         """Shard-sized Dask blocks fetch the whole shard, because of the layer.
 
@@ -368,6 +371,7 @@ class Test_sharding:
 
 
 class Test_declared_dtype:
+    """Test declared dtype."""
     def test_the_declared_dtype_matches_what_the_decode_layer_produces(
         self, tmp_path, mocker
     ):
@@ -438,6 +442,7 @@ class Test_declared_dtype:
 
 
 class Test_chunking:
+    """Test chunking."""
     @pytest.mark.parametrize("chunking", ["default", "as_dask"])
     def test_chunks_are_sized_on_the_decoded_dtype(self, tmp_path, mocker, chunking):
         """What a task holds is the unpacked block, not the stored one.

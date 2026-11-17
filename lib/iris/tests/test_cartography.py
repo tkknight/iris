@@ -13,6 +13,7 @@ from iris.tests import _shared_utils
 
 
 class Test_get_xy_grids:
+    """Test get xy grids."""
     # Testing for iris.analysis.carography.get_xy_grids().
 
     def test_1d(self, request):

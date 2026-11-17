@@ -19,6 +19,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import (
 
 
 class TestBuildStereographicCoordinateSystem(MockerMixin):
+    """Test uildStereographicCoordinateSystem."""
     def _test(self, inverse_flattening=False, no_offsets=False):
         test_easting = -100
         test_northing = 200

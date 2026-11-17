@@ -55,14 +55,17 @@ from ..mesh import load_mesh, load_meshes, recombine_submeshes, save_mesh
 # We couldn't fix this with "autodoc_suppress_warnings", so the solution for now is to
 # wrap the classes.  Which is really ugly.
 class Mesh(_MeshXY):
+    """Thead-safe state to enable UGRID-aware NetCDF loading."""
     pass
 
 
 class MeshCoord(_MeshCoord):
+    """Thead-safe state to enable UGRID-aware NetCDF loading."""
     pass
 
 
 class Connectivity(_Connectivity):
+    """Thead-safe state to enable UGRID-aware NetCDF loading."""
     pass
 
 

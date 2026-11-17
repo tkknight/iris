@@ -32,6 +32,7 @@ def patched_future(value=False, deprecated=False, error=False):
 
 
 class Test___setattr__:
+    """Test   setattr  ."""
     def test_valid_setting(self):
         future = patched_future()
         new_value = not future.example_future_flag
@@ -59,6 +60,7 @@ class Test___setattr__:
 
 
 class Test_context:
+    """Test context."""
     def test_generic_no_args(self):
         # While Future has no properties, it is necessary to patch Future in
         # order for these tests to work. This test is not a precise emulation
@@ -118,6 +120,7 @@ class Test_context:
 
 
 class Test__str_repr:
+    """Test  str repr."""
     # Very basic check on printed forms of the Future object
     def _check_content(self, future, text):
         assert text == (

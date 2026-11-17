@@ -12,6 +12,7 @@ from iris.tests._shared_utils import assert_array_equal, assert_masked_array_equ
 
 
 class MyProxy:
+    """MyProxy."""
     def __init__(self, a):
         self.shape = a.shape
         self.dtype = a.dtype
@@ -23,6 +24,7 @@ class MyProxy:
 
 
 class Test_as_concrete_data:
+    """Test as concrete data."""
     def test_concrete_input_data(self):
         data = np.arange(24).reshape((4, 6))
         result = as_concrete_data(data)

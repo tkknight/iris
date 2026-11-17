@@ -18,6 +18,7 @@ from iris.tests.stock import make_bounds_discontiguous_at_point, sample_2d_latlo
 
 @_shared_utils.skip_plot
 class Test_check_bounds_contiguity_and_mask:
+    """Test check bounds contiguity and mask."""
     def test_1d_not_checked(self):
         # Test a 1D coordinate, which is not checked as atol is not set.
         coord = DimCoord([1, 3, 5], bounds=[[0, 2], [2, 4], [5, 6]])

@@ -393,11 +393,13 @@ class Test_lazy_aggregate(AggregateMixin, ScipyAggregateMixin, MultiAxisMixin):
 
 
 class Test_name:
+    """Test name."""
     def test(self):
         assert PERCENTILE.name() == "percentile"
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test_missing_mandatory_kwarg(self):
         emsg = "percentile aggregator requires .* keyword argument 'percent'"
         with pytest.raises(ValueError, match=emsg):
@@ -422,5 +424,6 @@ class Test_aggregate_shape:
 
 
 class Test_cell_method:
+    """Test cell method."""
     def test(self):
         assert PERCENTILE.cell_method is None

@@ -17,6 +17,7 @@ VTK_POINT_IDS = "vtkOriginalPointIds"
 
 
 class TestRegionExtraction:
+    """Test egionExtraction."""
     @pytest.fixture
     def cube_2d(self):
         return sample_2d_latlons()

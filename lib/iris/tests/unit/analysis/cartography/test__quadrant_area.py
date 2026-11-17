@@ -14,6 +14,7 @@ from iris.tests import _shared_utils
 
 
 class TestExampleCases:
+    """Test xampleCases."""
     def _radian_bounds(self, coord_list, dtype):
         bound_deg = np.array(coord_list, dtype=dtype)
         bound_deg = np.atleast_2d(bound_deg)
@@ -91,6 +92,7 @@ class TestExampleCases:
 
 
 class TestErrorHandling:
+    """Test rrorHandling."""
     def test_lat_bounds_1d_error(self):
         self._assert_error_on_malformed_bounds([0, 10], [[0, 10]])
 

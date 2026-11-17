@@ -1051,6 +1051,7 @@ class _DimensionalMetadata(CFVariableMixin, metaclass=ABCMeta):
 
 
 class AncillaryVariable(_DimensionalMetadata):
+    """AncillaryVariable data container."""
     def __init__(
         self,
         data,

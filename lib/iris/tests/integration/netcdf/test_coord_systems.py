@@ -178,6 +178,7 @@ def _setup(tmp_path_factory):
 
 @_shared_utils.skip_data
 class TestCoordSystem:
+    """Test oordSystem."""
     def test_load_laea_grid(self, request):
         cube = iris.load_cube(
             _shared_utils.get_data_path(

@@ -17,6 +17,7 @@ from iris.warnings import IrisGeometryExceedWarning
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         x_coord = DimCoord([1.0, 3.0], "longitude", bounds=[[0, 2], [2, 4]])

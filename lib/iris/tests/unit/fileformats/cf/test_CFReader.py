@@ -120,6 +120,7 @@ def netcdf_variable(
 
 
 class Test_translate__global_attributes:
+    """Test translate  global attributes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         ncvar = netcdf_variable(mocker, "ncvar", "height", np.float64)
@@ -142,6 +143,7 @@ class Test_translate__global_attributes:
 
 
 class Test_translate__formula_terms:
+    """Test translate  formula terms."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.delta = netcdf_variable(
@@ -244,6 +246,7 @@ class Test_translate__formula_terms:
 
 
 class Test_build_cf_groups__formula_terms:
+    """Test build cf groups  formula terms."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.delta = netcdf_variable(
@@ -414,6 +417,7 @@ class Test_build_cf_groups__formula_terms:
 
 
 class Test_build_cf_groups__ugrid:
+    """Test build cf groups  ugrid."""
     @pytest.fixture(autouse=True)
     def _setup_class(self, mocker):
         # Replicating syntax from test_CFReader.Test_build_cf_groups__formula_terms.
@@ -508,6 +512,7 @@ class Test_build_cf_groups__ugrid:
 
 
 class Test_build_cf_groups__nczarr_scalar_grid_mapping:
+    """Test build cf groups  nczarr scalar grid mapping."""
     @pytest.fixture(autouse=True)
     def _setup_class(self, mocker):
         self.lat = netcdf_variable(mocker, "lat", "lat", np.float64)
@@ -580,6 +585,7 @@ def test_destructor(tmp_path):
 
 
 class Test_init_and_lifecycle:
+    """Test init and lifecycle."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.variables = {"x": netcdf_variable(mocker, "x", "x", np.float64)}
@@ -670,6 +676,7 @@ class Test_init_and_lifecycle:
 
 
 class Test_translate__grid_mapping_parse_errors:
+    """Test translate  grid mapping parse errors."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.lat = netcdf_variable(mocker, "lat", "lat", np.float64)
@@ -709,6 +716,7 @@ class Test_translate__grid_mapping_parse_errors:
 
 
 class Test_translate__formula_terms_derived_bounds:
+    """Test translate  formula terms derived bounds."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.term = netcdf_variable(mocker, "term", "z", np.float64)
@@ -961,6 +969,7 @@ class Test_translate__formula_terms_derived_bounds:
 
 
 class Test_translate__global_attributes_missing:
+    """Test translate  global attributes missing."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.var = netcdf_variable(mocker, "x", "x", np.float64)
@@ -984,6 +993,7 @@ class Test_translate__global_attributes_missing:
 
 
 class Test_build_cf_groups__private_edge_cases:
+    """Test build cf groups  private edge cases."""
     # Achieving full coverage requires a limited amount of internal state
     #  manipulation (to be avoided where possible as it hurts future refactoring).
 

@@ -18,6 +18,7 @@ from iris.tests import _shared_utils
 
 
 class TestStandard:
+    """Test tandard."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Crete an instance, with non-default arguments to allow testing of
@@ -173,6 +174,7 @@ class TestStandard:
 
 
 class TestAltIndices:
+    """Test ltIndices."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         mask = ([0, 0, 0, 0, 1] * 2) + [0, 0, 0, 1, 1]
@@ -209,6 +211,7 @@ class TestAltIndices:
 
 
 class TestValidations:
+    """Test alidations."""
     def test_start_index(self):
         kwargs = {
             "indices": np.linspace(1, 9, 9, dtype=int).reshape((-1, 3)),

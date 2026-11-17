@@ -71,6 +71,7 @@ def _2d_multicells_testcube(cellsize_degrees=1.0):
 
 
 class TestGridcellAngles:
+    """Test ridcellAngles."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Make a small "normal" contiguous-bounded cube to test on.

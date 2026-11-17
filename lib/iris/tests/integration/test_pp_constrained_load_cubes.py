@@ -12,6 +12,7 @@ from iris.tests import _shared_utils
 
 
 class Test:
+    """Test ."""
     @_shared_utils.skip_data
     def test_pp_with_stash_constraint(self):
         filenames = [_shared_utils.get_data_path(("PP", "globClim1", "dec_subset.pp"))]

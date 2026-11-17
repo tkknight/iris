@@ -19,6 +19,7 @@ from iris.fileformats.pp import STASH
 
 
 class SaveTestCommon:
+    """SaveTestCommon."""
     @pytest.fixture(autouse=True)
     def tmp_filepath(self, tmp_path_factory):
         tmp_dir = tmp_path_factory.mktemp("tmp_nc")
@@ -38,6 +39,7 @@ class SaveTestCommon:
 
 
 class TestStash(SaveTestCommon):
+    """Test tash."""
     def _check_save(self, value, succeed=True):
         # If succeed=False, expect failed translation writes a "STASH" attribute
         return self._check_save_inner(
@@ -79,6 +81,7 @@ class TestStash(SaveTestCommon):
 
 
 class TestUkmoProcessFlags(SaveTestCommon):
+    """Test kmoProcessFlags."""
     def _check_save(self, value):
         return self._check_save_inner(
             "ukmo__process_flags", "ukmo__process_flags", value
@@ -129,6 +132,7 @@ class TestUkmoProcessFlags(SaveTestCommon):
 
 @pytest.mark.skipif(iris_grib is None, reason="iris_grib is not available")
 class TestGribParam(SaveTestCommon):
+    """Test ribParam."""
     def _check_save(self, value):
         return self._check_save_inner("GRIB_PARAM", "GRIB_PARAM", value)
 

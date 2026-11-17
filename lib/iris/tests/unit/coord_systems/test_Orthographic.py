@@ -12,6 +12,7 @@ from iris.tests import _shared_utils
 
 
 class Test_as_cartopy_crs:
+    """Test as cartopy crs."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.latitude_of_projection_origin = 0.0
@@ -41,6 +42,7 @@ class Test_as_cartopy_crs:
 
 
 class Test_as_cartopy_projection:
+    """Test as cartopy projection."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.latitude_of_projection_origin = 0.0
@@ -70,6 +72,7 @@ class Test_as_cartopy_projection:
 
 
 class Test_init_defaults:
+    """Test init defaults."""
     # NOTE: most of the testing for Orthographic.__init__ is elsewhere.
     # This class *only* tests the defaults for optional constructor args.
 

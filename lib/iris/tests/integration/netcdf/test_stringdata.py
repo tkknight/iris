@@ -328,6 +328,7 @@ def as_bytes(request):
 
 @dataclass
 class SampleCubeDetails:
+    """SampleCubeDetails."""
     cube: Cube
     datavar_data: np.ndarray
     stringcoord_data: np.ndarray
@@ -481,6 +482,7 @@ class TestWriteEncodings:
 
 
 class TestStringCubeBehaviour:
+    """Test tringCubeBehaviour."""
     def test_create(self):
         cube = Cube(["this", "that", "cliché"])
         assert isinstance(cube.core_data(), np.ndarray)
@@ -597,6 +599,7 @@ class TestWriteReadScalarStringCubes:
 
 
 class TestReadParticularCases:
+    """Test eadParticularCases."""
     @pytest.mark.parametrize("data_encoding", ["utf8", "utf16", "utf32"])
     def test_read_no_encoding(self, tmp_path, data_encoding):
         # Check that we can read UTF-8 encoded data, even with no _Encoding attribute.
@@ -634,6 +637,7 @@ class TestReadParticularCases:
 
 
 class TestWriteParticularCases:
+    """Test riteParticularCases."""
     def test_write_unicode_no_encoding(self, tmp_path):
         cube = Cube(np.array(["bun", "éclair"], dtype="U10"))
         filepath = tmp_path / "write_unicode_no_encoding.nc"
@@ -701,6 +705,7 @@ class TestWriteParticularCases:
 
 
 class TestSaveloadBadUnicodeAsBytes:
+    """Test aveloadBadUnicodeAsBytes."""
     def test_save_load_bad_unicode(self, tmp_path):
         filepath = tmp_path / "bad_unicode_utf8.nc"
         test_string = "marré"

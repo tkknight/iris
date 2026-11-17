@@ -23,6 +23,7 @@ from iris.tests.stock import realistic_4d
 
 
 class Test_aggregated_by:
+    """Test aggregated by."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = Cube(np.arange(44).reshape(4, 11))
@@ -437,6 +438,7 @@ class Test_aggregated_by:
 
 
 class Test_aggregated_by__lazy:
+    """Test aggregated by  lazy."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = np.arange(44).reshape(4, 11)
@@ -637,6 +639,7 @@ class Test_aggregated_by__lazy:
 
 
 class Test_aggregated_by__climatology:
+    """Test aggregated by  climatology."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = np.arange(100).reshape(20, 5)
@@ -903,6 +906,7 @@ class Test_aggregated_by__climatology:
 
 
 class Test_aggregated_by__derived:
+    """Test aggregated by  derived."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = realistic_4d()[:, :10, :6, :8]

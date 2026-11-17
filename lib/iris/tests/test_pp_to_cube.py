@@ -19,6 +19,7 @@ import iris.util
 
 @_shared_utils.skip_data
 class TestPPLoadCustom:
+    """Test PLoadCustom."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.subcubes = iris.cube.CubeList()
@@ -77,6 +78,7 @@ class TestPPLoadCustom:
 
 
 class TestReferences:
+    """Test eferences."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         target = iris.tests.stock.simple_2d()
@@ -112,6 +114,7 @@ class TestReferences:
 
 @_shared_utils.skip_data
 class TestPPLoading:
+    """Test PLoading."""
     def test_simple(self, request):
         cube = iris.tests.stock.simple_pp()
         _shared_utils.assert_CML(request, cube, ("cube_io", "pp", "load", "global.cml"))
@@ -119,6 +122,7 @@ class TestPPLoading:
 
 @_shared_utils.skip_data
 class TestPPLoadRules:
+    """Test PLoadRules."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request

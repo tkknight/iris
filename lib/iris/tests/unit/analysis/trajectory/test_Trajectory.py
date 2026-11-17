@@ -11,6 +11,7 @@ from iris.tests.stock import simple_3d, simple_4d_with_hybrid_height
 
 
 class Test___init__:
+    """Test   init  ."""
     def test_2_points(self):
         # basic 2-seg line along x
         waypoints = [{"lat": 0, "lon": 0}, {"lat": 1, "lon": 2}]
@@ -59,6 +60,7 @@ class Test___init__:
 
 
 class Test__get_interp_points:
+    """Test  get interp points."""
     def test_basic(self):
         dim_names = "lat"
         waypoints = [{dim_names: 0}, {dim_names: 1}]
@@ -108,6 +110,7 @@ class Test__get_interp_points:
 
 
 class Test_interpolate:
+    """Test interpolate."""
     def _result_cube_metadata(self, res_cube):
         dim_names = [c.name() for c in res_cube.dim_coords]
         named_dims = [res_cube.coord_dims(c)[0] for c in res_cube.dim_coords]

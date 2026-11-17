@@ -14,6 +14,7 @@ from iris.tests.unit.fileformats.nc_load_rules.actions import Mixin__nc_load_act
 
 
 class Test__formulae_tests(Mixin__nc_load_actions):
+    """Test  formulae tests."""
     def _make_testcase_cdl(
         self, formula_root_name=None, term_names=None, extra_formula_type=None
     ):

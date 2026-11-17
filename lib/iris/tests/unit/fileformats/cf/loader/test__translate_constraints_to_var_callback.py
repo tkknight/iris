@@ -21,6 +21,7 @@ def _data_variable(mocker, name, **attributes):
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.data_variables = [

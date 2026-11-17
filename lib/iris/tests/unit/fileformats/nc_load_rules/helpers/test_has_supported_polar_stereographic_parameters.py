@@ -27,6 +27,7 @@ class _EngineMixin(MockerMixin):
 
 
 class TestHasSupportedPolarStereographicParameters(_EngineMixin):
+    """Test asSupportedPolarStereographicParameters."""
     def test_valid_base_north(self, mocker):
         cf_name = "polar_stereographic"
         cf_grid_var = CFVariableStandIn(

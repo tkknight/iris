@@ -13,6 +13,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestStructuredLoadFF:
+    """Test tructuredLoadFF."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.fname = _shared_utils.get_data_path(("FF", "structured", "small"))

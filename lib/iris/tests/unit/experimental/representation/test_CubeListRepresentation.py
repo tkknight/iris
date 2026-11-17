@@ -16,6 +16,7 @@ import iris.tests.stock as stock
 
 @_shared_utils.skip_data
 class Test__instantiation:
+    """Test  instantiation."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cubes = CubeList([stock.simple_3d()])
@@ -27,6 +28,7 @@ class Test__instantiation:
 
 @_shared_utils.skip_data
 class Test_make_content:
+    """Test make content."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cubes = CubeList([stock.simple_3d(), stock.lat_lon_cube()])
@@ -55,6 +57,7 @@ class Test_make_content:
 
 @_shared_utils.skip_data
 class Test_repr_html:
+    """Test repr html."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cubes = CubeList([stock.simple_3d(), stock.lat_lon_cube()])

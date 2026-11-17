@@ -16,6 +16,7 @@ from iris.tests.stock import sample_2d_latlons
 
 
 class TestRotateGridVectors:
+    """Test otateGridVectors."""
     def _check_angles_calculation(self, angles_in_degrees=True, nan_angles_mask=None):
         # Check basic maths on a 2d latlon grid.
         u_cube = sample_2d_latlons(regional=True, transformed=True)

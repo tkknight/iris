@@ -8,6 +8,7 @@ from iris.analysis import PointInCell
 
 
 class Test_regridder:
+    """Test regridder."""
     def test(self, mocker):
         point_in_cell = PointInCell(mocker.sentinel.weights)
 

@@ -18,6 +18,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class Test_get_plot_defn_custom_coords_picked:
+    """Test get plot defn custom coords picked."""
     def test_1d_coords(self):
         cube = simple_2d()
         defn = iplt._get_plot_defn_custom_coords_picked(

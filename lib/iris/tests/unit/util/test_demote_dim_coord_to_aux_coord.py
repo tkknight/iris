@@ -13,6 +13,7 @@ from iris.util import demote_dim_coord_to_aux_coord
 
 
 class Test:
+    """Test ."""
     def test_argument_is_basestring(self):
         cube_a = stock.simple_3d()
         cube_b = cube_a.copy()

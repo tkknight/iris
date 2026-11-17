@@ -11,6 +11,7 @@ import iris.tests.stock as stock
 
 
 class Test:
+    """Test ."""
     def test_polygon_smaller_than_cube(self):
         cube = stock.lat_lon_cube()
         cube.dim_coords[0].guess_bounds()

@@ -21,6 +21,7 @@ from iris.fileformats.netcdf.saver import Saver
 
 
 class Test__lazy_stream_data:
+    """Test  lazy stream data."""
     @staticmethod
     @pytest.fixture(autouse=True)
     def saver_patch(mocker):

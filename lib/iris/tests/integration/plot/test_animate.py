@@ -18,6 +18,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class IntegrationTest(_shared_utils.GraphicsTest):
+    """IntegrationTest."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         cube = iris.cube.Cube(np.arange(36, dtype=np.int32).reshape((3, 3, 4)))

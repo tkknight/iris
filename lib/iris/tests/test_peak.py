@@ -12,6 +12,7 @@ import iris.tests.stock
 
 
 class TestPeakAggregator:
+    """Test eakAggregator."""
     def test_peak_coord_length_1(self):
         # Coordinate contains a single point.
         latitude = iris.coords.DimCoord(

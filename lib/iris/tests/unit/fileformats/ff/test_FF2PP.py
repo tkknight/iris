@@ -41,6 +41,7 @@ _DummyBoundaryPacking = collections.namedtuple(
 
 
 class Test____iter__(MockerMixin):
+    """Test    iter  ."""
     def test_call_structure(self, mocker):
         # Check that the iter method calls the two necessary utility
         # functions
@@ -65,6 +66,7 @@ class Test____iter__(MockerMixin):
 
 
 class Test__extract_field__LBC_format(MockerMixin):
+    """Test  extract field  LBC format."""
     @contextlib.contextmanager
     def mock_for_extract_field(self, fields, x=None, y=None):
         """A context manager to ensure FF2PP._extract_field gets a field
@@ -204,6 +206,7 @@ class Test__extract_field__LBC_format(MockerMixin):
 
 
 class Test__payload(MockerMixin):
+    """Test  payload."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Create a mock LBC type PPField.
@@ -427,6 +430,7 @@ class Test__payload(MockerMixin):
 
 
 class Test__det_border:
+    """Test  det border."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         _FFH_patch = mocker.patch("iris.fileformats._ff.FFHeader")
@@ -466,6 +470,7 @@ class Test__det_border:
 
 
 class Test__adjust_field_for_lbc:
+    """Test  adjust field for lbc."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Patch FFHeader to produce a mock header instead of opening a file.
@@ -517,6 +522,7 @@ class Test__adjust_field_for_lbc:
 
 
 class Test__fields_over_all_levels:
+    """Test  fields over all levels."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Patch FFHeader to produce a mock header instead of opening a file.

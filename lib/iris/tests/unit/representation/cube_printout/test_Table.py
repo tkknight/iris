@@ -10,6 +10,7 @@ from iris._representation.cube_printout import Table
 
 
 class TestTable:
+    """Test able."""
     # Note: this is just barely an independent definition, not *strictly* part
     # of CubePrinter, but effectively more-or-less so.
     @pytest.fixture(autouse=True)

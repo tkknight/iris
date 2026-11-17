@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 
 class Test_aggregate:
+    """Test aggregate."""
     def test_missing_mandatory_kwargs(self):
         emsg = "weighted_percentile aggregator requires .* keyword argument 'percent'"
         with pytest.raises(ValueError, match=emsg):
@@ -178,11 +179,13 @@ class Test_aggregate:
 
 
 class Test_name:
+    """Test name."""
     def test(self):
         assert WPERCENTILE.name() == "weighted_percentile"
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test_missing_mandatory_kwarg(self):
         emsg_pc = (
             "weighted_percentile aggregator requires .* keyword argument 'percent'"
@@ -226,5 +229,6 @@ class Test_aggregate_shape:
 
 
 class Test_cell_method:
+    """Test cell method."""
     def test(self):
         assert WPERCENTILE.cell_method is None

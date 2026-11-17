@@ -28,12 +28,14 @@ DATETIME_CALENDARS = ["standard", "gregorian", "proleptic_gregorian"]
 
 
 class DimCoordTestMixin(CoordTestMixin):
+    """DimCoordTestMixin."""
     # Define a 1-D default array shape.
     def setup_test_arrays(self, shape=(3,), masked=False):
         super().setup_test_arrays(shape, masked=masked)
 
 
 class Test__init__(DimCoordTestMixin):
+    """Test  init  ."""
     # Test for DimCoord creation, with various combinations of points and
     # bounds = real / lazy / None.
     @pytest.fixture(autouse=True)
@@ -158,6 +160,7 @@ class Test__init__(DimCoordTestMixin):
 
 
 class Test_core_points(DimCoordTestMixin):
+    """Test core points."""
     # Test for DimCoord.core_points() with various types of points and bounds.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -181,6 +184,7 @@ class Test_core_points(DimCoordTestMixin):
 
 
 class Test_core_bounds(DimCoordTestMixin):
+    """Test core bounds."""
     # Test for DimCoord.core_bounds() with various types of points and bounds.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -207,6 +211,7 @@ class Test_core_bounds(DimCoordTestMixin):
 
 
 class Test_lazy_points(DimCoordTestMixin):
+    """Test lazy points."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -224,6 +229,7 @@ class Test_lazy_points(DimCoordTestMixin):
 
 
 class Test_lazy_bounds(DimCoordTestMixin):
+    """Test lazy bounds."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -246,6 +252,7 @@ class Test_lazy_bounds(DimCoordTestMixin):
 
 
 class Test_has_lazy_points(DimCoordTestMixin):
+    """Test has lazy points."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -262,6 +269,7 @@ class Test_has_lazy_points(DimCoordTestMixin):
 
 
 class Test_has_lazy_bounds(DimCoordTestMixin):
+    """Test has lazy bounds."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -278,6 +286,7 @@ class Test_has_lazy_bounds(DimCoordTestMixin):
 
 
 class Test_bounds_dtype:
+    """Test bounds dtype."""
     def test_i16(self):
         test_dtype = np.int16
         coord = DimCoord([1], bounds=np.array([[0, 4]], dtype=test_dtype))
@@ -298,6 +307,7 @@ class Test_bounds_dtype:
 
 
 class Test__getitem__(DimCoordTestMixin):
+    """Test  getitem  ."""
     # Test for DimCoord indexing with various types of points and bounds.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -426,6 +436,7 @@ class Test__getitem__(DimCoordTestMixin):
 
 
 class Test_copy(DimCoordTestMixin):
+    """Test copy."""
     # Test for DimCoord.copy() with various types of points and bounds.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -470,6 +481,7 @@ class Test_copy(DimCoordTestMixin):
 
 
 class Test_points__getter(DimCoordTestMixin):
+    """Test points  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -486,6 +498,7 @@ class Test_points__getter(DimCoordTestMixin):
 
 
 class Test_points__setter(DimCoordTestMixin):
+    """Test points  setter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -534,6 +547,7 @@ class Test_points__setter(DimCoordTestMixin):
 
 
 class Test_bounds__getter(DimCoordTestMixin):
+    """Test bounds  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -550,6 +564,7 @@ class Test_bounds__getter(DimCoordTestMixin):
 
 
 class Test_bounds__setter(DimCoordTestMixin):
+    """Test bounds  setter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()

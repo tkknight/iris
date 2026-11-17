@@ -15,10 +15,12 @@ from iris.tests import _shared_utils
 
 
 class Test__optimal_dimensioning_structure:
+    """Test  optimal dimensioning structure."""
     pass
 
 
 class Test_optimal_array_structure:
+    """Test optimal array structure."""
     def _check_arrays_and_dims(self, result, spec):
         assert set(result.keys()) == set(spec.keys())
         for keyname in spec.keys():

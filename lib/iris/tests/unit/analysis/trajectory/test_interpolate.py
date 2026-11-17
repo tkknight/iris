@@ -16,6 +16,7 @@ import iris.tests.stock
 
 
 class TestFailCases:
+    """Test ailCases."""
     @_shared_utils.skip_data
     def test_derived_coord(self):
         cube = iris.tests.stock.realistic_4d()
@@ -35,6 +36,7 @@ class TestFailCases:
 
 
 class TestNearest:
+    """Test earest."""
     # Test interpolation with 'nearest' method.
     # This is basically a wrapper to the routine:
     #   'analysis._interpolate_private._nearest_neighbour_indices_ndcoords'.
@@ -209,6 +211,7 @@ class TestNearest:
 
 
 class TestLinear:
+    """Test inear."""
     # Test interpolation with 'linear' method.
     #   This is basically a wrapper to 'analysis._scipy_interpolate''s
     #   _RegulardGridInterpolator. That has its own test, so we don't test the

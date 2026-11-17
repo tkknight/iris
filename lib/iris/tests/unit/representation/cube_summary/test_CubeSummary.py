@@ -29,6 +29,7 @@ def example_cube():
 
 
 class Test_CubeSummary:
+    """Test CubeSummary."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = example_cube()

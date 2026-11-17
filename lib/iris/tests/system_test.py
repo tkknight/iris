@@ -21,6 +21,7 @@ from iris.tests import _shared_utils
 
 
 class TestSystemInitial:
+    """Test ystemInitial."""
     def test_supported_filetypes(self, request, tmp_path):
         nx, ny = 60, 60
         data = np.arange(nx * ny, dtype=">f4").reshape(nx, ny)

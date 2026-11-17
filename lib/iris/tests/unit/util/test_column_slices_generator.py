@@ -11,6 +11,7 @@ from iris.util import column_slices_generator
 
 
 class Test_int_types:
+    """Test int types."""
     @pytest.mark.parametrize("key", [0, np.int32(0), np.int64(0)])
     def test(self, key):
         full_slice = (key,)

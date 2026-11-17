@@ -19,6 +19,7 @@ import iris.warnings
 
 
 class TestEpoch:
+    """Test poch."""
     @pytest.fixture
     def simple_1d_time_cubes(self):
         reftimes = [
@@ -122,6 +123,7 @@ class _MessagesMixin:
 
 
 class TestMessages(_MessagesMixin):
+    """Test essages."""
     def test_dim_coords_same_message(self, sample_cubes):
         exc_regexp = "Cannot find an axis to concatenate over for phenomenon *"
         with pytest.raises(ConcatenateError, match=exc_regexp):
@@ -236,6 +238,7 @@ class TestMessages(_MessagesMixin):
 
 
 class TestNonMetadataMessages(_MessagesMixin):
+    """Test onMetadataMessages."""
     parent_cubes = _MessagesMixin.sample_cubes
 
     @pytest.fixture
@@ -282,6 +285,7 @@ class TestNonMetadataMessages(_MessagesMixin):
 
 
 class TestOrder:
+    """Test rder."""
     def _make_cube(self, points, bounds=None):
         nx = 4
         data = np.arange(len(points) * nx).reshape(len(points), nx)
@@ -390,6 +394,7 @@ class TestOrder:
 
 
 class TestStringAuxCoordWidths:
+    """Test tringAuxCoordWidths."""
     # Cubes with string auxiliary coordinates of differing width (dtype) should
     # still concatenate, with the result promoted to the wider dtype (#6676).
     def _make_cube(self, dim_points, aux_points):
@@ -423,6 +428,7 @@ class TestStringAuxCoordWidths:
 
 
 class TestConcatenate__dask:
+    """Test oncatenate  dask."""
     @pytest.fixture
     def sample_lazy_cubes(self):
         # Make a pair of concatenatable cubes, with dim points [1, 2] and [3, 4, 5]

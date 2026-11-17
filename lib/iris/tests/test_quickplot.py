@@ -33,6 +33,7 @@ def load_theta():
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestQuickplotCoordinatesGiven(test_plot.TestPlotCoordinatesGiven):
+    """Test uickplotCoordinatesGiven."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.draw_module = iris.quickplot
@@ -90,6 +91,7 @@ class TestQuickplotCoordinatesGiven(test_plot.TestPlotCoordinatesGiven):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestLabels(_shared_utils.GraphicsTest):
+    """Test abels."""
     @pytest.fixture(autouse=True)
     def _setup(self, load_theta):
         self.theta = load_theta
@@ -216,6 +218,7 @@ class TestLabels(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestTimeReferenceUnitsLabels(_shared_utils.GraphicsTest):
+    """Test imeReferenceUnitsLabels."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         path = _shared_utils.get_data_path(("PP", "aPProt1", "rotatedMHtimecube.pp"))
@@ -236,6 +239,7 @@ class TestTimeReferenceUnitsLabels(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestSubplotColorbar:
+    """Test ubplotColorbar."""
     @pytest.fixture(autouse=True)
     def _setup(self, load_theta):
         coords = ["model_level_number", "grid_longitude"]
@@ -270,6 +274,7 @@ class TestSubplotColorbar:
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestPlotHist(_shared_utils.GraphicsTest):
+    """Test lotHist."""
     def test_horizontal(self):
         cube = test_plot.simple_cube()[0]
         qplt.hist(cube, bins=np.linspace(287.7, 288.2, 11))
@@ -283,6 +288,7 @@ class TestPlotHist(_shared_utils.GraphicsTest):
 
 @_shared_utils.skip_plot
 class TestFooter:
+    """Test ooter."""
     @pytest.mark.parametrize(
         "text", [qplt.Classification.official_sensitive, "Example"]
     )

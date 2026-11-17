@@ -27,6 +27,7 @@ from iris.warnings import IrisLoadWarning
 
 
 class LoadTestCommon:
+    """LoadTestCommon."""
     @pytest.fixture(autouse=True)
     def tmp_filepath(self, tmp_path_factory):
         tmp_dir = tmp_path_factory.mktemp("tmp_nc")
@@ -56,6 +57,7 @@ class LoadTestCommon:
 
 
 class TestStash(LoadTestCommon):
+    """Test tash."""
     def _check_load(self, value, succeed=True):
         # When succeed=False, expect translation fail + return original 'raw' attribute
         return self._check_load_inner(
@@ -136,6 +138,7 @@ class TestStash(LoadTestCommon):
 
 
 class TestUkmoProcessFlags(LoadTestCommon):
+    """Test kmoProcessFlags."""
     def _check_load(self, value):
         return self._check_load_inner(
             "ukmo__process_flags", "ukmo__process_flags", value
@@ -181,6 +184,7 @@ class TestUkmoProcessFlags(LoadTestCommon):
 
 @pytest.mark.skipif(iris_grib is None, reason="iris_grib is not available")
 class TestGribParam(LoadTestCommon):
+    """Test ribParam."""
     def _check_load(self, value):
         return self._check_load_inner("GRIB_PARAM", "GRIB_PARAM", value)
 

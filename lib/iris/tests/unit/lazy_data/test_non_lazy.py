@@ -11,6 +11,7 @@ from iris.tests._shared_utils import assert_array_equal
 
 
 class Test_non_lazy:
+    """Test non lazy."""
     def setup_method(self):
         self.array = np.arange(8).reshape(2, 4)
         self.lazy_array = as_lazy_data(self.array)

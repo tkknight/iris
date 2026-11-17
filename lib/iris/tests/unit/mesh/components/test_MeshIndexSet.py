@@ -63,6 +63,7 @@ def test_dummy(meshes_all):
 
 
 class Test___init__:
+    """Test   init  ."""
     def test_basic(self, meshes_locs_all):
         mesh, location = meshes_locs_all
         indices = [0, 2]
@@ -132,6 +133,7 @@ class Test___init__:
 
 
 class Test___eq__:
+    """Test   eq  ."""
     def test_equal_same_object(self, meshes_locs_all):
         """An instance is equal to itself."""
         mesh, location = meshes_locs_all
@@ -204,6 +206,7 @@ class Test___eq__:
 
 
 class Test_properties:
+    """Test properties."""
     def test_cf_role(self, meshes_locs_all):
         mesh, location = meshes_locs_all
         index_set = _MeshIndexSet([0], mesh=mesh, location=location)
@@ -235,6 +238,7 @@ class Test_properties:
 
 
 class Test_index_calculations:
+    """Test index calculations."""
     def test_node_location_calculate_node_bool_index(self, meshes_all):
         index_set = _MeshIndexSet(indices=[0, 2, 4], mesh=meshes_all, location="node")
         result = index_set._calculate_node_bool_index()
@@ -294,6 +298,7 @@ class Test_index_calculations:
 
 
 class Test_managers_and_views:
+    """Test managers and views."""
     def test_coord_manager_subset(self, meshes_locs_all):
         mesh, location = meshes_locs_all
         index_set = _MeshIndexSet(indices=[0], mesh=mesh, location=location)
@@ -384,6 +389,7 @@ class Test_managers_and_views:
 
 
 class Test_unusual_connectivities:
+    """Test unusual connectivities."""
     @pytest.fixture
     def mis_unusual_start_index(self, lazy_values):
         mesh = sample_mesh(lazy_values=lazy_values)
@@ -573,6 +579,7 @@ class Test_unusual_connectivities:
 
 
 class Test_as_mesh:
+    """Test as mesh."""
     def test_creation(self, meshes_locs_all):
         mesh, location = meshes_locs_all
         index_set = _MeshIndexSet(indices=[0, 2], mesh=mesh, location=location)
@@ -628,6 +635,7 @@ class Test_as_mesh:
 
 
 class Test_meshcoord_interop:
+    """Test meshcoord interop."""
     @pytest.mark.parametrize("creator", [MeshCoord, _MeshIndexSet.to_MeshCoord])
     def test_meshcoord_from_index_set_location_must_match(
         self, meshes_locs_all, mesh_2d, creator
@@ -650,6 +658,7 @@ class Test_meshcoord_interop:
 
 
 class Test__str_repr:
+    """Test  str repr."""
     @pytest.fixture(autouse=True)
     def _setup(self, meshes_locs_all):
         mesh, location = meshes_locs_all
@@ -731,6 +740,7 @@ class Test__str_repr:
 
 
 class Test_deferred_views:
+    """Test deferred views."""
     @pytest.mark.parametrize("update_mode", ["edit", "replace"])
     def test_coord_view_is_lazy_and_updates(self, mesh_2d, update_mode):
         index_set = _MeshIndexSet(indices=[0, 2], mesh=mesh_2d, location="face")

@@ -13,6 +13,7 @@ from iris.analysis.cartography import wrap_lons
 
 
 class TestWrapLons:
+    """Test rapLons."""
     def test_values(self):
         # The documented behaviour (matches the docstring example).
         result = wrap_lons(np.array([185, 30, -200, 75]), -180, 360)

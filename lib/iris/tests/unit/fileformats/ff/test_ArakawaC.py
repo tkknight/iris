@@ -11,6 +11,7 @@ from iris.tests import _shared_utils
 
 
 class Test__x_vectors:
+    """Test  x vectors."""
     def _test(self, column, horiz_grid_type, xp, xu):
         reals = np.arange(6) + 100
         grid = ArakawaC(column, None, reals, horiz_grid_type)
@@ -47,6 +48,7 @@ class Test__x_vectors:
 
 
 class Test_regular_x:
+    """Test regular x."""
     def _test(self, subgrid, bzx, bdx):
         grid = ArakawaC(None, None, [4.0, None, None, -5.0, None, None], None)
         result_bzx, result_bdx = grid.regular_x(subgrid)
@@ -61,6 +63,7 @@ class Test_regular_x:
 
 
 class Test_regular_y:
+    """Test regular y."""
     def _test(self, v_offset, subgrid, bzy, bdy):
         grid = ArakawaC(None, None, [None, 4.0, 45.0, None, None, None], None)
         grid._v_offset = v_offset

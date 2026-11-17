@@ -68,6 +68,7 @@ class ConcreteReferenceTarget:
 
 
 class Reference(iris.util._OrderedHashable):
+    """Reference data container."""
     _names = ("name",)
     """
     A named placeholder for inter-field references.
@@ -299,6 +300,7 @@ class Loader(
         ("field_generator", "field_generator_kwargs", "converter"),
     )
 ):
+    """Loader."""
     def __new__(cls, field_generator, field_generator_kwargs, converter):
         """Create a definition of a field-based Cube loader.
 
@@ -404,6 +406,7 @@ def _resolve_factory_references(
 
 
 class MultipleReferenceFieldDetector(threading.local):
+    """MultipleReferenceFieldDetector data container."""
     def __init__(self):
         self.found_multiple_refs = False
 

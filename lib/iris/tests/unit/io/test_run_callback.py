@@ -11,6 +11,7 @@ import iris.io
 
 
 class Test_run_callback:
+    """Test run callback."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cube = mocker.sentinel.cube

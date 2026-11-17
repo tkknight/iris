@@ -232,6 +232,7 @@ def test_pinned_optimisation(tmp_filepath, save_cubelist_with_sigma):
 
 
 class TestChunksFromChunkControl:
+    """Test hunksFromChunkControl."""
     @staticmethod
     def _cf_var(mocker, chunking, shape=(2, 3, 4), cls=None):
         if cls is None:

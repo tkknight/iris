@@ -14,6 +14,7 @@ from iris.tests import _shared_utils
 
 
 class Test_lazy_aggregate:
+    """Test lazy aggregate."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = ma.arange(12).reshape(3, 4)
@@ -93,11 +94,13 @@ class Test_lazy_aggregate:
 
 
 class Test_name:
+    """Test name."""
     def test(self):
         assert MEAN.name() == "mean"
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test(self):
         shape = ()
         kwargs = dict()

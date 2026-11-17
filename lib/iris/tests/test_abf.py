@@ -13,6 +13,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestAbfLoad:
+    """Test bfLoad."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.path = _shared_utils.get_data_path(("abf", "AVHRRBUVI01.1985apra.abf"))

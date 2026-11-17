@@ -14,6 +14,7 @@ from iris.warnings import IrisLoadWarning
 
 
 class Test__interpret_fields__land_packed_fields:
+    """Test  interpret fields  land packed fields."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         return_value = ("dummy", 0, 0, np.dtype("f4"))

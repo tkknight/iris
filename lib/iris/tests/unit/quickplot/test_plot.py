@@ -16,6 +16,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class TestStringCoordPlot(TestGraphicStringCoord):
+    """Test tringCoordPlot."""
     parent_setup = TestGraphicStringCoord._setup
 
     @pytest.fixture(autouse=True)
@@ -32,6 +33,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
 
 
 class TestAxisLabels(_shared_utils.GraphicsTest):
+    """Test xisLabels."""
     def test_xy_cube(self):
         c = simple_1d()
         qplt.plot(c)

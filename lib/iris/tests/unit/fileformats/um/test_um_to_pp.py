@@ -11,6 +11,7 @@ from iris.fileformats.um import um_to_pp
 
 
 class Test_call:
+    """Test call."""
     def test__call(self, mocker):
         # Check that the function creates an FF2PP and returns the result
         # of iterating over it.

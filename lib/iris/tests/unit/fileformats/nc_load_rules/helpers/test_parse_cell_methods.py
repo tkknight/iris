@@ -14,6 +14,7 @@ from iris.warnings import IrisCfLoadWarning
 
 
 class Test:
+    """Test ."""
     def test_simple(self):
         cell_method_strings = [
             "time: mean",

@@ -40,6 +40,7 @@ def _make_metadata(
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.standard_name = mocker.sentinel.standard_name
@@ -422,6 +423,7 @@ class MixinSplitattrsMatrixTests:
 
 
 class Test___eq__(MixinSplitattrsMatrixTests):
+    """Test   eq  ."""
     operation_name = "equal"
 
     @pytest.fixture(autouse=True)
@@ -553,6 +555,7 @@ class Test___eq__(MixinSplitattrsMatrixTests):
 
 
 class Test___lt__:
+    """Test   lt  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cls = CubeMetadata
@@ -585,6 +588,7 @@ class Test___lt__:
 
 
 class Test_combine(MixinSplitattrsMatrixTests):
+    """Test combine."""
     operation_name = "combine"
 
     @pytest.fixture(autouse=True)
@@ -753,6 +757,7 @@ class Test_combine(MixinSplitattrsMatrixTests):
 
 
 class Test_difference(MixinSplitattrsMatrixTests):
+    """Test difference."""
     operation_name = "difference"
 
     @pytest.fixture(autouse=True)
@@ -934,6 +939,7 @@ class Test_difference(MixinSplitattrsMatrixTests):
 
 
 class Test_equal:
+    """Test equal."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cls = CubeMetadata
@@ -975,6 +981,7 @@ class Test_equal:
 
 
 class Test_name:
+    """Test name."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.default = CubeMetadata.DEFAULT_NAME
@@ -1068,6 +1075,7 @@ class Test_name:
 
 
 class Test__names:
+    """Test  names."""
     def test_standard_name(self):
         token = "standard_name"
         metadata = _make_metadata(standard_name=token)

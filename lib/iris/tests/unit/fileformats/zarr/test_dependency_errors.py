@@ -103,6 +103,7 @@ except ImportError as exception:
 
 
 class Test__MISSING_MESSAGE:
+    """Test  MISSING MESSAGE."""
     def test_it_names_the_package_and_the_version_floor(self):
         assert "zarr" in _MISSING_MESSAGE
         assert "3.1.0" in _MISSING_MESSAGE
@@ -115,6 +116,7 @@ class Test__MISSING_MESSAGE:
 
 
 class Test_zarr_is_missing:
+    """Test zarr is missing."""
     def test_iris_load_reports_it(self, tmp_path):
         store = tmp_path / "s.zarr"
         store.mkdir()
@@ -184,6 +186,7 @@ class Test_the_floor_itself:
 
 
 class Test_zarr_is_too_old:
+    """Test zarr is too old."""
     def test_iris_load_reports_it(self, mocker, tmp_path):
         """Zarr 2.x imports fine, so only a version check catches it.
 

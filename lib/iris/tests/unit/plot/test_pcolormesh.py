@@ -24,18 +24,21 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class TestStringCoordPlot(MixinStringCoordPlot, TestGraphicStringCoord):
+    """Test tringCoordPlot."""
     def blockplot_func(self):
         return PLOT_FUNCTION_TO_TEST
 
 
 @_shared_utils.skip_plot
 class Test2dCoords(Mixin2dCoordsPlot):
+    """Test dCoords."""
     def blockplot_func(self):
         return PLOT_FUNCTION_TO_TEST
 
 
 @_shared_utils.skip_plot
 class Test2dContigTol(Mixin2dCoordsContigTol):
+    """Test dContigTol."""
     # Extra call kwargs expected -- unlike 'pcolor', there are none.
     additional_kwargs: dict[str, Any] = {}
 

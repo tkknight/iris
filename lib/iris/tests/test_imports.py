@@ -13,6 +13,7 @@ IGNORE = ["__init__.py", "__pycache__", "pandas.py", "raster.py", "tests"]
 
 
 class TestImports:
+    """Test mports."""
     @staticmethod
     def itree(path, prefix=None, debug=False):
         if prefix is None:

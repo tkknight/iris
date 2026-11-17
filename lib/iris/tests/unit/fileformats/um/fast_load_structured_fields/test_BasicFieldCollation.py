@@ -18,12 +18,14 @@ from iris.tests import _shared_utils
 
 
 class Test___init__:
+    """Test   init  ."""
     def test_no_fields(self):
         with pytest.raises(AssertionError):
             BasicFieldCollation([])
 
 
 class Test_fields:
+    """Test fields."""
     def test_preserve_members(self):
         fields = ("foo", "bar", "wibble")
         collation = BasicFieldCollation(fields)
@@ -59,6 +61,7 @@ def _make_data(fill_value):
 
 
 class Test_data:
+    """Test data."""
     # Test order of the data attribute when fastest-varying element is changed.
     def test_t1_varies_faster(self):
         collation = BasicFieldCollation(
@@ -92,6 +95,7 @@ class Test_data:
 
 
 class Test_element_arrays_and_dims:
+    """Test element arrays and dims."""
     def test_single_field(self):
         field = _make_field(2013)
         collation = BasicFieldCollation([field])
@@ -183,6 +187,7 @@ class Test_element_arrays_and_dims:
 
 
 class Test__time_comparable_int:
+    """Test  time comparable int."""
     def test(self):
         # Define a list of date-time tuples, which should remain both all
         # distinct and in ascending order when converted...

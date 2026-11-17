@@ -14,6 +14,7 @@ from iris.tests import _shared_utils
 
 
 class Test_units_func:
+    """Test units func."""
     def test(self):
         assert PROPORTION.units_func is not None
         new_units = PROPORTION.units_func(None)
@@ -21,6 +22,7 @@ class Test_units_func:
 
 
 class Test_masked:
+    """Test masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.cube.Cube(ma.masked_equal([1, 2, 3, 4, 5], 3))
@@ -41,11 +43,13 @@ class Test_masked:
 
 
 class Test_name:
+    """Test name."""
     def test(self):
         assert PROPORTION.name() == "proportion"
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test(self):
         shape = ()
         kwargs = dict()

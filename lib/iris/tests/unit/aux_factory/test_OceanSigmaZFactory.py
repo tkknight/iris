@@ -18,6 +18,7 @@ from iris.coords import AuxCoord, DimCoord
 
 
 class Test___init__:
+    """Test   init  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.sigma = Mock(units=Unit("1"), nbounds=0)
@@ -155,6 +156,7 @@ class Test___init__:
 
 
 class Test_dependencies:
+    """Test dependencies."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.sigma = Mock(units=Unit("1"), nbounds=0)
@@ -178,6 +180,7 @@ class Test_dependencies:
 
 
 class Test_make_coord:
+    """Test make coord."""
     @staticmethod
     def coord_dims(coord):
         mapping = dict(
@@ -344,6 +347,7 @@ class Test_make_coord:
 
 
 class Test_update:
+    """Test update."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.sigma = Mock(units=Unit("1"), nbounds=0)

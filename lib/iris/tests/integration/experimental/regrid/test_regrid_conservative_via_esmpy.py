@@ -106,6 +106,7 @@ def _donothing_context_manager():
 
 @skip_esmf
 class TestConservativeRegrid:
+    """Test onservativeRegrid."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Compute basic test data cubes.

@@ -33,6 +33,7 @@ def data_all_dtypes_and_lazynesses(self):
 
 
 class AncillaryVariableTestMixin(CoordTestMixin):
+    """AncillaryVariableTestMixin."""
     # Define a 2-D default array shape.
     def setup_test_arrays(self, shape=(2, 3), masked=False):
         # Create concrete and lazy data test arrays, given a desired shape.
@@ -56,6 +57,7 @@ class AncillaryVariableTestMixin(CoordTestMixin):
 
 
 class Test__init__(AncillaryVariableTestMixin):
+    """Test  init  ."""
     # Test for AncillaryVariable creation, with real / lazy data
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -130,6 +132,7 @@ class Test__init__(AncillaryVariableTestMixin):
 
 
 class Test_core_data(AncillaryVariableTestMixin):
+    """Test core data."""
     # Test for AncillaryVariable.core_data() with various lazy/real data.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -157,6 +160,7 @@ class Test_core_data(AncillaryVariableTestMixin):
 
 
 class Test_lazy_data(AncillaryVariableTestMixin):
+    """Test lazy data."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -173,6 +177,7 @@ class Test_lazy_data(AncillaryVariableTestMixin):
 
 
 class Test_has_lazy_data(AncillaryVariableTestMixin):
+    """Test has lazy data."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -195,6 +200,7 @@ class Test_has_lazy_data(AncillaryVariableTestMixin):
 
 
 class Test__getitem__(AncillaryVariableTestMixin):
+    """Test  getitem  ."""
     # Test for AncillaryVariable indexing with various types of data.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -277,6 +283,7 @@ class Test__getitem__(AncillaryVariableTestMixin):
 
 
 class Test_copy(AncillaryVariableTestMixin):
+    """Test copy."""
     # Test for AncillaryVariable.copy() with various types of data.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -325,6 +332,7 @@ class Test_copy(AncillaryVariableTestMixin):
 
 
 class Test_data__getter(AncillaryVariableTestMixin):
+    """Test data  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -359,6 +367,7 @@ class Test_data__getter(AncillaryVariableTestMixin):
 
 
 class Test_data__setter(AncillaryVariableTestMixin):
+    """Test data  setter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -392,6 +401,7 @@ class Test_data__setter(AncillaryVariableTestMixin):
 
 
 class Test__str__:
+    """Test  str  ."""
     def test_non_time_values(self):
         ancillary_var = AncillaryVariable(
             np.array([2, 5, 9]),
@@ -441,6 +451,7 @@ class Test__str__:
 
 
 class Test__repr__:
+    """Test  repr  ."""
     def test_non_time_values(self):
         ancillary_var = AncillaryVariable(
             np.array([2, 5, 9]),
@@ -467,6 +478,7 @@ class Test__repr__:
 
 
 class Test___binary_operator__(AncillaryVariableTestMixin):
+    """Test   binary operator  ."""
     # Test maths operations on on real+lazy data.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -568,12 +580,14 @@ class Test___binary_operator__(AncillaryVariableTestMixin):
 
 
 class Test_has_bounds:
+    """Test has bounds."""
     def test(self):
         ancillary_var = AncillaryVariable(np.array([2, 9, 5]))
         assert not ancillary_var.has_bounds()
 
 
 class Test_convert_units:
+    """Test convert units."""
     def test_preserves_lazy(self):
         test_data = np.array([[11.1, 12.2, 13.3], [21.4, 22.5, 23.6]])
         lazy_data = as_lazy_data(test_data)
@@ -585,6 +599,7 @@ class Test_convert_units:
 
 
 class Test_is_compatible:
+    """Test is compatible."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.ancill_var = AncillaryVariable(
@@ -632,6 +647,7 @@ class Test_is_compatible:
 
 
 class TestEquality:
+    """Test quality."""
     def test_nanpoints_eq_self(self):
         av1 = AncillaryVariable([1.0, np.nan, 2.0])
         assert av1 == av1
@@ -643,6 +659,7 @@ class TestEquality:
 
 
 class Test_cube_dims:
+    """Test cube dims."""
     def test_cube_dims(self, mocker):
         # Check that "coord.cube_dims(cube)" calls "cube.coord_dims(coord)".
         mock_dims_result = mocker.sentinel.AV_DIMS

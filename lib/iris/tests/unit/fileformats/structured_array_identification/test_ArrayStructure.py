@@ -27,6 +27,7 @@ def construct_nd(sub_array, sub_dim, shape):
 
 
 class TestArrayStructure_from_array:
+    """Test rrayStructure from array."""
     def struct_from_arr(self, nd_array):
         return ArrayStructure.from_array(nd_array.flatten())
 

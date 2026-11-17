@@ -36,6 +36,7 @@ def location_face_or_edge(request):
 
 
 class Test___init__:
+    """Test   init  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         mesh = sample_mesh()
@@ -80,6 +81,7 @@ class Test___init__:
 
 
 class Test__readonly_properties:
+    """Test  readonly properties."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.meshcoord = sample_meshcoord()
@@ -131,6 +133,7 @@ class Test__readonly_properties:
 
 
 class Test__points_and_bounds:
+    """Test  points and bounds."""
     # Basic method testing only, for 3 locations with simple array values.
     # See Test_MeshCoord__dataviews for more detailed checks.
     def test_node(self):
@@ -173,6 +176,7 @@ class Test__points_and_bounds:
 
 
 class Test___eq__:
+    """Test   eq  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.mesh = sample_mesh()
@@ -212,6 +216,7 @@ class Test___eq__:
 
 
 class Test__copy:
+    """Test  copy."""
     def test_basic(self):
         meshcoord = sample_meshcoord()
         meshcoord2 = meshcoord.copy()
@@ -232,6 +237,7 @@ class Test__copy:
 
 
 class Test__getitem__:
+    """Test  getitem  ."""
     def test_slice_wholeslice_1tuple(self):
         meshcoord = sample_meshcoord()
         meshcoord2 = meshcoord[:,]
@@ -333,6 +339,7 @@ class Test__getitem__:
 
 
 class Test__str_repr:
+    """Test  str repr."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         mesh = sample_mesh()
@@ -514,6 +521,7 @@ class Test__str_repr:
 
 
 class Test_cube_containment:
+    """Test cube containment."""
     # Check that we can put a MeshCoord into a cube, and have it behave just
     # like a regular AuxCoord.
     @pytest.fixture(autouse=True)
@@ -610,6 +618,7 @@ class Test_cube_containment:
 
 
 class Test_auxcoord_conversion:
+    """Test auxcoord conversion."""
     def test_basic(self):
         meshcoord = sample_meshcoord()
         auxcoord = AuxCoord.from_coord(meshcoord)
@@ -896,6 +905,7 @@ class Test_MeshCoord__dataviews:
 
 
 class Test__metadata:
+    """Test  metadata."""
     def setup_mesh(self, location, axis):
         # Create a standard test mesh + attach it to the test instance.
         mesh = sample_mesh()
@@ -1096,6 +1106,7 @@ class Test_collapsed:
 
 
 class Test__updates_from_mesh:
+    """Test  updates from mesh."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.meshcoord = sample_meshcoord()

@@ -12,6 +12,7 @@ from .identify_mixins import _NetCDFVar
 
 
 class TestIdentify:
+    """Test dentify."""
     def test_identify_raises_not_implemented(self):
         vars_all = {"data_var": _NetCDFVar("data_var")}
         with pytest.raises(NotImplementedError):
@@ -19,6 +20,7 @@ class TestIdentify:
 
 
 class TestConstructor:
+    """Test onstructor."""
     def test_cf_name_and_data_stored(self):
         nc_var = _NetCDFVar("data_var")
         cf_var = CFDataVariable("data_var", nc_var)

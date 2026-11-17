@@ -15,6 +15,7 @@ from iris.fileformats.netcdf.saver import Saver
 
 
 class TestDataless:
+    """Test ataless."""
     @pytest.fixture(autouse=True)
     def _setup(self, tmp_path_factory):
         ny, nx = 3, 4

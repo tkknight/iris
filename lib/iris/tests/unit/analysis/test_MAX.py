@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 
 class Test_basics:
+    """Test basics."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         data = np.array([1, 2, 3, 4, 5])
@@ -42,6 +43,7 @@ class Test_basics:
 
 
 class Test_masked:
+    """Test masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = Cube(ma.masked_greater([1, 2, 3, 4, 5], 3))
@@ -53,6 +55,7 @@ class Test_masked:
 
 
 class Test_lazy_masked:
+    """Test lazy masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         masked_data = ma.masked_greater([1, 2, 3, 4, 5], 3)
@@ -66,6 +69,7 @@ class Test_lazy_masked:
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test(self):
         shape = ()
         kwargs = dict()

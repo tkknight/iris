@@ -12,6 +12,7 @@ from iris.tests import _shared_utils
 
 
 class Test_PolarStereographic__basics:
+    """Test PolarStereographic  basics."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.ps_blank = PolarStereographic(
@@ -81,6 +82,7 @@ class Test_PolarStereographic__basics:
 
 
 class Test_init_defaults:
+    """Test init defaults."""
     def test_set_optional_args(self):
         # Check that setting the optional (non-ellipse) args works.
         crs = PolarStereographic(
@@ -141,6 +143,7 @@ class Test_init_defaults:
 
 
 class AsCartopyMixin:
+    """AsCartopyMixin."""
     def test_simple(self):
         # Check that a projection set up with all the defaults is correctly
         # converted to a cartopy CRS.
@@ -230,12 +233,14 @@ class AsCartopyMixin:
 
 
 class Test_PolarStereographic__as_cartopy_crs(AsCartopyMixin):
+    """Test PolarStereographic  as cartopy crs."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.as_cartopy_method = PolarStereographic.as_cartopy_crs
 
 
 class Test_PolarStereographic__as_cartopy_projection(AsCartopyMixin):
+    """Test PolarStereographic  as cartopy projection."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.as_cartopy_method = PolarStereographic.as_cartopy_projection

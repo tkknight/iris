@@ -15,6 +15,7 @@ from iris.util import describe_diff
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request

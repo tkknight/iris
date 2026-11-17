@@ -17,12 +17,14 @@ def create_scheme(mode=None):
 
 
 class Test___init__:
+    """Test   init  ."""
     def test_invalid(self):
         with pytest.raises(ValueError, match="Extrapolation mode"):
             Nearest("bogus")
 
 
 class Test_extrapolation_mode:
+    """Test extrapolation mode."""
     def check_mode(self, mode):
         scheme = create_scheme(mode)
         assert scheme.extrapolation_mode == mode
@@ -48,6 +50,7 @@ class Test_extrapolation_mode:
 
 
 class Test_interpolator:
+    """Test interpolator."""
     def check_mode(self, mocker, mode=None):
         scheme = create_scheme(mode)
 
@@ -88,6 +91,7 @@ class Test_interpolator:
 
 
 class Test_regridder:
+    """Test regridder."""
     def check_mode(self, mocker, mode=None):
         scheme = create_scheme(mode)
 

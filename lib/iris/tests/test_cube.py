@@ -10,6 +10,7 @@ import iris.cube
 
 
 class Test_CubeList_getitem:
+    """Test CubeList getitem."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube0 = iris.cube.Cube(0)
@@ -38,6 +39,7 @@ class Test_CubeList_getitem:
 
 
 class Test_CubeList_getslice:
+    """Test CubeList getslice."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube0 = iris.cube.Cube(0)
@@ -60,6 +62,7 @@ class Test_CubeList_getslice:
 
 
 class Test_Cube_add_dim_coord:
+    """Test Cube add dim coord."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.cube.Cube(np.arange(4).reshape(2, 2))
@@ -78,6 +81,7 @@ class Test_Cube_add_dim_coord:
 
 
 class TestEquality:
+    """Test quality."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.cube.Cube(1)

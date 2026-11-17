@@ -18,6 +18,7 @@ import iris.tests.stock as istk
 
 @_shared_utils.skip_data
 class TestColpex:
+    """Test olpex."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Load the COLPEX data => TZYX
@@ -202,6 +203,7 @@ class TestColpex:
 
 @_shared_utils.skip_data
 class TestTriPolar:
+    """Test riPolar."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # load data
@@ -326,6 +328,7 @@ class TestTriPolar:
 
 
 class TestLazyData:
+    """Test azyData."""
     def test_hybrid_height(self, request):
         cube = istk.simple_4d_with_hybrid_height()
         # Put a lazy array into the cube so we can test deferred loading.

@@ -28,6 +28,7 @@ import iris.warnings
 
 
 class Test__get_cf_var_data(MockerMixin):
+    """Test  get cf var data."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.filename = "DUMMY"

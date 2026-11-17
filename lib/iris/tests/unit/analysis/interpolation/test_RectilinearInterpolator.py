@@ -25,6 +25,7 @@ EXTRAPOLATE = "extrapolate"
 
 
 class ThreeDimCube:
+    """ThreeDimCube."""
     @pytest.fixture(autouse=True)
     def _setup_three_dim_cube(self):
         cube = stock.simple_3d_w_multidim_coords()
@@ -39,6 +40,7 @@ class ThreeDimCube:
 
 
 class Test___init__(ThreeDimCube):
+    """Test   init  ."""
     def test_properties(self):
         interpolator = RectilinearInterpolator(
             self.cube, ["latitude"], LINEAR, EXTRAPOLATE
@@ -55,6 +57,7 @@ class Test___init__(ThreeDimCube):
 
 
 class Test___init____validation(ThreeDimCube):
+    """Test   init    validation."""
     def test_interpolator_overspecified(self):
         # Over specification by means of interpolating over two coordinates
         # mapped to the same dimension.
@@ -107,6 +110,7 @@ class Test___init____validation(ThreeDimCube):
 
 
 class Test___call___1D(ThreeDimCube):
+    """Test   call   1D."""
     @pytest.fixture(autouse=True)
     def _setup(self, _setup_three_dim_cube):
         self.interpolator = RectilinearInterpolator(
@@ -242,6 +246,7 @@ class Test___call___1D(ThreeDimCube):
 
 
 class Test___call___1D_circular(ThreeDimCube):
+    """Test   call   1D circular."""
     # Note: all these test data interpolation.
     @pytest.fixture(autouse=True)
     def _setup(self, _setup_three_dim_cube):
@@ -326,6 +331,7 @@ class Test___call___1D_circular(ThreeDimCube):
 
 
 class Test___call___1D_singlelendim(ThreeDimCube):
+    """Test   call   1D singlelendim."""
     @pytest.fixture(autouse=True)
     def _setup(self, _setup_three_dim_cube):
         """Setup.
@@ -368,6 +374,7 @@ class Test___call___1D_singlelendim(ThreeDimCube):
 
 
 class Test___call___masked:
+    """Test   call   masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.simple_4d_with_hybrid_height()
@@ -401,6 +408,7 @@ class Test___call___masked:
 
 
 class Test___call___2D(ThreeDimCube):
+    """Test   call   2D."""
     @pytest.fixture(autouse=True)
     def _setup(self, _setup_three_dim_cube):
         self.interpolator = RectilinearInterpolator(
@@ -438,6 +446,7 @@ class Test___call___2D(ThreeDimCube):
 
 
 class Test___call___2D_non_contiguous(ThreeDimCube):
+    """Test   call   2D non contiguous."""
     @pytest.fixture(autouse=True)
     def _setup(self, _setup_three_dim_cube):
         coords = ["height", "longitude"]
@@ -499,6 +508,7 @@ class Test___call___2D_non_contiguous(ThreeDimCube):
 
 
 class Test___call___real_data(ThreeDimCube):
+    """Test   call   real data."""
     def test_src_cube_data_loaded(self):
         # If the source cube has real data when the interpolator is
         # instantiated, then the interpolated result should also have
@@ -514,6 +524,7 @@ class Test___call___real_data(ThreeDimCube):
 
 
 class Test___call___lazy_data(ThreeDimCube):
+    """Test   call   lazy data."""
     def test_src_cube_data_loaded(self):
         # If the source cube has lazy data when the interpolator is
         # instantiated, then the interpolated result should also have
@@ -532,6 +543,7 @@ class Test___call___lazy_data(ThreeDimCube):
 
 
 class Test___call___time:
+    """Test   call   time."""
     def interpolator(self, method=LINEAR):
         data = np.arange(12).reshape(4, 3)
         cube = iris.cube.Cube(data)

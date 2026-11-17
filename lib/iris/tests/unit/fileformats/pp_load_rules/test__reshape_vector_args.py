@@ -15,12 +15,14 @@ from iris.tests._shared_utils import assert_array_equal
 
 
 class TestEmpty:
+    """Test mpty."""
     def test(self):
         result = _reshape_vector_args([])
         assert result == []
 
 
 class TestSingleArg:
+    """Test ingleArg."""
     def _check(self, result, expected):
         assert len(result) == len(expected)
         for result_arr, expected_arr in zip(result, expected):
@@ -63,6 +65,7 @@ class TestSingleArg:
 
 
 class TestMultipleArgs:
+    """Test ultipleArgs."""
     def _check(self, result, expected):
         assert len(result) == len(expected)
         for result_arr, expected_arr in zip(result, expected):

@@ -18,6 +18,7 @@ from iris.tests import _shared_utils
 
 
 class Test_lazy_maths:
+    """Test lazy maths."""
     def build_lazy_cube(self, points, dtype=np.float64, bounds=None, nx=10):
         data = np.arange(len(points) * nx, dtype=dtype) + 1  # Just avoid 0.
         data = data.reshape(len(points), nx)
@@ -138,6 +139,7 @@ class Test_lazy_maths:
 
 
 class Test_lazy_maths__scalar_cube:
+    """Test lazy maths  scalar cube."""
     def build_lazy_cube(self, value, dtype=np.float64):
         data = as_lazy_data(np.array(value, dtype=dtype))
         return iris.cube.Cube(data, standard_name="air_temperature", units="K")
@@ -221,6 +223,7 @@ class Test_lazy_maths__scalar_cube:
 
 
 class Test_lazy_maths__masked_data:
+    """Test lazy maths  masked data."""
     def build_lazy_cube(self, dtype=np.float64):
         data = ma.array(
             [[1.0, 1.0], [1.0, 100000.0]], mask=[[0, 0], [0, 1]], dtype=dtype

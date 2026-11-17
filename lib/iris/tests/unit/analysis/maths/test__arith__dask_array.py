@@ -11,6 +11,7 @@ from iris.tests.unit.analysis.maths import MathsAddOperationMixin
 
 
 class TestArithDask(MathsAddOperationMixin):
+    """Test rithDask."""
     def test_compute_not_called(self, mocked_compute):
         # No data should be realised when adding a cube and a dask array.
         cube = iris.cube.Cube(da.arange(4))

@@ -12,6 +12,7 @@ from iris.tests._shared_utils import assert_array_all_close
 
 
 class Test_multidim_lazy_stack:
+    """Test multidim lazy stack."""
     def _check(self, stack_shape):
         vals = np.arange(np.prod(stack_shape)).reshape(stack_shape)
         stack = np.empty(stack_shape, "object")

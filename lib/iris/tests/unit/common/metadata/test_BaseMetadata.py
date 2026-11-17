@@ -16,6 +16,7 @@ from iris.tests._shared_utils import assert_dict_equal
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.standard_name = mocker.sentinel.standard_name
@@ -69,6 +70,7 @@ class Test:
 
 
 class Test___eq__:
+    """Test   eq  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.kwargs = dict(
@@ -129,6 +131,7 @@ class Test___eq__:
 
 
 class Test___lt__:
+    """Test   lt  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cls = BaseMetadata
@@ -161,6 +164,7 @@ class Test___lt__:
 
 
 class Test___ne__:
+    """Test   ne  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cls = BaseMetadata
@@ -200,6 +204,7 @@ class Test___ne__:
 
 
 class Test__combine:
+    """Test  combine."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.kwargs = dict(
@@ -250,6 +255,7 @@ class Test__combine:
 
 
 class Test__combine_lenient:
+    """Test  combine lenient."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cls = BaseMetadata
@@ -400,6 +406,7 @@ class Test__combine_lenient:
 
 
 class Test__combine_lenient_attributes:
+    """Test  combine lenient attributes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = OrderedDict(
@@ -469,6 +476,7 @@ class Test__combine_lenient_attributes:
 
 
 class Test__combine_strict_attributes:
+    """Test  combine strict attributes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = OrderedDict(
@@ -536,6 +544,7 @@ class Test__combine_strict_attributes:
 
 
 class Test__compare_lenient:
+    """Test  compare lenient."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cls = BaseMetadata
@@ -702,6 +711,7 @@ class Test__compare_lenient:
 
 
 class Test__compare_lenient_attributes:
+    """Test  compare lenient attributes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = OrderedDict(
@@ -749,6 +759,7 @@ class Test__compare_lenient_attributes:
 
 
 class Test__compare_strict_attributes:
+    """Test  compare strict attributes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = OrderedDict(
@@ -796,6 +807,7 @@ class Test__compare_strict_attributes:
 
 
 class Test__difference:
+    """Test  difference."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.kwargs = dict(
@@ -866,6 +878,7 @@ class Test__difference:
 
 
 class Test__difference_lenient:
+    """Test  difference lenient."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cls = BaseMetadata
@@ -1052,6 +1065,7 @@ class Test__difference_lenient:
 
 
 class Test__difference_lenient_attributes:
+    """Test  difference lenient attributes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = OrderedDict(
@@ -1126,6 +1140,7 @@ class Test__difference_lenient_attributes:
 
 
 class Test__difference_strict_attributes:
+    """Test  difference strict attributes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = OrderedDict(
@@ -1208,6 +1223,7 @@ class Test__difference_strict_attributes:
 
 
 class Test__is_attributes:
+    """Test  is attributes."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cls = BaseMetadata
@@ -1228,6 +1244,7 @@ class Test__is_attributes:
 
 
 class Test_combine:
+    """Test combine."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         kwargs = dict(
@@ -1311,6 +1328,7 @@ class Test_combine:
 
 
 class Test_difference:
+    """Test difference."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         kwargs = dict(
@@ -1400,6 +1418,7 @@ class Test_difference:
 
 
 class Test_equal:
+    """Test equal."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         kwargs = dict(
@@ -1476,6 +1495,7 @@ class Test_equal:
 
 
 class Test_name:
+    """Test name."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cls = BaseMetadata
@@ -1566,6 +1586,7 @@ class Test_name:
 
 
 class Test_token:
+    """Test token."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cls = BaseMetadata

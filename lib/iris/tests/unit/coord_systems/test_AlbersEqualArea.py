@@ -12,6 +12,7 @@ from iris.tests import _shared_utils
 
 
 class Test_as_cartopy_crs:
+    """Test as cartopy crs."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.latitude_of_projection_origin = 0.0
@@ -60,6 +61,7 @@ class Test_as_cartopy_crs:
 
 
 class Test_as_cartopy_projection:
+    """Test as cartopy projection."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.latitude_of_projection_origin = 0.0
@@ -98,6 +100,7 @@ class Test_as_cartopy_projection:
 
 
 class Test_init_defaults:
+    """Test init defaults."""
     def test_set_optional_args(self):
         # Check that setting optional arguments works as expected.
         crs = AlbersEqualArea(

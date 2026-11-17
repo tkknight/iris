@@ -20,6 +20,7 @@ from iris.tests.integration.fast_load.test_fast_load import Mixin_FieldTest
 
 
 class TestFastCallbackLocationInfo(Mixin_FieldTest):
+    """Test astCallbackLocationInfo."""
     do_fast_loads = True
 
     @pytest.fixture(autouse=True)

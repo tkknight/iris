@@ -15,11 +15,13 @@ from iris.tests.unit.fileformats import MockerMixin
 
 
 class NoStr:
+    """NoStr."""
     def __str__(self):
         raise RuntimeError("No string representation")
 
 
 class TestCoordAttributes(MockerMixin):
+    """Test oordAttributes."""
     @staticmethod
     def _patcher(engine, cf, cf_group):
         coordinates = []
@@ -125,6 +127,7 @@ class TestCoordAttributes(MockerMixin):
 
 
 class TestCubeAttributes(MockerMixin):
+    """Test ubeAttributes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         this = "iris.fileformats.cf.loader._assert_case_specific_facts"

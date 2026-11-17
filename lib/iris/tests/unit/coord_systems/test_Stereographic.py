@@ -23,12 +23,14 @@ def stereo(**kwargs):
 
 
 class Test_Stereographic_construction:
+    """Test Stereographic construction."""
     def test_stereo(self):
         st = stereo()
         _shared_utils.assert_XML_element(st, ("coord_systems", "Stereographic.xml"))
 
 
 class Test_init_defaults:
+    """Test init defaults."""
     # This class *only* tests the defaults for optional constructor args.
 
     def test_set_optional_args(self):
@@ -80,6 +82,7 @@ class Test_init_defaults:
 
 
 class Test_Stereographic_repr:
+    """Test Stereographic repr."""
     def test_stereo(self):
         st = stereo()
         expected = (
@@ -101,6 +104,7 @@ class Test_Stereographic_repr:
 
 
 class AsCartopyMixin:
+    """AsCartopyMixin."""
     def test_basic(self):
         latitude_of_projection_origin = -90.0
         longitude_of_projection_origin = -45.0
@@ -196,12 +200,14 @@ class AsCartopyMixin:
 
 
 class Test_Stereographic_as_cartopy_crs(AsCartopyMixin):
+    """Test Stereographic as cartopy crs."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.as_cartopy_method = Stereographic.as_cartopy_crs
 
 
 class Test_Stereographic_as_cartopy_projection(AsCartopyMixin):
+    """Test Stereographic as cartopy projection."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.as_cartopy_method = Stereographic.as_cartopy_projection

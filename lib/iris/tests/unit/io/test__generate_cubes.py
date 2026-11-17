@@ -12,6 +12,7 @@ from iris.loading import _generate_cubes
 
 
 class TestGenerateCubes:
+    """Test enerateCubes."""
     def test_pathlib_paths(self, mocker):
         test_variants = [
             ("string", "string"),

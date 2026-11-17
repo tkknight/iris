@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 
 class TestAggregateBy:
+    """Test ggregateBy."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -1340,6 +1341,7 @@ class TestAggregateBy:
 
 
 class TestAggregateByWeightedByCube(TestAggregateBy):
+    """Test ggregateByWeightedByCube."""
     @pytest.fixture(autouse=True)
     def _setup_subclass(self, _setup):
         # Requests _setup to ensure this fixture runs AFTER _setup.
@@ -1398,6 +1400,7 @@ class TestAggregateByWeightedByCube(TestAggregateBy):
 
 
 class TestAggregateByWeightedByObj:
+    """Test ggregateByWeightedByObj."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.dim_coord = iris.coords.DimCoord(

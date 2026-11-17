@@ -17,6 +17,7 @@ import iris.tests.stock as stock
 
 @_shared_utils.skip_data
 class TestNoMetadata:
+    """Test oMetadata."""
     # Test the situation where we have a cube with no metadata at all.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -47,6 +48,7 @@ class TestNoMetadata:
 
 @_shared_utils.skip_data
 class TestMissingMetadata:
+    """Test issingMetadata."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.realistic_3d()
@@ -112,6 +114,7 @@ class TestMissingMetadata:
 
 @_shared_utils.skip_data
 class TestScalarCube:
+    """Test calarCube."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.realistic_3d()[0, 0, 0]

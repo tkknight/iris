@@ -265,6 +265,7 @@ def concatenate(cubes, order=None):
 
 
 class TestSimple:
+    """Test imple."""
     def test_empty(self):
         cubes = iris.cube.CubeList()
         assert concatenate(cubes) == iris.cube.CubeList()
@@ -279,6 +280,7 @@ class TestSimple:
 
 
 class TestNoConcat:
+    """Test oConcat."""
     def test_one_cube_has_anon_dim(self, request):
         cubes = []
         y = (0, 2)
@@ -396,6 +398,7 @@ class TestNoConcat:
 
 
 class Test2D:
+    """Test D."""
     def test_masked_and_unmasked(self):
         cubes = []
         y = (0, 2)
@@ -843,6 +846,7 @@ class Test2D:
 
 
 class TestMulti2D:
+    """Test ulti2D."""
     def test_concat_4x2d_aux_xy(self, request):
         cubes = []
         y = (0, 2)
@@ -948,6 +952,7 @@ class TestMulti2D:
 
 
 class TestMulti2DScalar:
+    """Test ulti2DScalar."""
     def test_concat_scalar_4x2d_aux_xy(self, request):
         cubes = iris.cube.CubeList()
         # Level 1.
@@ -1081,6 +1086,7 @@ class TestMulti2DScalar:
 
 
 class Test3D:
+    """Test D."""
     def _make_group(self, xoff=0, yoff=0, zoff=0, doff=0):
         xoff *= 4
         yoff *= 4

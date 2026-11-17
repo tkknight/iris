@@ -10,6 +10,7 @@ from iris.time import PartialDateTime
 
 
 class TestPartialDateTime:
+    """Test artialDateTime."""
     @_shared_utils.skip_data
     def test_cftime_interface(self):
         # The `netcdf4` Python module introduced new calendar classes by v1.2.7

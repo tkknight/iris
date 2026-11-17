@@ -13,6 +13,7 @@ from iris.common.metadata import BaseMetadata, CoordMetadata
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.standard_name = mocker.sentinel.standard_name
@@ -67,6 +68,7 @@ class Test:
 
 
 class Test___eq__:
+    """Test   eq  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = dict(
@@ -205,6 +207,7 @@ class Test___eq__:
 
 
 class Test___lt__:
+    """Test   lt  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cls = CoordMetadata
@@ -237,6 +240,7 @@ class Test___lt__:
 
 
 class Test_combine:
+    """Test combine."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = dict(
@@ -408,6 +412,7 @@ class Test_combine:
 
 
 class Test_difference:
+    """Test difference."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = dict(
@@ -598,6 +603,7 @@ class Test_difference:
 
 
 class Test_equal:
+    """Test equal."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cls = CoordMetadata

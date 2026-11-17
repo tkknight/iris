@@ -22,6 +22,7 @@ def cubes():
 
 
 class TestFindSaver:
+    """Test indSaver."""
     @pytest.mark.parametrize(
         "target", ["out.zarr", "out.zarr/", "s3://bucket/out.zarr", "OUT.ZARR"]
     )
@@ -38,6 +39,7 @@ class TestFindSaver:
 
 
 class TestRegistrationIsLazy:
+    """Test egistrationIsLazy."""
     def test_finding_the_saver_does_not_import_zarr(self):
         # The optional-dependency promise: `iris.save(cube, "out.pp")` must
         # not import zarr on the way past.
@@ -55,6 +57,7 @@ class TestRegistrationIsLazy:
 
 
 class TestSavingACubeList:
+    """Test avingACubeList."""
     def test_the_whole_list_goes_into_one_store(self, tmp_path, cubes):
         # Were the saver not registered as a cubelist saver, iris.save
         # would loop over the cubes, and the second one would meet a store

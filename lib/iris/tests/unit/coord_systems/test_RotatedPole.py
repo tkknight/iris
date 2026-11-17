@@ -13,6 +13,7 @@ from iris.tests import _shared_utils
 
 
 class Test_init:
+    """Test init."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.pole_lon = 171.77

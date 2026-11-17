@@ -21,6 +21,7 @@ from iris.tests.unit.fileformats.nc_load_rules.actions import Mixin__nc_load_act
 
 
 class Mixin__grid_mapping(Mixin__nc_load_actions):
+    """Mixin__grid_mapping."""
     # Testcase support routines for testing translation of grid-mappings
     def _make_testcase_cdl(
         self,
@@ -347,6 +348,7 @@ class Mixin__grid_mapping(Mixin__nc_load_actions):
 
 
 class Test__grid_mapping(Mixin__grid_mapping):
+    """Test  grid mapping."""
     # Various testcases for translation of grid-mappings
 
     def test_basic_latlon(self):
@@ -794,6 +796,7 @@ class Test__grid_mapping(Mixin__grid_mapping):
 
 
 class Test__aux_latlons(Mixin__grid_mapping):
+    """Test  aux latlons."""
     # Testcases for translating auxiliary latitude+longitude variables
 
     def test_aux_lon(self):
@@ -919,6 +922,7 @@ class Test__aux_latlons(Mixin__grid_mapping):
 
 
 class Test__nondimcoords(Mixin__grid_mapping):
+    """Test  nondimcoords."""
     def test_nondim_lats(self):
         # Fix a coord's values so it cannot be a dim-coord.
         #
@@ -989,6 +993,7 @@ def osgb_cs():
 
 
 class Test_multi_coordinate_system_grid_mapping(Mixin__nc_load_actions):
+    """Test multi coordinate system grid mapping."""
     def test_two_coord_systems(self, osgb_cs, latlon_cs, mocker, tmp_path):
         """Test load a well described multi coordinate system variable."""
         cdl = f"""

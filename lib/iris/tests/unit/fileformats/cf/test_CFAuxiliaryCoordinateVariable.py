@@ -12,6 +12,7 @@ from .identify_mixins import IdentifyByAttributeMixin, _NetCDFVar
 
 
 class TestIdentify(IdentifyByAttributeMixin):
+    """Test dentify."""
     __test__ = True
 
     CF_CLASS = CFAuxiliaryCoordinateVariable

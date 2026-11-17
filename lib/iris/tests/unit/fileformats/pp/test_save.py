@@ -89,6 +89,7 @@ def _pp_save_ppfield_values(cube):
 
 
 class TestVertical:
+    """Test ertical."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.lat_lon_cube()
@@ -126,6 +127,7 @@ class TestVertical:
 
 
 class TestLbfcProduction:
+    """Test bfcProduction."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.lat_lon_cube()
@@ -171,6 +173,7 @@ class TestLbfcProduction:
 
 
 class TestLbsrceProduction:
+    """Test bsrceProduction."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.lat_lon_cube()
@@ -205,6 +208,7 @@ class TestLbsrceProduction:
 
 
 class Test_Save__LbprocProduction:
+    """Test Save  LbprocProduction."""
     # This test class is a little different to the others.
     # If it called `pp.save` via `_pp_save_ppfield_values` it would run
     # `pp_save_rules.verify` and run all the save rules. As this class uses
@@ -358,6 +362,7 @@ class TestTimeMean:
 
 
 class TestPoleLocation:
+    """Test oleLocation."""
     @pytest.mark.parametrize(
         "future_enabled",
         [

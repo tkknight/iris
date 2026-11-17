@@ -12,6 +12,7 @@ from iris.common.lenient import _LENIENT, _lenient_client
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         module_name = getmodule(self).__name__

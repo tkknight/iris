@@ -26,6 +26,7 @@ def full2d_global():
 
 
 class MaskCubeMixin:
+    """MaskCubeMixin."""
     @pytest.fixture(autouse=True)
     def _get_request(self, request):
         self.request = request

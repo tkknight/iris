@@ -22,6 +22,7 @@ def restore_setting_value():
 
 
 class TestOptions:
+    """Test ptions."""
     def test_members(self):
         assert mesh_coord_indexing.Options.AUX_COORD.name == "AUX_COORD"
         assert mesh_coord_indexing.Options.NEW_MESH.name == "NEW_MESH"
@@ -29,6 +30,7 @@ class TestOptions:
 
 
 class TestSettingValue:
+    """Test ettingValue."""
     def test_default(self):
         assert (
             mesh_coord_indexing.SETTING.value == mesh_coord_indexing.Options.AUX_COORD
@@ -55,6 +57,7 @@ class TestSettingValue:
 
 
 class TestSettingContext:
+    """Test ettingContext."""
     def test_temporary_override(self):
         assert (
             mesh_coord_indexing.SETTING.value == mesh_coord_indexing.Options.AUX_COORD
@@ -91,6 +94,7 @@ class TestSettingContext:
 
 
 class TestThreadLocalSetting:
+    """Test hreadLocalSetting."""
     def test_independent_values_per_thread(self):
         thread_state = {}
 

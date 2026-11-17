@@ -9,6 +9,7 @@ from iris.tests import _shared_utils
 
 
 class Test_init_defaults:
+    """Test init defaults."""
     # NOTE: most of the testing for GeogCS is in the legacy test module
     # 'iris.tests.test_coordsystem'.
     # This class *only* tests the defaults for optional constructor args.

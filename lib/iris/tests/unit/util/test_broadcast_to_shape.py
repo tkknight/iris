@@ -13,6 +13,7 @@ from iris.util import broadcast_to_shape
 
 
 class Test_broadcast_to_shape:
+    """Test broadcast to shape."""
     def test_same_shape(self):
         # broadcast to current shape should result in no change
         rng = np.random.default_rng()

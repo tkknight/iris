@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 
 class Test:
+    """Test ."""
     def test_standard_calendar(self):
         unit = Unit("hours since 2000-04-13 00:00:00", calendar="standard")
         coord = AuxCoord([1, 3, 6], "time", units=unit)

@@ -21,6 +21,7 @@ def mock_nimrod_field():
 
 
 class TestLoad:
+    """Test oad."""
     @_shared_utils.skip_data
     def test_multi_field_load(self, request):
         # load a cube with two fields
@@ -162,6 +163,7 @@ class TestLoad:
 
 
 class TestNimrodTables:
+    """Test imrodTables."""
     # Testing that the table-based load rules work as expected
 
     def test_table_1(self):

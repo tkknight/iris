@@ -29,6 +29,7 @@ def _lbcode(value=None, ix=None, iy=None):
 
 
 class TestLBVC001_Height:
+    """Test BVC001 Height."""
     def _check_height(
         self,
         blev,
@@ -170,6 +171,7 @@ class TestLBVC001_Height:
 
 
 class TestLBVC002_Depth:
+    """Test BVC002 Depth."""
     def _check_depth(
         self,
         lbcode,
@@ -367,6 +369,7 @@ class TestLBVC002_Depth:
 
 
 class TestLBVC006_SoilLevel:
+    """Test BVC006 SoilLevel."""
     def _check_soil_level(self, lbcode, lblev=12.3, expect_match=True, dim=None):
         lbvc = 6
         stash = STASH(1, 1, 1)
@@ -449,6 +452,7 @@ class TestLBVC006_SoilLevel:
 
 
 class TestLBVC006_SoilDepth:
+    """Test BVC006 SoilDepth."""
     def _check_soil_depth(
         self,
         lbcode,
@@ -525,6 +529,7 @@ class TestLBVC006_SoilDepth:
 
 
 class TestLBVC008_Pressure:
+    """Test BVC008 Pressure."""
     def _check_pressure(self, lbcode, blev=250.3, expect_match=True, dim=None):
         lbvc = 8
         stash = STASH(1, 1, 1)
@@ -579,6 +584,7 @@ class TestLBVC008_Pressure:
 
 
 class TestLBVC019_PotentialTemperature:
+    """Test BVC019 PotentialTemperature."""
     def _check_potm(self, lbcode, blev=130.6, expect_match=True, dim=None):
         lbvc = 19
         stash = STASH(1, 1, 1)
@@ -636,6 +642,7 @@ class TestLBVC019_PotentialTemperature:
 
 
 class TestLBVC009_HybridPressure:
+    """Test BVC009 HybridPressure."""
     def _check(
         self,
         lblev=37.0,
@@ -739,6 +746,7 @@ class TestLBVC009_HybridPressure:
 
 
 class TestLBVC065_HybridHeight:
+    """Test BVC065 HybridHeight."""
     def _check(
         self,
         lblev=37.0,
@@ -842,6 +850,7 @@ class TestLBVC065_HybridHeight:
 
 
 class TestLBVCxxx_Unhandled:
+    """Test BVCxxx Unhandled."""
     def test_unknown_lbvc(self):
         lbvc = 999
         blev, lblev, bhlev, bhrlev, brsvd1, brsvd2, brlev = (

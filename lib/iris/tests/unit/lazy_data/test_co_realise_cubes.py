@@ -12,6 +12,7 @@ from iris.tests._shared_utils import assert_array_all_close
 
 
 class ArrayAccessCounter:
+    """ArrayAccessCounter."""
     def __init__(self, array):
         self.dtype = array.dtype
         self.shape = array.shape
@@ -26,6 +27,7 @@ class ArrayAccessCounter:
 
 
 class Test_co_realise_cubes:
+    """Test co realise cubes."""
     def test_empty(self):
         # Ensure that 'no args' case does not raise an error.
         co_realise_cubes()

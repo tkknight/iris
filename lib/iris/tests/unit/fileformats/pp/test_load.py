@@ -8,6 +8,7 @@ import iris.fileformats.pp as pp
 
 
 class Test_load:
+    """Test load."""
     def test_call_structure(self, mocker):
         # Check that the load function calls the two necessary utility
         # functions.

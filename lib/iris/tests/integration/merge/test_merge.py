@@ -102,6 +102,7 @@ def check_merge_against_dataless_cases(
 
 
 class DatalessMixin:
+    """DatalessMixin."""
     # Mixin class to make every merge check for operation with dataless cubes
     @pytest.fixture(autouse=True)
     def _setup_patch(self, mocker, dataless_option):
@@ -149,6 +150,7 @@ class MergeMixin:
 
 @_shared_utils.skip_data
 class TestSingleCube(MergeMixin, DatalessMixin):
+    """Test ingleCube."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self._data_path = _shared_utils.get_data_path(("PP", "globClim1", "theta.pp"))
@@ -158,6 +160,7 @@ class TestSingleCube(MergeMixin, DatalessMixin):
 
 @_shared_utils.skip_data
 class TestMultiCube(MergeMixin, DatalessMixin):
+    """Test ultiCube."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self._data_path = _shared_utils.get_data_path(
@@ -183,6 +186,7 @@ class TestMultiCube(MergeMixin, DatalessMixin):
 
 @_shared_utils.skip_data
 class TestColpex(DatalessMixin):
+    """Test olpex."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self._data_path = _shared_utils.get_data_path(
@@ -199,6 +203,7 @@ class TestColpex(DatalessMixin):
 
 @_shared_utils.skip_data
 class TestDataMerge(DatalessMixin):
+    """Test ataMerge."""
     def test_extended_proxy_data(self, request):
         # Get the empty theta cubes for T+1.5 and T+2
         data_path = _shared_utils.get_data_path(
@@ -234,6 +239,7 @@ class TestDataMerge(DatalessMixin):
 
 
 class TestDimensionSplitting(DatalessMixin):
+    """Test imensionSplitting."""
     def _make_cube(self, a, b, c, data):
         cube_data = np.empty((4, 5), dtype=np.float32)
         cube_data[:] = data
@@ -297,6 +303,7 @@ class TestDimensionSplitting(DatalessMixin):
 
 
 class TestCombination(DatalessMixin):
+    """Test ombination."""
     def _make_cube(self, a, b, c, d, data=0):
         cube_data = np.empty((4, 5), dtype=np.float32)
         cube_data[:] = data
@@ -360,6 +367,7 @@ class TestCombination(DatalessMixin):
 
 
 class TestDimSelection(DatalessMixin):
+    """Test imSelection."""
     def _make_cube(self, a, b, data=0, a_dim=False, b_dim=False):
         cube_data = np.empty((4, 5), dtype=np.float32)
         cube_data[:] = data
@@ -493,6 +501,7 @@ class TestDimSelection(DatalessMixin):
 
 
 class TestTimeTripleMerging(DatalessMixin):
+    """Test imeTripleMerging."""
     def _make_cube(self, a, b, c, data=0):
         cube_data = np.empty((4, 5), dtype=np.float32)
         cube_data[:] = data
@@ -726,6 +735,7 @@ class TestTimeTripleMerging(DatalessMixin):
 
 
 class TestCubeMergeTheoretical(DatalessMixin):
+    """Test ubeMergeTheoretical."""
     def test_simple_bounds_merge(self, request):
         cube1 = iris.tests.stock.simple_2d()
         cube2 = iris.tests.stock.simple_2d()
@@ -806,6 +816,7 @@ class TestCubeMergeTheoretical(DatalessMixin):
 
 
 class TestContiguous(DatalessMixin):
+    """Test ontiguous."""
     def test_form_contiguous_dimcoord(self):
         # Test that cube sliced up and remerged in the opposite order maintains
         # contiguity.

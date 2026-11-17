@@ -221,6 +221,7 @@ class Unit(cf_units.Unit):
 
 
 class CFVariableMixin:
+    """CFVariableMixin data container."""
     _metadata_manager: Any
 
     @wraps(BaseMetadata.name)

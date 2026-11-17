@@ -10,6 +10,7 @@ from iris.fileformats.abf import ABFField
 
 
 class Test_data:
+    """Test data."""
     def test_single_read(self, mocker):
         path = "0000000000000000jan00000"
         field = ABFField(path)

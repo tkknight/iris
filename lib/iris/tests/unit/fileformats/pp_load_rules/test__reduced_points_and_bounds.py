@@ -14,6 +14,7 @@ from iris.tests._shared_utils import assert_array_equal
 
 
 class Test:
+    """Test ."""
     def test_scalar(self):
         array = np.array(1)
         dims, result, bounds = _reduce_points_and_bounds(array)

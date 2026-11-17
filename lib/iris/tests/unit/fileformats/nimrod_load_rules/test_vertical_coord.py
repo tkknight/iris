@@ -19,6 +19,7 @@ from iris.tests._shared_utils import assert_no_warnings_regexp
 
 
 class TestVerticalCoord:
+    """Test erticalCoord."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.field = mocker.Mock(

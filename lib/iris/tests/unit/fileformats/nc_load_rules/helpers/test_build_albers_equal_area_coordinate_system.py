@@ -19,6 +19,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import (
 
 
 class TestBuildAlbersEqualAreaCoordinateSystem(MockerMixin):
+    """Test uildAlbersEqualAreaCoordinateSystem."""
     def _test(self, inverse_flattening=False, no_optionals=False):
         if no_optionals:
             # Most properties are optional for this system.

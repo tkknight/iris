@@ -13,6 +13,7 @@ from iris.common.metadata import BaseMetadata, MeshCoordMetadata
 
 
 class Test__identity:
+    """Test  identity."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.standard_name = mocker.sentinel.standard_name
@@ -67,6 +68,7 @@ class Test__identity:
 
 
 class Test__eq__:
+    """Test  eq  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.values = dict(
@@ -205,6 +207,7 @@ class Test__eq__:
 
 
 class Test___lt__:
+    """Test   lt  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cls = MeshCoordMetadata
@@ -247,6 +250,7 @@ class Test___lt__:
 
 
 class Test_combine:
+    """Test combine."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cls = MeshCoordMetadata
@@ -414,6 +418,7 @@ class Test_combine:
 
 
 class Test_difference:
+    """Test difference."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cls = MeshCoordMetadata
@@ -604,6 +609,7 @@ class Test_difference:
 
 
 class Test_equal:
+    """Test equal."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.cls = MeshCoordMetadata

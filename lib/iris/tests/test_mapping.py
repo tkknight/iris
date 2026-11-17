@@ -30,6 +30,7 @@ _DEFAULT_GLOBE = ccrs.Globe(
 @_shared_utils.skip_plot
 @_shared_utils.skip_data
 class TestBasic(_shared_utils.GraphicsTest):
+    """Test asic."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.realistic_4d()
@@ -65,6 +66,7 @@ class TestBasic(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestUnmappable(_shared_utils.GraphicsTest):
+    """Test nmappable."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         src_cube = iris.tests.stock.global_pp()
@@ -95,6 +97,7 @@ class TestUnmappable(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestMappingSubRegion(_shared_utils.GraphicsTest):
+    """Test appingSubRegion."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         cube_path = _shared_utils.get_data_path(
@@ -147,6 +150,7 @@ class TestMappingSubRegion(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestLowLevel(_shared_utils.GraphicsTest):
+    """Test owLevel."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.global_pp()
@@ -179,6 +183,7 @@ class TestLowLevel(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestBoundedCube(_shared_utils.GraphicsTest):
+    """Test oundedCube."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.global_pp()
@@ -217,6 +222,7 @@ class TestBoundedCube(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestLimitedAreaCube(_shared_utils.GraphicsTest):
+    """Test imitedAreaCube."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         cube_path = _shared_utils.get_data_path(("PP", "aPProt1", "rotated.pp"))

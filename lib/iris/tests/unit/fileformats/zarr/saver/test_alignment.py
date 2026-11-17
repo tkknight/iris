@@ -27,6 +27,7 @@ from iris.fileformats.zarr.saver import Saver, _tiles_the_grid
 
 
 class TestTilesTheGrid:
+    """Test ilesTheGrid."""
     def test_equal_chunks_tile(self):
         assert _tiles_the_grid(((8, 8, 8),), (8,))
 
@@ -50,6 +51,7 @@ class TestTilesTheGrid:
 
 
 class TestTheInvariantHolds:
+    """Test heInvariantHolds."""
     def test_a_sharded_target_keeps_every_value(self, tmp_path):
         # The §4.5 reproduction, through the saver. Without the rechunk this
         # loses 72-96 of 128 values, every time.

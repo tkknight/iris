@@ -28,6 +28,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import (
 
 
 class TestBoundsVertexDim(MockerMixin):
+    """Test oundsVertexDim."""
     # Lookup for various tests (which change the dimension order).
     dim_names_lens = {
         "foo": 2,
@@ -168,6 +169,7 @@ class TestBoundsVertexDim(MockerMixin):
 
 
 class TestDtype(MockerMixin):
+    """Test type."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Create coordinate cf variables and pyke engine.
@@ -263,6 +265,7 @@ class TestDtype(MockerMixin):
 
 
 class TestCoordConstruction:
+    """Test oordConstruction."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Create dummy pyke engine.

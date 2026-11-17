@@ -22,6 +22,7 @@ _DATA_LEN_WORD = struct.pack(">L", 4)
 
 
 class TestFieldGen:
+    """Test ieldGen."""
     @pytest.fixture
     def mock_for_field_gen(self, mocker):
         @contextlib.contextmanager

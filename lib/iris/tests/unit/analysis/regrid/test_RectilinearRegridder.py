@@ -24,6 +24,7 @@ regrid = Regridder._regrid
 
 
 class Test__regrid__linear:
+    """Test  regrid  linear."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.x = DimCoord(np.linspace(-2, 57, 60))
@@ -218,6 +219,7 @@ class Test__regrid__linear:
 # Check what happens to NaN values, extrapolated values, and
 # masked values.
 class Test__regrid__extrapolation_modes:
+    """Test  regrid  extrapolation modes."""
     values_by_method = {
         "linear": [
             [np.nan, np.nan, 2, 3, np.nan],
@@ -470,6 +472,7 @@ class Test__regrid__extrapolation_modes:
 
 
 class Test___call___lazy:
+    """Test   call   lazy."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = lat_lon_cube()
@@ -500,6 +503,7 @@ class Test___call___lazy:
 
 
 class Test___call____invalid_types:
+    """Test   call    invalid types."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = lat_lon_cube()
@@ -531,6 +535,7 @@ class Test___call____invalid_types:
 
 
 class Test___call____missing_coords:
+    """Test   call    missing coords."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.args = ("linear", "mask")
@@ -585,6 +590,7 @@ class Test___call____missing_coords:
 
 
 class Test___call____not_dim_coord:
+    """Test   call    not dim coord."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.args = ("linear", "mask")
@@ -629,6 +635,7 @@ class Test___call____not_dim_coord:
 
 
 class Test___call____not_dim_coord_share:
+    """Test   call    not dim coord share."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.args = ("linear", "mask")
@@ -659,6 +666,7 @@ class Test___call____not_dim_coord_share:
 
 
 class Test___call____bad_georeference:
+    """Test   call    bad georeference."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.args = ("linear", "mask")
@@ -709,6 +717,7 @@ class Test___call____bad_georeference:
 
 
 class Test___call____bad_angular_units:
+    """Test   call    bad angular units."""
     def ok_bad(self):
         # Changes the longitude coord to radians on `bad`.
         ok = lat_lon_cube()
@@ -747,6 +756,7 @@ def uk_cube():
 
 
 class Test___call____bad_linear_units:
+    """Test   call    bad linear units."""
     def ok_bad(self):
         # Defines `bad` with an x coordinate in km.
         ok = lat_lon_cube()
@@ -767,6 +777,7 @@ class Test___call____bad_linear_units:
 
 
 class Test___call____no_coord_systems:
+    """Test   call    no coord systems."""
     # Test behaviour in the absence of any coordinate systems.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -850,6 +861,7 @@ class Test___call____no_coord_systems:
 
 
 class Test___call____extrapolation_modes:
+    """Test   call    extrapolation modes."""
     values = [
         [np.nan, 6, 7, np.nan],
         [9, 10, 11, np.nan],
@@ -1056,6 +1068,7 @@ class Test___call____extrapolation_modes:
 
 @_shared_utils.skip_data
 class Test___call____rotated_to_lat_lon:
+    """Test   call    rotated to lat lon."""
     @pytest.fixture(autouse=True)
     def _setup(self):  # TODO: Mixin?
         self.src = realistic_4d()[:5, :2, ::40, ::30]
@@ -1288,6 +1301,7 @@ class Test___call____rotated_to_lat_lon:
 
 @_shared_utils.skip_data
 class Test___call____NOP:
+    """Test   call    NOP."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # The destination grid points are exactly the same as the
@@ -1321,6 +1335,7 @@ class Test___call____NOP:
 
 @_shared_utils.skip_data
 class Test___call____circular:
+    """Test   call    circular."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         src = global_pp()[::10, ::10]

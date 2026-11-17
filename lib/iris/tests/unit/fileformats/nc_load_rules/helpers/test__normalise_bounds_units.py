@@ -24,6 +24,7 @@ CF_NAME = "dummy_bnds"
 
 
 class Test(MockerMixin):
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.bounds = self.mocker.sentinel.bounds

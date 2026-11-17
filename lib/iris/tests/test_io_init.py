@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 
 class TestDecodeUri:
+    """Test ecodeUri."""
     @pytest.mark.parametrize(
         ("uri", "expected"),
         [
@@ -137,6 +138,7 @@ class TestCategoriseUri:
 
 
 class TestFileFormatPicker:
+    """Test ileFormatPicker."""
     def test_known_formats(self, request):
         _shared_utils.assert_string(
             request,

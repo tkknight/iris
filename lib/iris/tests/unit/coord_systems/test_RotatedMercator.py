@@ -13,6 +13,7 @@ from . import test_ObliqueMercator
 
 
 class TestArgs(test_ObliqueMercator.TestArgs):
+    """Test rgs."""
     class_kwargs_default = dict(
         latitude_of_projection_origin=0.0,
         longitude_of_projection_origin=0.0,

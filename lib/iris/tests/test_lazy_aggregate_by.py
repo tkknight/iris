@@ -12,6 +12,7 @@ from iris.tests import test_aggregate_by
 
 # Simply redo the tests of test_aggregate_by.py with lazy data
 class TestLazyAggregateBy(test_aggregate_by.TestAggregateBy):
+    """Test azyAggregateBy."""
     @pytest.fixture(autouse=True)
     def _setup_subclass(self, _setup):
         # Requests _setup to ensure this fixture runs AFTER _setup.
@@ -59,6 +60,7 @@ class TestLazyAggregateBy(test_aggregate_by.TestAggregateBy):
 
 
 class TestLazyAggregateByWeightedByCube(TestLazyAggregateBy):
+    """Test azyAggregateByWeightedByCube."""
     @pytest.fixture(autouse=True)
     def _setup_sub2(self, _setup_subclass):
         # Requests _setup_subclass to ensure this fixture runs AFTER _setup_subclass.

@@ -11,6 +11,7 @@ from iris.fileformats.rules import ConversionMetadata, _make_cube
 
 
 class Test:
+    """Test ."""
     def test_invalid_units(self, mocker):
         # Mock converter() function that returns an invalid
         # units string amongst the collection of other elements.

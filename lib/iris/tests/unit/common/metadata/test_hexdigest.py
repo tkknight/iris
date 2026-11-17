@@ -13,6 +13,7 @@ from iris.common.metadata import hexdigest
 
 
 class TestBytesLikeObject:
+    """Test ytesLikeObject."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.hasher = xxh64()
@@ -109,6 +110,7 @@ class TestBytesLikeObject:
 
 
 class TestNotBytesLikeObject:
+    """Test otBytesLikeObject."""
     def _expected(self, value):
         parts = str((type(value), value))
         return xxh64_hexdigest(parts.encode())

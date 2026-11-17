@@ -23,6 +23,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class TestColorBarCreation(_shared_utils.GraphicsTest):
+    """Test olorBarCreation."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.draw_functions = (contour, contourf, pcolormesh, pcolor)

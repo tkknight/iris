@@ -19,6 +19,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import (
 
 
 class TestBuildGeostationaryCoordinateSystem(MockerMixin):
+    """Test uildGeostationaryCoordinateSystem."""
     def _test(self, inverse_flattening=False, replace_props=None, remove_props=None):
         """Generic test that can check vertical perspective validity with or
         without inverse flattening.

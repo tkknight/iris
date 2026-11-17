@@ -26,6 +26,7 @@ from iris.warnings import IrisUserWarning
 
 
 class TestVertical:
+    """Test ertical."""
     def _test_coord(self, cube, point, bounds=None, **kwargs):
         coords = cube.coords(**kwargs)
         assert len(coords) == 1, "failed to find exactly one coord using: {}".format(
@@ -486,6 +487,7 @@ class TestVertical:
 
 
 class TestSaveLBFT:
+    """Test aveLBFT."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         delta_start = 24
@@ -596,6 +598,7 @@ class TestSaveLBFT:
 
 
 class TestCoordinateForms:
+    """Test oordinateForms."""
     def _common(self, x_coord, tmp_path):
         nx = len(x_coord.points)
         ny = 2
@@ -653,6 +656,7 @@ class TestCoordinateForms:
 
 @_shared_utils.skip_data
 class TestLoadLittleendian:
+    """Test oadLittleendian."""
     def test_load_sample(self):
         file_path = _shared_utils.get_data_path(
             ("PP", "little_endian", "qrparm.orog.pp")
@@ -677,6 +681,7 @@ class TestLoadLittleendian:
 
 @_shared_utils.skip_data
 class TestAsCubes:
+    """Test sCubes."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         dpath = _shared_utils.get_data_path(
@@ -712,6 +717,7 @@ class TestAsCubes:
 
 
 class TestSaveLBPROC:
+    """Test aveLBPROC."""
     def create_cube(self, longitude_coord="longitude"):
         cube = Cube(np.zeros((2, 3, 4)))
         tunit = Unit("days since epoch", calendar="standard")
@@ -756,6 +762,7 @@ class TestSaveLBPROC:
 
 @_shared_utils.skip_data
 class TestCallbackLoad:
+    """Test allbackLoad."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.pass_name = "air_potential_temperature"
@@ -780,6 +787,7 @@ class TestCallbackLoad:
 
 @_shared_utils.skip_data
 class TestZonalMeanBounds:
+    """Test onalMeanBounds."""
     def test_mulitple_longitude(self, tmp_path):
         # test that bounds are set for a zonal mean file with many longitude
         # values
@@ -812,6 +820,7 @@ class TestZonalMeanBounds:
 
 @_shared_utils.skip_data
 class TestLoadPartialMask:
+    """Test oadPartialMask."""
     def test_data(self):
         # Ensure that fields merge correctly where one has a mask and one
         # doesn't.

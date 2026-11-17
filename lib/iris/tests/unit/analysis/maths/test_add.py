@@ -20,6 +20,7 @@ from iris.tests.unit.analysis.maths import (
 
 @_shared_utils.skip_data
 class TestBroadcasting(CubeArithmeticBroadcastingTestMixin):
+    """Test roadcasting."""
     @property
     def data_op(self):
         return operator.add
@@ -30,6 +31,7 @@ class TestBroadcasting(CubeArithmeticBroadcastingTestMixin):
 
 
 class TestMasking(CubeArithmeticMaskingTestMixin):
+    """Test asking."""
     @property
     def data_op(self):
         return operator.add
@@ -40,6 +42,7 @@ class TestMasking(CubeArithmeticMaskingTestMixin):
 
 
 class TestCoordMatch(CubeArithmeticCoordsTest):
+    """Test oordMatch."""
     def test_no_match(self):
         cube1, cube2 = self.setup_non_matching()
         expected = "Insufficient matching coordinate metadata to resolve cubes"
@@ -54,6 +57,7 @@ class TestCoordMatch(CubeArithmeticCoordsTest):
 
 
 class TestMaskedConstant(CubeArithmeticMaskedConstantTestMixin):
+    """Test askedConstant."""
     @property
     def data_op(self):
         return operator.add

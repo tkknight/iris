@@ -13,6 +13,7 @@ from iris.tests import _shared_utils
 @_shared_utils.skip_gdal
 @_shared_utils.skip_data
 class TestGeoTiffExport:
+    """Test eoTiffExport."""
     def check_tiff_header(self, tiff_filename, expect_keys, expect_entries):
         """Checks the given tiff file's metadata contains the expected keys,
         and some matching values (not all).

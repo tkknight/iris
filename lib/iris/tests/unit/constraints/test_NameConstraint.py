@@ -10,6 +10,7 @@ from iris._constraints import NameConstraint
 
 
 class Test___init__:
+    """Test   init  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.default = "none"
@@ -67,6 +68,7 @@ class Test___init__:
 
 
 class Test__cube_func:
+    """Test  cube func."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.standard_name = mocker.sentinel.standard_name
@@ -153,6 +155,7 @@ class Test__cube_func:
 
 
 class Test___repr__:
+    """Test   repr  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.standard_name = mocker.sentinel.standard_name

@@ -18,6 +18,7 @@ from iris.fileformats.netcdf._thread_safe_nc import NetCDFDataProxy
 
 
 class Test_as_lazy_data:
+    """Test as lazy data."""
     def test_lazy(self):
         data = da.from_array(np.arange(24).reshape((2, 3, 4)), chunks="auto")
         result = as_lazy_data(data)
@@ -69,6 +70,7 @@ class Test_as_lazy_data:
 
 
 class Test_as_lazy_data__cache_key:
+    """Test as lazy data  cache key."""
     @staticmethod
     def _proxy(shape=(2, 3, 4), dtype="f4"):
         # NetCDFDataProxy reads only `shape` and `name` from what it is given,
@@ -130,6 +132,7 @@ def test_lazy_data_imports_no_file_format():
 
 
 class Test__optimised_chunks:
+    """Test  optimised chunks."""
     # Stable, known chunksize for testing.
     FIXED_CHUNKSIZE_LIMIT = 1024 * 1024 * 64
 

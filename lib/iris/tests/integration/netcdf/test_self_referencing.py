@@ -15,6 +15,7 @@ from iris.warnings import IrisCfMissingVarWarning
 
 @_shared_utils.skip_data
 class TestCMIP6VolcelloLoad:
+    """Test MIP6VolcelloLoad."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.fname = _shared_utils.get_data_path(
@@ -47,6 +48,7 @@ class TestCMIP6VolcelloLoad:
 
 
 class TestSelfReferencingVarLoad:
+    """Test elfReferencingVarLoad."""
     @pytest.fixture(autouse=True)
     def _setup(self, tmp_path):
         self.temp_dir_path = tmp_path / "issue_3367_volcello_test_file.nc"

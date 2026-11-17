@@ -13,6 +13,7 @@ import iris.tests.stock as stock
 
 
 class Test:
+    """Test ."""
     def test_bounds_mismatch(self):
         cube = stock.realistic_3d()
         cube.coord("grid_longitude").guess_bounds()

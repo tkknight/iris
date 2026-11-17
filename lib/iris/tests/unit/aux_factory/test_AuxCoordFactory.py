@@ -22,6 +22,7 @@ from iris.tests._shared_utils import assert_array_equal, get_data_path, skip_dat
 
 
 class Test__nd_points:
+    """Test  nd points."""
     def test_numpy_scalar_coord__zero_ndim(self):
         points = np.array(1)
         coord = AuxCoord(points)
@@ -77,6 +78,7 @@ class Test__nd_points:
 
 
 class Test__nd_bounds:
+    """Test  nd bounds."""
     def test_numpy_scalar_coord__zero_ndim(self):
         points = np.array(0.5)
         bounds = np.arange(2)
@@ -140,6 +142,7 @@ class Test__nd_bounds:
 
 @skip_data
 class Test_lazy_aux_coords:
+    """Test lazy aux coords."""
     @pytest.fixture
     def sample_cube(self, mocker):
         path = get_data_path(["NetCDF", "testing", "small_theta_colpex.nc"])
@@ -213,6 +216,7 @@ def chunkspecs(points: _Chunkspec, bounds: _Chunkspec) -> Tuple[_Chunks, _Chunks
 
 
 class Test_rechunk:
+    """Test rechunk."""
     class TestAuxFact(AuxCoordFactory):
         """A minimal AuxCoordFactory that enables us to test the re-chunking logic."""
 

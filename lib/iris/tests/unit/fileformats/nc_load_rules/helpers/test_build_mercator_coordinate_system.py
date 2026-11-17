@@ -14,6 +14,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import CFVariableStandIn
 
 
 class TestBuildMercatorCoordinateSystem:
+    """Test uildMercatorCoordinateSystem."""
     def test_valid(self, mocker):
         cf_grid_var = CFVariableStandIn(
             longitude_of_projection_origin=-90,

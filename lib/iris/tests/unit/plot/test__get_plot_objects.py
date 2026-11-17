@@ -15,6 +15,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class Test__get_plot_objects:
+    """Test  get plot objects."""
     def test_scalar(self):
         cube1 = iris.cube.Cube(1)
         cube2 = iris.cube.Cube(1)

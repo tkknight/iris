@@ -14,6 +14,7 @@ from iris.analysis.maths import _output_dtype
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Operators which result in a value of the same dtype as their

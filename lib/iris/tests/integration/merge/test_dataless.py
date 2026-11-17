@@ -12,6 +12,7 @@ from iris.cube import Cube, CubeList
 
 
 class TestMergeDataless:
+    """Test ergeDataless."""
     def _testcube(self, z=1, name="this", dataless=False, lazy=False):
         # Create a testcube with a scalar Z coord, for merge testing.
         data = da.arange(3) if lazy else np.arange(3)

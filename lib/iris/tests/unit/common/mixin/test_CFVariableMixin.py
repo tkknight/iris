@@ -21,6 +21,7 @@ from iris.common.mixin import CFVariableMixin, LimitedAttributeDict
 
 
 class Test__getter:
+    """Test  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.standard_name = mocker.sentinel.standard_name
@@ -62,6 +63,7 @@ class Test__getter:
 
 
 class Test__setter:
+    """Test  setter."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         metadata = mocker.MagicMock(
@@ -129,6 +131,7 @@ class Test__setter:
 
 
 class Test__metadata_setter:
+    """Test  metadata setter."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         class Metadata:
@@ -286,6 +289,7 @@ class Test__metadata_setter:
 
 
 class Test_rename:
+    """Test rename."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         metadata = mocker.MagicMock(
@@ -317,6 +321,7 @@ class Test_rename:
 
 
 class Test_name:
+    """Test name."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         class Metadata:

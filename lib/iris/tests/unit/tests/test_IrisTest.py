@@ -66,12 +66,14 @@ class _MaskedArrayEquality(metaclass=ABCMeta):
 
 
 class Test_assertMaskedArrayEqual(_MaskedArrayEquality, tests.IrisTest):
+    """Test assertMaskedArrayEqual."""
     @property
     def _func(self):
         return self.assertMaskedArrayEqual
 
 
 class Test_assertMaskedArrayEqual__Nonmaasked(tests.IrisTest):
+    """Test assertMaskedArrayEqual  Nonmaasked."""
     def test_nonmasked_same(self):
         # Masked test can be used on non-masked arrays.
         arr1 = np.array([1, 2])
@@ -113,6 +115,7 @@ class Test_assertMaskedArrayEqual__Nonmaasked(tests.IrisTest):
 
 
 class Test_assertMaskedArrayAlmostEqual(_MaskedArrayEquality, tests.IrisTest):
+    """Test assertMaskedArrayAlmostEqual."""
     @property
     def _func(self):
         return self.assertMaskedArrayAlmostEqual

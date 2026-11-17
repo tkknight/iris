@@ -12,6 +12,7 @@ from iris.cube import Cube
 
 
 class Test:
+    """Test ."""
     # `_inplace_common_checks` is a pass-through function that does not return
     # anything but will fail iff `cube` and `other` have integer dtype. Thus in
     # a sense we only want to test the failing cases. Doing so, however, leaves

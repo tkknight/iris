@@ -12,6 +12,7 @@ from iris.common.metadata import _NamedTupleMeta
 
 
 class TestNamedTupleMeta:
+    """Test amedTupleMeta."""
     @staticmethod
     def names(classes):
         return [cls.__name__ for cls in classes]

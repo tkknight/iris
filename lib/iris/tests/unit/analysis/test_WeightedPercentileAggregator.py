@@ -14,6 +14,7 @@ from iris.tests import _shared_utils
 
 
 class Test:
+    """Test ."""
     def test_init(self, mocker):
         name = "weighted_percentile"
         call_func = _weighted_percentile
@@ -30,6 +31,7 @@ class Test:
 
 
 class Test_post_process:
+    """Test post process."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         shape = (2, 5)

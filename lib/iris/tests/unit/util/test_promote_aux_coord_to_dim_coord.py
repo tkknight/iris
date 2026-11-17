@@ -15,6 +15,7 @@ from iris.util import promote_aux_coord_to_dim_coord
 
 
 class Test:
+    """Test ."""
     def test_dimension_already_has_dimcoord(self):
         cube_a = stock.hybrid_height()
         cube_b = cube_a.copy()

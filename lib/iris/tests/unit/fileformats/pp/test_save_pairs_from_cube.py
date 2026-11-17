@@ -11,6 +11,7 @@ import iris.tests.stock as stock
 
 
 class TestSaveFields:
+    """Test aveFields."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.realistic_3d()

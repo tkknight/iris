@@ -15,6 +15,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class TestStringCoordPlot(TestGraphicStringCoord):
+    """Test tringCoordPlot."""
     parent_setup = TestGraphicStringCoord._setup
 
     @pytest.fixture(autouse=True)

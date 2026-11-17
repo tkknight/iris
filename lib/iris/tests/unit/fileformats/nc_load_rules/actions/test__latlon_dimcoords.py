@@ -22,6 +22,7 @@ from iris.tests.unit.fileformats.nc_load_rules.actions import Mixin__nc_load_act
 
 
 class Mixin_latlon_dimcoords(Mixin__nc_load_actions):
+    """Mixin_latlon_dimcoords."""
     # Tests for the recognition and construction of latitude/longitude coords.
 
     # Control to test either longitude or latitude coords.
@@ -332,8 +333,10 @@ netcdf test {{
 
 
 class Test__longitude_coords(Mixin_latlon_dimcoords):
+    """Test  longitude coords."""
     lat_1_or_lon_0 = 0
 
 
 class Test__latitude_coords(Mixin_latlon_dimcoords):
+    """Test  latitude coords."""
     lat_1_or_lon_0 = 1

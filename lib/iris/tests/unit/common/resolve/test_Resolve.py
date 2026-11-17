@@ -29,6 +29,7 @@ from iris.cube import Cube
 
 
 class Test___init__:
+    """Test   init  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         target = "iris.common.resolve.Resolve.__call__"
@@ -76,6 +77,7 @@ class Test___init__:
 
 
 class Test___call__:
+    """Test   call  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.m_lhs = mocker.MagicMock(spec=Cube)
@@ -140,6 +142,7 @@ class Test___call__:
 
 
 class Test__categorise_items:
+    """Test  categorise items."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.coord_dims = {}
@@ -199,6 +202,7 @@ class Test__categorise_items:
 
 
 class Test__metadata_resolve:
+    """Test  metadata resolve."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.target = "iris.common.resolve.Resolve._categorise_items"
@@ -424,6 +428,7 @@ class Test__metadata_resolve:
 
 
 class Test__dim_coverage:
+    """Test  dim coverage."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.ndim = 4
@@ -505,6 +510,7 @@ class Test__dim_coverage:
 
 
 class Test__aux_coverage:
+    """Test  aux coverage."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.ndim = 4
@@ -621,6 +627,7 @@ class Test__aux_coverage:
 
 
 class Test__metadata_coverage:
+    """Test  metadata coverage."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.resolve = Resolve()
@@ -698,6 +705,7 @@ class Test__metadata_coverage:
 
 
 class Test__dim_mapping:
+    """Test  dim mapping."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.ndim = 3
@@ -776,6 +784,7 @@ class Test__dim_mapping:
 
 
 class Test__aux_mapping:
+    """Test  aux mapping."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.ndim = 3
@@ -891,6 +900,7 @@ class Test__aux_mapping:
 
 
 class Test_mapped:
+    """Test mapped."""
     def test_mapping_none(self):
         resolve = Resolve()
         assert resolve.mapping is None
@@ -928,6 +938,7 @@ class Test_mapped:
 
 
 class Test__free_mapping:
+    """Test  free mapping."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.Cube = namedtuple("Wrapper", ("name", "ndim", "shape"))
@@ -1352,6 +1363,7 @@ class Test__free_mapping:
 
 
 class Test__src_cube:
+    """Test  src cube."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.resolve = Resolve()
@@ -1373,6 +1385,7 @@ class Test__src_cube:
 
 
 class Test__src_cube_position:
+    """Test  src cube position."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.resolve = Resolve()
@@ -1391,6 +1404,7 @@ class Test__src_cube_position:
 
 
 class Test__src_cube_resolved__getter:
+    """Test  src cube resolved  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.resolve = Resolve()
@@ -1412,6 +1426,7 @@ class Test__src_cube_resolved__getter:
 
 
 class Test__src_cube_resolved__setter:
+    """Test  src cube resolved  setter."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.resolve = Resolve()
@@ -1433,6 +1448,7 @@ class Test__src_cube_resolved__setter:
 
 
 class Test__tgt_cube:
+    """Test  tgt cube."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.resolve = Resolve()
@@ -1454,6 +1470,7 @@ class Test__tgt_cube:
 
 
 class Test__tgt_cube_position:
+    """Test  tgt cube position."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.resolve = Resolve()
@@ -1472,6 +1489,7 @@ class Test__tgt_cube_position:
 
 
 class Test__tgt_cube_resolved__getter:
+    """Test  tgt cube resolved  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.resolve = Resolve()
@@ -1493,6 +1511,7 @@ class Test__tgt_cube_resolved__getter:
 
 
 class Test__tgt_cube_resolved__setter:
+    """Test  tgt cube resolved  setter."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.resolve = Resolve()
@@ -1514,6 +1533,7 @@ class Test__tgt_cube_resolved__setter:
 
 
 class Test_shape:
+    """Test shape."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.resolve = Resolve()
@@ -1528,6 +1548,7 @@ class Test_shape:
 
 
 class Test__as_compatible_cubes:
+    """Test  as compatible cubes."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.Cube = namedtuple(
@@ -1810,6 +1831,7 @@ class Test__as_compatible_cubes:
 
 
 class Test__metadata_mapping:
+    """Test  metadata mapping."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.ndim = mocker.sentinel.ndim
@@ -2033,6 +2055,7 @@ class Test__metadata_mapping:
 
 
 class Test__prepare_common_dim_payload:
+    """Test  prepare common dim payload."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # key: (state) c=common, f=free
@@ -2232,6 +2255,7 @@ class Test__prepare_common_dim_payload:
 
 
 class Test__prepare_common_aux_payload:
+    """Test  prepare common aux payload."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # key: (state) c=common, f=free
@@ -2441,6 +2465,7 @@ class Test__prepare_common_aux_payload:
 
 
 class Test__prepare_points_and_bounds:
+    """Test  prepare points and bounds."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.Coord = namedtuple(
@@ -2826,6 +2851,7 @@ class Test__prepare_points_and_bounds:
 
 
 class Test__create_prepared_item:
+    """Test  create prepared item."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         Coord = namedtuple("Coord", ["points", "bounds"])
@@ -2875,6 +2901,7 @@ class Test__create_prepared_item:
 
 
 class Test__prepare_local_payload_dim:
+    """Test  prepare local payload dim."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.Cube = namedtuple("Cube", ["ndim"])
@@ -3161,6 +3188,7 @@ class Test__prepare_local_payload_dim:
 
 
 class Test__prepare_local_payload_aux:
+    """Test  prepare local payload aux."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.Cube = namedtuple("Cube", ["ndim"])
@@ -3477,6 +3505,7 @@ class Test__prepare_local_payload_aux:
 
 
 class Test__prepare_local_payload_scalar:
+    """Test  prepare local payload scalar."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.Cube = namedtuple("Cube", ["ndim"])
@@ -3744,6 +3773,7 @@ class Test__prepare_local_payload_scalar:
 
 
 class Test__prepare_local_payload:
+    """Test  prepare local payload."""
     def test(self, mocker):
         src_dim_coverage = mocker.sentinel.src_dim_coverage
         src_aux_coverage = mocker.sentinel.src_aux_coverage
@@ -3772,6 +3802,7 @@ class Test__prepare_local_payload:
 
 
 class Test__metadata_prepare:
+    """Test  metadata prepare."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.src_cube = mocker.sentinel.src_cube
@@ -3869,6 +3900,7 @@ class Test__metadata_prepare:
 
 
 class Test__prepare_factory_payload:
+    """Test  prepare factory payload."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.Cube = namedtuple("Cube", ["aux_factories"])
@@ -4035,6 +4067,7 @@ class Test__prepare_factory_payload:
 
 
 class Test__get_prepared_item:
+    """Test  get prepared item."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         PreparedItem = namedtuple("PreparedItem", ["metadata"])
@@ -4311,6 +4344,7 @@ class Test__get_prepared_item:
 
 
 class Test_cube:
+    """Test cube."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.shape = (2, 3)

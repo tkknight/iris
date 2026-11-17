@@ -14,6 +14,7 @@ from iris.tests.stock.mesh import sample_mesh_cube
 
 
 class TestCubePrintout___str__:
+    """Test ubePrintout   str  ."""
     def test_str(self):
         # Just check that its str representation is the 'to_string' result.
         cube = Cube(0)
@@ -27,6 +28,7 @@ def cube_replines(cube, **kwargs):
 
 
 class TestCubePrintout__to_string:
+    """Test ubePrintout  to string."""
     def test_empty(self):
         cube = Cube([0])
         rep = cube_replines(cube)

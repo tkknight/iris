@@ -14,6 +14,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class Test_get_plot_defn:
+    """Test get plot defn."""
     def test_axis_order_xy(self):
         cube_xy = simple_2d()
         defn = iplt._get_plot_defn(cube_xy, iris.coords.POINT_MODE)

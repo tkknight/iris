@@ -27,6 +27,7 @@ def _default_coord(data):
 
 
 class TestAll_NAMEII:
+    """Test ll NAMEII."""
     # NAMEII formats are defined by bounds, not points
     def test_bounded_height_above_ground(self):
         data = "From     0 -   100m agl"
@@ -157,6 +158,7 @@ class TestAll_NAMEII:
 
 
 class TestAll_NAMEIII:
+    """Test ll NAMEIII."""
     # NAMEIII formats are defined by points, not bounds.
     def test_height_above_ground(self):
         data = "Z = 50.00000 m agl"

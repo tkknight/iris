@@ -160,6 +160,7 @@ class DuplicateDataError(MergeError):
 
 
 class LazyAggregatorError(Exception):
+    """LazyAggregatorError."""
     pass
 
 

@@ -38,6 +38,7 @@ _HOURS_UNIT = Unit("hours")
 
 
 class TestLBTIMx0x_SingleTimepoint:
+    """Test BTIMx0x SingleTimepoint."""
     def _check_timepoint(self, lbcode, expect_match=True):
         lbtim = _lbtim(ib=0, ic=1)
         t1 = nc_datetime(1970, 1, 1, hour=6, minute=0, second=0)
@@ -79,6 +80,7 @@ class TestLBTIMx0x_SingleTimepoint:
 
 
 class TestLBTIMx1x_Forecast:
+    """Test BTIMx1x Forecast."""
     def _check_forecast(self, lbcode, expect_match=True):
         lbtim = _lbtim(ib=1, ic=1)
         # Validity time
@@ -169,6 +171,7 @@ class TestLBTIMx1x_Forecast:
 
 
 class TestLBTIMx2x_TimePeriod:
+    """Test BTIMx2x TimePeriod."""
     def _check_period(self, lbcode, expect_match=True):
         lbtim = _lbtim(ib=2, ic=1)
         # Start time
@@ -228,6 +231,7 @@ class TestLBTIMx2x_TimePeriod:
 
 
 class TestLBTIMx3x_YearlyAggregation:
+    """Test BTIMx3x YearlyAggregation."""
     def _check_yearly(self, lbcode, expect_match=True):
         lbtim = _lbtim(ib=3, ic=1)
         # Start time
@@ -290,6 +294,7 @@ class TestLBTIMx3x_YearlyAggregation:
 
 
 class TestLBTIMx2x_ZeroYear:
+    """Test BTIMx2x ZeroYear."""
     def test_(self):
         lbtim = _lbtim(ib=2, ic=1)
         t1 = nc_datetime(0, 1, 1, has_year_zero=True)
@@ -308,6 +313,7 @@ class TestLBTIMx2x_ZeroYear:
 
 
 class TestLBTIMxxx_Unhandled:
+    """Test BTIMxxx Unhandled."""
     def test_unrecognised(self):
         lbtim = _lbtim(ib=4, ic=1)
         t1 = nc_datetime(0, 0, 0, calendar=None, has_year_zero=True)
@@ -326,6 +332,7 @@ class TestLBTIMxxx_Unhandled:
 
 
 class TestLBCODE3xx:
+    """Test BCODE3xx."""
     def test(self):
         lbcode = _lbcode(value=31323)
         lbtim = _lbtim(ib=2, ic=2)
@@ -356,6 +363,7 @@ class TestLBCODE3xx:
 
 
 class TestArrayInputWithLBTIM_0_0_1:
+    """Test rrayInputWithLBTIM 0 0 1."""
     def test_t1_list(self):
         # lbtim ia = 0, ib = 0, ic = 1
         # with a series of times (t1).
@@ -388,6 +396,7 @@ class TestArrayInputWithLBTIM_0_0_1:
 
 
 class TestArrayInputWithLBTIM_0_1_1:
+    """Test rrayInputWithLBTIM 0 1 1."""
     def test_t1_list_t2_scalar(self):
         # lbtim ia = 0, ib = 1, ic = 1
         # with a single forecast reference time (t2) and a series
@@ -640,6 +649,7 @@ class TestArrayInputWithLBTIM_0_1_1:
 
 
 class TestArrayInputWithLBTIM_0_2_1:
+    """Test rrayInputWithLBTIM 0 2 1."""
     def test_t1_list_t2_scalar(self):
         lbtim = _lbtim(ib=2, ic=1)
         lbcode = _lbcode(1)
@@ -695,6 +705,7 @@ class TestArrayInputWithLBTIM_0_2_1:
 
 
 class TestArrayInputWithLBTIM_0_3_1:
+    """Test rrayInputWithLBTIM 0 3 1."""
     def test_t1_scalar_t2_list(self):
         lbtim = _lbtim(ib=3, ic=1)
         lbcode = _lbcode(1)

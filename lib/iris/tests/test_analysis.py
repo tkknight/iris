@@ -22,6 +22,7 @@ import iris.util
 
 
 class TestAnalysisCubeCoordComparison:
+    """Test nalysisCubeCoordComparison."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -171,6 +172,7 @@ class TestAnalysisCubeCoordComparison:
 
 
 class TestAnalysisWeights:
+    """Test nalysisWeights."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -310,6 +312,7 @@ class TestAnalysisWeights:
 
 @_shared_utils.skip_data
 class TestAnalysisBasic:
+    """Test nalysisBasic."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -403,6 +406,7 @@ class TestAnalysisBasic:
 
 
 class TestMissingData:
+    """Test issingData."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube_with_nan = stock.simple_2d()
@@ -441,6 +445,7 @@ class TestMissingData:
 
 
 class TestAuxCoordCollapse:
+    """Test uxCoordCollapse."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube_with_aux_coord = stock.simple_4d_with_hybrid_height()
@@ -495,6 +500,7 @@ class TestAuxCoordCollapse:
 
 
 class TestAggregator_mdtol_keyword:
+    """Test ggregator mdtol keyword."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         data = ma.array(
@@ -553,6 +559,7 @@ class TestAggregator_mdtol_keyword:
 
 
 class TestAggregators:
+    """Test ggregators."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -1107,6 +1114,7 @@ class TestAggregators:
 
 @_shared_utils.skip_data
 class TestRotatedPole:
+    """Test otatedPole."""
     def _check_both_conversions(self, cube, index):
         rlons, rlats = iris.analysis.cartography.get_xy_grids(cube)
         rcs = cube.coord_system("RotatedGeogCS")
@@ -1200,6 +1208,7 @@ class TestRotatedPole:
 
 @_shared_utils.skip_data
 class TestAreaWeights:
+    """Test reaWeights."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -1247,6 +1256,7 @@ class TestAreaWeights:
 
 @_shared_utils.skip_data
 class TestLazyAreaWeights:
+    """Test azyAreaWeights."""
     @pytest.mark.parametrize("normalize", [True, False])
     @pytest.mark.parametrize("chunks", [None, (2, 3, 4), (2, 2, 2)])
     def test_lazy_area_weights(self, chunks, normalize):
@@ -1288,6 +1298,7 @@ class TestLazyAreaWeights:
 
 @_shared_utils.skip_data
 class TestAreaWeightGeneration:
+    """Test reaWeightGeneration."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.realistic_4d()
@@ -1377,6 +1388,7 @@ class TestAreaWeightGeneration:
 
 @_shared_utils.skip_data
 class TestLatitudeWeightGeneration:
+    """Test atitudeWeightGeneration."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         path = _shared_utils.get_data_path(
@@ -1525,6 +1537,7 @@ class TestLatitudeWeightGeneration:
 
 
 class TestRollingWindow:
+    """Test ollingWindow."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -1699,6 +1712,7 @@ class TestRollingWindow:
 
 
 class TestCreateWeightedAggregatorFn:
+    """Test reateWeightedAggregatorFn."""
     @staticmethod
     def aggregator_fn(data, axis, **kwargs):
         return (data, axis, kwargs)
@@ -1738,6 +1752,7 @@ class TestCreateWeightedAggregatorFn:
 
 @pytest.mark.parametrize("lazy", [True, False])
 class TestWeights:
+    """Test eights."""
     @pytest.fixture(autouse=True)
     def _setup_test_data(self, lazy):
         if lazy:

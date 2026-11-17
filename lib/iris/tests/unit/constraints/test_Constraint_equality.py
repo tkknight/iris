@@ -8,6 +8,7 @@ from iris._constraints import AttributeConstraint, Constraint, NameConstraint
 
 
 class Test_Constraint__hash__:
+    """Test Constraint  hash  ."""
     def test_empty(self):
         c1 = Constraint()
         c2 = Constraint()
@@ -16,6 +17,7 @@ class Test_Constraint__hash__:
 
 
 class Test_Constraint__eq__:
+    """Test Constraint  eq  ."""
     def test_empty_same(self):
         c1 = Constraint()
         c2 = Constraint()
@@ -100,6 +102,7 @@ class Test_Constraint__eq__:
 
 
 class Test_AttributeConstraint__hash__:
+    """Test AttributeConstraint  hash  ."""
     def test_empty(self):
         c1 = AttributeConstraint()
         c2 = AttributeConstraint()
@@ -108,6 +111,7 @@ class Test_AttributeConstraint__hash__:
 
 
 class Test_AttributeConstraint__eq__:
+    """Test AttributeConstraint  eq  ."""
     def test_empty_same(self):
         c1 = AttributeConstraint()
         c2 = AttributeConstraint()
@@ -149,6 +153,7 @@ class Test_AttributeConstraint__eq__:
 
 
 class Test_NameConstraint__hash__:
+    """Test NameConstraint  hash  ."""
     def test_empty(self):
         c1 = NameConstraint()
         c2 = NameConstraint()
@@ -157,6 +162,7 @@ class Test_NameConstraint__hash__:
 
 
 class Test_NameConstraint__eq__:
+    """Test NameConstraint  eq  ."""
     def test_empty_same(self):
         c1 = NameConstraint()
         c2 = NameConstraint()
@@ -228,6 +234,7 @@ class Test_NameConstraint__eq__:
 
 
 class Test_ConstraintCombination__hash__:
+    """Test ConstraintCombination  hash  ."""
     def test_empty(self):
         c1 = Constraint() & Constraint()
         c2 = Constraint() & Constraint()
@@ -242,6 +249,7 @@ class Test_ConstraintCombination__hash__:
 
 
 class Test_ConstraintCombination__eq__:
+    """Test ConstraintCombination  eq  ."""
     def test_empty_same(self):
         c1 = Constraint() & Constraint()
         c2 = Constraint() & Constraint()

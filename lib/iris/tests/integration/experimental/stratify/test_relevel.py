@@ -17,6 +17,7 @@ import iris.tests.stock as stock
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         cube = stock.simple_3d()[:, :1, :1]

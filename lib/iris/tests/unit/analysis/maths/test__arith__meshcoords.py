@@ -37,6 +37,7 @@ def _convert_to_meshcube(cube):
 
 
 class MeshLocationsMixin:
+    """MeshLocationsMixin."""
     # Control allowing us to also include test with derived coordinates.
     use_derived_coords = False
 

@@ -18,6 +18,7 @@ from iris.util import _is_circular
     ],
 )
 class TestIsCircular:
+    """Test sCircular."""
     @staticmethod
     def _calc_bounds(points):
         diff = np.diff(points).mean()

@@ -18,6 +18,7 @@ from iris.tests.stock.mesh import sample_mesh_cube
 
 
 class Test_conventions:
+    """Test conventions."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = Cube([0])
@@ -60,6 +61,7 @@ class Test_conventions:
 
 
 class Test_attributes:
+    """Test attributes."""
     def test_attributes_arrays(self, tmp_path):
         # Ensure that attributes containing NumPy arrays can be equality
         # checked and their cubes saved as appropriate.
@@ -108,6 +110,7 @@ class Test_attributes:
 
 
 class Test_unlimited_dims:
+    """Test unlimited dims."""
     def test_no_unlimited_dims(self, tmp_path):
         cube = lat_lon_cube()
         nc_out = tmp_path / "foo.nc"
@@ -125,6 +128,7 @@ class Test_unlimited_dims:
 
 
 class Test_fill_value:
+    """Test fill value."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.standard_names = [

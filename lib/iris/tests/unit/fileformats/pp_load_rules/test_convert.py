@@ -59,6 +59,7 @@ def _mock_field(**kwargs):
 
 
 class TestLBCODE:
+    """Test BCODE."""
     @staticmethod
     def _is_cross_section_height_coord(coord):
         return (
@@ -98,6 +99,7 @@ class TestLBCODE:
 
 
 class TestLBVC:
+    """Test BVC."""
     @staticmethod
     def _is_potm_level_coord(coord):
         return (
@@ -233,6 +235,7 @@ class TestLBVC:
 
 
 class TestLBTIM:
+    """Test BTIM."""
     def test_365_calendar(self):
         f = mock.MagicMock(
             lbtim=SplittableInt(4, {"ia": 2, "ib": 1, "ic": 0}),
@@ -351,6 +354,7 @@ class TestLBTIM:
 
 
 class TestLBRSVD:
+    """Test BRSVD."""
     @staticmethod
     def _is_realization(coord):
         return coord.standard_name == "realization" and coord.units == "1"
@@ -371,6 +375,7 @@ class TestLBRSVD:
 
 
 class TestLBSRCE:
+    """Test BSRCE."""
     def check_um_source_attrs(self, lbsrce, source_str=None, um_version_str=None):
         field = _mock_field(lbsrce=lbsrce)
         (
@@ -412,6 +417,7 @@ class TestLBSRCE:
 
 
 class Test_STASH_CF:
+    """Test STASH CF."""
     def test_stash_cf_air_temp(self):
         lbuser = [1, 0, 0, 16203, 0, 0, 1]
         lbfc = 16
@@ -452,6 +458,7 @@ class Test_STASH_CF:
 
 
 class Test_LBFC_CF:
+    """Test LBFC CF."""
     def test_fc_cf_air_temp(self):
         lbuser = [1, 0, 0, 0, 0, 0, 0]
         lbfc = 16

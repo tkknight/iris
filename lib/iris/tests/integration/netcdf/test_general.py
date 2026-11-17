@@ -33,6 +33,7 @@ from iris.tests.stock.netcdf import ncgen_from_cdl
 
 
 class TestLazySave:
+    """Test azySave."""
     @_shared_utils.skip_data
     def test_lazy_preserved_save(self, mocker, tmp_path):
         fpath = _shared_utils.get_data_path(
@@ -56,6 +57,7 @@ class TestLazySave:
 
 @_shared_utils.skip_data
 class TestCellMeasures:
+    """Test ellMeasures."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.fname = _shared_utils.get_data_path(("NetCDF", "ORCA2", "votemper.nc"))
@@ -119,6 +121,7 @@ class TestCellMeasures:
 
 
 class TestCellMethod_unknown:
+    """Test ellMethod unknown."""
     def test_unknown_method(self, tmp_path_factory):
         cube = Cube([1, 2], long_name="odd_phenomenon")
         cube.add_cell_method(CellMethod(method="oddity", coords=("x",)))
@@ -169,6 +172,7 @@ def _get_scale_factor_add_offset(cube, datatype):
 
 @_shared_utils.skip_data
 class TestPackedData:
+    """Test ackedData."""
     def _single_test(self, datatype, CDLfilename, request, tmp_path, manual=False):
         # Read PP input file.
         file_in = _shared_utils.get_data_path(
@@ -288,6 +292,7 @@ class TestPackedData:
 
 
 class TestScalarCube:
+    """Test calarCube."""
     def test_scalar_cube_save_load(self, tmp_path):
         cube = iris.cube.Cube(1, long_name="scalar_cube")
         fout = tmp_path / "scalar_cube.nc"
@@ -298,6 +303,7 @@ class TestScalarCube:
 
 @_shared_utils.skip_data
 class TestConstrainedLoad:
+    """Test onstrainedLoad."""
     filename = _shared_utils.get_data_path(
         ("NetCDF", "label_and_climate", "A1B-99999a-river-sep-2070-2099.nc")
     )
@@ -321,6 +327,7 @@ class TestConstrainedLoad:
 
 
 class TestSkippedCoord:
+    """Test kippedCoord."""
     # If a coord/cell measure/etcetera cannot be added to the loaded Cube, a
     #  Warning is raised and the coord is stored in iris.loading.LOAD_PROBLEMS.
     # This 'catching' is generic to all CannotAddErrors, but currently the only
@@ -372,6 +379,7 @@ data:
 
 @_shared_utils.skip_data
 class TestDatasetAndPathLoads:
+    """Test atasetAndPathLoads."""
     @pytest.fixture(scope="class", autouse=True)
     def _setup_class(self, request):
         cls = request.cls
@@ -402,6 +410,7 @@ class TestDatasetAndPathLoads:
 
 @_shared_utils.skip_data
 class TestDatasetAndPathSaves:
+    """Test atasetAndPathSaves."""
     @pytest.fixture(scope="class", autouse=True)
     def _setup_class(self, request, tmp_path_factory):
         cls = request.cls
@@ -488,6 +497,7 @@ class TestDatasetAndPathSaves:
 
 @_shared_utils.skip_data
 class TestWarningRepeats:
+    """Test arningRepeats."""
     def test_warning_repeats(self):
         """Confirm Iris load does not break Python duplicate warning handling."""
         # units.nc is designed for testing Iris' 'ignoring invalid units'

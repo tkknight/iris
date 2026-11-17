@@ -10,6 +10,7 @@ from iris.fileformats.netcdf.ugrid_load import load_mesh
 
 
 class Tests:
+    """Test ."""
     # All 'real' tests have been done for load_meshes(). Here we just check
     #  that load_mesh() works with load_meshes() correctly, using mocking.
     @pytest.fixture(autouse=True)

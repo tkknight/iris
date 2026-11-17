@@ -18,6 +18,7 @@ from iris.warnings import IrisFactoryCoordNotFoundWarning
 
 
 class TestAtmosphereHybridSigmaPressureCoordinate(MockerMixin):
+    """Test tmosphereHybridSigmaPressureCoordinate."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         standard_name = "atmosphere_hybrid_sigma_pressure_coordinate"

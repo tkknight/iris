@@ -14,6 +14,7 @@ from iris.tests.stock.netcdf import ncgen_from_cdl
 
 
 class TestClimatology:
+    """Test limatology."""
     reference_cdl_path = str(
         Path(iris.tests.__file__).parent
         / "results/integration/climatology/TestClimatology/"

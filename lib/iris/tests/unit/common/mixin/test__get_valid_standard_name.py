@@ -10,6 +10,7 @@ from iris.common.mixin import _get_valid_standard_name
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.emsg = "'{}' is not a valid standard_name"

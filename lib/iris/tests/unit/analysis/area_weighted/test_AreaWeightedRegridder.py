@@ -19,6 +19,7 @@ from iris.tests import _shared_utils
 
 
 class Test:
+    """Test ."""
     def cube(self, x, y):
         data = np.arange(len(x) * len(y)).reshape(len(y), len(x))
         cube = Cube(data)
@@ -259,6 +260,7 @@ class Test:
 
 @_shared_utils.skip_data
 class TestLazy:
+    """Test azy."""
     @pytest.fixture(autouse=True)
     # Setup
     def _setup(self) -> None:

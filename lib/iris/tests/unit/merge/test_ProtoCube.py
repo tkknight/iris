@@ -31,6 +31,7 @@ def example_cube():
 
 
 class Mixin_register(metaclass=ABCMeta):
+    """Mixin_register."""
     @property
     def cube1(self):
         return example_cube()
@@ -75,6 +76,7 @@ class Mixin_register(metaclass=ABCMeta):
 
 
 class Test_register__match(Mixin_register):
+    """Test register  match."""
     @property
     def fragments(self):
         return []
@@ -85,6 +87,7 @@ class Test_register__match(Mixin_register):
 
 
 class Test_register__standard_name(Mixin_register):
+    """Test register  standard name."""
     @property
     def fragments(self):
         return ["cube.standard_name", "air_temperature", "air_density"]
@@ -97,6 +100,7 @@ class Test_register__standard_name(Mixin_register):
 
 
 class Test_register__long_name(Mixin_register):
+    """Test register  long name."""
     @property
     def fragments(self):
         return ["cube.long_name", "screen_air_temp", "Belling"]
@@ -109,6 +113,7 @@ class Test_register__long_name(Mixin_register):
 
 
 class Test_register__var_name(Mixin_register):
+    """Test register  var name."""
     @property
     def fragments(self):
         return ["cube.var_name", "'airtemp'", "'airtemp2'"]
@@ -121,6 +126,7 @@ class Test_register__var_name(Mixin_register):
 
 
 class Test_register__units(Mixin_register):
+    """Test register  units."""
     @property
     def fragments(self):
         return ["cube.units", "'K'", "'C'"]
@@ -133,6 +139,7 @@ class Test_register__units(Mixin_register):
 
 
 class Test_register__attributes_unequal(Mixin_register):
+    """Test register  attributes unequal."""
     @property
     def fragments(self):
         return ["cube.attributes", "'mint'"]
@@ -145,6 +152,7 @@ class Test_register__attributes_unequal(Mixin_register):
 
 
 class Test_register__attributes_unequal_array(Mixin_register):
+    """Test register  attributes unequal array."""
     @property
     def fragments(self):
         return ["cube.attributes", "'mint'"]
@@ -163,6 +171,7 @@ class Test_register__attributes_unequal_array(Mixin_register):
 
 
 class Test_register__attributes_superset(Mixin_register):
+    """Test register  attributes superset."""
     @property
     def fragments(self):
         return ["cube.attributes", "'stuffed'"]
@@ -175,6 +184,7 @@ class Test_register__attributes_superset(Mixin_register):
 
 
 class Test_register__attributes_multi_diff(Mixin_register):
+    """Test register  attributes multi diff."""
     @property
     def fragments(self):
         return ["cube.attributes", "'sam'", "'mint'"]
@@ -198,6 +208,7 @@ class Test_register__attributes_multi_diff(Mixin_register):
 
 
 class Test_register__cell_method(Mixin_register):
+    """Test register  cell method."""
     @property
     def fragments(self):
         return ["cube.cell_methods"]
@@ -210,6 +221,7 @@ class Test_register__cell_method(Mixin_register):
 
 
 class Test_register__data_shape(Mixin_register):
+    """Test register  data shape."""
     @property
     def fragments(self):
         return ["cube.shape", "(2,)", "(3,)"]
@@ -222,6 +234,7 @@ class Test_register__data_shape(Mixin_register):
 
 
 class Test_register__data_dtype(Mixin_register):
+    """Test register  data dtype."""
     @property
     def fragments(self):
         return ["cube data dtype", "int32", "int8"]
@@ -254,6 +267,7 @@ class _MergeTest:
 
 
 class Test_register__CubeSig(_MergeTest):
+    """Test register  CubeSig."""
     # Test potential registration failures.
 
     _mergetest_type = "cube"
@@ -289,6 +303,7 @@ class Test_register__CubeSig(_MergeTest):
 
 
 class Test_register__CoordSig_general(_MergeTest):
+    """Test register  CoordSig general."""
     _mergetest_type = "coord"
 
     @pytest.fixture(autouse=True)
@@ -426,6 +441,7 @@ class _MergeTest_coordprops(_MergeTest):
 
 
 class Test_register__CoordSig_scalar(_MergeTest_coordprops):
+    """Test register  CoordSig scalar."""
     _mergetest_type = "aux_coords (scalar)"
 
     @pytest.fixture(autouse=True)
@@ -468,6 +484,7 @@ class _MergeTest_coordprops_vect(_MergeTest_coordprops):
 
 
 class Test_register__CoordSig_dim(_MergeTest_coordprops_vect):
+    """Test register  CoordSig dim."""
     _mergetest_type = "dim_coords"
     _coord_typename = "dim_coord"
 
@@ -497,6 +514,7 @@ class Test_register__CoordSig_dim(_MergeTest_coordprops_vect):
 
 
 class Test_register__CoordSig_aux(_MergeTest_coordprops_vect):
+    """Test register  CoordSig aux."""
     _mergetest_type = "aux_coords (non-scalar)"
     _coord_typename = "aux_coord"
 

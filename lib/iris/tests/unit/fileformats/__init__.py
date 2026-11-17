@@ -9,6 +9,7 @@ from pytest_mock import MockerFixture
 
 
 class MockerMixin:
+    """MockerMixin."""
     mocker: MockerFixture
 
     @pytest.fixture(autouse=True)

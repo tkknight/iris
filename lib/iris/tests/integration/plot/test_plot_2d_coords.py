@@ -29,6 +29,7 @@ def simple_cube_w_2d_coords():
 @_shared_utils.skip_plot
 @_shared_utils.skip_data
 class Test(_shared_utils.GraphicsTest):
+    """Test ."""
     def test_2d_coord_bounds_platecarree(self):
         # To avoid a problem with Cartopy smearing the data where the
         #  longitude wraps, we set the central_longitude.
@@ -55,6 +56,7 @@ class Test(_shared_utils.GraphicsTest):
 
 @_shared_utils.skip_plot
 class Test2dContour(_shared_utils.GraphicsTest):
+    """Test dContour."""
     def test_2d_coords_contour(self):
         ny, nx = 4, 6
         x1 = np.linspace(-20, 70, nx)

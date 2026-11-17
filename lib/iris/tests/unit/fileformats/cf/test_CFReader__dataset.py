@@ -111,6 +111,7 @@ class TestABorrowedBareDataset:
 
 
 class TestTheSwap:
+    """Test heSwap."""
     def test_the_reader_owns_a_netcdf_dataset(self, sample_path):
         with CFReader(str(sample_path)) as reader:
             assert isinstance(reader._dataset, _dataset.NetCDFDataset)

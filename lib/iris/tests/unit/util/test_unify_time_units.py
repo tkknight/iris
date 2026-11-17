@@ -16,6 +16,7 @@ from iris.util import unify_time_units
 
 
 class Test:
+    """Test ."""
     def simple_1d_time_cubes(self, calendar="standard"):
         coord_points = [1, 2, 3, 4, 5]
         data_points = [273, 275, 278, 277, 274]

@@ -14,6 +14,7 @@ from iris.tests import _shared_utils
 
 
 class Test_aggregate:
+    """Test aggregate."""
     def test_1d(self):
         # 1-dimensional input
         data = np.array([5, 2, 6, 4], dtype=np.float64)
@@ -77,6 +78,7 @@ class Test_aggregate:
 
 
 class Test_lazy_aggregate:
+    """Test lazy aggregate."""
     def test_1d(self):
         # 1-dimensional input.
         data = as_lazy_data(np.array([5, 2, 6, 4], dtype=np.float64))
@@ -153,11 +155,13 @@ class Test_lazy_aggregate:
 
 
 class Test_name:
+    """Test name."""
     def test(self):
         assert RMS.name() == "root_mean_square"
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test(self):
         shape = ()
         kwargs = dict()

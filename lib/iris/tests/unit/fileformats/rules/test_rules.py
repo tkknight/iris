@@ -28,6 +28,7 @@ import iris.tests.stock as stock
 
 
 class TestConcreteReferenceTarget:
+    """Test oncreteReferenceTarget."""
     def test_attributes(self):
         with pytest.raises(TypeError):
             target = ConcreteReferenceTarget()
@@ -89,6 +90,7 @@ class TestConcreteReferenceTarget:
 
 
 class TestLoadCubes:
+    """Test oadCubes."""
     def test_simple_factory(self):
         # Test the creation process for a factory definition which only
         # uses simple dict arguments.

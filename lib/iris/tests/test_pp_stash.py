@@ -14,6 +14,7 @@ import iris.util
 
 
 class TestPPStash:
+    """Test PStash."""
     @_shared_utils.skip_data
     def test_cube_attributes(self):
         cube = iris.tests.stock.simple_pp()

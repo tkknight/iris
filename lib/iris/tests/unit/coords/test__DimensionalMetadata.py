@@ -23,6 +23,7 @@ from iris.tests.stock.mesh import sample_meshcoord
 
 
 class Test___init____abstractmethod:
+    """Test   init    abstractmethod."""
     def test(self):
         emsg = "Can't instantiate abstract class _DimensionalMetadata"
         with pytest.raises(TypeError, match=emsg):

@@ -12,6 +12,7 @@ from iris.coords import AuxCoord
 
 
 class Test_standard:
+    """Test standard."""
     def test_instances_non_iterable(self, mocker):
         item = mocker.Mock()
         item.name.return_value = "one"

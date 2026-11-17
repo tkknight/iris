@@ -53,6 +53,7 @@ def height(raw, sample_location):
 
 
 class TestStorageProperties:
+    """Test torageProperties."""
     def test_is_a_cf_dataset_variable(self, air):
         assert isinstance(air, CFDatasetVariable)
 
@@ -99,6 +100,7 @@ class TestStorageProperties:
 
 
 class TestData:
+    """Test ata."""
     def test_getitem(self, air):
         np.testing.assert_array_equal(air[:], SAMPLE_AIR)
 
@@ -107,6 +109,7 @@ class TestData:
 
 
 class TestAttributes:
+    """Test ttributes."""
     def test_is_a_plain_mutable_mapping(self, air):
         # Tracking belongs to CFVariable, not here: a CFDatasetVariable can
         # have two CFVariables promoted over it.
@@ -181,6 +184,7 @@ class _EmulatedVariable:
 
 
 class TestNetCDFOnlyMembers:
+    """Test etCDFOnlyMembers."""
     def test_variable_exposes_the_backing_wrapper(self, raw, sample_location):
         # raw.variables constructs a fresh VariableWrapper on every access,
         # so the check has to compare against the one instance actually
@@ -225,6 +229,7 @@ def _unreachable_policy():
 
 
 class TestReadData:
+    """Test eadData."""
     def test_small_variable_is_real(self, air):
         result = air.read_data(_unreachable_policy)
         assert isinstance(result, np.ndarray)
@@ -300,6 +305,7 @@ class TestReadData:
 
 
 class TestDeprecatedNetcdfMember:
+    """Test eprecatedNetcdfMember."""
     def test_a_reach_through_warns(self, air):
         with pytest.warns(IrisDeprecation, match="ncattrs"):
             names = air.deprecated_netcdf_member("ncattrs")()
@@ -378,6 +384,7 @@ class TestDeprecatedNetcdfMember:
 
 
 class TestCharacterData:
+    """Test haracterData."""
     def test_raw_wrapper_sees_the_char_dimension(self, raw, sample_location):
         label = wrap(raw, "label", sample_location)
         assert label.dimensions == ("time", "nchars")

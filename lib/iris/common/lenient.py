@@ -228,6 +228,7 @@ def _qualname(func):
 
 
 class Lenient(threading.local):
+    """Container for managing the run-time lenient features and options."""
     def __init__(self, **kwargs):
         """Container for managing the run-time lenient features and options.
 

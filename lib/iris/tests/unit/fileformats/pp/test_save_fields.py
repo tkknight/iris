@@ -15,6 +15,7 @@ def asave(afilehandle):
 
 
 class TestSaveFields:
+    """Test aveFields."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Create a test object to stand in for a real PPField.

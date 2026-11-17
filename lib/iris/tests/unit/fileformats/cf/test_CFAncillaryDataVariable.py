@@ -10,6 +10,7 @@ from .identify_mixins import IdentifyByAttributeMixin
 
 
 class TestIdentify(IdentifyByAttributeMixin):
+    """Test dentify."""
     __test__ = True
 
     CF_CLASS = CFAncillaryDataVariable

@@ -14,6 +14,7 @@ from iris.tests import _shared_utils
 
 
 class Test_aggregated_by:
+    """Test aggregated by."""
     @_shared_utils.skip_data
     def test_agg_by_aux_coord(self, mocker):
         problem_test_file = _shared_utils.get_data_path(
@@ -42,6 +43,7 @@ class Test_aggregated_by:
 
 
 class TestDataFillValue:
+    """Test ataFillValue."""
     def test_real(self):
         data = np.ma.masked_array([1, 2, 3], [0, 1, 0], fill_value=10)
         cube = Cube(data)

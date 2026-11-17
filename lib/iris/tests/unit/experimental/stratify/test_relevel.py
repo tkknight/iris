@@ -31,6 +31,7 @@ def fake_stratify():
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         cube = stock.simple_3d()[:, :1, :1]

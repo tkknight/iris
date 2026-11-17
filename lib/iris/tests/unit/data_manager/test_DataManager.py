@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 
 class Test__init__:
+    """Test  init  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = np.array([1])
@@ -37,6 +38,7 @@ class Test__init__:
 
 
 class Test___copy__:
+    """Test   copy  ."""
     def test(self):
         dm = DataManager(np.array(0))
         emsg = "Shallow-copy of {!r} is not permitted."
@@ -46,6 +48,7 @@ class Test___copy__:
 
 
 class Test___deepcopy__:
+    """Test   deepcopy  ."""
     def test(self, mocker):
         dm = DataManager(np.array(0))
         method = "iris._data_manager.DataManager._deepcopy"
@@ -64,6 +67,7 @@ class Test___deepcopy__:
 
 
 class Test___eq__:
+    """Test   eq  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.shape = (2, 3, 4)
@@ -127,6 +131,7 @@ class Test___eq__:
 
 
 class Test___ne__:
+    """Test   ne  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.shape = (2, 3, 4)
@@ -175,6 +180,7 @@ class Test___ne__:
 
 
 class Test___repr__:
+    """Test   repr  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.real_array = np.array(123)
@@ -202,6 +208,7 @@ class Test___repr__:
 
 
 class Test__assert_axioms:
+    """Test  assert axioms."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.real_array = np.array(0)
@@ -223,6 +230,7 @@ class Test__assert_axioms:
 
 
 class Test__deepcopy:
+    """Test  deepcopy."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.shape = (2, 3, 4)
@@ -298,6 +306,7 @@ class Test__deepcopy:
 
 
 class Test_data__getter:
+    """Test data  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         shape = (2, 3, 4)
@@ -370,6 +379,7 @@ class Test_data__getter:
 
 
 class Test_data__setter:
+    """Test data  setter."""
     def test_zero_ndim_real_with_scalar_int(self):
         value = 456
         dm = DataManager(np.array(123))
@@ -562,6 +572,7 @@ class Test_data__setter:
 
 
 class Test_dtype:
+    """Test dtype."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.real_array = np.array(0, dtype=np.dtype("int64"))
@@ -577,6 +588,7 @@ class Test_dtype:
 
 
 class Test_ndim:
+    """Test ndim."""
     def test_ndim_0(self):
         real_array = np.array(0)
         dm = DataManager(real_array)
@@ -596,6 +608,7 @@ class Test_ndim:
 
 
 class Test_shape:
+    """Test shape."""
     def test_shape_scalar(self):
         real_array = np.array(0)
         dm = DataManager(real_array)
@@ -631,6 +644,7 @@ class Test_shape:
 
 
 class Test_copy:
+    """Test copy."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.method = "iris._data_manager.DataManager._deepcopy"
@@ -649,6 +663,7 @@ class Test_copy:
 
 
 class Test_core_data:
+    """Test core data."""
     def test_real_array(self):
         real_array = np.array(0)
         dm = DataManager(real_array)
@@ -661,6 +676,7 @@ class Test_core_data:
 
 
 class Test_has_lazy_data:
+    """Test has lazy data."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.real_array = np.array(0)
@@ -676,6 +692,7 @@ class Test_has_lazy_data:
 
 
 class Test_lazy_data:
+    """Test lazy data."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.real_array = np.array(0)
@@ -698,6 +715,7 @@ class Test_lazy_data:
 
 
 class Test_is_dataless:
+    """Test is dataless."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = np.array(0)

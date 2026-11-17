@@ -10,6 +10,7 @@ from iris.analysis import AreaWeighted
 
 
 class Test:
+    """Test ."""
     def check_call(self, mocker, mdtol=None):
         # Check that `iris.analysis.AreaWeighted` correctly calls an
         # `iris.analysis._area_weighted.AreaWeightedRegridder` object.

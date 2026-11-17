@@ -169,6 +169,7 @@ class MixinVectorPlotCases:
 
 
 class TestBarbs(MixinVectorPlotCases, _shared_utils.GraphicsTest):
+    """Test arbs."""
     @staticmethod
     def _nonlatlon_xyuv():
         # Increase the range of wind speeds used in the barbs test to test more
@@ -214,6 +215,7 @@ class TestBarbs(MixinVectorPlotCases, _shared_utils.GraphicsTest):
 
 
 class TestQuiver(MixinVectorPlotCases, _shared_utils.GraphicsTest):
+    """Test uiver."""
     def plot_function_to_test(self):
         return quiver
 

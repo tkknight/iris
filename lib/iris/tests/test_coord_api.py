@@ -18,6 +18,7 @@ import iris.tests.stock
 
 @_shared_utils.skip_data
 class TestCoordSlicing:
+    """Test oordSlicing."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         cube = iris.tests.stock.realistic_4d()
@@ -67,6 +68,7 @@ class TestCoordSlicing:
 
 
 class TestCoordIntersection:
+    """Test oordIntersection."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.a = iris.coords.DimCoord(
@@ -154,6 +156,7 @@ class TestCoordIntersection:
 
 
 class TestXML:
+    """Test ML."""
     def test_minimal(self):
         coord = iris.coords.DimCoord(np.arange(10, dtype=np.int32))
         _shared_utils.assert_XML_element(coord, ("coord_api", "minimal.xml"))
@@ -174,6 +177,7 @@ class TestXML:
 
 @_shared_utils.skip_data
 class TestCoord_ReprStr_nontime:
+    """Test oord ReprStr nontime."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         cube = iris.tests.stock.realistic_4d()
@@ -203,6 +207,7 @@ class TestCoord_ReprStr_nontime:
 
 @_shared_utils.skip_data
 class TestCoord_ReprStr_time:
+    """Test oord ReprStr time."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         cube = iris.tests.stock.realistic_4d()
@@ -231,6 +236,7 @@ class TestCoord_ReprStr_time:
 
 
 class TestAuxCoordCreation:
+    """Test uxCoordCreation."""
     def test_basic(self):
         a = iris.coords.AuxCoord(np.arange(10), "air_temperature", units="kelvin")
         result = "\n".join(
@@ -330,6 +336,7 @@ class TestAuxCoordCreation:
 
 
 class TestDimCoordCreation:
+    """Test imCoordCreation."""
     def test_basic(self):
         a = iris.coords.DimCoord(np.arange(10), "air_temperature", units="kelvin")
         result = "\n".join(
@@ -527,6 +534,7 @@ class TestDimCoordCreation:
 
 
 class TestCoordMaths:
+    """Test oordMaths."""
     def _build_coord(self, start=None, step=None, count=None):
         # Create points and bounds akin to an old RegularCoord.
         dtype = np.float32
@@ -560,6 +568,7 @@ class TestCoordMaths:
 
 
 class TestCoordAdditionSubtract(TestCoordMaths):
+    """Test oordAdditionSubtract."""
     def test_subtract(self):
         r_expl = self.lon - 10
         _shared_utils.assert_XML_element(
@@ -610,6 +619,7 @@ class TestCoordAdditionSubtract(TestCoordMaths):
 
 
 class TestCoordMultDivide(TestCoordMaths):
+    """Test oordMultDivide."""
     def test_divide(self):
         r_expl = self.lon.copy() / 10
         _shared_utils.assert_XML_element(
@@ -655,6 +665,7 @@ class TestCoordMultDivide(TestCoordMaths):
 
 
 class TestCoordCollapsed:
+    """Test oordCollapsed."""
     def create_1d_coord(self, bounds=None, points=None, units="meter"):
         coord = iris.coords.DimCoord(
             points, long_name="test", units=units, bounds=bounds
@@ -699,6 +710,7 @@ class TestCoordCollapsed:
 
 @_shared_utils.skip_data
 class TestGetterSetter:
+    """Test etterSetter."""
     def test_get_set_points_and_bounds(self):
         cube = iris.tests.stock.realistic_4d()
         coord = cube.coord("grid_latitude")
@@ -743,6 +755,7 @@ class TestGetterSetter:
 
 
 class TestGuessBounds:
+    """Test uessBounds."""
     def test_guess_bounds(self):
         coord = iris.coords.DimCoord(
             np.array([0, 10, 20, 30]), long_name="foo", units="1"
@@ -789,6 +802,7 @@ class TestGuessBounds:
 
 
 class TestIsContiguous:
+    """Test sContiguous."""
     def test_scalar(self):
         coord = iris.coords.DimCoord(23.0, bounds=[20.0, 26.0])
         assert coord.is_contiguous()
@@ -910,6 +924,7 @@ class TestIsContiguous:
 
 
 class TestCoordCompatibility:
+    """Test oordCompatibility."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.aux_coord = iris.coords.AuxCoord(
@@ -987,6 +1002,7 @@ class TestCoordCompatibility:
 
 
 class TestAuxCoordEquality:
+    """Test uxCoordEquality."""
     def test_not_implmemented(self):
         class Terry:
             pass
@@ -997,6 +1013,7 @@ class TestAuxCoordEquality:
 
 
 class TestDimCoordEquality:
+    """Test imCoordEquality."""
     def test_not_implmemented(self):
         class Terry:
             pass

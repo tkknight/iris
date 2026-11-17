@@ -28,6 +28,7 @@ def are_dask_collections(obj):
 
 
 class Test__lazy_stream_data:
+    """Test  lazy stream data."""
     # Ensure all saves are done with split-atttribute saving,
     # -- because some of these tests are sensitive to unexpected warnings.
     @pytest.fixture(autouse=True)

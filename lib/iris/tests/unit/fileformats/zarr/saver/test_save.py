@@ -35,6 +35,7 @@ def cubes():
 
 
 class TestSave:
+    """Test ave."""
     def test_one_cube(self, tmp_path, cubes):
         save(cubes[0], tmp_path / "out.zarr")
         group = zarr.open_group(store=tmp_path / "out.zarr", mode="r")
@@ -156,6 +157,7 @@ class TestSave:
 
 
 class TestSaveRefusals:
+    """Test aveRefusals."""
     def test_an_existing_store_is_refused(self, tmp_path, cubes):
         save(cubes[0], tmp_path / "out.zarr")
         with pytest.raises(FileExistsError, match="mode"):
@@ -212,6 +214,7 @@ class TestSaveRefusals:
 
 
 class TestSaveIntoAGroup:
+    """Test aveIntoAGroup."""
     def test_a_group_is_created_and_the_root_is_kept(self, tmp_path, cubes):
         save(cubes[0], tmp_path / "out.zarr")
         save(cubes[1], tmp_path / "out.zarr", group="extra")

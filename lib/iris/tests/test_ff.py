@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 
 class TestFF_HEADER:
+    """Test F HEADER."""
     def test_initialisation(self):
         assert ff.FF_HEADER[0] == ("data_set_format_version", (0,))
         assert ff.FF_HEADER[17] == ("integer_constants", (99, 100))
@@ -26,6 +27,7 @@ class TestFF_HEADER:
 
 @_shared_utils.skip_data
 class TestFFHeader:
+    """Test FHeader."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.filename = _shared_utils.get_data_path(("FF", "n48_multi_field"))
@@ -97,6 +99,7 @@ class TestFFHeader:
 
 @_shared_utils.skip_data
 class TestFF2PP2Cube:
+    """Test F2PP2Cube."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.filename = _shared_utils.get_data_path(("FF", "n48_multi_field"))
@@ -122,6 +125,7 @@ class TestFF2PP2Cube:
 
 @_shared_utils.skip_data
 class TestFFieee32:
+    """Test Fieee32."""
     def test_iris_loading(self):
         ff32_fname = _shared_utils.get_data_path(("FF", "n48_multi_field.ieee32"))
         ff64_fname = _shared_utils.get_data_path(("FF", "n48_multi_field"))
@@ -137,6 +141,7 @@ class TestFFieee32:
 
 @_shared_utils.skip_data
 class TestFFVariableResolutionGrid:
+    """Test FVariableResolutionGrid."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.filename = _shared_utils.get_data_path(("FF", "n48_multi_field"))

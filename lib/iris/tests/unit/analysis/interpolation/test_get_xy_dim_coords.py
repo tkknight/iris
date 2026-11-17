@@ -18,6 +18,7 @@ import iris.tests.stock
 
 
 class TestGetXYCoords:
+    """Test etXYCoords."""
     @_shared_utils.skip_data
     def test_grid_lat_lon(self):
         cube = iris.tests.stock.realistic_4d()

@@ -25,12 +25,14 @@ from iris.tests.unit.coords import (
 
 
 class AuxCoordTestMixin(CoordTestMixin):
+    """AuxCoordTestMixin."""
     # Define a 2-D default array shape.
     def setup_test_arrays(self, shape=(2, 3), masked=False):
         super().setup_test_arrays(shape, masked=masked)
 
 
 class Test__init__(AuxCoordTestMixin):
+    """Test  init  ."""
     # Test for AuxCoord creation, with various combinations of points and
     # bounds = real / lazy / None.
 
@@ -180,6 +182,7 @@ class Test__init__(AuxCoordTestMixin):
 
 
 class Test_core_points(AuxCoordTestMixin):
+    """Test core points."""
     # Test for AuxCoord.core_points() with various types of points and bounds.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -207,6 +210,7 @@ class Test_core_points(AuxCoordTestMixin):
 
 
 class Test_core_bounds(AuxCoordTestMixin):
+    """Test core bounds."""
     # Test for AuxCoord.core_bounds() with various types of points and bounds.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -239,6 +243,7 @@ class Test_core_bounds(AuxCoordTestMixin):
 
 
 class Test_lazy_points(AuxCoordTestMixin):
+    """Test lazy points."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -255,6 +260,7 @@ class Test_lazy_points(AuxCoordTestMixin):
 
 
 class Test_lazy_bounds(AuxCoordTestMixin):
+    """Test lazy bounds."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -276,6 +282,7 @@ class Test_lazy_bounds(AuxCoordTestMixin):
 
 
 class Test_has_lazy_points(AuxCoordTestMixin):
+    """Test has lazy points."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -298,6 +305,7 @@ class Test_has_lazy_points(AuxCoordTestMixin):
 
 
 class Test_has_lazy_bounds(AuxCoordTestMixin):
+    """Test has lazy bounds."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -320,6 +328,7 @@ class Test_has_lazy_bounds(AuxCoordTestMixin):
 
 
 class Test_bounds_dtype(AuxCoordTestMixin):
+    """Test bounds dtype."""
     def test_i16(self):
         test_dtype = np.int16
         coord = AuxCoord([1], bounds=np.array([[0, 4]], dtype=test_dtype))
@@ -340,6 +349,7 @@ class Test_bounds_dtype(AuxCoordTestMixin):
 
 
 class Test__getitem__(AuxCoordTestMixin):
+    """Test  getitem  ."""
     # Test for AuxCoord indexing with various types of points and bounds.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -474,6 +484,7 @@ class Test__getitem__(AuxCoordTestMixin):
 
 
 class Test_copy(AuxCoordTestMixin):
+    """Test copy."""
     # Test for AuxCoord.copy() with various types of points and bounds.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -555,6 +566,7 @@ class Test_copy(AuxCoordTestMixin):
 
 
 class Test_points__getter(AuxCoordTestMixin):
+    """Test points  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -619,6 +631,7 @@ class Test_points__getter(AuxCoordTestMixin):
 
 
 class Test_points__setter(AuxCoordTestMixin):
+    """Test points  setter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -660,6 +673,7 @@ class Test_points__setter(AuxCoordTestMixin):
 
 
 class Test_bounds__getter(AuxCoordTestMixin):
+    """Test bounds  getter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -701,6 +715,7 @@ class Test_bounds__getter(AuxCoordTestMixin):
 
 
 class Test_bounds__setter(AuxCoordTestMixin):
+    """Test bounds  setter."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.setup_test_arrays()
@@ -741,6 +756,7 @@ class Test_bounds__setter(AuxCoordTestMixin):
 
 
 class Test_convert_units:
+    """Test convert units."""
     def test_preserves_lazy(self):
         test_bounds = np.array(
             [
@@ -762,6 +778,7 @@ class Test_convert_units:
 
 
 class TestEquality:
+    """Test quality."""
     def test_nanpoints_eq_self(self):
         co1 = AuxCoord([1.0, np.nan, 2.0])
         assert co1 == co1

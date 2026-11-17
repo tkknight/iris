@@ -15,6 +15,7 @@ from iris.time import PartialDateTime
 
 
 class Test___common_cmp__:
+    """Test   common cmp  ."""
     def assert_raises_on_comparison(self, cell, other, exception_type, regexp):
         with pytest.raises(exception_type, match=regexp):
             cell < other
@@ -92,6 +93,7 @@ class Test___common_cmp__:
 
 
 class Test___eq__:
+    """Test   eq  ."""
     def test_datetimelike(self):
         # Check that cell equality works with different datetime objects
         # using the same calendar
@@ -268,6 +270,7 @@ class Test_numpy_comparison:
 
 
 class Test_hashing:
+    """Test hashing."""
     @pytest.mark.parametrize(
         "point",
         [

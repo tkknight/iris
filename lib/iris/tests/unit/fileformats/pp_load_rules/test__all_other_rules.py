@@ -24,6 +24,7 @@ AUX_COORDS_INDEX = 7
 
 
 class TestCellMethods:
+    """Test ellMethods."""
     def test_time_mean(self, mocker):
         # lbproc = 128 -> mean
         # lbtim.ib = 2 -> simple t1 to t2 interval.
@@ -145,6 +146,7 @@ class TestCellMethods:
 
 
 class TestCrossSectionalTime:
+    """Test rossSectionalTime."""
     def test_lbcode3x23(self, mocker):
         time_bounds = np.array(
             [[0.875, 1.125], [1.125, 1.375], [1.375, 1.625], [1.625, 1.875]]
@@ -207,6 +209,7 @@ class TestCrossSectionalTime:
 
 
 class TestLBTIMx2x_ZeroYears:
+    """Test BTIMx2x ZeroYears."""
     _spec = [
         "lbtim",
         "lbcode",

@@ -24,6 +24,7 @@ import iris.tests.stock
 
 
 class IrisDotTest:
+    """IrisDotTest."""
     def check_dot(self, cube, reference_filename):
         test_string = iris.fileformats.dot.cube_text(cube)
         reference_path = _shared_utils.get_result_path(reference_filename)
@@ -42,6 +43,7 @@ class IrisDotTest:
 
 
 class TestBasicCubeConstruction:
+    """Test asicCubeConstruction."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.cube.Cube(
@@ -207,6 +209,7 @@ class TestBasicCubeConstruction:
 
 @_shared_utils.skip_data
 class TestStockCubeStringRepresentations:
+    """Test tockCubeStringRepresentations."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.realistic_4d()
@@ -244,6 +247,7 @@ class TestStockCubeStringRepresentations:
 
 @_shared_utils.skip_data
 class TestCubeStringRepresentations(IrisDotTest):
+    """Test ubeStringRepresentations."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         path = _shared_utils.get_data_path(("PP", "simple_pp", "global.pp"))
@@ -398,6 +402,7 @@ class TestCubeStringRepresentations(IrisDotTest):
 
 @_shared_utils.skip_data
 class TestValidity:
+    """Test alidity."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube_2d = iris.load_cube(
@@ -418,6 +423,7 @@ class TestValidity:
 
 
 class TestQueryCoord:
+    """Test ueryCoord."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.t = iris.tests.stock.simple_2d_w_multidim_and_scalars()
@@ -548,6 +554,7 @@ class TestQueryCoord:
 
 
 class TestCube2d:
+    """Test ube2d."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.t = iris.tests.stock.simple_2d_w_multidim_and_scalars()
@@ -555,6 +562,7 @@ class TestCube2d:
 
 
 class Test2dIndexing(TestCube2d):
+    """Test dIndexing."""
     def test_indexing_of_0d_cube(self):
         c = self.t[0, 0]
         with pytest.raises(IndexError, match="More slices requested than dimensions"):
@@ -675,6 +683,7 @@ class Test2dIndexing(TestCube2d):
 
 
 class TestIteration(TestCube2d):
+    """Test teration."""
     def test_cube_iteration(self):
         with pytest.raises(TypeError):
             for subcube in self.t:
@@ -685,6 +694,7 @@ class TestIteration(TestCube2d):
 
 
 class Test2dSlicing(TestCube2d):
+    """Test dSlicing."""
     def test_cube_slice_all_dimensions(self, request):
         for cube in self.t.slices(["dim1", "dim2"]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_orig.cml"))
@@ -719,6 +729,7 @@ class Test2dSlicing(TestCube2d):
 
 
 class Test2dSlicing_ByDim(TestCube2d):
+    """Test dSlicing ByDim."""
     def test_cube_slice_all_dimensions(self, request):
         for cube in self.t.slices([0, 1]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_orig.cml"))
@@ -755,6 +766,7 @@ class Test2dSlicing_ByDim(TestCube2d):
 
 
 class Test2dSlicing_ByMix(TestCube2d):
+    """Test dSlicing ByMix."""
     def test_cube_slice_all_dimensions(self, request):
         for cube in self.t.slices([0, "dim2"]):
             _shared_utils.assert_CML(request, cube, ("cube_slice", "2d_orig.cml"))
@@ -769,6 +781,7 @@ class Test2dSlicing_ByMix(TestCube2d):
 
 
 class Test2dExtraction(TestCube2d):
+    """Test dExtraction."""
     def test_cube_extract_0d(self, request):
         # Extract the first value from each of the coords in the cube
         # this result is shared with the self.t[0, 0] test
@@ -805,6 +818,7 @@ class Test2dExtraction(TestCube2d):
 
 
 class Test2dExtractionByCoord(TestCube2d):
+    """Test dExtractionByCoord."""
     def test_cube_extract_by_coord_advanced(self, request):
         # This test reverses the coordinate in the cube and also takes a subset of the original coordinate
         points = np.array([9, 8, 7, 5, 4, 3, 2, 1, 0], dtype=np.int32)
@@ -832,6 +846,7 @@ class Test2dExtractionByCoord(TestCube2d):
 
 @_shared_utils.skip_data
 class TestCubeExtract:
+    """Test ubeExtract."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.single_cube = iris.load_cube(
@@ -867,6 +882,7 @@ class TestCubeExtract:
 
 
 class TestCubeAPI(TestCube2d):
+    """Test ubeAPI."""
     def test_getting_standard_name(self):
         assert self.t.name() == "test 2d dimensional cube"
 
@@ -1035,6 +1051,7 @@ class TestCubeAPI(TestCube2d):
 
 
 class TestCubeEquality(TestCube2d):
+    """Test ubeEquality."""
     def test_simple_equality(self):
         assert self.t == self.t.copy()
 
@@ -1122,6 +1139,7 @@ class TestCubeEquality(TestCube2d):
 
 @_shared_utils.skip_data
 class TestDataManagerIndexing(TestCube2d):
+    """Test ataManagerIndexing."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.load_cube(
@@ -1197,6 +1215,7 @@ class TestDataManagerIndexing(TestCube2d):
 
 
 class TestCubeCollapsed:
+    """Test ubeCollapsed."""
     def partial_compare(self, dual, single):
         result = iris.analysis._dimensional_metadata_comparison(dual, single)
         assert len(result["not_equal"]) == 0
@@ -1341,6 +1360,7 @@ class TestCubeCollapsed:
 
 @_shared_utils.skip_data
 class TestTrimAttributes:
+    """Test rimAttributes."""
     def test_non_string_attributes(self):
         cube = iris.tests.stock.realistic_4d()
         attrib_key = "gorf"
@@ -1362,6 +1382,7 @@ class TestTrimAttributes:
 
 @_shared_utils.skip_data
 class TestMaskedData:
+    """Test askedData."""
     def _load_3d_cube(self):
         # This 3D data set has a missing a slice with SOME missing values.
         # The missing data is in the pressure = 1000 hPa, forcast_period = 0,
@@ -1446,6 +1467,7 @@ class TestMaskedData:
 
 @_shared_utils.skip_data
 class TestConversionToCoordList:
+    """Test onversionToCoordList."""
     def test_coord_conversion(self):
         cube = iris.tests.stock.realistic_4d()
 

@@ -14,6 +14,7 @@ import iris.fileformats.netcdf.saver
 
 
 class TestSave:
+    """Test ave."""
     def test_pathlib_save(self, mocker):
         file_mock = mocker.Mock()
         # Have to configure after creation because "name" is special

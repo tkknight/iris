@@ -22,6 +22,7 @@ def lenient():
 
 
 class Test___init__:
+    """Test   init  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.expected = dict(active=None, enable=_LENIENT_ENABLE_DEFAULT)
@@ -95,6 +96,7 @@ class Test___init__:
 
 
 class Test___call__:
+    """Test   call  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.client = "myclient"
@@ -262,6 +264,7 @@ class Test___call__:
 
 
 class Test___contains__:
+    """Test   contains  ."""
     def test_in(self, lenient):
         assert "active" in lenient
 
@@ -279,6 +282,7 @@ class Test___contains__:
 
 
 class Test___getattr__:
+    """Test   getattr  ."""
     def test_in(self, lenient):
         assert lenient.active is None
 
@@ -289,6 +293,7 @@ class Test___getattr__:
 
 
 class Test__getitem__:
+    """Test  getitem  ."""
     def test_in(self, lenient):
         assert lenient["active"] is None
 
@@ -316,6 +321,7 @@ class Test__getitem__:
 
 
 class Test___setitem__:
+    """Test   setitem  ."""
     def test_not_in(self, lenient):
         emsg = "Invalid .* option, got 'wibble'."
         with pytest.raises(KeyError, match=emsg):
@@ -464,6 +470,7 @@ class Test___setitem__:
 
 
 class Test_context:
+    """Test context."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.lenient = _Lenient()
@@ -572,6 +579,7 @@ class Test_context:
 
 
 class Test_enable:
+    """Test enable."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.lenient = _Lenient()
@@ -591,6 +599,7 @@ class Test_enable:
 
 
 class Test_register_client:
+    """Test register client."""
     def test_not_protected(self, lenient):
         emsg = "Cannot register .* client"
         for protected in _LENIENT_PROTECTED:
@@ -666,6 +675,7 @@ class Test_register_client:
 
 
 class Test_register_service:
+    """Test register service."""
     def test_str(self, lenient):
         service = "service"
         assert service not in lenient.__dict__
@@ -694,6 +704,7 @@ class Test_register_service:
 
 
 class Test_unregister_client:
+    """Test unregister client."""
     def test_not_protected(self, lenient):
         emsg = "Cannot unregister .* client, as .* is a protected .* option."
         for protected in _LENIENT_PROTECTED:
@@ -740,6 +751,7 @@ class Test_unregister_client:
 
 
 class Test_unregister_service:
+    """Test unregister service."""
     def test_not_protected(self, lenient):
         emsg = "Cannot unregister .* service, as .* is a protected .* option."
         for protected in _LENIENT_PROTECTED:

@@ -19,6 +19,7 @@ from iris.warnings import IrisIgnoringBoundsWarning
 @_shared_utils.skip_plot
 @_shared_utils.skip_data
 class TestRealistic4d(_shared_utils.GraphicsTest):
+    """Test ealistic4d."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.realistic_4d()
@@ -148,6 +149,7 @@ class TestRealistic4d(_shared_utils.GraphicsTest):
 
 @_shared_utils.skip_data
 class TestHybridPressure:
+    """Test ybridPressure."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Convert the hybrid-height into hybrid-pressure...

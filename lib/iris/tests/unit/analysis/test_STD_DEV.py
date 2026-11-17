@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 
 class Test_basics:
+    """Test basics."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         data = np.array([1, 2, 3, 4, 5])
@@ -41,6 +42,7 @@ class Test_basics:
 
 
 class Test_lazy_aggregate:
+    """Test lazy aggregate."""
     def test_mdtol(self):
         na = -999.888
         array = np.ma.masked_equal(
@@ -66,6 +68,7 @@ class Test_lazy_aggregate:
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test(self):
         shape = ()
         kwargs = dict()

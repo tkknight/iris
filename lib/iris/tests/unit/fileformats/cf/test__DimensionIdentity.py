@@ -14,6 +14,7 @@ from iris.fileformats.cf._variables import _DimensionIdentity
 
 
 class Test___eq__:
+    """Test   eq  ."""
     def test_same_name_and_size_are_equal(self):
         assert _DimensionIdentity("time", 4) == _DimensionIdentity("time", 4)
 
@@ -42,6 +43,7 @@ class Test___eq__:
 
 
 class Test___hash__:
+    """Test   hash  ."""
     def test_same_name_and_size_hash_alike(self):
         # Equal members must land in the same bucket, or `set.issubset` misses.
         assert hash(_DimensionIdentity("time", 4)) == hash(

@@ -35,6 +35,7 @@ def mock_engine(mocker):
 
 
 class TestCubeName:
+    """Test ubeName."""
     cf_name: str
 
     @pytest.fixture(autouse=True)

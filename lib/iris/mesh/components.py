@@ -90,18 +90,21 @@ Mesh2DCoords = namedtuple(
 
 #: Namedtuple for ``node`` :class:`~iris.coords.AuxCoord` coordinates.
 class MeshNodeCoords(NamedTuple):
+    """Mesh coordinate container."""
     node_x: AuxCoord | None
     node_y: AuxCoord | None
 
 
 #: Namedtuple for ``edge`` :class:`~iris.coords.AuxCoord` coordinates.
 class MeshEdgeCoords(NamedTuple):
+    """Mesh coordinate container."""
     edge_x: AuxCoord | None
     edge_y: AuxCoord | None
 
 
 #: Namedtuple for ``face`` :class:`~iris.coords.AuxCoord` coordinates.
 class MeshFaceCoords(NamedTuple):
+    """Mesh coordinate container."""
     face_x: AuxCoord | None
     face_y: AuxCoord | None
 

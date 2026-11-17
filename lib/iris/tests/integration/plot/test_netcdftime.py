@@ -19,6 +19,7 @@ if _shared_utils.MPL_AVAILABLE:
 @_shared_utils.skip_nc_time_axis
 @_shared_utils.skip_plot
 class Test(_shared_utils.GraphicsTest):
+    """Test ."""
     def test_360_day_calendar(self):
         n = 360
         calendar = "360_day"

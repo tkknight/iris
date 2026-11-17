@@ -14,6 +14,7 @@ from iris.tests.stock import lat_lon_cube, simple_2d
 
 @_shared_utils.skip_plot
 class TestGraphicStringCoord(_shared_utils.GraphicsTest):
+    """Test raphicStringCoord."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = simple_2d(with_bounds=True)

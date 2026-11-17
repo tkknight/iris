@@ -24,6 +24,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_gdal
 class TestDtypeAndValues:
+    """Test typeAndValues."""
     def _cube(self, dtype):
         data = np.arange(12).reshape(3, 4).astype(dtype) + 20
         cube = Cube(data, "air_pressure_anomaly")
@@ -92,6 +93,7 @@ class TestDtypeAndValues:
 
 @_shared_utils.skip_gdal
 class TestProjection:
+    """Test rojection."""
     def _cube(self, ellipsoid=None):
         data = np.arange(12).reshape(3, 4).astype("u1")
         cube = Cube(data, "air_pressure_anomaly")
@@ -162,6 +164,7 @@ class TestProjection:
 
 @_shared_utils.skip_gdal
 class TestGeoTransform:
+    """Test eoTransform."""
     def test_(self, tmp_path):
         data = np.arange(12).reshape(3, 4).astype(np.uint8)
         cube = Cube(data, "air_pressure_anomaly")

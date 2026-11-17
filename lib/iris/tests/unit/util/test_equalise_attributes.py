@@ -19,6 +19,7 @@ from iris.util import equalise_attributes
 
 
 class TestEqualiseAttributes:
+    """Test qualiseAttributes."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         empty = Cube([])
@@ -254,6 +255,7 @@ class TestSplitattributes:
 
 
 class TestNonCube:
+    """Test onCube."""
     # Just to assert that we can do operations on non-cube components (like Coords),
     # in fact effectively, anything with a ".attributes".
     # Even though the docstring does not admit this, we test it because we put in

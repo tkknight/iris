@@ -18,6 +18,7 @@ from iris.tests.unit.fileformats.nc_load_rules.actions import Mixin__nc_load_act
 
 
 class Opts(dict):
+    """Opts."""
     # A dict-like thing which provides '.' access in place of indexing.
     def __init__(self, **kwargs):
         # Init like a dict
@@ -41,6 +42,7 @@ _COORD_OPTIONS_TEMPLATE = {
 
 
 class Mixin__timecoords__common(Mixin__nc_load_actions):
+    """Mixin__timecoords__common."""
     def _make_testcase_cdl(
         self,
         phenom_dims="_auto",  # =get from time+period opts
@@ -222,6 +224,7 @@ netcdf test {{
 
 
 class Mixin__singlecoord__tests(Mixin__timecoords__common):
+    """Mixin__singlecoord__tests."""
     # Coordinate tests to be run for both 'time' and 'period' coordinate vars.
     # Set (in inheritors) to select time/period testing.
     which: ClassVar[str]
@@ -396,16 +399,19 @@ class Mixin__singlecoord__tests(Mixin__timecoords__common):
 
 
 class Test__time(Mixin__singlecoord__tests):
+    """Test  time."""
     # Run 'time' coord tests
     which = "time"
 
 
 class Test__period(Mixin__singlecoord__tests):
+    """Test  period."""
     # Run 'time_period' coord tests
     which = "period"
 
 
 class Test__dualcoord(Mixin__timecoords__common):
+    """Test  dualcoord."""
     # Coordinate tests for a combination of 'time' and 'time_period'.
     # Not strictly necessary, as handling is independent, but a handy check
     # on typical usage.

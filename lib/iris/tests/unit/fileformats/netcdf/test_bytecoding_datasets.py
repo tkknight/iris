@@ -296,6 +296,7 @@ class TestWriteStrings:
 
 
 class TestWriteChars:
+    """Test riteChars."""
     @pytest.mark.parametrize("write_form", ["strings", "bytes"])
     def test_write_chars(self, tempdir, write_form):
         encoding = "utf-8"

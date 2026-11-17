@@ -73,6 +73,7 @@ class MinimalDataset(CFDataset):
 
 
 class TestAbstractness:
+    """Test bstractness."""
     def test_variable_cannot_be_instantiated(self):
         with pytest.raises(TypeError, match="abstract"):
             CFDatasetVariable()
@@ -131,6 +132,7 @@ class TestAbstractness:
 
 
 class TestConcreteDefaults:
+    """Test oncreteDefaults."""
     def test_ndim(self):
         assert MinimalVariable().ndim == 2
 

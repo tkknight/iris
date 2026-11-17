@@ -19,6 +19,7 @@ def bool_func(x):
 
 
 class UnmaskedTest:
+    """UnmaskedTest."""
     @pytest.fixture(autouse=True)
     def _setup_unmasked(self):
         """Set up 1d and 2d unmasked data arrays for max run testing.
@@ -53,6 +54,7 @@ class UnmaskedTest:
 
 
 class MaskedTest:
+    """MaskedTest."""
     @pytest.fixture(autouse=True)
     def _setup_masked(self):
         """Set up 1d and 2d unmasked data arrays for max run testing.
@@ -134,6 +136,7 @@ class MaskedTest:
 
 
 class RealMixin:
+    """RealMixin."""
     def run_func(self, *args, **kwargs):
         return MAX_RUN.call_func(*args, **kwargs)
 
@@ -142,6 +145,7 @@ class RealMixin:
 
 
 class LazyMixin:
+    """LazyMixin."""
     def run_func(self, *args, **kwargs):
         return MAX_RUN.lazy_func(*args, **kwargs)
 
@@ -153,6 +157,7 @@ class LazyMixin:
 
 
 class TestBasic(UnmaskedTest, RealMixin):
+    """Test asic."""
     def test_1d(self):
         for data, expected in self.data_1ds:
             result = self.run_func(
@@ -180,6 +185,7 @@ class TestBasic(UnmaskedTest, RealMixin):
 
 
 class TestLazy(UnmaskedTest, LazyMixin):
+    """Test azy."""
     def test_1d(self):
         for data, expected in self.data_1ds:
             data = da.from_array(data)
@@ -214,6 +220,7 @@ class TestLazy(UnmaskedTest, LazyMixin):
 
 
 class TestLazyChunked(UnmaskedTest, LazyMixin):
+    """Test azyChunked."""
     def test_1d(self):
         for data, expected in self.data_1ds:
             data = da.from_array(data, chunks=(1,))
@@ -268,6 +275,7 @@ class TestLazyChunked(UnmaskedTest, LazyMixin):
 
 
 class TestMasked(MaskedTest, RealMixin):
+    """Test asked."""
     def test_1d(self):
         for data, expected in self.data_1ds:
             result = self.run_func(
@@ -295,10 +303,12 @@ class TestMasked(MaskedTest, RealMixin):
 
 
 class Test_name:
+    """Test name."""
     def test(self):
         assert MAX_RUN.name() == "max_run"
 
 
 class Test_cell_method:
+    """Test cell method."""
     def test(self):
         assert MAX_RUN.cell_method is None

@@ -105,6 +105,7 @@ def check_result(input_cubes, loadfunc_name, result, expected_results):
 
 
 class TestLoadFunctions:
+    """Test oadFunctions."""
     def test_mergeable(self, loadfunc_name):
         _cube = cu(t=(0, 1), z=(0, 1))
         input_cubes = [cu(t=i_t, z=i_z) for i_t in (0, 1) for i_z in (0, 1)]

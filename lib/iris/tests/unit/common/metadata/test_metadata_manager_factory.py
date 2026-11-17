@@ -30,6 +30,7 @@ BASES = [
 
 
 class Test_factory:
+    """Test factory."""
     def test__kwargs_invalid(self):
         emsg = "Invalid 'BaseMetadata' field parameters, got 'wibble'."
         with pytest.raises(ValueError, match=emsg):
@@ -37,6 +38,7 @@ class Test_factory:
 
 
 class Test_instance:
+    """Test instance."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.bases = BASES
@@ -78,6 +80,7 @@ class Test_instance:
 
 
 class Test_instance___eq__:
+    """Test instance   eq  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.metadata = metadata_manager_factory(BaseMetadata)
@@ -115,6 +118,7 @@ class Test_instance___eq__:
 
 
 class Test_instance____repr__:
+    """Test instance    repr  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.metadata = metadata_manager_factory(BaseMetadata)
@@ -139,6 +143,7 @@ class Test_instance____repr__:
 
 
 class Test_instance__pickle:
+    """Test instance  pickle."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.standard_name = "standard_name"
@@ -167,6 +172,7 @@ class Test_instance__pickle:
 
 
 class Test_instance__fields:
+    """Test instance  fields."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.bases = BASES
@@ -181,6 +187,7 @@ class Test_instance__fields:
 
 
 class Test_instance__values:
+    """Test instance  values."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.bases = BASES

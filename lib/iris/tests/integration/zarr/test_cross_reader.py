@@ -56,6 +56,7 @@ def small_cube(dtype="f4", masked=False):
 
 
 class TestXarrayReadsIris:
+    """Test arrayReadsIris."""
     @pytest.mark.parametrize("dtype", ["f4", "f8", "i2", "i4"])
     def test_a_store_opens(self, tmp_path, dtype):
         # Asserted on the open, not on the values: the failure mode is a
@@ -124,6 +125,7 @@ class TestXarrayReadsIris:
 
 
 class TestIrisReadsXarray:
+    """Test risReadsXarray."""
     @pytest.mark.parametrize(
         ("fill", "dtype"),
         [(np.nan, "f4"), (-99.0, "f4"), (-9, "i2")],

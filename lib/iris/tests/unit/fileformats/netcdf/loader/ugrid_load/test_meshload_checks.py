@@ -17,6 +17,7 @@ from .test_load_meshes import (
 
 
 class TestMeshLoad:
+    """Test eshLoad."""
     def _create_testnc(self, location="node", meshdim="node"):
         # Add an extra (possibly mal-formed) mesh data to the testfile.
         if location is None:

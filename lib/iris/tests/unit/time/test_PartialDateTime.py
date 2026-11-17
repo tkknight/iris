@@ -14,6 +14,7 @@ from iris.time import PartialDateTime
 
 
 class Test___init__:
+    """Test   init  ."""
     def test_positional(self):
         # Test that we can define PartialDateTimes with positional arguments.
         pd = PartialDateTime(1066, None, 10)
@@ -29,6 +30,7 @@ class Test___init__:
 
 
 class Test___repr__:
+    """Test   repr  ."""
     def test_full(self):
         pd = PartialDateTime(*list(range(7)))
         result = repr(pd)
@@ -50,6 +52,7 @@ class Test___repr__:
 
 
 class Test_timetuple:
+    """Test timetuple."""
     def test_exists(self):
         # Check that the PartialDateTime class implements a timetuple (needed
         # because of https://bugs.python.org/issue8005).
@@ -206,6 +209,7 @@ LT_EXPECTATIONS = {
 
 
 class Test___eq__(_Test_operator):
+    """Test   eq  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.op = operator.eq
@@ -223,6 +227,7 @@ class Test___eq__(_Test_operator):
 
 
 class Test___ne__(_Test_operator):
+    """Test   ne  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.op = operator.ne
@@ -230,6 +235,7 @@ class Test___ne__(_Test_operator):
 
 
 class Test___gt__(_Test_operator):
+    """Test   gt  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.op = operator.gt
@@ -247,6 +253,7 @@ class Test___gt__(_Test_operator):
 
 
 class Test___le__(_Test_operator):
+    """Test   le  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.op = operator.le
@@ -254,6 +261,7 @@ class Test___le__(_Test_operator):
 
 
 class Test___lt__(_Test_operator):
+    """Test   lt  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.op = operator.lt
@@ -261,6 +269,7 @@ class Test___lt__(_Test_operator):
 
 
 class Test___ge__(_Test_operator):
+    """Test   ge  ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.op = operator.ge

@@ -12,6 +12,7 @@ from iris.tests import _shared_utils
 
 
 class Test_Mercator__basics:
+    """Test Mercator  basics."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.tm = Mercator(
@@ -35,6 +36,7 @@ class Test_Mercator__basics:
 
 
 class Test_init_defaults:
+    """Test init defaults."""
     def test_set_optional_args(self):
         # Check that setting the optional (non-ellipse) args works.
         crs = Mercator(
@@ -82,6 +84,7 @@ class Test_init_defaults:
 
 
 class Test_Mercator__as_cartopy_crs:
+    """Test Mercator  as cartopy crs."""
     def test_simple(self):
         # Check that a projection set up with all the defaults is correctly
         # converted to a cartopy CRS.
@@ -148,6 +151,7 @@ class Test_Mercator__as_cartopy_crs:
 
 
 class Test_as_cartopy_projection:
+    """Test as cartopy projection."""
     def test_simple(self):
         # Check that a projection set up with all the defaults is correctly
         # converted to a cartopy projection.

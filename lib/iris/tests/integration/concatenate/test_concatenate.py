@@ -22,6 +22,7 @@ from iris.util import unify_time_units
 
 
 class Test_DerivedCoordAndDims:
+    """Test DerivedCoordAndDims."""
     def test_equal(self):
         assert _DerivedCoordAndDims(
             "coord", "dims", "aux_factory"
@@ -51,6 +52,7 @@ class Test_DerivedCoordAndDims:
 
 
 class Test_concatenate__epoch:
+    """Test concatenate  epoch."""
     def simple_1d_time_cubes(self, reftimes, coords_points):
         cubes = []
         data_points = [273, 275, 278, 277, 274]
@@ -84,6 +86,7 @@ class Test_concatenate__epoch:
 
 
 class Test_cubes_with_aux_coord:
+    """Test cubes with aux coord."""
     def create_cube(self):
         data = np.arange(4).reshape(2, 2)
 
@@ -130,6 +133,7 @@ class Test_cubes_with_aux_coord:
 
 
 class Test_cubes_with_cell_measure:
+    """Test cubes with cell measure."""
     def create_cube(self):
         data = np.arange(4).reshape(2, 2)
 
@@ -177,6 +181,7 @@ class Test_cubes_with_cell_measure:
 
 
 class Test_cubes_with_ancillary_variables:
+    """Test cubes with ancillary variables."""
     def create_cube(self):
         data = np.arange(4).reshape(2, 2)
 
@@ -224,6 +229,7 @@ class Test_cubes_with_ancillary_variables:
 
 
 class Test_cubes_with_derived_coord:
+    """Test cubes with derived coord."""
     def create_cube(self):
         data = np.arange(4).reshape(2, 2)
         aux_factories = []
@@ -352,6 +358,7 @@ class Test_cubes_with_derived_coord:
 
 
 class Test_anonymous_dims:
+    """Test anonymous dims."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         data = np.arange(12).reshape(2, 3, 2)
@@ -436,6 +443,7 @@ class Test_anonymous_dims:
 
 
 class Test_anonymous_dims_alternate_mapping:
+    """Test anonymous dims alternate mapping."""
     # Ensure that anonymous concatenation is not sensitive to dimension mapping
     # of the anonymous dimension.
     @pytest.fixture(autouse=True)

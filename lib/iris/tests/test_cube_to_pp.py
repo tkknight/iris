@@ -32,6 +32,7 @@ def itab_callback(cube, field, filename):
 
 @_shared_utils.skip_data
 class TestPPSave:
+    """Test PSave."""
     def test_no_forecast_time(self, request):
         cube = stock.lat_lon_cube()
         coord = iris.coords.DimCoord(
@@ -282,6 +283,7 @@ class FakePPEnvironment:
 
 
 class TestPPSaveRules:
+    """Test PSaveRules."""
     def test_default_coord_system(self):
         GeogCS = iris.coord_systems.GeogCS
         cube = stock.lat_lon_cube()

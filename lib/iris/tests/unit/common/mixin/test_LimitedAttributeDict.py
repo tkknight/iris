@@ -11,6 +11,7 @@ from iris.common.mixin import LimitedAttributeDict
 
 
 class TestLimitedAttributeDict:
+    """Test imitedAttributeDict."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.forbidden_keys = LimitedAttributeDict.CF_ATTRS_FORBIDDEN

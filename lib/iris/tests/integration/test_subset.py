@@ -28,6 +28,7 @@ def _make_test_cube():
 
 
 class TestSubset:
+    """Test ubset."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = _make_test_cube()

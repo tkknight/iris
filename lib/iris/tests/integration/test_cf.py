@@ -36,6 +36,7 @@ def fetch_cfvar_data(var, indices=()):
 
 @_shared_utils.skip_data
 class TestCFReader:
+    """Test FReader."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         filename = _shared_utils.get_data_path(
@@ -221,6 +222,7 @@ class TestCFReader:
 
 @_shared_utils.skip_data
 class TestLoad:
+    """Test oad."""
     def test_attributes_empty(self):
         filename = _shared_utils.get_data_path(
             ("NetCDF", "global", "xyt", "SMALL_hires_wind_u_for_ipcc4.nc")
@@ -265,6 +267,7 @@ class TestLoad:
 
 @_shared_utils.skip_data
 class TestClimatology:
+    """Test limatology."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         filename = _shared_utils.get_data_path(
@@ -291,6 +294,7 @@ class TestClimatology:
 
 @_shared_utils.skip_data
 class TestLabels:
+    """Test abels."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         filename = _shared_utils.get_data_path(

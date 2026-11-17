@@ -8,6 +8,7 @@ from iris.fileformats.pp import PPDataProxy, SplittableInt
 
 
 class Test_lbpack:
+    """Test lbpack."""
     def test_lbpack_splittable_int(self, mocker):
         lbpack = mocker.Mock(spec_set=SplittableInt)
         proxy = PPDataProxy(None, None, None, None, None, lbpack, None, None)

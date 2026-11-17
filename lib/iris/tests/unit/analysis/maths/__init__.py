@@ -20,6 +20,7 @@ import iris.tests.stock as stock
 
 
 class CubeArithmeticBroadcastingTestMixin(metaclass=ABCMeta):
+    """CubeArithmeticBroadcastingTestMixin."""
     # A framework for testing the broadcasting behaviour of the various cube
     # arithmetic operations.  (A test for each operation inherits this).
     @property
@@ -172,6 +173,7 @@ class CubeArithmeticBroadcastingTestMixin(metaclass=ABCMeta):
 
 
 class MathsAddOperationMixin:
+    """MathsAddOperationMixin."""
     # Test everything with the 'add' operation.
     @property
     def data_op(self):
@@ -183,6 +185,7 @@ class MathsAddOperationMixin:
 
 
 class CubeArithmeticMaskingTestMixin(metaclass=ABCMeta):
+    """CubeArithmeticMaskingTestMixin."""
     # A framework for testing the mask handling behaviour of the various cube
     # arithmetic operations.  (A test for each operation inherits this).
     @property
@@ -256,6 +259,7 @@ class CubeArithmeticMaskingTestMixin(metaclass=ABCMeta):
 
 
 class CubeArithmeticCoordsTest:
+    """CubeArithmeticCoordsTest."""
     # This class sets up pairs of cubes to test iris' ability to reject
     # arithmetic operations on coordinates which do not match.
     def setup_non_matching(self):
@@ -289,6 +293,7 @@ class CubeArithmeticCoordsTest:
 
 
 class CubeArithmeticMaskedConstantTestMixin(metaclass=ABCMeta):
+    """CubeArithmeticMaskedConstantTestMixin."""
     @property
     @abstractmethod
     def cube_func(self):

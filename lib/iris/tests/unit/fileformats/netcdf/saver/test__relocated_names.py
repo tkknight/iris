@@ -75,6 +75,7 @@ SAVER_METHODS = [
 
 @pytest.mark.parametrize("name", RELOCATED)
 class TestFromTheSaverModule:
+    """Test romTheSaverModule."""
     def test_resolves_to_the_same_object(self, name):
         with pytest.warns(IrisDeprecation):
             assert getattr(netcdf_saver, name) is getattr(cf_saver, name)
@@ -90,6 +91,7 @@ class TestFromTheSaverModule:
 
 @pytest.mark.parametrize("name", RELOCATED)
 class TestFromThePackage:
+    """Test romThePackage."""
     def test_resolves_to_the_same_object(self, name):
         with pytest.warns(IrisDeprecation):
             assert getattr(netcdf, name) is getattr(cf_saver, name)
@@ -99,6 +101,7 @@ class TestFromThePackage:
 
 
 class TestNamesThatDoNotMove:
+    """Test amesThatDoNotMove."""
     @pytest.mark.parametrize("name", ["Saver", "save", "save_mesh"])
     def test_the_saver_module_still_defines_it(self, name):
         # Spec section 4.8: netCDF API, and it stays that way. Defined here,
@@ -112,6 +115,7 @@ class TestNamesThatDoNotMove:
 
 
 class TestSaverMethods:
+    """Test averMethods."""
     @pytest.mark.parametrize("name", SAVER_METHODS)
     def test_the_netcdf_saver_still_answers_to_it(self, name):
         assert callable(getattr(netcdf_saver.Saver, name, None))

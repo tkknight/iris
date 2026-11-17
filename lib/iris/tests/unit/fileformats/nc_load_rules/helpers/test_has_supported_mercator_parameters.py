@@ -25,6 +25,7 @@ class _EngineMixin(MockerMixin):
 
 
 class TestHasSupportedMercatorParameters(_EngineMixin):
+    """Test asSupportedMercatorParameters."""
     def test_valid_base(self, mocker):
         cf_name = "mercator"
         cf_grid_var = CFVariableStandIn(

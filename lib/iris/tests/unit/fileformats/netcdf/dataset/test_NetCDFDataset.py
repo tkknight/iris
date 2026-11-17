@@ -24,6 +24,7 @@ def reader(sample_path):
 
 
 class TestOpening:
+    """Test pening."""
     def test_is_a_cf_dataset(self, reader):
         assert isinstance(reader, CFDataset)
 
@@ -65,6 +66,7 @@ class TestOpening:
 
 
 class TestContents:
+    """Test ontents."""
     def test_variables(self, reader, sample_location):
         assert sorted(reader.variables) == ["air_temperature", "height", "label"]
         air = reader.variables["air_temperature"]
@@ -131,6 +133,7 @@ class _EmulatorWithoutIsopen:
 
 
 class TestBorrowing:
+    """Test orrowing."""
     def test_from_existing_wraps_an_open_dataset(self, sample_path, sample_location):
         raw = _bytecoding_datasets.EncodedDataset(sample_path, mode="r")
         try:
@@ -230,6 +233,7 @@ class TestAutoChartostring:
 
 
 class TestLegacyFormatWarning:
+    """Test egacyFormatWarning."""
     def test_silent_by_default(self, tmp_path, sample_path):
         legacy = _write_netcdf3(tmp_path)
         with warnings.catch_warnings():
@@ -270,6 +274,7 @@ def _write_netcdf3(tmp_path):
 
 
 class TestFormat:
+    """Test ormat."""
     @pytest.mark.parametrize(
         ("netcdf_format", "reported"),
         [
@@ -288,6 +293,7 @@ class TestFormat:
 
 
 class TestSupportsDtype:
+    """Test upportsDtype."""
     @pytest.fixture
     def dataset(self, tmp_path, request):
         path = tmp_path / "typed.nc"

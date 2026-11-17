@@ -34,6 +34,7 @@ def simple_cube():
 
 @_shared_utils.skip_plot
 class TestSimple(_shared_utils.GraphicsTest):
+    """Test imple."""
     def test_points(self):
         cube = simple_cube()
         qplt.contourf(cube)
@@ -47,6 +48,7 @@ class TestSimple(_shared_utils.GraphicsTest):
 
 @_shared_utils.skip_plot
 class TestMissingCoord(_shared_utils.GraphicsTest):
+    """Test issingCoord."""
     def _check(self, cube):
         qplt.contourf(cube)
         self.check_graphic()
@@ -74,6 +76,7 @@ class TestMissingCoord(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestMissingCS(_shared_utils.GraphicsTest):
+    """Test issingCS."""
     @_shared_utils.skip_data
     def test_missing_cs(self):
         cube = iris.tests.stock.simple_pp()
@@ -87,6 +90,7 @@ class TestMissingCS(_shared_utils.GraphicsTest):
 @_shared_utils.skip_plot
 @_shared_utils.skip_data
 class TestHybridHeight(_shared_utils.GraphicsTest):
+    """Test ybridHeight."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.realistic_4d()[0, :15, 0, :]
@@ -137,6 +141,7 @@ class TestHybridHeight(_shared_utils.GraphicsTest):
 @_shared_utils.skip_plot
 @_shared_utils.skip_data
 class Test1dPlotMultiArgs(_shared_utils.GraphicsTest):
+    """Test dPlotMultiArgs."""
     # tests for iris.plot using multi-argument calling convention
     @pytest.fixture(autouse=True)
     def _set_draw_method(self):
@@ -228,6 +233,7 @@ class Test1dPlotMultiArgs(_shared_utils.GraphicsTest):
 
 @_shared_utils.skip_plot
 class Test1dQuickplotPlotMultiArgs(Test1dPlotMultiArgs):
+    """Test dQuickplotPlotMultiArgs."""
     # tests for iris.plot using multi-argument calling convention
     @pytest.fixture(autouse=True)
     def _set_draw_method(self):
@@ -237,6 +243,7 @@ class Test1dQuickplotPlotMultiArgs(Test1dPlotMultiArgs):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class Test1dScatter(_shared_utils.GraphicsTest):
+    """Test dScatter."""
     @pytest.fixture(autouse=True)
     def _set_draw_method(self):
         self.draw_method = iplt.scatter
@@ -312,6 +319,7 @@ class Test1dScatter(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class Test1dQuickplotScatter(Test1dScatter):
+    """Test dQuickplotScatter."""
     @pytest.fixture(autouse=True)
     def _set_draw_method(self):
         self.draw_method = qplt.scatter
@@ -320,6 +328,7 @@ class Test1dQuickplotScatter(Test1dScatter):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class Test2dPoints(_shared_utils.GraphicsTest):
+    """Test dPoints."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         pp_file = _shared_utils.get_data_path(("PP", "globClim1", "u_wind.pp"))
@@ -337,6 +346,7 @@ class Test2dPoints(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class Test1dFillBetween(_shared_utils.GraphicsTest):
+    """Test dFillBetween."""
     @pytest.fixture(autouse=True)
     def _set_draw_method(self):
         self.draw_method = iplt.fill_between
@@ -428,6 +438,7 @@ class Test1dFillBetween(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class Test1dQuickplotFillBetween(Test1dFillBetween):
+    """Test dQuickplotFillBetween."""
     @pytest.fixture(autouse=True)
     def _set_draw_method(self):
         self.draw_method = qplt.fill_between
@@ -436,6 +447,7 @@ class Test1dQuickplotFillBetween(Test1dFillBetween):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestAttributePositive(_shared_utils.GraphicsTest):
+    """Test ttributePositive."""
     def test_1d_positive_up(self):
         path = _shared_utils.get_data_path(("NetCDF", "ORCA2", "votemper.nc"))
         cube = iris.load_cube(path)
@@ -627,6 +639,7 @@ class TestPcolormesh(_shared_utils.GraphicsTest, SliceMixin):
 
 
 class SliceWarningsMixin(SliceMixin):
+    """SliceWarningsMixin."""
     @pytest.fixture(autouse=True)
     def _set_warnings_stance(self):
         self.warning_checker = pytest.warns
@@ -732,6 +745,7 @@ class LambdaStr:
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestPlotCoordinatesGiven(_shared_utils.GraphicsTest):
+    """Test lotCoordinatesGiven."""
     @pytest.fixture(autouse=True, scope="class")
     def _get_cube(self):
         # Class-scoped to avoid wastefully reloading the same Cube repeatedly.
@@ -911,6 +925,7 @@ class TestPlotCoordinatesGiven(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestPlotHist(_shared_utils.GraphicsTest):
+    """Test lotHist."""
     def test_cube(self):
         cube = simple_cube()[0]
         iplt.hist(cube, bins=np.linspace(287.7, 288.2, 11))
@@ -920,6 +935,7 @@ class TestPlotHist(_shared_utils.GraphicsTest):
 @_shared_utils.skip_data
 @_shared_utils.skip_plot
 class TestPlotDimAndAuxCoordsKwarg(_shared_utils.GraphicsTest):
+    """Test lotDimAndAuxCoordsKwarg."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         filename = _shared_utils.get_data_path(
@@ -966,6 +982,7 @@ class TestPlotDimAndAuxCoordsKwarg(_shared_utils.GraphicsTest):
 
 @_shared_utils.skip_plot
 class TestSymbols(_shared_utils.GraphicsTest):
+    """Test ymbols."""
     def test_cloud_cover(self):
         iplt.symbols(
             list(range(10)),
@@ -979,6 +996,7 @@ class TestSymbols(_shared_utils.GraphicsTest):
 
 @_shared_utils.skip_plot
 class TestPlottingExceptions:
+    """Test lottingExceptions."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.bounded_cube = iris.tests.stock.lat_lon_cube()
@@ -1026,6 +1044,7 @@ class TestPlottingExceptions:
 @_shared_utils.skip_plot
 @_shared_utils.skip_proj_9_8_incompatible
 class TestPlotOtherCoordSystems(_shared_utils.GraphicsTest):
+    """Test lotOtherCoordSystems."""
     def test_plot_tmerc(self):
         filename = _shared_utils.get_data_path(
             ("NetCDF", "transverse_mercator", "tmean_1910_1910.nc")
@@ -1038,6 +1057,7 @@ class TestPlotOtherCoordSystems(_shared_utils.GraphicsTest):
 
 @_shared_utils.skip_plot
 class TestPlotCitation(_shared_utils.GraphicsTest):
+    """Test lotCitation."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.figure = plt.figure()

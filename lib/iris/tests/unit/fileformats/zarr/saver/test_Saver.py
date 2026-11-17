@@ -34,6 +34,7 @@ def cube():
 
 
 class TestTheClass:
+    """Test heClass."""
     def test_it_is_a_cf_saver(self):
         assert issubclass(Saver, _CFSaver)
 
@@ -70,6 +71,7 @@ class TestTheClass:
 
 
 class TestStringVariables:
+    """Test tringVariables."""
     def test_a_label_coordinate_is_a_string_array(self, tmp_path, cube):
         # netCDF stores text as bytes over an extra dimension. Zarr has a
         # string type, so the extra dimension would be an invention.
@@ -95,6 +97,7 @@ class TestStringVariables:
 
 
 class TestScalarCubes:
+    """Test calarCubes."""
     def test_a_scalar_cube_is_saved(self, tmp_path):
         # A scalar cube is ordinary, and saves to netCDF without complaint.
         cube = Cube(
@@ -110,6 +113,7 @@ class TestScalarCubes:
 
 
 class TestGridMappings:
+    """Test ridMappings."""
     def test_a_coordinate_system_is_written(self, tmp_path, cube):
         # `_grid_mapping_writer`'s base implementation, reached for real:
         # without it the parameters would be written onto a netCDF4 object
@@ -127,6 +131,7 @@ class TestGridMappings:
 
 
 class TestDeferredSaving:
+    """Test eferredSaving."""
     @pytest.fixture
     def lazy_cube(self, cube):
         import dask.array as da
@@ -182,6 +187,7 @@ class TestDeferredSaving:
 
 
 class TestChunksAndShards:
+    """Test hunksAndShards."""
     @pytest.fixture
     def awkward_cube(self):
         import dask.array as da
@@ -230,6 +236,7 @@ class TestChunksAndShards:
 
 
 class TestMaskedSaving:
+    """Test askedSaving."""
     def test_a_masked_cube_declares_a_fill_value(self, tmp_path, cube):
         # Spec §4.5: without the attribute, every masked point reads back
         # unmasked - a round trip that silently loses the mask.

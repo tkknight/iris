@@ -53,6 +53,7 @@ def check_content(attrs, locals=None, globals=None, matches=None):
 
 
 class Test___init__:
+    """Test   init  ."""
     def test_empty(self):
         attrs = CubeAttrsDict()
         check_content(attrs, None, None)
@@ -84,6 +85,7 @@ class Test___init__:
 
 
 class Test_OddMethods:
+    """Test OddMethods."""
     def test_pickle(self, sample_attrs):
         bytes = pickle.dumps(sample_attrs)
         result = pickle.loads(bytes)
@@ -214,6 +216,7 @@ class Test_OddMethods:
 
 
 class TestEq:
+    """Test q."""
     def test_eq_empty(self):
         attrs_1 = CubeAttrsDict()
         attrs_2 = CubeAttrsDict()
@@ -281,6 +284,7 @@ class TestEq:
 
 
 class TestDictOrderBehaviour:
+    """Test ictOrderBehaviour."""
     def test_ordering(self):
         attrs = CubeAttrsDict({"a": 1, "b": 2})
         assert list(attrs.keys()) == ["a", "b"]
@@ -309,6 +313,7 @@ class TestDictOrderBehaviour:
 
 
 class TestSettingBehaviours:
+    """Test ettingBehaviours."""
     def test_add_localtype(self):
         attrs = CubeAttrsDict()
         # Any attribute not recognised as global should go into 'locals'

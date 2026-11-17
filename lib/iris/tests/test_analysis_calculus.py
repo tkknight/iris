@@ -17,6 +17,7 @@ import iris.tests.stock
 
 
 class TestCubeDelta:
+    """Test ubeDelta."""
     @_shared_utils.skip_data
     def test_invalid(self):
         cube = iris.tests.stock.realistic_4d()
@@ -65,6 +66,7 @@ class TestCubeDelta:
 
 
 class TestDeltaAndMidpoint:
+    """Test eltaAndMidpoint."""
     def _simple_filename(self, suffix):
         return _shared_utils.get_result_path(
             ("analysis", "delta_and_midpoint", "simple%s.cml" % suffix)
@@ -204,6 +206,7 @@ class TestDeltaAndMidpoint:
 
 
 class TestCoordTrig:
+    """Test oordTrig."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         points = np.arange(20, dtype=np.float32) * 2.3
@@ -277,6 +280,7 @@ class TestCoordTrig:
 
 
 class TestCalculusSimple3:
+    """Test alculusSimple3."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -333,6 +337,7 @@ class TestCalculusSimple3:
 
 
 class TestCalculusSimple2:
+    """Test alculusSimple2."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -458,6 +463,7 @@ class TestCalculusSimple2:
 
 
 class TestCalculusSimple1:
+    """Test alculusSimple1."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -584,6 +590,7 @@ def build_cube(data, spherical=False):
 
 
 class TestCalculusWKnownSolutions:
+    """Test alculusWKnownSolutions."""
     @pytest.fixture(autouse=True)
     def _setup(self, request):
         self.request = request
@@ -833,6 +840,7 @@ class TestCalculusWKnownSolutions:
 
 
 class TestCurlInterface:
+    """Test urlInterface."""
     def test_non_conformed(self):
         u = build_cube(np.empty((50, 20)), spherical=True)
 

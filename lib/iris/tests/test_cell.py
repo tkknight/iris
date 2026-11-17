@@ -11,6 +11,7 @@ from iris.coords import Cell
 
 
 class TestCells:
+    """Test ells."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cell1 = iris.coords.Cell(3, [2, 4])

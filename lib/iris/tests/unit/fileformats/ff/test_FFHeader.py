@@ -17,6 +17,7 @@ MyGrid = collections.namedtuple("MyGrid", "column row real horiz_grid_type")
 
 
 class Test_grid(MockerMixin):
+    """Test grid."""
     def _header(self, grid_staggering):
         _ = self.mocker.patch.object(
             FFHeader, "__init__", self.mocker.Mock(return_value=None)
@@ -63,6 +64,7 @@ class Test_grid(MockerMixin):
 
 @_shared_utils.skip_data
 class Test_integer_constants:
+    """Test integer constants."""
     def test_read_ints(self):
         test_file_path = _shared_utils.get_data_path(("FF", "structured", "small"))
         ff_header = FFHeader(test_file_path)

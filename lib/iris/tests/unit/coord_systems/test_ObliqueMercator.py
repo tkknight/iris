@@ -18,6 +18,7 @@ from iris.coord_systems import GeogCS, ObliqueMercator
 
 
 class GlobeWithEq(ccrs.Globe):
+    """GlobeWithEq."""
     def __eq__(self, other):
         """Need eq to enable comparison with expected arguments."""
         result = NotImplemented
@@ -97,6 +98,7 @@ permutation_ids: List[str] = [p.id for p in kwarg_permutations]
 
 
 class TestArgs:
+    """Test rgs."""
     GeogCS = GeogCS
     class_kwargs_default = dict(
         azimuth_of_central_line=0.0,

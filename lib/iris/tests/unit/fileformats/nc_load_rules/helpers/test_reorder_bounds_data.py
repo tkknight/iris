@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 
 class Test:
+    """Test ."""
     def test_fastest_varying(self, mocker):
         bounds_data = np.arange(24).reshape(2, 3, 4)
         cf_bounds_var = mocker.Mock(

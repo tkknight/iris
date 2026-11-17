@@ -19,6 +19,7 @@ from iris.tests.stock.mesh import sample_mesh
 
 @_shared_utils.skip_data
 class Test__instantiation:
+    """Test  instantiation."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.simple_3d()
@@ -30,6 +31,7 @@ class Test__instantiation:
 
 @_shared_utils.skip_data
 class Test__get_dim_names:
+    """Test  get dim names."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.realistic_4d()
@@ -63,6 +65,7 @@ class Test__get_dim_names:
 
 @_shared_utils.skip_data
 class Test__summary_content:
+    """Test  summary content."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.lat_lon_cube()
@@ -281,6 +284,7 @@ def test_realistic(realistic_4d):
 
 @_shared_utils.skip_data
 class Test__make_header:
+    """Test  make header."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.simple_3d()
@@ -314,6 +318,7 @@ class Test__make_header:
 
 @_shared_utils.skip_data
 class Test__make_shapes_row:
+    """Test  make shapes row."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.simple_3d()
@@ -333,6 +338,7 @@ class Test__make_shapes_row:
 
 @_shared_utils.skip_data
 class Test__make_row:
+    """Test  make row."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.simple_3d()
@@ -396,6 +402,7 @@ class Test__make_row:
 
 @_shared_utils.skip_data
 class Test__make_content:
+    """Test  make content."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.simple_3d()
@@ -464,6 +471,7 @@ class Test__make_content:
 
 
 class Test__make_content__string_attrs:
+    """Test  make content  string attrs."""
     # Check how we handle "multi-line" string attributes.
     # NOTE: before the adoption of iris._representation.CubeSummary, these
     # used to appear as extra items in sections_data, identifiable by
@@ -635,6 +643,7 @@ class Test__make_content__string_attrs:
 
 @_shared_utils.skip_data
 class Test_repr_html:
+    """Test repr html."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.simple_3d()

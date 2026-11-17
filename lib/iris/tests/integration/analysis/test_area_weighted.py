@@ -13,6 +13,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestAreaWeighted:
+    """Test reaWeighted."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Prepare a cube and a template

@@ -559,6 +559,7 @@ class TestAsDataFrameNDim:
     "ignore:.*as_cube has been deprecated.*:iris._deprecation.IrisDeprecation"
 )
 class TestSeriesAsCube:
+    """Test eriesAsCube."""
     def test_series_simple(self, request):
         series = pd.Series([0, 1, 2, 3, 4], index=[5, 6, 7, 8, 9])
         _shared_utils.assert_CML(
@@ -640,6 +641,7 @@ class TestSeriesAsCube:
     "ignore:.*as_cube has been deprecated.*:iris._deprecation.IrisDeprecation"
 )
 class TestDataFrameAsCube:
+    """Test ataFrameAsCube."""
     def test_data_frame_simple(self, request):
         data_frame = pd.DataFrame(
             [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]],
@@ -739,6 +741,7 @@ class TestDataFrameAsCube:
 
 
 class TestFutureAndDeprecation:
+    """Test utureAndDeprecation."""
     def test_as_cube_deprecation_warning(self):
         data_frame = pd.DataFrame([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
         with pytest.warns(IrisDeprecation, match="as_cube has been deprecated"):
@@ -807,6 +810,7 @@ class TestFutureAndDeprecation:
 
 
 class TestPandasAsCubes:
+    """Test andasAsCubes."""
     @staticmethod
     def _create_pandas(index_levels=0, is_series=False):
         index_length = 3

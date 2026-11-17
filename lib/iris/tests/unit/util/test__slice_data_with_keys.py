@@ -21,6 +21,7 @@ from iris.util import _slice_data_with_keys
 
 
 class DummyArray:
+    """DummyArray."""
     # A dummy array-like that records the keys of indexing calls.
     def __init__(self, shape, _indexing_record_list=None, dataless=False):
         self.shape = shape
@@ -46,6 +47,7 @@ class DummyArray:
 
 
 class Indexer:
+    """Indexer."""
     # An object to make __getitem__ arglists from indexing operations.
     def __getitem__(self, keys):
         return keys
@@ -56,6 +58,7 @@ Index = Indexer()
 
 
 class MixinIndexingTest:
+    """MixinIndexingTest."""
     def check(
         self, shape, keys, expect_call_keys=None, expect_map=None, dataless=False
     ):
@@ -93,6 +96,7 @@ class MixinIndexingTest:
 
 @pytest.mark.parametrize("dataless", [True, False])
 class Test_indexing(MixinIndexingTest):
+    """Test indexing."""
     # Check the indexing operations performed for various requested keys.
 
     def test_0d_nokeys(self, dataless):
@@ -219,6 +223,7 @@ class Test_indexing(MixinIndexingTest):
 
 @pytest.mark.parametrize("dataless", [True, False])
 class Test_dimensions_mapping(MixinIndexingTest):
+    """Test dimensions mapping."""
     # Check the dimensions map returned for various requested keys.
 
     def test_1d_nochange(self, dataless):
@@ -289,6 +294,7 @@ class Test_dimensions_mapping(MixinIndexingTest):
 
 @pytest.mark.parametrize("dataless", [True, False])
 class TestResults:
+    """Test esults."""
     # Integration-style test, exercising (mostly) the same cases as above,
     # but checking actual results, for both real and lazy array inputs.
 

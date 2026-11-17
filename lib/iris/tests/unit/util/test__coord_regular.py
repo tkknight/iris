@@ -21,6 +21,7 @@ from iris.util import is_regular, points_step, regular_step
 
 
 class Test_is_regular:
+    """Test is regular."""
     def test_coord_with_regular_step(self):
         coord = DimCoord(np.arange(5))
         result = is_regular(coord)
@@ -46,6 +47,7 @@ class Test_is_regular:
 
 
 class Test_regular_step:
+    """Test regular step."""
     def test_basic(self):
         dtype = np.float64
         points = np.arange(5, dtype=dtype)
@@ -76,6 +78,7 @@ class Test_regular_step:
 
 
 class Test_points_step:
+    """Test points step."""
     def test_regular_points(self):
         regular_points = np.arange(5)
         exp_avdiff = np.mean(np.diff(regular_points))

@@ -18,6 +18,7 @@ from iris.tests import _shared_utils
 
 
 class MixinExampleSetup:
+    """MixinExampleSetup."""
     # Common code for regridder test classes.
 
     @pytest.fixture(autouse=True)
@@ -103,6 +104,7 @@ class MixinExampleSetup:
 
 
 class Test__init__(MixinExampleSetup):
+    """Test  init  ."""
     # Exercise all the constructor argument checks.
 
     def test_fail_no_src_x(self):
@@ -185,6 +187,7 @@ class Test__init__(MixinExampleSetup):
 
 
 class Test__call__(MixinExampleSetup):
+    """Test  call  ."""
     # Test regridder operation and results.
 
     def test_basic_latlon(self):

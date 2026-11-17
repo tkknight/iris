@@ -12,6 +12,7 @@ from iris.warnings import IrisLoadWarning
 
 
 class Tests:
+    """Test ."""
     def test_name_ii_average(self):
         av_or_int = ["something average ob bla"]
         coord_name = "foo"

@@ -16,6 +16,7 @@ from iris.cube import Cube
 
 
 class Test2d:
+    """Test d."""
     def test_nonlatlon_simple_2d(self):
         co_y = DimCoord([10.0, 20.0], long_name="y")
         co_x = DimCoord([1.0, 2.0, 3.0], long_name="x")
@@ -62,6 +63,7 @@ class Test2d:
 
 
 class Test1d:
+    """Test d."""
     def test_nonlatlon_simple_1d(self):
         co_x = AuxCoord([1.0, 2.0, 3.0, 1.0, 2.0, 3.0], long_name="x")
         co_y = AuxCoord([10.0, 10.0, 10.0, 20.0, 20.0, 20.0], long_name="y")
@@ -92,6 +94,7 @@ class Test1d:
 
 
 class TestApiExtras:
+    """Test piExtras."""
     # Check operation with alternative calling setups.
 
     @pytest.fixture(autouse=True)
@@ -130,6 +133,7 @@ class TestApiExtras:
 
 
 class TestLatlon:
+    """Test atlon."""
     # Check correct calculations on lat-lon points.
     def _testcube_latlon_1d(self, lats, lons):
         cube = Cube(np.zeros(len(lons)))

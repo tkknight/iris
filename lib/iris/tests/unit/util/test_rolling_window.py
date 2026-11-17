@@ -14,6 +14,7 @@ from iris.util import rolling_window
 
 
 class Test_rolling_window:
+    """Test rolling window."""
     def test_1d(self):
         # 1-d array input
         a = np.array([0, 1, 2, 3, 4], dtype=np.int32)

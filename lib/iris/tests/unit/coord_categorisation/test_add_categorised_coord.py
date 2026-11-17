@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 
 class Test_add_categorised_coord:
+    """Test add categorised coord."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Factor out common variables and objects.
@@ -71,6 +72,7 @@ class Test_add_categorised_coord:
 
 
 class Test_add_day_of_year:
+    """Test add day of year."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.expected = {

@@ -21,6 +21,7 @@ def lenient():
 
 
 class Test___init__:
+    """Test   init  ."""
     def test_default(self, lenient):
         expected = dict(maths=True)
         assert lenient.__dict__ == expected
@@ -37,6 +38,7 @@ class Test___init__:
 
 
 class Test___contains__:
+    """Test   contains  ."""
     def test_in(self, lenient):
         assert "maths" in lenient
 
@@ -45,6 +47,7 @@ class Test___contains__:
 
 
 class Test___getitem__:
+    """Test   getitem  ."""
     def test_in(self, lenient):
         assert bool(lenient["maths"]) is True
 
@@ -55,12 +58,14 @@ class Test___getitem__:
 
 
 class Test___repr__:
+    """Test   repr  ."""
     def test(self, lenient):
         expected = "Lenient(maths=True)"
         assert repr(lenient) == expected
 
 
 class Test___setitem__:
+    """Test   setitem  ."""
     def test_key_invalid(self, lenient):
         emsg = "Invalid .* option, got 'MATHS."
         with pytest.raises(KeyError, match=emsg):
@@ -100,6 +105,7 @@ class Test___setitem__:
 
 
 class Test_context:
+    """Test context."""
     def test_nop(self, lenient):
         assert bool(lenient["maths"]) is True
 

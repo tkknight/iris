@@ -12,6 +12,7 @@ from iris import CombineOptions
 
 
 class TestInit:
+    """Test nit."""
     def test_init_empty(self):
         # Check how a bare init works
         options = CombineOptions()

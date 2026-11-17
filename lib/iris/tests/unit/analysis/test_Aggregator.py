@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 
 class Test_aggregate:
+    """Test aggregate."""
     # These unit tests don't call a data aggregation function, they call a
     # mocked one i.e. the return values of the mocked data aggregation
     # function don't matter, only how these are dealt with by the aggregate
@@ -269,6 +270,7 @@ class Test_aggregate:
 
 
 class Test_update_metadata:
+    """Test update metadata."""
     def test_no_units_change(self, mocker):
         # If the Aggregator has no units_func then the units should be
         # left unchanged.
@@ -309,6 +311,7 @@ class Test_update_metadata:
 
 
 class Test_lazy_aggregate:
+    """Test lazy aggregate."""
     def test_kwarg_pass_through_no_kwargs(self, mocker):
         lazy_func = mocker.Mock()
         data = mocker.sentinel.data

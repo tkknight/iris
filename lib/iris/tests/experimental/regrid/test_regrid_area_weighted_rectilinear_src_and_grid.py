@@ -137,6 +137,7 @@ def _resampled_grid(cube, x_samplefactor, y_samplefactor):
 
 @_shared_utils.skip_data
 class TestAreaWeightedRegrid:
+    """Test reaWeightedRegrid."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # A cube with a hybrid height derived coordinate.

@@ -77,6 +77,7 @@ def common_test_setup(self, shape_3d=(0, 2), data_chunks=None):
 
 
 class TestRecombine__data:
+    """Test ecombine  data."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         common_test_setup(self)
@@ -254,6 +255,7 @@ class TestRecombine__data:
 
 
 class TestRecombine__api:
+    """Test ecombine  api."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         common_test_setup(self)

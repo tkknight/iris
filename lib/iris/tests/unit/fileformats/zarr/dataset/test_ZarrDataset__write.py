@@ -25,6 +25,7 @@ def existing(tmp_path):
 
 
 class TestOpening:
+    """Test pening."""
     def test_a_new_store_is_created(self, tmp_path):
         with ZarrDataset(tmp_path / "new.zarr", mode="w-") as dataset:
             assert dataset.mode == "w-"
@@ -93,6 +94,7 @@ def version_2(tmp_path):
 
 
 class TestTheVersionGuard:
+    """Test heVersionGuard."""
     @pytest.mark.parametrize("mode", ["w-", "w", "a", "r+"])
     def test_writing_version_2_is_refused(self, tmp_path, mode):
         with pytest.raises(NotImplementedError, match="zarr_format=2"):
@@ -127,6 +129,7 @@ def writable(tmp_path):
 
 
 class TestCreateDimension:
+    """Test reateDimension."""
     def test_a_dimension_is_declared(self, writable):
         writable.create_dimension("time", 3)
         assert dict(writable.dimensions) == {"time": 3}
@@ -177,6 +180,7 @@ class TestCreateDimension:
 
 
 class TestCreateVariable:
+    """Test reateVariable."""
     def test_an_array_is_created_with_its_dimension_names(self, writable):
         writable.create_dimension("x", 3)
         variable = writable.create_variable("data", np.dtype("f4"), ["x"])
@@ -223,6 +227,7 @@ class TestCreateVariable:
 
 
 class TestCreateVariableFillValue:
+    """Test reateVariableFillValue."""
     def test_an_undeclared_fill_is_netcdfs_default(self, writable):
         # Zarr's own default is 0, which would make a masked point of a
         # float array read back as a real zero.
@@ -421,6 +426,7 @@ class TestByteOrder:
 
 
 class TestCreateVariableEncoding:
+    """Test reateVariableEncoding."""
     def test_chunks_and_shards_reach_the_array(self, writable):
         writable.create_dimension("x", 128)
         variable = writable.create_variable(
@@ -492,6 +498,7 @@ class TestCreateVariableEncoding:
 
 
 class TestAttributeWriting:
+    """Test ttributeWriting."""
     def test_a_numpy_scalar_is_converted(self, writable):
         # zarr's encoder rejects numpy types, and a rejected value stays in
         # the mapping - so converting afterwards is already too late.
@@ -549,6 +556,7 @@ class TestAttributeWriting:
 
 
 class TestValueWriting:
+    """Test alueWriting."""
     def test_real_values_are_written(self, writable):
         writable.create_dimension("x", 3)
         variable = writable.create_variable("data", np.dtype("f4"), ["x"])
@@ -581,6 +589,7 @@ class TestValueWriting:
 
 
 class TestValueShapeGuard:
+    """Test alueShapeGuard."""
     # zarr-python truncates an oversized assignment without a word, so a
     # caller that sized an array wrongly loses data in silence. The guard
     # turns that into a failure naming the array. See §4.5 of the native
@@ -633,6 +642,7 @@ class TestValueShapeGuard:
 
 
 class TestPacking:
+    """Test acking."""
     # netCDF4-python applies `scale_factor`/`add_offset` packing itself, on
     # assignment, once those attributes are set on the variable - zarr-python
     # does not, so `ZarrDatasetVariable.__setitem__` has to do the arithmetic
@@ -720,6 +730,7 @@ class TestPacking:
 
 
 class TestFinalise:
+    """Test inalise."""
     def test_it_consolidates(self, writable):
         writable.create_dimension("x", 3)
         writable.create_variable("data", np.dtype("f4"), ["x"])
@@ -776,6 +787,7 @@ def consolidated(existing):
 
 
 class TestDropConsolidatedMetadata:
+    """Test ropConsolidatedMetadata."""
     def test_the_document_goes(self, consolidated):
         with ZarrDataset(consolidated, mode="a") as dataset:
             dataset.drop_consolidated_metadata()

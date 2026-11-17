@@ -21,6 +21,7 @@ from iris.tests import _shared_utils
 
 
 class TestUmVersionAttribute:
+    """Test mVersionAttribute."""
     def test_single_saves_as_global(self, tmp_path, request):
         cube = Cube(
             [1.0],
@@ -84,6 +85,7 @@ def _patch_site_configuration(mocker):
 
 
 class TestConventionsAttributes:
+    """Test onventionsAttributes."""
     def test_patching_conventions_attribute(self, tmp_path, mocker):
         # Ensure that user defined conventions are wiped and those which are
         # saved patched through site_config can be loaded without an exception
@@ -278,6 +280,7 @@ class TestGridMappingAttributes:
 
 
 class TestStandardName:
+    """Test tandardName."""
     def test_standard_name_roundtrip(self, tmp_path):
         standard_name = "air_temperature detection_minimum"
         cube = iris.cube.Cube(1, standard_name=standard_name)
@@ -288,6 +291,7 @@ class TestStandardName:
 
 
 class TestCalendar:
+    """Test alendar."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.calendar = Unit("days since 1970-01-01", calendar="360_day")

@@ -29,6 +29,7 @@ LONGITUDE = iris.coords.DimCoord(
 
 
 class Test:
+    """Test ."""
     def _field(self):
         # Create PP field for X wind on a regular lat-lon grid.
         header = [0] * 64

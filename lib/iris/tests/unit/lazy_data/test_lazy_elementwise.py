@@ -16,6 +16,7 @@ def _test_elementwise_op(array):
 
 
 class Test_lazy_elementwise:
+    """Test lazy elementwise."""
     def test_basic(self):
         concrete_array = np.arange(30).reshape((2, 5, 3))
         lazy_array = as_lazy_data(concrete_array)

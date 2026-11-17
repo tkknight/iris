@@ -24,6 +24,7 @@ from iris.tests.experimental.regrid.test_regrid_area_weighted_rectilinear_src_an
 
 
 class TestMdtol:
+    """Test dtol."""
     # Tests to check the masking behaviour controlled by mdtol kwarg.
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -139,6 +140,7 @@ class TestMdtol:
 
 
 class TestWrapAround:
+    """Test rapAround."""
     def test_float_tolerant_equality(self):
         # Ensure that floating point numbers are treated appropriately when
         # introducing precision difference from wrap_around.

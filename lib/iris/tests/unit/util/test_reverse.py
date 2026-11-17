@@ -13,6 +13,7 @@ from iris.util import reverse
 
 
 class Test_array:
+    """Test array."""
     def test_simple_array(self):
         a = np.arange(12).reshape(3, 4)
         _shared_utils.assert_array_equal(a[::-1], reverse(a, 0))
@@ -64,6 +65,7 @@ class Test_array:
 
 
 class Test_cube:
+    """Test cube."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # On this cube pair, the coordinates to perform operations on have

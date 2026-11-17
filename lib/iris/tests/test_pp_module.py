@@ -19,6 +19,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestPPCopy:
+    """Test PCopy."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.filename = _shared_utils.get_data_path(("PP", "aPPglob1", "global.pp"))
@@ -53,6 +54,7 @@ class TestPPCopy:
 
 
 class IrisPPTest:
+    """IrisPPTest."""
     def check_pp(self, pp_fields, reference_filename):
         """Checks the given iterable of PPField objects matches the reference file, or creates the
         reference file if it doesn't exist.
@@ -83,6 +85,7 @@ class IrisPPTest:
 
 
 class TestPPHeaderDerived:
+    """Test PHeaderDerived."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.pp = pp.PPField2()
@@ -139,6 +142,7 @@ class TestPPHeaderDerived:
 
 @_shared_utils.skip_data
 class TestPPField_GlobalTemperature(IrisPPTest):
+    """Test PField GlobalTemperature."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.original_pp_filepath = _shared_utils.get_data_path(
@@ -185,6 +189,7 @@ class TestPPField_GlobalTemperature(IrisPPTest):
 
 @_shared_utils.skip_data
 class TestPackedPP(IrisPPTest):
+    """Test ackedPP."""
     def test_wgdos(self, mocker, tmp_path):
         filepath = _shared_utils.get_data_path(
             ("PP", "wgdos_packed", "nae.20100104-06_0001.pp")
@@ -240,6 +245,7 @@ class TestPackedPP(IrisPPTest):
 
 @_shared_utils.skip_data
 class TestPPFile(IrisPPTest):
+    """Test PFile."""
     def test_lots_of_extra_data(self):
         r = pp.load(
             _shared_utils.get_data_path(
@@ -255,6 +261,7 @@ class TestPPFile(IrisPPTest):
 
 @_shared_utils.skip_data
 class TestPPFileExtraXData(IrisPPTest):
+    """Test PFileExtraXData."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.original_pp_filepath = _shared_utils.get_data_path(
@@ -290,6 +297,7 @@ class TestPPFileExtraXData(IrisPPTest):
 
 @_shared_utils.skip_data
 class TestPPFileWithExtraCharacterData(IrisPPTest):
+    """Test PFileWithExtraCharacterData."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.original_pp_filepath = _shared_utils.get_data_path(
@@ -342,6 +350,7 @@ class TestPPFileWithExtraCharacterData(IrisPPTest):
 
 
 class TestSplittableInt:
+    """Test plittableInt."""
     def test_3(self):
         t = pp.SplittableInt(3)
         assert t[0] == 3
@@ -445,6 +454,7 @@ class TestSplittableInt:
 
 
 class TestSplittableIntEquality:
+    """Test plittableIntEquality."""
     def test_not_implemented(self):
         class Terry:
             pass
@@ -455,6 +465,7 @@ class TestSplittableIntEquality:
 
 
 class TestPPDataProxyEquality:
+    """Test PDataProxyEquality."""
     def test_not_implemented(self):
         class Terry:
             pass
@@ -474,6 +485,7 @@ class TestPPDataProxyEquality:
 
 
 class TestPPFieldEquality:
+    """Test PFieldEquality."""
     def test_not_implemented(self):
         class Terry:
             pass

@@ -11,6 +11,7 @@ import iris.tests.graphics as graphics
 
 @_shared_utils.skip_data
 class TestImageFile:
+    """Test mageFile."""
     def test_json(self):
         # get test names from json
         repo_names = [*graphics.read_repo_json().keys()]

@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 
 class TestPercentileAggregator:
+    """Test ercentileAggregator."""
     def test_init(self, mocker):
         name = "percentile"
         units_func = mocker.sentinel.units_func
@@ -26,6 +27,7 @@ class TestPercentileAggregator:
 
 
 class Test_post_process:
+    """Test post process."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         shape = (2, 5)

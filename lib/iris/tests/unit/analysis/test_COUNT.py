@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 
 class Test_basics:
+    """Test basics."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         data = np.array([1, 2, 3, 4, 5])
@@ -60,6 +61,7 @@ class Test_basics:
 
 
 class Test_units_func:
+    """Test units func."""
     def test(self):
         assert COUNT.units_func is not None
         new_units = COUNT.units_func(None)
@@ -67,6 +69,7 @@ class Test_units_func:
 
 
 class Test_masked:
+    """Test masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = Cube(ma.masked_equal([1, 2, 3, 4, 5], 3))
@@ -79,6 +82,7 @@ class Test_masked:
 
 
 class Test_lazy_masked:
+    """Test lazy masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         lazy_data = as_lazy_data(ma.masked_equal([1, 2, 3, 4, 5], 3))
@@ -95,6 +99,7 @@ class Test_lazy_masked:
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test(self):
         shape = ()
         kwargs = dict()

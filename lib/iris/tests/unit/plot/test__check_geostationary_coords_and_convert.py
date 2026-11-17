@@ -15,6 +15,7 @@ from iris.tests import _shared_utils
 
 
 class Test__check_geostationary_coords_and_convert:
+    """Test  check geostationary coords and convert."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.mocker = mocker

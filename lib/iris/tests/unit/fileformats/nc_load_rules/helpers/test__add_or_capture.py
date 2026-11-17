@@ -14,6 +14,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import CFVariableStandIn
 
 
 class Mixin:
+    """Mixin."""
     build_func: MockType
     add_method: MockType
     cf_var: MockType
@@ -52,6 +53,7 @@ class Mixin:
 
 
 class TestBuildProblems(Mixin):
+    """Test uildProblems."""
     @pytest.fixture(autouse=True)
     def _setup(self, make_args):
         LOAD_PROBLEMS.reset()
@@ -120,6 +122,7 @@ class TestBuildProblems(Mixin):
 
 
 class TestAddProblems(Mixin):
+    """Test ddProblems."""
     @pytest.fixture(autouse=True)
     def _setup(self, make_args):
         LOAD_PROBLEMS.reset()
@@ -162,6 +165,7 @@ class TestAddProblems(Mixin):
 
 
 class TestSuccess(Mixin):
+    """Test uccess."""
     @pytest.fixture(autouse=True)
     def _setup(self, make_args):
         LOAD_PROBLEMS.reset()

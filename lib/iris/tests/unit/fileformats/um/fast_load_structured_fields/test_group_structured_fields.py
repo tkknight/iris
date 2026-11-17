@@ -29,6 +29,7 @@ def _convert_to_vector(value, length, default):
 
 
 class Test__grouping(MockerMixin):
+    """Test  grouping."""
     def _dummy_fields_iter(self, stashes=None, models=None, lbprocs=None):
         # Make a group of test fields, and return an iterator over it.
         a_vec = [vec for vec in (stashes, models, lbprocs) if vec is not None]

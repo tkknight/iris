@@ -17,6 +17,7 @@ from iris.tests._shared_utils import (
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.field = mocker.Mock(

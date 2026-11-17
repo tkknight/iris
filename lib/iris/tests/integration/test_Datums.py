@@ -13,6 +13,7 @@ from iris.tests import _shared_utils
 
 
 class TestDatumTransformation:
+    """Test atumTransformation."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.x_points = np.array([-1.5])

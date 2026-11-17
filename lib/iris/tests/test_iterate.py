@@ -23,6 +23,7 @@ from iris.warnings import IrisUserWarning
 
 @_shared_utils.skip_data
 class TestIterateFunctions:
+    """Test terateFunctions."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube_a = iris.tests.stock.realistic_4d()[0, :2, :4, :3]

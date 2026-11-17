@@ -29,6 +29,7 @@ def regular_array_structures(shape, names="abcdefg"):
 
 
 class TestGroupStructure_from_component_arrays:
+    """Test roupStructure from component arrays."""
     def test_different_sizes(self):
         arrays = {"a": np.arange(6), "b": np.arange(5)}
         msg = "All array elements must have the same size."
@@ -48,6 +49,7 @@ class TestGroupStructure_from_component_arrays:
 
 
 class TestGroupStructure_possible_structures:
+    """Test roupStructure possible structures."""
     def test_simple_3d_structure(self):
         # Construct a structure representing a (3, 2, 4) group and assert
         # that the result is of the expected form.
@@ -111,6 +113,7 @@ class TestGroupStructure_possible_structures:
 
 
 class TestGroupStructure_build_arrays:
+    """Test roupStructure build arrays."""
     def assert_built_array(self, name, result, expected):
         ex_arr, ex_dims = expected
         re_arr, re_dims = result[name]

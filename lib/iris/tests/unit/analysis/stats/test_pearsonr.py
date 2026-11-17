@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 
 class Mixin:
+    """Mixin."""
     @pytest.fixture(autouse=True)
     def _setup_mixin(self):
         # 3D cubes:
@@ -35,6 +36,7 @@ class Mixin:
 
 @_shared_utils.skip_data
 class TestLazy(Mixin):
+    """Test azy."""
     def test_perfect_corr(self, mocked_compute):
         r = stats.pearsonr(self.cube_a, self.cube_a, ["latitude", "longitude"])
         mocked_compute.assert_not_called()
@@ -197,6 +199,7 @@ class TestLazy(Mixin):
 
 
 class TestReal(TestLazy):
+    """Test eal."""
     @pytest.fixture(autouse=True)
     def _setup(self, _setup_mixin):
         for cube in [self.cube_a, self.cube_b]:
@@ -204,6 +207,7 @@ class TestReal(TestLazy):
 
 
 class TestCoordHandling(Mixin):
+    """Test oordHandling."""
     def test_lenient_handling(self):
         # Smoke test that mismatched var_name does not prevent operation.
         self.cube_a.coord("time").var_name = "wibble"

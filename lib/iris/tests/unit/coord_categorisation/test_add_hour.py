@@ -13,6 +13,7 @@ import iris.coord_categorisation as ccat
 
 
 class Test_add_hour:
+    """Test add hour."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # make a series of 'hour numbers' for the time

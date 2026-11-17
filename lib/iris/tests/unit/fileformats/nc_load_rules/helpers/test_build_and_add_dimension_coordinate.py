@@ -23,6 +23,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import (
 
 
 class RulesTestMixin(MockerMixin):
+    """RulesTestMixin."""
     @pytest.fixture(autouse=True)
     def _mixin_setup(self, mocker):
         # Create dummy pyke engine.
@@ -85,6 +86,7 @@ class RulesTestMixin(MockerMixin):
 
 
 class TestCoordConstruction(RulesTestMixin, MockerMixin):
+    """Test oordConstruction."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         bounds = np.arange(12).reshape(6, 2)
@@ -347,6 +349,7 @@ class TestCoordConstruction(RulesTestMixin, MockerMixin):
 
 
 class TestBoundsVertexDim(RulesTestMixin):
+    """Test oundsVertexDim."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Create test coordinate cf variable.
@@ -438,6 +441,7 @@ class TestBoundsVertexDim(RulesTestMixin):
 
 
 class TestCircular(RulesTestMixin):
+    """Test ircular."""
     # Test the rules logic for marking a coordinate "circular".
     @pytest.fixture(autouse=True)
     def _setup(self):
@@ -530,6 +534,7 @@ class TestCircular(RulesTestMixin):
 
 
 class TestCircularScalar(RulesTestMixin):
+    """Test ircularScalar."""
     def _make_vars(self, bounds):
         # Create cf vars for the coordinate and its bounds.
         # Note that for a scalar the shape of the array from

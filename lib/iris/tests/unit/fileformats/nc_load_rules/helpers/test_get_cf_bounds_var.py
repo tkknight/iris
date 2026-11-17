@@ -16,6 +16,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import MockerMixin
 
 
 class TestGetCFBoundsVar(MockerMixin):
+    """Test etCFBoundsVar."""
     # Tests to check that get_cf_bounds_var will return the bounds_var and
     # the correct climatological flag.
     def _generic_test(self, test_climatological_bounds=False):

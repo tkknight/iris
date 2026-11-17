@@ -11,6 +11,7 @@ from iris.fileformats.pp_load_rules import _dim_or_aux
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.mono = list(range(5))

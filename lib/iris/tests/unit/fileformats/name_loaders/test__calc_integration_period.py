@@ -10,6 +10,7 @@ from iris.fileformats.name_loaders import _calc_integration_period
 
 
 class Test:
+    """Test ."""
     def test_30_min_av(self):
         time_avgs = ["             30min average"]
         result = _calc_integration_period(time_avgs)

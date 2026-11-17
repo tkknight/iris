@@ -22,6 +22,7 @@ from iris.tests.stock import global_pp
 
 @_shared_utils.skip_data
 class TestProjectedUnstructured:
+    """Test rojectedUnstructured."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         path = _shared_utils.get_data_path(

@@ -12,6 +12,7 @@ from iris.tests import _shared_utils
 
 
 class TestGeostationary:
+    """Test eostationary."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Set everything to non-default values.

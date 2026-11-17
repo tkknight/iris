@@ -12,6 +12,7 @@ from iris.fileformats.pp_load_rules import _convert_scalar_realization_coords
 
 
 class Test:
+    """Test ."""
     def test_valid(self):
         coords_and_dims = _convert_scalar_realization_coords(lbrsvd4=21)
         assert coords_and_dims == [

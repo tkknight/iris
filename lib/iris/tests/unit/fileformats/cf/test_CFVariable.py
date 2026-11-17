@@ -59,6 +59,7 @@ def nc_vars(mocker):
 
 
 class TestInit:
+    """Test nit."""
     def test_records_filename_from_the_variables_location(self, nc_var):
         cf_var = CFVariableSub("foo", nc_var)
 
@@ -78,6 +79,7 @@ class TestInit:
 
 
 class TestIdentifyCommon:
+    """Test dentifyCommon."""
     def test_handles_defaults_and_target_selection(self):
         variables = {"a": object(), "b": object()}
 
@@ -99,6 +101,7 @@ class TestIdentifyCommon:
 
 
 class TestSpans:
+    """Test pans."""
     def test_scalar_dimension_always_true(self, mocker, nc_var):
         nc_var.dimensions = (_variables._NCZARR_SCALAR_DIMENSION,)
         cf_var = CFVariableSub("scalar", nc_var)
@@ -180,6 +183,7 @@ class TestIsScalar:
 
 
 class TestComparisonAndRepresentation:
+    """Test omparisonAndRepresentation."""
     def test_equality_inequality_and_hash_by_name(self, nc_vars):
         first, second, third = nc_vars
         one = CFVariableSub("same", first)
@@ -198,6 +202,7 @@ class TestComparisonAndRepresentation:
 
 
 class TestAttributeAccess:
+    """Test ttributeAccess."""
     def test_reads_are_not_cached_on_the_instance(self, nc_var):
         # The setattr cache is gone. It made a re-read after cf_attrs_reset()
         # invisible to attribute tracking, which decided which attributes
@@ -289,6 +294,7 @@ class TestAttributeAccess:
 
 
 class TestFormulaTerms:
+    """Test ormulaTerms."""
     def test_registration_and_presence(self, nc_var):
         cf_var = CFVariableSub("foo", nc_var)
 
@@ -299,6 +305,7 @@ class TestFormulaTerms:
 
 
 class TestIdentify:
+    """Test dentify."""
     def test_subclass_stub_returns_none(self, nc_var):
         cf_var = CFVariableSub("foo", nc_var)
 
@@ -306,6 +313,7 @@ class TestIdentify:
 
 
 class TestAttributesMapping:
+    """Test ttributesMapping."""
     def test_attributes_contents(self, nc_var):
         cf_var = CFVariableSub("foo", nc_var)
 
@@ -335,6 +343,7 @@ class TestAttributesMapping:
 
 
 class TestTypedProperties:
+    """Test ypedProperties."""
     def test_dimensions_is_a_tuple(self, nc_var):
         cf_var = CFVariableSub("foo", nc_var)
         assert cf_var.dimensions == ("time", "lat")

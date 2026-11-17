@@ -12,6 +12,7 @@ from iris.common.lenient import _qualname
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         module_name = getmodule(self).__name__

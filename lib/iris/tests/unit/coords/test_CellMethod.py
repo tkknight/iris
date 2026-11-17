@@ -11,6 +11,7 @@ from iris.coords import AuxCoord, CellMethod
 
 
 class TestCellMethod:
+    """Test ellMethod."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.method = "mean"

@@ -25,6 +25,7 @@ Pair = collections.namedtuple("Pair", "points bounds")
 
 
 class Test_nearest_neighbour_index__ascending:
+    """Test nearest neighbour index  ascending."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         points = [0.0, 90.0, 180.0, 270.0]
@@ -79,6 +80,7 @@ class Test_nearest_neighbour_index__ascending:
 
 
 class Test_nearest_neighbour_index__descending:
+    """Test nearest neighbour index  descending."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         points = [270.0, 180.0, 90.0, 0.0]
@@ -111,6 +113,7 @@ class Test_nearest_neighbour_index__descending:
 
 
 class Test_guess_bounds:
+    """Test guess bounds."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.coord = DimCoord(
@@ -205,6 +208,7 @@ class Test_guess_bounds:
 
 
 class Test_guess_bounds__default_enabled_latitude_clipping:
+    """Test guess bounds  default enabled latitude clipping."""
     def test_all_inside(self):
         lat = DimCoord([-10, 0, 20], units="degree", standard_name="latitude")
         lat.guess_bounds()
@@ -272,6 +276,7 @@ def test_guess_bounds_monthly_and_yearly():
 
 
 class Test_Guess_Bounds_Monthly:
+    """Test Guess Bounds Monthly."""
     def test_monthly_multiple_points_in_month(self):
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         points = units.date2num(
@@ -355,6 +360,7 @@ class Test_Guess_Bounds_Monthly:
 
 
 class Test_Guess_Bounds_Yearly:
+    """Test Guess Bounds Yearly."""
     def test_yearly_multiple_points_in_year(self):
         units = cf_units.Unit("days since epoch", calendar="gregorian")
         points = units.date2num(
@@ -412,6 +418,7 @@ class Test_Guess_Bounds_Yearly:
 
 
 class Test_cell:
+    """Test cell."""
     def _mock_coord(self, mocker):
         coord = mocker.Mock(
             spec=Coord,
@@ -463,6 +470,7 @@ class Test_cell:
 
 
 class Test_collapsed(CoordTestMixin):
+    """Test collapsed."""
     def test_serialize(self):
         # Collapse a string AuxCoord, causing it to be serialised.
         string = Pair(
@@ -1014,6 +1022,7 @@ class Test_collapsed(CoordTestMixin):
 
 
 class Test_is_compatible:
+    """Test is compatible."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.test_coord = AuxCoord([1.0])
@@ -1044,6 +1053,7 @@ class Test_is_compatible:
 
 
 class Test_contiguous_bounds:
+    """Test contiguous bounds."""
     def test_1d_coord_no_bounds_warning(self):
         coord = DimCoord([0, 1, 2], standard_name="latitude")
         msg = "Coordinate 'latitude' is not bounded, guessing contiguous bounds."
@@ -1106,6 +1116,7 @@ class Test_contiguous_bounds:
 
 
 class Test_is_contiguous:
+    """Test is contiguous."""
     def test_no_bounds(self):
         coord = DimCoord([1, 3])
         result = coord.is_contiguous()
@@ -1125,6 +1136,7 @@ class Test_is_contiguous:
 
 
 class Test__discontiguity_in_bounds:
+    """Test  discontiguity in bounds."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.points_3by3 = np.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
@@ -1330,6 +1342,7 @@ class Test__discontiguity_in_bounds:
 
 
 class Test__sanity_check_bounds:
+    """Test  sanity check bounds."""
     def test_coord_1d_2_bounds(self):
         # Check that a 1d coord with 2 bounds does not raise an error.
         coord = iris.coords.DimCoord(
@@ -1388,6 +1401,7 @@ class Test__sanity_check_bounds:
 
 
 class Test_convert_units:
+    """Test convert units."""
     def test_convert_unknown_units(self):
         coord = iris.coords.AuxCoord(1, units="unknown")
         emsg = (
@@ -1418,6 +1432,7 @@ class Test_convert_units:
 
 
 class Test___str__:
+    """Test   str  ."""
     def test_short_time_interval(self):
         coord = DimCoord([5], standard_name="time", units="days since 1970-01-01")
         expected = "\n".join(
@@ -1528,6 +1543,7 @@ class Test___str__:
 
 
 class TestClimatology:
+    """Test limatology."""
     # Variety of tests for the climatological property of a coord.
     # Only using AuxCoord since there is no different behaviour between Aux
     # and DimCoords for this property.
@@ -1616,6 +1632,7 @@ class TestClimatology:
 
 
 class TestIgnoreAxis:
+    """Test gnoreAxis."""
     def test_default(self, sample_coord):
         assert sample_coord.ignore_axis is False
 
@@ -1649,6 +1666,7 @@ class TestIgnoreAxis:
 
 
 class Test___init____abstractmethod:
+    """Test   init    abstractmethod."""
     def test_abstract(self):
         emsg = "Can't instantiate abstract class Coord"
         with pytest.raises(TypeError, match=emsg):
@@ -1656,6 +1674,7 @@ class Test___init____abstractmethod:
 
 
 class Test_cube_dims:
+    """Test cube dims."""
     def test_cube_dims(self, mocker):
         # Check that "coord.cube_dims(cube)" calls "cube.coord_dims(coord)".
         mock_dims_result = mocker.sentinel.COORD_DIMS

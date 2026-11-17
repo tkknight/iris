@@ -18,6 +18,7 @@ from .identify_mixins import (
 
 
 class TestIdentify(IdentifyByAttributeMixin):
+    """Test dentify."""
     __test__ = True
 
     CF_CLASS = CFLabelVariable
@@ -41,6 +42,7 @@ class TestIdentify(IdentifyByAttributeMixin):
 
 
 class TestCfLabelDimensions:
+    """Test fLabelDimensions."""
     def _make_label_var(self, label_dims):
         stub = _NetCDFVarWithDimensions("label_var", label_dims, dtype=np.bytes_)
         return CFLabelVariable("label_var", stub)

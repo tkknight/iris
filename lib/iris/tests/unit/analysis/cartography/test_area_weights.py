@@ -12,6 +12,7 @@ import iris.tests.stock as stock
 
 
 class TestInvalidUnits:
+    """Test nvalidUnits."""
     def test_latitude_no_units(self):
         cube = stock.lat_lon_cube()
         cube.coord("longitude").guess_bounds()

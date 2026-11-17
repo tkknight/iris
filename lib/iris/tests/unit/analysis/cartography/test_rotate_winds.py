@@ -68,6 +68,7 @@ def uv_cubes_3d(ref_cube, n_realization=3):
 
 
 class TestPrerequisites:
+    """Test rerequisites."""
     def test_different_coord_systems(self):
         u, v = uv_cubes()
         v.coord("grid_latitude").coord_system = iris.coord_systems.GeogCS(1)
@@ -125,6 +126,7 @@ class TestPrerequisites:
 
 
 class TestAnalyticComparison:
+    """Test nalyticComparison."""
     @staticmethod
     def _unrotate_equation(
         rotated_lons, rotated_lats, rotated_us, rotated_vs, pole_lon, pole_lat
@@ -210,6 +212,7 @@ class TestAnalyticComparison:
 
 
 class TestRotatedToOSGB:
+    """Test otatedToOSGB."""
     # Define some coordinate ranges for the uv_cubes 'standard' RotatedPole
     # system, that exceed the OSGB margins, but not by "too much".
     _rp_x_min, _rp_x_max = -5.0, 5.0
@@ -378,6 +381,7 @@ class TestRotatedToOSGB:
 
 
 class TestMasking:
+    """Test asking."""
     def test_rotated_to_osgb(self):
         # Rotated Pole data with large extent.
         # A 'correct' answer is not known for this test; it is therefore
@@ -428,6 +432,7 @@ class TestMasking:
 
 
 class TestRoundTrip:
+    """Test oundTrip."""
     def test_rotated_to_unrotated(self):
         # Check ability to use 2d coords as input.
         u, v = uv_cubes()
@@ -460,6 +465,7 @@ class TestRoundTrip:
 
 
 class TestNonEarthPlanet:
+    """Test onEarthPlanet."""
     def test_non_earth_semimajor_axis(self):
         u, v = uv_cubes()
         u.coord("grid_latitude").coord_system = iris.coord_systems.GeogCS(123)
@@ -473,6 +479,7 @@ class TestNonEarthPlanet:
 
 
 class TestLazyRotateWinds:
+    """Test azyRotateWinds."""
     def _compare_lazy_rotate_winds(self, masked):
         # Compute wind rotation with lazy data and compare results
 

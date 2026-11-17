@@ -23,6 +23,7 @@ from iris.warnings import IrisCfLoadWarning
 
 
 class TestGetAttrUnits(MockerMixin):
+    """Test etAttrUnits."""
     def _make_cf_var(self, global_attributes=None):
         if global_attributes is None:
             global_attributes = {}

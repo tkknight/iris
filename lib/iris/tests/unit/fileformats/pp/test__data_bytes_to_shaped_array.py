@@ -52,6 +52,7 @@ def test_data_padding__no_compression(data_shape, expected_shape, data_type):
 
 
 class Test__data_bytes_to_shaped_array__lateral_boundary_compression:
+    """Test  data bytes to shaped array  lateral boundary compression."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data_shape = 30, 40
@@ -98,6 +99,7 @@ class Test__data_bytes_to_shaped_array__lateral_boundary_compression:
 
 
 class Test__data_bytes_to_shaped_array__land_packed(MockerMixin):
+    """Test  data bytes to shaped array  land packed."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Sets up some useful arrays for use with the land/sea mask

@@ -94,6 +94,7 @@ def cf_group_populated(cf_group, mock_variables_all) -> cf.CFGroup:
 
 
 class TestProperties:
+    """Test roperties."""
     def test_common(self, cf_group, mock_variables):
         class_, variables = mock_variables
         for mocked in variables:
@@ -118,6 +119,7 @@ class TestProperties:
 
 
 class TestReturns:
+    """Test eturns."""
     @pytest.fixture(autouse=True)
     def _setup(self, cf_group_populated, mock_variables_all):
         self.variables = mock_variables_all
@@ -165,6 +167,7 @@ class TestReturns:
 
 
 class TestMutations:
+    """Test utations."""
     def test_setitem(self, cf_group, mock_variables_all):
         mocked = mock_variables_all[0]
 

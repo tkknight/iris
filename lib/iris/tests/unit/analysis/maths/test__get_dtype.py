@@ -13,6 +13,7 @@ from iris.cube import Cube
 
 
 class TestGetDtype:
+    """Test etDtype."""
     def _check_call(self, obj, expected_dtype):
         result = _get_dtype(obj)
         assert expected_dtype == result

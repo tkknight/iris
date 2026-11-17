@@ -20,6 +20,7 @@ def zarr_format(request):
 
 
 class Test_opening:
+    """Test opening."""
     def test_opens_and_reports_itself(self, tmp_path, zarr_format):
         location = stores.make_store(tmp_path / "s.zarr", zarr_format=zarr_format)
         dataset = ZarrDataset(location)
@@ -34,6 +35,7 @@ class Test_opening:
 
 
 class Test_attributes:
+    """Test attributes."""
     def test_nc_properties_is_not_a_cf_attribute(self, tmp_path):
         """`_NCProperties` is netCDF-c's own bookkeeping, not CF metadata.
 
@@ -56,6 +58,7 @@ class Test_attributes:
 
 
 class Test_dimensions:
+    """Test dimensions."""
     def test_dimensions_are_assembled_from_the_arrays(self, tmp_path, zarr_format):
         location = stores.make_store(tmp_path / "s.zarr", zarr_format=zarr_format)
         assert dict(ZarrDataset(location).dimensions) == stores.DIMENSIONS
@@ -95,6 +98,7 @@ class Test_dimensions:
 
 
 class Test_close:
+    """Test close."""
     def test_close_is_idempotent(self, tmp_path):
         location = stores.make_store(tmp_path / "s.zarr")
         dataset = ZarrDataset(location)
@@ -111,6 +115,7 @@ class Test_close:
 
 
 class Test_groups:
+    """Test groups."""
     def test_group_keyword_selects_a_subgroup(self, tmp_path):
         root = zarr.open_group(store=tmp_path / "n.zarr", mode="w", zarr_format=3)
         sub = root.create_group("measurements/r10m")
@@ -181,6 +186,7 @@ class Test_groups:
 
 
 class Test_supports_dtype:
+    """Test supports dtype."""
     @pytest.mark.parametrize(
         "dtype", ["i1", "i2", "i4", "i8", "u1", "u2", "u4", "u8", "f4", "f8", "c8"]
     )
@@ -195,6 +201,7 @@ class Test_supports_dtype:
 
 
 class Test_locations:
+    """Test locations."""
     def test_an_in_memory_store_is_just_another_location(self, tmp_path):
         """A store need not be a directory. zarr-python decides what it is."""
         memory = zarr.storage.MemoryStore()

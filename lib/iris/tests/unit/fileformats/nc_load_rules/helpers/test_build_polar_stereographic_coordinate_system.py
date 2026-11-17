@@ -16,6 +16,7 @@ from iris.tests.unit.fileformats.nc_load_rules.helpers import CFVariableStandIn
 
 
 class TestBuildPolarStereographicCoordinateSystem:
+    """Test uildPolarStereographicCoordinateSystem."""
     def test_valid_north(self, mocker):
         cf_grid_var = CFVariableStandIn(
             straight_vertical_longitude_from_pole=0,

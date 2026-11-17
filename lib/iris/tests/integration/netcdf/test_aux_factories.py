@@ -13,6 +13,7 @@ from iris.tests import stock as stock
 
 @_shared_utils.skip_data
 class TestAtmosphereSigma:
+    """Test tmosphereSigma."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Modify stock cube so it is suitable to have a atmosphere sigma
@@ -49,6 +50,7 @@ class TestAtmosphereSigma:
 
 @_shared_utils.skip_data
 class TestHybridPressure:
+    """Test ybridPressure."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Modify stock cube so it is suitable to have a
@@ -87,6 +89,7 @@ class TestHybridPressure:
 
 @_shared_utils.skip_data
 class TestSaveMultipleAuxFactories:
+    """Test aveMultipleAuxFactories."""
     def test_hybrid_height_and_pressure(self, request, tmp_path):
         cube = stock.realistic_4d()
         cube.add_aux_coord(

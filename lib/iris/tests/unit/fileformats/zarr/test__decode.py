@@ -30,6 +30,7 @@ def parameters(attributes, *, dtype="i2", storage_fill_value=0, zarr_format=3):
 
 
 class Test__decode_fill_value:
+    """Test  decode fill value."""
     def test_fill_value_from_a_json_number(self):
         result = _decode._decode_fill_value(-999, np.dtype("i2"), "v")
         assert result == -999
@@ -233,6 +234,7 @@ class Test_decode_parameters:
 
 
 class Test_decoding_required:
+    """Test decoding required."""
     def test_decoding_required_is_false_for_a_plain_array(self):
         assert _decode.decoding_required(parameters({})) is False
 
@@ -243,6 +245,7 @@ class Test_decoding_required:
 
 
 class Test__mask_by_sentinels:
+    """Test  mask by sentinels."""
     def test_a_sentinel_is_masked(self):
         block = np.array([0, 1, -999], dtype="i2")
         result = _decode._mask_by_sentinels(block, (np.int16(-999),))
@@ -260,6 +263,7 @@ class Test__mask_by_sentinels:
 
 
 class Test__mask_by_valid_range:
+    """Test  mask by valid range."""
     def test_values_outside_the_range_are_masked(self):
         block = np.array([-1, 5, 11], dtype="i2")
         result = _decode._mask_by_valid_range(block, 0, 10)
@@ -267,6 +271,7 @@ class Test__mask_by_valid_range:
 
 
 class Test__unpack:
+    """Test  unpack."""
     def test_scale_and_offset_are_applied(self):
         block = np.array([1, 2], dtype="u2")
         result = _decode._unpack(block, 0.5, 1.0, np.dtype("f8"))
@@ -275,6 +280,7 @@ class Test__unpack:
 
 
 class Test_mask_and_scale:
+    """Test mask and scale."""
     def test_mask_and_scale_masks_the_packed_values(self):
         """Masking is applied before unpacking, as netCDF4 does it.
 

@@ -28,6 +28,7 @@ PLAIN_LATLON_CS = GeogCS(EARTH_RADIUS)
 
 
 class Test:
+    """Test ."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Source cube.

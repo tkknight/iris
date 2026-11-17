@@ -12,6 +12,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestFileLoad:
+    """Test ileLoad."""
     def _test_file(self, request: pytest.FixtureRequest, src_path, reference_filename):
         """Checks the result of loading the given file spec, or creates the
         reference file if it doesn't exist.

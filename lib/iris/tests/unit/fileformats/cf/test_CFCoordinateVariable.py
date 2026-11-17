@@ -45,6 +45,7 @@ def _make_coord_var(name, data, dtype=float):
 
 
 class TestIdentify:
+    """Test dentify."""
     def test_valid_coordinate_identified(self):
         nc_var = _make_coord_var("lat", [1.0, 2.0, 3.0])
         vars_all = {"lat": nc_var}
@@ -114,6 +115,7 @@ class TestIdentify:
 
 
 class TestIdentifyMonotonic:
+    """Test dentifyMonotonic."""
     def test_monotonic_increasing_accepted(self):
         nc_var = _make_coord_var("lat", np.array([1.0, 2.0, 3.0]))
         vars_all = {"lat": nc_var}

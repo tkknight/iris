@@ -28,6 +28,7 @@ def create_mock_cube(array):
 
 
 class Test_map_complete_blocks:
+    """Test map complete blocks."""
     def setup_method(self):
         self.array = np.arange(8).reshape(2, 4)
 

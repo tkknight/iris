@@ -11,6 +11,7 @@ from iris._lazy_data import is_lazy_data
 
 
 class Test_is_lazy_data:
+    """Test is lazy data."""
     def test_lazy(self):
         values = np.arange(30).reshape((2, 5, 3))
         lazy_array = da.from_array(values, chunks="auto")

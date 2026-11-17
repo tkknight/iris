@@ -13,6 +13,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestLBC:
+    """Test BC."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         # Load multiple cubes from a test file.
@@ -73,6 +74,7 @@ class TestLBC:
 
 @_shared_utils.skip_data
 class TestSkipField:
+    """Test kipField."""
     def test_missing_lbrel(self, mocker):
         warn_msg = (
             "Input field skipped as PPField creation failed : .*"

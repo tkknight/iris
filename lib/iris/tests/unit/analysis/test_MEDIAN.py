@@ -29,6 +29,7 @@ def _get_data(lazy=False, masked=False):
 
 
 class Test_basics:
+    """Test basics."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = _get_data()
@@ -42,6 +43,7 @@ class Test_basics:
 
 
 class Test_masked:
+    """Test masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = _get_data(masked=True)
@@ -63,6 +65,7 @@ class Test_masked:
 
 
 class Test_lazy:
+    """Test lazy."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = _get_data(lazy=True)
@@ -83,6 +86,7 @@ class Test_lazy:
 
 
 class Test_lazy_masked:
+    """Test lazy masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = _get_data(lazy=True, masked=True)

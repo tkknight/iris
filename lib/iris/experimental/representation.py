@@ -286,6 +286,7 @@ class CubeRepresentation:
 
 
 class CubeListRepresentation:
+    """CubeListRepresentation data container."""
     _template = """
 <style>
     .accordion-{uid} {{

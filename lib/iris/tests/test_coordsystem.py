@@ -31,6 +31,7 @@ def osgb():
 
 
 class TestCoordSystemLookup:
+    """Test oordSystemLookup."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.lat_lon_cube()
@@ -60,6 +61,7 @@ class TestCoordSystemLookup:
 
 
 class TestCoordSystemSame:
+    """Test oordSystemSame."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cs1 = iris.coord_systems.GeogCS(6371229)
@@ -97,6 +99,7 @@ class TestCoordSystemSame:
 
 
 class Test_CoordSystem_xml_element:
+    """Test CoordSystem xml element."""
     def test_rotated(self):
         cs = RotatedGeogCS(30, 40, ellipsoid=GeogCS(6371229))
         _shared_utils.assert_XML_element(
@@ -105,6 +108,7 @@ class Test_CoordSystem_xml_element:
 
 
 class Test_GeogCS_construction:
+    """Test GeogCS construction."""
     # Test Ellipsoid constructor
     # Don't care about testing the units, it has no logic specific to this class.
 
@@ -149,6 +153,7 @@ class Test_GeogCS_construction:
 
 
 class Test_GeogCS_repr:
+    """Test GeogCS repr."""
     def test_repr(self):
         cs = GeogCS(6543210, 6500000)
         expected = "GeogCS(semi_major_axis=6543210.0, semi_minor_axis=6500000.0)"
@@ -156,6 +161,7 @@ class Test_GeogCS_repr:
 
 
 class Test_GeogCS_str:
+    """Test GeogCS str."""
     def test_str(self):
         cs = GeogCS(6543210, 6500000)
         expected = "GeogCS(semi_major_axis=6543210.0, semi_minor_axis=6500000.0)"
@@ -163,6 +169,7 @@ class Test_GeogCS_str:
 
 
 class Test_GeogCS_as_cartopy_globe:
+    """Test GeogCS as cartopy globe."""
     def test_as_cartopy_globe(self):
         cs = GeogCS(6543210, 6500000)
         # Can't check equality directly, so use the proj4 params instead.
@@ -172,6 +179,7 @@ class Test_GeogCS_as_cartopy_globe:
 
 
 class Test_GeogCS_as_cartopy_projection:
+    """Test GeogCS as cartopy projection."""
     def test_as_cartopy_projection(self):
         geogcs_args = {
             "semi_major_axis": 6543210,
@@ -195,6 +203,7 @@ class Test_GeogCS_as_cartopy_projection:
 
 
 class Test_GeogCS_as_cartopy_crs:
+    """Test GeogCS as cartopy crs."""
     def test_as_cartopy_crs(self):
         cs = GeogCS(6543210, 6500000)
         res = cs.as_cartopy_crs()
@@ -346,6 +355,7 @@ class Test_GeogCS_mutation:
 
 
 class Test_RotatedGeogCS_construction:
+    """Test RotatedGeogCS construction."""
     def test_init(self):
         rcs = RotatedGeogCS(
             30, 40, north_pole_grid_longitude=50, ellipsoid=GeogCS(6371229)
@@ -366,6 +376,7 @@ class Test_RotatedGeogCS_construction:
 
 
 class Test_RotatedGeogCS_repr:
+    """Test RotatedGeogCS repr."""
     def test_repr(self):
         rcs = RotatedGeogCS(
             30,
@@ -389,6 +400,7 @@ class Test_RotatedGeogCS_repr:
 
 
 class Test_RotatedGeogCS_str:
+    """Test RotatedGeogCS str."""
     def test_str(self):
         rcs = RotatedGeogCS(
             30,
@@ -412,6 +424,7 @@ class Test_RotatedGeogCS_str:
 
 
 class Test_TransverseMercator_construction:
+    """Test TransverseMercator construction."""
     def test_osgb(self):
         tm = osgb()
         _shared_utils.assert_XML_element(
@@ -420,6 +433,7 @@ class Test_TransverseMercator_construction:
 
 
 class Test_TransverseMercator_repr:
+    """Test TransverseMercator repr."""
     def test_osgb(self):
         tm = osgb()
         expected = (
@@ -431,6 +445,7 @@ class Test_TransverseMercator_repr:
 
 
 class Test_TransverseMercator_as_cartopy_crs:
+    """Test TransverseMercator as cartopy crs."""
     def test_as_cartopy_crs(self):
         latitude_of_projection_origin = 49.0
         longitude_of_central_meridian = -2.0
@@ -466,6 +481,7 @@ class Test_TransverseMercator_as_cartopy_crs:
 
 
 class Test_TransverseMercator_as_cartopy_projection:
+    """Test TransverseMercator as cartopy projection."""
     def test_as_cartopy_projection(self):
         latitude_of_projection_origin = 49.0
         longitude_of_central_meridian = -2.0
@@ -501,6 +517,7 @@ class Test_TransverseMercator_as_cartopy_projection:
 
 
 class Test_LambertConformal(_shared_utils.GraphicsTest):
+    """Test LambertConformal."""
     def test_fail_secant_latitudes_none(self):
         emsg = "secant latitudes"
         with pytest.raises(ValueError, match=emsg):
@@ -537,6 +554,7 @@ class Test_LambertConformal(_shared_utils.GraphicsTest):
 
 
 class Test_Datums:
+    """Test Datums."""
     def test_default_none(self):
         cs = GeogCS(6543210, 6500000)  # Arbitrary radii
         cartopy_crs = cs.as_cartopy_crs()

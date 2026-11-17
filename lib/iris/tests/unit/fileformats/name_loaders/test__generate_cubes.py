@@ -14,6 +14,7 @@ from iris.tests._shared_utils import assert_array_equal
 
 
 class TestCellMethods:
+    """Test ellMethods."""
     def test_cell_methods(self, mocker):
         header = mock.MagicMock()
         column_headings = {
@@ -37,6 +38,7 @@ class TestCellMethods:
 
 
 class TestCircularLongitudes:
+    """Test ircularLongitudes."""
     @staticmethod
     def _simulate_with_coords(mocker, names, values, dimensions):
         header = mock.MagicMock()
@@ -97,6 +99,7 @@ class TestCircularLongitudes:
 
 
 class TestTimeCoord:
+    """Test imeCoord."""
     @staticmethod
     def _simulate_with_coords(mocker, names, values, dimensions):
         header = mock.MagicMock()

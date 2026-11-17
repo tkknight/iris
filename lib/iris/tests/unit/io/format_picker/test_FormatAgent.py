@@ -8,6 +8,7 @@ from iris.fileformats import FORMAT_AGENT
 
 
 class TestFormatAgent:
+    """Test ormatAgent."""
     def test_copy_is_equal(self):
         format_agent_copy = FORMAT_AGENT.copy()
         assert format_agent_copy == FORMAT_AGENT

@@ -18,6 +18,7 @@ from iris.coords import AuxCoord, DimCoord
 
 
 class Test___init__:
+    """Test   init  ."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.pressure_at_top = mocker.Mock(units=Unit("Pa"), nbounds=0, shape=())
@@ -129,6 +130,7 @@ class Test___init__:
 
 
 class Test_dependencies:
+    """Test dependencies."""
     @pytest.fixture
     def sample_kwargs(self, mocker):
         pressure_at_top = mocker.Mock(units=Unit("Pa"), nbounds=0, shape=())
@@ -147,6 +149,7 @@ class Test_dependencies:
 
 
 class Test__derive:
+    """Test  derive."""
     def test_function_scalar(self):
         assert AtmosphereSigmaFactory._calculate_array(0, 0, 0) == 0
         assert AtmosphereSigmaFactory._calculate_array(3, 0, 0) == 3
@@ -168,6 +171,7 @@ class Test__derive:
 
 
 class Test_make_coord:
+    """Test make coord."""
     @staticmethod
     def coord_dims(coord):
         mapping = dict(
@@ -241,6 +245,7 @@ class Test_make_coord:
 
 
 class Test_update:
+    """Test update."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         self.pressure_at_top = mocker.Mock(units=Unit("Pa"), nbounds=0, shape=())

@@ -22,6 +22,7 @@ import iris.tests.stock
 
 @_shared_utils.skip_data
 class TestBasicMaths:
+    """Test asicMaths."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.global_pp()
@@ -399,6 +400,7 @@ class TestBasicMaths:
 
 @_shared_utils.skip_data
 class TestDivideAndMultiply:
+    """Test ivideAndMultiply."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.global_pp()
@@ -552,6 +554,7 @@ class TestDivideAndMultiply:
 
 @_shared_utils.skip_data
 class TestExponentiate:
+    """Test xponentiate."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.global_pp()
@@ -584,6 +587,7 @@ class TestExponentiate:
 
 
 class TestExponential:
+    """Test xponential."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.simple_1d()
@@ -594,6 +598,7 @@ class TestExponential:
 
 
 class TestApplyUfunc:
+    """Test pplyUfunc."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.simple_2d()
@@ -631,6 +636,7 @@ class TestApplyUfunc:
 
 
 class TestIFunc:
+    """Test Func."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.simple_2d()
@@ -682,6 +688,7 @@ class TestIFunc:
 
 @_shared_utils.skip_data
 class TestLog:
+    """Test og."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.tests.stock.global_pp()
@@ -702,6 +709,7 @@ class TestLog:
 
 
 class TestMathOperations:
+    """Test athOperations."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data_1f = np.array([[9, 9, 9], [8, 8, 8]], dtype=np.float64)
@@ -876,6 +884,7 @@ class TestMathOperations:
 
 
 class TestMaskedArrays:
+    """Test askedArrays."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.data = ma.MaskedArray(
@@ -905,6 +914,7 @@ class TestMaskedArrays:
 
 
 class TestCoordMathOperations:
+    """Test oordMathOperations."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.value_cube = 100

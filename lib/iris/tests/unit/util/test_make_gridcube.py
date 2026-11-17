@@ -22,6 +22,7 @@ _CS_LAMBERT = LambertConformal(
 
 
 class TestMakeGridcube:
+    """Test akeGridcube."""
     def test_default(self):
         cube = make_gridcube()
         assert isinstance(cube, Cube)

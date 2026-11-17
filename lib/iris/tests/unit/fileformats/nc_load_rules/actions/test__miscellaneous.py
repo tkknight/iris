@@ -19,6 +19,7 @@ from iris.tests.unit.fileformats.nc_load_rules.actions import Mixin__nc_load_act
 
 
 class Test__ukmo_attributes(Mixin__nc_load_actions):
+    """Test  ukmo attributes."""
     # Tests for handling of the special UM-specific data-var attributes.
 
     def _make_testcase_cdl(self, **add_attrs):
@@ -105,6 +106,7 @@ netcdf test {{
 
 
 class Test__labels_cellmeasures_ancils(Mixin__nc_load_actions):
+    """Test  labels cellmeasures ancils."""
     # Tests for some simple rules that translate facts directly into cube data,
     # with no alternative actions, complications or failure modes to test.
     def _make_testcase_cdl(

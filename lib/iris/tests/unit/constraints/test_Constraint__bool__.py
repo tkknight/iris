@@ -17,6 +17,7 @@ from iris._constraints import (
 
 
 class Test_Constraint__bool__:
+    """Test Constraint  bool  ."""
     # Using a Constraint in a boolean context (e.g. with the ``and``/``or``/
     # ``not`` keywords) used to silently return one of the operands, quietly
     # discarding the other. It should instead raise an informative TypeError

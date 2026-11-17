@@ -11,6 +11,7 @@ from .identify_mixins import IdentifyByAttributeListMixin, _NetCDFVar
 
 
 class TestIdentify(IdentifyByAttributeListMixin):
+    """Test dentify."""
     __test__ = True
 
     CF_CLASS = CFUGridConnectivityVariable

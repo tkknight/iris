@@ -19,6 +19,7 @@ import iris.util
 
 
 class Test_sample:
+    """Test sample."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock_sample_osz()

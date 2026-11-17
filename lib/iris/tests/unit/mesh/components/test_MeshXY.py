@@ -18,6 +18,7 @@ from iris.tests import _shared_utils
 
 
 class TestMeshCommon:
+    """Test eshCommon."""
     NODE_LON: AuxCoord
     NODE_LAT: AuxCoord
     EDGE_LON: AuxCoord
@@ -83,6 +84,7 @@ class TestMeshCommon:
 
 
 class TestProperties1D(TestMeshCommon):
+    """Test roperties1D."""
     # Tests that can reuse a single instance for greater efficiency.
     @staticmethod
     @pytest.fixture(scope="class", autouse=True)
@@ -403,6 +405,7 @@ class TestProperties1D(TestMeshCommon):
 
 
 class TestProperties2D(TestProperties1D):
+    """Test roperties2D."""
     # Additional/specialised tests for topology_dimension=2.
     @staticmethod
     @pytest.fixture(scope="class", autouse=True)
@@ -708,6 +711,7 @@ class TestProperties2D(TestProperties1D):
 
 
 class Test__str__various(TestMeshCommon):
+    """Test  str  various."""
     # Some extra testing for the str() operation : based on 1D meshes as simpler
     @pytest.fixture(autouse=True)
     def _setup(self, make_common_inputs):
@@ -795,6 +799,7 @@ class Test__str__various(TestMeshCommon):
 
 
 class TestOperations1D(TestMeshCommon):
+    """Test perations1D."""
     # Tests that cannot reuse an existing MeshXY instance, instead need a new
     # one each time.
     @pytest.fixture(autouse=True)
@@ -1117,6 +1122,7 @@ class TestOperations1D(TestMeshCommon):
 
 
 class TestOperations2D(TestOperations1D):
+    """Test perations2D."""
     # Additional/specialised tests for topology_dimension=2.
     @pytest.fixture(autouse=True)
     def _setup_2d(self, _setup_1d):
@@ -1275,6 +1281,7 @@ class TestOperations2D(TestOperations1D):
 
 
 class TestInitValidation(TestMeshCommon):
+    """Test nitValidation."""
     def test_invalid_topology(self):
         kwargs = {
             "topology_dimension": 0,

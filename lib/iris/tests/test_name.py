@@ -10,6 +10,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_data
 class TestLoad:
+    """Test oad."""
     def test_NAMEIII_field(self, request):
         cubes = iris.load(_shared_utils.get_data_path(("NAME", "NAMEIII_field.txt")))
         _shared_utils.assert_CML(

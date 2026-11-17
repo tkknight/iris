@@ -9,6 +9,7 @@ from iris.tests._shared_utils import assert_array_equal
 
 
 class TestCellMethods:
+    """Test ellMethods."""
     def test_float(self):
         column_headings = {
             "X": ["X = -.100 Lat-Long", "X = -1.600 Lat-Long"],

@@ -10,6 +10,7 @@ from iris.fileformats._nc_load_rules.engine import Engine, FactEntity
 
 
 class Test_Engine:
+    """Test Engine."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.empty_engine = Engine()

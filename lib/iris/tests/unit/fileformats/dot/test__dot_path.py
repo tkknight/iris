@@ -13,6 +13,7 @@ from iris.fileformats.dot import _DOT_EXECUTABLE_PATH, _dot_path
 
 
 class TestDotPath:
+    """Test otPath."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # Because _dot_path is triggered by the initial import we

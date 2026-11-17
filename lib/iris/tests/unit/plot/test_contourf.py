@@ -18,6 +18,7 @@ if _shared_utils.MPL_AVAILABLE:
 
 @_shared_utils.skip_plot
 class TestStringCoordPlot(TestGraphicStringCoord):
+    """Test tringCoordPlot."""
     def test_yaxis_labels(self):
         iplt.contourf(self.cube, coords=("bar", "str_coord"))
         self.assert_points_tick_labels("yaxis")
@@ -55,6 +56,7 @@ class TestStringCoordPlot(TestGraphicStringCoord):
 
 @_shared_utils.skip_plot
 class TestCoords(MixinCoords):
+    """Test oords."""
     @pytest.fixture(autouse=True)
     def _setup(self, mocker):
         # We have a 2d cube with dimensionality (bar: 3; foo: 4)
@@ -71,6 +73,7 @@ class TestCoords(MixinCoords):
 
 @_shared_utils.skip_plot
 class TestAntialias:
+    """Test ntialias."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.fig = plt.figure()

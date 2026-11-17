@@ -21,6 +21,7 @@ from iris.tests import _shared_utils
 
 
 class TestDataMergeCombos:
+    """Test ataMergeCombos."""
     def _make_data(
         self,
         data,
@@ -258,6 +259,7 @@ class TestDataMergeCombos:
 
 
 class TestCubeMergeWithAncils:
+    """Test ubeMergeWithAncils."""
     def _makecube(self, y, cm=False, av=False):
         cube = iris.cube.Cube([0, 0])
         cube.add_dim_coord(iris.coords.DimCoord([0, 1], long_name="x"), 0)

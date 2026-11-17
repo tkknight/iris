@@ -162,6 +162,7 @@ def check_captured_warnings(
 
 
 class MixinAttrsTesting:
+    """MixinAttrsTesting."""
     @staticmethod
     def _calling_testname():
         """Search up the callstack for a function named "test_*", and return the name for

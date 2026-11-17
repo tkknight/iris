@@ -16,6 +16,7 @@ from iris.tests import _shared_utils
 
 
 class Test_units_func:
+    """Test units func."""
     def test(self, mocker):
         assert VARIANCE.units_func is not None
         mul = mocker.Mock(return_value=mocker.sentinel.new_unit)
@@ -27,6 +28,7 @@ class Test_units_func:
 
 
 class Test_masked:
+    """Test masked."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = iris.cube.Cube(ma.masked_equal([1, 2, 3, 4, 5], 3))
@@ -50,6 +52,7 @@ class Test_masked:
 
 
 class Test_lazy_aggregate:
+    """Test lazy aggregate."""
     def test_ddof_one(self):
         array = as_lazy_data(np.arange(8))
         var = VARIANCE.lazy_aggregate(array, axis=0, ddof=1)
@@ -64,11 +67,13 @@ class Test_lazy_aggregate:
 
 
 class Test_name:
+    """Test name."""
     def test(self):
         assert VARIANCE.name() == "variance"
 
 
 class Test_aggregate_shape:
+    """Test aggregate shape."""
     def test(self):
         shape = ()
         kwargs = dict()

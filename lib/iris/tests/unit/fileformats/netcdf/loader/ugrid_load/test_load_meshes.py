@@ -65,6 +65,7 @@ data:
 
 
 class TestLoadErrors:
+    """Test oadErrors."""
     @pytest.fixture(autouse=True)
     def _setup(self, tmp_path):
         self.ref_cdl = _TEST_CDL_HEAD + _TEST_CDL_TAIL
@@ -192,6 +193,7 @@ class TestLoadErrors:
 
 
 class TestsHttp:
+    """Test Http."""
     # Tests of HTTP (OpenDAP) loading need mocking since we can't have tests
     #  that rely on 3rd party servers.
     @pytest.fixture(autouse=True)

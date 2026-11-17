@@ -19,6 +19,7 @@ from iris.tests.stock import global_pp, simple_3d
 
 @_shared_utils.skip_data
 class TestOSGBToLatLon:
+    """Test SGBToLatLon."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         path = _shared_utils.get_data_path(
@@ -70,6 +71,7 @@ class TestOSGBToLatLon:
 
 @_shared_utils.skip_data
 class TestGlobalSubsample:
+    """Test lobalSubsample."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.src = global_pp()
@@ -100,6 +102,7 @@ class TestGlobalSubsample:
 
 @_shared_utils.skip_data
 class TestUnstructured:
+    """Test nstructured."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         path = _shared_utils.get_data_path(
@@ -114,6 +117,7 @@ class TestUnstructured:
 
 
 class TestZonalMean_global:
+    """Test onalMean global."""
     @pytest.fixture(autouse=True)
     def _setup_zonal_mean(self):
         self.src = iris.cube.Cube(
@@ -175,6 +179,7 @@ class TestZonalMean_global:
 
 
 class TestZonalMean_regional(TestZonalMean_global):
+    """Test onalMean regional."""
     @pytest.fixture(autouse=True)
     def _setup(self, _setup_zonal_mean):
         # Define a target grid and a target result (what we expect the

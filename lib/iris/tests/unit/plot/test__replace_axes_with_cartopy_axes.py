@@ -14,6 +14,7 @@ from iris.tests import _shared_utils
 
 @_shared_utils.skip_plot
 class Test_replace_axes_with_cartopy_axes:
+    """Test replace axes with cartopy axes."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.fig = plt.figure()

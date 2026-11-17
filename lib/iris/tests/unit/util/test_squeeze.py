@@ -11,6 +11,7 @@ import iris.tests.stock as stock
 
 
 class TestSqueeze:
+    """Test queeze."""
     @pytest.fixture(autouse=True)
     def _setup(self):
         self.cube = stock.simple_2d_w_multidim_and_scalars()

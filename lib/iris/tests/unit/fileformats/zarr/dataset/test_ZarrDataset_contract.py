@@ -21,6 +21,7 @@ from .. import stores
 
 
 class TestZarrDatasetVersion3(contract.CFDatasetReadContract):
+    """Test arrDatasetVersion3."""
     chunking_key = "chunks"
 
     @pytest.fixture
@@ -29,6 +30,7 @@ class TestZarrDatasetVersion3(contract.CFDatasetReadContract):
 
 
 class TestZarrDatasetVersion2(contract.CFDatasetReadContract):
+    """Test arrDatasetVersion2."""
     chunking_key = "chunks"
 
     @pytest.fixture

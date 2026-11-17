@@ -20,6 +20,7 @@ from iris.fileformats.um._fast_load import STRUCTURED_LOAD_CONTROLS
 
 
 class Mixin_FieldTest:
+    """Mixin_FieldTest."""
     # A mixin providing common facilities for fast-load testing :
     #   * create 'raw' cubes to produce the desired PP fields in a test file.
     #   * save 'raw' cubes to temporary PP files that get deleted afterwards.
@@ -253,6 +254,7 @@ class Mixin_FieldTest:
 
 
 class MixinBasic:
+    """MixinBasic."""
     # A mixin of tests that can be applied to *either* standard or fast load.
     # The "real" test classes must inherit this, and Mixin_FieldTest,
     # and define 'self.do_fast_loads' as True or False.
@@ -298,6 +300,7 @@ class MixinBasic:
 
 
 class MixinCallDetails:
+    """MixinCallDetails."""
     # A mixin of tests that can be applied to *either* standard or fast load.
     # The "real" test classes must inherit this, and Mixin_FieldTest,
     # and define 'self.do_fast_loads' as True or False.
@@ -438,6 +441,7 @@ class MixinCallDetails:
 
 
 class MixinDimsAndOrdering:
+    """MixinDimsAndOrdering."""
     # A mixin of tests that can be applied to *either* standard or fast load.
     # The "real" test classes must inherit this, and Mixin_FieldTest,
     # and define 'self.do_fast_loads' as True or False.
@@ -511,6 +515,7 @@ class MixinDimsAndOrdering:
 
 
 class MixinProblemCases:
+    """MixinProblemCases."""
     def test_FAIL_scalar_vector_concatenate(self):
         # Structured load can produce a scalar coordinate from one file, and a
         # matching vector one from another file, but these won't "combine".
@@ -614,40 +619,48 @@ class MixinProblemCases:
 
 
 class TestBasic__Iris(Mixin_FieldTest, MixinBasic):
+    """Test asic  Iris."""
     # run the 'basic' tests with *normal* loading.
     do_fast_loads = False
 
 
 class TestBasic__Fast(Mixin_FieldTest, MixinBasic):
+    """Test asic  Fast."""
     # run the 'basic' tests with *FAST* loading.
     do_fast_loads = True
 
 
 class TestCallDetails__Iris(Mixin_FieldTest, MixinCallDetails):
+    """Test allDetails  Iris."""
     # run the 'call details' tests with *normal* loading.
     do_fast_loads = False
 
 
 class TestCallDetails__Fast(Mixin_FieldTest, MixinCallDetails):
+    """Test allDetails  Fast."""
     # run the 'call details' tests with *FAST* loading.
     do_fast_loads = True
 
 
 class TestDimsAndOrdering__Iris(Mixin_FieldTest, MixinDimsAndOrdering):
+    """Test imsAndOrdering  Iris."""
     # run the 'dimensions and ordering' tests with *normal* loading.
     do_fast_loads = False
 
 
 class TestDimsAndOrdering__Fast(Mixin_FieldTest, MixinDimsAndOrdering):
+    """Test imsAndOrdering  Fast."""
     # run the 'dimensions and ordering' tests with *FAST* loading.
     do_fast_loads = True
 
 
 class TestProblems__Iris(Mixin_FieldTest, MixinProblemCases):
+    """Test roblems  Iris."""
     # run the 'failure cases' tests with *normal* loading.
     do_fast_loads = False
 
 
 class TestProblems__Fast(Mixin_FieldTest, MixinProblemCases):
+    """Test roblems  Fast."""
     # run the 'failure cases' tests with *FAST* loading.
     do_fast_loads = True
