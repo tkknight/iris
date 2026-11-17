@@ -1,8 +1,4 @@
-# Updates the environment lock files. See the called workflow in the
-# scitools/workflows repo for more details.
-
 name: Refresh Lockfiles
-
 
 on:
   workflow_dispatch:
@@ -12,11 +8,54 @@ on:
     # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onschedule
     - cron: "1 0 * * 6"
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   refresh_lockfiles:
-    uses: scitools/workflows/.github/workflows/refresh-lockfiles.yml@bd3851d2e83a199c5955e5a18b9be2b2531112fe
-    secrets:
-      AUTH_APP_ID: ${{ secrets.AUTH_APP_ID }}
-      AUTH_APP_PRIVATE_KEY: ${{ secrets.AUTH_APP_PRIVATE_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Setup Pixi
+        uses: prefix-dev/setup-pixi@9936258fee697aff89b3fed6ca1f80a382ef694e
+        with:
+          pixi-version: v0.83.0
+          run-install: false
+
+      - name: Update lock
+        run: pixi update
+
+      - name: Detect lock changes
+        id: lock
+        run: |
+          if git diff --quiet -- pixi.lock; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub App token
+        if: steps.lock.outputs.changed == 'true'
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        with:
+          app-id: ${{ secrets.AUTH_APP_ID }}
+          private-key: ${{ secrets.AUTH_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Create pull request
+        if: steps.lock.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          add-paths: pixi.lock
+          commit-message: "chore: update Pixi lock"
+          title: "chore: update Pixi lock"
+          body: "Update the committed Pixi dependency lock."
+          branch: update-pixi-lock
+          delete-branch: true

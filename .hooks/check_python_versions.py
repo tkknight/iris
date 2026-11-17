@@ -5,8 +5,7 @@
 
 """Pre-commit hook: ensure Python versions are consistent across config files.
 
-Python versions must be updated consistently everywhere they appear in the
-repository (pyproject.toml, noxfile.py, CI workflows, requirements files, etc.).
+Supported Python versions must have matching Pixi environments and CI entries.
 
 This hook runs when any version-related file is modified and validates that
 all versions are in sync across the entire repository.
@@ -21,14 +20,15 @@ Exit codes:
 """
 
 from pathlib import Path
+import re
 import sys
+import tomllib
 
 from packaging.version import Version
 
 # Files that contain Python version information
 _VERSION_CONFIG_FILES = {
     "pyproject.toml",
-    "noxfile.py",
     ".github/workflows/ci-wheels.yml",
     ".github/workflows/ci-tests.yml",
     "benchmarks/bm_runner.py",
@@ -55,15 +55,24 @@ def _extract_supported_versions(root_dir: Path) -> list[str] | None:
         return None
 
     try:
-        content = pyproject.read_text()
-        # Look for "Programming Language :: Python :: 3.X" entries
-        import re
-
-        matches = re.findall(r'"Programming Language :: Python :: (3\.\d+)"', content)
+        with pyproject.open("rb") as stream:
+            config = tomllib.load(stream)
+        classifiers = config.get("project", {}).get("classifiers", [])
+        matches = [
+            match.group(1)
+            for classifier in classifiers
+            if (
+                match := re.fullmatch(
+                    r"Programming Language :: Python :: (3\.\d+)", classifier
+                )
+            )
+        ]
         if matches:
             return sorted(set(matches))
     except (OSError, UnicodeDecodeError):
         pass
+    except tomllib.TOMLDecodeError:
+        return None
 
     return None
 
@@ -82,76 +91,60 @@ def check_consistency(root_dir: Path) -> list[str]:
     _parsed = [Version(v) for v in all_supported]
     latest_supported = str(max(_parsed))
 
-    violations = []
-    checks = []
-
-    # pyproject.toml - version classifiers
     pyproject_toml_file = root_dir / "pyproject.toml"
-    if pyproject_toml_file.exists():
-        expected = "\n    ".join(
-            [f'"Programming Language :: Python :: {ver}",' for ver in all_supported]
-        )
-        checks.append(
-            (pyproject_toml_file, expected, "pyproject.toml version classifiers")
+    with pyproject_toml_file.open("rb") as stream:
+        config = tomllib.load(stream)
+    environments = config.get("tool", {}).get("pixi", {}).get("environments", {})
+
+    violations = []
+    required_environments = {
+        f"{kind}-py{version.replace('.', '')}"
+        for version in all_supported
+        for kind in ("dev", "test", "wheel")
+    }
+    required_environments.update(
+        {
+            f"docs-py{latest_supported.replace('.', '')}",
+            f"benchmark-py{latest_supported.replace('.', '')}",
+            f"data-py{latest_supported.replace('.', '')}",
+            f"release-py{latest_supported.replace('.', '')}",
+        }
+    )
+    for environment in sorted(required_environments - environments.keys()):
+        violations.append(
+            f"{pyproject_toml_file}: missing Pixi environment {environment}"
         )
 
-    # noxfile.py - _PY_VERSIONS_ALL
-    nox_file = root_dir / "noxfile.py"
-    if nox_file.exists():
-        expected = "_PY_VERSIONS_ALL = [" + ", ".join(
-            [f'"{ver}"' for ver in all_supported]
-        )
-        checks.append((nox_file, expected, "noxfile.py _PY_VERSIONS_ALL"))
-
-    # CI workflows
     ci_wheels_file = root_dir / ".github" / "workflows" / "ci-wheels.yml"
     if ci_wheels_file.exists():
-        expected = "python-version: [" + ", ".join(
-            [f'"{ver}"' for ver in all_supported]
+        workflow_environments = set(
+            re.findall(
+                r"^\s*pixi-environment:\s*([^\s#]+)",
+                ci_wheels_file.read_text(),
+                re.MULTILINE,
+            )
         )
-        checks.append((ci_wheels_file, expected, "ci-wheels.yml python-version"))
+        required = {f"wheel-py{version.replace('.', '')}" for version in all_supported}
+        for environment in sorted(required - workflow_environments):
+            violations.append(
+                f"{ci_wheels_file}: missing CI Pixi environment {environment}"
+            )
 
     ci_tests_file = root_dir / ".github" / "workflows" / "ci-tests.yml"
     if ci_tests_file.exists():
-        expected = (
-            f'python-version: ["{latest_supported}"]\n'
-            f'{" " * 8}session: ["doctest", "gallery"]'
+        workflow_environments = set(
+            re.findall(
+                r"^\s*pixi-environment:\s*([^\s#]+)",
+                ci_tests_file.read_text(),
+                re.MULTILINE,
+            )
         )
-        checks.append((ci_tests_file, expected, "ci-tests.yml doctest/gallery"))
-
-    benchmarks_dir = root_dir / "benchmarks"
-    benchmark_runner_file = benchmarks_dir / "bm_runner.py"
-    if benchmark_runner_file.exists():
-        expected = f'python_version = "{latest_supported}"'
-        checks.append((benchmark_runner_file, expected, "bm_runner.py python_version"))
-
-    # Requirements files
-    requirements_dir = root_dir / "requirements"
-    if requirements_dir.exists():
-        for ver in all_supported:
-            req_yaml = requirements_dir / f"py{ver.replace('.', '')}.yml"
-            if req_yaml.exists():
-                expected = f"- python ={ver}"
-                checks.append(
-                    (req_yaml, expected, f"requirements/py{ver.replace('.', '')}.yml")
-                )
-
-    # CI tests file version entries
-    if ci_tests_file.exists():
-        for ver in all_supported:
-            expected = f'python-version: "{ver}"\n{" " * 12}session: "tests"'
-            checks.append((ci_tests_file, expected, f"ci-tests.yml py{ver} tests"))
-
-    # Run all checks
-    for path, search, description in checks:
-        try:
-            content = path.read_text()
-            if search not in content:
-                violations.append(
-                    f"{path}: missing expected version entry for {description}"
-                )
-        except (OSError, UnicodeDecodeError):
-            pass
+        required = {f"test-py{version.replace('.', '')}" for version in all_supported}
+        required.add(f"docs-py{latest_supported.replace('.', '')}")
+        for environment in sorted(required - workflow_environments):
+            violations.append(
+                f"{ci_tests_file}: missing CI Pixi environment {environment}"
+            )
 
     return violations
 

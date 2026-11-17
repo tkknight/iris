@@ -19,7 +19,6 @@ files: |
         benchmarks\/.+\.py|
         docs\/.+\.py|
         lib\/.+\.py|
-        noxfile\.py|
         pyproject\.toml|
         tools\/.+\.py|
         setup\.py
@@ -63,10 +62,8 @@ repos:
         files: |
             (?x)(
                 pyproject\.toml|
-                noxfile\.py|
                 \.github/workflows/(ci-tests|ci-wheels)\.yml|
-                benchmarks/bm_runner\.py|
-                requirements/py\d+\.yml
+                benchmarks/bm_runner\.py
             )
 
 
@@ -121,7 +118,7 @@ repos:
     -   id: mypy
         additional_dependencies:
             - 'types-requests'
-        exclude: 'noxfile\.py|docs/src/conf\.py'
+        exclude: 'docs/src/conf\.py'
 
 -   repo: https://github.com/numpy/numpydoc
     rev: v1.11.0rc0

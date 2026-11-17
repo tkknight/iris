@@ -28,8 +28,8 @@ To run locally: the **benchmark runner** provides conveniences for
 common benchmark setup and run tasks, including replicating the benchmarking
 performed by GitHub Actions workflows. This can be accessed by:
 
-- The Nox `benchmarks` session - (use
-  `nox -s benchmarks -- --help` for details).
+- The Pixi `benchmarks` task - (use
+  `pixi run --environment benchmark-py314 benchmarks -- --help` for details).
 - `benchmarks/bm_runner.py` (use the `--help` argument for details).
 - Directly running `asv` commands from the `benchmarks/` directory (check
   whether environment setup has any extra dependencies - see 
@@ -177,10 +177,12 @@ suites for the UK Met Office NG-VAT project.
 
 ## Benchmark environments
 
-We have disabled ASV's standard environment management[^1], instead using an
-environment built using the same scripts that set up the package test 
-environments. 
-This is done using ASV's plugin architecture - see
+We have disabled ASV's standard environment management[^1]. The ASV plugin
+uses the checked-out Pixi manifest and lock for current revisions. For
+pre-Pixi revisions, it creates an environment from that revision's explicit
+Conda lockfile, then installs Iris without resolving dependencies again. This
+preserves each commit's dependency set while keeping ASV's environment cache.
+See
 [`asv_delegated.py`](asv_delegated.py) and associated 
 references in [`asv.conf.json`](asv.conf.json) (`environment_type` and 
 `plugins`).

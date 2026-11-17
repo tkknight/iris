@@ -67,27 +67,34 @@ def _check_requirements(package: str) -> None:
 
 def _prep_data_gen_env() -> None:
     """Create or access a separate, unchanging environment for generating test data."""
-    python_version = "3.14"
     data_gen_var = "DATA_GEN_PYTHON"
     if data_gen_var in environ:
         echo("Using existing data generation environment.")
     else:
         echo("Setting up the data generation environment ...")
-        # Get Nox to build an environment for the `tests` session, but don't
-        #  run the session. Will reuse a cached environment if appropriate.
         _subprocess_runner(
             [
-                "nox",
-                f"--noxfile={ROOT_DIR / 'noxfile.py'}",
-                "--session=tests",
-                "--install-only",
-                f"--python={python_version}",
+                "pixi",
+                "install",
+                "--frozen",
+                "--environment",
+                "data-py314",
             ]
         )
-        # Find the environment built above, set it to be the data generation
-        #  environment.
-        env_directory: Path = next((ROOT_DIR / ".nox").rglob(f"tests*"))
-        data_gen_python = (env_directory / "bin" / "python").resolve()
+        data_gen_python = Path(
+            _subprocess_runner_capture(
+                [
+                    "pixi",
+                    "run",
+                    "--frozen",
+                    "--environment",
+                    "data-py314",
+                    "python",
+                    "-c",
+                    "import sys; print(sys.executable)",
+                ]
+            )
+        ).resolve()
         environ[data_gen_var] = str(data_gen_python)
 
         def clone_resource(name: str, clone_source: str) -> Path:
@@ -123,7 +130,6 @@ def _prep_data_gen_env() -> None:
 
 def _setup_common() -> None:
     _check_requirements("asv")
-    _check_requirements("nox")
 
     _prep_data_gen_env()
 

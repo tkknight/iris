@@ -92,6 +92,8 @@ creation. Nox remains absent from current workflows.
 - Define Python-specific environments for 3.12, 3.13, and 3.14. Give each
   Python version its own solve group, shared by that version's development,
   test, and documentation environments.
+- Provide a separate Python 3.14 release-tools environment for building and
+  validating PyPI artifacts.
 - Use conda-forge packages where suitable and Pixi PyPI dependencies where a
   package should come from PyPI.
 
@@ -160,20 +162,27 @@ flowchart TD
 
 | # | Scope | Status |
 |---|---|---|
-| 1 | Define Pixi dependencies, features, Python environments, solve groups, and `pixi.lock` | 📋 not started |
-| 2 | Add Pixi tasks for tests, docs, wheel checks, and benchmarks; document contributor commands | 📋 not started |
-| 3 | Migrate test, docs, and wheel CI to frozen Pixi environments and caching | 📋 not started |
-| 4 | Replace scheduled conda-lock refresh with a Pixi lock-update pull request workflow | 📋 not started |
-| 5 | Migrate ASV setup to Pixi for current revisions and direct Conda lock installs for historical revisions | 📋 not started |
-| 6 | Migrate benchmark CI and remove Nox-based benchmark commands | 📋 not started |
-| 7 | Remove obsolete Nox and conda-lock tools, environment files, and update contributor, source-install, CI, and release guidance | 📋 not started |
+| 1 | Define Pixi dependencies, features, Python environments, solve groups, and `pixi.lock` | ✅ complete in working tree (2026-11-16) |
+| 2 | Add Pixi tasks for tests, docs, wheel checks, and benchmarks; document contributor commands | ✅ complete in working tree (2026-11-16) |
+| 3 | Migrate test, docs, and wheel CI to frozen Pixi environments and caching | ✅ complete in working tree (2026-11-16) |
+| 4 | Replace scheduled conda-lock refresh with a Pixi lock-update pull request workflow | ✅ complete in working tree (2026-11-16) |
+| 5 | Migrate ASV setup to Pixi for current revisions and direct Conda lock installs for historical revisions | ✅ complete in working tree (2026-11-16) |
+| 6 | Migrate benchmark CI and remove Nox-based benchmark commands | ✅ complete in working tree (2026-11-16) |
+| 7 | Remove obsolete Nox and conda-lock tools, environment files, and update contributor, source-install, CI, and release guidance | 🔄 in progress (2026-11-16; final Pixi test/docs/gallery verification pending) |
 
 Rows 2, 3, and 4 depend on row 1. Row 5 depends on row 1, and row 6 depends
-on rows 2 and 5. Row 7 follows rows 3, 4, and 6. Change a row to `✅ landed
-(date, pull request)` in the pull request that delivers it. The root
+on rows 2 and 5. Row 7 follows rows 3, 4, and 6. Update this roadmap as
+implementation progresses. Mark completed work as `✅ complete in working
+tree (date)`; change it to `✅ landed (date, pull request)` in the pull request
+that delivers it. The root
 and test `AGENTS.md` files also describe Nox and Conda setup. Update those
 instructions as part of row 7 while retaining each file's change-control
 meta-instructions. The user approved these edits before implementation.
+
+Task 7's final verification remains open because the existing `iris-dev`
+environment lacks `zarr` and `nothing`, and the user approved keeping only
+`dev-py314` installed locally. Do not install additional Pixi environments
+without renewed approval.
 
 ```mermaid
 flowchart TD

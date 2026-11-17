@@ -49,35 +49,16 @@ on GitHub whenever a pull-request is submitted, updated or merged. See the
 GitHub Actions Test Environment
 -------------------------------
 
-The CI test environments for our GHA is determined from the requirement files
-in ``requirements/pyXX.yml``.  These are conda environment files list the top-level
-package dependencies for running and testing Iris.
+Pixi environments, Conda and PyPI dependencies, and tasks are defined in
+``pyproject.toml``. The committed ``pixi.lock`` records the resolved package
+versions used by CI. CI installs its selected environment in frozen mode, so
+it fails if the manifest and lock do not agree.
 
-For reproducible test results, these environments are resolved for all their dependencies
-and stored as conda lock files in the ``requirements/locks`` directory.  The test environments
-will not resolve the dependencies each time, instead they will use the lock files to reproduce the
-exact same environment each time.
-
-**If you have updated the requirement YAML files with new dependencies, you will need to
-generate new lock files.** To do this, run the command::
-
-   python tools/update_lockfiles.py -o requirements/locks requirements/py*.yml
-
-or simply::
-
-   make lockfiles
-
-and add the changed lockfiles to your pull request.
-
-New lockfiles are generated automatically each week to ensure that Iris continues to be
-tested against the latest available version of its dependencies.
-Each week the yaml files in ``requirements`` are resolved by a GitHub Action.
-If the resolved environment has changed, a pull request is created with the new lock files.
-The CI test suite will run on this pull request. If the tests fail, a developer
-will need to create a new branch based off the ``auto-update-lockfiles`` branch
-and add the required fixes to this new branch. If the fixes are made to the
-``auto-update-lockfiles`` branch these will be overwritten the next time the
-Github Action is run.
+When changing a dependency, update its Pixi declaration and, when applicable,
+the PyPI runtime metadata in ``requirements/pypi-core.txt``. Run
+``pixi update`` and include the resulting ``pixi.lock`` in the pull request.
+The scheduled GitHub Actions workflow also runs ``pixi update`` and opens a
+pull request when the lock changes.
 
 
 GitHub Checklist
@@ -140,13 +121,9 @@ As of **Iris 3.8** `ruff`_ has been adopted to ensure our codebase is using best
 practice.  `ruff`_ is configured in the `Iris`_ GitHub repository using  
 `.pre-commit-config.yaml`_.  
 
-You can install and run `ruff`_ in your development **iris-dev** conda environment
-via::
+Run `ruff`_ in the Pixi development environment with::
 
-   conda activate iris-dev
-   pip install ruff
-   cd iris
-   ruff .
+   pixi run --environment dev-py314 ruff check .
 
 .. note::
 

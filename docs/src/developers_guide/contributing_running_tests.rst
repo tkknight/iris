@@ -14,8 +14,8 @@ There are two options for running the tests:
   the tests or use ``python`` interactively to investigate any issues.  See
   :ref:`test manual env`.
 
-* Use ``nox``.  This will automatically generate an environment and run test
-  sessions consistent with our GitHub continuous integration.  See :ref:`using nox`.
+* Use Pixi to create a reproducible environment and run the same tasks as
+  continuous integration. See :ref:`using pixi`.
 
 .. _test manual env:
 
@@ -107,93 +107,34 @@ using the commands ``python test_mapping.py -h`` or
 
              python test_mapping.py -d
 
-.. _using nox:
+.. _using pixi:
 
-Using Nox for Testing Iris
-==========================
+Using Pixi for Testing Iris
+========================================
 
-The `nox`_ tool has for adopted for automated testing on `Iris GitHub Actions`_
-and also locally on the command-line for developers.
+Pixi manages Iris' Conda and PyPI development dependencies and runs the tasks
+used by Iris GitHub Actions.
 
-`nox`_ is similar to `tox`_, but instead leverages the expressiveness and power of a Python
-configuration file rather than an `.ini` style file. As with `tox`_, `nox`_ can use `virtualenv`_
-to create isolated Python environments, but in addition also supports `conda`_ as a testing
-environment backend.
+From the Iris repository root, list available tasks with::
 
+  pixi task list
 
-Where is Nox Used?
-------------------
+Install an environment for a supported Python version with::
 
-Iris uses `nox`_ as a convenience to fully automate the process of executing the Iris tests, but also
-automates the process of:
+  pixi install --environment test-py314
 
-* building the documentation and executing the doc-tests
-* building the documentation gallery
-* running the documentation URL link check
+Run the Iris tests and tool tests with::
 
-You can perform all of these tasks manually yourself, however the onus is on you to first ensure
-that all of the required package dependencies are installed and available in the testing environment.
+  pixi run --environment test-py314 tests
 
-`Nox`_ has been configured to automatically do this for you, and provides a means to easily replicate
-the remote testing behaviour of `Iris GitHub Actions`_ locally for the developer.
+Use ``test-py312`` or ``test-py313`` to select another supported Python
+version. To run tests with coverage, use ``tests-coverage`` instead. To run
+the gallery tests or documentation doctests, use::
 
+  pixi run --environment test-py314 gallery
+  pixi run --environment docs-py314 doctest
 
-Installing Nox
---------------
+Pixi installs the selected environment when needed and runs the task inside it.
+Additional arguments are passed to the task after ``--``.
 
-We recommend installing `nox`_ using `conda`_. To install `nox`_ in a separate `conda`_ environment::
-
-  conda create -n nox -c conda-forge nox
-  conda activate nox
-
-To install `nox`_ in an existing active `conda`_ environment::
-
-  conda install -c conda-forge nox
-
-The `nox`_ package is also available on PyPI, however `nox`_ has been configured to use the `conda`_
-backend for Iris, so an installation of `conda`_ must always be available.
-
-
-Testing with Nox
-----------------
-
-The `nox`_ configuration file `noxfile.py` is available in the root ``iris`` project directory, and
-defines all the `nox`_ sessions (i.e., tasks) that may be performed. `nox`_ must always be executed
-from the ``iris`` root directory.
-
-To list the configured `nox`_ sessions for Iris::
-
-  nox --list
-
-To run the Iris tests for all configured versions of Python::
-
-  nox --session tests
-
-To build the Iris documentation specifically for Python 3.7::
-
-  nox --session doctest-3.7
-
-To run all the Iris `nox`_ sessions::
-
-  nox
-
-For further `nox`_ command-line options::
-
-  nox --help
-
-.. tip::
-    For `nox`_ sessions that use the `conda`_ backend, you can use the ``-v`` or ``--verbose``
-    flag to display the `nox`_ `conda`_ environment package details and environment info.
-    For example::
-
-        nox --session tests -- --verbose
-
-
-.. note:: `nox`_ will cache its testing environments in the `.nox` root ``iris`` project directory.
-
-
-.. _setuptools: https://setuptools.readthedocs.io/en/latest/
-.. _tox: https://tox.readthedocs.io/en/latest/
-.. _virtualenv: https://virtualenv.pypa.io/en/latest/
-.. _PyPI: https://pypi.org/project/nox/
 .. _v41.5.0: https://setuptools.readthedocs.io/en/latest/history.html#v41-5-0

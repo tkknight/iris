@@ -30,7 +30,7 @@ pull request bodies, issues, specs, plans, docstrings and comments — follows
 | **Key dependencies** | NumPy, Dask, SciPy, Cartopy, CF-Python, NetCDF4 |
 | **Linter / formatter** | Ruff (88-char line length) |
 | **Test runner** | pytest; pytest-xdist is installed but **not** in `addopts` — pass `-n auto` yourself |
-| **Env management** | nox + conda |
+| **Env management** | Pixi |
 
 
 ### Main source layout
@@ -50,34 +50,24 @@ lib/iris/
 changelog/             # changelog fragments
 docs/src/              # Sphinx documentation source
 benchmarks/            # ASV performance benchmarks
-requirements/          # Conda environment specs and lock files
+requirements/          # PyPI runtime requirements and Read the Docs environment
+pixi.lock              # Locked development and CI environments
 ```
 
 
 ## Setup
 
-### Conda environment (recommended)
+### Pixi environment
 
-Always use a conda environment, reuse the iris-dev conda environment if it
-already exists but confirm with the user before installing or removing packages.
-
-If a package cannot be installed via conda then you can use pip that is in the
-conda environment.
+Install Pixi using its official installation instructions. From the Iris
+repository root, install the development environment and verify the checkout:
 
 ```bash
-# Create and activate a development environment
-conda env create -f environment.yml
-conda activate iris-dev
-pip install --no-build-isolation -e .
+pixi install --environment dev-py314
+pixi run --environment dev-py314 python -c "import iris; print(iris.__version__)"
 ```
 
-Alternatively, use lock files for exact reproducibility:
-
-```bash
-conda create -n iris-dev --file requirements/locks/py314-linux-64.lock
-conda activate iris-dev
-pip install --no-build-isolation -e .
-```
+Use `dev-py312` or `dev-py313` to select another supported Python version.
 
 
 ### Environment variables
@@ -187,13 +177,15 @@ Documentation lives under `docs/` and is built with Sphinx. See
 [`docs/AGENTS.md`](docs/AGENTS.md) for full rules.
 
 
-## Lock-file Maintenance
+## Pixi Lock Maintenance
 
 ```bash
-# Regenerate lock files for all supported Python versions
-python tools/update_lockfiles.py -o requirements/locks requirements/py*.yml
-# Shortcut via Makefile
-make lockfiles
+# Update the committed dependency lock
+pixi update
+# Makefile alias for pixi update
+make lock
+# Install a locked environment without changing the lock
+pixi install --locked --environment test-py314
 ```
 
 
@@ -252,8 +244,8 @@ afterwards.
 2. **Pre-commit Auto-fixes**: Hooks may auto-fix ISC001/COM812 conflicts ->
   re-stage files: `git add . && git commit`
 
-3. **Lockfile Rebuilds**: Updating `requirements/locks/*.lock` files triggers
-  slow conda environment rebuilds - only update when deps genuinely change
+3. **Pixi Lock Updates**: Run `pixi update` after changing dependency
+  declarations, then include the resulting `pixi.lock`.
 
 4. **Lazy Data Pitfalls**: Check `cube.has_lazy_data()` before operations; use
   `cube.lazy_data()` when appropriate; `cube.data` materializes arrays

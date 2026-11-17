@@ -5,7 +5,7 @@ line with the
 [ASV guidelines](https://asv.readthedocs.io/projects/asv-runner/en/stable/development/benchmark_plugins.html).
 This is achieved using the custom build in [install.py](./install.py).
 
-Installation is into the environment where the benchmarks are run (i.e. not
-the environment containing ASV + Nox, but the one built to the same
-specifications as the Tests environment). This is done via `build_command`
-in [asv.conf.json](../asv.conf.json).
+Installation is into the environment where benchmarks are run, not the
+Pixi environment used to invoke ASV. ASV selects a per-commit environment
+from the Pixi workspace or a historical Conda lockfile. This is done via
+`build_command` in [asv.conf.json](../asv.conf.json).

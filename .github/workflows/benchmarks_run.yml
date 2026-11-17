@@ -45,7 +45,7 @@ jobs:
         uses: marceloprado/has-changed-path@df1b7a3161b8fb9fd8c90403c66a9e66dfde50cb
         with:
           # SEE ALSO .github/labeler.yml .
-          paths: requirements/locks/*.lock
+          paths: pixi.lock
       - id: overnight
         name: Check overnight scenario
         if: github.event_name != 'pull_request'
@@ -86,18 +86,23 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install run dependencies
-        run: pip install asv nox!=2025.05.01
+      - name: Setup Pixi
+        uses: prefix-dev/setup-pixi@9936258fee697aff89b3fed6ca1f80a382ef694e
+        with:
+          pixi-version: v0.83.0
+          environments: benchmark-py314
+          frozen: true
+          activate-environment: true
+          cache-key: iris-benchmark-py314-${{ hashFiles('pixi.lock') }}
 
       - name: Cache environment directories
         id: cache-env-dir
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
-            .nox
             benchmarks/.asv/env
             $CONDA/pkgs
-          key: ${{ runner.os }}-${{ hashFiles('requirements/') }}-${{ env.ENV_CACHE_BUILD }}
+          key: ${{ runner.os }}-${{ hashFiles('pixi.lock') }}-${{ env.ENV_CACHE_BUILD }}
 
       - name: Cache test data directory
         id: cache-test-data
@@ -129,7 +134,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.number }}
         run: |
-          nox -s benchmarks -- branch origin/${BASE_REF}
+          pixi run --frozen --environment benchmark-py314 benchmarks -- branch origin/${BASE_REF}
 
       - name: Run overnight benchmarks
         # If the 'overnight' condition(s) are met: use the bm_runner to compare
@@ -150,7 +155,7 @@ jobs:
 
           if [ "$first_commit" != "" ]
           then
-            nox -s benchmarks -- overnight $first_commit
+            pixi run --frozen --environment benchmark-py314 benchmarks -- overnight $first_commit
           fi
 
       - name: Warn of failure

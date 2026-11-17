@@ -82,6 +82,54 @@ def test_python_versions():
     assert not violations, message
 
 
+def test_python_versions_detects_missing_pixi_environment(tmp_path):
+    check_python_versions = _load_hook("check_python_versions")
+    (tmp_path / "pyproject.toml").write_text(
+        """[project]
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+
+[tool.pixi.environments]
+dev-py312 = {}
+test-py312 = {}
+wheel-py312 = {}
+dev-py313 = {}
+test-py313 = {}
+wheel-py313 = {}
+dev-py314 = {}
+benchmark-py314 = {}
+test-py314 = {}
+wheel-py314 = {}
+docs-py314 = {}
+""".replace("dev-py313 = {}\n", "")
+    )
+    workflows = tmp_path / ".github" / "workflows"
+    workflows.mkdir(parents=True)
+    (workflows / "ci-tests.yml").write_text(
+        "pixi-environment: docs-py314\n"
+        "pixi-environment: test-py312\n"
+        "pixi-environment: test-py313\n"
+        "pixi-environment: test-py314\n"
+    )
+    (workflows / "ci-wheels.yml").write_text(
+        "pixi-environment: wheel-py312\n"
+        "pixi-environment: wheel-py313\n"
+        "pixi-environment: wheel-py314\n"
+    )
+    benchmarks = tmp_path / "benchmarks"
+    benchmarks.mkdir()
+    (benchmarks / "bm_runner.py").write_text('python_version = "3.14"\n')
+
+    violations = check_python_versions.check_consistency(tmp_path)
+
+    assert any("missing Pixi environment dev-py313" in item for item in violations)
+    assert any("missing Pixi environment data-py314" in item for item in violations)
+    assert any("missing Pixi environment release-py314" in item for item in violations)
+
+
 def test_categorised_warnings():
     r"""To ensure that all UserWarnings raised by Iris are categorised, for ease of use.
 

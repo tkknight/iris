@@ -4,16 +4,102 @@
 # See LICENSE in the root of the repository for full licensing details.
 """Repository-specific adaptation of :mod:`_asv_delegated_abc`."""
 
-import ast
-import enum
 from os import environ
-from os.path import getmtime
 from pathlib import Path
 import re
 
 from asv import util as asv_util
 
 from _asv_delegated_abc import _DelegatedABC
+
+
+def _prepare_asv_environment(checkout_dir: Path, env_parent_dir: Path) -> Path:
+    """Prepare the environment for a current or historical Iris checkout."""
+    env_parent_dir.mkdir(parents=True, exist_ok=True)
+    manifest = checkout_dir / "pyproject.toml"
+    lockfile = checkout_dir / "pixi.lock"
+
+    if manifest.is_file() and lockfile.is_file():
+        pixi_env_root = env_parent_dir / "pixi"
+        local_envs = dict(environ)
+        local_envs["PIXI_CACHE_DETACHED_ENVIRONMENTS_DIR"] = str(pixi_env_root)
+        asv_util.check_output(
+            ["pixi", "config", "set", "--local", "detached-environments", "true"],
+            cwd=checkout_dir,
+            env=local_envs,
+        )
+        asv_util.check_output(
+            [
+                "pixi",
+                "install",
+                "--frozen",
+                "--manifest-path",
+                str(manifest),
+                "--environment",
+                "benchmark-py314",
+            ],
+            cwd=checkout_dir,
+            env=local_envs,
+        )
+        prefix = asv_util.check_output(
+            [
+                "pixi",
+                "run",
+                "--frozen",
+                "--manifest-path",
+                str(manifest),
+                "--environment",
+                "benchmark-py314",
+                "python",
+                "-c",
+                "import sys; print(sys.prefix)",
+            ],
+            cwd=checkout_dir,
+            env=local_envs,
+        )
+        return Path(prefix.decode().strip()).resolve()
+
+    lock_dir = checkout_dir / "requirements" / "locks"
+    locks_by_version = {
+        int(match.group(1)): lock
+        for lock in lock_dir.glob("py*-linux-64.lock")
+        if (match := re.fullmatch(r"py(\d+)-linux-64\.lock", lock.name))
+    }
+    if not locks_by_version:
+        message = f"No explicit Conda lockfiles found in {lock_dir}."
+        raise FileNotFoundError(message)
+
+    version, lockfile = max(locks_by_version.items())
+    prefix = env_parent_dir / f"conda-py{version}"
+    asv_util.check_output(
+        [
+            "conda",
+            "create",
+            "--yes",
+            "--prefix",
+            str(prefix),
+            "--file",
+            str(lockfile),
+        ],
+        cwd=checkout_dir,
+    )
+    asv_util.check_output(
+        [
+            "conda",
+            "run",
+            "--prefix",
+            str(prefix),
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "--no-deps",
+            "-e",
+            str(checkout_dir),
+        ],
+        cwd=checkout_dir,
+    )
+    return prefix.resolve()
 
 
 class Delegated(_DelegatedABC):
@@ -59,95 +145,4 @@ class Delegated(_DelegatedABC):
                 file_write.seek(0)
                 file_write.writelines(lines)
 
-        class Mode(enum.Enum):
-            """The scenarios where the correct env setup script is known."""
-
-            NOX = enum.auto()
-            """``PY_VER=x.xx nox --session=tests --install-only`` is supported."""
-
-        mode = None
-
-        noxfile = build_dir / "noxfile.py"
-        if noxfile.is_file():
-            # Our noxfile originally did not support `--install-only` - you
-            #  could either run the tests, or run nothing at all. Adding
-            #  `run_always` to `prepare_venv` enabled environment setup without
-            #  running tests.
-            noxfile_tree = ast.parse(source=noxfile.read_text())
-            prep_session = next(
-                filter(
-                    lambda node: getattr(node, "name", "") == "prepare_venv",
-                    ast.walk(noxfile_tree),
-                )
-            )
-            prep_session_code = ast.unparse(prep_session)
-            if (
-                "session.run(" not in prep_session_code
-                and "session.run_always(" in prep_session_code
-            ):
-                mode = Mode.NOX
-
-        match mode:
-            # Just NOX for now but the architecture is here for future cases.
-            case Mode.NOX:
-                # Need to determine a single Python version to run with.
-                req_dir = build_dir / "requirements"
-                lockfile_dir = req_dir / "locks"
-                if not lockfile_dir.is_dir():
-                    lockfile_dir = req_dir / "ci" / "nox.lock"
-
-                if not lockfile_dir.is_dir():
-                    message = "No lockfile directory found in the expected locations."
-                    raise FileNotFoundError(message)
-
-                def py_ver_from_lockfiles(lockfile: Path) -> str:
-                    pattern = re.compile(r"py(\d+)-")
-                    search = pattern.search(lockfile.name)
-                    assert search is not None
-                    version = search.group(1)
-                    return f"{version[0]}.{version[1:]}"
-
-                python_versions = [
-                    py_ver_from_lockfiles(lockfile)
-                    for lockfile in lockfile_dir.glob("*.lock")
-                ]
-                python_version = max(python_versions)
-
-                # Construct and run the environment preparation command.
-                local_envs = dict(environ)
-                local_envs["PY_VER"] = python_version
-                # Prevent Nox re-using env with wrong Python version.
-                env_parent_dir = (
-                    env_parent_dir / f"nox{python_version.replace('.', '')}"
-                )
-                env_command = [
-                    "nox",
-                    f"--envdir={env_parent_dir}",
-                    "--session=tests",
-                    "--install-only",
-                    "--no-error-on-external-run",
-                    "--verbose",
-                ]
-                _ = asv_util.check_output(
-                    env_command,
-                    timeout=self._install_timeout,
-                    cwd=build_dir,
-                    env=local_envs,
-                )
-
-                env_parent_contents = list(env_parent_dir.iterdir())
-                env_parent_dirs = [p for p in env_parent_contents if p.is_dir()]
-                if len(env_parent_dirs) != 1:
-                    message = (
-                        f"{env_parent_dir} contains {len(env_parent_dirs)} "
-                        "directories, expected 1. Cannot determine the environment "
-                        "directory."
-                    )
-                    raise FileNotFoundError(message)
-                (delegated_env_path,) = env_parent_dirs
-
-            case _:
-                message = "No environment setup is known for this commit of Iris."
-                raise NotImplementedError(message)
-
-        return delegated_env_path
+        return _prepare_asv_environment(build_dir, env_parent_dir)

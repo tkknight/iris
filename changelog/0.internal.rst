@@ -1,0 +1,2 @@
+Development and CI environment setup now uses Pixi environments and tasks,
+with dependency versions recorded in the committed ``pixi.lock``.

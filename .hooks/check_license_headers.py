@@ -30,7 +30,6 @@ LICENSE_TEMPLATE = """# Copyright Iris contributors
 # Patterns of files to exclude from license header check
 _EXCLUDE_PATTERNS = (
     "setup.py",
-    "noxfile.py",
     "build/*",
     "dist/*",
     "docs/gallery_code/*/*.py",

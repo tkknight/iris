@@ -91,7 +91,6 @@ omit = [
 disable_error_code = ["call-arg"]
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
 exclude = [
-    'noxfile\.py',
     'docs/src/conf\.py'
 ]
 ignore_missing_imports = true
@@ -499,3 +498,138 @@ single_file = false
   directory = "internal"
   name = "💼 Internal"
   showcontent = true
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.environments]
+default = { features = ["dev", "py314"], solve-group = "py314" }
+pypi-py314 = { features = ["py314"], solve-group = "py314" }
+dev-py312 = { features = ["dev", "py312"], solve-group = "py312" }
+dev-py313 = { features = ["dev", "py313"], solve-group = "py313" }
+dev-py314 = { features = ["dev", "py314"], solve-group = "py314" }
+test-py312 = { features = ["dev", "test", "optional", "geovista", "py312"], solve-group = "py312" }
+test-py313 = { features = ["dev", "test", "optional", "geovista", "py313"], solve-group = "py313" }
+test-py314 = { features = ["dev", "test", "optional", "py314"], solve-group = "py314" }
+wheel-py312 = { features = ["test", "py312"], solve-group = "py312" }
+wheel-py313 = { features = ["test", "py313"], solve-group = "py313" }
+wheel-py314 = { features = ["test", "py314"], solve-group = "py314" }
+docs-py314 = { features = ["dev", "test", "docs", "optional", "py314"], solve-group = "py314" }
+benchmark-py314 = { features = ["dev", "test", "optional", "benchmark", "py314"], solve-group = "py314" }
+data-py314 = { features = ["dev", "test", "optional", "py314"], solve-group = "py314" }
+release-py314 = { features = ["py314", "release"], solve-group = "release" }
+optional-py312 = { features = ["optional", "geovista", "py312"], solve-group = "py312" }
+optional-py313 = { features = ["optional", "geovista", "py313"], solve-group = "py313" }
+optional-py314 = { features = ["optional", "py314"], solve-group = "py314" }
+
+[tool.pixi.dependencies]
+setuptools = ">=77.0.3"
+setuptools-scm = ">=8"
+cartopy = ">=0.21"
+cf-units = ">=3.1"
+cftime = ">=1.5"
+dask-core = ">=2025.1.0,!=2025.10.0"
+libnetcdf = "!=4.9.1"
+matplotlib-base = ">=3.5,!=3.9.1"
+netcdf4 = "*"
+numpy = ">=1.24,!=1.24.3"
+python-xxhash = "*"
+pyproj = "*"
+scipy = "*"
+shapely = "!=1.8.3"
+
+[tool.pixi.feature.dev.dependencies]
+pre-commit = "*"
+ruff = "*"
+
+[tool.pixi.feature.dev.pypi-dependencies]
+scitools-iris = { path = ".", editable = true }
+
+[tool.pixi.feature.test.dependencies]
+asv_runner = "*"
+distributed = "*"
+filelock = "*"
+imagehash = ">=4.0"
+psutil = "*"
+pytest = "<9.1"
+pytest-cov = "*"
+pytest-mock = "*"
+pytest-xdist = "*"
+requests = "*"
+xarray = "*"
+
+[tool.pixi.feature.test.pypi-dependencies]
+nothing = { git = "https://github.com/SciTools-incubator/nothing.git" }
+
+[tool.pixi.feature.docs.dependencies]
+sphinx = "<8.2"
+sphinxcontrib-apidoc = "*"
+sphinx-copybutton = "*"
+sphinx-gallery = ">=0.11.0"
+sphinx-design = "*"
+pydata-sphinx-theme = ">=0.17.0"
+sphinx-needs = "*"
+sphinx-reredirects = "*"
+sphinx_changelog = ">=1.6.0"
+sphinx-llm = "<1.1.0"
+sphinx-sitemap = "*"
+towncrier = "*"
+
+[tool.pixi.feature.optional.dependencies]
+esmpy = ">=7.0"
+graphviz = ">=6.0.0"
+iris-sample-data = ">=2.4.0"
+mo_pack = "*"
+nc-time-axis = ">=1.4"
+pandas = "*"
+python-stratify = "*"
+rasterio = "*"
+affine = "*"
+zarr = ">=3.1.0"
+
+[tool.pixi.feature.geovista.dependencies]
+geovista = "*"
+
+[tool.pixi.feature.benchmark.dependencies]
+asv = "*"
+
+[tool.pixi.feature.release.dependencies]
+python-build = "*"
+twine = "*"
+
+[tool.pixi.feature.py312.dependencies]
+python = "3.12.*"
+pip = "*"
+
+[tool.pixi.feature.py313.dependencies]
+python = "3.13.*"
+pip = "*"
+
+[tool.pixi.feature.py314.dependencies]
+python = "3.14.*"
+pip = "*"
+
+[tool.pixi.feature.test.tasks.tests]
+cmd = "pytest -n auto lib/iris/tests tools"
+description = "Run Iris tests and tool tests"
+
+[tool.pixi.feature.test.tasks.tests-coverage]
+cmd = "pytest -n auto --cov=lib/iris --cov-report=xml lib/iris/tests tools"
+description = "Run Iris tests with coverage reporting"
+
+[tool.pixi.feature.docs.tasks.doctest]
+cmd = "make -C docs clean html && make -C docs doctest"
+description = "Build Iris documentation and run Sphinx doctests"
+
+[tool.pixi.feature.test.tasks.gallery]
+cmd = "pytest -n auto docs/gallery_tests"
+description = "Run Iris documentation gallery tests"
+
+[tool.pixi.feature.test.tasks.wheel]
+cmd = "python -m pip install dist/*.whl && python -c 'import iris; print(iris.__version__)'"
+description = "Install and import the built Iris wheel"
+
+[tool.pixi.feature.benchmark.tasks.benchmarks]
+cmd = "python benchmarks/bm_runner.py"
+description = "Run the Iris benchmark runner"

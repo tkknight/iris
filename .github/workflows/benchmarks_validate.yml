@@ -38,21 +38,26 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install run dependencies
-        run: pip install asv nox!=2025.05.01
+      - name: Setup Pixi
+        uses: prefix-dev/setup-pixi@9936258fee697aff89b3fed6ca1f80a382ef694e
+        with:
+          pixi-version: v0.83.0
+          environments: benchmark-py314
+          frozen: true
+          activate-environment: true
+          cache-key: iris-benchmark-py314-${{ hashFiles('pixi.lock') }}
 
       - name: Restore environment cache
         id: cache-restore
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
-            .nox
             benchmarks/.asv/env
             $CONDA/pkgs
-          key: ${{ runner.os }}-${{ hashFiles('requirements/') }}-${{ env.ENV_CACHE_BUILD }}
+          key: ${{ runner.os }}-${{ hashFiles('pixi.lock') }}-${{ env.ENV_CACHE_BUILD }}
 
       - name: Validate setup
-        run: nox -s benchmarks -- validate
+        run: pixi run --frozen --environment benchmark-py314 benchmarks -- validate
 
       - name: Save environment cache
         # Security: PRs are potentially malformed/malicious, so only allow runs on trunk
@@ -61,7 +66,6 @@ jobs:
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
-            .nox
             benchmarks/.asv/env
             $CONDA/pkgs
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}

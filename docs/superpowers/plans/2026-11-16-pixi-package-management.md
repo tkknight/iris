@@ -15,6 +15,9 @@ Sphinx.
 
 **Spec:** `docs/superpowers/specs/2026-11-16-pixi-package-management-design.md`
 
+**Progress (2026-11-16):** Tasks 1–6 complete in the working tree; Task 7 in
+progress. Keep this line, the checkboxes, and the spec roadmap synchronized.
+
 ## Global Constraints
 
 - Support Python 3.12, 3.13, and 3.14.
@@ -73,18 +76,18 @@ Sphinx.
 - Preserve GeoVista in the Python 3.12 and 3.13 optional environments, and
   leave it disabled in Python 3.14 environments as in the current files.
 
-- [ ] Map current Conda dependencies into Pixi Conda dependencies and PyPI
+- [x] Map current Conda dependencies into Pixi Conda dependencies and PyPI
   dependencies into Pixi `pypi-dependencies`; preserve version constraints and
   platform-specific exceptions.
-- [ ] Add Python-version features and the per-version environments to
+- [x] Add Python-version features and the per-version environments to
   `[tool.pixi]`; include current CI optional dependencies in test environments.
-- [ ] Declare the Git-sourced `nothing` dependency in test environments and
+- [x] Declare the Git-sourced `nothing` dependency in test environments and
   ASV in the benchmark environment.
-- [ ] Run `pixi update` to create `pixi.lock` for `linux-64`.
-- [ ] Run `pixi install --locked --environment <environment>` for each
+- [x] Run `pixi update` to create `pixi.lock` for `linux-64`.
+- [x] Run `pixi install --locked --environment <environment>` for each
   environment; expected: every declared environment resolves from the
   manifest and lock without changing `pixi.lock`.
-- [ ] Run `pixi run --frozen --environment dev-py314 python -c "import iris"`;
+- [x] Run `pixi run --frozen --environment dev-py314 python -c "import iris"`;
   expected: the editable source checkout imports successfully.
 
 ### Task 2: Add Pixi tasks and contributor guidance
@@ -103,17 +106,17 @@ Sphinx.
   benchmark runner commands.
 - Contributor examples use `pixi run --environment <name> <task>`.
 
-- [ ] Define test, doctest, gallery, wheel, and benchmark tasks using the
+- [x] Define test, doctest, gallery, wheel, and benchmark tasks using the
   commands currently run by Nox; keep pytest targets and coverage arguments
   unchanged.
-- [ ] Document Pixi installation, environment selection, common task commands,
+- [x] Document Pixi installation, environment selection, common task commands,
   and `pixi update` for lock refresh.
-- [ ] Replace the Nox instructions in the test guide with Pixi instructions;
+- [x] Replace the Nox instructions in the test guide with Pixi instructions;
   replace root `environment.yml` setup instructions in the source-install
   guide with the default Pixi environment.
-- [ ] Update CI, GitHub App, release, and benchmark guidance to describe Pixi
+- [x] Update CI, GitHub App, release, and benchmark guidance to describe Pixi
   environments and tasks. Keep historical release notes unchanged.
-- [ ] Run `pre-commit run --files` for changed documentation and
+- [x] Run `pre-commit run --files` for changed documentation and
   `pixi run --environment docs-py314 doctest`; expected: hooks pass and Sphinx
   doctests complete without new warnings or errors.
 
@@ -134,22 +137,22 @@ Sphinx.
   installation, so pip installs the built wheel and its declared metadata.
 - Cartopy and Iris test-data caches remain available.
 
-- [ ] Replace setup-miniconda, conda environment setup, and Nox environment
+- [x] Replace setup-miniconda, conda environment setup, and Nox environment
   cache steps with the pinned Pixi setup action and its supported environment
   caching configuration. Give each matrix environment a distinct cache key.
-- [ ] Add `wheel-py312`, `wheel-py313`, and `wheel-py314` environments with
+- [x] Add `wheel-py312`, `wheel-py313`, and `wheel-py314` environments with
   test tooling and no `dev` feature; retain the shared per-version solve
   groups.
-- [ ] Run unit, integration, and system tests through the matching Python test
+- [x] Run unit, integration, and system tests through the matching Python test
   environment; retain `-n auto`, coverage, and test-data configuration.
-- [ ] Run doctests and gallery tests through the Python 3.14 documentation
+- [x] Run doctests and gallery tests through the Python 3.14 documentation
   environment.
-- [ ] Change the Cartopy cache action to run its downloader with the activated
+- [x] Change the Cartopy cache action to run its downloader with the activated
   Pixi environment rather than sourcing Conda activation scripts.
-- [ ] Run wheel installation tasks through the matching `wheel-py*`
+- [x] Run wheel installation tasks through the matching `wheel-py*`
   environment after downloading the artifact; install the wheel using its
   declared package metadata.
-- [ ] Run YAML/pre-commit checks for both workflows; expected: actions pass
+- [x] Run YAML/pre-commit checks for both workflows; expected: actions pass
   configuration and security checks, and existing CI matrix coverage remains.
 
 ### Task 4: Replace lock refresh workflow
@@ -165,12 +168,12 @@ Sphinx.
 - Existing GitHub App authentication remains able to trigger the CI workflows
   for the generated pull request.
 
-- [ ] Replace the reusable conda-lock workflow with Pixi setup and lock update
+- [x] Replace the reusable conda-lock workflow with Pixi setup and lock update
   steps; retain schedule and workflow-dispatch triggers.
-- [ ] Detect lock changes before invoking create-pull-request; limit its
+- [x] Detect lock changes before invoking create-pull-request; limit its
   changed paths to `pixi.lock`.
-- [ ] Update dependency documentation to describe Pixi and the generated lock.
-- [ ] Check the workflow with pre-commit and `zizmor`; expected: valid actions,
+- [x] Update dependency documentation to describe Pixi and the generated lock.
+- [x] Check the workflow with pre-commit and `zizmor`; expected: valid actions,
   least-privilege permissions, and no pull request when the lock is unchanged.
 
 ### Task 5: Migrate ASV environment preparation
@@ -192,24 +195,24 @@ Sphinx.
   `DATA_GEN_PYTHON`, Mule, and test-data setup.
 - Keep environment creation inside ASV's environment directory.
 
-- [ ] Add `test_prepare_asv_environment_uses_pixi_workspace` and
+- [x] Add `test_prepare_asv_environment_uses_pixi_workspace` and
   `test_prepare_asv_environment_uses_historical_lock` to
   `tools/test_benchmark_environment.py`. Assert current checkouts use their
   manifest and frozen lock; historical checkouts use their explicit lock and
   install Iris with `--no-deps`.
-- [ ] Run `pytest tools/test_benchmark_environment.py`; expected: both tests
+- [x] Run `pytest tools/test_benchmark_environment.py`; expected: both tests
   fail because `_prepare_asv_environment` does not yet exist.
-- [ ] Implement `_prepare_asv_environment(checkout_dir, env_parent_dir)` and
+- [x] Implement `_prepare_asv_environment(checkout_dir, env_parent_dir)` and
   call it from `Delegated._prep_env_override`; remove AST inspection of
   `noxfile.py` and return the resolved prefix for ASV's delegated symlink.
-- [ ] Run `pytest tools/test_benchmark_environment.py`; expected: both tests
+- [x] Run `pytest tools/test_benchmark_environment.py`; expected: both tests
   pass without network access.
-- [ ] Replace the data-generation Nox `--install-only` call with the named
+- [x] Replace the data-generation Nox `--install-only` call with the named
   Pixi data-generation environment; keep Mule, `iris-test-data`, and reuse
   behavior unchanged.
-- [ ] Remove Nox from `_setup_common` requirements; retain ASV validation and
+- [x] Remove Nox from `_setup_common` requirements; retain ASV validation and
   benchmark runner behavior.
-- [ ] Run the benchmark environment tests again; expected: current and
+- [x] Run the benchmark environment tests again; expected: current and
   historical setup remains Nox-free.
 
 ### Task 6: Migrate benchmark CI
@@ -226,19 +229,20 @@ Sphinx.
 - ASV continues to cache its environments and results; Conda package caches
   remain only where historical lock installation needs them.
 
-- [ ] Replace Nox installation and commands with the Pixi setup action and
+- [x] Replace Nox installation and commands with the Pixi setup action and
   benchmark task; preserve overnight, pull-request, validation, and artifact
   behavior.
-- [ ] Change the benchmark pull-request trigger from `requirements/locks/*.lock`
+- [x] Change the benchmark pull-request trigger from `requirements/locks/*.lock`
   to `pixi.lock` and update labeler patterns.
-- [ ] Remove `.nox` from benchmark caches; retain `.asv/env`, benchmark data,
+- [x] Remove `.nox` from benchmark caches; retain `.asv/env`, benchmark data,
   and any Conda cache needed for pre-Pixi commits.
-- [ ] Run workflow pre-commit and `zizmor`; expected: no Nox commands remain in
+- [x] Run workflow pre-commit and `zizmor`; expected: no Nox commands remain in
   active benchmark workflows.
 
 ### Task 7: Remove obsolete environment and Nox machinery
 
 **Files:**
+- Modify: `pyproject.toml`, `pixi.lock`
 - Remove: `noxfile.py`, `environment.yml`, `tools/update_lockfiles.py`,
   `requirements/py312.yml`, `requirements/py313.yml`,
   `requirements/py314.yml`, and current `requirements/locks/*.lock`
@@ -254,24 +258,26 @@ Sphinx.
   CI matrices, not Nox or Conda YAML files.
 - `requirements/readthedocs.yml` and all PyPI runtime/optional metadata remain.
 
-- [ ] Update `test_python_versions` to require matching Pixi environment
+- [x] Update `test_python_versions` to require matching Pixi environment
   entries for each supported classifier; add a focused fixture test showing a
   missing Python environment is reported.
-- [ ] Run `pytest lib/iris/tests/test_coding_standards.py::test_python_versions`;
+- [x] Run `pytest lib/iris/tests/test_coding_standards.py::test_python_versions`;
   expected: the new missing-environment case fails before the hook changes.
-- [ ] Update `check_python_versions.py` and its pre-commit file filter to
+- [x] Update `check_python_versions.py` and its pre-commit file filter to
   validate Pixi environments and CI entries instead of Nox and Conda YAML.
-- [ ] Run `pytest lib/iris/tests/test_coding_standards.py::test_python_versions`;
+- [x] Run `pytest lib/iris/tests/test_coding_standards.py::test_python_versions`;
   expected: all supported Python versions pass and the missing-environment
   case is detected.
-- [ ] Remove Nox-specific Makefile, manifest, ignore, type-checker, and
+- [x] Remove Nox-specific Makefile, manifest, ignore, type-checker, and
   pre-commit configuration; remove active environment YAML and lock files.
-- [ ] Update root and test `AGENTS.md` setup and test commands to Pixi; retain
+- [x] Add the isolated `release-py314` environment and refresh its lock entry
+  without installing new local environments.
+- [x] Update root and test `AGENTS.md` setup and test commands to Pixi; retain
   their meta-instructions and all unrelated guidance.
-- [ ] Add the internal changelog fragment and update any remaining active
+- [x] Add the internal changelog fragment and update any remaining active
   documentation that directs contributors to Nox or Conda setup. Preserve
   historical release notes and the Nox reference needed by them.
-- [ ] Search tracked files for active references to `noxfile.py`, Nox
+- [x] Search tracked files for active references to `noxfile.py`, Nox
   commands, `environment.yml`, `requirements/py*.yml`, and conda-lock. Expected:
   none outside historical release notes and historical ASV lock handling.
 - [ ] Run `pre-commit run --all-files`, `pixi run --environment test-py314
@@ -282,4 +288,11 @@ Sphinx.
 
 - Run Pixi commands from the repository root. Do not install Pixi into or
   alter the existing `iris-dev` environment.
+- Task 7 final Pixi task verification remains open. Checks in the existing
+  `iris-dev` passed 22 focused tests and 905 Sphinx doctests, but the full
+  suite had 12,237 passed, 35 graphics failures, 91 skips, and one collection
+  error because `nothing` is not installed. The docs HTML build also requires
+  missing `zarr`, and gallery tests had six image-comparison failures. Do not
+  mark Task 7 complete until the named Pixi test, docs, and gallery tasks run
+  without creating additional local environments.
 - No task requires committing changes unless the user requests commits.

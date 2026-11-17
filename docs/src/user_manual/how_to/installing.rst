@@ -75,32 +75,15 @@ https://github.com/SciTools/iris.
 For instructions on how to obtain the Iris project source from GitHub see
 :ref:`forking` and :ref:`set-up-fork` for instructions.
 
-Once conda is installed, you can create a development environment for Iris
-using conda and then activate it.  The example commands below assume you are in
-the root directory of your local copy of Iris::
+Install `Pixi <https://pixi.sh/>`_ and create the Iris development environment
+from the repository root::
 
-  conda env create
-  conda activate iris-dev
+  pixi install --environment dev-py314
 
-The ``environment.yml`` file defines the Iris development conda
-environment *name* and all the relevant *top level* `conda-forge` package
-dependencies that you need to **code**, **test**, and **build** the
-documentation.  If you wish to minimise the environment footprint, simply
-remove any unwanted packages from the ``environment.yml`` file e.g., if you don't
-intend to run the Iris tests locally or build the documentation, then remove
-all the packages from the `testing` and `documentation` sections.
-
-.. note:: The ``environment.yml`` file will always use the latest
-          Iris tested Python version available.  For all Python versions that
-          are supported and tested against by Iris, view the contents of
-          the `requirements`_ directory.
-
-.. _requirements: https://github.com/scitools/iris/tree/main/requirements
-
-Finally you need to run the command to configure your environment
-to find your local Iris code.  From your Iris directory run::
-
-  pip install --no-deps --editable .
+The Pixi environments in ``pyproject.toml`` define Conda and PyPI packages for
+development, testing, documentation, and optional integrations. Select a
+different environment to use another supported Python version or package set.
+The development environment installs the local Iris checkout in editable mode.
 
 
 Running the Tests

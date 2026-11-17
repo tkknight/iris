@@ -231,11 +231,10 @@ Update the `scitools-iris`_ project on PyPI with the latest Iris release.
 
 To do this perform the following steps.
 
-Create a conda environment with the appropriate conda packages to build the
-source distribution (``sdist``) and pure Python wheel (``bdist_wheel``)::
+Install the Pixi release environment to build the source distribution
+(``sdist``) and pure Python wheel (``bdist_wheel``)::
 
-    > conda create -n iris-pypi -c conda-forge --yes python-build twine
-    > . activate iris-pypi
+    > pixi install --environment release-py314
 
 Checkout the appropriate Iris ``<release>`` tag from the appropriate ``<repo>``.
 For example, to checkout tag ``v1.0`` from ``upstream``::
@@ -245,7 +244,7 @@ For example, to checkout tag ``v1.0`` from ``upstream``::
 
 Build the source distribution and wheel from the Iris root directory::
 
-    > python -m build
+    > pixi run --environment release-py314 python -m build
 
 This ``./dist`` directory should now be populated with the source archive
 ``.tar.gz`` file, and built distribution ``.whl`` file.
@@ -253,25 +252,23 @@ This ``./dist`` directory should now be populated with the source archive
 Check that the package description will render properly on PyPI for each
 of the built artifacts::
 
-    > python -m twine check dist/*
+    > pixi run --environment release-py314 python -m twine check dist/*
 
 To list and check the contents of the binary wheel::
 
-    > python -m zipfile --list dist/*.whl
+    > pixi run --environment release-py314 python -m zipfile --list dist/*.whl
 
 If all seems well, sufficient maintainer privileges will be required to
 upload these artifacts to `scitools-iris`_ on PyPI::
 
-    > python -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+    > pixi run --environment release-py314 python -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
 
 Ensure that the artifacts are successfully uploaded and available on
-`scitools-iris`_ before creating a conda test environment to install Iris
-from PyPI::
+`scitools-iris`_ before installing Iris from PyPI in the Pixi environment
+without an editable source checkout::
 
-    > conda deactivate
-    > conda env create
-    > . activate iris-dev
-    > python -m pip install --no-deps scitools-iris
+    > pixi run --environment pypi-py314 python -m pip install scitools-iris
+    > pixi run --environment pypi-py314 python -c "import iris; print(iris.__version__)"
 
 For further details on how to test Iris, see :ref:`developer_running_tests`.
 

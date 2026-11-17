@@ -1,8 +1,7 @@
 # reference:
-#   - https://github.com/actions/cache
 #   - https://github.com/actions/checkout
 #   - https://github.com/codecov/codecov-action
-#   - https://github.com/marketplace/actions/setup-miniconda
+#   - https://github.com/prefix-dev/setup-pixi
 
 name: ci-tests
 
@@ -30,32 +29,40 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    defaults:
-      run:
-        shell: bash -l {0}
-
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-latest"]
-        python-version: ["3.14"]
-        session: ["doctest", "gallery"]
         include:
-          - os: "ubuntu-latest"
+          - os: ubuntu-latest
             python-version: "3.14"
-            session: "tests"
-            coverage: "--coverage"
-          - os: "ubuntu-latest"
+            session: doctest
+            pixi-environment: docs-py314
+            pixi-task: doctest
+          - os: ubuntu-latest
+            python-version: "3.14"
+            session: gallery
+            pixi-environment: test-py314
+            pixi-task: gallery
+          - os: ubuntu-latest
+            python-version: "3.14"
+            session: tests
+            pixi-environment: test-py314
+            pixi-task: tests-coverage
+            coverage: true
+          - os: ubuntu-latest
             python-version: "3.13"
-            session: "tests"
-          - os: "ubuntu-latest"
+            session: tests
+            pixi-environment: test-py313
+            pixi-task: tests
+          - os: ubuntu-latest
             python-version: "3.12"
-            session: "tests"
+            session: tests
+            pixi-environment: test-py312
+            pixi-task: tests
 
     env:
       # NOTE: IRIS_TEST_DATA_VERSION is also set in benchmarks_run.yml
       IRIS_TEST_DATA_VERSION: "2.32"
-      ENV_NAME: "ci-tests"
 
     steps:
       - name: "checkout"
@@ -70,56 +77,29 @@ jobs:
           CACHE_WEEKS: 2
         run: |
           echo "CACHE_PERIOD=$(date +%Y).$(expr $(date +%U) / ${CACHE_WEEKS})" >> ${GITHUB_ENV}
-          echo "LOCK_FILE=requirements/locks/py$(echo ${{ matrix.python-version }} | tr -d '.')-linux-64.lock" >> ${GITHUB_ENV}
 
       - name: "data cache"
         uses: $/.github/workflows/composite/iris-data-cache
         with:
           cache_build: 6
-          env_name: ${{ env.ENV_NAME }}
+          env_name: ${{ matrix.pixi-environment }}
           version: ${{ env.IRIS_TEST_DATA_VERSION }}
 
-      - name: "conda package cache"
-        uses: $/.github/workflows/composite/conda-pkg-cache
+      - name: "setup Pixi"
+        uses: prefix-dev/setup-pixi@9936258fee697aff89b3fed6ca1f80a382ef694e
         with:
-          cache_build: 6
-          cache_period: ${{ env.CACHE_PERIOD }}
-          env_name: ${{ env.ENV_NAME }}
-
-      - name: "conda install"
-        uses: conda-incubator/setup-miniconda@be893c923ea9cf1cf7cd510fbdde27c7e18cbdcb
-        with:
-          miniforge-version: latest
-          channels: conda-forge
-          activate-environment: ${{ env.ENV_NAME }}
-          auto-update-conda: false
-
-      - name: "conda environment cache"
-        uses: $/.github/workflows/composite/conda-env-cache
-        with:
-          cache_build: 6
-          cache_period: ${{ env.CACHE_PERIOD }}
-          env_name: ${{ env.ENV_NAME }}
-          install_packages: "cartopy nox pip"
-
-      - name: "conda info"
-        run: |
-          conda info
-          conda list
+          pixi-version: v0.83.0
+          environments: ${{ matrix.pixi-environment }}
+          frozen: true
+          activate-environment: true
+          cache-key: iris-${{ matrix.pixi-environment }}-
 
       - name: "cartopy cache"
         uses: $/.github/workflows/composite/cartopy-cache
         with:
           cache_build: 6
           cache_period: ${{ env.CACHE_PERIOD }}
-          env_name: ${{ env.ENV_NAME }}
-
-      - name: "nox cache"
-        uses: $/.github/workflows/composite/nox-cache
-        with:
-          cache_build: 6
-          env_name: ${{ env.ENV_NAME }}
-          lock_file: ${{ env.LOCK_FILE }}
+          pixi_environment: ${{ matrix.pixi-environment }}
 
       # TODO: drop use of site.cfg and explicit use of mplrc
       - name: "iris configure"
@@ -141,11 +121,10 @@ jobs:
 
       - name: "iris ${{ matrix.session }}"
         env:
-          PY_VER: ${{ matrix.python-version }}
           # Force coloured output on GitHub Actions.
           PY_COLORS: "1"
         run: |
-          nox --session ${{ matrix.session }} -- --verbose ${{ matrix.coverage }}
+          pixi run --frozen --environment ${{ matrix.pixi-environment }} ${{ matrix.pixi-task }}
 
       - name: "upload coverage report"
         if: ${{ matrix.coverage }}

@@ -70,9 +70,9 @@ usually seconds, and is the right command for nearly all of an iteration.
 
 | Tier | When | Command |
 |---|---|---|
-| The module you changed | every edit | `pytest lib/iris/tests/unit/<area>/` |
-| Its immediate neighbours | before committing | `pytest -n auto lib/iris/tests/unit/<parent>/ lib/iris/tests/integration/<area>/` |
-| Everything | before finishing, and to compare against a base branch | `pytest -n auto lib/iris/tests` |
+| The module you changed | every edit | `pixi run --environment test-py314 pytest lib/iris/tests/unit/<area>/` |
+| Its immediate neighbours | before committing | `pixi run --environment test-py314 pytest -n auto lib/iris/tests/unit/<parent>/ lib/iris/tests/integration/<area>/` |
+| Everything | before finishing, and to compare against a base branch | `pixi run --environment test-py314 pytest -n auto lib/iris/tests` |
 
 Indicative on a 4-core machine: ~6s, ~1min, ~4min respectively. Running the
 full suite on every edit is the single biggest avoidable delay in this
@@ -96,8 +96,8 @@ does:
 
 | Command | Cost |
 |---|---|
-| `nox -s doctest` | what CI runs: `make clean html`, then `make doctest` |
-| `cd docs/src && make doctest` | skips the gallery rebuild; faster, not identical to CI |
+| `pixi run --environment docs-py314 doctest` | what CI runs: clean HTML build, then Sphinx doctests |
+| `pixi run --environment docs-py314 make -C docs/src doctest` | skips the gallery rebuild; faster, not identical to CI |
 
 Both take minutes. Run one once before finishing, whether or not you edited a
 `>>>`: a change anywhere can break one, and nothing else in the suite would

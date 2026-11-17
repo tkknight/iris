@@ -26,24 +26,21 @@ GitHub App for generating tokens for use with *GitHub Actions* (GHA).
 Background
 ^^^^^^^^^^
 
-Our GitHub *Continuous Integration* (CI) workflows require fully reproducible
-`conda`_ environments to test ``iris`` and build our documentation.
+Our GitHub *Continuous Integration* (CI) workflows use reproducible Pixi
+environments to test ``iris`` and build its documentation.
 
-The ``iris`` `refresh-lockfiles`_ GHA workflow uses the `conda-lock`_ package to routinely
-generate a platform specific ``lockfile`` containing all the package dependencies
-required by ``iris`` for a specific version of ``python``.
+The ``iris`` lock-refresh GHA workflow runs ``pixi update`` to refresh
+``pixi.lock`` from the workspace manifest.
 
-The environment lockfiles created by the `refresh-lockfiles`_ GHA are contributed
-back to ``iris`` though a pull-request that is automatically generated using the
-third-party `create-pull-request`_ GHA.  By default, pull-requests created by such an
+Changes to ``pixi.lock`` are contributed back to ``iris`` through a
+pull-request created by the third-party `create-pull-request`_ GHA. By
+default, pull-requests created by such an
 action using the standard ``GITHUB_TOKEN`` **cannot** trigger other workflows, such
 as our CI.
 
-As a result, we use a dedicated authentication **GitHub App** to securely generate tokens
-for the `create-pull-request`_ GHA, which then permits our full suite of CI testing workflows
-to be triggered against the lockfiles pull-request.  Ensuring that the CI is triggered gives us
-confidence that the proposed new lockfiles have not introduced a package level incompatibility
-or issue within ``iris``. See :ref:`use gha`.
+As a result, we use a dedicated authentication **GitHub App** to securely
+generate tokens for the `create-pull-request`_ GHA, which permits our CI
+workflows to run against the lock-update pull-request. See :ref:`use gha`.
 
 
 Create GitHub App
@@ -277,7 +274,6 @@ to generate a token for use with the `create-pull-request`_ GHA:
 
 .. _GitHub App: https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app
 .. _SciTools/iris: https://github.com/SciTools/iris
-.. _conda-lock: https://github.com/conda-incubator/conda-lock
 .. _create-pull-request: https://github.com/peter-evans/create-pull-request
 .. _github-app-token: https://github.com/tibdex/github-app-token
 .. _refresh-lockfiles: https://github.com/SciTools/iris/blob/main/.github/workflows/refresh-lockfiles.yml

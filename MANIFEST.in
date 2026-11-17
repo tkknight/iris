@@ -54,8 +54,6 @@ include INSTALL
 include LICENSE
 exclude Makefile
 exclude codecov.yml
-include environment.yml
-include noxfile.py
 include tox.ini
 exclude pixi.lock
     # principles:
@@ -74,7 +72,6 @@ exclude pixi.lock
 # (1) top-level directories to omit entirely
 prune .github
 prune .hooks
-prune .nox
 prune .tox
 prune .coverage
 prune docs

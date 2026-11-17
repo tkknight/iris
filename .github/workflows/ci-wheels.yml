@@ -1,10 +1,10 @@
 # Reference:
 #   - https://github.com/actions/checkout
-#   - https://github.com/conda-incubator/setup-miniconda
 #   - https://github.com/actions/download-artifact
 #   - https://github.com/actions/upload-artifact
 #   - https://github.com/pypa/build
 #   - https://github.com/pypa/gh-action-pypi-publish
+#   - https://github.com/prefix-dev/setup-pixi
 #   - https://test.pypi.org/help/#apitoken
 
 name: ci-wheels
@@ -50,16 +50,16 @@ jobs:
     needs: build
     name: "test wheel (py${{ matrix.python-version }})"
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.12", "3.13", "3.14"]
-        session: ["wheel"]
-    env:
-      ENV_NAME: "ci-wheels"
+        include:
+          - python-version: "3.12"
+            pixi-environment: wheel-py312
+          - python-version: "3.13"
+            pixi-environment: wheel-py313
+          - python-version: "3.14"
+            pixi-environment: wheel-py314
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
@@ -71,50 +71,17 @@ jobs:
         name: pypi-artifacts
         path: ${{ github.workspace }}/dist
 
-    - name: "environment configure"
-      env:
-        # Maximum cache period (in weeks) before forcing a cache refresh.
-          CACHE_WEEKS: 2
-      run: |
-        echo "CACHE_PERIOD=$(date +%Y).$(expr $(date +%U) / ${CACHE_WEEKS})" >> ${GITHUB_ENV}
-        echo "LOCK_FILE=requirements/locks/py$(echo ${{ matrix.python-version }} | tr -d '.')-linux-64.lock" >> ${GITHUB_ENV}
-
-    - name: "conda package cache"
-      uses: $/.github/workflows/composite/conda-pkg-cache
+    - name: "setup Pixi"
+      uses: prefix-dev/setup-pixi@9936258fee697aff89b3fed6ca1f80a382ef694e
       with:
-        cache_build: 0
-        cache_period: ${{ env.CACHE_PERIOD }}
-        env_name: ${{ env.ENV_NAME }}
+        pixi-version: v0.83.0
+        environments: ${{ matrix.pixi-environment }}
+        frozen: true
+        activate-environment: true
+        cache-key: iris-${{ matrix.pixi-environment }}-
 
-    - name: "conda install"
-      uses: conda-incubator/setup-miniconda@be893c923ea9cf1cf7cd510fbdde27c7e18cbdcb
-      with:
-        miniforge-version: latest
-        channels: conda-forge,defaults
-        activate-environment: ${{ env.ENV_NAME }}
-        auto-update-conda: false
-        use-only-tar-bz2: true
-
-    - name: "conda environment cache"
-      uses: $/.github/workflows/composite/conda-env-cache
-      with:
-        cache_build: 0
-        cache_period: ${{ env.CACHE_PERIOD }}
-        env_name: ${{ env.ENV_NAME }}
-        install_packages: "nox pip"
-
-    - name: "nox cache"
-      uses: $/.github/workflows/composite/nox-cache
-      with:
-        cache_build: 1
-        env_name: ${{ env.ENV_NAME }}
-        lock_file: ${{ env.LOCK_FILE }}
-
-    - name: "nox install and test wheel"
-      env:
-        PY_VER: ${{ matrix.python-version }}
-      run: |
-        nox --session ${{ matrix.session }} -- --verbose
+    - name: "install and test wheel"
+      run: pixi run --frozen --environment ${{ matrix.pixi-environment }} wheel
 
   show-artifacts:
     needs: build
